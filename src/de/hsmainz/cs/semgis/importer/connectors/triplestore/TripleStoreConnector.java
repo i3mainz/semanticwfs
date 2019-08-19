@@ -67,16 +67,27 @@ public abstract class TripleStoreConnector {
 	public Boolean getBabelnetCompatible() {
 		return babelnetCompatible;
 	}
+
 	
+	public static String executeQuery(String queryString,String queryurl,String output,String count) {
+		Query query = QueryFactory.create(queryString);
+		QueryExecution qexec = QueryExecutionFactory.sparqlService(queryurl, query+" LIMIT "+count);
+		ResultFormatter resformat=ResultFormatter.resultMap.get(output);
+		ResultSet results = qexec.execSelect();
+		String res=resformat.formatter(results);
+		qexec.close();
+		return res;
+	}
 
 
-	public static void executeQuery(String queryString,String queryurl,String output) {
+	public static String executeQuery(String queryString,String queryurl,String output) {
 		Query query = QueryFactory.create(queryString);
 		QueryExecution qexec = QueryExecutionFactory.sparqlService(queryurl, query);
 		ResultFormatter resformat=ResultFormatter.resultMap.get(output);
 		ResultSet results = qexec.execSelect();
-		resformat.formatter(results);
+		String res=resformat.formatter(results);
 		qexec.close();
+		return res;
 	}
 	
 	

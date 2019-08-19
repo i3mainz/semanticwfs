@@ -1,4 +1,5 @@
 {"datasets":[
-{"query":"SELECT * WHERE{ ?a ?b ?c }","formats":[""],"triplestore":"http://www.wikidata.org","type":"WFS"}
+{"query":"SELECT * WHERE{ ?a ?b ?c }","formats":[""],"triplestore":"http://www.wikidata.org","type":"WFS", "name":"MyFirstFeatureType"},
+{"query":"SELECT * WHERE{ ?a ?b ?c }","formats":[""],"triplestore":"http://www.wikidata.org","type":"WCS", "name":"MySecondFeatureType"}
 ]
 }
