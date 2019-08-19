@@ -1,0 +1,4 @@
+{"datasets":[
+{"query":"SELECT * WHERE{ ?a ?b ?c }","formats":[""],"triplestore":"http://www.wikidata.org"}
+]
+}
