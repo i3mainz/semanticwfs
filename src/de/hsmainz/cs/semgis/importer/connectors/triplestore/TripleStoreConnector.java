@@ -7,6 +7,8 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import javax.xml.stream.XMLStreamException;
+
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
@@ -69,7 +71,7 @@ public abstract class TripleStoreConnector {
 	}
 
 	
-	public static String executeQuery(String queryString,String queryurl,String output,String count) {
+	public static String executeQuery(String queryString,String queryurl,String output,String count) throws XMLStreamException {
 		Query query = QueryFactory.create(queryString);
 		QueryExecution qexec = QueryExecutionFactory.sparqlService(queryurl, query+" LIMIT "+count);
 		ResultFormatter resformat=ResultFormatter.resultMap.get(output);
@@ -80,7 +82,7 @@ public abstract class TripleStoreConnector {
 	}
 
 
-	public static String executeQuery(String queryString,String queryurl,String output) {
+	public static String executeQuery(String queryString,String queryurl,String output) throws XMLStreamException {
 		Query query = QueryFactory.create(queryString);
 		QueryExecution qexec = QueryExecutionFactory.sparqlService(queryurl, query);
 		ResultFormatter resformat=ResultFormatter.resultMap.get(output);
