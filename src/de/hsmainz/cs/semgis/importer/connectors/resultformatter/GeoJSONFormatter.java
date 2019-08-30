@@ -11,10 +11,10 @@ import org.apache.jena.sparql.expr.NodeValue;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import de.hsmainz.cs.semgis.arqextension.geometry.exporter.AsGeoJSON;
+import de.hsmainz.cs.semgis.importer.connectors.converters.AsGeoJSON;
 
 
-public class GeoJSONFormatter extends ResultFormatter {
+public class GeoJSONFormatter extends WFSResultFormatter {
 
 	@Override
 	public String formatter(ResultSet results) {
@@ -50,9 +50,10 @@ public class GeoJSONFormatter extends ResultFormatter {
 	    			geomvars++;
 	    			AsGeoJSON geojson=new AsGeoJSON();
 	    			try {
+	    				
 	    			NodeValue val=geojson.exec(NodeValue.makeNode(solu.getLiteral(name).getString(),solu.getLiteral(name).getDatatype()));
-	    			JSONObject geomobj=new JSONObject(val.asNode().getLiteralValue().toString());
-	    			geoms.add(geomobj);
+	    			//JSONObject geomobj=new JSONObject(val.asNode().getLiteralValue().toString());
+	    			geoms.add(new JSONObject(val.asString()));
 
 	    			}catch(Exception e) {
 	    				e.printStackTrace();

@@ -6,8 +6,11 @@ import java.util.List;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.query.ResultSetFormatter;
+import org.apache.jena.sparql.expr.NodeValue;
 
-public class GeoURIFormatter extends ResultFormatter {
+import de.hsmainz.cs.semgis.importer.connectors.converters.AsGeoURI;
+
+public class GeoURIFormatter extends WFSResultFormatter {
 
 	@Override
 	public String formatter(ResultSet results) {
@@ -21,6 +24,16 @@ public class GeoURIFormatter extends ResultFormatter {
 	    		String name=varnames.next();
 	    		if(first) {
 	    		    resultCSVHeader.append(name+",");
+	    		}
+	    		if(name.endsWith("_geom")) {
+	    			AsGeoURI geojson=new AsGeoURI();
+	    			try {
+	    			NodeValue val=geojson.exec(NodeValue.makeNode(solu.getLiteral(name).getString(),solu.getLiteral(name).getDatatype()));
+	    			//JSONObject geomobj=new JSONObject(val.asNode().getLiteralValue().toString());
+	    			resultCSV.append(val.asString());
+	    			}catch(Exception e) {
+	    				e.printStackTrace();
+	    			}
 	    		}
 	    		resultCSV.append(solu.get(name));
 

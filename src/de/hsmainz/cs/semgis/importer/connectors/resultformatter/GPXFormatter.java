@@ -8,9 +8,12 @@ import javax.xml.stream.XMLStreamException;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.query.ResultSetFormatter;
+import org.apache.jena.sparql.expr.NodeValue;
 import org.locationtech.jts.geom.Coordinate;
 
-public class GPXFormatter extends ResultFormatter {
+import de.hsmainz.cs.semgis.importer.connectors.converters.AsGPX;
+
+public class GPXFormatter extends WFSResultFormatter {
 
 	@Override
 	public String formatter(ResultSet results) throws XMLStreamException {
@@ -32,6 +35,10 @@ public class GPXFormatter extends ResultFormatter {
 	    			gpxout.append(solu.get(name));
 	    			gpxout.append("</"+name+">");
 	    		}else {
+	    			AsGPX gpx=new AsGPX();
+	    			NodeValue val=gpx.exec(NodeValue.makeNode(solu.getLiteral(name).getString(),solu.getLiteral(name).getDatatype()));
+	    			String res=geojson.exec(val).asString();
+
 	    			StringBuilder trackpoints=new StringBuilder();
 	                for(Coordinate coord:geom.getCoordinates()) {
 	                	trackpoints.append("<trkpt lat='"+coord.x+"' lon='"+coord.y+"'>");

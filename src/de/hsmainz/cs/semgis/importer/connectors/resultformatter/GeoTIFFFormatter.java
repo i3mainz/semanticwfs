@@ -4,7 +4,7 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.jena.query.ResultSet;
 
-public class PolyshapeFormatter extends WFSResultFormatter {
+public class GeoTIFFFormatter extends WCSResultFormatter {
 
 	@Override
 	public String formatter(ResultSet results) throws XMLStreamException {

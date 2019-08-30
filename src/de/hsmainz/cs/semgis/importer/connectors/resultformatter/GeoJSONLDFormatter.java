@@ -11,7 +11,7 @@ import org.apache.jena.sparql.expr.NodeValue;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class GeoJSONLDFormatter extends ResultFormatter {
+public class GeoJSONLDFormatter extends WFSResultFormatter {
 
 	@Override
 	public String formatter(ResultSet results) {
@@ -61,7 +61,7 @@ public class GeoJSONLDFormatter extends ResultFormatter {
 	    			    coordinates.put("@id", "geojson:coordinates");
 	    			    JSONObject featuresschema=new JSONObject();
 	    			    featuresschema.put("@container", "@set");
-	    			    featuresschema.put("@id", "geojson:features");
+	    			    featuresschema*.put("@id", "geojson:features");
 	    			    context.put("geometry","geojson:geometry");
 	    			    context.put("id", "@id");
 	    			    context.put("properties", "geojson:properties");

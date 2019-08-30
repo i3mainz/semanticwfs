@@ -7,7 +7,7 @@ import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.query.ResultSetFormatter;
 
-public class CSVFormatter extends ResultFormatter {
+public class CSVFormatter extends WFSResultFormatter {
 
 	@Override
 	public String formatter(ResultSet results) {
@@ -22,8 +22,11 @@ public class CSVFormatter extends ResultFormatter {
 	    		if(first) {
 	    		    resultCSVHeader.append(name+",");
 	    		}
-	    		resultCSV.append(solu.get(name));
-
+	    		if(name.endsWith("_geom")) {
+	    			
+	    		}else {
+		    		resultCSV.append(solu.get(name));	    			
+	    		}
 	    	}
 	    	resultCSV.append(System.lineSeparator());
 	    	if(first) {

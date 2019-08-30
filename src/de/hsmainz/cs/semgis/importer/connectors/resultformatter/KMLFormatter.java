@@ -11,7 +11,7 @@ import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.query.ResultSetFormatter;
 
-public class KMLFormatter extends ResultFormatter {
+public class KMLFormatter extends WFSResultFormatter {
 
 	@Override
 	public String formatter(ResultSet results) throws XMLStreamException {

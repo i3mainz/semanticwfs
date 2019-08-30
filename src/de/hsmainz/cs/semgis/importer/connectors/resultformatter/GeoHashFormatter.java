@@ -4,7 +4,7 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.jena.query.ResultSet;
 
-public class GeoHashFormatter extends ResultFormatter {
+public class GeoHashFormatter extends WFSResultFormatter {
 
 	@Override
 	public String formatter(ResultSet results) throws XMLStreamException {
