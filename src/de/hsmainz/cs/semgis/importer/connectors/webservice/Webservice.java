@@ -10,6 +10,7 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import de.hsmainz.cs.semgis.importer.connectors.triplestore.TripleStoreConnector;
@@ -154,7 +155,7 @@ public class Webservice {
 	}
 	
 	@Path("getFeature")
-	public String getFeature(String typename,String output,String count) {
+	public String getFeature(String typename,String output,String count) throws JSONException, XMLStreamException {
 		JSONObject workingobj=null;
 		for(int i=0;i<this.wfsconf.getJSONArray("datasets").length();i++) {
 			JSONObject curobj=this.wfsconf.getJSONArray("datasets").getJSONObject(i);
@@ -180,7 +181,6 @@ public class Webservice {
 	public String lockFeature() {
 		return null;	
 	}
-	
 	
 	
 }

@@ -9,7 +9,6 @@ import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.query.ResultSetFormatter;
 import org.apache.jena.sparql.expr.NodeValue;
-import org.locationtech.jts.geom.Coordinate;
 
 import de.hsmainz.cs.semgis.importer.connectors.converters.AsGPX;
 
@@ -17,11 +16,6 @@ public class GPXFormatter extends WFSResultFormatter {
 
 	@Override
 	public String formatter(ResultSet results) throws XMLStreamException {
-			String out2= 
-				"  <trk>" + 
-				"    <name>Example gpx</name>"; 
-			String out3="    <trkseg>";
-		String out4=" </trkseg></trk></gpx>";
 		StringBuilder gpxout=new StringBuilder();
 		gpxout.append("<?xml version='1.0' encoding='UTF-8' standalone='no' ?><gpx version='1.0'><name>Example gpx</name>");
 		List<QuerySolution> test=ResultSetFormatter.toList(results);
@@ -37,15 +31,8 @@ public class GPXFormatter extends WFSResultFormatter {
 	    		}else {
 	    			AsGPX gpx=new AsGPX();
 	    			NodeValue val=gpx.exec(NodeValue.makeNode(solu.getLiteral(name).getString(),solu.getLiteral(name).getDatatype()));
-	    			String res=geojson.exec(val).asString();
-
-	    			StringBuilder trackpoints=new StringBuilder();
-	                for(Coordinate coord:geom.getCoordinates()) {
-	                	trackpoints.append("<trkpt lat='"+coord.x+"' lon='"+coord.y+"'>");
-	                	if(!Double.isNaN(coord.getZ()))
-	                		trackpoints.append("<ele>"+coord.getZ()+"</ele>");
-	                	trackpoints.append("</trkpt>");
-	                }
+	    			String res=val.asString();
+	    			gpxout.append(res);
 	    		}
 	    	}
 	    	gpxout.append("</trk>");

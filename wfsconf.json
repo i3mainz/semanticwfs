@@ -1,5 +1,5 @@
 {"datasets":[
-{"query":"SELECT * WHERE{ ?a ?b ?c }","formats":[""],"triplestore":"http://www.wikidata.org","type":"WFS", "name":"MyFirstFeatureType"},
+{"query":"SELECT ?city ?coord_geom WHERE{ ?city rdf:type wd:Q515 . ?city wdt:P625 ?coord_geom . }","formats":["csv","geojson"],"triplestore":"http://www.wikidata.org/sparql","type":"WFS", "name":"MyFirstFeatureType"},
 {"query":"SELECT * WHERE{ ?a ?b ?c }","formats":[""],"triplestore":"http://www.wikidata.org","type":"WCS", "name":"MySecondFeatureType"}
 ]
 }

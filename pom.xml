@@ -6,16 +6,44 @@
   <build>
     <sourceDirectory>src</sourceDirectory>
     <plugins>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.7.0</version>
-        <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-        </configuration>
-      </plugin>
-    </plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source/>
+                    <target/>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.4.3</version>
+                <configuration>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+             <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <warSourceDirectory>WebContent</warSourceDirectory>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+        </plugins>
   </build>
+  <properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<geotools.version>15.1</geotools.version>
+		  <geotk.version>4.0.4</geotk.version>
+		  <!-- <sis.version>0.8-jdk7-M1</sis.version>-->
+		  <sis.version>2.0-SNAPSHOT</sis.version>
+		  <geoapi.version>4.0-M05</geoapi.version>
+		  <jena.version>3.10.0</jena.version>
+		  <maven.compiler.source>1.8</maven.compiler.source>
+   		  <maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
   <dependencies>
   <!-- https://mvnrepository.com/artifact/org.apache.jena/jena-core -->
 <dependency>
@@ -48,7 +76,17 @@
     <artifactId>jts-core</artifactId>
     <version>1.16.1</version>
 </dependency>
-
+<!-- https://mvnrepository.com/artifact/org.wololo/jts2geojson -->
+<dependency>
+    <groupId>org.wololo</groupId>
+    <artifactId>jts2geojson</artifactId>
+    <version>0.14.2</version>
+</dependency>
+        <dependency>
+            <groupId>io.github.galbiston</groupId>
+            <artifactId>geosparql-jena</artifactId>
+            <version>1.1.1</version>
+        </dependency>
   
   
   </dependencies>
