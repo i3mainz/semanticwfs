@@ -1,5 +1,5 @@
 {"datasets":[
-{"query":"SELECT ?city ?coord_geom WHERE{ ?city rdf:type wd:Q515 . ?city wdt:P625 ?coord_geom . }","formats":["csv","geojson"],"triplestore":"http://www.wikidata.org/sparql","type":"WFS", "name":"MyFirstFeatureType"},
+{"query":"SELECT ?cityLabel ?coord_geom WHERE{ ?city wdt:P31 wd:Q515 . ?city wdt:P625 ?coord_geom . SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". } }","formats":["csv","geojson"],"triplestore":"https://query.wikidata.org/sparql","type":"WFS", "name":"MyFirstFeatureType"},
 {"query":"SELECT * WHERE{ ?a ?b ?c }","formats":[""],"triplestore":"http://www.wikidata.org","type":"WCS", "name":"MySecondFeatureType"}
 ]
 }
