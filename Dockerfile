@@ -6,4 +6,6 @@ RUN apt-get install unattended-upgrades apt-listchanges -y
 
 COPY *.json /usr/local/tomcat/
 
+COPY prefixes.txt /usr/local/tomcat/
+
 COPY target/*.war /usr/local/tomcat/webapps/
