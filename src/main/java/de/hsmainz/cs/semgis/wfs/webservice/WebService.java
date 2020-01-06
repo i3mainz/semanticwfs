@@ -462,6 +462,16 @@ public class WebService {
 				e.printStackTrace();
 				return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 			}
+		}else if(format.contains("html")){
+			StringBuilder builder=new StringBuilder();
+			builder.append("<html><head><link rel=\"stylesheet\" href=\"https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css\"/><script src=\"https://code.jquery.com/jquery-3.4.1.min.js\"></script><script src=\"https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js\"></script></head><body>");
+			builder.append("<h1 align=\"center\">");
+			builder.append(collectionid);
+			builder.append("</h1>Serializations:<ul>");
+			builder.append("<li><a href=\""+this.wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name") + "/items?f=json"+"\">[GeoJSON]</a></li>");
+			builder.append("<li><a href=\""+this.wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+ "/items?f=application/gml+xml;version=3.2;profile=http://www.opengis.net/def/profile/ogc/2.0/gml-sf0"+"\">[GML]</a></li>");
+			builder.append("</ul></body></html>");
+			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
 		} else {
 			return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 		}
@@ -652,7 +662,15 @@ public class WebService {
 				return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 			}
 		}else if(format.contains("html")) {
-			return Response.ok("").type(MediaType.TEXT_HTML).build();
+			StringBuilder builder=new StringBuilder();
+			builder.append("<html><head></head><body><h1>Conformance</h1><ul>");
+			builder.append("<li><a target=\"_blank\" href=\"http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/core\">Core</a></li>");
+			builder.append("<li><a target=\"_blank\" href=\"http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/oas30\">Oas30</a></li>");
+			builder.append("<li><a target=\"_blank\" href=\"http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/html\">HTML</a></li>");
+			builder.append("<li><a target=\"_blank\" href=\"http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/geojson\">GeoJSON</a></li>");
+			builder.append("<li><a target=\"_blank\" href=\"http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/gmlsf0\">GMLSf0</a></li>");
+			builder.append("</ul></body></html>");
+			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
 		}else {
 			return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 		}
