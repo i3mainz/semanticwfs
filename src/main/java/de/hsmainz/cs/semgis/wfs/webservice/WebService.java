@@ -75,7 +75,7 @@ public class WebService {
 	@Path("/collections")
 	public Response collections(@DefaultValue("json") @QueryParam("f") String format) {
 		System.out.println(format);
-		if (format == null || format.contains("json")) {
+		if (format != null && format.contains("json")) {
 			JSONObject result = new JSONObject();
 			JSONArray links = new JSONArray();
 			JSONArray collections = new JSONArray();
@@ -106,7 +106,7 @@ public class WebService {
 				collections.put(coll);
 			}
 			return Response.ok(result.toString(2)).type(MediaType.APPLICATION_JSON).build();
-		} else if (format.contains("gml")) {
+		} else if (format!=null && format.contains("gml")) {
 			StringWriter strwriter = new StringWriter();
 			XMLOutputFactory output = XMLOutputFactory.newInstance();
 			XMLStreamWriter writer;
@@ -172,7 +172,7 @@ public class WebService {
 				e.printStackTrace();
 				return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 			}
-		} else if (format.contains("html")) {
+		} else if (format == null || format.contains("html")) {
 			StringBuilder builder = new StringBuilder();
 			builder.append("<html><head></head><body>");
 			builder.append("<h1>");
@@ -224,7 +224,7 @@ public class WebService {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		if (format == null || format.contains("json")) {
+		if (format != null && format.contains("json")) {
 			JSONObject result = new JSONObject();
 			result.put("type", "Feature");
 			JSONArray links = new JSONArray();
@@ -253,7 +253,7 @@ public class WebService {
 			result.put("geometry", new JSONObject());
 			result.put("properties", new JSONObject());
 			return Response.ok(result.toString(2)).type(MediaType.APPLICATION_JSON).build();
-		} else if (format.contains("gml")) {
+		} else if (format!=null && format.contains("gml")) {
 			StringWriter strwriter = new StringWriter();
 			XMLOutputFactory output = XMLOutputFactory.newInstance();
 			XMLStreamWriter writer;
@@ -304,7 +304,7 @@ public class WebService {
 				e.printStackTrace();
 				return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 			}
-		} else if (format.contains("html")) {
+		} else if (format == null || format.contains("html")) {
 			StringBuilder builder = new StringBuilder();
 			builder.append("<html><head></head><body>");
 			builder.append("<h1>");
@@ -396,14 +396,14 @@ public class WebService {
 		if (workingobj == null) {
 			throw new NotFoundException();
 		}
-		if (format == null || format.contains("json")) {
+		if (format != null && format.contains("json")) {
 			JSONObject result = new JSONObject();
 			result.put("id", workingobj.getString("name"));
 			result.put("title", workingobj.getString("name"));
 			result.put("description", "");
 			result.put("extent", new JSONObject());
 			return Response.ok(result.toString(2)).type(MediaType.APPLICATION_JSON).build();
-		} else if (format.contains("gml")) {
+		} else if (format!=null && format.contains("gml")) {
 			StringWriter strwriter = new StringWriter();
 			XMLOutputFactory output = XMLOutputFactory.newInstance();
 			XMLStreamWriter writer;
@@ -462,7 +462,7 @@ public class WebService {
 				e.printStackTrace();
 				return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 			}
-		}else if(format.contains("html")){
+		}else if(format == null || format.contains("html")){
 			StringBuilder builder=new StringBuilder();
 			builder.append("<html><head><link rel=\"stylesheet\" href=\"https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css\"/><script src=\"https://code.jquery.com/jquery-3.4.1.min.js\"></script><script src=\"https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js\"></script></head><body>");
 			builder.append("<h1 align=\"center\">");
@@ -508,7 +508,7 @@ public class WebService {
 						workingobj.getString("triplestore"), format,limit);
 			}
 			System.out.println(res);
-			if (format == null || format.contains("json")) {
+			if (format != null && format.contains("json")) {
 				JSONObject result = new JSONObject();
 				JSONArray links = new JSONArray();
 				JSONObject link = new JSONObject();
@@ -537,7 +537,7 @@ public class WebService {
 				result.put("numberReturned", features.length());
 				result.put("features", features);
 				return Response.ok(result.toString(2)).type(MediaType.APPLICATION_JSON).build();
-			} else if (format.contains("gml")) {
+			} else if (format != null && format.contains("gml")) {
 				StringWriter strwriter = new StringWriter();
 				XMLOutputFactory output = XMLOutputFactory.newInstance();
 				XMLStreamWriter writer;
@@ -590,9 +590,9 @@ public class WebService {
 					// TODO Auto-generated catch block
 					return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 				}
-			} else if (format.contains("html")) {
+			} else if (format == null || format.contains("html")) {
 				StringBuilder builder = new StringBuilder();
-				builder.append("<html><head><link rel=\"stylesheet\" href=\"https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css\"/><script src=\"https://code.jquery.com/jquery-3.4.1.min.js\"></script><script src=\"https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js\"></script></head><body>");
+				builder.append("<html><head><link rel=\"stylesheet\" href=\"https://unpkg.com/leaflet@1.5.1/dist/leaflet.css\"/><link rel=\"stylesheet\" href=\"https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css\"/><script src=\"https://unpkg.com/leaflet@1.5.1/dist/leaflet.js\"></script><script src=\"https://code.jquery.com/jquery-3.4.1.min.js\"></script><script src=\"https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js\"></script></head><body>");
 				builder.append("<h1 align=\"center\">");
 				builder.append(collectionid);
 				builder.append("</h1>");
@@ -611,7 +611,7 @@ public class WebService {
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/conformance")
 	public Response conformance(@DefaultValue("json") @QueryParam("f") String format) {
-		if (format == null || format.contains("json")) {
+		if (format != null && format.contains("json")) {
 			JSONObject result = new JSONObject();
 			JSONArray conforms = new JSONArray();
 			conforms.put("http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/core");
@@ -621,7 +621,7 @@ public class WebService {
 			conforms.put("http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/gmlsf0");
 			result.put("conformsTo", conforms);
 			return Response.ok(result.toString(2)).type(MediaType.APPLICATION_JSON).build();
-		} else if(format.contains("gml")) {
+		} else if(format!=null && format.contains("gml")) {
 			StringWriter strwriter = new StringWriter();
 			XMLOutputFactory output = XMLOutputFactory.newInstance();
 			XMLStreamWriter writer;
@@ -661,7 +661,7 @@ public class WebService {
 				// TODO Auto-generated catch block
 				return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 			}
-		}else if(format.contains("html")) {
+		}else if(format == null || format.contains("html")) {
 			StringBuilder builder=new StringBuilder();
 			builder.append("<html><head></head><body><h1>Conformance</h1><ul>");
 			builder.append("<li><a target=\"_blank\" href=\"http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/core\">Core</a></li>");
