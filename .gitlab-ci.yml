@@ -1,0 +1,66 @@
+include:
+  - template: SAST.gitlab-ci.yml
+  - template: Dependency-Scanning.gitlab-ci.yml
+  - template: License-Management.gitlab-ci.yml
+
+image: maven:3-jdk-8
+# These are the default stages.
+# You don't need to explicitly define them.
+# But you could define any stages you want.
+stages:
+  - build
+  - release
+  - deploy
+  - test
+
+cache:
+  paths:
+    - .m2/
+
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+  CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
+
+
+build:
+  stage: build
+  script:
+   - "mvn clean install -Dmaven.test.skip=true"
+  artifacts:
+    when: on_success
+    paths:
+    - target/*.jar
+
+release-image:
+  image: docker:git
+  before_script:
+  - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" "$CI_REGISTRY" --password-stdin
+  services:
+  - docker:dind
+  stage: release
+  script:
+#    - docker pull $CONTAINER_TEST_IMAGE
+#    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
+    - docker run --rm -v "$PWD":/app -w /app maven:3-jdk-8 mvn clean install
+    - docker build -t $CONTAINER_RELEASE_IMAGE .
+    - docker push $CONTAINER_RELEASE_IMAGE  
+#  tags:
+#    - docker
+  only:
+    - master
+  
+pages:
+  stage: deploy
+  image: ubuntu:latest
+  before_script:
+  - apt-get update
+  - apt-get install doxygen -y
+  script:
+  - cd docs
+  - doxygen Doxyfile
+  - mv html ../public 
+  artifacts:
+    paths:
+    - public
+  only:
+  - master
