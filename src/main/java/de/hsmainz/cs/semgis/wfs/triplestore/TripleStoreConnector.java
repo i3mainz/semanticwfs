@@ -67,7 +67,7 @@ public abstract class TripleStoreConnector {
 
 	
 	public static String executeQuery(String queryString,String queryurl,String output,String count) throws XMLStreamException {
-		System.out.println(prefixCollection+queryString);
+		System.out.println(prefixCollection+queryString+" LIMIT "+count);
 		Query query = QueryFactory.create(prefixCollection+queryString);
 		QueryExecution qexec = QueryExecutionFactory.sparqlService(queryurl, query+" LIMIT "+count);
 		ResultFormatter resformat=ResultFormatter.resultMap.get(output);

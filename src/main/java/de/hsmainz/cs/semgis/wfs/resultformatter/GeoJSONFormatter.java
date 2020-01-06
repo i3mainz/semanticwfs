@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
-import org.apache.jena.query.ResultSetFormatter;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.sparql.expr.NodeValue;
 import org.json.JSONArray;
@@ -19,16 +18,13 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 
 	@Override
 	public String formatter(ResultSet results) {
-		List<QuerySolution> test=ResultSetFormatter.toList(results);
 	    JSONObject geojsonresults=new JSONObject();
-
-
-
 	    List<JSONArray> allfeatures=new LinkedList<JSONArray>();
 	    JSONObject result=new JSONObject();
 	    JSONArray obj=new JSONArray();
     	Boolean first=true;
-	    for(QuerySolution solu:test) {
+	    while(results.hasNext()) {
+	    	QuerySolution solu=results.next();
 	    	JSONObject jsonobj=new JSONObject();
 	    	Iterator<String> varnames = solu.varNames();
 	    	JSONObject properties=new JSONObject();

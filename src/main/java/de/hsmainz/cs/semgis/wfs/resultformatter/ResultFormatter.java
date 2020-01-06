@@ -21,6 +21,7 @@ public abstract class ResultFormatter {
 		resultMap.put("geouri", new GeoURIFormatter());
 		resultMap.put("json", new JSONFormatter());
 		resultMap.put("jsonld", new JSONLDFormatter());
+		resultMap.put("html", new HTMLFormatter());
 		resultMap.put("kml", new KMLFormatter());
 		resultMap.put("gml", new GMLFormatter());
 		resultMap.put("gpx", new GPXFormatter());
