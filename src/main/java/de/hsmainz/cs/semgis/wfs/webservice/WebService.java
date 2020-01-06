@@ -5,15 +5,19 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
+
+import com.sun.jersey.api.NotFoundException;
 import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
 
 import org.json.JSONArray;
@@ -65,11 +69,11 @@ public class WebService {
 	}
 	
 	@GET
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML,MediaType.TEXT_HTML,MediaType.TEXT_PLAIN})
 	@Path("/collections")
-	public String collections(@QueryParam("f") String format) {
+	public Response collections(@DefaultValue("json") @QueryParam("f") String format) {
 		System.out.println(format);
-		if(format.contains("json")) {
+		if(format==null || format.contains("json")) {
 			JSONObject result=new JSONObject();
 			JSONArray links=new JSONArray();
 			JSONArray collections=new JSONArray();
@@ -97,7 +101,7 @@ public class WebService {
 				coll.put("links", colinks);
 				collections.put(coll);
 			}
-			return result.toString();
+			return Response.ok(result.toString(2)).type(MediaType.APPLICATION_JSON).build();
 		}else if(format.contains("gml")) {
 			StringWriter strwriter=new StringWriter();
 	        XMLOutputFactory output = XMLOutputFactory.newInstance();
@@ -106,7 +110,13 @@ public class WebService {
 				writer = new IndentingXMLStreamWriter(output.createXMLStreamWriter(strwriter));
 				writer.writeStartDocument();
 				writer.setDefaultNamespace("http://www.opengis.net/ogcapi-features-1/1.0");
+				writer.setPrefix("atom","http://www.w3.org/2005/Atom");
 				writer.writeStartElement("Collections");
+				writer.writeAttribute("xmlns","http://www.opengis.net/ogcapi-features-1/1.0");
+				writer.writeAttribute("xmlns:atom","http://www.w3.org/2005/Atom");
+				writer.writeAttribute("xmlns:xsi","http://www.w3.org/2001/XMLSchema-instance");
+				writer.writeAttribute("xmlns:sf","http://www.opengis.net/ogcapi-features-1/1.0/sf");
+				writer.writeAttribute("xmlns:gml","http://www.opengis.net/gml/3.2");
 				writer.writeAttribute("service", "OGCAPI-FEATURES");
 				writer.writeAttribute("version", "1.0.0");				
 				writer.writeStartElement("Title");
@@ -147,10 +157,11 @@ public class WebService {
 				writer.writeEndElement();
 				writer.writeEndDocument();
 				writer.flush();
-				return strwriter.toString();
+				return Response.ok(strwriter.toString()).type(MediaType.TEXT_XML).build();
 	        } catch (XMLStreamException e) {
 				// TODO Auto-generated catch block
-				return "";
+	        	e.printStackTrace();
+	        	return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 			}
 		}else if(format.contains("html")) {
 			StringBuilder builder=new StringBuilder();
@@ -167,16 +178,19 @@ public class WebService {
 				builder.append(" <a href=\""+this.wfsconf.getString("baseurl")+"/collections/"+curobj.getString("name")+"/items?f=text/html\">[HTML]</a></li>");
 			}
 			builder.append("</ul></body></html>");
-			return builder.toString();
+			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
 		}else {
-			return "";
+			return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 		}
 	}
 
 	@GET
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML,MediaType.TEXT_HTML,MediaType.TEXT_PLAIN})
 	@Path("/collections/{collectionid}/items/{featureid}")
-	public String getFeatureById(@PathParam("collectionid") String collectionid, @PathParam("featureid") String featureid,@QueryParam("f") String format) {	
+	public Response getFeatureById(@PathParam("collectionid") String collectionid, @PathParam("featureid") String featureid,@DefaultValue("json") @QueryParam("f") String format) {	
+		if(collectionid==null) {
+			throw new NotFoundException();
+		}
 		JSONObject workingobj=null;
 		for(int i=0;i<this.wfsconf.getJSONArray("datasets").length();i++) {
 			JSONObject curobj=this.wfsconf.getJSONArray("datasets").getJSONObject(i);
@@ -184,6 +198,9 @@ public class WebService {
 				workingobj=curobj;
 				break;
 			}
+		}
+		if(workingobj==null) {
+			throw new NotFoundException();
 		}
 		String res="";
 		try {
@@ -193,7 +210,7 @@ public class WebService {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}	
-		if(format.contains("json")) {
+		if(format==null || format.contains("json")) {
 			JSONObject result=new JSONObject();
 			result.put("type", "Feature");
 			JSONArray links=new JSONArray();
@@ -219,7 +236,7 @@ public class WebService {
 			result.put("id",0);
 			result.put("geometry", new JSONObject());
 			result.put("properties", new JSONObject());
-			return result.toString();
+			return Response.ok(result.toString(2)).type(MediaType.APPLICATION_JSON).build();
 		}else if(format.contains("gml")){
 			StringWriter strwriter=new StringWriter();
 	        XMLOutputFactory output = XMLOutputFactory.newInstance();
@@ -229,6 +246,9 @@ public class WebService {
 				writer.writeStartDocument();
 				writer.setDefaultNamespace("http://www.opengis.net/ogcapi-features-1/1.0");
 				writer.writeStartElement("LandingPage");
+				writer.writeAttribute("xmlns","http://www.opengis.net/ogcapi-features-1/1.0");
+				writer.writeAttribute("xmlns:atom","http://www.w3.org/2005/Atom");
+				writer.writeAttribute("xmlns:xsi","http://www.w3.org/2001/XMLSchema-instance");
 				writer.writeAttribute("service", "OGCAPI-FEATURES");
 				writer.writeAttribute("version", "1.0.0");
 				writer.writeStartElement("Title");
@@ -258,10 +278,10 @@ public class WebService {
 				writer.writeEndElement();
 				writer.writeEndDocument();
 				writer.flush();
-				return strwriter.toString();
+				return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
 	        } catch (XMLStreamException e) {
-				// TODO Auto-generated catch block
-				return "";
+	        	e.printStackTrace();
+	        	return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 			}
 		}else if(format.contains("html")) {
 			StringBuilder builder=new StringBuilder();
@@ -272,23 +292,23 @@ public class WebService {
 			builder.append("<ul>");
 			builder.append(res);
 			builder.append("</ul></body></html>");
-			return builder.toString();
+			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
 		}else {
-			return "";
+			return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 		}
 	}
 
 	@GET
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML,MediaType.TEXT_HTML,MediaType.TEXT_PLAIN})
 	@Path("/landingPage")
-	public String landingPage(@QueryParam("f") String format) {
-		if(format.contains("json")) {
+	public Response landingPage(@DefaultValue("json") @QueryParam("f") String format) {
+		if(format==null || format.contains("json")) {
 			JSONObject result=new JSONObject();
 			JSONArray links=new JSONArray();
 			result.put("title", "");
 			result.put("description", "");
 			result.put("links", links);
-			return result.toString();
+			return Response.ok(result.toString(2)).type(MediaType.APPLICATION_JSON).build();
 		}else {
 			StringWriter strwriter=new StringWriter();
 	        XMLOutputFactory output = XMLOutputFactory.newInstance();
@@ -306,6 +326,7 @@ public class WebService {
 				writer.writeStartElement("Description");
 				writer.writeCharacters("");
 				writer.writeEndElement();
+				
 				//List of links
 				/*
 				 * <atom:link rel="self"
@@ -316,19 +337,22 @@ public class WebService {
 				writer.writeEndElement();
 				writer.writeEndDocument();
 				writer.flush();
-				return strwriter.toString();
+				return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
 	        } catch (XMLStreamException e) {
 				// TODO Auto-generated catch block
-				return "";
+				return Response.ok(strwriter.toString()).type(MediaType.TEXT_PLAIN).build();
 			}
 			
 		}
 	}
 	
 	@GET
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML,MediaType.TEXT_HTML,MediaType.TEXT_PLAIN})
 	@Path("/collections/{collectionid}")
-	public String collectionInformation(@PathParam("collectionid") String collectionid,@QueryParam("f") String format) {
+	public Response collectionInformation(@PathParam("collectionid") String collectionid,@DefaultValue("json") @QueryParam("f") String format,@QueryParam("limit") String limit,@QueryParam("bbox") String bbox) {
+		if(collectionid==null) {
+			throw new NotFoundException();
+		}
 		JSONObject workingobj=null;
 		for(int i=0;i<this.wfsconf.getJSONArray("datasets").length();i++) {
 			JSONObject curobj=this.wfsconf.getJSONArray("datasets").getJSONObject(i);
@@ -337,13 +361,16 @@ public class WebService {
 				break;
 			}
 		}
-		if(format.contains("json")) {
+		if(workingobj==null) {
+			throw new NotFoundException();
+		}
+		if(format==null || format.contains("json")) {
 			JSONObject result=new JSONObject();
 			result.put("id",workingobj.getString("name"));
 			result.put("title", workingobj.getString("name"));
 			result.put("description", "");
 			result.put("extent", new JSONObject());
-			return result.toString();
+			return Response.ok(result.toString(2)).type(MediaType.APPLICATION_JSON).build();
 		}else if(format.contains("gml")){
 			StringWriter strwriter=new StringWriter();
 	        XMLOutputFactory output = XMLOutputFactory.newInstance();
@@ -353,6 +380,11 @@ public class WebService {
 				writer.writeStartDocument();
 				writer.setDefaultNamespace("http://www.opengis.net/ogcapi-features-1/1.0");
 				writer.writeStartElement("Collection");
+				writer.writeAttribute("xmlns","http://www.opengis.net/ogcapi-features-1/1.0");
+				writer.writeAttribute("xmlns:atom","http://www.w3.org/2005/Atom");
+				writer.writeAttribute("xmlns:xsi","http://www.w3.org/2001/XMLSchema-instance");
+				writer.writeAttribute("xmlns:sf","http://www.opengis.net/ogcapi-features-1/1.0/sf");
+				writer.writeAttribute("xmlns:gml","http://www.opengis.net/gml/3.2");
 				writer.writeAttribute("service", "OGCAPI-FEATURES");
 				writer.writeAttribute("version", "1.0.0");
 				writer.writeStartElement("gml:boundedBy");
@@ -375,21 +407,24 @@ public class WebService {
 				writer.writeEndElement();
 				writer.writeEndDocument();
 				writer.flush();
-				return strwriter.toString();
+				return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
 	        } catch (XMLStreamException e) {
 				// TODO Auto-generated catch block
-				return "";
+				return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 			}
 		}else {
-			return "";
+			return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 		}
 	}
 	
 	@GET
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML,MediaType.TEXT_HTML,MediaType.TEXT_PLAIN})
 	@Path("/collections/{collectionid}/items")
-	public String collectionItems(@PathParam("collectionid") String collectionid,@QueryParam("f") String format,@QueryParam("limit") String limit,
+	public Response collectionItems(@PathParam("collectionid") String collectionid,@DefaultValue("json") @QueryParam("f") String format,@QueryParam("limit") String limit,
 			@QueryParam("bbox") String bbox,@QueryParam("datetime") String datetime) {
+		if(collectionid==null) {
+			throw new NotFoundException();
+		}
 		JSONObject workingobj=null;
 		for(int i=0;i<this.wfsconf.getJSONArray("datasets").length();i++) {
 			JSONObject curobj=this.wfsconf.getJSONArray("datasets").getJSONObject(i);
@@ -398,7 +433,10 @@ public class WebService {
 				break;
 			}
 		}
-		if(format.contains("json")) {
+		if(workingobj==null) {
+			throw new NotFoundException();
+		}
+		if(format==null || format.contains("json")) {
 			JSONObject result=new JSONObject();
 			JSONArray links=new JSONArray();
 			JSONObject link=new JSONObject();
@@ -426,7 +464,7 @@ public class WebService {
 			result.put("numberMatched",0);
 			result.put("numberReturned", 0);
 			result.put("features", features);
-			return result.toString();
+			return Response.ok(result.toString(2)).type(MediaType.APPLICATION_JSON).build();
 		}else if(format.contains("gml")){
 			StringWriter strwriter=new StringWriter();
 	        XMLOutputFactory output = XMLOutputFactory.newInstance();
@@ -434,8 +472,14 @@ public class WebService {
 			try {
 				writer = new IndentingXMLStreamWriter(output.createXMLStreamWriter(strwriter));
 				writer.writeStartDocument();
-				writer.setDefaultNamespace("http://www.opengis.net/ogcapi-features-1/1.0");
 				writer.writeStartElement("sf:FeatureCollection");
+				writer.writeAttribute("xmlns","http://www.opengis.net/ogcapi-features-1/1.0");
+				writer.writeAttribute("xmlns:atom","http://www.w3.org/2005/Atom");
+				writer.writeAttribute("xmlns:xsi","http://www.w3.org/2001/XMLSchema-instance");
+				writer.writeAttribute("xmlns:sf","http://www.opengis.net/ogcapi-features-1/1.0/sf");
+				writer.writeAttribute("xmlns:gml","http://www.opengis.net/gml/3.2");
+				writer.setDefaultNamespace("http://www.opengis.net/ogcapi-features-1/1.0");
+				writer.setPrefix("atom", "http://www.w3.org/2005/Atom");
 				writer.writeAttribute("service", "OGCAPI-FEATURES");
 				writer.writeAttribute("version", "1.0.0");
 				writer.writeStartElement("gml:boundedBy");
@@ -448,20 +492,32 @@ public class WebService {
 				writer.writeStartElement("Description");
 				writer.writeCharacters("");
 				writer.writeEndElement();
-				//List of links
-				/*
-				 * <atom:link rel="self"
-              type="application/json"
-              title="This Document"
-              href="http://www.acme.com/3.0/wfs?f=application%2Fjson"/>
-				 */
+				writer.writeStartElement("http://www.w3.org/2005/Atom","link");
+				writer.writeAttribute("rel", "self");
+				writer.writeAttribute("title", workingobj.getString("name"));
+				writer.writeAttribute("type", "application/geo+json");
+				writer.writeAttribute("href", this.wfsconf.getString("baseurl")+"/collections/"+workingobj.getString("name")+"/items?f=json");
+				writer.writeEndElement();
+				writer.writeStartElement("http://www.w3.org/2005/Atom","link");
+				writer.writeAttribute("rel", "alternate");
+				writer.writeAttribute("title", workingobj.getString("name"));
+				writer.writeAttribute("type", "application/gml+xml;version=3.2;profile=http://www.opengis.net/def/profile/ogc/2.0/gml-sf0");
+				writer.writeAttribute("href", this.wfsconf.getString("baseurl")+"/collections/"+workingobj.getString("name")+"/items?f=application/gml+xml;version=3.2;profile=http://www.opengis.net/def/profile/ogc/2.0/gml-sf0");
+				writer.writeEndElement();
+				writer.writeStartElement("http://www.w3.org/2005/Atom","link");
+				writer.writeAttribute("rel", "alternate");
+				writer.writeAttribute("title", workingobj.getString("name"));
+				writer.writeAttribute("type", "text/html");
+				writer.writeAttribute("href", this.wfsconf.getString("baseurl")+"/collections/"+workingobj.getString("name")+"/items?f=text/html");
+				writer.writeEndElement();
 				writer.writeEndElement();
 				writer.writeEndDocument();
 				writer.flush();
-				return strwriter.toString();
+				return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
 	        } catch (XMLStreamException e) {
+	        	e.printStackTrace();
 				// TODO Auto-generated catch block
-				return "";
+				return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 			}
 		}else if(format.contains("html")) {
 			StringBuilder builder=new StringBuilder();
@@ -478,18 +534,18 @@ public class WebService {
 				builder.append(" <a href=\""+this.wfsconf.getString("baseurl")+"/collections/"+curobj.getString("name")+"/items?f=text/html\">[HTML]</a></li>");
 			}
 			builder.append("</ul></body></html>");
-			return builder.toString();
+			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
 		}else {
-			return "";
+			return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 		}
 	}
 
 	
 	@GET
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML,MediaType.TEXT_HTML,MediaType.TEXT_PLAIN})
 	@Path("/conformance")
-	public String conformance(@QueryParam("f") String format) {
-		if(format.contains("json")) {
+	public Response conformance(@DefaultValue("json") @QueryParam("f") String format) {
+		if(format==null || format.contains("json")) {
 			JSONObject result=new JSONObject();
 			JSONArray conforms=new JSONArray();
 			conforms.put("http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/core");
@@ -498,7 +554,7 @@ public class WebService {
 			conforms.put("http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/geojson");
 			conforms.put("http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/gmlsf0");
 			result.put("conformsTo", conforms);
-			return result.toString();			
+			return Response.ok(result.toString(2)).type(MediaType.APPLICATION_JSON).build();		
 		}else {
 			StringWriter strwriter=new StringWriter();
 	        XMLOutputFactory output = XMLOutputFactory.newInstance();
@@ -532,11 +588,11 @@ public class WebService {
 				writer.writeEndElement();
 				writer.writeEndDocument();
 				writer.flush();
-				return strwriter.toString();
+				return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
 	        } catch (XMLStreamException e) {
 	        	e.printStackTrace();
 				// TODO Auto-generated catch block
-				return "";
+				return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 			}
 		}
 
@@ -816,6 +872,5 @@ public class WebService {
 	public String lockFeature() {
 		return null;	
 	}
-	
-	
+		
 }
