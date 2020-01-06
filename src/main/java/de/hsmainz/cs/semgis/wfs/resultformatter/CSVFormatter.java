@@ -11,7 +11,7 @@ import org.apache.jena.rdf.model.Literal;
 public class CSVFormatter extends WFSResultFormatter {
 
 	@Override
-	public String formatter(ResultSet results) {
+	public String formatter(ResultSet results,Integer offset) {
 		List<QuerySolution> test=ResultSetFormatter.toList(results);
 		System.out.println("QuerySolutions: "+test.size());
     	Boolean first=true;

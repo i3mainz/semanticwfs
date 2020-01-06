@@ -17,13 +17,18 @@ import de.hsmainz.cs.semgis.wfs.converters.AsGeoJSON;
 public class GeoJSONFormatter extends WFSResultFormatter {
 
 	@Override
-	public String formatter(ResultSet results) {
+	public String formatter(ResultSet results,Integer offset) {
 	    JSONObject geojsonresults=new JSONObject();
 	    List<JSONArray> allfeatures=new LinkedList<JSONArray>();
 	    JSONObject result=new JSONObject();
 	    JSONArray obj=new JSONArray();
     	Boolean first=true;
+    	int i=0;
 	    while(results.hasNext()) {
+	    	if(i<offset) {
+	    		i++;
+	    		continue;
+	    	}
 	    	QuerySolution solu=results.next();
 	    	JSONObject jsonobj=new JSONObject();
 	    	Iterator<String> varnames = solu.varNames();

@@ -482,6 +482,7 @@ public class WebService {
 	@Path("/collections/{collectionid}/items")
 	public Response collectionItems(@PathParam("collectionid") String collectionid,
 			@DefaultValue("json") @QueryParam("f") String format, @DefaultValue("-1") @QueryParam("limit") String limit,
+			@DefaultValue("0") @QueryParam("offset") String offset,
 			@QueryParam("bbox") String bbox, @QueryParam("datetime") String datetime) {
 		if (collectionid == null) {
 			throw new NotFoundException();
@@ -500,12 +501,12 @@ public class WebService {
 		System.out.println(limit);
 		try {
 			String res;
-			if(limit.equals("-1")) {
+			if(limit.equals("-1") && offset.equals("0")) {
 				res = TripleStoreConnector.executeQuery(workingobj.getString("query"),
 						workingobj.getString("triplestore"), format);
 			}else {
 				res = TripleStoreConnector.executeQuery(workingobj.getString("query"),
-						workingobj.getString("triplestore"), format,limit);
+						workingobj.getString("triplestore"), format,limit,offset);
 			}
 			System.out.println(res);
 			if (format != null && format.contains("json")) {

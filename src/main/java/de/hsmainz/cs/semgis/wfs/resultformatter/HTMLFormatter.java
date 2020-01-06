@@ -9,8 +9,8 @@ import org.json.JSONObject;
 public class HTMLFormatter extends ResultFormatter {
 
 	@Override
-	public String formatter(ResultSet results) throws XMLStreamException {
-		JSONObject geojson=new JSONObject(resultMap.get("geojson").formatter(results));
+	public String formatter(ResultSet results,Integer offset) throws XMLStreamException {
+		JSONObject geojson=new JSONObject(resultMap.get("geojson").formatter(results,offset));
 		System.out.println(geojson);
 		StringBuilder builder=new StringBuilder();
 		builder.append("<script>var overlayMaps={}; var overlayControl; var markercollection=[];var geojson="+geojson.toString()+"</script>");

@@ -30,7 +30,7 @@ public abstract class ResultFormatter {
 		resultMap.put("polyshape", new PolyshapeFormatter());
 	}
 	
-	public abstract String formatter(ResultSet results) throws XMLStreamException;
+	public abstract String formatter(ResultSet results,Integer offset) throws XMLStreamException;
 
 	public String formatHeader() {
 		return "";
