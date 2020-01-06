@@ -48,15 +48,6 @@ release-image:
 #    - docker
   only:
     - master
-
-mvndeploy:
-  stage: deploy
-  script:
-    - 'cp ci_settings.xml /root/.m2/settings.xml'
-    - 'mvn deploy'
-  only:
-    - master
-  image: maven:3.3.9-jdk-8
   
 pages:
   stage: deploy
