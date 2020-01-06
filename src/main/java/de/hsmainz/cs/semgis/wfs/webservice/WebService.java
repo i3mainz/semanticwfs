@@ -546,37 +546,31 @@ public class WebService {
 					writer.writeAttribute("version", "1.0.0");
 					writer.writeStartElement("gml:boundedBy");
 					writer.writeEndElement();
-					writer.writeStartElement("sf:featureMember");
-					writer.writeEndElement();
 					writer.writeStartElement("Title");
-					writer.writeCharacters("");
+					writer.writeCharacters(collectionid);
 					writer.writeEndElement();
 					writer.writeStartElement("Description");
-					writer.writeCharacters("");
+					writer.writeCharacters(collectionid);
 					writer.writeEndElement();
 					writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
 					writer.writeAttribute("rel", "self");
 					writer.writeAttribute("title", workingobj.getString("name"));
 					writer.writeAttribute("type", "application/geo+json");
-					writer.writeAttribute("href", this.wfsconf.getString("baseurl") + "/collections/"
-							+ workingobj.getString("name") + "/items?f=json");
+					writer.writeAttribute("href", this.wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name") + "/items?f=json");
 					writer.writeEndElement();
 					writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
 					writer.writeAttribute("rel", "alternate");
 					writer.writeAttribute("title", workingobj.getString("name"));
-					writer.writeAttribute("type",
-							"application/gml+xml;version=3.2;profile=http://www.opengis.net/def/profile/ogc/2.0/gml-sf0");
-					writer.writeAttribute("href", this.wfsconf.getString("baseurl") + "/collections/"
-							+ workingobj.getString("name")
-							+ "/items?f=application/gml+xml;version=3.2;profile=http://www.opengis.net/def/profile/ogc/2.0/gml-sf0");
+					writer.writeAttribute("type","application/gml+xml;version=3.2;profile=http://www.opengis.net/def/profile/ogc/2.0/gml-sf0");
+					writer.writeAttribute("href", this.wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+ "/items?f=application/gml+xml;version=3.2;profile=http://www.opengis.net/def/profile/ogc/2.0/gml-sf0");
 					writer.writeEndElement();
 					writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
 					writer.writeAttribute("rel", "alternate");
 					writer.writeAttribute("title", workingobj.getString("name"));
 					writer.writeAttribute("type", "text/html");
-					writer.writeAttribute("href", this.wfsconf.getString("baseurl") + "/collections/"
-							+ workingobj.getString("name") + "/items?f=text/html");
+					writer.writeAttribute("href", this.wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name") + "/items?f=text/html");
 					writer.writeEndElement();
+					strwriter.append(res);
 					writer.writeEndElement();
 					writer.writeEndDocument();
 					writer.flush();
@@ -617,7 +611,7 @@ public class WebService {
 			conforms.put("http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/gmlsf0");
 			result.put("conformsTo", conforms);
 			return Response.ok(result.toString(2)).type(MediaType.APPLICATION_JSON).build();
-		} else {
+		} else if(format.contains("gml")) {
 			StringWriter strwriter = new StringWriter();
 			XMLOutputFactory output = XMLOutputFactory.newInstance();
 			XMLStreamWriter writer;
@@ -657,6 +651,10 @@ public class WebService {
 				// TODO Auto-generated catch block
 				return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 			}
+		}else if(format.contains("html")) {
+			return Response.ok("").type(MediaType.TEXT_HTML).build();
+		}else {
+			return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 		}
 
 	}

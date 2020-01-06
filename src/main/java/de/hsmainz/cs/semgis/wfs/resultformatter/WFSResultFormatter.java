@@ -2,6 +2,8 @@ package de.hsmainz.cs.semgis.wfs.resultformatter;
 
 public abstract class WFSResultFormatter extends ResultFormatter{
 	
+	String featureType="";
+	
 	static {
 		resultMap.put("geojson", new GeoJSONFormatter());
 		resultMap.put("geojsonld", new GeoJSONLDFormatter());
