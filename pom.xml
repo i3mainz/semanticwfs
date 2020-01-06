@@ -78,7 +78,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>RESTfulExample</finalName>
+		<finalName>semanticwfs</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
