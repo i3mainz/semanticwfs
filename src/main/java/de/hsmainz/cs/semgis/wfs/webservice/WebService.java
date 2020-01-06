@@ -152,6 +152,22 @@ public class WebService {
 				// TODO Auto-generated catch block
 				return "";
 			}
+		}else if(format.contains("html")) {
+			StringBuilder builder=new StringBuilder();
+			builder.append("<html><head></head><body>");
+			builder.append("<h1>");
+			builder.append("FeatureCollection View");
+			builder.append("</h1>");
+			builder.append("<ul>");
+			for(int i=0;i<this.wfsconf.getJSONArray("datasets").length();i++) {
+				JSONObject curobj=this.wfsconf.getJSONArray("datasets").getJSONObject(i);
+				builder.append("<li>"+curobj.getString("name"));
+				builder.append(" <a href=\""+this.wfsconf.getString("baseurl")+"/collections/"+curobj.getString("name")+"/items?f=json\">[JSON]</a>");
+				builder.append(" <a href=\""+this.wfsconf.getString("baseurl")+"/collections/"+curobj.getString("name")+"/items?f=gml\">[GML]</a>");
+				builder.append(" <a href=\""+this.wfsconf.getString("baseurl")+"/collections/"+curobj.getString("name")+"/items?f=text/html\">[HTML]</a></li>");
+			}
+			builder.append("</ul></body></html>");
+			return builder.toString();
 		}else {
 			return "";
 		}
@@ -447,6 +463,22 @@ public class WebService {
 				// TODO Auto-generated catch block
 				return "";
 			}
+		}else if(format.contains("html")) {
+			StringBuilder builder=new StringBuilder();
+			builder.append("<html><head></head><body>");
+			builder.append("<h1>");
+			builder.append("FeatureCollection View");
+			builder.append("</h1>");
+			builder.append("<ul>");
+			for(int i=0;i<this.wfsconf.getJSONArray("datasets").length();i++) {
+				JSONObject curobj=this.wfsconf.getJSONArray("datasets").getJSONObject(i);
+				builder.append("<li>"+curobj.getString("name"));
+				builder.append(" <a href=\""+this.wfsconf.getString("baseurl")+"/collections/"+curobj.getString("name")+"/items?f=json\">[JSON]</a>");
+				builder.append(" <a href=\""+this.wfsconf.getString("baseurl")+"/collections/"+curobj.getString("name")+"/items?f=gml\">[GML]</a>");
+				builder.append(" <a href=\""+this.wfsconf.getString("baseurl")+"/collections/"+curobj.getString("name")+"/items?f=text/html\">[HTML]</a></li>");
+			}
+			builder.append("</ul></body></html>");
+			return builder.toString();
 		}else {
 			return "";
 		}
