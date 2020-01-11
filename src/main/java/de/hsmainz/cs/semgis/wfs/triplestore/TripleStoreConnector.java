@@ -23,7 +23,7 @@ import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
 
 public abstract class TripleStoreConnector {
 
-	protected static String prefixCollection="";
+	public static String prefixCollection="";
 	
 	static {
 		try {
