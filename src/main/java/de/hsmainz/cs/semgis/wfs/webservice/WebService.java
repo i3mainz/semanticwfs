@@ -201,6 +201,7 @@ public class WebService {
 	@Path("/collections/{collectionid}/items/{featureid}")
 	public Response getFeatureById(@PathParam("collectionid") String collectionid,
 			@PathParam("featureid") String featureid, @DefaultValue("json") @QueryParam("f") String format) {
+		System.out.println("Featureid");
 		if (collectionid == null) {
 			throw new NotFoundException();
 		}
@@ -215,10 +216,15 @@ public class WebService {
 		if (workingobj == null) {
 			throw new NotFoundException();
 		}
+		String query1=workingobj.getString("query").substring(0,workingobj.getString("query").indexOf("WHERE"));
+		String query2=workingobj.getString("query").substring(workingobj.getString("query").indexOf("WHERE"));
+		query2.replace("?"+workingobj.getString("indvar"),"<"+workingobj.getString("namespace")+featureid+">");
+		String query=query1+query2;
+		System.out.println(query);
 		String res = "";
 		try {
-			res = TripleStoreConnector.executeQuery(workingobj.getString("query"), workingobj.getString("triplestore"),
-					format, "1");
+			res = TripleStoreConnector.executeQuery(query, workingobj.getString("triplestore"),
+					format, "1","0");
 			System.out.println(res);
 		} catch (JSONException | XMLStreamException e1) {
 			// TODO Auto-generated catch block
@@ -306,8 +312,8 @@ public class WebService {
 			}
 		} else if (format == null || format.contains("html")) {
 			StringBuilder builder = new StringBuilder();
-			builder.append("<html><head></head><body>");
-			builder.append("<h1>");
+			builder.append("<html><head><link rel=\"stylesheet\" href=\"https://unpkg.com/leaflet@1.5.1/dist/leaflet.css\"/><link rel=\"stylesheet\" href=\"https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css\"/><script src=\"https://unpkg.com/leaflet@1.5.1/dist/leaflet.js\"></script><script src=\"https://code.jquery.com/jquery-3.4.1.min.js\"></script><script src=\"https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js\"></script></head><body>");
+			builder.append("<h1 align=\"center\">");
 			builder.append(featureid);
 			builder.append("</h1>");
 			builder.append("<ul>");
@@ -931,13 +937,58 @@ public class WebService {
 			}
 		}
 		return TripleStoreConnector.executeQuery(workingobj.getString("query"), workingobj.getString("triplestore"),
-				output, count);
+				output, count,"0");
 	}
 
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/service/getGmlObject")
 	public String getGmlObject() {
+		return null;
+	}
+	
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
+	@Path("/service/addFeatureType")
+	public String getGmlObject(@QueryParam("query") String sparqlQuery, 
+			@QueryParam("typename")String name, 
+			@QueryParam("namespace") String namespace,
+			@QueryParam("triplestore") String triplestore,
+			@QueryParam("username") String username,
+			@QueryParam("password") String password) {
+		return null;
+	}
+	
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
+	@Path("/service/saveFeatureTypes")
+	public String getGmlObject(@QueryParam("featjson") String featureTypesJSON, 
+			@QueryParam("username") String username,
+			@QueryParam("password") String password) {
+		return null;
+	}
+	
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
+	@Path("/service/featureTypes")
+	public String getFeatureTypes() {
+		return wfsconf.toString(2);
+	}
+	
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
+	@Path("/service/prefixes")
+	public String prefixes() {
+		return TripleStoreConnector.prefixCollection;
+	}
+	
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
+	@Path("/service/addPrefixes")
+	public String addPrefixes(@QueryParam("query") String sparqlQuery, 
+			@QueryParam("typename")String name, 
+			@QueryParam("namespace") String namespace, 
+			@QueryParam("triplestore") String triplestore) {	
 		return null;
 	}
 
@@ -950,3 +1001,4 @@ public class WebService {
 	}
 
 }
+
