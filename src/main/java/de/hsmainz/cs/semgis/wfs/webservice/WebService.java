@@ -216,10 +216,9 @@ public class WebService {
 		if (workingobj == null) {
 			throw new NotFoundException();
 		}
-		String query1=workingobj.getString("query").substring(0,workingobj.getString("query").indexOf("WHERE"));
-		String query2=workingobj.getString("query").substring(workingobj.getString("query").indexOf("WHERE"));
-		query2.replace("?"+workingobj.getString("indvar"),"<"+workingobj.getString("namespace")+featureid+">");
-		String query=query1+query2;
+		String query=workingobj.getString("query");
+		query=query.replace("WHERE{","WHERE{ BIND( <"+workingobj.getString("namespace")+featureid+"> AS ?"+workingobj.getString("indvar")+") ");
+		System.out.println("?"+workingobj.getString("indvar")+" - "+"<"+workingobj.getString("namespace")+featureid+">");
 		System.out.println(query);
 		String res = "";
 		try {
@@ -989,7 +988,7 @@ public class WebService {
 			@QueryParam("typename")String name, 
 			@QueryParam("namespace") String namespace, 
 			@QueryParam("triplestore") String triplestore) {	
-		return null;
+		return wfsconf.toString(2);
 	}
 
 	public String transaction() {
@@ -1001,4 +1000,3 @@ public class WebService {
 	}
 
 }
-
