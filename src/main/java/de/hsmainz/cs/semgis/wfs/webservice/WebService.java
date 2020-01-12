@@ -231,7 +231,6 @@ public class WebService {
 		}
 		if (format != null && format.contains("json")) {
 			JSONObject result = new JSONObject();
-			result.put("type", "Feature");
 			JSONArray links = new JSONArray();
 			result.put("links", links);
 			JSONObject link = new JSONObject();
@@ -255,8 +254,13 @@ public class WebService {
 			link.put("title", featureid);
 			links.put(link);
 			result.put("id", 0);
-			result.put("geometry", new JSONObject());
-			result.put("properties", new JSONObject());
+			JSONArray features = new JSONObject(res).getJSONArray("features");
+			result.put("type", "FeatureCollection");
+			result.put("links", links);
+			result.put("timeStamp", System.currentTimeMillis());
+			result.put("numberMatched", features.length());
+			result.put("numberReturned", features.length());
+			result.put("features", features);
 			return Response.ok(result.toString(2)).type(MediaType.APPLICATION_JSON).build();
 		} else if (format!=null && format.contains("gml")) {
 			StringWriter strwriter = new StringWriter();
@@ -301,6 +305,7 @@ public class WebService {
 				writer.writeAttribute("href", this.wfsconf.getString("baseurl") + "/collections/"
 						+ workingobj.getString("name") + "/items/+" + featureid + "?f=text/html");
 				writer.writeEndElement();
+				strwriter.append(res);
 				writer.writeEndElement();
 				writer.writeEndDocument();
 				writer.flush();
@@ -572,7 +577,7 @@ public class WebService {
 					writer.writeAttribute("rel", "self");
 					writer.writeAttribute("title", workingobj.getString("name"));
 					writer.writeAttribute("type", "application/geo+json");
-					writer.writeAttribute("href", this.wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name") + "/items?f=json");
+					writer.writeAttribute("href", this.wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name") + "/items/?f=json");
 					writer.writeEndElement();
 					writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
 					writer.writeAttribute("rel", "alternate");
