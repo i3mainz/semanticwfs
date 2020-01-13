@@ -253,14 +253,15 @@ public class WebService {
 			link.put("type", "application/json");
 			link.put("title", featureid);
 			links.put(link);
-			result.put("id", 0);
-			JSONArray features = new JSONObject(res).getJSONArray("features");
-			result.put("type", "FeatureCollection");
+			result.put("id", featureid);
+			JSONObject features = new JSONObject(res).getJSONArray("features").getJSONObject(0);
+			result.put("type", "Feature");
 			result.put("links", links);
 			result.put("timeStamp", System.currentTimeMillis());
 			result.put("numberMatched", features.length());
 			result.put("numberReturned", features.length());
-			result.put("features", features);
+			result.put("geometry", features.getJSONObject("geometry"));
+			result.put("properties", features.getJSONObject("properties"));
 			return Response.ok(result.toString(2)).type(MediaType.APPLICATION_JSON).build();
 		} else if (format!=null && format.contains("gml")) {
 			StringWriter strwriter = new StringWriter();
