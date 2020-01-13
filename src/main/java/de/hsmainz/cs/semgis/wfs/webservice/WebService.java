@@ -277,6 +277,8 @@ public class WebService {
 				writer.writeAttribute("xmlns", "http://www.opengis.net/ogcapi-features-1/1.0");
 				writer.writeAttribute("xmlns:atom", "http://www.w3.org/2005/Atom");
 				writer.writeAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+				writer.writeAttribute("xmlns:sf", "http://www.opengis.net/ogcapi-features-1/1.0/sf");
+				writer.writeAttribute("xmlns:gml", "http://www.opengis.net/gml/3.2");
 				writer.writeAttribute("service", "OGCAPI-FEATURES");
 				writer.writeAttribute("version", "1.0.0");
 				writer.writeStartElement("Title");
@@ -933,8 +935,8 @@ public class WebService {
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/service/getFeature")
-	public String getFeature(@QueryParam("typename") String typename, @QueryParam("outputFormat") String output,
-			@QueryParam("count") String count) throws JSONException, XMLStreamException {
+	public String getFeature(@QueryParam("typename") String typename, @DefaultValue("json") @QueryParam("outputFormat") String output,
+			@DefaultValue("5") @QueryParam("count") String count) throws JSONException, XMLStreamException {
 		JSONObject workingobj = null;
 		for (int i = 0; i < this.wfsconf.getJSONArray("datasets").length(); i++) {
 			JSONObject curobj = this.wfsconf.getJSONArray("datasets").getJSONObject(i);
