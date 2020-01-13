@@ -200,7 +200,8 @@ public class WebService {
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections/{collectionid}/items/{featureid}")
 	public Response getFeatureById(@PathParam("collectionid") String collectionid,
-			@PathParam("featureid") String featureid, @DefaultValue("json") @QueryParam("f") String format) {
+			@PathParam("featureid") String featureid, 
+			@DefaultValue("json") @QueryParam("f") String format) {
 		System.out.println("Featureid");
 		if (collectionid == null) {
 			throw new NotFoundException();
@@ -271,7 +272,8 @@ public class WebService {
 				writer = new IndentingXMLStreamWriter(output.createXMLStreamWriter(strwriter));
 				writer.writeStartDocument();
 				writer.setDefaultNamespace("http://www.opengis.net/ogcapi-features-1/1.0");
-				writer.writeStartElement("LandingPage");
+				writer.setPrefix("atom", "http://www.w3.org/2005/Atom");
+				writer.writeStartElement("sf:Feature");
 				writer.writeAttribute("xmlns", "http://www.opengis.net/ogcapi-features-1/1.0");
 				writer.writeAttribute("xmlns:atom", "http://www.w3.org/2005/Atom");
 				writer.writeAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
