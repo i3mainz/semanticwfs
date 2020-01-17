@@ -46,13 +46,13 @@ public class WebService {
 			@DefaultValue("GetCapabilities") @QueryParam("request") String request,
 			@DefaultValue("2.0.0") @QueryParam("version") String version,
 			@DefaultValue("") @QueryParam("typeName") String typename,
-			@DefaultValue("geojson") @QueryParam("output") String output,
+			@DefaultValue("gml") @QueryParam("output") String output,
 			@DefaultValue("5") @QueryParam("count") String count) {
 			System.out.println("Request: "+request);
 			if (service.equalsIgnoreCase("WFS")) {
 				if ("getCapabilities".equalsIgnoreCase(request)) {
 					try {
-						return Response.ok(this.constructCapabilities(version,version.substring(0,version.lastIndexOf('.')))).type(MediaType.TEXT_PLAIN).build();
+						return this.constructCapabilities(version,version.substring(0,version.lastIndexOf('.')));
 					} catch (XMLStreamException e) {
 						e.printStackTrace();
 						return Response.ok("").type(MediaType.TEXT_PLAIN).build();
@@ -60,7 +60,7 @@ public class WebService {
 				}
 				if ("describeFeatureType".equalsIgnoreCase(request)) {
 					try {
-						return Response.ok(this.describeFeatureType(typename, version)).type(MediaType.TEXT_PLAIN).build();
+						return this.describeFeatureType(typename, version);
 					} catch (XMLStreamException e) {
 						e.printStackTrace();
 						return Response.ok("").type(MediaType.TEXT_PLAIN).build();
@@ -337,6 +337,10 @@ public class WebService {
 			builder.append(res);
 			builder.append("</ul></body></html>");
 			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
+		}else if (format == null || format.contains("geouri")) {
+			return Response.ok(res).type(MediaType.TEXT_PLAIN).build();
+		}else if (format == null || format.contains("csv")) {
+			return Response.ok(res).type(MediaType.TEXT_PLAIN).build();
 		} else {
 			return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 		}
@@ -712,7 +716,7 @@ public class WebService {
 
 	public String SERVERURL = "http://localhost:8080/RESTfulExample/rest/service?";
 
-	public String constructCapabilities(String version,String versionnamespace) throws XMLStreamException {
+	public Response constructCapabilities(String version,String versionnamespace) throws XMLStreamException {
 		String serviceType = "WFS";
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();
 		StringWriter strwriter = new StringWriter();
@@ -807,13 +811,13 @@ public class WebService {
 		// writer.writeEndElement();
 		writer.writeEndElement();
 		writer.writeEndDocument();
-		return strwriter.toString();
+		return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
 	}
 
 	@GET
 	@Produces(MediaType.TEXT_XML)
 	@Path("/wfs/getCapabilities")
-	public String getCapabilities(@DefaultValue("2.0.0") @QueryParam("version") String version) throws XMLStreamException {
+	public Response getCapabilities(@DefaultValue("2.0.0") @QueryParam("version") String version) throws XMLStreamException {
 		if(!version.equals("2.0.0") && !version.equals("1.1.0"))
 			version="2.0.0";
 		return constructCapabilities(version,version.substring(0,version.lastIndexOf('.')));
@@ -920,7 +924,9 @@ public class WebService {
 	@GET
 	@Produces(MediaType.TEXT_XML)
 	@Path("/wfs/describeFeatureType")
-	public String describeFeatureType(@QueryParam("typename") String typename,@DefaultValue("version") @QueryParam("version")String version) throws XMLStreamException {
+	public Response describeFeatureType(@QueryParam("typename") String typename,@DefaultValue("version") @QueryParam("version")String version) throws XMLStreamException {
+		if(typename==null)
+			throw new NotFoundException();
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();
 		StringWriter strwriter = new StringWriter();
 		XMLStreamWriter xmlwriter = factory.createXMLStreamWriter(strwriter);
@@ -935,11 +941,12 @@ public class WebService {
 				break;
 			}
 		}
-		if (workingobj != null)
-			this.describeFeatureType(writer, workingobj,version.substring(0,version.lastIndexOf('.')));
+		if (workingobj == null)
+			throw new NotFoundException();
+		this.describeFeatureType(writer, workingobj,version.substring(0,version.lastIndexOf('.')));
 		writer.writeEndElement();
 		writer.writeEndDocument();
-		return strwriter.toString();
+		return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
 	}
 
 	@GET
@@ -951,7 +958,7 @@ public class WebService {
 			@DefaultValue("2.0.0") @QueryParam("version") String version) throws JSONException, XMLStreamException {
 		System.out.println(typename);	
 		if (typename == null) {
-			return Response.ok("").type(MediaType.TEXT_PLAIN).build();
+			throw new NotFoundException();
 		}
 		JSONObject workingobj = null;
 		for (int i = 0; i < this.wfsconf.getJSONArray("datasets").length(); i++) {
@@ -961,6 +968,8 @@ public class WebService {
 				break;
 			}
 		}
+		if(workingobj==null)
+			throw new NotFoundException();
 		String res = "";
 		try {
 			res = TripleStoreConnector.executeQuery(workingobj.getString("query"), workingobj.getString("triplestore"),

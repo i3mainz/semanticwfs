@@ -6,7 +6,6 @@ import java.util.List;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.query.ResultSetFormatter;
-import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.sparql.expr.NodeValue;
 
 import de.hsmainz.cs.semgis.wfs.converters.AsGeoURI;
