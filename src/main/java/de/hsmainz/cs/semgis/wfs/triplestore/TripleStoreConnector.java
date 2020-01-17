@@ -6,7 +6,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 
 import javax.xml.stream.XMLStreamException;
@@ -24,7 +23,7 @@ import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
 
 public abstract class TripleStoreConnector {
 
-	protected static String prefixCollection="";
+	public static String prefixCollection="";
 	
 	static {
 		try {
@@ -66,19 +65,25 @@ public abstract class TripleStoreConnector {
 	}
 
 	
-	public static String executeQuery(String queryString,String queryurl,String output,String count) throws XMLStreamException {
+	public static String executeQuery(String queryString,String queryurl,String output,String count,String offset,String startingElement) throws XMLStreamException {
 		System.out.println(prefixCollection+queryString+" LIMIT "+count);
 		Query query = QueryFactory.create(prefixCollection+queryString);
-		QueryExecution qexec = QueryExecutionFactory.sparqlService(queryurl, query+" LIMIT "+count);
+		Integer limit=Integer.valueOf(count);
+		QueryExecution qexec;
+		if(limit<1) {
+			qexec = QueryExecutionFactory.sparqlService(queryurl, query);
+		}else {
+			qexec = QueryExecutionFactory.sparqlService(queryurl, query+" LIMIT "+count);
+		}
 		ResultFormatter resformat=ResultFormatter.resultMap.get(output);
 		ResultSet results = qexec.execSelect();
-		String res=resformat.formatter(results);
+		String res=resformat.formatter(results,Integer.valueOf(offset),startingElement);
 		qexec.close();
 		return res;
 	}
 
 
-	public static String executeQuery(String queryString,String queryurl,String output) throws XMLStreamException {
+	public static String executeQuery(String queryString,String queryurl,String output,String startingElement) throws XMLStreamException {
 		System.out.println(prefixCollection+queryString);
 		Query query = QueryFactory.create(prefixCollection+queryString);
 		QueryExecution qexec = QueryExecutionFactory.sparqlService(queryurl, query);
@@ -86,7 +91,7 @@ public abstract class TripleStoreConnector {
 		System.out.println(ResultFormatter.resultMap);
 		System.out.println(resformat);
 		ResultSet results = qexec.execSelect();
-		String res=resformat.formatter(results);
+		String res=resformat.formatter(results,0,"");
 		qexec.close();
 		return res;
 	}

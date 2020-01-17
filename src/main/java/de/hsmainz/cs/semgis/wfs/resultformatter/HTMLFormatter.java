@@ -9,8 +9,8 @@ import org.json.JSONObject;
 public class HTMLFormatter extends ResultFormatter {
 
 	@Override
-	public String formatter(ResultSet results) throws XMLStreamException {
-		JSONObject geojson=new JSONObject(resultMap.get("geojson").formatter(results));
+	public String formatter(ResultSet results,Integer offset,String startingElement) throws XMLStreamException {
+		JSONObject geojson=new JSONObject(resultMap.get("geojson").formatter(results,offset,startingElement));
 		System.out.println(geojson);
 		StringBuilder builder=new StringBuilder();
 		builder.append("<script>var overlayMaps={}; var overlayControl; var markercollection=[];var geojson="+geojson.toString()+"</script>");
@@ -21,7 +21,7 @@ public class HTMLFormatter extends ResultFormatter {
 				"	imperial: false\r\n" + 
 				"}).addTo(map);" + 
 				"var layercontrol=L.control.layers(baseMaps,overlayMaps).addTo(map);");
-		builder.append("var geojsonlayer=L.geoJSON(geojson, {coordsToLatLng: function (coords) {return new L.LatLng(coords[0], coords[1], coords[2]);},"+
+		builder.append("var geojsonlayer=L.geoJSON(geojson, {coordsToLatLng: function (coords) {return new L.LatLng(coords[1], coords[0], coords[2]);},"+
 				"		onEachFeature: function (feature, layer) {\r\n" + 
 				"	 var popup=\"Official Data<br/><ul>\"\r\n" + 
 				"	 for(prop in feature.properties){\r\n" + 

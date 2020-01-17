@@ -41,33 +41,41 @@ public class WebService {
 
 	@GET
 	@Produces(MediaType.TEXT_XML)
-	@Path("/service")
-	public String entryPoint(@QueryParam("SERVICE") String service, @QueryParam("REQUEST") String request,
-			@QueryParam("VERSION") String version) {
-		if (service.equalsIgnoreCase("WFS")) {
-			if ("getCapabilities".equalsIgnoreCase(request)) {
-				try {
-					return this.constructCapabilities();
-				} catch (XMLStreamException e) {
-					return "";
+	@Path("/wfs")
+	public Response entryPoint( @DefaultValue("WFS") @QueryParam("service") String service,
+			@DefaultValue("GetCapabilities") @QueryParam("request") String request,
+			@DefaultValue("2.0.0") @QueryParam("version") String version,
+			@DefaultValue("") @QueryParam("typeName") String typename,
+			@DefaultValue("geojson") @QueryParam("output") String output,
+			@DefaultValue("5") @QueryParam("count") String count) {
+			System.out.println("Request: "+request);
+			if (service.equalsIgnoreCase("WFS")) {
+				if ("getCapabilities".equalsIgnoreCase(request)) {
+					try {
+						return Response.ok(this.constructCapabilities(version,version.substring(0,version.lastIndexOf('.')))).type(MediaType.TEXT_PLAIN).build();
+					} catch (XMLStreamException e) {
+						e.printStackTrace();
+						return Response.ok("").type(MediaType.TEXT_PLAIN).build();
+					}
+				}
+				if ("describeFeatureType".equalsIgnoreCase(request)) {
+					try {
+						return Response.ok(this.describeFeatureType(typename, version)).type(MediaType.TEXT_PLAIN).build();
+					} catch (XMLStreamException e) {
+						e.printStackTrace();
+						return Response.ok("").type(MediaType.TEXT_PLAIN).build();
+					}
+				}
+				if ("getFeature".equalsIgnoreCase(request)) {
+					try {
+						return this.getFeature(typename, output, count,version);
+					} catch (XMLStreamException e) {
+						e.printStackTrace();
+						return Response.ok("").type(MediaType.TEXT_PLAIN).build();
+					}
 				}
 			}
-			if ("describeFeatureType".equalsIgnoreCase(request)) {
-				try {
-					return this.constructCapabilities();
-				} catch (XMLStreamException e) {
-					return "";
-				}
-			}
-			if ("getFeature".equalsIgnoreCase(request)) {
-				try {
-					return this.constructCapabilities();
-				} catch (XMLStreamException e) {
-					return "";
-				}
-			}
-		}
-		return "";
+			return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 	}
 
 	@GET
@@ -200,7 +208,9 @@ public class WebService {
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections/{collectionid}/items/{featureid}")
 	public Response getFeatureById(@PathParam("collectionid") String collectionid,
-			@PathParam("featureid") String featureid, @DefaultValue("json") @QueryParam("f") String format) {
+			@PathParam("featureid") String featureid, 
+			@DefaultValue("json") @QueryParam("f") String format) {
+		System.out.println("Featureid");
 		if (collectionid == null) {
 			throw new NotFoundException();
 		}
@@ -215,10 +225,14 @@ public class WebService {
 		if (workingobj == null) {
 			throw new NotFoundException();
 		}
+		String query=workingobj.getString("query");
+		query=query.replace("WHERE{","WHERE{ BIND( <"+workingobj.getString("namespace")+featureid+"> AS ?"+workingobj.getString("indvar")+") ");
+		System.out.println("?"+workingobj.getString("indvar")+" - "+"<"+workingobj.getString("namespace")+featureid+">");
+		System.out.println(query);
 		String res = "";
 		try {
-			res = TripleStoreConnector.executeQuery(workingobj.getString("query"), workingobj.getString("triplestore"),
-					format, "1");
+			res = TripleStoreConnector.executeQuery(query, workingobj.getString("triplestore"),
+					format, "1","0","sf:featureMember");
 			System.out.println(res);
 		} catch (JSONException | XMLStreamException e1) {
 			// TODO Auto-generated catch block
@@ -226,7 +240,6 @@ public class WebService {
 		}
 		if (format != null && format.contains("json")) {
 			JSONObject result = new JSONObject();
-			result.put("type", "Feature");
 			JSONArray links = new JSONArray();
 			result.put("links", links);
 			JSONObject link = new JSONObject();
@@ -249,9 +262,15 @@ public class WebService {
 			link.put("type", "application/json");
 			link.put("title", featureid);
 			links.put(link);
-			result.put("id", 0);
-			result.put("geometry", new JSONObject());
-			result.put("properties", new JSONObject());
+			result.put("id", featureid);
+			JSONObject features = new JSONObject(res).getJSONArray("features").getJSONObject(0);
+			result.put("type", "Feature");
+			result.put("links", links);
+			result.put("timeStamp", System.currentTimeMillis());
+			result.put("numberMatched", features.length());
+			result.put("numberReturned", features.length());
+			result.put("geometry", features.getJSONObject("geometry"));
+			result.put("properties", features.getJSONObject("properties"));
 			return Response.ok(result.toString(2)).type(MediaType.APPLICATION_JSON).build();
 		} else if (format!=null && format.contains("gml")) {
 			StringWriter strwriter = new StringWriter();
@@ -261,10 +280,13 @@ public class WebService {
 				writer = new IndentingXMLStreamWriter(output.createXMLStreamWriter(strwriter));
 				writer.writeStartDocument();
 				writer.setDefaultNamespace("http://www.opengis.net/ogcapi-features-1/1.0");
-				writer.writeStartElement("LandingPage");
+				writer.setPrefix("atom", "http://www.w3.org/2005/Atom");
+				writer.writeStartElement("sf:Feature");
 				writer.writeAttribute("xmlns", "http://www.opengis.net/ogcapi-features-1/1.0");
 				writer.writeAttribute("xmlns:atom", "http://www.w3.org/2005/Atom");
 				writer.writeAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+				writer.writeAttribute("xmlns:sf", "http://www.opengis.net/ogcapi-features-1/1.0/sf");
+				writer.writeAttribute("xmlns:gml", "http://www.opengis.net/gml/3.2");
 				writer.writeAttribute("service", "OGCAPI-FEATURES");
 				writer.writeAttribute("version", "1.0.0");
 				writer.writeStartElement("Title");
@@ -296,6 +318,7 @@ public class WebService {
 				writer.writeAttribute("href", this.wfsconf.getString("baseurl") + "/collections/"
 						+ workingobj.getString("name") + "/items/+" + featureid + "?f=text/html");
 				writer.writeEndElement();
+				strwriter.append(res);
 				writer.writeEndElement();
 				writer.writeEndDocument();
 				writer.flush();
@@ -306,8 +329,8 @@ public class WebService {
 			}
 		} else if (format == null || format.contains("html")) {
 			StringBuilder builder = new StringBuilder();
-			builder.append("<html><head></head><body>");
-			builder.append("<h1>");
+			builder.append("<html><head><link rel=\"stylesheet\" href=\"https://unpkg.com/leaflet@1.5.1/dist/leaflet.css\"/><link rel=\"stylesheet\" href=\"https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css\"/><script src=\"https://unpkg.com/leaflet@1.5.1/dist/leaflet.js\"></script><script src=\"https://code.jquery.com/jquery-3.4.1.min.js\"></script><script src=\"https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js\"></script></head><body>");
+			builder.append("<h1 align=\"center\">");
 			builder.append(featureid);
 			builder.append("</h1>");
 			builder.append("<ul>");
@@ -482,6 +505,7 @@ public class WebService {
 	@Path("/collections/{collectionid}/items")
 	public Response collectionItems(@PathParam("collectionid") String collectionid,
 			@DefaultValue("json") @QueryParam("f") String format, @DefaultValue("-1") @QueryParam("limit") String limit,
+			@DefaultValue("0") @QueryParam("offset") String offset,
 			@QueryParam("bbox") String bbox, @QueryParam("datetime") String datetime) {
 		if (collectionid == null) {
 			throw new NotFoundException();
@@ -500,12 +524,12 @@ public class WebService {
 		System.out.println(limit);
 		try {
 			String res;
-			if(limit.equals("-1")) {
+			if(limit.equals("-1") && offset.equals("0")) {
 				res = TripleStoreConnector.executeQuery(workingobj.getString("query"),
-						workingobj.getString("triplestore"), format);
+						workingobj.getString("triplestore"), format,"sf:featureMember");
 			}else {
 				res = TripleStoreConnector.executeQuery(workingobj.getString("query"),
-						workingobj.getString("triplestore"), format,limit);
+						workingobj.getString("triplestore"), format,limit,offset,"sf:featureMember");
 			}
 			System.out.println(res);
 			if (format != null && format.contains("json")) {
@@ -566,7 +590,7 @@ public class WebService {
 					writer.writeAttribute("rel", "self");
 					writer.writeAttribute("title", workingobj.getString("name"));
 					writer.writeAttribute("type", "application/geo+json");
-					writer.writeAttribute("href", this.wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name") + "/items?f=json");
+					writer.writeAttribute("href", this.wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name") + "/items/?f=json");
 					writer.writeEndElement();
 					writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
 					writer.writeAttribute("rel", "alternate");
@@ -679,7 +703,7 @@ public class WebService {
 
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
-	@Path("/service/hello")
+	@Path("/wfs/hello")
 	public String helloWorld() {
 		return "HelloWorld";
 	}
@@ -688,7 +712,7 @@ public class WebService {
 
 	public String SERVERURL = "http://localhost:8080/RESTfulExample/rest/service?";
 
-	public String constructCapabilities() throws XMLStreamException {
+	public String constructCapabilities(String version,String versionnamespace) throws XMLStreamException {
 		String serviceType = "WFS";
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();
 		StringWriter strwriter = new StringWriter();
@@ -696,12 +720,13 @@ public class WebService {
 		IndentingXMLStreamWriter writer = new IndentingXMLStreamWriter(xmlwriter);
 		writer.writeStartDocument();
 		writer.writeStartElement("WFS_Capabilities");
-		writer.writeDefaultNamespace("http://www.opengis.net/wfs/2.0");
-		writer.writeAttribute("version", "2.0.0");
-		writer.writeNamespace("wfs", "http://www.opengis.net/wfs/2.0");
+		writer.writeDefaultNamespace("http://www.opengis.net/wfs/"+versionnamespace);
+		writer.writeAttribute("version", version);
+		writer.writeNamespace("wfs", "http://www.opengis.net/wfs/"+versionnamespace);
 		writer.writeNamespace("ows", "http://www.opengis.net/ows/1.1");
+		writer.writeNamespace("sf", "http://www.opengis.net/ogcapi-features-1/1.0/sf");
 		writer.writeNamespace("ogc", "http://www.opengis.net/ogc");
-		writer.writeNamespace("fes", "http://www.opengis.net/fes/2.0");
+		writer.writeNamespace("fes", "http://www.opengis.net/fes/"+versionnamespace);
 		writer.writeNamespace("gml", "http://www.opengis.net/gml");
 		writer.writeNamespace("xlink", "http://www.w3.org/1999/xlink");
 		// ServiceInformation
@@ -711,7 +736,7 @@ public class WebService {
 		writer.writeCharacters(serviceType);
 		writer.writeEndElement();
 		writer.writeStartElement("http://www.opengis.net/ows/1.1", "ServiceTypeVersion");
-		writer.writeCharacters(SERVICETYPEVERSION);
+		writer.writeCharacters(version);
 		writer.writeEndElement();
 		writer.writeStartElement("http://www.opengis.net/ows/1.1", "Title");
 		writer.writeCharacters(wfsconf.has("title") ? wfsconf.getString("title") : "");
@@ -743,7 +768,7 @@ public class WebService {
 		writer.writeAttribute("name", "AcceptVersions");
 		writer.writeStartElement("http://www.opengis.net/ows/1.1", "AllowedValues");
 		writer.writeStartElement("http://www.opengis.net/ows/1.1", "Value");
-		writer.writeCharacters("2.0.0");
+		writer.writeCharacters(version);
 		writer.writeEndElement();
 		writer.writeEndElement();
 		writer.writeEndElement();
@@ -762,19 +787,19 @@ public class WebService {
 		writer.writeAttribute("name", "AcceptVersions");
 		writer.writeStartElement("http://www.opengis.net/ows/1.1", "AllowedValues");
 		writer.writeStartElement("http://www.opengis.net/ows/1.1", "Value");
-		writer.writeCharacters("2.0.0");
+		writer.writeCharacters(version);
 		writer.writeEndElement();
 		writer.writeEndElement();
 		writer.writeEndElement();
 		writer.writeEndElement();
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/wfs/2.0", "FeatureTypeList");
+		writer.writeStartElement("http://www.opengis.net/wfs/"+versionnamespace, "FeatureTypeList");
 		for (int i = 0; i < this.wfsconf.getJSONArray("datasets").length(); i++) {
-			describeFeatureType(writer, this.wfsconf.getJSONArray("datasets").getJSONObject(i));
+			describeFeatureType(writer, this.wfsconf.getJSONArray("datasets").getJSONObject(i),versionnamespace);
 		}
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/fes/2.0", "Filter_Capabilities");
-		describeSpatialCapabilities(writer);
+		writer.writeStartElement("http://www.opengis.net/fes/"+versionnamespace, "Filter_Capabilities");
+		describeSpatialCapabilities(writer,versionnamespace);
 		writer.writeEndElement();
 		writer.writeEndElement();
 		// writer.writeEndElement();
@@ -787,24 +812,26 @@ public class WebService {
 
 	@GET
 	@Produces(MediaType.TEXT_XML)
-	@Path("/service/getCapabilities")
-	public String getCapabilities() throws XMLStreamException {
-		return constructCapabilities();
+	@Path("/wfs/getCapabilities")
+	public String getCapabilities(@DefaultValue("2.0.0") @QueryParam("version") String version) throws XMLStreamException {
+		if(!version.equals("2.0.0") && !version.equals("1.1.0"))
+			version="2.0.0";
+		return constructCapabilities(version,version.substring(0,version.lastIndexOf('.')));
 	}
 
-	public void describeFeatureType(XMLStreamWriter writer, JSONObject featuretype) throws XMLStreamException {
-		writer.writeStartElement("http://www.opengis.net/wfs/2.0", "FeatureType");
-		writer.writeStartElement("http://www.opengis.net/wfs/2.0", "Name");
+	public void describeFeatureType(XMLStreamWriter writer, JSONObject featuretype,String versionnamespace) throws XMLStreamException {
+		writer.writeStartElement("http://www.opengis.net/wfs/"+versionnamespace, "FeatureType");
+		writer.writeStartElement("http://www.opengis.net/wfs/"+versionnamespace, "Name");
 		writer.writeCharacters(featuretype.getString("name"));
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/wfs/2.0", "Title");
+		writer.writeStartElement("http://www.opengis.net/wfs/"+versionnamespace, "Title");
 		writer.writeCharacters(featuretype.getString("name"));
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/wfs/2.0", "DefaultCRS");
+		writer.writeStartElement("http://www.opengis.net/wfs/"+versionnamespace, "DefaultCRS");
 		writer.writeCharacters("urn:ogc:def:crs:EPSG::4326");
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/wfs/2.0", "OutputFormats");
-		writer.writeStartElement("http://www.opengis.net/wfs/2.0", "Format");
+		writer.writeStartElement("http://www.opengis.net/wfs/"+versionnamespace, "OutputFormats");
+		writer.writeStartElement("http://www.opengis.net/wfs/"+versionnamespace, "Format");
 		writer.writeCharacters("application/vnd.geo+json");
 		writer.writeEndElement();
 		writer.writeEndElement();
@@ -834,57 +861,57 @@ public class WebService {
 		// writer.writeAttribute(localName, value);
 	}
 
-	public void describeSpatialCapabilities(XMLStreamWriter writer) throws XMLStreamException {
-		writer.writeStartElement("http://www.opengis.net/fes/2.0", "SpatialCapabilities");
-		writer.writeStartElement("http://www.opengis.net/fes/2.0", "GeometryOperands");
-		writer.writeStartElement("http://www.opengis.net/fes/2.0", "GeometryOperand");
+	public void describeSpatialCapabilities(XMLStreamWriter writer,String versionnamespace) throws XMLStreamException {
+		writer.writeStartElement("http://www.opengis.net/fes/"+versionnamespace, "SpatialCapabilities");
+		writer.writeStartElement("http://www.opengis.net/fes/"+versionnamespace, "GeometryOperands");
+		writer.writeStartElement("http://www.opengis.net/fes/"+versionnamespace, "GeometryOperand");
 		writer.writeAttribute("name", "gml:Box");
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/fes/2.0", "GeometryOperand");
+		writer.writeStartElement("http://www.opengis.net/fes/"+versionnamespace, "GeometryOperand");
 		writer.writeAttribute("name", "gml:Envelope");
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/fes/2.0", "GeometryOperand");
+		writer.writeStartElement("http://www.opengis.net/fes/"+versionnamespace, "GeometryOperand");
 		writer.writeAttribute("name", "gml:Point");
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/fes/2.0", "GeometryOperand");
+		writer.writeStartElement("http://www.opengis.net/fes/"+versionnamespace, "GeometryOperand");
 		writer.writeAttribute("name", "gml:LineString");
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/fes/2.0", "GeometryOperand");
+		writer.writeStartElement("http://www.opengis.net/fes/"+versionnamespace, "GeometryOperand");
 		writer.writeAttribute("name", "gml:Curve");
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/fes/2.0", "GeometryOperand");
+		writer.writeStartElement("http://www.opengis.net/fes/"+versionnamespace, "GeometryOperand");
 		writer.writeAttribute("name", "gml:Polygon");
 		writer.writeEndElement();
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/fes/2.0", "SpatialOperators");
-		writer.writeStartElement("http://www.opengis.net/fes/2.0", "SpatialOperator");
+		writer.writeStartElement("http://www.opengis.net/fes/"+versionnamespace, "SpatialOperators");
+		writer.writeStartElement("http://www.opengis.net/fes/"+versionnamespace, "SpatialOperator");
 		writer.writeAttribute("name", "BBOX");
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/fes/2.0", "SpatialOperator");
+		writer.writeStartElement("http://www.opengis.net/fes/"+versionnamespace, "SpatialOperator");
 		writer.writeAttribute("name", "Intersects");
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/fes/2.0", "SpatialOperator");
+		writer.writeStartElement("http://www.opengis.net/fes/"+versionnamespace, "SpatialOperator");
 		writer.writeAttribute("name", "Contains");
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/fes/2.0", "SpatialOperator");
+		writer.writeStartElement("http://www.opengis.net/fes/"+versionnamespace, "SpatialOperator");
 		writer.writeAttribute("name", "Crosses");
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/fes/2.0", "SpatialOperator");
+		writer.writeStartElement("http://www.opengis.net/fes/"+versionnamespace, "SpatialOperator");
 		writer.writeAttribute("name", "Touches");
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/fes/2.0", "SpatialOperator");
+		writer.writeStartElement("http://www.opengis.net/fes/"+versionnamespace, "SpatialOperator");
 		writer.writeAttribute("name", "Within");
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/fes/2.0", "SpatialOperator");
+		writer.writeStartElement("http://www.opengis.net/fes/"+versionnamespace, "SpatialOperator");
 		writer.writeAttribute("name", "Overlaps");
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/fes/2.0", "SpatialOperator");
+		writer.writeStartElement("http://www.opengis.net/fes/"+versionnamespace, "SpatialOperator");
 		writer.writeAttribute("name", "Disjoint");
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/fes/2.0", "SpatialOperator");
+		writer.writeStartElement("http://www.opengis.net/fes/"+versionnamespace, "SpatialOperator");
 		writer.writeAttribute("name", "Equals");
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/fes/2.0", "SpatialOperator");
+		writer.writeStartElement("http://www.opengis.net/fes/"+versionnamespace, "SpatialOperator");
 		writer.writeAttribute("name", "DWithin");
 		writer.writeEndElement();
 		writer.writeEndElement();
@@ -892,9 +919,8 @@ public class WebService {
 
 	@GET
 	@Produces(MediaType.TEXT_XML)
-	@Path("/service/describeFeatureType")
-	public String describeFeatureType(@QueryParam("typename") String typename) throws XMLStreamException {
-		String serviceType = "WFS";
+	@Path("/wfs/describeFeatureType")
+	public String describeFeatureType(@QueryParam("typename") String typename,@DefaultValue("version") @QueryParam("version")String version) throws XMLStreamException {
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();
 		StringWriter strwriter = new StringWriter();
 		XMLStreamWriter xmlwriter = factory.createXMLStreamWriter(strwriter);
@@ -910,7 +936,7 @@ public class WebService {
 			}
 		}
 		if (workingobj != null)
-			this.describeFeatureType(writer, workingobj);
+			this.describeFeatureType(writer, workingobj,version.substring(0,version.lastIndexOf('.')));
 		writer.writeEndElement();
 		writer.writeEndDocument();
 		return strwriter.toString();
@@ -918,9 +944,15 @@ public class WebService {
 
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
-	@Path("/service/getFeature")
-	public String getFeature(@QueryParam("typename") String typename, @QueryParam("outputFormat") String output,
-			@QueryParam("count") String count) throws JSONException, XMLStreamException {
+	@Path("/wfs/getFeature")
+	public Response getFeature(@QueryParam("typename") String typename, 
+			@DefaultValue("json") @QueryParam("outputFormat") String output,
+			@DefaultValue("5") @QueryParam("count") String count,
+			@DefaultValue("2.0.0") @QueryParam("version") String version) throws JSONException, XMLStreamException {
+		System.out.println(typename);	
+		if (typename == null) {
+			return Response.ok("").type(MediaType.TEXT_PLAIN).build();
+		}
 		JSONObject workingobj = null;
 		for (int i = 0; i < this.wfsconf.getJSONArray("datasets").length(); i++) {
 			JSONObject curobj = this.wfsconf.getJSONArray("datasets").getJSONObject(i);
@@ -929,15 +961,122 @@ public class WebService {
 				break;
 			}
 		}
-		return TripleStoreConnector.executeQuery(workingobj.getString("query"), workingobj.getString("triplestore"),
-				output, count);
+		String res = "";
+		try {
+			res = TripleStoreConnector.executeQuery(workingobj.getString("query"), workingobj.getString("triplestore"),
+					output, "1","0","sf:featureMember");
+			System.out.println(res);
+		} catch (JSONException | XMLStreamException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		System.out.println(output);
+		if(output.contains("gml")) {
+			StringWriter strwriter = new StringWriter();
+			XMLOutputFactory outputf = XMLOutputFactory.newInstance();
+			XMLStreamWriter writer;
+			try {
+				writer = new IndentingXMLStreamWriter(outputf.createXMLStreamWriter(strwriter));
+				writer.writeStartDocument();
+				writer.writeStartElement("wfs:FeatureCollection");
+				writer.writeNamespace("ows", "http://www.opengis.net/ows/1.1");
+				writer.writeNamespace("sf", "http://www.opengis.net/ogcapi-features-1/1.0/sf");
+				writer.writeNamespace("ogc", "http://www.opengis.net/ogc");
+				writer.writeNamespace("gml", "http://www.opengis.net/gml");
+				writer.writeNamespace("wfs","http://www.opengis.net/wfs");
+				writer.writeNamespace("xlink", "http://www.w3.org/1999/xlink");
+				writer.setPrefix("gml", "http://www.opengis.net/gml");
+				writer.setPrefix("wfs", "http://www.opengis.net/wfs");
+				writer.writeCharacters("");
+				writer.flush();
+				strwriter.write(res);
+				writer.writeEndElement();
+				writer.writeEndDocument();
+				writer.flush();
+				return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
+			}catch(Exception e) {
+				e.printStackTrace();
+				return Response.ok("").type(MediaType.TEXT_PLAIN).build();
+			}
+		}else if(output.contains("json")) {
+			JSONObject result = new JSONObject();
+			JSONArray links = new JSONArray();
+			JSONArray features = new JSONObject(res).getJSONArray("features");
+			result.put("type", "FeatureCollection");
+			result.put("links", links);
+			result.put("timeStamp", System.currentTimeMillis());
+			result.put("numberMatched", features.length());
+			result.put("numberReturned", features.length());
+			result.put("features", features);
+			System.out.println("EXPORT JSON: "+result.toString());
+			return Response.ok(result.toString(2)).type(MediaType.APPLICATION_JSON).build();
+		}else if(output.contains("html")) {
+			StringBuilder builder = new StringBuilder();
+			builder.append("<html><head><link rel=\"stylesheet\" href=\"https://unpkg.com/leaflet@1.5.1/dist/leaflet.css\"/><link rel=\"stylesheet\" href=\"https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css\"/><script src=\"https://unpkg.com/leaflet@1.5.1/dist/leaflet.js\"></script><script src=\"https://code.jquery.com/jquery-3.4.1.min.js\"></script><script src=\"https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js\"></script></head><body>");
+			builder.append("<h1 align=\"center\">");
+			builder.append(typename);
+			builder.append("</h1>");
+			builder.append(res);
+			builder.append("<script>$( document ).ready(function() {$('#queryres').DataTable();});</script></body></html>");
+			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
+		} else if(output.contains("csv") || output.contains("geouri") || output.contains("geohash")) {
+			return Response.ok(res).type(MediaType.TEXT_PLAIN).build();
+		}else if(output.contains("gpx")) {
+			return Response.ok(res).type(MediaType.TEXT_PLAIN).build();
+		}
+		return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 	}
 
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
-	@Path("/service/getGmlObject")
+	@Path("/wfs/getGmlObject")
 	public String getGmlObject() {
 		return null;
+	}
+	
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
+	@Path("/service/addFeatureType")
+	public String getGmlObject(@QueryParam("query") String sparqlQuery, 
+			@QueryParam("typename")String name, 
+			@QueryParam("namespace") String namespace,
+			@QueryParam("triplestore") String triplestore,
+			@QueryParam("username") String username,
+			@QueryParam("password") String password) {
+		return null;
+	}
+	
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
+	@Path("/service/saveFeatureTypes")
+	public String getGmlObject(@QueryParam("featjson") String featureTypesJSON, 
+			@QueryParam("username") String username,
+			@QueryParam("password") String password) {
+		return null;
+	}
+	
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
+	@Path("/service/featureTypes")
+	public String getFeatureTypes() {
+		return wfsconf.toString(2);
+	}
+	
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
+	@Path("/service/prefixes")
+	public String prefixes() {
+		return TripleStoreConnector.prefixCollection;
+	}
+	
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
+	@Path("/service/addPrefixes")
+	public String addPrefixes(@QueryParam("query") String sparqlQuery, 
+			@QueryParam("typename")String name, 
+			@QueryParam("namespace") String namespace, 
+			@QueryParam("triplestore") String triplestore) {	
+		return wfsconf.toString(2);
 	}
 
 	public String transaction() {

@@ -16,7 +16,7 @@ import org.json.JSONObject;
 public class JSONLDFormatter extends WFSResultFormatter {
 
 	@Override
-	public String formatter(ResultSet results) throws XMLStreamException {
+	public String formatter(ResultSet results,Integer offset,String startingElement) throws XMLStreamException {
 		List<QuerySolution> test=ResultSetFormatter.toList(results);
 		JSONObject result=new JSONObject();
 	    JSONArray obj=new JSONArray();

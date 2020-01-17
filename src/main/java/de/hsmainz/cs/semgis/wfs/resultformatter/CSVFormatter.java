@@ -1,23 +1,20 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter;
 
 import java.util.Iterator;
-import java.util.List;
 
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
-import org.apache.jena.query.ResultSetFormatter;
 import org.apache.jena.rdf.model.Literal;
 
 public class CSVFormatter extends WFSResultFormatter {
 
 	@Override
-	public String formatter(ResultSet results) {
-		List<QuerySolution> test=ResultSetFormatter.toList(results);
-		System.out.println("QuerySolutions: "+test.size());
+	public String formatter(ResultSet results,Integer offset,String startingElement) {
     	Boolean first=true;
     	StringBuilder resultCSV=new StringBuilder();
     	StringBuilder resultCSVHeader=new StringBuilder();
-	    for(QuerySolution solu:test) {
+	    while(results.hasNext()) {
+	    	QuerySolution solu=results.next();
 	    	Iterator<String> varnames = solu.varNames();
 	    	while(varnames.hasNext()) {
 	    		String name=varnames.next();
@@ -40,6 +37,7 @@ public class CSVFormatter extends WFSResultFormatter {
 	    			}  			
 	    		}
 	    	}
+	    	//resultCSV.delete(resultCSV.length()-1,resultCSV.length());
 	    	if(first) {
 	    		resultCSVHeader.delete(resultCSVHeader.length()-1, resultCSVHeader.length());
 		    	resultCSVHeader.append(System.lineSeparator());

@@ -13,14 +13,14 @@ import org.apache.jena.query.ResultSet;
 public class GMLFormatter extends WFSResultFormatter {
 
 	@Override
-	public String formatter(ResultSet results) throws XMLStreamException {
+	public String formatter(ResultSet results,Integer offset,String startingElement) throws XMLStreamException {
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();
 		StringWriter strwriter=new StringWriter();
 		XMLStreamWriter writer=factory.createXMLStreamWriter(strwriter);
 		//writer.writeStartDocument();
-		writer.writeStartElement("sf:featureMember");
 	    while(results.hasNext()) {
 	    	QuerySolution solu=results.next();
+			writer.writeStartElement(startingElement);
 			writer.writeStartElement("classname");
 			Iterator<String> iter=solu.varNames();
 			while(iter.hasNext()) {
@@ -41,9 +41,9 @@ public class GMLFormatter extends WFSResultFormatter {
 					writer.writeEndElement();
 				}
 			}
-			writer.writeEndElement();    	
+			writer.writeEndElement();    
+			writer.writeEndElement();
 	    }
-		writer.writeEndElement();
 		//writer.writeEndDocument();
 		writer.flush();	
 		return strwriter.toString();

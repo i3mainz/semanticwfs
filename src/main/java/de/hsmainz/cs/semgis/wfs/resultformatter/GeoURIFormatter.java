@@ -14,7 +14,7 @@ import de.hsmainz.cs.semgis.wfs.converters.AsGeoURI;
 public class GeoURIFormatter extends WFSResultFormatter {
 
 	@Override
-	public String formatter(ResultSet results) {
+	public String formatter(ResultSet results,Integer offset,String startingElement) {
 		List<QuerySolution> test=ResultSetFormatter.toList(results);
     	Boolean first=true;
     	StringBuilder resultCSV=new StringBuilder();
@@ -35,14 +35,15 @@ public class GeoURIFormatter extends WFSResultFormatter {
 	    			}catch(Exception e) {
 	    				e.printStackTrace();
 	    			}
-	    		}else {
+	    		}/*else {
+	    			
 	    			try {
 	    				Literal lit=solu.getLiteral(name);
 	    				resultCSV.append(lit.getString()+",");
 	    			}catch(Exception e) {
 	    				resultCSV.append(solu.get(name)+",");	
 	    			}  			
-	    		}
+	    		}*/
 
 	    	}
 	    	if(first) {
@@ -54,7 +55,7 @@ public class GeoURIFormatter extends WFSResultFormatter {
 		    	resultCSV.append(System.lineSeparator());
 	    	}   	
 	    }
-	    return resultCSVHeader.toString()+resultCSV;
+	    return resultCSV.toString();
 	}
 
 }

@@ -1,6 +1,7 @@
 {"baseurl":"http://www.i3mainz.de/projekte/bkg/semanticwfs","servicetitle":"BKG WFS Service","servicedescription":"Testwebservice with a Triple Store backend","datasets":[
 {"query":"SELECT ?city_indLabel ?coord_geom WHERE{ ?city_ind wdt:P31 wd:Q515 . ?city_ind wdt:P625 ?coord_geom . SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". } }","formats":["csv","geojson"],"triplestore":"https://query.wikidata.org/sparql","type":"WFS", "name":"MyFirstFeatureType"},
-{"query":"SELECT ?namedplace ?wkt_geom WHERE{ ?namedplace rdf:type gn:NamedPlace . ?namedplace geo:hasGeometry ?coord_geom . ?coord_geom geo:asWKT ?wkt_geom . }","formats":["csv","geojson"],"triplestore":"https://www.i3mainz.de/projekte/bkg/integrationtest/sparql","type":"WFS", "name":"NamedPlace"},
+{"namespace":"http://inspire.ec.europa.eu/schemas/gn/4.0#","query":"SELECT ?namedplace ?rel ?val ?wkt_geom WHERE{ ?namedplace rdf:type gn:NamedPlace . ?namedplace ?rel ?val . ?namedplace geo:hasGeometry ?coord_geom . ?coord_geom geo:asWKT ?wkt_geom . }","formats":["csv","geojson"],
+"triplestore":"https://www.i3mainz.de/projekte/bkg/integrationtest/sparql","indvar":"namedplace","type":"WFS", "name":"NamedPlace"},
 {"query":"SELECT * WHERE{ ?a ?b ?c }","formats":[""],"triplestore":"http://www.wikidata.org","type":"WCS", "name":"MySecondFeatureType"}
 ]
 }
