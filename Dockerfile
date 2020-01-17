@@ -1,4 +1,4 @@
-FROM tomcat:latest
+FROM tomcat:9
 
 RUN apt-get update
 
