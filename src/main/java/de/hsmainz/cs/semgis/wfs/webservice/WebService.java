@@ -726,13 +726,109 @@ public class WebService {
 
 	public String SERVERURL = "http://localhost:8080/WFSGeoSPARQL/rest/wfs?";
 
+	public Response constructCapabilitiesWFS10(String version,String versionnamespace) throws XMLStreamException {
+		XMLOutputFactory factory = XMLOutputFactory.newInstance();
+		StringWriter strwriter = new StringWriter();
+		XMLStreamWriter xmlwriter = factory.createXMLStreamWriter(strwriter);
+		IndentingXMLStreamWriter writer = new IndentingXMLStreamWriter(xmlwriter);
+		writer.writeStartDocument();
+		writer.writeStartElement("WFS_Capabilities");
+		writer.setPrefix("wfs", "http://www.opengis.net/wfs");
+		writer.writeDefaultNamespace("http://www.opengis.net/wfs");
+		writer.writeAttribute("version", version);
+		writer.writeNamespace("wfs", "http://www.opengis.net/wfs");
+		writer.writeNamespace("ows", "http://www.opengis.net/ows/1.1");
+		writer.writeNamespace("ogc", "http://www.opengis.net/ogc");
+		writer.writeNamespace("gml", "http://www.opengis.net/gml");
+		writer.writeNamespace("xlink", "http://www.w3.org/1999/xlink");
+		writer.writeStartElement("Service");
+		writer.writeStartElement("Name");
+		writer.writeCharacters(wfsconf.has("servicetitle") ? wfsconf.getString("servicetitle") : "");
+		writer.writeEndElement();
+		writer.writeStartElement("Title");
+		writer.writeCharacters(wfsconf.has("servicetitle") ? wfsconf.getString("servicetitle") : "");
+		writer.writeEndElement();
+		writer.writeStartElement("Abstract");
+		writer.writeCharacters(wfsconf.has("abstract") ? wfsconf.getString("abstract") : "");
+		writer.writeEndElement();
+		writer.writeStartElement("Fees");
+		writer.writeCharacters(wfsconf.has("fees") ? wfsconf.getString("fees") : "none");
+		writer.writeEndElement();
+		writer.writeStartElement("OnlineResource");
+		writer.writeCharacters(wfsconf.has("baseurl") ? wfsconf.getString("baseurl") : "");
+		writer.writeEndElement();
+		writer.writeEndElement();
+		writer.writeStartElement("Capability");
+		writer.writeStartElement("Request");
+		writer.writeStartElement("GetCapabilities");
+		writer.writeStartElement("DCPType");
+		writer.writeStartElement("HTTP");
+		writer.writeStartElement("Get");
+		writer.writeAttribute("onlineResource", SERVERURL);
+		writer.writeEndElement();
+		writer.writeEndElement();
+		writer.writeEndElement();
+		writer.writeEndElement();
+		writer.writeStartElement("DescribeFeatureType");
+		writer.writeStartElement("SchemaDescriptionLanguage");
+		writer.writeStartElement("XMLSCHEMA");
+		writer.writeEndElement();
+		writer.writeEndElement();
+		writer.writeStartElement("DCPType");
+		writer.writeStartElement("HTTP");
+		writer.writeStartElement("Get");
+		writer.writeAttribute("onlineResource", SERVERURL);
+		writer.writeEndElement();
+		writer.writeEndElement();
+		writer.writeEndElement();
+		writer.writeEndElement();
+		writer.writeStartElement("GetFeature");
+		writer.writeStartElement("ResultFormat");
+		writer.writeStartElement("GML2");
+		writer.writeEndElement();
+		writer.writeStartElement("geojson");
+		writer.writeEndElement();
+		writer.writeStartElement("csv");
+		writer.writeEndElement();
+		writer.writeEndElement();
+		writer.writeStartElement("DCPType");
+		writer.writeStartElement("HTTP");
+		writer.writeStartElement("Get");
+		writer.writeAttribute("onlineResource", SERVERURL);
+		writer.writeEndElement();
+		writer.writeEndElement();
+		writer.writeEndElement();
+		writer.writeEndElement();
+		writer.writeEndElement();
+		writer.writeEndElement();
+		writer.writeStartElement("FeatureTypeList");
+		writer.writeStartElement("Operations");
+		writer.writeStartElement("Query");
+		writer.writeEndElement();
+		writer.writeEndElement();
+		for (int i = 0; i < this.wfsconf.getJSONArray("datasets").length(); i++) {
+			describeFeatureTypeWFS10(writer, this.wfsconf.getJSONArray("datasets").getJSONObject(i),versionnamespace,version);
+		}
+		writer.writeEndElement();
+		writer.writeStartElement("http://www.opengis.net/ogc", "Filter_Capabilities");
+		describeSpatialCapabilitiesWFS10(writer,versionnamespace,"http://www.opengis.net/ogc");
+		writer.writeEndElement();
+		writer.writeEndElement();
+		// writer.writeEndElement();
+		// writer.writeEndElement();
+		// writer.writeEndElement();
+		writer.writeEndElement();
+		writer.writeEndDocument();
+		return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
+	}
+	
 	public Response constructCapabilities(String version,String versionnamespace) throws XMLStreamException {
 		String serviceType = "WFS";
 		String owsns="http://www.opengis.net/ows/1.1";
+		if("1.0.0".equals(version))
+			return constructCapabilitiesWFS10(version, versionnamespace);
 		if("1.0.0".equals(version) || "1.1.0".equals(version)) {
 			versionnamespace="";
-			if("1.0.0".equals(version))
-				owsns="http://www.opengis.net/wfs"+versionnamespace;
 		}else {
 			versionnamespace="/"+versionnamespace;
 		}
@@ -762,10 +858,10 @@ public class WebService {
 		writer.writeCharacters(version);
 		writer.writeEndElement();
 		writer.writeStartElement(owsns, "Title");
-		writer.writeCharacters(wfsconf.has("title") ? wfsconf.getString("title") : "");
+		writer.writeCharacters(wfsconf.has("servicetitle") ? wfsconf.getString("servicetitle") : "");
 		writer.writeEndElement();
 		writer.writeStartElement(owsns, "Fees");
-		writer.writeCharacters("NONE");
+		writer.writeCharacters(wfsconf.has("fees") ? wfsconf.getString("fees") : "none");
 		writer.writeEndElement();
 		writer.writeStartElement(owsns, "Abstract");
 		writer.writeCharacters(wfsconf.has("abstract") ? wfsconf.getString("abstract") : "");
@@ -828,7 +924,7 @@ public class WebService {
 		}
 		writer.writeEndElement();
 		writer.writeStartElement("http://www.opengis.net/fes/"+versionnamespace, "Filter_Capabilities");
-		describeSpatialCapabilities(writer,versionnamespace);
+		describeSpatialCapabilities(writer,versionnamespace,"http://www.opengis.net/fes/"+versionnamespace);
 		writer.writeEndElement();
 		writer.writeEndElement();
 		// writer.writeEndElement();
@@ -848,6 +944,33 @@ public class WebService {
 		return constructCapabilities(version,version.substring(0,version.lastIndexOf('.')));
 	}
 
+	public void describeFeatureTypeWFS10(XMLStreamWriter writer, JSONObject featuretype,String versionnamespace,String version) throws XMLStreamException {
+		writer.setPrefix("wfs", "http://www.opengis.net/wfs");
+		writer.writeStartElement("http://www.opengis.net/wfs", "FeatureType");
+		writer.writeStartElement("http://www.opengis.net/wfs", "Name");
+		writer.writeCharacters(featuretype.getString("name"));
+		writer.writeEndElement();
+		writer.writeStartElement("http://www.opengis.net/wfs", "Title");
+		writer.writeCharacters(featuretype.getString("name"));
+		writer.writeEndElement();
+		writer.writeStartElement("http://www.opengis.net/wfs", "SRS");
+		writer.writeCharacters("urn:ogc:def:crs:EPSG::4326");
+		writer.writeEndElement();
+		writer.writeStartElement("http://www.opengis.net/wfs", "OutputFormats");
+		writer.writeStartElement("http://www.opengis.net/wfs", "Format");
+		writer.writeCharacters("application/vnd.geo+json");
+		writer.writeEndElement();
+		writer.writeEndElement();
+		writer.writeStartElement("http://www.opengis.net/ows/1.1", "LatLongBoundingBox");
+		writer.writeAttribute("minx","11.2299229840604");
+		writer.writeAttribute("miny","51.2165647648912");
+		writer.writeAttribute("maxx","14.8566506458591");
+		writer.writeAttribute("maxy","53.5637800901802");
+		writer.writeEndElement();
+		writer.writeEndElement();
+	}
+	
+	
 	public void describeFeatureType(XMLStreamWriter writer, JSONObject featuretype,String versionnamespace,String version) throws XMLStreamException {
 		if("1.0.0".equals(version) || "1.1.0".equals(version)) {
 			versionnamespace="";
@@ -877,76 +1000,88 @@ public class WebService {
 		writer.writeEndElement();
 		writer.writeStartElement("http://www.opengis.net/ows/1.1", "upperCorner");
 		writer.writeCharacters("14.8566506458591 53.5637800901802");
-
-		writer.writeEndElement();
-
 		writer.writeEndElement();
 		writer.writeEndElement();
-		// writer.writeStartElement("sequence");
-		/*
-		 * Map<String,String>
-		 * mapping=TripleStoreConnector.getFeatureTypeInformation(featuretype.getString(
-		 * "query"), featuretype.getString("triplestore"),
-		 * featuretype.getString("name")); for(String elem:mapping.keySet()) {
-		 * writer.writeStartElement("element"); writer.writeAttribute("name", elem);
-		 * writer.writeAttribute("type", mapping.get(elem)); writer.writeEndElement(); }
-		 */
-		// writer.writeEndElement();
-		// writer.writeStartElement(localName);
-		// writer.writeAttribute(localName, value);
+		writer.writeEndElement();
 	}
 
-	public void describeSpatialCapabilities(XMLStreamWriter writer,String versionnamespace) throws XMLStreamException {
-		writer.writeStartElement("http://www.opengis.net/fes/"+versionnamespace, "SpatialCapabilities");
-		writer.writeStartElement("http://www.opengis.net/fes/"+versionnamespace, "GeometryOperands");
-		writer.writeStartElement("http://www.opengis.net/fes/"+versionnamespace, "GeometryOperand");
+	public void describeSpatialCapabilitiesWFS10(XMLStreamWriter writer,String versionnamespace,String namespace) throws XMLStreamException {
+		writer.writeStartElement(namespace, "Spatial_Capabilities");
+		writer.writeStartElement(namespace, "Spatial_Operators");
+		writer.writeStartElement(namespace, "BBOX");
+		writer.writeEndElement();
+		writer.writeStartElement(namespace, "Intersects");
+		writer.writeEndElement();
+		writer.writeStartElement(namespace, "Contains");
+		writer.writeEndElement();
+		writer.writeStartElement(namespace, "Crosses");
+		writer.writeEndElement();
+		writer.writeStartElement(namespace, "Touches");
+		writer.writeEndElement();
+		writer.writeStartElement(namespace, "Within");
+		writer.writeEndElement();
+		writer.writeStartElement(namespace, "Overlaps");
+		writer.writeEndElement();
+		writer.writeStartElement(namespace, "Disjoint");
+		writer.writeEndElement();
+		writer.writeStartElement(namespace,"Equals");
+		writer.writeEndElement();
+		writer.writeStartElement(namespace, "DWithin");
+		writer.writeEndElement();
+		writer.writeEndElement();
+	}
+	
+	public void describeSpatialCapabilities(XMLStreamWriter writer,String versionnamespace,String namespace) throws XMLStreamException {
+		writer.writeStartElement(namespace, "SpatialCapabilities");
+		writer.writeStartElement(namespace, "GeometryOperands");
+		writer.writeStartElement(namespace, "GeometryOperand");
 		writer.writeAttribute("name", "gml:Box");
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/fes/"+versionnamespace, "GeometryOperand");
+		writer.writeStartElement(namespace, "GeometryOperand");
 		writer.writeAttribute("name", "gml:Envelope");
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/fes/"+versionnamespace, "GeometryOperand");
+		writer.writeStartElement(namespace, "GeometryOperand");
 		writer.writeAttribute("name", "gml:Point");
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/fes/"+versionnamespace, "GeometryOperand");
+		writer.writeStartElement(namespace, "GeometryOperand");
 		writer.writeAttribute("name", "gml:LineString");
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/fes/"+versionnamespace, "GeometryOperand");
+		writer.writeStartElement(namespace, "GeometryOperand");
 		writer.writeAttribute("name", "gml:Curve");
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/fes/"+versionnamespace, "GeometryOperand");
+		writer.writeStartElement(namespace, "GeometryOperand");
 		writer.writeAttribute("name", "gml:Polygon");
 		writer.writeEndElement();
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/fes/"+versionnamespace, "SpatialOperators");
-		writer.writeStartElement("http://www.opengis.net/fes/"+versionnamespace, "SpatialOperator");
+		writer.writeStartElement(namespace, "SpatialOperators");
+		writer.writeStartElement(namespace, "SpatialOperator");
 		writer.writeAttribute("name", "BBOX");
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/fes/"+versionnamespace, "SpatialOperator");
+		writer.writeStartElement(namespace, "SpatialOperator");
 		writer.writeAttribute("name", "Intersects");
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/fes/"+versionnamespace, "SpatialOperator");
+		writer.writeStartElement(namespace, "SpatialOperator");
 		writer.writeAttribute("name", "Contains");
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/fes/"+versionnamespace, "SpatialOperator");
+		writer.writeStartElement(namespace, "SpatialOperator");
 		writer.writeAttribute("name", "Crosses");
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/fes/"+versionnamespace, "SpatialOperator");
+		writer.writeStartElement(namespace, "SpatialOperator");
 		writer.writeAttribute("name", "Touches");
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/fes/"+versionnamespace, "SpatialOperator");
+		writer.writeStartElement(namespace, "SpatialOperator");
 		writer.writeAttribute("name", "Within");
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/fes/"+versionnamespace, "SpatialOperator");
+		writer.writeStartElement(namespace, "SpatialOperator");
 		writer.writeAttribute("name", "Overlaps");
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/fes/"+versionnamespace, "SpatialOperator");
+		writer.writeStartElement(namespace, "SpatialOperator");
 		writer.writeAttribute("name", "Disjoint");
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/fes/"+versionnamespace, "SpatialOperator");
+		writer.writeStartElement(namespace, "SpatialOperator");
 		writer.writeAttribute("name", "Equals");
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/fes/"+versionnamespace, "SpatialOperator");
+		writer.writeStartElement(namespace, "SpatialOperator");
 		writer.writeAttribute("name", "DWithin");
 		writer.writeEndElement();
 		writer.writeEndElement();
