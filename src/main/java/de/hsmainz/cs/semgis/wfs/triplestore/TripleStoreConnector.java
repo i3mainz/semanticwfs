@@ -65,7 +65,7 @@ public abstract class TripleStoreConnector {
 	}
 
 	
-	public static String executeQuery(String queryString,String queryurl,String output,String count,String offset,String startingElement) throws XMLStreamException {
+	public static String executeQuery(String queryString,String queryurl,String output,String count,String offset,String startingElement,String featuretype) throws XMLStreamException {
 		System.out.println(prefixCollection+queryString+" LIMIT "+count);
 		Query query = QueryFactory.create(prefixCollection+queryString);
 		Integer limit=Integer.valueOf(count);
@@ -77,13 +77,13 @@ public abstract class TripleStoreConnector {
 		}
 		ResultFormatter resformat=ResultFormatter.resultMap.get(output);
 		ResultSet results = qexec.execSelect();
-		String res=resformat.formatter(results,Integer.valueOf(offset),startingElement);
+		String res=resformat.formatter(results,Integer.valueOf(offset),startingElement,featuretype);
 		qexec.close();
 		return res;
 	}
 
 
-	public static String executeQuery(String queryString,String queryurl,String output,String startingElement) throws XMLStreamException {
+	public static String executeQuery(String queryString,String queryurl,String output,String startingElement,String featuretype) throws XMLStreamException {
 		System.out.println(prefixCollection+queryString);
 		Query query = QueryFactory.create(prefixCollection+queryString);
 		QueryExecution qexec = QueryExecutionFactory.sparqlService(queryurl, query);
@@ -91,7 +91,7 @@ public abstract class TripleStoreConnector {
 		System.out.println(ResultFormatter.resultMap);
 		System.out.println(resformat);
 		ResultSet results = qexec.execSelect();
-		String res=resformat.formatter(results,0,"");
+		String res=resformat.formatter(results,0,"",featuretype);
 		qexec.close();
 		return res;
 	}

@@ -13,7 +13,7 @@ import de.hsmainz.cs.semgis.wfs.converters.AsGeoURI;
 public class GeoURIFormatter extends WFSResultFormatter {
 
 	@Override
-	public String formatter(ResultSet results,Integer offset,String startingElement) {
+	public String formatter(ResultSet results,Integer offset,String startingElement,String featuretype) {
 		List<QuerySolution> test=ResultSetFormatter.toList(results);
     	Boolean first=true;
     	StringBuilder resultCSV=new StringBuilder();

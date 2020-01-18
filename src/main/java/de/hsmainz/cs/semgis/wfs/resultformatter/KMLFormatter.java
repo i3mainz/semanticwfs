@@ -14,7 +14,7 @@ import org.apache.jena.query.ResultSetFormatter;
 public class KMLFormatter extends WFSResultFormatter {
 
 	@Override
-	public String formatter(ResultSet results,Integer offset,String startingElement) throws XMLStreamException {
+	public String formatter(ResultSet results,Integer offset,String startingElement,String featuretype) throws XMLStreamException {
 		String serviceType="WFS";
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();
 		StringWriter strwriter=new StringWriter();

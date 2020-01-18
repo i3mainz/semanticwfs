@@ -50,7 +50,7 @@ public class WebService {
 			@DefaultValue("") @QueryParam("TYPENAMES") String typenames,
 			@DefaultValue("") @QueryParam("SRSNAME") String srsname,
 			@DefaultValue("") @QueryParam("BBOX") String bbox,
-			@DefaultValue("") @QueryParam("SORTBY") String sortby,
+			@DefaultValue("ASC") @QueryParam("SORTBY") String sortBy,
 			@DefaultValue("0") @QueryParam("STARTINDEX") String startindex,
 			@DefaultValue("") @QueryParam("FILTER") String filter,
 			@DefaultValue("gml") @QueryParam("OUTPUTFORMAT") String output,
@@ -78,7 +78,7 @@ public class WebService {
 				}
 				if ("getFeature".equalsIgnoreCase(request)) {
 					try {
-						return this.getFeature(typename, output, count,version);
+						return this.getFeature(typename, output, count,startindex,sortBy,version);
 					} catch (XMLStreamException e) {
 						e.printStackTrace();
 						return Response.ok("").type(MediaType.TEXT_PLAIN).build();
@@ -242,7 +242,7 @@ public class WebService {
 		String res = "";
 		try {
 			res = TripleStoreConnector.executeQuery(query, workingobj.getString("triplestore"),
-					format, "1","0","sf:featureMember");
+					format, "1","0","sf:featureMember",collectionid);
 			System.out.println(res);
 		} catch (JSONException | XMLStreamException e1) {
 			// TODO Auto-generated catch block
@@ -540,10 +540,10 @@ public class WebService {
 			String res;
 			if(limit.equals("-1") && offset.equals("0")) {
 				res = TripleStoreConnector.executeQuery(workingobj.getString("query"),
-						workingobj.getString("triplestore"), format,"sf:featureMember");
+						workingobj.getString("triplestore"), format,"sf:featureMember",collectionid);
 			}else {
 				res = TripleStoreConnector.executeQuery(workingobj.getString("query"),
-						workingobj.getString("triplestore"), format,limit,offset,"sf:featureMember");
+						workingobj.getString("triplestore"), format,limit,offset,"sf:featureMember",collectionid);
 			}
 			System.out.println(res);
 			if (format != null && format.contains("json")) {
@@ -1025,6 +1025,8 @@ public class WebService {
 	public Response getFeature(@QueryParam("typename") String typename, 
 			@DefaultValue("json") @QueryParam("outputFormat") String output,
 			@DefaultValue("5") @QueryParam("count") String count,
+			@DefaultValue("0") @QueryParam("startindex") String startindex,
+			@DefaultValue("ASC") @QueryParam("sortBy") String sortBy,
 			@DefaultValue("2.0.0") @QueryParam("version") String version) throws JSONException, XMLStreamException {
 		System.out.println(typename);	
 		if (typename == null) {
@@ -1044,7 +1046,7 @@ public class WebService {
 		try {
 			res = TripleStoreConnector.executeQuery(workingobj.getString("query"),
 					workingobj.getString("triplestore"),
-					output, "1","0","gml:featureMember");
+					output, count,startindex,"gml:featureMember",typename);
 			System.out.println(res);
 		} catch (JSONException | XMLStreamException e1) {
 			// TODO Auto-generated catch block
@@ -1059,6 +1061,7 @@ public class WebService {
 				writer = new IndentingXMLStreamWriter(outputf.createXMLStreamWriter(strwriter));
 				writer.writeStartDocument();
 				writer.writeStartElement("wfs:FeatureCollection");
+				writer.writeDefaultNamespace((this.wfsconf.getString("baseurl")+"/").replace("//","/"));
 				writer.writeNamespace("ows", "http://www.opengis.net/ows/1.1");
 				writer.writeNamespace("sf", "http://www.opengis.net/ogcapi-features-1/1.0/sf");
 				writer.writeNamespace("ogc", "http://www.opengis.net/ogc");

@@ -13,7 +13,7 @@ import org.apache.jena.query.ResultSet;
 public class GMLFormatter extends WFSResultFormatter {
 
 	@Override
-	public String formatter(ResultSet results,Integer offset,String startingElement) throws XMLStreamException {
+	public String formatter(ResultSet results,Integer offset,String startingElement,String featuretype) throws XMLStreamException {
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();
 		StringWriter strwriter=new StringWriter();
 		XMLStreamWriter writer=factory.createXMLStreamWriter(strwriter);
@@ -21,7 +21,7 @@ public class GMLFormatter extends WFSResultFormatter {
 	    while(results.hasNext()) {
 	    	QuerySolution solu=results.next();
 			writer.writeStartElement(startingElement);
-			writer.writeStartElement("classname");
+			writer.writeStartElement(featuretype);
 			Iterator<String> iter=solu.varNames();
 			while(iter.hasNext()) {
 				String curvar=iter.next();

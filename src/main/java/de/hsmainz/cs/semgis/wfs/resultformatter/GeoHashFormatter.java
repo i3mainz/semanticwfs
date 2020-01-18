@@ -12,7 +12,7 @@ import org.apache.jena.query.ResultSetFormatter;
 public class GeoHashFormatter extends WFSResultFormatter {
 
 	@Override
-	public String formatter(ResultSet results,Integer offset,String startingElement) throws XMLStreamException {
+	public String formatter(ResultSet results,Integer offset,String startingElement,String featuretype) throws XMLStreamException {
 		List<QuerySolution> test=ResultSetFormatter.toList(results);
     	Boolean first=true;
     	StringBuilder resultCSV=new StringBuilder();

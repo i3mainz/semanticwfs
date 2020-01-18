@@ -16,7 +16,7 @@ import de.hsmainz.cs.semgis.wfs.converters.AsGeoJSON;
 public class GeoJSONFormatter extends WFSResultFormatter {
 
 	@Override
-	public String formatter(ResultSet results, Integer offset,String startingElement) {
+	public String formatter(ResultSet results, Integer offset,String startingElement,String featuretype) {
 		JSONObject geojsonresults = new JSONObject();
 		List<JSONArray> allfeatures = new LinkedList<JSONArray>();
 		JSONObject result = new JSONObject();
