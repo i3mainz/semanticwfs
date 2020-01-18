@@ -47,8 +47,13 @@ public class WebService {
 			@DefaultValue("GetCapabilities") @QueryParam("REQUEST") String request,
 			@DefaultValue("2.0.0") @QueryParam("VERSION") String version,
 			@DefaultValue("") @QueryParam("TYPENAME") String typename,
-			@DefaultValue("gml") @QueryParam("output") String output,
-			@DefaultValue("5") @QueryParam("count") String count) {
+			@DefaultValue("") @QueryParam("SRSNAME") String srsname,
+			@DefaultValue("") @QueryParam("BBOX") String bbox,
+			@DefaultValue("") @QueryParam("SORTBY") String sortby,
+			@DefaultValue("0") @QueryParam("STARTINDEX") String startindex,
+			@DefaultValue("") @QueryParam("FILTER") String filter,
+			@DefaultValue("gml") @QueryParam("OUTPUTFORMAT") String output,
+			@DefaultValue("5") @QueryParam("COUNT") String count) {
 			System.out.println("Request: "+request);
 			if (service.equalsIgnoreCase("WFS")) {
 				if ("getCapabilities".equalsIgnoreCase(request)) {
@@ -715,7 +720,7 @@ public class WebService {
 
 	public String SERVICETYPEVERSION = "2.0.0";
 
-	public String SERVERURL = "http://localhost:8080/RESTfulExample/rest/service?";
+	public String SERVERURL = "http://localhost:8080/WFSGeoSPARQL/rest/wfs?";
 
 	public Response constructCapabilities(String version,String versionnamespace) throws XMLStreamException {
 		String serviceType = "WFS";
@@ -1035,7 +1040,7 @@ public class WebService {
 		try {
 			res = TripleStoreConnector.executeQuery(workingobj.getString("query"),
 					workingobj.getString("triplestore"),
-					output, "1","0","sf:featureMember");
+					output, "1","0","gml:featureMember");
 			System.out.println(res);
 		} catch (JSONException | XMLStreamException e1) {
 			// TODO Auto-generated catch block
@@ -1102,6 +1107,13 @@ public class WebService {
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/wfs/getGmlObject")
 	public String getGmlObject() {
+		return null;
+	}
+	
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
+	@Path("/wfs/getPropertyValue")
+	public String getPropertyValue() {
 		return null;
 	}
 	
