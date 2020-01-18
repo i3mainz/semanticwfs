@@ -47,6 +47,7 @@ public class WebService {
 			@DefaultValue("GetCapabilities") @QueryParam("REQUEST") String request,
 			@DefaultValue("2.0.0") @QueryParam("VERSION") String version,
 			@DefaultValue("") @QueryParam("TYPENAME") String typename,
+			@DefaultValue("") @QueryParam("TYPENAMES") String typenames,
 			@DefaultValue("") @QueryParam("SRSNAME") String srsname,
 			@DefaultValue("") @QueryParam("BBOX") String bbox,
 			@DefaultValue("") @QueryParam("SORTBY") String sortby,
@@ -55,6 +56,9 @@ public class WebService {
 			@DefaultValue("gml") @QueryParam("OUTPUTFORMAT") String output,
 			@DefaultValue("5") @QueryParam("COUNT") String count) {
 			System.out.println("Request: "+request);
+			if(typename.isEmpty() && !typenames.isEmpty()) {
+				typename=typenames;
+			}
 			if (service.equalsIgnoreCase("WFS")) {
 				if ("getCapabilities".equalsIgnoreCase(request)) {
 					try {
