@@ -764,7 +764,7 @@ public class WebService {
 		writer.writeStartElement("DCPType");
 		writer.writeStartElement("HTTP");
 		writer.writeStartElement("Get");
-		writer.writeAttribute("onlineResource", SERVERURL);
+		writer.writeAttribute("onlineResource", this.wfsconf.getString("baseurl"));
 		writer.writeEndElement();
 		writer.writeEndElement();
 		writer.writeEndElement();
@@ -777,7 +777,7 @@ public class WebService {
 		writer.writeStartElement("DCPType");
 		writer.writeStartElement("HTTP");
 		writer.writeStartElement("Get");
-		writer.writeAttribute("onlineResource", SERVERURL);
+		writer.writeAttribute("onlineResource", this.wfsconf.getString("baseurl"));
 		writer.writeEndElement();
 		writer.writeEndElement();
 		writer.writeEndElement();
@@ -794,7 +794,7 @@ public class WebService {
 		writer.writeStartElement("DCPType");
 		writer.writeStartElement("HTTP");
 		writer.writeStartElement("Get");
-		writer.writeAttribute("onlineResource", SERVERURL);
+		writer.writeAttribute("onlineResource", this.wfsconf.getString("baseurl"));
 		writer.writeEndElement();
 		writer.writeEndElement();
 		writer.writeEndElement();
@@ -880,7 +880,7 @@ public class WebService {
 		writer.writeStartElement(owsns, "HTTP");
 		writer.writeStartElement(owsns, "Get");
 		writer.writeAttribute("xlink:type", "simple");
-		writer.writeAttribute("xlink:href", SERVERURL);
+		writer.writeAttribute("xlink:href", this.wfsconf.getString("baseurl"));
 		writer.writeEndElement();
 		writer.writeEndElement();
 		writer.writeStartElement(owsns, "Parameter");
@@ -899,7 +899,7 @@ public class WebService {
 		writer.writeStartElement(owsns, "HTTP");
 		writer.writeStartElement(owsns, "Get");
 		writer.writeAttribute("xlink:type", "simple");
-		writer.writeAttribute("xlink:href", SERVERURL);
+		writer.writeAttribute("xlink:href", this.wfsconf.getString("baseurl"));
 		writer.writeEndElement();
 		writer.writeEndElement();
 		writer.writeStartElement(owsns, "Parameter");
@@ -1255,8 +1255,35 @@ public class WebService {
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/wfs/getPropertyValue")
-	public String getPropertyValue() {
-		return null;
+	public String getPropertyValue(@QueryParam("typename") String typename,
+			@QueryParam("propertyname") String propertyname,
+			@DefaultValue("json") @QueryParam("outputFormat") String output,
+			@DefaultValue("5") @QueryParam("count") String count) {
+		System.out.println(typename);	
+		if (typename == null || propertyname==null) {
+			throw new NotFoundException();
+		}
+		JSONObject workingobj = null;
+		for (int i = 0; i < this.wfsconf.getJSONArray("datasets").length(); i++) {
+			JSONObject curobj = this.wfsconf.getJSONArray("datasets").getJSONObject(i);
+			if (curobj.getString("name").equalsIgnoreCase(typename)) {
+				workingobj = curobj;
+				break;
+			}
+		}
+		if(workingobj==null)
+			throw new NotFoundException();
+		/*String res = "";
+		try {
+			res = TripleStoreConnector.executeQuery(workingobj.getString("query"),
+					workingobj.getString("triplestore"),
+					output, count,startindex,"gml:featureMember",typename);
+			System.out.println(res);
+		} catch (JSONException | XMLStreamException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}*/
+		return "";
 	}
 	
 	@GET
@@ -1268,6 +1295,13 @@ public class WebService {
 			@QueryParam("triplestore") String triplestore,
 			@QueryParam("username") String username,
 			@QueryParam("password") String password) {
+		JSONArray datasets=this.wfsconf.getJSONArray("datasets");
+		JSONObject toadd=new JSONObject();
+		toadd.put("name",name);
+		toadd.put("namespace",namespace);
+		toadd.put("triplestore",triplestore);
+		toadd.put("query",sparqlQuery);
+		datasets.put(toadd);
 		return null;
 	}
 	
