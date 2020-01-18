@@ -5,6 +5,7 @@ import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Map;
 
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -42,10 +43,10 @@ public class WebService {
 	@GET
 	@Produces(MediaType.TEXT_XML)
 	@Path("/wfs")
-	public Response entryPoint( @DefaultValue("WFS") @QueryParam("service") String service,
-			@DefaultValue("GetCapabilities") @QueryParam("request") String request,
-			@DefaultValue("2.0.0") @QueryParam("version") String version,
-			@DefaultValue("") @QueryParam("typeName") String typename,
+	public Response entryPoint( @DefaultValue("WFS") @QueryParam("SERVICE") String service,
+			@DefaultValue("GetCapabilities") @QueryParam("REQUEST") String request,
+			@DefaultValue("2.0.0") @QueryParam("VERSION") String version,
+			@DefaultValue("") @QueryParam("TYPENAME") String typename,
 			@DefaultValue("gml") @QueryParam("output") String output,
 			@DefaultValue("5") @QueryParam("count") String count) {
 			System.out.println("Request: "+request);
@@ -718,15 +719,24 @@ public class WebService {
 
 	public Response constructCapabilities(String version,String versionnamespace) throws XMLStreamException {
 		String serviceType = "WFS";
+		String owsns="http://www.opengis.net/ows/1.1";
+		if("1.0.0".equals(version) || "1.1.0".equals(version)) {
+			versionnamespace="";
+			if("1.0.0".equals(version))
+				owsns="http://www.opengis.net/wfs"+versionnamespace;
+		}else {
+			versionnamespace="/"+versionnamespace;
+		}
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();
 		StringWriter strwriter = new StringWriter();
 		XMLStreamWriter xmlwriter = factory.createXMLStreamWriter(strwriter);
 		IndentingXMLStreamWriter writer = new IndentingXMLStreamWriter(xmlwriter);
 		writer.writeStartDocument();
 		writer.writeStartElement("WFS_Capabilities");
-		writer.writeDefaultNamespace("http://www.opengis.net/wfs/"+versionnamespace);
+		writer.setPrefix("wfs", "http://www.opengis.net/wfs"+versionnamespace);
+		writer.writeDefaultNamespace("http://www.opengis.net/wfs"+versionnamespace);
 		writer.writeAttribute("version", version);
-		writer.writeNamespace("wfs", "http://www.opengis.net/wfs/"+versionnamespace);
+		writer.writeNamespace("wfs", "http://www.opengis.net/wfs"+versionnamespace);
 		writer.writeNamespace("ows", "http://www.opengis.net/ows/1.1");
 		writer.writeNamespace("sf", "http://www.opengis.net/ogcapi-features-1/1.0/sf");
 		writer.writeNamespace("ogc", "http://www.opengis.net/ogc");
@@ -734,21 +744,21 @@ public class WebService {
 		writer.writeNamespace("gml", "http://www.opengis.net/gml");
 		writer.writeNamespace("xlink", "http://www.w3.org/1999/xlink");
 		// ServiceInformation
-		writer.writeStartElement("http://www.opengis.net/ows/1.1", "ServiceIdentification");
-		writer.writeStartElement("http://www.opengis.net/ows/1.1", "ServiceType");
+		writer.writeStartElement(owsns, "ServiceIdentification");
+		writer.writeStartElement(owsns, "ServiceType");
 		writer.writeAttribute("codeSpace", "OGC");
 		writer.writeCharacters(serviceType);
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/ows/1.1", "ServiceTypeVersion");
+		writer.writeStartElement(owsns, "ServiceTypeVersion");
 		writer.writeCharacters(version);
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/ows/1.1", "Title");
+		writer.writeStartElement(owsns, "Title");
 		writer.writeCharacters(wfsconf.has("title") ? wfsconf.getString("title") : "");
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/ows/1.1", "Fees");
+		writer.writeStartElement(owsns, "Fees");
 		writer.writeCharacters("NONE");
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/ows/1.1", "Abstract");
+		writer.writeStartElement(owsns, "Abstract");
 		writer.writeCharacters(wfsconf.has("abstract") ? wfsconf.getString("abstract") : "");
 		writer.writeEndElement();
 		writer.writeEndElement();
@@ -758,48 +768,54 @@ public class WebService {
 		// writer.writeStartElement("http://www.opengis.net/wfs/2.0","Request");
 		// writer.writeStartElement("http://www.opengis.net/wfs/2.0","GetCapabilities");
 		// OperationsMetadata
-		writer.writeStartElement("http://www.opengis.net/ows/1.1", "OperationsMetadata");
-		writer.writeStartElement("http://www.opengis.net/ows/1.1", "Operation");
+		writer.writeStartElement(owsns, "OperationsMetadata");
+		writer.writeStartElement(owsns, "Operation");
 		writer.writeAttribute("name", "GetCapabilities");
-		writer.writeStartElement("http://www.opengis.net/ows/1.1", "DCP");
-		writer.writeStartElement("http://www.opengis.net/ows/1.1", "HTTP");
-		writer.writeStartElement("http://www.opengis.net/ows/1.1", "Get");
+		writer.writeStartElement(owsns, "DCP");
+		writer.writeStartElement(owsns, "HTTP");
+		writer.writeStartElement(owsns, "Get");
 		writer.writeAttribute("xlink:type", "simple");
 		writer.writeAttribute("xlink:href", SERVERURL);
 		writer.writeEndElement();
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/ows/1.1", "Parameter");
+		writer.writeStartElement(owsns, "Parameter");
 		writer.writeAttribute("name", "AcceptVersions");
-		writer.writeStartElement("http://www.opengis.net/ows/1.1", "AllowedValues");
-		writer.writeStartElement("http://www.opengis.net/ows/1.1", "Value");
+		writer.writeStartElement(owsns, "AllowedValues");
+		writer.writeStartElement(owsns, "Value");
 		writer.writeCharacters(version);
 		writer.writeEndElement();
 		writer.writeEndElement();
 		writer.writeEndElement();
 		writer.writeEndElement();
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/ows/1.1", "Operation");
+		writer.writeStartElement(owsns, "Operation");
 		writer.writeAttribute("name", "GetFeature");
-		writer.writeStartElement("http://www.opengis.net/ows/1.1", "DCP");
-		writer.writeStartElement("http://www.opengis.net/ows/1.1", "HTTP");
-		writer.writeStartElement("http://www.opengis.net/ows/1.1", "Get");
+		writer.writeStartElement(owsns, "DCP");
+		writer.writeStartElement(owsns, "HTTP");
+		writer.writeStartElement(owsns, "Get");
 		writer.writeAttribute("xlink:type", "simple");
 		writer.writeAttribute("xlink:href", SERVERURL);
 		writer.writeEndElement();
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/ows/1.1", "Parameter");
+		writer.writeStartElement(owsns, "Parameter");
 		writer.writeAttribute("name", "AcceptVersions");
-		writer.writeStartElement("http://www.opengis.net/ows/1.1", "AllowedValues");
-		writer.writeStartElement("http://www.opengis.net/ows/1.1", "Value");
+		writer.writeStartElement(owsns, "AllowedValues");
+		writer.writeStartElement(owsns, "Value");
 		writer.writeCharacters(version);
 		writer.writeEndElement();
 		writer.writeEndElement();
 		writer.writeEndElement();
 		writer.writeEndElement();
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/wfs/"+versionnamespace, "FeatureTypeList");
+		writer.writeEndElement();
+		writer.writeStartElement("http://www.opengis.net/wfs"+versionnamespace, "FeatureTypeList");
+		writer.writeStartElement("http://www.opengis.net/wfs"+versionnamespace, "Operations");
+		writer.writeStartElement("http://www.opengis.net/wfs"+versionnamespace, "Operation");
+		writer.writeCharacters("Query");
+		writer.writeEndElement();
+		writer.writeEndElement();
 		for (int i = 0; i < this.wfsconf.getJSONArray("datasets").length(); i++) {
-			describeFeatureType(writer, this.wfsconf.getJSONArray("datasets").getJSONObject(i),versionnamespace);
+			describeFeatureType(writer, this.wfsconf.getJSONArray("datasets").getJSONObject(i),versionnamespace,version);
 		}
 		writer.writeEndElement();
 		writer.writeStartElement("http://www.opengis.net/fes/"+versionnamespace, "Filter_Capabilities");
@@ -823,19 +839,25 @@ public class WebService {
 		return constructCapabilities(version,version.substring(0,version.lastIndexOf('.')));
 	}
 
-	public void describeFeatureType(XMLStreamWriter writer, JSONObject featuretype,String versionnamespace) throws XMLStreamException {
-		writer.writeStartElement("http://www.opengis.net/wfs/"+versionnamespace, "FeatureType");
-		writer.writeStartElement("http://www.opengis.net/wfs/"+versionnamespace, "Name");
+	public void describeFeatureType(XMLStreamWriter writer, JSONObject featuretype,String versionnamespace,String version) throws XMLStreamException {
+		if("1.0.0".equals(version) || "1.1.0".equals(version)) {
+			versionnamespace="";
+		}else {
+			versionnamespace="/"+versionnamespace;
+			versionnamespace=versionnamespace.replace("//","/");
+		}
+		writer.writeStartElement("http://www.opengis.net/wfs"+versionnamespace, "FeatureType");
+		writer.writeStartElement("http://www.opengis.net/wfs"+versionnamespace, "Name");
 		writer.writeCharacters(featuretype.getString("name"));
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/wfs/"+versionnamespace, "Title");
+		writer.writeStartElement("http://www.opengis.net/wfs"+versionnamespace, "Title");
 		writer.writeCharacters(featuretype.getString("name"));
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/wfs/"+versionnamespace, "DefaultCRS");
+		writer.writeStartElement("http://www.opengis.net/wfs"+versionnamespace, "DefaultCRS");
 		writer.writeCharacters("urn:ogc:def:crs:EPSG::4326");
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/wfs/"+versionnamespace, "OutputFormats");
-		writer.writeStartElement("http://www.opengis.net/wfs/"+versionnamespace, "Format");
+		writer.writeStartElement("http://www.opengis.net/wfs"+versionnamespace, "OutputFormats");
+		writer.writeStartElement("http://www.opengis.net/wfs"+versionnamespace, "Format");
 		writer.writeCharacters("application/vnd.geo+json");
 		writer.writeEndElement();
 		writer.writeEndElement();
@@ -927,12 +949,6 @@ public class WebService {
 	public Response describeFeatureType(@QueryParam("typename") String typename,@DefaultValue("version") @QueryParam("version")String version) throws XMLStreamException {
 		if(typename==null)
 			throw new NotFoundException();
-		XMLOutputFactory factory = XMLOutputFactory.newInstance();
-		StringWriter strwriter = new StringWriter();
-		XMLStreamWriter xmlwriter = factory.createXMLStreamWriter(strwriter);
-		IndentingXMLStreamWriter writer = new IndentingXMLStreamWriter(xmlwriter);
-		writer.writeStartDocument();
-		writer.writeStartElement("schema");
 		JSONObject workingobj = null;
 		for (int i = 0; i < this.wfsconf.getJSONArray("datasets").length(); i++) {
 			JSONObject curobj = this.wfsconf.getJSONArray("datasets").getJSONObject(i);
@@ -943,7 +959,52 @@ public class WebService {
 		}
 		if (workingobj == null)
 			throw new NotFoundException();
-		this.describeFeatureType(writer, workingobj,version.substring(0,version.lastIndexOf('.')));
+		XMLOutputFactory factory = XMLOutputFactory.newInstance();
+		StringWriter strwriter = new StringWriter();
+		XMLStreamWriter xmlwriter = factory.createXMLStreamWriter(strwriter);
+		IndentingXMLStreamWriter writer = new IndentingXMLStreamWriter(xmlwriter);
+		String versionnamespace=version.substring(0,version.lastIndexOf('.'));
+		if("1.0.0".equals(version) || "1.1.0".equals(version)) {
+			versionnamespace="";
+		}else {
+			versionnamespace="/"+versionnamespace;
+			versionnamespace=versionnamespace.replace("//","/");
+		}
+		writer.writeStartDocument();
+		writer.writeStartElement("schema");
+		writer.writeDefaultNamespace("http://www.w3.org/2001/XMLSchema");
+		writer.writeNamespace("wfs", "http://www.opengis.net/wfs"+versionnamespace);
+		writer.writeNamespace("ows", "http://www.opengis.net/ows/1.1");
+		writer.writeNamespace("sf", "http://www.opengis.net/ogcapi-features-1/1.0/sf");
+		writer.writeNamespace("ogc", "http://www.opengis.net/ogc");
+		writer.writeNamespace("fes", "http://www.opengis.net/fes/"+versionnamespace);
+		writer.writeNamespace("gml", "http://www.opengis.net/gml");
+		writer.writeNamespace("xlink", "http://www.w3.org/1999/xlink");
+		writer.writeStartElement("element");
+		writer.writeAttribute("name",typename);
+		writer.writeAttribute("type",typename+"Type");
+		writer.writeAttribute("substitutionGroup","gml:_Feature");
+		writer.writeEndElement();
+		writer.writeStartElement("complexType");
+		writer.writeAttribute("name",typename+"Type");
+		writer.writeStartElement("complexContent");
+		writer.writeStartElement("extension");
+		writer.writeAttribute("base", "gml:AbstractFeatureType");
+		writer.writeStartElement("sequence");
+		Map<String,String>mapping=TripleStoreConnector
+				.getFeatureTypeInformation(workingobj.getString("query"), workingobj.getString("triplestore"),
+		  workingobj.getString("name")); 
+		for(String elem:mapping.keySet()) {
+			writer.writeStartElement("element"); writer.writeAttribute("name", elem);
+			writer.writeAttribute("type", mapping.get(elem)); 
+			writer.writeAttribute("minOccurs", "0"); 
+			writer.writeEndElement(); 
+		}
+		// writer.writeEndElement();
+		//this.describeFeatureType(writer, workingobj,version.substring(0,version.lastIndexOf('.')),version);
+		writer.writeEndElement();
+		writer.writeEndElement();
+		writer.writeEndElement();
 		writer.writeEndElement();
 		writer.writeEndDocument();
 		return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
@@ -972,7 +1033,8 @@ public class WebService {
 			throw new NotFoundException();
 		String res = "";
 		try {
-			res = TripleStoreConnector.executeQuery(workingobj.getString("query"), workingobj.getString("triplestore"),
+			res = TripleStoreConnector.executeQuery(workingobj.getString("query"),
+					workingobj.getString("triplestore"),
 					output, "1","0","sf:featureMember");
 			System.out.println(res);
 		} catch (JSONException | XMLStreamException e1) {
