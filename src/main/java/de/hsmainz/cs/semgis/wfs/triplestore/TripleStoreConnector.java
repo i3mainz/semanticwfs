@@ -17,6 +17,7 @@ import org.apache.jena.query.QueryFactory;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Literal;
+import org.json.JSONObject;
 
 import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
 
@@ -41,7 +42,7 @@ public abstract class TripleStoreConnector {
 	
 	protected static Map<String,Map<String,String>> featureTypes=new TreeMap<>();
 	
-	public static Map<String,String> getFeatureTypeInformation(String queryString,String queryurl,String featuretype){
+	public static Map<String,String> getFeatureTypeInformation(String queryString,String queryurl,String featuretype,JSONObject workingobj){
 		if(featureTypes.containsKey(featuretype)) {
 			return featureTypes.get(featuretype);
 		}
@@ -52,16 +53,46 @@ public abstract class TripleStoreConnector {
 		ResultSet results = qexec.execSelect();
 		QuerySolution solu=results.next();
 		Iterator<String> varnames=solu.varNames();
-		while(varnames.hasNext()) {
-			String varname=varnames.next();
-			try {
-				Literal lit=solu.getLiteral(varname);
-				result.put(varname, lit.getDatatypeURI());
-			}catch(Exception e) {
-				result.put(varname, solu.get(varname).toString());	
-			}  
+		System.out.println(solu.get(featuretype.toLowerCase()));
+		if(solu.get(featuretype.toLowerCase())!=null) {
+			result=new TreeMap<>();
+			queryString=queryString.replace("WHERE{","WHERE{ BIND( <"+solu.get(featuretype.toLowerCase())+"> AS ?"+featuretype.toLowerCase()+") ");
+			System.out.println(prefixCollection+queryString);
+			query = QueryFactory.create(prefixCollection+queryString);
+			qexec = QueryExecutionFactory.sparqlService(queryurl, query);
+			results = qexec.execSelect();
+
 		}
-		return result;
+		String rel="",val="";
+		Integer attcount=0;
+		while(results.hasNext()) {
+			solu=results.next();
+			varnames=solu.varNames();
+			while(varnames.hasNext()) {
+				String varname=varnames.next();
+				if(varname.equals("rel")) {
+					rel=solu.get(varname).toString();
+				}else if(varname.equals("val")){
+					val=solu.get(varname).toString();
+				}else {
+					try {
+						Literal lit=solu.getLiteral(varname);
+						result.put(varname, lit.getDatatypeURI());
+					}catch(Exception e) {
+						result.put(varname, solu.get(varname).toString());	
+					}  
+				}
+
+			}
+			if(!rel.isEmpty() && !val.isEmpty()) {
+				result.put(rel, val);
+				rel="";
+				val="";
+			}
+			attcount++;
+		}
+		workingobj.put("attcount",attcount);
+			return result;
 	}
 
 	

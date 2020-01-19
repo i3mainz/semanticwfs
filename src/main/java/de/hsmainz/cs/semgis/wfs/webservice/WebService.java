@@ -242,7 +242,7 @@ public class WebService {
 		String res = "";
 		try {
 			res = TripleStoreConnector.executeQuery(query, workingobj.getString("triplestore"),
-					format, "1","0","sf:featureMember",collectionid);
+					format, "0","0","sf:featureMember",collectionid);
 			System.out.println(res);
 		} catch (JSONException | XMLStreamException e1) {
 			// TODO Auto-generated catch block
@@ -433,6 +433,9 @@ public class WebService {
 		if (workingobj == null) {
 			throw new NotFoundException();
 		}
+		Map<String,String>mapping=TripleStoreConnector
+				.getFeatureTypeInformation(workingobj.getString("query"), workingobj.getString("triplestore"),
+		  workingobj.getString("name"),workingobj); 
 		if (format != null && format.contains("json")) {
 			JSONObject result = new JSONObject();
 			result.put("id", workingobj.getString("name"));
@@ -507,7 +510,27 @@ public class WebService {
 			builder.append("</h1>Serializations:<ul>");
 			builder.append("<li><a href=\""+this.wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name") + "/items?f=json"+"\">[GeoJSON]</a></li>");
 			builder.append("<li><a href=\""+this.wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+ "/items?f=application/gml+xml;version=3.2;profile=http://www.opengis.net/def/profile/ogc/2.0/gml-sf0"+"\">[GML]</a></li>");
-			builder.append("</ul></body></html>");
+			builder.append("</ul>Contents:<table width=\"100%\"><tr><th>Value</th><th>Type</th>");
+			for(String elem:mapping.keySet()) {
+				if(!elem.equals("http://www.opengis.net/ont/geosparql#hasGeometry") &&
+						!elem.equals("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")) {
+				if(elem.contains("http")) {
+					if(elem.contains("#")) {
+						builder.append("<tr><td align=center><a href=\""+elem+"\">"+elem.substring(elem.lastIndexOf('#')+1)+"</a> ");
+					}else {
+						builder.append("<tr><td align=center><a href=\""+elem+"\">"+elem.substring(elem.lastIndexOf('/')+1)+"</a> ");
+					}
+				}else {
+					builder.append("<tr><td align=center>"+elem);
+				}
+				if(mapping.get(elem).contains("^^")) {
+					builder.append("</td><td align=center><a href=\""+mapping.get(elem)+"\">"+mapping.get(elem).substring(mapping.get(elem).lastIndexOf("^^")+2)+"</a></td></tr>");
+				}else {
+					builder.append("</td><td align=center><a href=\""+mapping.get(elem)+"\">"+mapping.get(elem)+"</a></td></tr>");
+				}
+				}
+			}
+			builder.append("</table></body></html>");
 			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
 		} else {
 			return Response.ok("").type(MediaType.TEXT_PLAIN).build();
@@ -535,6 +558,13 @@ public class WebService {
 		if (workingobj == null) {
 			throw new NotFoundException();
 		}
+		if(!workingobj.has("attcount")) {
+			TripleStoreConnector
+					.getFeatureTypeInformation(workingobj.getString("query"), workingobj.getString("triplestore"),
+			  workingobj.getString("name"),workingobj); 
+			
+		}
+		System.out.println("Attcount: "+workingobj.getInt("attcount"));
 		System.out.println(limit);
 		try {
 			String res;
@@ -543,7 +573,7 @@ public class WebService {
 						workingobj.getString("triplestore"), format,"sf:featureMember",collectionid);
 			}else {
 				res = TripleStoreConnector.executeQuery(workingobj.getString("query"),
-						workingobj.getString("triplestore"), format,limit,offset,"sf:featureMember",collectionid);
+						workingobj.getString("triplestore"), format,""+(Integer.valueOf(limit)*workingobj.getInt("attcount")),offset,"sf:featureMember",collectionid);
 			}
 			System.out.println(res);
 			if (format != null && format.contains("json")) {
@@ -1137,7 +1167,7 @@ public class WebService {
 		writer.writeStartElement("sequence");
 		Map<String,String>mapping=TripleStoreConnector
 				.getFeatureTypeInformation(workingobj.getString("query"), workingobj.getString("triplestore"),
-		  workingobj.getString("name")); 
+		  workingobj.getString("name"),workingobj); 
 		for(String elem:mapping.keySet()) {
 			writer.writeStartElement("element"); writer.writeAttribute("name", elem);
 			writer.writeAttribute("type", mapping.get(elem)); 
@@ -1177,11 +1207,15 @@ public class WebService {
 		}
 		if(workingobj==null)
 			throw new NotFoundException();
+		if(!workingobj.has("attcount")) {
+			TripleStoreConnector
+					.getFeatureTypeInformation(workingobj.getString("query"), workingobj.getString("triplestore"),workingobj.getString("name"),workingobj); 		
+		}
 		String res = "";
 		try {
 			res = TripleStoreConnector.executeQuery(workingobj.getString("query"),
 					workingobj.getString("triplestore"),
-					output, count,startindex,"gml:featureMember",typename);
+					output, ""+(Integer.valueOf(count)*workingobj.getInt("attcount")),startindex,"gml:featureMember",typename);
 			System.out.println(res);
 		} catch (JSONException | XMLStreamException e1) {
 			// TODO Auto-generated catch block

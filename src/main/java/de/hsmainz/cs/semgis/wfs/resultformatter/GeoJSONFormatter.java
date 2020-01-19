@@ -70,12 +70,7 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 					System.out.println(geojsonobj);
 					geomcounter++;
 				}
-				jsonobj = new JSONObject();
-				properties = new JSONObject();
-				geoms = new LinkedList<JSONObject>();
-			}
-			if (newobject) {
-				geomvars = 0;
+				geomvars=0;
 				jsonobj = new JSONObject();
 				properties = new JSONObject();
 				geoms = new LinkedList<JSONObject>();
@@ -146,6 +141,20 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 			 * allfeatures.get(geomcounter % geomvars).put(geojsonobj); geomcounter++; } }
 			 */
 			lastInd = solu.get(featuretype.toLowerCase()).toString();
+		}
+		if(features.length()==0) {
+			int geomcounter=0;
+			for (JSONObject geom : geoms) {
+				JSONObject geojsonobj = new JSONObject();
+				geojsonobj.put("type", "Feature");
+				geojsonobj.put("properties", properties);
+				geojsonobj.put("geometry", geom);
+				geojsonobj.put("id",lastInd);
+				//allfeatures.get(geomcounter).put(geojsonobj);
+				features.put(geojsonobj);
+				System.out.println(geojsonobj);
+				geomcounter++;
+			}
 		}
 		System.out.println(obj);
 		System.out.println(geojsonresults.toString(2));
