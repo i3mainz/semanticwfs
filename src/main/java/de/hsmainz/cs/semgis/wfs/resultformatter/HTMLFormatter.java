@@ -23,13 +23,24 @@ public class HTMLFormatter extends ResultFormatter {
 				"var layercontrol=L.control.layers(baseMaps,overlayMaps).addTo(map);");
 		builder.append("var geojsonlayer=L.geoJSON(geojson, {coordsToLatLng: function (coords) {return new L.LatLng(coords[1], coords[0], coords[2]);},"+
 				"		onEachFeature: function (feature, layer) {\r\n" + 
-				"	 var popup=\"Official Data<br/><ul>\"\r\n" + 
-				"	 for(prop in feature.properties){\r\n" + 
-				"	 	popup+=\"<li>\"+prop+\" - \"+feature.properties[prop]+\"</li>\"\r\n" + 
+				"	 var popup=\"Item: <a href='\"+feature.id+\"'>\"+(feature.id.includes('#')?feature.id.substring(feature.id.lastIndexOf('#')+1):feature.id)+\"</a><br/>Properties:<ul>\"\r\n" + 
+				"   Object.keys(feature.properties).sort().forEach(function(prop) {\r\n" +
+				"       if(prop.includes(\"http\") && prop.includes(\"#\")){\r\n"+
+				"	 	popup+=\"<li><a href='\"+prop+\"'>\"+prop.substring(prop.lastIndexOf('#')+1)+\"</a> - \"\r\n" +
+				" }else if(prop.includes(\"http\")){\r\n"+
+				"	 	popup+=\"<li><a href='\"+prop+\"'>\"+prop.substring(prop.lastIndexOf('/')+1)+\"</a> - \"\r\n" +
+				" }else{\r\n"+
+				"	 	popup+=\"<li>\"+prop+\" - \"\r\n" + 
 				"	 }\r\n" + 
-				"	 popup+=\"</ul>\"\r\n" + 
+				" if(feature.properties[prop].includes(\"http\") && feature.properties[prop].includes(\"#\")){\r\n"+
+				"     popup+=\"<a href='\"+feature.properties[prop]+\"'>\"+feature.properties[prop].substring(feature.properties[prop].lastIndexOf('#')+1)+\"</a></li>\"\r\n"+
+				" }else if(prop.includes(\"http\")){\r\n"+
+				"     popup+=\"<a href='\"+feature.properties[prop]+\"'>\"+feature.properties[prop].substring(feature.properties[prop].lastIndexOf('/')+1)+\"</a></li>\"\r\n"+
+				" }else{\r\n"+
+				"  popup+=feature.properties[prop]+\"</li>\"\r\n"+
+				"	 }});popup+=\"</ul>\"\r\n" + 
 				"	 console.log(feature)\r\n" + 
-				"         layer.bindPopup(popup);\r\n" + 
+				"         layer.bindPopup(popup,{maxWidth : 560});\r\n" + 
 				"     }}).addTo(map);map.fitBounds(geojsonlayer.getBounds());</script></div>");
 		builder.append("<table width=\"100%\" align=\"center\" id=\"queryres\" class=\"tablesorter\" border=\"1\"><tr>");
 		Boolean first=true;
@@ -38,7 +49,13 @@ public class HTMLFormatter extends ResultFormatter {
 			if(first) {
 				builder.append("<thead><tr>");
 				for(String key:features.getJSONObject(0).getJSONObject("properties").keySet()) {
-					builder.append("<th>"+key+"</th>");
+					if(key.contains("http")) {
+						if(key.contains("#")) {
+							builder.append("<th align=\"center\"><a href=\""+key+"\" target=\"_blank\">"+key.substring(key.lastIndexOf('#')+1)+"</a></td>");
+						}else {
+							builder.append("<th align=\"center\"><a href=\""+key+"\" target=\"_blank\">"+key+"</a></td>");
+						}
+					}
 				}
 				builder.append("</tr></thead><tbody>");
 				first=false;
@@ -48,7 +65,13 @@ public class HTMLFormatter extends ResultFormatter {
 				System.out.println(key);
 				String value=features.getJSONObject(i).getJSONObject("properties").get(key).toString();
 				if(value.contains("http")) {
-					builder.append("<td align=\"center\"><a href=\""+value+"\" target=\"_blank\">"+value+"</a></td>");
+					if(value.contains("^^")) {
+						builder.append("<td align=\"center\"><a href=\""+value+"\" target=\"_blank\">"+value.substring(0,value.lastIndexOf('^')-1)+"</a></td>");
+					}else if(value.contains("#")) {
+						builder.append("<td align=\"center\"><a href=\""+value+"\" target=\"_blank\">"+value.substring(value.lastIndexOf('#')+1)+"</a></td>");
+					}else {
+						builder.append("<td align=\"center\"><a href=\""+value+"\" target=\"_blank\">"+value+"</a></td>");
+					}
 				}else {
 					builder.append("<td align=\"center\">"+value+"</td>");
 				}

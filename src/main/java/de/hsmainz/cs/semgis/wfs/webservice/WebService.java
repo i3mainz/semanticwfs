@@ -1289,7 +1289,7 @@ public class WebService {
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/service/addFeatureType")
-	public String getGmlObject(@QueryParam("query") String sparqlQuery, 
+	public String addFeatureType(@QueryParam("query") String sparqlQuery, 
 			@QueryParam("typename")String name, 
 			@QueryParam("namespace") String namespace,
 			@QueryParam("triplestore") String triplestore,
@@ -1308,7 +1308,7 @@ public class WebService {
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/service/saveFeatureTypes")
-	public String getGmlObject(@QueryParam("featjson") String featureTypesJSON, 
+	public String saveFeatureTypes(@QueryParam("featjson") String featureTypesJSON, 
 			@QueryParam("username") String username,
 			@QueryParam("password") String password) {
 		return null;
