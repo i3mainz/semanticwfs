@@ -510,7 +510,7 @@ public class WebService {
 			builder.append("</h1>Serializations:<ul>");
 			builder.append("<li><a href=\""+this.wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name") + "/items?f=json"+"\">[GeoJSON]</a></li>");
 			builder.append("<li><a href=\""+this.wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+ "/items?f=application/gml+xml;version=3.2;profile=http://www.opengis.net/def/profile/ogc/2.0/gml-sf0"+"\">[GML]</a></li>");
-			builder.append("</ul>Contents:<table width=\"100%\"><tr><th>Value</th><th>Type</th>");
+			builder.append("</ul>Contents:<table width=\"100%\" border=\"1\"><tr><th>Value</th><th>Type</th>");
 			for(String elem:mapping.keySet()) {
 				if(!elem.equals("http://www.opengis.net/ont/geosparql#hasGeometry") &&
 						!elem.equals("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")) {
