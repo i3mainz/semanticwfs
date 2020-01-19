@@ -573,7 +573,7 @@ public class WebService {
 						workingobj.getString("triplestore"), format,"sf:featureMember",collectionid);
 			}else {
 				res = TripleStoreConnector.executeQuery(workingobj.getString("query"),
-						workingobj.getString("triplestore"), format,""+(Integer.valueOf(limit)*workingobj.getInt("attcount")),offset,"sf:featureMember",collectionid);
+						workingobj.getString("triplestore"), format,""+(Integer.valueOf(limit)*workingobj.getInt("attcount")),""+(Integer.valueOf(offset)*workingobj.getInt("attcount")),"sf:featureMember",collectionid);
 			}
 			System.out.println(res);
 			if (format != null && format.contains("json")) {
@@ -1215,7 +1215,7 @@ public class WebService {
 		try {
 			res = TripleStoreConnector.executeQuery(workingobj.getString("query"),
 					workingobj.getString("triplestore"),
-					output, ""+(Integer.valueOf(count)*workingobj.getInt("attcount")),startindex,"gml:featureMember",typename);
+					output, ""+(Integer.valueOf(count)*workingobj.getInt("attcount")),""+(Integer.valueOf(startindex)*workingobj.getInt("attcount")),"gml:featureMember",typename);
 			System.out.println(res);
 		} catch (JSONException | XMLStreamException e1) {
 			// TODO Auto-generated catch block
