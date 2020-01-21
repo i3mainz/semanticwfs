@@ -18,10 +18,21 @@ public class GeoURIFormatter extends WFSResultFormatter {
     	Boolean first=true;
     	StringBuilder resultCSV=new StringBuilder();
     	StringBuilder resultCSVHeader=new StringBuilder();
+    	String lastInd="";
 	    for(QuerySolution solu:test) {
 	    	Iterator<String> varnames = solu.varNames();
 	    	while(varnames.hasNext()) {
 	    		String name=varnames.next();
+	    		String curfeaturetype="";
+		    	if(solu.get(featuretype.toLowerCase())!=null) {
+					curfeaturetype=solu.get(featuretype.toLowerCase()).toString();
+					if(curfeaturetype.contains("http") && curfeaturetype.contains("#")){
+						curfeaturetype=curfeaturetype.substring(curfeaturetype.lastIndexOf('#')+1);
+					}
+					if(!solu.get(featuretype.toLowerCase()).toString().equals(lastInd) || lastInd.isEmpty()) {
+						lastQueriedElemCount++;
+					}
+				}
 	    		if(first) {
 	    		    resultCSVHeader.append(name+",");
 	    		}
@@ -30,29 +41,12 @@ public class GeoURIFormatter extends WFSResultFormatter {
 	    			try {
 	    			NodeValue val=geojson.exec(NodeValue.makeNode(solu.getLiteral(name).getString(),solu.getLiteral(name).getDatatype()));
 	    			//JSONObject geomobj=new JSONObject(val.asNode().getLiteralValue().toString());
-	    			resultCSV.append(val.asString());
+	    			resultCSV.append(val.asString()+System.lineSeparator());
 	    			}catch(Exception e) {
 	    				e.printStackTrace();
 	    			}
-	    		}/*else {
-	    			
-	    			try {
-	    				Literal lit=solu.getLiteral(name);
-	    				resultCSV.append(lit.getString()+",");
-	    			}catch(Exception e) {
-	    				resultCSV.append(solu.get(name)+",");	
-	    			}  			
-	    		}*/
-
-	    	}
-	    	if(first) {
-	    		resultCSVHeader.delete(resultCSVHeader.length()-1, resultCSVHeader.length());
-		    	resultCSVHeader.append(System.lineSeparator());
-	    		first=false;
-	    	}else {
-	    		resultCSV.delete(resultCSV.length()-1, resultCSV.length());
-		    	resultCSV.append(System.lineSeparator());
-	    	}   	
+	    		}
+	    	}	
 	    }
 	    return resultCSV.toString();
 	}

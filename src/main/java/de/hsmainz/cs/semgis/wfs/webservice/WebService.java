@@ -369,9 +369,7 @@ public class WebService {
 			builder.append(res);
 			builder.append("</ul></body></html>");
 			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
-		}else if (format == null || format.contains("geouri")) {
-			return Response.ok(res).type(MediaType.TEXT_PLAIN).build();
-		}else if (format == null || format.contains("csv")) {
+		}else if (format != null && (format.contains("geouri") || format.contains("csv") || format.contains("geohash"))) {
 			return Response.ok(res).type(MediaType.TEXT_PLAIN).build();
 		} else {
 			return Response.ok("").type(MediaType.TEXT_PLAIN).build();
@@ -695,7 +693,9 @@ public class WebService {
 				builder.append(res);
 				builder.append("<script>$( document ).ready(function() {$('#queryres').DataTable();});</script></body></html>");
 				return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
-			} else {
+			}else if(format!=null && (format.contains("csv") || format.contains("geouri") || format.contains("geohash"))) {				
+				return Response.ok(res).type(MediaType.TEXT_PLAIN).build();
+			}else {
 				return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 			}
 		} catch (JSONException | XMLStreamException e1) {
