@@ -126,19 +126,18 @@ public abstract class TripleStoreConnector {
 			toreplace.append("}");
 			queryString=queryString.replace("WHERE{",toreplace.toString());	
 		}
+		Integer limit=Integer.valueOf(count);
+		System.out.println("Count: "+count);
+		if(limit>=1) {
+			queryString+=" LIMIT "+count;
+		}
 		System.out.println(prefixCollection+queryString);
 		System.out.println(resourceids);
 		Query query = QueryFactory.create(prefixCollection+queryString);
-		Integer limit=Integer.valueOf(count);
-		QueryExecution qexec;
-		if(limit<1) {
-			qexec = QueryExecutionFactory.sparqlService(queryurl, query);
-		}else {
-			qexec = QueryExecutionFactory.sparqlService(queryurl, query+" LIMIT "+count);
-		}
+		QueryExecution qexec = QueryExecutionFactory.sparqlService(queryurl, query);
 		ResultFormatter resformat=ResultFormatter.resultMap.get(output);
 		ResultSet results = qexec.execSelect();
-		String res=resformat.formatter(results,Integer.valueOf(offset),startingElement,featuretype);
+		String res=resformat.formatter(results,Integer.valueOf(offset),startingElement,featuretype,(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""));
 		qexec.close();
 		if(resformat.lastQueriedElemCount==0) {
 			return "";
@@ -147,7 +146,7 @@ public abstract class TripleStoreConnector {
 	}
 
 
-	public static String executeQuery(String queryString,String queryurl,String output,String startingElement,String featuretype) throws XMLStreamException {
+	public static String executeQuery(String queryString,String queryurl,String output,String startingElement,String featuretype,JSONObject workingobj) throws XMLStreamException {
 		System.out.println(prefixCollection+queryString);
 		Query query = QueryFactory.create(prefixCollection+queryString);
 		QueryExecution qexec = QueryExecutionFactory.sparqlService(queryurl, query);
@@ -155,7 +154,7 @@ public abstract class TripleStoreConnector {
 		System.out.println(ResultFormatter.resultMap);
 		System.out.println(resformat);
 		ResultSet results = qexec.execSelect();
-		String res=resformat.formatter(results,0,"",featuretype);
+		String res=resformat.formatter(results,0,"",featuretype,(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""));
 		qexec.close();
 		if(resformat.lastQueriedElemCount==0) {
 			return "";

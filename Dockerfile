@@ -8,4 +8,6 @@ COPY *.json /usr/local/tomcat/
 
 COPY prefixes.txt /usr/local/tomcat/
 
+COPY htmltemplate.txt /usr/local/tomcat/
+
 COPY target/*.war /usr/local/tomcat/webapps/

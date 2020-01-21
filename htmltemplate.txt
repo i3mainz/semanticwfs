@@ -1,0 +1,65 @@
+<div id="mapid" style="height: 500px;"><script>var map = L.map('mapid',{fullscreenControl: true,fullscreenControlOptions: {position: 'topleft'}}).setView([51.505, -0.09], 13); var layer=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'});var baseMaps = {"OSM": layer}; baseMaps["OSM"].addTo(map);	L.control.scale({
+	position: 'bottomright',
+	imperial: false
+}).addTo(map);
+$( document ).ready(function() {
+	$('#queryres').DataTable();
+});
+
+function getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  console.log(color)
+  return color;
+}
+
+var layercontrol=L.control.layers(baseMaps,overlayMaps).addTo(map);
+var geojsonlayer=L.geoJSON(geojson, {
+style: function(feature){
+	return {
+        fillColor: 'blue',
+        weight: 2,
+        opacity: 1,
+        color: 'white',  //Outline color
+        fillOpacity: 0.7
+    };
+},
+coordsToLatLng: function (coords) {
+	return new L.LatLng(coords[1], coords[0], coords[2]);
+},		
+pointToLayer: function(feature, latlng){
+			 var greenIcon = L.divIcon({
+				className: "my-custom-pin",
+				iconAnchor: [0, 24],
+				labelAnchor: [-6, 0],
+				popupAnchor: [0, -36],
+				html: "<span style=\"background-color: "+getRandomColor()+"; width: 1.5rem;height: 1.5rem;display: block;left: -1rem;top: 0rem;position: relative;border-radius: 3rem 3rem 0;transform: rotate(45deg);border: 1px solid #FFFFFF;\"/>"
+			});
+            return L.marker(latlng,{icon: greenIcon})
+},
+onEachFeature: function (feature, layer) {
+	 var popup="Item: <a href='"+feature.id+"' target='_blank'>"+(feature.id.includes('#')?feature.id.substring(feature.id.lastIndexOf('#')+1):feature.id)+"</a><br/>Properties:<ul>"
+   Object.keys(feature.properties).sort().forEach(function(prop) {
+ if(prop.includes("http") && prop.includes("#")){
+	 	popup+="<li><a href='"+prop+"' target='_blank'>"+prop.substring(prop.lastIndexOf('#')+1)+"</a> - "
+ }else if(prop.includes("http")){
+	 	popup+="<li><a href='"+prop+"' target='_blank'>"+prop.substring(prop.lastIndexOf('/')+1)+"</a> - "
+ }else{
+	 	popup+="<li>"+prop+" - "
+	 }
+ if(feature.properties[prop].includes("http") && feature.properties[prop].includes("^^")){
+     popup+="<a href='"+feature.properties[prop]+"' target='_blank'>"+feature.properties[prop].substring(0,feature.properties[prop].lastIndexOf('^')-1)+"</a></li>"
+ }else if(feature.properties[prop].includes("http") && feature.properties[prop].includes("#")){
+     popup+="<a href='"+feature.properties[prop]+"' target='_blank'>"+feature.properties[prop].substring(feature.properties[prop].lastIndexOf('#')+1)+"</a></li>"
+ }else if(feature.properties[prop].includes("http") || feature.properties[prop].includes("file:/")){
+     popup+="<a href='"+feature.properties[prop]+"' target='_blank'>"+feature.properties[prop].substring(feature.properties[prop].lastIndexOf('/')+1)+"</a></li>"
+ }else{
+  popup+=feature.properties[prop]+"</li>"
+	 }});popup+="</ul>"
+	 console.log(feature)
+         layer.bindPopup(popup,{maxWidth : 560});
+ }}).addTo(map);map.fitBounds(geojsonlayer.getBounds());</script>
+ </div>

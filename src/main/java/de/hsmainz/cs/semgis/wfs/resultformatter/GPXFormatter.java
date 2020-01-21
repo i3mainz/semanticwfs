@@ -12,7 +12,7 @@ import org.apache.jena.query.ResultSetFormatter;
 public class GPXFormatter extends WFSResultFormatter {
 
 	@Override
-	public String formatter(ResultSet results,Integer offset,String startingElement,String featuretype) throws XMLStreamException {
+	public String formatter(ResultSet results,Integer offset,String startingElement,String featuretype,String typeColumn) throws XMLStreamException {
 		StringBuilder gpxout=new StringBuilder();
 		gpxout.append("<?xml version='1.0' encoding='UTF-8' standalone='no' ?><gpx version='1.0'><name>Example gpx</name>");
 		List<QuerySolution> test=ResultSetFormatter.toList(results);

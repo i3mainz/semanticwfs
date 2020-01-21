@@ -16,7 +16,7 @@ import de.hsmainz.cs.semgis.wfs.converters.AsGeoJSON;
 public class GeoJSONFormatter extends WFSResultFormatter {
 
 	@Override
-	public String formatter(ResultSet results, Integer offset, String startingElement, String featuretype) {
+	public String formatter(ResultSet results, Integer offset, String startingElement, String featuretype,String typeColumn) {
 		lastQueriedElemCount=0;
 		JSONObject geojsonresults = new JSONObject();
 		List<JSONArray> allfeatures = new LinkedList<JSONArray>();
@@ -144,7 +144,7 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 			 */
 			lastInd = solu.get(featuretype.toLowerCase()).toString();
 		}
-		if(features.length()==0) {
+		//if(features.length()==0) {
 			int geomcounter=0;
 			for (JSONObject geom : geoms) {
 				JSONObject geojsonobj = new JSONObject();
@@ -157,7 +157,7 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 				System.out.println(geojsonobj);
 				geomcounter++;
 			}
-		}
+		//}
 		System.out.println(obj);
 		System.out.println(geojsonresults.toString(2));
 		return geojsonresults.toString(2);

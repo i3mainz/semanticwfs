@@ -17,7 +17,7 @@ import de.hsmainz.cs.semgis.wfs.converters.AsPolyshape;
 public class PolyshapeFormatter extends WFSResultFormatter {
 
 	@Override
-	public String formatter(ResultSet results,Integer offset,String startingElement,String featuretype) throws XMLStreamException {
+	public String formatter(ResultSet results,Integer offset,String startingElement,String featuretype,String typeColumn) throws XMLStreamException {
 		List<QuerySolution> test=ResultSetFormatter.toList(results);
     	Boolean first=true;
     	StringBuilder resultCSV=new StringBuilder();

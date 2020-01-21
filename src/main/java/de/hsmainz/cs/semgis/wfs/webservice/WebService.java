@@ -35,6 +35,14 @@ public class WebService {
 
 	JSONObject wfsconf = new JSONObject();
 
+	String htmlHead="<html><head><link rel=\"stylesheet\" href=\"https://unpkg.com/leaflet@1.5.1/dist/leaflet.css\"\r\n" + 
+			"   integrity=\"sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==\"\r\n" + 
+			"   crossorigin=\"\"/>\r\n" + 
+			"<script src=\"https://unpkg.com/leaflet@1.5.1/dist/leaflet.js\"\r\n" + 
+			"   integrity=\"sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==\"\r\n" + 
+			"   crossorigin=\"\"></script><link rel=\"stylesheet\" href=\"https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css\"/><script src=\"https://code.jquery.com/jquery-3.4.1.min.js\"></script><script src=\"https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js\"></script><script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>\r\n" + 
+			"<link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' /></head>";
+	
 	public WebService() throws IOException {
 		String text2 = new String(Files.readAllBytes(Paths.get("wfsconf.json")), StandardCharsets.UTF_8);
 		wfsconf = new JSONObject(text2);
@@ -238,10 +246,12 @@ public class WebService {
 		if (workingobj == null) {
 			throw new NotFoundException();
 		}
-		if(!workingobj.has("attcount")) {
+		if(!workingobj.has("attcount") && !workingobj.getString("query").contains("?rel") && !workingobj.getString("query").contains("?val")) {
+			workingobj.put("attcount", 1);
+		}else if(!workingobj.has("attcount")) {
 			TripleStoreConnector
 					.getFeatureTypeInformation(workingobj.getString("query"), workingobj.getString("triplestore"),
-			  workingobj.getString("name"),workingobj); 		
+			  workingobj.getString("name"),workingobj);		
 		}
 		String query=workingobj.getString("query");
 		/*query=query.replace("WHERE{","WHERE{ BIND( <"+workingobj.getString("namespace")+featureid+"> AS ?"+workingobj.getString("indvar")+") ");
@@ -351,8 +361,8 @@ public class WebService {
 			}
 		} else if (format == null || format.contains("html")) {
 			StringBuilder builder = new StringBuilder();
-			builder.append("<html><head><link rel=\"stylesheet\" href=\"https://unpkg.com/leaflet@1.5.1/dist/leaflet.css\"/><link rel=\"stylesheet\" href=\"https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css\"/><script src=\"https://unpkg.com/leaflet@1.5.1/dist/leaflet.js\"></script><script src=\"https://code.jquery.com/jquery-3.4.1.min.js\"></script><script src=\"https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js\"></script></head><body>");
-			builder.append("<h1 align=\"center\">");
+			builder.append(htmlHead);
+			builder.append("<body><h1 align=\"center\">");
 			builder.append(featureid);
 			builder.append("</h1>");
 			builder.append("<ul>");
@@ -510,14 +520,13 @@ public class WebService {
 				writer.flush();
 				return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
 			} catch (XMLStreamException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 			}
 		}else if(format == null || format.contains("html")){
 			StringBuilder builder=new StringBuilder();
-			builder.append("<html><head><link rel=\"stylesheet\" href=\"https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css\"/><script src=\"https://code.jquery.com/jquery-3.4.1.min.js\"></script><script src=\"https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js\"></script></head><body>");
-			builder.append("<h1 align=\"center\">");
+			builder.append(htmlHead);
+			builder.append("<body><h1 align=\"center\">");
 			builder.append(collectionid);
 			builder.append("</h1>Serializations:<ul>");
 			builder.append("<li><a href=\""+this.wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name") + "/items?f=json"+"\">[GeoJSON]</a></li>");
@@ -553,9 +562,11 @@ public class WebService {
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections/{collectionid}/items")
 	public Response collectionItems(@PathParam("collectionid") String collectionid,
-			@DefaultValue("json") @QueryParam("f") String format, @DefaultValue("-1") @QueryParam("limit") String limit,
+			@DefaultValue("json") @QueryParam("f") String format, 
+			@DefaultValue("-1") @QueryParam("limit") String limit,
 			@DefaultValue("0") @QueryParam("offset") String offset,
 			@QueryParam("bbox") String bbox, @QueryParam("datetime") String datetime) {
+		System.out.println("Limit: "+limit);
 		if (collectionid == null) {
 			throw new NotFoundException();
 		}
@@ -570,11 +581,12 @@ public class WebService {
 		if (workingobj == null) {
 			throw new NotFoundException();
 		}
-		if(!workingobj.has("attcount")) {
+		if(!workingobj.has("attcount") && !workingobj.getString("query").contains("?rel") && !workingobj.getString("query").contains("?val")) {
+			workingobj.put("attcount", 1);
+		}else if(!workingobj.has("attcount")) {
 			TripleStoreConnector
 					.getFeatureTypeInformation(workingobj.getString("query"), workingobj.getString("triplestore"),
-			  workingobj.getString("name"),workingobj); 
-			
+			  workingobj.getString("name"),workingobj);		
 		}
 		System.out.println("Attcount: "+workingobj.getInt("attcount"));
 		System.out.println(limit);
@@ -582,7 +594,7 @@ public class WebService {
 			String res;
 			if(limit.equals("-1") && offset.equals("0")) {
 				res = TripleStoreConnector.executeQuery(workingobj.getString("query"),
-						workingobj.getString("triplestore"), format,"sf:featureMember",collectionid);
+						workingobj.getString("triplestore"), format,"sf:featureMember",collectionid,workingobj);
 			}else {
 				res = TripleStoreConnector.executeQuery(workingobj.getString("query"),
 						workingobj.getString("triplestore"), format,""+(Integer.valueOf(limit)*workingobj.getInt("attcount")),
@@ -676,8 +688,8 @@ public class WebService {
 				}
 			} else if (format == null || format.contains("html")) {
 				StringBuilder builder = new StringBuilder();
-				builder.append("<html><head><link rel=\"stylesheet\" href=\"https://unpkg.com/leaflet@1.5.1/dist/leaflet.css\"/><link rel=\"stylesheet\" href=\"https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css\"/><script src=\"https://unpkg.com/leaflet@1.5.1/dist/leaflet.js\"></script><script src=\"https://code.jquery.com/jquery-3.4.1.min.js\"></script><script src=\"https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js\"></script></head><body>");
-				builder.append("<h1 align=\"center\">");
+				builder.append(htmlHead);
+				builder.append("<body><h1 align=\"center\">");
 				builder.append(collectionid);
 				builder.append("</h1>");
 				builder.append(res);
@@ -742,7 +754,6 @@ public class WebService {
 				return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
 			} catch (XMLStreamException e) {
 				e.printStackTrace();
-				// TODO Auto-generated catch block
 				return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 			}
 		}else if(format == null || format.contains("html")) {
@@ -1226,10 +1237,12 @@ public class WebService {
 		}
 		if(workingobj==null)
 			throw new NotFoundException();
-		if(!workingobj.has("attcount")) {
+		if(!workingobj.has("attcount") && !workingobj.getString("query").contains("?rel") && !workingobj.getString("query").contains("?val")) {
+			workingobj.put("attcount", 1);
+		}else if(!workingobj.has("attcount")) {
 			TripleStoreConnector
-					.getFeatureTypeInformation(workingobj.getString("query"), 
-							workingobj.getString("triplestore"),workingobj.getString("name"),workingobj); 		
+					.getFeatureTypeInformation(workingobj.getString("query"), workingobj.getString("triplestore"),
+			  workingobj.getString("name"),workingobj);		
 		}
 		String res = "";
 		try {
@@ -1243,7 +1256,6 @@ public class WebService {
 				throw new NotFoundException();
 			}
 		} catch (JSONException | XMLStreamException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		System.out.println(output);
@@ -1289,8 +1301,8 @@ public class WebService {
 			return Response.ok(result.toString(2)).type(MediaType.APPLICATION_JSON).build();
 		}else if(output.contains("html")) {
 			StringBuilder builder = new StringBuilder();
-			builder.append("<html><head><link rel=\"stylesheet\" href=\"https://unpkg.com/leaflet@1.5.1/dist/leaflet.css\"/><link rel=\"stylesheet\" href=\"https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css\"/><script src=\"https://unpkg.com/leaflet@1.5.1/dist/leaflet.js\"></script><script src=\"https://code.jquery.com/jquery-3.4.1.min.js\"></script><script src=\"https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js\"></script></head><body>");
-			builder.append("<h1 align=\"center\">");
+			builder.append(htmlHead);
+			builder.append("<body><h1 align=\"center\">");
 			builder.append(typename);
 			builder.append("</h1>");
 			builder.append(res);
@@ -1333,13 +1345,13 @@ public class WebService {
 		if(workingobj==null)
 			throw new NotFoundException();
 		/*String res = "";
+		 * 
 		try {
 			res = TripleStoreConnector.executeQuery(workingobj.getString("query"),
 					workingobj.getString("triplestore"),
 					output, count,startindex,"gml:featureMember",typename);
 			System.out.println(res);
 		} catch (JSONException | XMLStreamException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}*/
 		return "";

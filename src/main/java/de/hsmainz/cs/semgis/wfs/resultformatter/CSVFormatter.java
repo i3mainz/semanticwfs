@@ -9,7 +9,7 @@ import org.apache.jena.rdf.model.Literal;
 public class CSVFormatter extends WFSResultFormatter {
 
 	@Override
-	public String formatter(ResultSet results,Integer offset,String startingElement,String featuretype) {
+	public String formatter(ResultSet results,Integer offset,String startingElement,String featuretype,String typeColumn) {
     	Boolean first=true;
     	StringBuilder resultCSV=new StringBuilder();
     	StringBuilder resultCSVHeader=new StringBuilder();

@@ -7,7 +7,7 @@ import org.apache.jena.query.ResultSet;
 public class TopoJSONFormatter extends WFSResultFormatter {
 
 	@Override
-	public String formatter(ResultSet results,Integer offset,String startingElement,String featuretype) throws XMLStreamException {
+	public String formatter(ResultSet results,Integer offset,String startingElement,String featuretype,String typeColumn) throws XMLStreamException {
 		return null;
 	}
 
