@@ -235,6 +235,11 @@ public class WebService {
 		if (workingobj == null) {
 			throw new NotFoundException();
 		}
+		if(!workingobj.has("attcount")) {
+			TripleStoreConnector
+					.getFeatureTypeInformation(workingobj.getString("query"), workingobj.getString("triplestore"),
+			  workingobj.getString("name"),workingobj); 		
+		}
 		String query=workingobj.getString("query");
 		query=query.replace("WHERE{","WHERE{ BIND( <"+workingobj.getString("namespace")+featureid+"> AS ?"+workingobj.getString("indvar")+") ");
 		System.out.println("?"+workingobj.getString("indvar")+" - "+"<"+workingobj.getString("namespace")+featureid+">");
@@ -242,7 +247,7 @@ public class WebService {
 		String res = "";
 		try {
 			res = TripleStoreConnector.executeQuery(query, workingobj.getString("triplestore"),
-					format, "0","0","sf:featureMember",collectionid);
+					format, "-1","0","sf:featureMember",collectionid);
 			System.out.println(res);
 		} catch (JSONException | XMLStreamException e1) {
 			// TODO Auto-generated catch block
@@ -575,7 +580,7 @@ public class WebService {
 				res = TripleStoreConnector.executeQuery(workingobj.getString("query"),
 						workingobj.getString("triplestore"), format,""+(Integer.valueOf(limit)*workingobj.getInt("attcount")),""+(Integer.valueOf(offset)*workingobj.getInt("attcount")),"sf:featureMember",collectionid);
 			}
-			System.out.println(res);
+			//System.out.println(res);
 			if (format != null && format.contains("json")) {
 				JSONObject result = new JSONObject();
 				JSONArray links = new JSONArray();

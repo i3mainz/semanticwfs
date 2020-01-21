@@ -11,7 +11,7 @@ public class HTMLFormatter extends ResultFormatter {
 	@Override
 	public String formatter(ResultSet results,Integer offset,String startingElement,String featuretype) throws XMLStreamException {
 		JSONObject geojson=new JSONObject(resultMap.get("geojson").formatter(results,offset,startingElement,featuretype));
-		System.out.println(geojson);
+		//System.out.println(geojson);
 		StringBuilder builder=new StringBuilder();
 		builder.append("<script>var overlayMaps={}; var overlayControl; var markercollection=[];var geojson="+geojson.toString()+"</script>");
 		builder.append("<div id=\"mapid\" style=\"height: 500px;\"><script>var map = L.map('mapid',{fullscreenControl: true,fullscreenControlOptions: {position: 'topleft'}}).setView([51.505, -0.09], 13); var layer=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors'});");
@@ -60,9 +60,9 @@ public class HTMLFormatter extends ResultFormatter {
 				builder.append("</tr></thead><tbody>");
 				first=false;
 			}
-			System.out.println(builder.toString());
+			//System.out.println(builder.toString());
 			for(String key:features.getJSONObject(i).getJSONObject("properties").keySet()) {
-				System.out.println(key);
+				//System.out.println(key);
 				String value=features.getJSONObject(i).getJSONObject("properties").get(key).toString();
 				if(value.contains("http")) {
 					if(value.contains("^^")) {
@@ -79,7 +79,7 @@ public class HTMLFormatter extends ResultFormatter {
 			builder.append("</tr>");
 		}
 		builder.append("</tbody></table>");
-		System.out.println(builder.toString());
+		//System.out.println(builder.toString());
 		return builder.toString();
 	}
 

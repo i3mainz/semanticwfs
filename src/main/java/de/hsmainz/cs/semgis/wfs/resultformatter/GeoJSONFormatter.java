@@ -47,9 +47,9 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 			QuerySolution solu = results.next();
 			Iterator<String> varnames = solu.varNames();
 			int geomvars = 0;
-			System.out.println(solu.get(featuretype.toLowerCase()).toString() + " - " + lastInd);
+			//System.out.println(solu.get(featuretype.toLowerCase()).toString() + " - " + lastInd);
 			if (!solu.get(featuretype.toLowerCase()).toString().equals(lastInd) || lastInd.isEmpty()) {
-				System.out.println("NEW OBJECT!");
+				//System.out.println("NEW OBJECT!");
 				newobject = true;
 			} else {
 				newobject = false;
@@ -57,8 +57,8 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 			if (newobject) {
 				// System.out.println("Geomvars: "+geomvars);
 				int geomcounter = 0;
-				System.out.println("CREATING NEW FEATURE!");
-				System.out.println(geoms);
+				//System.out.println("CREATING NEW FEATURE!");
+				//System.out.println(geoms);
 				for (JSONObject geom : geoms) {
 					JSONObject geojsonobj = new JSONObject();
 					geojsonobj.put("type", "Feature");
@@ -67,7 +67,7 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 					geojsonobj.put("id",lastInd);
 					//allfeatures.get(geomcounter).put(geojsonobj);
 					features.put(geojsonobj);
-					System.out.println(geojsonobj);
+					//System.out.println(geojsonobj);
 					geomcounter++;
 				}
 				geomvars=0;
@@ -91,8 +91,8 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 						NodeValue nodeval = geojson.exec(NodeValue.makeNode(solu.getLiteral(name).getString(),
 								solu.getLiteral(name).getDatatype()));
 						JSONObject geomobj = new JSONObject(nodeval.asNode().getLiteralValue().toString());
-						System.out.println("ADD GEOMETRY!");
-						System.out.println(geomobj);
+						//System.out.println("ADD GEOMETRY!");
+						//System.out.println(geomobj);
 						geoms.add(geomobj);
 					} catch (Exception e) {
 						e.printStackTrace();
