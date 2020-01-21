@@ -116,7 +116,7 @@ public abstract class TripleStoreConnector {
 	
 	public static String executeQuery(String queryString,String queryurl,String output,String count,String offset,String startingElement,String featuretype,String resourceids,JSONObject workingobj,String filter) throws XMLStreamException {
 		if(!resourceids.isEmpty() && !resourceids.contains(",")) {
-			queryString=queryString.replace("WHERE{","WHERE{ BIND( <"+workingobj.getString("namespace")+workingobj.get("name")+"> AS ?"+workingobj.getString("indvar")+") ");
+			queryString=queryString.replace("WHERE{","WHERE{ BIND( <"+workingobj.getString("namespace")+resourceids+"> AS ?"+workingobj.getString("indvar")+") ");
 		}else if(!resourceids.isEmpty() && resourceids.contains(",")) {
 			StringBuilder toreplace=new StringBuilder();
 			toreplace.append("WHERE{ VALUES ?"+workingobj.getString("indvar")+"{ ");

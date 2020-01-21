@@ -27,17 +27,19 @@ public class HTMLFormatter extends ResultFormatter {
 				"		onEachFeature: function (feature, layer) {\r\n" + 
 				"	 var popup=\"Item: <a href='\"+feature.id+\"'>\"+(feature.id.includes('#')?feature.id.substring(feature.id.lastIndexOf('#')+1):feature.id)+\"</a><br/>Properties:<ul>\"\r\n" + 
 				"   Object.keys(feature.properties).sort().forEach(function(prop) {\r\n" +
-				"       if(prop.includes(\"http\") && prop.includes(\"#\")){\r\n"+
-				"	 	popup+=\"<li><a href='\"+prop+\"'>\"+prop.substring(prop.lastIndexOf('#')+1)+\"</a> - \"\r\n" +
+				" if(prop.includes(\"http\") && prop.includes(\"#\")){\r\n"+
+				"	 	popup+=\"<li><a href='\"+prop+\"' target='_blank'>\"+prop.substring(prop.lastIndexOf('#')+1)+\"</a> - \"\r\n" +
 				" }else if(prop.includes(\"http\")){\r\n"+
-				"	 	popup+=\"<li><a href='\"+prop+\"'>\"+prop.substring(prop.lastIndexOf('/')+1)+\"</a> - \"\r\n" +
+				"	 	popup+=\"<li><a href='\"+prop+\"' target='_blank'>\"+prop.substring(prop.lastIndexOf('/')+1)+\"</a> - \"\r\n" +
 				" }else{\r\n"+
 				"	 	popup+=\"<li>\"+prop+\" - \"\r\n" + 
 				"	 }\r\n" + 
-				" if(feature.properties[prop].includes(\"http\") && feature.properties[prop].includes(\"#\")){\r\n"+
-				"     popup+=\"<a href='\"+feature.properties[prop]+\"'>\"+feature.properties[prop].substring(feature.properties[prop].lastIndexOf('#')+1)+\"</a></li>\"\r\n"+
-				" }else if(prop.includes(\"http\")){\r\n"+
-				"     popup+=\"<a href='\"+feature.properties[prop]+\"'>\"+feature.properties[prop].substring(feature.properties[prop].lastIndexOf('/')+1)+\"</a></li>\"\r\n"+
+				" if(feature.properties[prop].includes(\"http\") && feature.properties[prop].includes(\"^^\")){\r\n"+
+				"     popup+=\"<a href='\"+feature.properties[prop]+\"' target='_blank'>\"+feature.properties[prop].substring(0,feature.properties[prop].lastIndexOf('^')-1)+\"</a></li>\"\r\n"+
+				" }else if(feature.properties[prop].includes(\"http\") && feature.properties[prop].includes(\"#\")){\r\n"+
+				"     popup+=\"<a href='\"+feature.properties[prop]+\"' target='_blank'>\"+feature.properties[prop].substring(feature.properties[prop].lastIndexOf('#')+1)+\"</a></li>\"\r\n"+				
+				" }else if(feature.properties[prop].includes(\"http\") || feature.properties[prop].includes(\"file:/\")){\r\n"+
+				"     popup+=\"<a href='\"+feature.properties[prop]+\"' target='_blank'>\"+feature.properties[prop].substring(feature.properties[prop].lastIndexOf('/')+1)+\"</a></li>\"\r\n"+
 				" }else{\r\n"+
 				"  popup+=feature.properties[prop]+\"</li>\"\r\n"+
 				"	 }});popup+=\"</ul>\"\r\n" + 
