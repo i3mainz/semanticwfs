@@ -51,8 +51,11 @@ public class WebService {
 			@DefaultValue("") @QueryParam("SRSNAME") String srsname,
 			@DefaultValue("") @QueryParam("BBOX") String bbox,
 			@DefaultValue("ASC") @QueryParam("SORTBY") String sortBy,
+			@DefaultValue("results") @QueryParam("RESULTTYPE") String resultType,
+			@DefaultValue("") @QueryParam("RESOURCEID") String resourceids,
 			@DefaultValue("0") @QueryParam("STARTINDEX") String startindex,
 			@DefaultValue("") @QueryParam("FILTER") String filter,
+			@DefaultValue("") @QueryParam("FILTERLANGUAGE") String filterLanguage,
 			@DefaultValue("gml") @QueryParam("OUTPUTFORMAT") String output,
 			@DefaultValue("5") @QueryParam("COUNT") String count) {
 			System.out.println("Request: "+request);
@@ -78,7 +81,7 @@ public class WebService {
 				}
 				if ("getFeature".equalsIgnoreCase(request)) {
 					try {
-						return this.getFeature(typename, output, count,startindex,sortBy,version);
+						return this.getFeature(typename, output, count,startindex,sortBy,version,resourceids,filter,filterLanguage);
 					} catch (XMLStreamException e) {
 						e.printStackTrace();
 						return Response.ok("").type(MediaType.TEXT_PLAIN).build();
@@ -241,18 +244,22 @@ public class WebService {
 			  workingobj.getString("name"),workingobj); 		
 		}
 		String query=workingobj.getString("query");
-		query=query.replace("WHERE{","WHERE{ BIND( <"+workingobj.getString("namespace")+featureid+"> AS ?"+workingobj.getString("indvar")+") ");
+		/*query=query.replace("WHERE{","WHERE{ BIND( <"+workingobj.getString("namespace")+featureid+"> AS ?"+workingobj.getString("indvar")+") ");
 		System.out.println("?"+workingobj.getString("indvar")+" - "+"<"+workingobj.getString("namespace")+featureid+">");
-		System.out.println(query);
+		System.out.println(query);*/
 		String res = "";
 		try {
 			res = TripleStoreConnector.executeQuery(query, workingobj.getString("triplestore"),
-					format, "-1","0","sf:featureMember",collectionid);
+					format, "0","0","sf:featureMember",collectionid,featureid,workingobj);
 			System.out.println(res);
+			if(res.isEmpty()) {
+				throw new NotFoundException();
+			}
 		} catch (JSONException | XMLStreamException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+
 		if (format != null && format.contains("json")) {
 			JSONObject result = new JSONObject();
 			JSONArray links = new JSONArray();
@@ -578,7 +585,11 @@ public class WebService {
 						workingobj.getString("triplestore"), format,"sf:featureMember",collectionid);
 			}else {
 				res = TripleStoreConnector.executeQuery(workingobj.getString("query"),
-						workingobj.getString("triplestore"), format,""+(Integer.valueOf(limit)*workingobj.getInt("attcount")),""+(Integer.valueOf(offset)*workingobj.getInt("attcount")),"sf:featureMember",collectionid);
+						workingobj.getString("triplestore"), format,""+(Integer.valueOf(limit)*workingobj.getInt("attcount")),
+						""+(Integer.valueOf(offset)*workingobj.getInt("attcount")),"sf:featureMember",collectionid,"",workingobj);
+			}
+			if(res.isEmpty()) {
+				throw new NotFoundException();
 			}
 			//System.out.println(res);
 			if (format != null && format.contains("json")) {
@@ -1197,7 +1208,10 @@ public class WebService {
 			@DefaultValue("5") @QueryParam("count") String count,
 			@DefaultValue("0") @QueryParam("startindex") String startindex,
 			@DefaultValue("ASC") @QueryParam("sortBy") String sortBy,
-			@DefaultValue("2.0.0") @QueryParam("version") String version) throws JSONException, XMLStreamException {
+			@DefaultValue("2.0.0") @QueryParam("version") String version, 
+			@DefaultValue("") @QueryParam("resourceid") String resourceids, 
+			@DefaultValue("") @QueryParam("filter") String filter, 
+			@DefaultValue("SPARQL") @QueryParam("filterLanguage") String filterLanguage) throws JSONException, XMLStreamException {
 		System.out.println(typename);	
 		if (typename == null) {
 			throw new NotFoundException();
@@ -1214,14 +1228,20 @@ public class WebService {
 			throw new NotFoundException();
 		if(!workingobj.has("attcount")) {
 			TripleStoreConnector
-					.getFeatureTypeInformation(workingobj.getString("query"), workingobj.getString("triplestore"),workingobj.getString("name"),workingobj); 		
+					.getFeatureTypeInformation(workingobj.getString("query"), 
+							workingobj.getString("triplestore"),workingobj.getString("name"),workingobj); 		
 		}
 		String res = "";
 		try {
 			res = TripleStoreConnector.executeQuery(workingobj.getString("query"),
 					workingobj.getString("triplestore"),
-					output, ""+(Integer.valueOf(count)*workingobj.getInt("attcount")),""+(Integer.valueOf(startindex)*workingobj.getInt("attcount")),"gml:featureMember",typename);
+					output, ""+(Integer.valueOf(count)*workingobj.getInt("attcount")),""
+					+(Integer.valueOf(startindex)*workingobj.getInt("attcount")),
+					"gml:featureMember",typename,resourceids,workingobj);
 			System.out.println(res);
+			if(res.isEmpty()) {
+				throw new NotFoundException();
+			}
 		} catch (JSONException | XMLStreamException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

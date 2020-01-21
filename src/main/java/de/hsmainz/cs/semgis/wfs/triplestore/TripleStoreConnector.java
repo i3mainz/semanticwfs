@@ -96,8 +96,18 @@ public abstract class TripleStoreConnector {
 	}
 
 	
-	public static String executeQuery(String queryString,String queryurl,String output,String count,String offset,String startingElement,String featuretype) throws XMLStreamException {
+	public static String executeQuery(String queryString,String queryurl,String output,String count,String offset,String startingElement,String featuretype,String resourceids,JSONObject workingobj) throws XMLStreamException {
 		System.out.println(prefixCollection+queryString+" LIMIT "+count);
+		if(!resourceids.isEmpty() && resourceids.contains(",")) {
+			queryString=queryString.replace("WHERE{","WHERE{ BIND( <"+workingobj.getString("namespace")+workingobj.get("name")+"> AS ?"+workingobj.getString("indvar")+") ");
+		}else if(!resourceids.isEmpty() && !resourceids.contains(",")) {
+			String toreplace="WHERE{ VALUES ?"+workingobj.getString("indvar")+"{ ";
+			for(String uri:resourceids.split(",")) {
+				toreplace+="<"+workingobj.getString("namespace")+uri+"> "; 
+			}
+			toreplace+="}";
+			queryString=queryString.replace("WHERE{",toreplace);	
+		}
 		Query query = QueryFactory.create(prefixCollection+queryString);
 		Integer limit=Integer.valueOf(count);
 		QueryExecution qexec;
@@ -110,6 +120,9 @@ public abstract class TripleStoreConnector {
 		ResultSet results = qexec.execSelect();
 		String res=resformat.formatter(results,Integer.valueOf(offset),startingElement,featuretype);
 		qexec.close();
+		if(resformat.lastQueriedElemCount==0) {
+			return "";
+		}
 		return res;
 	}
 
@@ -124,6 +137,9 @@ public abstract class TripleStoreConnector {
 		ResultSet results = qexec.execSelect();
 		String res=resformat.formatter(results,0,"",featuretype);
 		qexec.close();
+		if(resformat.lastQueriedElemCount==0) {
+			return "";
+		}
 		return res;
 	}
 	

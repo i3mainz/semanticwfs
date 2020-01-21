@@ -11,6 +11,8 @@ public abstract class ResultFormatter {
 
 	public static Map<String,ResultFormatter> resultMap=new TreeMap<String, ResultFormatter>();
 	
+	public Integer lastQueriedElemCount=0;
+	
 	static {
 		resultMap.put("geotiff", new GeoTIFFFormatter());
 		resultMap.put("covjson", new CovJSONFormatter());

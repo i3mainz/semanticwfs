@@ -10,7 +10,9 @@ public class HTMLFormatter extends ResultFormatter {
 
 	@Override
 	public String formatter(ResultSet results,Integer offset,String startingElement,String featuretype) throws XMLStreamException {
-		JSONObject geojson=new JSONObject(resultMap.get("geojson").formatter(results,offset,startingElement,featuretype));
+		ResultFormatter format=resultMap.get("geojson");
+		JSONObject geojson=new JSONObject(format.formatter(results,offset,startingElement,featuretype));
+		this.lastQueriedElemCount=format.lastQueriedElemCount;
 		//System.out.println(geojson);
 		StringBuilder builder=new StringBuilder();
 		builder.append("<script>var overlayMaps={}; var overlayControl; var markercollection=[];var geojson="+geojson.toString()+"</script>");

@@ -17,6 +17,7 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 
 	@Override
 	public String formatter(ResultSet results, Integer offset, String startingElement, String featuretype) {
+		lastQueriedElemCount=0;
 		JSONObject geojsonresults = new JSONObject();
 		List<JSONArray> allfeatures = new LinkedList<JSONArray>();
 		JSONObject result = new JSONObject();
@@ -55,6 +56,7 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 				newobject = false;
 			}
 			if (newobject) {
+				lastQueriedElemCount++;
 				// System.out.println("Geomvars: "+geomvars);
 				int geomcounter = 0;
 				//System.out.println("CREATING NEW FEATURE!");

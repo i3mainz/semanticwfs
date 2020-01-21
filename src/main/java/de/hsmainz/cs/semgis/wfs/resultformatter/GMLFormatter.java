@@ -29,6 +29,7 @@ public class GMLFormatter extends WFSResultFormatter {
 	
 	@Override
 	public String formatter(ResultSet results,Integer offset,String startingElement,String featuretype) throws XMLStreamException {
+		lastQueriedElemCount=0;
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();
 		StringWriter strwriter=new StringWriter();
 		XMLStreamWriter writer=factory.createXMLStreamWriter(strwriter);
@@ -45,6 +46,7 @@ public class GMLFormatter extends WFSResultFormatter {
 					curfeaturetype=curfeaturetype.substring(curfeaturetype.lastIndexOf('#')+1);
 				}
 				if(!solu.get(featuretype.toLowerCase()).toString().equals(lastInd) || lastInd.isEmpty()) {
+					lastQueriedElemCount++;
 					if(!first) {
 						writer.writeEndElement();    
 						writer.writeEndElement();
