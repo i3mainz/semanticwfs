@@ -96,18 +96,38 @@ public abstract class TripleStoreConnector {
 	}
 
 	
-	public static String executeQuery(String queryString,String queryurl,String output,String count,String offset,String startingElement,String featuretype,String resourceids,JSONObject workingobj) throws XMLStreamException {
-		System.out.println(prefixCollection+queryString+" LIMIT "+count);
-		if(!resourceids.isEmpty() && resourceids.contains(",")) {
-			queryString=queryString.replace("WHERE{","WHERE{ BIND( <"+workingobj.getString("namespace")+workingobj.get("name")+"> AS ?"+workingobj.getString("indvar")+") ");
-		}else if(!resourceids.isEmpty() && !resourceids.contains(",")) {
-			String toreplace="WHERE{ VALUES ?"+workingobj.getString("indvar")+"{ ";
-			for(String uri:resourceids.split(",")) {
-				toreplace+="<"+workingobj.getString("namespace")+uri+"> "; 
+	public String CQLfilterStringToSPARQLQuery(String queryString,String filter) {
+		StringBuilder builder=new StringBuilder();
+		if(filter.contains("AND")) {
+			for(String filterex:filter.split("AND")) {
+				if(filterex.contains("BETWEEN")) {
+					
+				}else {
+					if(filter.contains("=")) {
+						
+					}
+				}
 			}
-			toreplace+="}";
-			queryString=queryString.replace("WHERE{",toreplace);	
+		}else {
+			
 		}
+		return "";
+	}
+	
+	public static String executeQuery(String queryString,String queryurl,String output,String count,String offset,String startingElement,String featuretype,String resourceids,JSONObject workingobj,String filter) throws XMLStreamException {
+		if(!resourceids.isEmpty() && !resourceids.contains(",")) {
+			queryString=queryString.replace("WHERE{","WHERE{ BIND( <"+workingobj.getString("namespace")+workingobj.get("name")+"> AS ?"+workingobj.getString("indvar")+") ");
+		}else if(!resourceids.isEmpty() && resourceids.contains(",")) {
+			StringBuilder toreplace=new StringBuilder();
+			toreplace.append("WHERE{ VALUES ?"+workingobj.getString("indvar")+"{ ");
+			for(String uri:resourceids.split(",")) {
+				toreplace.append("<"+workingobj.getString("namespace")+uri+"> "); 
+			}
+			toreplace.append("}");
+			queryString=queryString.replace("WHERE{",toreplace.toString());	
+		}
+		System.out.println(prefixCollection+queryString);
+		System.out.println(resourceids);
 		Query query = QueryFactory.create(prefixCollection+queryString);
 		Integer limit=Integer.valueOf(count);
 		QueryExecution qexec;

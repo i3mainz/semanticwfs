@@ -250,7 +250,7 @@ public class WebService {
 		String res = "";
 		try {
 			res = TripleStoreConnector.executeQuery(query, workingobj.getString("triplestore"),
-					format, "0","0","sf:featureMember",collectionid,featureid,workingobj);
+					format, "0","0","sf:featureMember",collectionid,featureid,workingobj,"");
 			System.out.println(res);
 			if(res.isEmpty()) {
 				throw new NotFoundException();
@@ -586,7 +586,7 @@ public class WebService {
 			}else {
 				res = TripleStoreConnector.executeQuery(workingobj.getString("query"),
 						workingobj.getString("triplestore"), format,""+(Integer.valueOf(limit)*workingobj.getInt("attcount")),
-						""+(Integer.valueOf(offset)*workingobj.getInt("attcount")),"sf:featureMember",collectionid,"",workingobj);
+						""+(Integer.valueOf(offset)*workingobj.getInt("attcount")),"sf:featureMember",collectionid,"",workingobj,"");
 			}
 			if(res.isEmpty()) {
 				throw new NotFoundException();
@@ -1237,7 +1237,7 @@ public class WebService {
 					workingobj.getString("triplestore"),
 					output, ""+(Integer.valueOf(count)*workingobj.getInt("attcount")),""
 					+(Integer.valueOf(startindex)*workingobj.getInt("attcount")),
-					"gml:featureMember",typename,resourceids,workingobj);
+					"gml:featureMember",typename,resourceids,workingobj,filter);
 			System.out.println(res);
 			if(res.isEmpty()) {
 				throw new NotFoundException();
