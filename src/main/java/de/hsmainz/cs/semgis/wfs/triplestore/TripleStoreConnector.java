@@ -135,7 +135,10 @@ public abstract class TripleStoreConnector {
 		System.out.println(resourceids);
 		Query query = QueryFactory.create(prefixCollection+queryString);
 		QueryExecution qexec = QueryExecutionFactory.sparqlService(queryurl, query);
-		ResultFormatter resformat=ResultFormatter.resultMap.get(output);
+		ResultFormatter resformat=ResultFormatter.getFormatter(output);
+		if(resformat==null) {
+			return null;
+		}
 		ResultSet results = qexec.execSelect();
 		String res=resformat.formatter(results,Integer.valueOf(offset),startingElement,featuretype,(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""));
 		qexec.close();
@@ -150,9 +153,12 @@ public abstract class TripleStoreConnector {
 		System.out.println(prefixCollection+queryString);
 		Query query = QueryFactory.create(prefixCollection+queryString);
 		QueryExecution qexec = QueryExecutionFactory.sparqlService(queryurl, query);
-		ResultFormatter resformat=ResultFormatter.resultMap.get(output);
+		ResultFormatter resformat=ResultFormatter.getFormatter(output);
 		System.out.println(ResultFormatter.resultMap);
 		System.out.println(resformat);
+		if(resformat==null) {
+			return null;
+		}
 		ResultSet results = qexec.execSelect();
 		String res=resformat.formatter(results,0,"",featuretype,(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""));
 		qexec.close();

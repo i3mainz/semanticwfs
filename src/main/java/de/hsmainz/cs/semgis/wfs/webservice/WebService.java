@@ -26,6 +26,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
 import de.hsmainz.cs.semgis.wfs.triplestore.TripleStoreConnector;
 
 @Path("/")
@@ -108,6 +109,30 @@ public class WebService {
 			JSONObject result = new JSONObject();
 			JSONArray links = new JSONArray();
 			JSONArray collections = new JSONArray();
+			JSONObject link=new JSONObject();
+			link.put("rel", "self");
+			link.put("title", "This document");
+			link.put("type", "application/json");
+			link.put("href", this.wfsconf.get("baseurl")+"/collections?f=json");
+			links.put(link);
+			link=new JSONObject();
+			link.put("rel", "alternate");
+			link.put("title", "This document as XML");
+			link.put("type", "text/xml");
+			link.put("href", this.wfsconf.get("baseurl")+"/collections?f=gml");
+			links.put(link);
+			link=new JSONObject();
+			link.put("rel", "alternate");
+			link.put("title", "This document as HTML");
+			link.put("type", "text/html");
+			link.put("href", this.wfsconf.get("baseurl")+"/collections?f=html");
+			links.put(link);
+			link=new JSONObject();
+			link.put("rel", "describedBy");
+			link.put("title", "XML Schema for this dataset");
+			link.put("type", "application/xml");
+			link.put("href", "http://www.acme.com/3.0/wfs/collections/schema");
+			links.put(link);
 			result.put("links", links);
 			result.put("collections", collections);
 			for (int i = 0; i < this.wfsconf.getJSONArray("datasets").length(); i++) {
@@ -115,26 +140,28 @@ public class WebService {
 				JSONObject curobj = this.wfsconf.getJSONArray("datasets").getJSONObject(i);
 				coll.put("id", curobj.getString("name"));
 				coll.put("title", curobj.getString("name"));
-				coll.put("extent", new JSONObject());
+				JSONObject extent=new JSONObject();
+				JSONObject spatial=new JSONObject();
+				spatial.put("crs", "http://www.opengis.net/def/crs/OGC/1.3/CRS84");
+				coll.put("extent", extent);
+				extent.put("spatial",spatial);
 				JSONArray colinks = new JSONArray();
-				JSONObject link = new JSONObject();
-				link.put("rel", "items");
-				link.put("href", this.wfsconf.getString("baseurl") + "/collections/" + curobj.getString("name")
-						+ "/items?f=json");
-				link.put("type", "application/json");
-				link.put("title", curobj.getString("name"));
-				colinks.put(link);
-				link = new JSONObject();
-				link.put("rel", "alternate");
-				link.put("href", this.wfsconf.getString("baseurl") + "/collections/" + curobj.getString("name")
-						+ "/items?f=html");
-				link.put("type", "text/html");
-				link.put("title", curobj.getString("name"));
-				colinks.put(link);
+				for(ResultFormatter formatter:ResultFormatter.resultMap.values()) {
+					link = new JSONObject();
+					if(formatter.exposedType.contains("geo+json")) {
+						link.put("rel", "self");
+					}else {
+						link.put("rel", "alternate");
+					}
+					link.put("href", this.wfsconf.getString("baseurl") + "/collections/" + curobj.getString("name") + "/items/" + "?f="+formatter.exposedType);
+					link.put("type", formatter.exposedType);
+					link.put("title", curobj.getString("name"));
+					colinks.put(link);
+				}
 				coll.put("links", colinks);
 				collections.put(coll);
 			}
-			return Response.ok(result.toString(2)).type(MediaType.APPLICATION_JSON).build();
+			return Response.ok(result.toString(2)).type(ResultFormatter.getFormatter(format).mimeType).build();
 		} else if (format!=null && format.contains("gml")) {
 			StringWriter strwriter = new StringWriter();
 			XMLOutputFactory output = XMLOutputFactory.newInstance();
@@ -153,10 +180,34 @@ public class WebService {
 				writer.writeAttribute("service", "OGCAPI-FEATURES");
 				writer.writeAttribute("version", "1.0.0");
 				writer.writeStartElement("Title");
-				writer.writeCharacters("");
+				writer.writeCharacters(this.wfsconf.getString("servicetitle"));
 				writer.writeEndElement();
 				writer.writeStartElement("Description");
 				writer.writeCharacters("");
+				writer.writeEndElement();
+				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
+				writer.writeAttribute("rel", "self");
+				writer.writeAttribute("title", "This document");
+				writer.writeAttribute("type", "text/xml");
+				writer.writeAttribute("href", this.wfsconf.get("baseurl")+"/collections?f=gml");
+				writer.writeEndElement();
+				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
+				writer.writeAttribute("rel", "alternate");
+				writer.writeAttribute("title", "This document as JSON");
+				writer.writeAttribute("type", "application/json");
+				writer.writeAttribute("href", this.wfsconf.get("baseurl")+"/collections?f=json");
+				writer.writeEndElement();
+				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
+				writer.writeAttribute("rel", "alternate");
+				writer.writeAttribute("title", "This document as HTML");
+				writer.writeAttribute("type", "application/json");
+				writer.writeAttribute("href", this.wfsconf.get("baseurl")+"/collections?f=html");
+				writer.writeEndElement();
+				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
+				writer.writeAttribute("rel", "describedBy");
+				writer.writeAttribute("title", "XML Schema for this dataset");
+				writer.writeAttribute("type", "application/xml");
+				writer.writeAttribute("href", "http://www.acme.com/3.0/wfs/collections/schema");
 				writer.writeEndElement();
 				for (int i = 0; i < this.wfsconf.getJSONArray("datasets").length(); i++) {
 					JSONObject curobj = this.wfsconf.getJSONArray("datasets").getJSONObject(i);
@@ -167,35 +218,26 @@ public class WebService {
 					writer.writeStartElement("Title");
 					writer.writeCharacters(curobj.getString("name"));
 					writer.writeEndElement();
-					writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
-					writer.writeAttribute("rel", "items");
-					writer.writeAttribute("title", curobj.getString("name"));
-					writer.writeAttribute("type", "application/geo+json");
-					writer.writeAttribute("href", this.wfsconf.getString("baseurl") + "/collections/"
-							+ curobj.getString("name") + "/items?f=json");
+					for(ResultFormatter formatter:ResultFormatter.resultMap.values()) {
+						writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
+						writer.writeAttribute("rel", "items");
+						writer.writeAttribute("title", curobj.getString("name"));
+						writer.writeAttribute("type", formatter.exposedType);
+						writer.writeAttribute("href", this.wfsconf.getString("baseurl") + "/collections/"
+								+ curobj.getString("name") + "/items?f="+formatter.exposedType);
+						writer.writeEndElement();
+					}
 					writer.writeEndElement();
-					writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
-					writer.writeAttribute("rel", "items");
-					writer.writeAttribute("title", curobj.getString("name"));
-					writer.writeAttribute("type",
-							"application/gml+xml;version=3.2;profile=http://www.opengis.net/def/profile/ogc/2.0/gml-sf0");
-					writer.writeAttribute("href", this.wfsconf.getString("baseurl") + "/collections/"
-							+ curobj.getString("name")
-							+ "/items?f=application/gml+xml;version=3.2;profile=http://www.opengis.net/def/profile/ogc/2.0/gml-sf0");
-					writer.writeEndElement();
-					writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
-					writer.writeAttribute("rel", "alternate");
-					writer.writeAttribute("title", curobj.getString("name"));
-					writer.writeAttribute("type", "text/html");
-					writer.writeAttribute("href", this.wfsconf.getString("baseurl") + "/collections/"
-							+ curobj.getString("name") + "/items?f=text/html");
+					writer.writeStartElement("Extent");
+					writer.writeStartElement("Spatial");
+					writer.writeAttribute("crs", "http://www.opengis.net/def/crs/OGC/1.3/CRS84");
 					writer.writeEndElement();
 					writer.writeEndElement();
 				}
 				writer.writeEndElement();
 				writer.writeEndDocument();
 				writer.flush();
-				return Response.ok(strwriter.toString()).type(MediaType.TEXT_XML).build();
+				return Response.ok(strwriter.toString()).type(ResultFormatter.getFormatter(format).mimeType).build();
 			} catch (XMLStreamException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -210,17 +252,15 @@ public class WebService {
 			builder.append("<ul>");
 			for (int i = 0; i < this.wfsconf.getJSONArray("datasets").length(); i++) {
 				JSONObject curobj = this.wfsconf.getJSONArray("datasets").getJSONObject(i);
-				builder.append("<li>" + curobj.getString("name"));
-				builder.append(" <a href=\"" + this.wfsconf.getString("baseurl") + "/collections/"
-						+ curobj.getString("name") + "/items?f=json\">[JSON]</a>");
-				builder.append(" <a href=\"" + this.wfsconf.getString("baseurl") + "/collections/"
-						+ curobj.getString("name") + "/items?f=gml\">[GML]</a>");
-				builder.append(" <a href=\"" + this.wfsconf.getString("baseurl") + "/collections/"
-						+ curobj.getString("name") + "/items?f=text/html\">[HTML]</a></li>");
+				builder.append("<li>");
+				for(ResultFormatter formatter:ResultFormatter.resultMap.values()) {
+					builder.append("<a href=\""+this.wfsconf.getString("baseurl") + "/collections/"+ curobj.getString("name") + "/items?f="+formatter.exposedType+"\">["+formatter.exposedType.toUpperCase()+"]</a>");
+				}
+				builder.append("</li>");
 			}
 			builder.append("</ul></body></html>");
-			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
-		} else {
+			return Response.ok(builder.toString()).type(ResultFormatter.getFormatter(format).mimeType).build();
+		}else {
 			return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 		}
 	}
@@ -254,15 +294,12 @@ public class WebService {
 			  workingobj.getString("name"),workingobj);		
 		}
 		String query=workingobj.getString("query");
-		/*query=query.replace("WHERE{","WHERE{ BIND( <"+workingobj.getString("namespace")+featureid+"> AS ?"+workingobj.getString("indvar")+") ");
-		System.out.println("?"+workingobj.getString("indvar")+" - "+"<"+workingobj.getString("namespace")+featureid+">");
-		System.out.println(query);*/
 		String res = "";
 		try {
 			res = TripleStoreConnector.executeQuery(query, workingobj.getString("triplestore"),
 					format, "0","0","sf:featureMember",collectionid,featureid,workingobj,"");
 			System.out.println(res);
-			if(res.isEmpty()) {
+			if(res==null || res.isEmpty()) {
 				throw new NotFoundException();
 			}
 		} catch (JSONException | XMLStreamException e1) {
@@ -274,26 +311,19 @@ public class WebService {
 			JSONObject result = new JSONObject();
 			JSONArray links = new JSONArray();
 			result.put("links", links);
-			JSONObject link = new JSONObject();
-			link.put("rel", "self");
-			link.put("href", this.wfsconf.getString("baseurl") + "/collections/" + collectionid + "/items/" + featureid
-					+ "?f=json");
-			link.put("type", "application/geo+json");
-			link.put("title", featureid);
-			links.put(link);
-			link = new JSONObject();
-			link.put("rel", "alternate");
-			link.put("href", this.wfsconf.getString("baseurl") + "/collections/" + collectionid + "/items/" + featureid
-					+ "?f=html");
-			link.put("type", "text/html");
-			link.put("title", featureid);
-			links.put(link);
-			link = new JSONObject();
-			link.put("rel", "collection");
-			link.put("href", this.wfsconf.getString("baseurl") + "/collections/" + collectionid + "/items/?f=json");
-			link.put("type", "application/json");
-			link.put("title", featureid);
-			links.put(link);
+			for(ResultFormatter formatter:ResultFormatter.resultMap.values()) {
+				JSONObject link = new JSONObject();
+				if(formatter.exposedType.contains("geojson")) {
+					link.put("rel", "self");
+				}else {
+					link.put("rel", "alternate");
+				}
+				link.put("href", this.wfsconf.getString("baseurl") + "/collections/" + collectionid + "/items/" + featureid
+						+ "?f="+formatter.exposedType);
+				link.put("type", formatter.exposedType);
+				link.put("title", featureid);
+				links.put(link);
+			}
 			result.put("id", featureid);
 			JSONObject features = new JSONObject(res).getJSONArray("features").getJSONObject(0);
 			result.put("type", "Feature");
@@ -327,29 +357,19 @@ public class WebService {
 				writer.writeStartElement("Description");
 				writer.writeCharacters("");
 				writer.writeEndElement();
-				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
-				writer.writeAttribute("rel", "self");
-				writer.writeAttribute("title", workingobj.getString("name"));
-				writer.writeAttribute("type", "application/geo+json");
-				writer.writeAttribute("href", this.wfsconf.getString("baseurl") + "/collections/"
-						+ workingobj.getString("name") + "/items/+" + featureid + "?f=json");
-				writer.writeEndElement();
-				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
-				writer.writeAttribute("rel", "alternate");
-				writer.writeAttribute("title", workingobj.getString("name"));
-				writer.writeAttribute("type",
-						"application/gml+xml;version=3.2;profile=http://www.opengis.net/def/profile/ogc/2.0/gml-sf0");
-				writer.writeAttribute("href", this.wfsconf.getString("baseurl") + "/collections/"
-						+ workingobj.getString("name") + "/items/+" + featureid
-						+ "?f=application/gml+xml;version=3.2;profile=http://www.opengis.net/def/profile/ogc/2.0/gml-sf0");
-				writer.writeEndElement();
-				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
-				writer.writeAttribute("rel", "alternate");
-				writer.writeAttribute("title", workingobj.getString("name"));
-				writer.writeAttribute("type", "text/html");
-				writer.writeAttribute("href", this.wfsconf.getString("baseurl") + "/collections/"
-						+ workingobj.getString("name") + "/items/+" + featureid + "?f=text/html");
-				writer.writeEndElement();
+				for(ResultFormatter formatter:ResultFormatter.resultMap.values()) {
+					writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
+					if(formatter.exposedType.contains("json")) {
+						writer.writeAttribute("rel", "self");
+					}else {
+						writer.writeAttribute("rel", "alternate");
+					}
+					writer.writeAttribute("title", workingobj.getString("name"));
+					writer.writeAttribute("type", formatter.exposedType);
+					writer.writeAttribute("href", this.wfsconf.getString("baseurl") + "/collections/"
+							+ workingobj.getString("name") + "/items/+" + featureid + "?f="+formatter.exposedType);
+					writer.writeEndElement();
+				}
 				strwriter.append(res);
 				writer.writeEndElement();
 				writer.writeEndDocument();
@@ -369,10 +389,8 @@ public class WebService {
 			builder.append(res);
 			builder.append("</ul></body></html>");
 			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
-		}else if (format != null && (format.contains("geouri") || format.contains("csv") || format.contains("geohash"))) {
+		}else {
 			return Response.ok(res).type(MediaType.TEXT_PLAIN).build();
-		} else {
-			return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 		}
 	}
 
@@ -461,7 +479,33 @@ public class WebService {
 			result.put("id", workingobj.getString("name"));
 			result.put("title", workingobj.getString("name"));
 			result.put("description", "");
-			result.put("extent", new JSONObject());
+			JSONObject extent=new JSONObject();
+			result.put("extent", extent);
+			JSONObject spatial=new JSONObject();
+			extent.put("spatial",spatial);
+			spatial.put("crs", "http://www.opengis.net/def/crs/OGC/1.3/CRS84");
+			//extent.put("temporal",new JSONObject());
+			JSONArray links=new JSONArray();
+			for(ResultFormatter formatter:ResultFormatter.resultMap.values()) {
+				JSONObject link = new JSONObject();
+				if(formatter.exposedType.contains("geojson")) {
+					link.put("rel", "self");
+				}else {
+					link.put("rel", "alternate");
+				}
+				link.put("href", this.wfsconf.getString("baseurl") + "/collections/" + collectionid + "/items/"
+						+ "?f="+formatter.exposedType);
+				link.put("type", formatter.exposedType);
+				link.put("title", collectionid);
+				links.put(link);
+			}
+			JSONObject link=new JSONObject();
+			link.put("rel", "describedBy");
+			link.put("href", this.wfsconf.getString("baseurl") + "/collections/" + collectionid + "/schema/");
+			link.put("type", "application/xml");
+			link.put("title", collectionid+" Schema");
+			links.put(link);
+			result.put("links",links);
 			return Response.ok(result.toString(2)).type(MediaType.APPLICATION_JSON).build();
 		} else if (format!=null && format.contains("gml")) {
 			StringWriter strwriter = new StringWriter();
@@ -490,28 +534,30 @@ public class WebService {
 				writer.writeStartElement("Description");
 				writer.writeCharacters("");
 				writer.writeEndElement();
+				for(ResultFormatter formatter:ResultFormatter.resultMap.values()) {
+					writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
+					if(formatter.exposedType.contains("geojson")) {
+						writer.writeAttribute("rel", "self");
+					}else {
+						writer.writeAttribute("rel", "alternate");
+					}
+					writer.writeAttribute("title", workingobj.getString("name"));
+					writer.writeAttribute("type", formatter.exposedType);
+					writer.writeAttribute("href", this.wfsconf.getString("baseurl") + "/collections/"
+							+ workingobj.getString("name") + "/items?f="+formatter.exposedType);
+					writer.writeEndElement();
+				}
 				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
-				writer.writeAttribute("rel", "self");
+				writer.writeAttribute("rel", "describedBy");
 				writer.writeAttribute("title", workingobj.getString("name"));
-				writer.writeAttribute("type", "application/geo+json");
+				writer.writeAttribute("type", "application/xml");
 				writer.writeAttribute("href", this.wfsconf.getString("baseurl") + "/collections/"
-						+ workingobj.getString("name") + "/items?f=json");
+						+ workingobj.getString("name") + "/schema/");
 				writer.writeEndElement();
-				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
-				writer.writeAttribute("rel", "alternate");
-				writer.writeAttribute("title", workingobj.getString("name"));
-				writer.writeAttribute("type",
-						"application/gml+xml;version=3.2;profile=http://www.opengis.net/def/profile/ogc/2.0/gml-sf0");
-				writer.writeAttribute("href", this.wfsconf.getString("baseurl") + "/collections/"
-						+ workingobj.getString("name")
-						+ "/items?f=application/gml+xml;version=3.2;profile=http://www.opengis.net/def/profile/ogc/2.0/gml-sf0");
+				writer.writeStartElement("Extent");
+				writer.writeStartElement("Spatial");
+				writer.writeAttribute("crs","http://www.opengis.net/def/crs/OGC/1.3/CRS84");
 				writer.writeEndElement();
-				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
-				writer.writeAttribute("rel", "alternate");
-				writer.writeAttribute("title", workingobj.getString("name"));
-				writer.writeAttribute("type", "text/html");
-				writer.writeAttribute("href", this.wfsconf.getString("baseurl") + "/collections/"
-						+ workingobj.getString("name") + "/items?f=text/html");
 				writer.writeEndElement();
 				writer.writeEndElement();
 				writer.writeEndDocument();
@@ -527,8 +573,9 @@ public class WebService {
 			builder.append("<body><h1 align=\"center\">");
 			builder.append(collectionid);
 			builder.append("</h1>Serializations:<ul>");
-			builder.append("<li><a href=\""+this.wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name") + "/items?f=json"+"\">[GeoJSON]</a></li>");
-			builder.append("<li><a href=\""+this.wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+ "/items?f=application/gml+xml;version=3.2;profile=http://www.opengis.net/def/profile/ogc/2.0/gml-sf0"+"\">[GML]</a></li>");
+			for(ResultFormatter formatter:ResultFormatter.resultMap.values()) {
+				builder.append("<li><a href=\""+this.wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name") + "/items?f="+formatter.exposedType+"\">["+formatter.exposedType.toUpperCase()+"]</a></li>");
+			}
 			builder.append("</ul>Contents:<table width=\"100%\" border=\"1\"><tr><th>Value</th><th>Type</th>");
 			for(String elem:mapping.keySet()) {
 				if(!elem.equals("http://www.opengis.net/ont/geosparql#hasGeometry") &&
@@ -556,6 +603,20 @@ public class WebService {
 		}
 	}
 
+	@GET
+	@Produces({ MediaType.APPLICATION_XML })
+	@Path("/collections/{collectionid}/schema")
+	public Response getSchema(@PathParam("collectionid") String collectionid) {
+		try {
+			return this.describeFeatureType(collectionid, "2.0.0");
+		} catch (XMLStreamException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new NotFoundException();
+		}
+	}
+	
+	
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections/{collectionid}/items")
@@ -598,31 +659,26 @@ public class WebService {
 						workingobj.getString("triplestore"), format,""+(Integer.valueOf(limit)*workingobj.getInt("attcount")),
 						""+(Integer.valueOf(offset)*workingobj.getInt("attcount")),"sf:featureMember",collectionid,"",workingobj,"");
 			}
-			if(res.isEmpty()) {
+			System.out.println(res);
+			if(res==null || res.isEmpty()) {
 				throw new NotFoundException();
 			}
 			//System.out.println(res);
 			if (format != null && format.contains("json")) {
 				JSONObject result = new JSONObject();
 				JSONArray links = new JSONArray();
-				JSONObject link = new JSONObject();
-				link.put("rel", "self");
-				link.put("href", this.wfsconf.getString("baseurl") + "/collections/" + collectionid + "/items?f=json");
-				link.put("type", "application/geo+json");
-				link.put("title", collectionid);
-				links.put(link);
-				link = new JSONObject();
-				link.put("rel", "alternate");
-				link.put("href", this.wfsconf.getString("baseurl") + "/collections/" + collectionid + "/items?f=html");
-				link.put("type", "text/html");
-				link.put("title", collectionid);
-				links.put(link);
-				link = new JSONObject();
-				link.put("rel", "collection");
-				link.put("href", this.wfsconf.getString("baseurl") + "/collections/" + collectionid + "/items?f=json");
-				link.put("type", "application/json");
-				link.put("title", collectionid);
-				links.put(link);
+				for(ResultFormatter formatter:ResultFormatter.resultMap.values()) {
+					JSONObject link = new JSONObject();
+					if(formatter.exposedType.contains("geojson")) {
+						link.put("rel", "self");
+					}else {
+						link.put("rel", "alternate");
+					}
+					link.put("href", this.wfsconf.getString("baseurl") + "/collections/" + collectionid + "/items?f="+formatter.exposedType);
+					link.put("type", formatter.exposedType);
+					link.put("title", collectionid);
+					links.put(link);
+				}
 				JSONArray features = new JSONObject(res).getJSONArray("features");
 				result.put("type", "FeatureCollection");
 				result.put("links", links);
@@ -630,7 +686,7 @@ public class WebService {
 				result.put("numberMatched", features.length());
 				result.put("numberReturned", features.length());
 				result.put("features", features);
-				return Response.ok(result.toString(2)).type(MediaType.APPLICATION_JSON).build();
+				return Response.ok(result.toString(2)).type(ResultFormatter.getFormatter(format).mimeType).build();
 			} else if (format != null && format.contains("gml")) {
 				StringWriter strwriter = new StringWriter();
 				XMLOutputFactory output = XMLOutputFactory.newInstance();
@@ -656,29 +712,24 @@ public class WebService {
 					writer.writeStartElement("Description");
 					writer.writeCharacters(collectionid);
 					writer.writeEndElement();
-					writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
-					writer.writeAttribute("rel", "self");
-					writer.writeAttribute("title", workingobj.getString("name"));
-					writer.writeAttribute("type", "application/geo+json");
-					writer.writeAttribute("href", this.wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name") + "/items/?f=json");
-					writer.writeEndElement();
-					writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
-					writer.writeAttribute("rel", "alternate");
-					writer.writeAttribute("title", workingobj.getString("name"));
-					writer.writeAttribute("type","application/gml+xml;version=3.2;profile=http://www.opengis.net/def/profile/ogc/2.0/gml-sf0");
-					writer.writeAttribute("href", this.wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+ "/items?f=application/gml+xml;version=3.2;profile=http://www.opengis.net/def/profile/ogc/2.0/gml-sf0");
-					writer.writeEndElement();
-					writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
-					writer.writeAttribute("rel", "alternate");
-					writer.writeAttribute("title", workingobj.getString("name"));
-					writer.writeAttribute("type", "text/html");
-					writer.writeAttribute("href", this.wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name") + "/items?f=text/html");
-					writer.writeEndElement();
+					for(ResultFormatter formatter:ResultFormatter.resultMap.values()) {
+						writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
+						if(formatter.exposedType.contains("json")) {
+							writer.writeAttribute("rel", "self");
+						}else {
+							writer.writeAttribute("rel", "alternate");
+						}
+						writer.writeAttribute("title", workingobj.getString("name"));
+						writer.writeAttribute("type", formatter.exposedType);
+						writer.writeAttribute("href", this.wfsconf.getString("baseurl") + "/collections/"
+								+ workingobj.getString("name") + "/items?f="+formatter.exposedType);
+						writer.writeEndElement();
+					}
 					strwriter.append(res);
 					writer.writeEndElement();
 					writer.writeEndDocument();
 					writer.flush();
-					return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
+					return Response.ok(strwriter.toString()).type(ResultFormatter.getFormatter(format).mimeType).build();
 				} catch (XMLStreamException e) {
 					e.printStackTrace();
 					// TODO Auto-generated catch block
@@ -692,13 +743,14 @@ public class WebService {
 				builder.append("</h1>");
 				builder.append(res);
 				builder.append("<script>$( document ).ready(function() {$('#queryres').DataTable();});</script></body></html>");
-				return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
-			}else if(format!=null && (format.contains("csv") || format.contains("geouri") || format.contains("geohash"))) {				
-				return Response.ok(res).type(MediaType.TEXT_PLAIN).build();
+				return Response.ok(builder.toString()).type(ResultFormatter.getFormatter(format).mimeType).build();
+			}else if(format!=null && (format.contains("gpx") ||  format.contains("csv") || format.contains("geouri") || format.contains("geohash"))) {				
+				return Response.ok(res).type(ResultFormatter.getFormatter(format).mimeType).build();
 			}else {
-				return Response.ok("").type(MediaType.TEXT_PLAIN).build();
+				return Response.ok(res).type(MediaType.TEXT_PLAIN).build();
 			}
 		} catch (JSONException | XMLStreamException e1) {
+			e1.printStackTrace();
 			return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 		}
 	}
@@ -716,7 +768,7 @@ public class WebService {
 			conforms.put("http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/geojson");
 			conforms.put("http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/gmlsf0");
 			result.put("conformsTo", conforms);
-			return Response.ok(result.toString(2)).type(MediaType.APPLICATION_JSON).build();
+			return Response.ok(result.toString(2)).type(ResultFormatter.getFormatter(format).mimeType).build();
 		} else if(format!=null && format.contains("gml")) {
 			StringWriter strwriter = new StringWriter();
 			XMLOutputFactory output = XMLOutputFactory.newInstance();
@@ -751,7 +803,7 @@ public class WebService {
 				writer.writeEndElement();
 				writer.writeEndDocument();
 				writer.flush();
-				return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
+				return Response.ok(strwriter.toString()).type(ResultFormatter.getFormatter(format).mimeType).build();
 			} catch (XMLStreamException e) {
 				e.printStackTrace();
 				return Response.ok("").type(MediaType.TEXT_PLAIN).build();
@@ -765,7 +817,7 @@ public class WebService {
 			builder.append("<li><a target=\"_blank\" href=\"http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/geojson\">GeoJSON</a></li>");
 			builder.append("<li><a target=\"_blank\" href=\"http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/gmlsf0\">GMLSf0</a></li>");
 			builder.append("</ul></body></html>");
-			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
+			return Response.ok(builder.toString()).type(ResultFormatter.getFormatter(format).mimeType).build();
 		}else {
 			return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 		}
@@ -841,12 +893,12 @@ public class WebService {
 		writer.writeEndElement();
 		writer.writeStartElement("GetFeature");
 		writer.writeStartElement("ResultFormat");
-		writer.writeStartElement("GML2");
-		writer.writeEndElement();
-		writer.writeStartElement("geojson");
-		writer.writeEndElement();
-		writer.writeStartElement("csv");
-		writer.writeEndElement();
+		for(ResultFormatter format:ResultFormatter.resultMap.values()) {
+			if(!format.mimeType.isEmpty()) {
+				writer.writeStartElement(format.mimeType);
+				writer.writeEndElement();
+			}
+		}
 		writer.writeEndElement();
 		writer.writeStartElement("DCPType");
 		writer.writeStartElement("HTTP");
@@ -1014,9 +1066,13 @@ public class WebService {
 		writer.writeCharacters("urn:ogc:def:crs:EPSG::4326");
 		writer.writeEndElement();
 		writer.writeStartElement("http://www.opengis.net/wfs", "OutputFormats");
-		writer.writeStartElement("http://www.opengis.net/wfs", "Format");
-		writer.writeCharacters("application/vnd.geo+json");
-		writer.writeEndElement();
+		for(ResultFormatter format:ResultFormatter.resultMap.values()) {
+			if(!format.exposedType.isEmpty()) {
+				writer.writeStartElement("http://www.opengis.net/wfs", "Format");
+				writer.writeCharacters(format.exposedType);
+				writer.writeEndElement();
+			}
+		}
 		writer.writeEndElement();
 		writer.writeStartElement("http://www.opengis.net/ows/1.1", "LatLongBoundingBox");
 		writer.writeAttribute("minx","11.2299229840604");
@@ -1046,9 +1102,13 @@ public class WebService {
 		writer.writeCharacters("urn:ogc:def:crs:EPSG::4326");
 		writer.writeEndElement();
 		writer.writeStartElement("http://www.opengis.net/wfs"+versionnamespace, "OutputFormats");
-		writer.writeStartElement("http://www.opengis.net/wfs"+versionnamespace, "Format");
-		writer.writeCharacters("application/vnd.geo+json");
-		writer.writeEndElement();
+		for(ResultFormatter format:ResultFormatter.resultMap.values()) {
+			if(!format.exposedType.isEmpty()) {
+				writer.writeStartElement("http://www.opengis.net/wfs"+versionnamespace, "Format");
+				writer.writeCharacters(format.exposedType);
+				writer.writeEndElement();
+			}
+		}
 		writer.writeEndElement();
 		writer.writeStartElement("http://www.opengis.net/ows/1.1", "WGS84BoundingBox");
 		writer.writeAttribute("dimensions", "2");

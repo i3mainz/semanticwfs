@@ -1,22 +1,27 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter;
 
 import java.util.Iterator;
-import java.util.List;
 
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
-import org.apache.jena.query.ResultSetFormatter;
+
 
 public class GPXFormatter extends WFSResultFormatter {
 
+	public GPXFormatter() {
+		this.mimeType="application/xml";
+		this.exposedType="application/gpx";
+	}
+	
 	@Override
 	public String formatter(ResultSet results,Integer offset,String startingElement,String featuretype,String typeColumn) throws XMLStreamException {
 		StringBuilder gpxout=new StringBuilder();
-		gpxout.append("<?xml version='1.0' encoding='UTF-8' standalone='no' ?><gpx version='1.0'><name>Example gpx</name>");
-		List<QuerySolution> test=ResultSetFormatter.toList(results);
-	    for(QuerySolution solu:test) {
+		gpxout.append("<?xml version='1.0' encoding='UTF-8' standalone='no' ?><gpx version='1.0'><name>"+featuretype+"</name>");
+	    while(results.hasNext()) {
+	    	this.lastQueriedElemCount++;
+	    	QuerySolution solu=results.next();
 	    	gpxout.append("<trk>");
 	    	Iterator<String> varnames = solu.varNames();
 	    	while(varnames.hasNext()) {

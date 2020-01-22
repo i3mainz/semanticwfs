@@ -11,11 +11,15 @@ import org.apache.jena.query.ResultSetFormatter;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.sparql.expr.NodeValue;
 
-import de.hsmainz.cs.semgis.wfs.converters.AsGeoURI;
 import de.hsmainz.cs.semgis.wfs.converters.AsPolyshape;
 
 public class PolyshapeFormatter extends WFSResultFormatter {
 
+	public PolyshapeFormatter() {
+		this.mimeType="text/plain";
+		this.exposedType="text/plain";
+	}
+	
 	@Override
 	public String formatter(ResultSet results,Integer offset,String startingElement,String featuretype,String typeColumn) throws XMLStreamException {
 		List<QuerySolution> test=ResultSetFormatter.toList(results);

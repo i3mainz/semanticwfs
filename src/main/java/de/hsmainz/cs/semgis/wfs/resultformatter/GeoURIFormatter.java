@@ -12,6 +12,11 @@ import de.hsmainz.cs.semgis.wfs.converters.AsGeoURI;
 
 public class GeoURIFormatter extends WFSResultFormatter {
 
+	public GeoURIFormatter() {
+		this.mimeType="text/plain";
+		this.exposedType="text/plain";
+	}
+	
 	@Override
 	public String formatter(ResultSet results,Integer offset,String startingElement,String featuretype,String typeColumn) {
 		List<QuerySolution> test=ResultSetFormatter.toList(results);

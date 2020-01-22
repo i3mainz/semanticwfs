@@ -8,6 +8,11 @@ import org.apache.jena.rdf.model.Literal;
 
 public class CSVFormatter extends WFSResultFormatter {
 
+	public CSVFormatter() {
+		this.mimeType="text/csv";
+		this.exposedType="text/csv";
+	}
+	
 	@Override
 	public String formatter(ResultSet results,Integer offset,String startingElement,String featuretype,String typeColumn) {
     	Boolean first=true;

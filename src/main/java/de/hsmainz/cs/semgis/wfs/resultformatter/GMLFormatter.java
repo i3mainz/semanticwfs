@@ -13,6 +13,11 @@ import org.apache.jena.query.ResultSet;
 
 public class GMLFormatter extends WFSResultFormatter {
 
+	public GMLFormatter() {
+		this.mimeType="application/xml";
+		this.exposedType="application/gml";
+	}
+	
 	public String[] splitURL(String url) {
 		String[] res=new String[]{"",""};
 		if(url.contains("http") && url.contains("#")){

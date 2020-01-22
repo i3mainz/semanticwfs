@@ -6,6 +6,11 @@ import org.apache.jena.query.ResultSet;
 
 public class CovJSONFormatter extends WCSResultFormatter {
 
+	public CovJSONFormatter() {
+		this.mimeType="application/json";
+		this.exposedType="application/covjson";
+	}
+	
 	@Override
 	public String formatter(ResultSet results,Integer offset,String startingElement,String featuretype,String typeColumn) throws XMLStreamException {
 		// TODO Auto-generated method stub

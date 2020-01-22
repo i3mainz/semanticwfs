@@ -15,6 +15,11 @@ import de.hsmainz.cs.semgis.wfs.converters.AsGeoJSON;
 
 public class GeoJSONFormatter extends WFSResultFormatter {
 
+	public GeoJSONFormatter() {
+		this.mimeType="application/json";
+		this.exposedType="application/geo+json";
+	}
+	
 	@Override
 	public String formatter(ResultSet results, Integer offset, String startingElement, String featuretype,String typeColumn) {
 		lastQueriedElemCount=0;

@@ -23,6 +23,8 @@ public class HTMLFormatter extends ResultFormatter {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		this.mimeType="text/html";
+		this.exposedType="text/html";
 	}
 	
 	static String readFile(String path, Charset encoding) 

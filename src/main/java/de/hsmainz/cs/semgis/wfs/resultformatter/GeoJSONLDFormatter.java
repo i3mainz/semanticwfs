@@ -16,6 +16,11 @@ import de.hsmainz.cs.semgis.wfs.converters.AsGeoJSON;
 
 public class GeoJSONLDFormatter extends WFSResultFormatter {
 
+	public GeoJSONLDFormatter() {
+		this.mimeType="application/json";
+		this.exposedType="application/vnd.geo+json+ld";
+	}
+	
 	@Override
 	public String formatter(ResultSet results,Integer offset,String startingElement,String featuretype,String typeColumn) {
 		List<QuerySolution> test=ResultSetFormatter.toList(results);
@@ -97,7 +102,7 @@ public class GeoJSONLDFormatter extends WFSResultFormatter {
 	    			NodeValue val=geojson.exec(NodeValue.makeNode(solu.getLiteral(name).getString(),solu.getLiteral(name).getDatatype()));
 	    			JSONObject geomobj=new JSONObject(val.asNode().getLiteralValue().toString());
 	    			geoms.add(geomobj);
-
+	    	    	this.lastQueriedElemCount++;
 	    			}catch(Exception e) {
 	    				e.printStackTrace();
 	    			}

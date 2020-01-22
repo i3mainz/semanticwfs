@@ -15,15 +15,21 @@ import org.json.JSONObject;
 
 public class JSONLDFormatter extends WFSResultFormatter {
 
+	public JSONLDFormatter() {
+		this.mimeType="application/jsonld";
+		this.exposedType="application/jsonld";
+	}
+	
 	@Override
 	public String formatter(ResultSet results,Integer offset,String startingElement,String featuretype,String typeColumn) throws XMLStreamException {
-		List<QuerySolution> test=ResultSetFormatter.toList(results);
 		JSONObject result=new JSONObject();
 	    JSONArray obj=new JSONArray();
 	    JSONObject context=new JSONObject();
 	    Boolean first=true;
     	List<String> varnamesList=new LinkedList<String>();
-	    for(QuerySolution solu:test) {
+	    while(results.hasNext()) {
+	    	QuerySolution solu=results.next();
+	    	this.lastQueriedElemCount++;
 	    	JSONObject jsonobj=new JSONObject();
 		    jsonobj.put("@context",context);
 		    if(first) {

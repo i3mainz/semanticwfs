@@ -15,7 +15,7 @@ function getRandomColor() {
   console.log(color)
   return color;
 }
-
+var colormap={}
 var layercontrol=L.control.layers(baseMaps,overlayMaps).addTo(map);
 var geojsonlayer=L.geoJSON(geojson, {
 style: function(feature){
@@ -31,12 +31,31 @@ coordsToLatLng: function (coords) {
 	return new L.LatLng(coords[1], coords[0], coords[2]);
 },		
 pointToLayer: function(feature, latlng){
+			var color="";
+			if(typeColumn==""){
+				if(!("" in colormap)){
+					colormap[""]=getRandomColor();
+				}
+				color=colormap[""];
+			}else{
+				if(typeColumn in feature.properties){
+					if(!(feature.properties[typeColumn] in colormap)){
+						colormap[feature.properties[typeColumn]]=getRandomColor();
+					}
+					color=colormap[feature.properties[typeColumn]]
+				}else{
+					if(!("" in colormap)){
+					colormap[""]=getRandomColor();
+					}
+					color=colormap[""];
+				}
+			}
 			 var greenIcon = L.divIcon({
 				className: "my-custom-pin",
 				iconAnchor: [0, 24],
 				labelAnchor: [-6, 0],
 				popupAnchor: [0, -36],
-				html: "<span style=\"background-color: "+getRandomColor()+"; width: 1.5rem;height: 1.5rem;display: block;left: -1rem;top: 0rem;position: relative;border-radius: 3rem 3rem 0;transform: rotate(45deg);border: 1px solid #FFFFFF;\"/>"
+				html: "<span style=\"background-color: "+color+"; width: 1.5rem;height: 1.5rem;display: block;left: -1rem;top: 0rem;position: relative;border-radius: 3rem 3rem 0;transform: rotate(45deg);border: 1px solid #FFFFFF;\"/>"
 			});
             return L.marker(latlng,{icon: greenIcon})
 },

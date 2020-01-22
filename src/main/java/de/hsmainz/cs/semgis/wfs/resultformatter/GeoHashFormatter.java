@@ -1,23 +1,27 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter;
 
 import java.util.Iterator;
-import java.util.List;
 
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
-import org.apache.jena.query.ResultSetFormatter;
 
 public class GeoHashFormatter extends WFSResultFormatter {
 
+	public GeoHashFormatter() {
+		this.mimeType="text/plain";
+		this.exposedType="application/geohash";
+	}
+	
 	@Override
 	public String formatter(ResultSet results,Integer offset,String startingElement,String featuretype,String typeColumn) throws XMLStreamException {
-		List<QuerySolution> test=ResultSetFormatter.toList(results);
     	Boolean first=true;
     	StringBuilder resultCSV=new StringBuilder();
     	StringBuilder resultCSVHeader=new StringBuilder();
-	    for(QuerySolution solu:test) {
+	    while(results.hasNext()) {
+	    	QuerySolution solu=results.next();
+	    	this.lastQueriedElemCount++;
 	    	Iterator<String> varnames = solu.varNames();
 	    	while(varnames.hasNext()) {
 	    		String name=varnames.next();

@@ -14,11 +14,17 @@ import org.json.JSONObject;
 
 public class JSONFormatter extends WFSResultFormatter {
 
+	public JSONFormatter() {
+		this.mimeType="application/json";
+		this.exposedType="application/json";
+	}
+	
 	@Override
 	public String formatter(ResultSet results,Integer offset,String startingElement,String featuretype,String typeColumn) throws XMLStreamException {
-		List<QuerySolution> test=ResultSetFormatter.toList(results);
 	    JSONArray obj=new JSONArray();
-	    for(QuerySolution solu:test) {
+	    while(results.hasNext()) {
+	    	this.lastQueriedElemCount++;
+	    	QuerySolution solu=results.next();
 	    	JSONObject jsonobj=new JSONObject();
 	    	Iterator<String> varnames = solu.varNames();
 	    	while(varnames.hasNext()) {
