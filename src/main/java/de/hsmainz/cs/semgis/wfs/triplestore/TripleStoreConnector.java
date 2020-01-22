@@ -63,7 +63,7 @@ public abstract class TripleStoreConnector {
 			results = qexec.execSelect();
 
 		}
-		String rel="",val="";
+		String rel="",val="",geomLiteral="";
 		Integer attcount=0;
 		while(results.hasNext()) {
 			solu=results.next();
@@ -74,6 +74,9 @@ public abstract class TripleStoreConnector {
 					rel=solu.get(varname).toString();
 				}else if(varname.equals("val")){
 					val=solu.get(varname).toString();
+				}else if(varname.contains("_geom")){
+					result.put("http://www.opengis.net/ont/geosparql#asWKT",solu.getLiteral(varname).toString());
+					//geomLiteral=solu.getLiteral(varname).toString();
 				}else {
 					try {
 						Literal lit=solu.getLiteral(varname);
@@ -85,12 +88,17 @@ public abstract class TripleStoreConnector {
 
 			}
 			if(!rel.isEmpty() && !val.isEmpty()) {
+				/*if(!geomLiteral.isEmpty()) {
+					result.put("asWKT",geomLiteral);
+				}*/
 				result.put(rel, val);
 				rel="";
 				val="";
+				geomLiteral="";
 			}
 			attcount++;
 		}
+		System.out.println(result);
 		workingobj.put("attcount",attcount);
 			return result;
 	}

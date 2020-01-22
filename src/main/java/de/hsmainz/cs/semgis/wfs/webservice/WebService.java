@@ -22,10 +22,13 @@ import javax.xml.stream.XMLStreamWriter;
 import com.sun.jersey.api.NotFoundException;
 import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
 
+import org.apache.jena.sparql.expr.NodeValue;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import de.hsmainz.cs.semgis.wfs.converters.AsGeoJSON;
+import de.hsmainz.cs.semgis.wfs.resultformatter.HTMLFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
 import de.hsmainz.cs.semgis.wfs.triplestore.TripleStoreConnector;
 
@@ -267,7 +270,7 @@ public class WebService {
 				}
 				builder.append("</td></tr>");
 			}
-			builder.append("</table><a href=\""+this.wfsconf.getString("baseurl")+"?f=html\">Back to LandingPage</a></body></html>");
+			builder.append("</table><a href=\""+this.wfsconf.getString("baseurl")+"/?f=html\">Back to LandingPage</a></body></html>");
 			return Response.ok(builder.toString()).type(ResultFormatter.getFormatter(format).mimeType).build();
 		}else {
 			return Response.ok("").type(MediaType.TEXT_PLAIN).build();
@@ -694,35 +697,70 @@ public class WebService {
 			}
 		}else if(format == null || format.contains("html")){
 			StringBuilder builder=new StringBuilder();
+			StringBuilder builder2=new StringBuilder();
+			JSONObject geojson=new JSONObject();
+			JSONObject geometry=new JSONObject();
+			JSONObject properties=new JSONObject();
+			geojson.put("type","Feature");
+			geojson.put("id",collectionid);
+			geojson.put("geometry",geometry);
+			geojson.put("properties",properties);
 			builder.append(htmlHead);
 			builder.append("<body><h1 align=\"center\">");
 			builder.append((workingobj.getString("description")!=null?workingobj.getString("description"):collectionid));
-			builder.append("</h1><table width=100%><tr><td>Serializations:<ul>");
-			for(ResultFormatter formatter:ResultFormatter.resultMap.values()) {
-				builder.append("<li><a href=\""+this.wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name") + "/items?f="+formatter.exposedType+"\">["+formatter.exposedType.toUpperCase()+"]</a></li>");
-			}
-			builder.append("</ul></td><td>Contents:<table width=\"100%\" border=\"1\"><tr><th>Value</th><th>Type</th>");
+			builder.append("</h1>");
+			builder.append("<table width=100%><tr><td width=\"100%\" rowspan=2>");
+			builder.append("<script>var overlayMaps={}; var overlayControl; var typeColumn=\""+(workingobj.has("typeColumn")?workingobj.getString("typeColumn"):"")+"\"; var markercollection=[];");
+			builder2.append(((HTMLFormatter)ResultFormatter.getFormatter("html")).htmlHeader);
+			builder2.append("</ul></td><td>Contents:<table border=\"1\"><tr><th>Value</th><th>Type</th>");
 			for(String elem:mapping.keySet()) {
 				if(!elem.equals("http://www.opengis.net/ont/geosparql#hasGeometry") &&
 						!elem.equals("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")) {
 				if(elem.contains("http")) {
 					if(elem.contains("#")) {
-						builder.append("<tr><td align=center><a href=\""+elem+"\">"+elem.substring(elem.lastIndexOf('#')+1)+"</a> ");
+						builder2.append("<tr><td align=center><a href=\""+elem+"\">"+elem.substring(elem.lastIndexOf('#')+1)+"</a> ");
 					}else {
-						builder.append("<tr><td align=center><a href=\""+elem+"\">"+elem.substring(elem.lastIndexOf('/')+1)+"</a> ");
+						builder2.append("<tr><td align=center><a href=\""+elem+"\">"+elem.substring(elem.lastIndexOf('/')+1)+"</a> ");
 					}
 				}else {
-					builder.append("<tr><td align=center>"+elem);
+					builder2.append("<tr><td align=center>"+elem);
 				}
 				if(mapping.get(elem).contains("^^")) {
-					builder.append("</td><td align=center><a href=\""+mapping.get(elem)+"\">"+mapping.get(elem).substring(mapping.get(elem).lastIndexOf("^^")+2)+"</a></td></tr>");
+					String type=mapping.get(elem).substring(mapping.get(elem).lastIndexOf("^^")+2);
+					builder2.append("</td><td align=center><a href=\""+type+"\">"+type.substring(type.lastIndexOf('#')+1)+"</a></td></tr>");
 				}else {
-					builder.append("</td><td align=center><a href=\""+mapping.get(elem)+"\">"+mapping.get(elem)+"</a></td></tr>");
+					if((mapping.get(elem).contains("http") || mapping.get(elem).contains("file:/") ) && mapping.get(elem).contains("#")) {
+						builder2.append("</td><td align=center><a href=\""+mapping.get(elem)+"\">"+mapping.get(elem).substring(mapping.get(elem).lastIndexOf('#')+1)+"</a></td></tr>");						
+					}else if((mapping.get(elem).contains("http") || mapping.get(elem).contains("file:/") ) && mapping.get(elem).contains("/")) {
+						builder2.append("</td><td align=center><a href=\""+mapping.get(elem)+"\">"+mapping.get(elem).substring(mapping.get(elem).lastIndexOf('/')+1)+"</a></td></tr>");						
+					}else {
+						builder2.append("</td><td align=center><a href=\""+mapping.get(elem)+"\">"+mapping.get(elem)+"</a></td></tr>");
+					}
 				}
+				if(elem.contains("http://www.opengis.net/ont/geosparql#asWKT")) {
+					geometry.put("type",mapping.get(elem).substring(0,mapping.get(elem).indexOf('(')));
+					String coords=mapping.get(elem).substring(mapping.get(elem).indexOf('(')+1,mapping.get(elem).indexOf(')'));
+					JSONArray arr=new JSONArray();
+					geometry.put("coordinates",arr);
+					for(String coord:coords.split(" ")) {
+						arr.put(Double.valueOf(coord));
+					}
+				}
+				properties.put(elem,mapping.get(elem));
 				}
 			}
-			builder.append("</table></td></tr></table>");
-			builder.append("<a href=\""+this.wfsconf.getString("baseurl")+"?f=html\">Back to Collections</a></body></html>");
+			builder2.append("</table>");
+			builder.append("var geojson="+geojson.toString()+"</script>");
+			builder.append(builder2.toString());
+			builder.append("</td></tr><tr><td>Serializations:<ul>");
+			for(ResultFormatter formatter:ResultFormatter.resultMap.values()) {
+				builder.append("<li><a href=\""+this.wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name") + "/items?f="+formatter.exposedType+"\">["+formatter.exposedType.toUpperCase()+"]</a></li>");
+			}
+			builder.append("</td></tr></table>");
+			//builder.append("<script>var overlayMaps={}; var overlayControl; var typeColumn=\""+(workingobj.has("typeColumn")?workingobj.getString("typeColumn"):"")+"\"; var markercollection=[];var geojson="+geojson.toString()+"</script>");
+			//builder.append(((HTMLFormatter)ResultFormatter.getFormatter("html")).htmlHeader);
+			//builder.append("</td></tr></table>");		
+			builder.append("<a href=\""+this.wfsconf.getString("baseurl")+"/collections?f=html\">Back to Collections</a></body></html>");
 			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
 		} else {
 			return Response.ok("").type(MediaType.TEXT_PLAIN).build();

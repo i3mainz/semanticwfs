@@ -43,36 +43,6 @@ public class HTMLFormatter extends ResultFormatter {
 		StringBuilder builder=new StringBuilder();
 		builder.append("<script>var overlayMaps={}; var overlayControl; var typeColumn=\""+typeColumn+"\"; var markercollection=[];var geojson="+geojson.toString()+"</script>");
 		builder.append(htmlHeader);
-		/*builder.append("<div id=\"mapid\" style=\"height: 500px;\"><script>var map = L.map('mapid',{fullscreenControl: true,fullscreenControlOptions: {position: 'topleft'}}).setView([51.505, -0.09], 13); var layer=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors'});");
-		builder.append("var baseMaps = {\"OSM\": layer}; baseMaps[\"OSM\"].addTo(map);" + 
-				"	L.control.scale({\r\n" + 
-				"	position: 'bottomright',\r\n" + 
-				"	imperial: false\r\n" + 
-				"}).addTo(map);" + 
-				"var layercontrol=L.control.layers(baseMaps,overlayMaps).addTo(map);");
-		builder.append("var geojsonlayer=L.geoJSON(geojson, {coordsToLatLng: function (coords) {return new L.LatLng(coords[1], coords[0], coords[2]);},"+
-				"		onEachFeature: function (feature, layer) {\r\n" + 
-				"	 var popup=\"Item: <a href='\"+feature.id+\"'>\"+(feature.id.includes('#')?feature.id.substring(feature.id.lastIndexOf('#')+1):feature.id)+\"</a><br/>Properties:<ul>\"\r\n" + 
-				"   Object.keys(feature.properties).sort().forEach(function(prop) {\r\n" +
-				" if(prop.includes(\"http\") && prop.includes(\"#\")){\r\n"+
-				"	 	popup+=\"<li><a href='\"+prop+\"' target='_blank'>\"+prop.substring(prop.lastIndexOf('#')+1)+\"</a> - \"\r\n" +
-				" }else if(prop.includes(\"http\")){\r\n"+
-				"	 	popup+=\"<li><a href='\"+prop+\"' target='_blank'>\"+prop.substring(prop.lastIndexOf('/')+1)+\"</a> - \"\r\n" +
-				" }else{\r\n"+
-				"	 	popup+=\"<li>\"+prop+\" - \"\r\n" + 
-				"	 }\r\n" + 
-				" if(feature.properties[prop].includes(\"http\") && feature.properties[prop].includes(\"^^\")){\r\n"+
-				"     popup+=\"<a href='\"+feature.properties[prop]+\"' target='_blank'>\"+feature.properties[prop].substring(0,feature.properties[prop].lastIndexOf('^')-1)+\"</a></li>\"\r\n"+
-				" }else if(feature.properties[prop].includes(\"http\") && feature.properties[prop].includes(\"#\")){\r\n"+
-				"     popup+=\"<a href='\"+feature.properties[prop]+\"' target='_blank'>\"+feature.properties[prop].substring(feature.properties[prop].lastIndexOf('#')+1)+\"</a></li>\"\r\n"+				
-				" }else if(feature.properties[prop].includes(\"http\") || feature.properties[prop].includes(\"file:/\")){\r\n"+
-				"     popup+=\"<a href='\"+feature.properties[prop]+\"' target='_blank'>\"+feature.properties[prop].substring(feature.properties[prop].lastIndexOf('/')+1)+\"</a></li>\"\r\n"+
-				" }else{\r\n"+
-				"  popup+=feature.properties[prop]+\"</li>\"\r\n"+
-				"	 }});popup+=\"</ul>\"\r\n" + 
-				"	 console.log(feature)\r\n" + 
-				"         layer.bindPopup(popup,{maxWidth : 560});\r\n" + 
-				"     }}).addTo(map);map.fitBounds(geojsonlayer.getBounds());</script></div>");*/
 		builder.append("<table width=\"100%\" align=\"center\" id=\"queryres\" class=\"tablesorter\" border=\"1\">");
 		Boolean first=true;
 		JSONArray features=geojson.getJSONArray("features");
