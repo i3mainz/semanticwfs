@@ -1,4 +1,4 @@
-{"baseurl":"http://www.i3mainz.de/projekte/bkg/semanticwfs",
+{"baseurl":"https://www.i3mainz.de/projekte/bkg/semanticwfs",
 "servicetitle":"BKG WFS Service",
 "servicedescription":"Testwebservice with a Triple Store backend",
 "datasets":[
