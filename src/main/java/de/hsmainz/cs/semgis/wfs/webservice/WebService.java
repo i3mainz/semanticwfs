@@ -245,20 +245,29 @@ public class WebService {
 			}
 		} else if (format == null || format.contains("html")) {
 			StringBuilder builder = new StringBuilder();
-			builder.append("<html><head></head><body>");
-			builder.append("<h1>");
+			builder.append(htmlHead);
+			builder.append("<h1 align=center>");
 			builder.append("FeatureCollection View");
 			builder.append("</h1>");
-			builder.append("<ul>");
+			builder.append("<table width=100% border=1><tr><th>Collection</th><th>Decription</th><th>Formats</th></tr>");
 			for (int i = 0; i < this.wfsconf.getJSONArray("datasets").length(); i++) {
 				JSONObject curobj = this.wfsconf.getJSONArray("datasets").getJSONObject(i);
-				builder.append("<li>");
-				for(ResultFormatter formatter:ResultFormatter.resultMap.values()) {
-					builder.append("<a href=\""+this.wfsconf.getString("baseurl") + "/collections/"+ curobj.getString("name") + "/items?f="+formatter.exposedType+"\">["+formatter.exposedType.toUpperCase()+"]</a>");
+				builder.append("<tr><td align=center><a href=\""+this.wfsconf.getString("baseurl")+"/collections/"+this.wfsconf.getJSONArray("datasets").getJSONObject(i).get("name")+"?f=html\">"+this.wfsconf.getJSONArray("datasets").getJSONObject(i).get("name")+"</a></td><td align=center>");
+				if(this.wfsconf.getJSONArray("datasets").getJSONObject(i).has("description")) {
+					builder.append(this.wfsconf.getJSONArray("datasets").getJSONObject(i).get("description"));
 				}
-				builder.append("</li>");
+				builder.append("</td><td align=center>");
+				Integer counter=0;
+				for(ResultFormatter formatter:ResultFormatter.resultMap.values()) {
+					if(counter%4==0) {
+						builder.append("<br>");
+					}
+					builder.append("<a href=\""+this.wfsconf.getString("baseurl") + "/collections/"+ curobj.getString("name") + "/items?f="+formatter.exposedType+"\">["+formatter.exposedType.toUpperCase()+"]</a>&nbsp;&nbsp;");
+					counter++;
+				}
+				builder.append("</td></tr>");
 			}
-			builder.append("</ul></body></html>");
+			builder.append("</table><a href=\""+this.wfsconf.getString("baseurl")+"?f=html\">Back to LandingPage</a></body></html>");
 			return Response.ok(builder.toString()).type(ResultFormatter.getFormatter(format).mimeType).build();
 		}else {
 			return Response.ok("").type(MediaType.TEXT_PLAIN).build();
@@ -396,22 +405,70 @@ public class WebService {
 
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
-	@Path("/landingPage")
-	public Response landingPage(@DefaultValue("json") @QueryParam("f") String format) {
+	@Path("/")
+	public Response landingPage(@DefaultValue("html") @QueryParam("f") String format) {
 		if (format == null || format.contains("json")) {
 			JSONObject result = new JSONObject();
 			JSONArray links = new JSONArray();
 			JSONObject link = new JSONObject();
-			link.put("href", this.wfsconf.getString("baseurl"));
+			link.put("href", this.wfsconf.getString("baseurl")+"?f=json");
 			link.put("rel", "self");
 			link.put("type", "application/json");
-			link.put("title", "this document");
+			link.put("title", "This document");
+			links.put(link);
+			link = new JSONObject();
+			link.put("href", this.wfsconf.getString("baseurl")+"?f=gml");
+			link.put("rel", "alternate");
+			link.put("type", "application/xml");
+			link.put("title", "This document as XML");
+			links.put(link);
+			link = new JSONObject();
+			link.put("href", this.wfsconf.getString("baseurl")+"?f=html");
+			link.put("rel", "alternate");
+			link.put("type", "text/html");
+			link.put("title", "This document as HTML");
+			links.put(link);
+			link = new JSONObject();
+			link.put("href", this.wfsconf.getString("baseurl")+"/conformance?f=html");
+			link.put("rel", "conformance");
+			link.put("type", "text/html");
+			link.put("title", "Conformance Declaration as HTML");
+			links.put(link);
+			link = new JSONObject();
+			link.put("href", this.wfsconf.getString("baseurl")+"/conformance?f=gml");
+			link.put("rel", "conformance");
+			link.put("type", "application/xml");
+			link.put("title", "Conformance Declaration as XML");
+			links.put(link);
+			link = new JSONObject();
+			link.put("href", this.wfsconf.getString("baseurl")+"/conformance?f=json");
+			link.put("rel", "conformance");
+			link.put("type", "application/json");
+			link.put("title", "Conformance Declaration as JSON");
+			links.put(link);
+			link = new JSONObject();
+			link.put("href", this.wfsconf.getString("baseurl")+"/collections?f=json");
+			link.put("rel", "data");
+			link.put("type", "application/json");
+			link.put("title", "Collections Metadata as JSON");
+			links.put(link);
+			link = new JSONObject();
+			link.put("href", this.wfsconf.getString("baseurl")+"/collections?f=gml");
+			link.put("rel", "data");
+			link.put("type", "application/xml");
+			link.put("title", "Collections Metadata as XML");
+			links.put(link);
+			link = new JSONObject();
+			link.put("href", this.wfsconf.getString("baseurl")+"/collections?f=html");
+			link.put("rel", "data");
+			link.put("type", "text/html");
+			link.put("title", "Collections Metadata as HTML");
 			links.put(link);
 			result.put("title", this.wfsconf.getString("servicetitle"));
 			result.put("description", this.wfsconf.getString("servicedescription"));
 			result.put("links", links);
 			return Response.ok(result.toString(2)).type(MediaType.APPLICATION_JSON).build();
-		} else {
+		} else if (format.contains("gml")) {
 			StringWriter strwriter = new StringWriter();
 			XMLOutputFactory output = XMLOutputFactory.newInstance();
 			XMLStreamWriter writer;
@@ -435,9 +492,57 @@ public class WebService {
 				writer.writeEndElement();
 				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
 				writer.writeAttribute("rel", "self");
-				writer.writeAttribute("title", this.wfsconf.getString("servicetitle"));
-				writer.writeAttribute("type", "application/geo+json");
-				writer.writeAttribute("href", this.wfsconf.getString("baseurl"));
+				writer.writeAttribute("title", "This document");
+				writer.writeAttribute("type", "application/xml");
+				writer.writeAttribute("href", this.wfsconf.getString("baseurl")+"?f=gml");
+				writer.writeEndElement();
+				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
+				writer.writeAttribute("rel", "alternate");
+				writer.writeAttribute("title", "This document as JSON");
+				writer.writeAttribute("type", "application/json");
+				writer.writeAttribute("href", this.wfsconf.getString("baseurl")+"?f=json");
+				writer.writeEndElement();
+				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
+				writer.writeAttribute("rel", "alternate");
+				writer.writeAttribute("title", "This document as HTML");
+				writer.writeAttribute("type", "text/html");
+				writer.writeAttribute("href", this.wfsconf.getString("baseurl")+"?f=html");
+				writer.writeEndElement();
+				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
+				writer.writeAttribute("rel", "conformance");
+				writer.writeAttribute("title", "Conformance Declaration as JSON");
+				writer.writeAttribute("type", "application/json");
+				writer.writeAttribute("href", this.wfsconf.getString("baseurl")+"/conformance?f=json");
+				writer.writeEndElement();
+				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
+				writer.writeAttribute("rel", "conformance");
+				writer.writeAttribute("title", "Conformance Declaration as XML");
+				writer.writeAttribute("type", "application/xml");
+				writer.writeAttribute("href", this.wfsconf.getString("baseurl")+"/conformance?f=gml");
+				writer.writeEndElement();
+				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
+				writer.writeAttribute("rel", "conformance");
+				writer.writeAttribute("title", "Conformance Declaration as HTML");
+				writer.writeAttribute("type", "text/html");
+				writer.writeAttribute("href", this.wfsconf.getString("baseurl")+"/conformance?f=html");
+				writer.writeEndElement();
+				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
+				writer.writeAttribute("rel", "data");
+				writer.writeAttribute("title", "Collections Metadata as JSON");
+				writer.writeAttribute("type", "application/json");
+				writer.writeAttribute("href", this.wfsconf.getString("baseurl")+"/collections?f=json");
+				writer.writeEndElement();
+				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
+				writer.writeAttribute("rel", "data");
+				writer.writeAttribute("title", "Collections Metadata as XML");
+				writer.writeAttribute("type", "application/xml");
+				writer.writeAttribute("href", this.wfsconf.getString("baseurl")+"/collections?f=gml");
+				writer.writeEndElement();
+				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
+				writer.writeAttribute("rel", "data");
+				writer.writeAttribute("title", "Collections Metadata as HTML");
+				writer.writeAttribute("type", "text/html");
+				writer.writeAttribute("href", this.wfsconf.getString("baseurl")+"/collections?f=html");
 				writer.writeEndElement();
 				writer.writeEndElement();
 				writer.writeEndDocument();
@@ -447,7 +552,31 @@ public class WebService {
 				// TODO Auto-generated catch block
 				return Response.ok(strwriter.toString()).type(MediaType.TEXT_PLAIN).build();
 			}
-
+		}else if (format.contains("html")) {
+			StringBuilder builder=new StringBuilder();
+			builder.append(htmlHead);
+			builder.append("<body><h1 align=\"center\">LandingPage: "+this.wfsconf.getString("servicetitle"));
+			builder.append("</h1><p>"+this.wfsconf.getString("servicedescription")+"</p><ul>");
+			builder.append("<li>LandingPage in <a href=\""+this.wfsconf.getString("baseurl")+"?f=html\">[HTML]</a>");
+			builder.append(" <a href=\""+this.wfsconf.getString("baseurl")+"?f=gml\">[XML]</a>");
+			builder.append(" <a href=\""+this.wfsconf.getString("baseurl")+"?f=html\">[JSON]</a></li>");
+			builder.append("<li>Conformance Declaration in <a href=\""+this.wfsconf.getString("baseurl")+"/conformance?f=html\">[HTML]</a>");
+			builder.append(" <a href=\""+this.wfsconf.getString("baseurl")+"/conformance?f=gml\">[XML]</a>");
+			builder.append(" <a href=\""+this.wfsconf.getString("baseurl")+"/conformance?f=html\">[JSON]</a></li>");
+			builder.append("<li>Collections Metadata in <a href=\""+this.wfsconf.getString("baseurl")+"/collections?f=html\">[HTML]</a>");
+			builder.append(" <a href=\""+this.wfsconf.getString("baseurl")+"/collections?f=gml\">[XML]</a>");
+			builder.append(" <a href=\""+this.wfsconf.getString("baseurl")+"/collections?f=html\">[JSON]</a></li></ul>");
+			builder.append("This homepage also exposes a WFS 1.0.0, 1.1.0, 2.0.0 compatible Webservice:<ul>");
+			builder.append("<li>GetCapabilities WFS 1.0.0 ");
+			builder.append("<a href=\""+this.wfsconf.getString("baseurl")+"/wfs?REQUEST=getCapabilities&VERSION=1.0.0\">[XML]</a><br/>");
+			builder.append("</li><li>GetCapabilities WFS 1.1.0 ");
+			builder.append("<a href=\""+this.wfsconf.getString("baseurl")+"/wfs?REQUEST=getCapabilities&VERSION=1.1.0\">[XML]</a>");
+			builder.append("</li><li>GetCapabilities WFS 2.0.0 ");
+			builder.append("<a href=\""+this.wfsconf.getString("baseurl")+"/wfs?REQUEST=getCapabilities&VERSION=2.0.0\">[XML]</a>");
+			builder.append("</li></ul></body></html>");
+			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
+		}else {
+			throw new NotFoundException();
 		}
 	}
 
@@ -592,7 +721,8 @@ public class WebService {
 				}
 				}
 			}
-			builder.append("</table></td></tr></table></body></html>");
+			builder.append("</table></td></tr></table>");
+			builder.append("<a href=\""+this.wfsconf.getString("baseurl")+"?f=html\">Back to Collections</a></body></html>");
 			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
 		} else {
 			return Response.ok("").type(MediaType.TEXT_PLAIN).build();
@@ -885,9 +1015,14 @@ public class WebService {
 		writer.writeStartElement("GetFeature");
 		writer.writeStartElement("ResultFormat");
 		for(ResultFormatter format:ResultFormatter.resultMap.values()) {
-			if(!format.mimeType.isEmpty()) {
-				writer.writeStartElement(format.mimeType);
-				writer.writeEndElement();
+			if(!format.exposedType.isEmpty()) {
+				if(format.exposedType.contains("/")) {
+					writer.writeStartElement(format.exposedType.substring(format.exposedType.lastIndexOf('/')+1).replace("+","").toUpperCase());
+					writer.writeEndElement();
+				}else {
+					writer.writeStartElement(format.exposedType.toUpperCase());
+					writer.writeEndElement();
+				}
 			}
 		}
 		writer.writeEndElement();
