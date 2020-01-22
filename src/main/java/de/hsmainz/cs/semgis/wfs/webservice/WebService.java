@@ -270,7 +270,8 @@ public class WebService {
 				}
 				builder.append("</td></tr>");
 			}
-			builder.append("</table><a href=\""+this.wfsconf.getString("baseurl")+"/?f=html\">Back to LandingPage</a></body></html>");
+			builder.append("</table>");
+			builder.append("<table width=100%><tr><td><a href=\""+this.wfsconf.getString("baseurl")+"/?f=html\">Back to LandingPage</a></td><td align=right>This page in <a href=\""+this.wfsconf.getString("baseurl") + "/collections?f=gml\">[GML]</a> <a href=\""+this.wfsconf.getString("baseurl") + "/collections?f=json\">[JSON]</a></body></html>");
 			return Response.ok(builder.toString()).type(ResultFormatter.getFormatter(format).mimeType).build();
 		}else {
 			return Response.ok("").type(MediaType.TEXT_PLAIN).build();
@@ -973,7 +974,7 @@ public class WebService {
 			builder.append("<li><a target=\"_blank\" href=\"http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/html\">HTML</a></li>");
 			builder.append("<li><a target=\"_blank\" href=\"http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/geojson\">GeoJSON</a></li>");
 			builder.append("<li><a target=\"_blank\" href=\"http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/gmlsf0\">GMLSf0</a></li>");
-			builder.append("</ul></body></html>");
+			builder.append("</ul><a href=\""+this.wfsconf.getString("baseurl")+"/?f=html\">Back to LandingPage</a></body></html>");
 			return Response.ok(builder.toString()).type(ResultFormatter.getFormatter(format).mimeType).build();
 		}else {
 			return Response.ok("").type(MediaType.TEXT_PLAIN).build();
