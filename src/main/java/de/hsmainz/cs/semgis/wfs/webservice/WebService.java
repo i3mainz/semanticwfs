@@ -494,19 +494,19 @@ public class WebService {
 				writer.writeAttribute("rel", "self");
 				writer.writeAttribute("title", "This document");
 				writer.writeAttribute("type", "application/xml");
-				writer.writeAttribute("href", this.wfsconf.getString("baseurl")+"?f=gml");
+				writer.writeAttribute("href", this.wfsconf.getString("baseurl")+"/?f=gml");
 				writer.writeEndElement();
 				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
 				writer.writeAttribute("rel", "alternate");
 				writer.writeAttribute("title", "This document as JSON");
 				writer.writeAttribute("type", "application/json");
-				writer.writeAttribute("href", this.wfsconf.getString("baseurl")+"?f=json");
+				writer.writeAttribute("href", this.wfsconf.getString("baseurl")+"/?f=json");
 				writer.writeEndElement();
 				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
 				writer.writeAttribute("rel", "alternate");
 				writer.writeAttribute("title", "This document as HTML");
 				writer.writeAttribute("type", "text/html");
-				writer.writeAttribute("href", this.wfsconf.getString("baseurl")+"?f=html");
+				writer.writeAttribute("href", this.wfsconf.getString("baseurl")+"/?f=html");
 				writer.writeEndElement();
 				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
 				writer.writeAttribute("rel", "conformance");
@@ -557,9 +557,9 @@ public class WebService {
 			builder.append(htmlHead);
 			builder.append("<body><h1 align=\"center\">LandingPage: "+this.wfsconf.getString("servicetitle"));
 			builder.append("</h1><p>"+this.wfsconf.getString("servicedescription")+"</p><ul>");
-			builder.append("<li>LandingPage in <a href=\""+this.wfsconf.getString("baseurl")+"?f=html\">[HTML]</a>");
-			builder.append(" <a href=\""+this.wfsconf.getString("baseurl")+"?f=gml\">[XML]</a>");
-			builder.append(" <a href=\""+this.wfsconf.getString("baseurl")+"?f=html\">[JSON]</a></li>");
+			builder.append("<li>LandingPage in <a href=\""+this.wfsconf.getString("baseurl")+"/?f=html\">[HTML]</a>");
+			builder.append(" <a href=\""+this.wfsconf.getString("baseurl")+"/?f=gml\">[XML]</a>");
+			builder.append(" <a href=\""+this.wfsconf.getString("baseurl")+"/?f=html\">[JSON]</a></li>");
 			builder.append("<li>Conformance Declaration in <a href=\""+this.wfsconf.getString("baseurl")+"/conformance?f=html\">[HTML]</a>");
 			builder.append(" <a href=\""+this.wfsconf.getString("baseurl")+"/conformance?f=gml\">[XML]</a>");
 			builder.append(" <a href=\""+this.wfsconf.getString("baseurl")+"/conformance?f=html\">[JSON]</a></li>");
@@ -865,10 +865,8 @@ public class WebService {
 				builder.append(res);
 				builder.append("<script>$( document ).ready(function() {$('#queryres').DataTable();});</script></body></html>");
 				return Response.ok(builder.toString()).type(ResultFormatter.getFormatter(format).mimeType).build();
-			}else if(format!=null && (format.contains("gpx") ||  format.contains("csv") || format.contains("geouri") || format.contains("geohash"))) {				
+			}else {				
 				return Response.ok(res).type(ResultFormatter.getFormatter(format).mimeType).build();
-			}else {
-				return Response.ok(res).type(MediaType.TEXT_PLAIN).build();
 			}
 		} catch (JSONException | XMLStreamException e1) {
 			e1.printStackTrace();
