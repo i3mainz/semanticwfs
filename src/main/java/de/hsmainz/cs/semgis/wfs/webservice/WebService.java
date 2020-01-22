@@ -338,7 +338,11 @@ public class WebService {
 				links.put(link);
 			}
 			result.put("id", featureid);
-			JSONObject features = new JSONObject(res).getJSONArray("features").getJSONObject(0);
+			JSONObject jsonresult=new JSONObject(res);
+			JSONObject features = jsonresult.getJSONArray("features").getJSONObject(0);
+			if(jsonresult.has("@context")) {
+				result.put("@context",jsonresult.getJSONObject("@context"));
+			}
 			result.put("type", "Feature");
 			result.put("links", links);
 			result.put("timeStamp", System.currentTimeMillis());
@@ -839,7 +843,11 @@ public class WebService {
 					link.put("title", collectionid);
 					links.put(link);
 				}
-				JSONArray features = new JSONObject(res).getJSONArray("features");
+				JSONObject jsonresult=new JSONObject(res);
+				JSONArray features = jsonresult.getJSONArray("features");
+				if(jsonresult.has("@context")) {
+					result.put("@context",jsonresult.getJSONObject("@context"));
+				}
 				result.put("type", "FeatureCollection");
 				result.put("links", links);
 				result.put("timeStamp", System.currentTimeMillis());
@@ -1513,7 +1521,11 @@ public class WebService {
 		}else if(output.contains("json")) {
 			JSONObject result = new JSONObject();
 			JSONArray links = new JSONArray();
-			JSONArray features = new JSONObject(res).getJSONArray("features");
+			JSONObject jsonresult=new JSONObject(res);
+			JSONArray features = jsonresult.getJSONArray("features");
+			if(jsonresult.has("@context")) {
+				result.put("@context",jsonresult.getJSONObject("@context"));
+			}			
 			result.put("type", "FeatureCollection");
 			result.put("links", links);
 			result.put("timeStamp", System.currentTimeMillis());

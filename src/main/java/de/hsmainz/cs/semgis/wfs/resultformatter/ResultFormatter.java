@@ -23,14 +23,14 @@ public abstract class ResultFormatter {
 			return resultMap.get(formatString);
 		}
 		formatString=formatString.replace("+","");
+		if(formatString.contains("geojsonld")) {
+			return resultMap.get("geojsonld");
+		}
 		if(formatString.contains("geojson")) {
 			return resultMap.get("geojson");
 		}
 		if(formatString.contains("gml")) {
 			return resultMap.get("gml");
-		}
-		if(formatString.contains("geojsonld")) {
-			return resultMap.get("geojsonld");
 		}
 		if(formatString.contains("html")) {
 			return resultMap.get("html");
@@ -47,6 +47,15 @@ public abstract class ResultFormatter {
 		if(formatString.contains("geohash")) {
 			return resultMap.get("geohash");
 		}
+		if(formatString.contains("topojson")) {
+			return resultMap.get("topojson");
+		}
+		if(formatString.contains("covjson")) {
+			return resultMap.get("covjson");
+		}
+		if(formatString.contains("jsonld")) {
+			return resultMap.get("jsonld");
+		}
 		if(formatString.contains("json")) {
 			return resultMap.get("json");
 		}
@@ -56,17 +65,8 @@ public abstract class ResultFormatter {
 		if(formatString.contains("geouri")) {
 			return resultMap.get("geouri");
 		}
-		if(formatString.contains("covjson")) {
-			return resultMap.get("covjson");
-		}
 		if(formatString.contains("geotiff")) {
 			return resultMap.get("geotiff");
-		}
-		if(formatString.contains("jsonld")) {
-			return resultMap.get("jsonld");
-		}
-		if(formatString.contains("topojson")) {
-			return resultMap.get("topojson");
 		}
 		if(formatString.contains("polyshape")) {
 			return resultMap.get("polyshape");

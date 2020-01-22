@@ -20,6 +20,8 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 		this.exposedType="application/geo+json";
 	}
 	
+	private AsGeoJSON geojson = new AsGeoJSON();
+	
 	@Override
 	public String formatter(ResultSet results, Integer offset, String startingElement, String featuretype,String typeColumn) {
 		lastQueriedElemCount=0;
@@ -92,7 +94,7 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 					// System.out.println("Geomvar: "+name);
 					geomvars++;
 					geomvarname = name;
-					AsGeoJSON geojson = new AsGeoJSON();
+					
 					lastgeom = solu.get(name).toString();
 					try {
 						NodeValue nodeval = geojson.exec(NodeValue.makeNode(solu.getLiteral(name).getString(),
@@ -140,13 +142,6 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 				val = "";
 			}
 			first = false;
-			/*
-			 * int geomcounter = 0; for (JSONObject geom : geoms) { JSONObject geojsonobj =
-			 * new JSONObject(); geojsonobj.put("type", "Feature");
-			 * geojsonobj.put("properties", properties); geojsonobj.put("geometry", geom);
-			 * System.out.println(geojsonobj); if(geomvars>0 && !allfeatures.isEmpty()) {
-			 * allfeatures.get(geomcounter % geomvars).put(geojsonobj); geomcounter++; } }
-			 */
 			lastInd = solu.get(featuretype.toLowerCase()).toString();
 		}
 		//if(features.length()==0) {
