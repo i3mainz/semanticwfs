@@ -843,6 +843,9 @@ public class WebService {
 					link.put("title", collectionid);
 					links.put(link);
 				}
+				if(ResultFormatter.getFormatter(format).mimeType.contains("jsonld")) {
+					return Response.ok(res).type("text/plain").build();
+				}
 				JSONObject jsonresult=new JSONObject(res);
 				JSONArray features = jsonresult.getJSONArray("features");
 				if(jsonresult.has("@context")) {
