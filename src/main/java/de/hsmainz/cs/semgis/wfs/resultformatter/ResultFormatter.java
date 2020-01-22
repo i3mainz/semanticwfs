@@ -21,6 +21,7 @@ public abstract class ResultFormatter {
 		if(resultMap.containsKey(formatString)) {
 			return resultMap.get(formatString);
 		}
+		formatString=formatString.replace("+","");
 		if(formatString.contains("geojson")) {
 			return resultMap.get("geojson");
 		}

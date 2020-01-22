@@ -562,13 +562,13 @@ public class WebService {
 			builder.append("</h1><p>"+this.wfsconf.getString("servicedescription")+"</p><ul>");
 			builder.append("<li>LandingPage in <a href=\""+this.wfsconf.getString("baseurl")+"/?f=html\">[HTML]</a>");
 			builder.append(" <a href=\""+this.wfsconf.getString("baseurl")+"/?f=gml\">[XML]</a>");
-			builder.append(" <a href=\""+this.wfsconf.getString("baseurl")+"/?f=html\">[JSON]</a></li>");
+			builder.append(" <a href=\""+this.wfsconf.getString("baseurl")+"/?f=json\">[JSON]</a></li>");
 			builder.append("<li>Conformance Declaration in <a href=\""+this.wfsconf.getString("baseurl")+"/conformance?f=html\">[HTML]</a>");
 			builder.append(" <a href=\""+this.wfsconf.getString("baseurl")+"/conformance?f=gml\">[XML]</a>");
-			builder.append(" <a href=\""+this.wfsconf.getString("baseurl")+"/conformance?f=html\">[JSON]</a></li>");
+			builder.append(" <a href=\""+this.wfsconf.getString("baseurl")+"/conformance?f=json\">[JSON]</a></li>");
 			builder.append("<li>Collections Metadata in <a href=\""+this.wfsconf.getString("baseurl")+"/collections?f=html\">[HTML]</a>");
 			builder.append(" <a href=\""+this.wfsconf.getString("baseurl")+"/collections?f=gml\">[XML]</a>");
-			builder.append(" <a href=\""+this.wfsconf.getString("baseurl")+"/collections?f=html\">[JSON]</a></li></ul>");
+			builder.append(" <a href=\""+this.wfsconf.getString("baseurl")+"/collections?f=json\">[JSON]</a></li></ul>");
 			builder.append("This homepage also exposes a WFS 1.0.0, 1.1.0, 2.0.0 compatible Webservice:<ul>");
 			builder.append("<li>GetCapabilities WFS 1.0.0 ");
 			builder.append("<a href=\""+this.wfsconf.getString("baseurl")+"/wfs?REQUEST=getCapabilities&VERSION=1.0.0\">[XML]</a><br/>");
@@ -760,7 +760,7 @@ public class WebService {
 			//builder.append("<script>var overlayMaps={}; var overlayControl; var typeColumn=\""+(workingobj.has("typeColumn")?workingobj.getString("typeColumn"):"")+"\"; var markercollection=[];var geojson="+geojson.toString()+"</script>");
 			//builder.append(((HTMLFormatter)ResultFormatter.getFormatter("html")).htmlHeader);
 			//builder.append("</td></tr></table>");		
-			builder.append("<a href=\""+this.wfsconf.getString("baseurl")+"/collections?f=html\">Back to Collections</a></body></html>");
+			builder.append("<table width=100%><tr><td><a href=\""+this.wfsconf.getString("baseurl")+"/collections?f=html\">Back to Collections</a></td><td align=right>This page in <a href=\""+this.wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"?f=gml\">[GML]</a> <a href=\""+this.wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"?f=json\">[JSON]</a></body></html>");
 			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
 		} else {
 			return Response.ok("").type(MediaType.TEXT_PLAIN).build();
