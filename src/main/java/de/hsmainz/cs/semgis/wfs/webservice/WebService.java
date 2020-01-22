@@ -274,7 +274,7 @@ public class WebService {
 			builder.append("<table width=100%><tr><td><a href=\""+this.wfsconf.getString("baseurl")+"/?f=html\">Back to LandingPage</a></td><td align=right>This page in <a href=\""+this.wfsconf.getString("baseurl") + "/collections?f=gml\">[GML]</a> <a href=\""+this.wfsconf.getString("baseurl") + "/collections?f=json\">[JSON]</a></body></html>");
 			return Response.ok(builder.toString()).type(ResultFormatter.getFormatter(format).mimeType).build();
 		}else {
-			return Response.ok("").type(MediaType.TEXT_PLAIN).build();
+			throw new NotFoundException();
 		}
 	}
 
@@ -768,7 +768,7 @@ public class WebService {
 			builder.append("<table width=100%><tr><td><a href=\""+this.wfsconf.getString("baseurl")+"/collections?f=html\">Back to Collections</a></td><td align=right>This page in <a href=\""+this.wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"?f=gml\">[GML]</a> <a href=\""+this.wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"?f=json\">[JSON]</a></body></html>");
 			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
 		} else {
-			return Response.ok("").type(MediaType.TEXT_PLAIN).build();
+			throw new NotFoundException();
 		}
 	}
 
@@ -988,7 +988,7 @@ public class WebService {
 			builder.append("</ul><a href=\""+this.wfsconf.getString("baseurl")+"/?f=html\">Back to LandingPage</a></body></html>");
 			return Response.ok(builder.toString()).type(ResultFormatter.getFormatter(format).mimeType).build();
 		}else {
-			return Response.ok("").type(MediaType.TEXT_PLAIN).build();
+			throw new NotFoundException();
 		}
 
 	}
