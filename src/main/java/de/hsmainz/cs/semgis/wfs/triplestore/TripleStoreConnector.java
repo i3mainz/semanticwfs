@@ -148,30 +148,5 @@ public abstract class TripleStoreConnector {
 		return res;
 	}
 
-
-	public static String executeQuery(String queryString,String queryurl,String output,String startingElement,String featuretype,JSONObject workingobj) throws XMLStreamException {
-		System.out.println(prefixCollection+queryString);
-		Query query = QueryFactory.create(prefixCollection+queryString);
-		QueryExecution qexec = QueryExecutionFactory.sparqlService(queryurl, query);
-		ResultFormatter resformat=ResultFormatter.getFormatter(output);
-		System.out.println(ResultFormatter.resultMap);
-		System.out.println(resformat);
-		if(resformat==null) {
-			return null;
-		}
-		ResultSet results = qexec.execSelect();
-		String res=resformat.formatter(results,0,"",featuretype,(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""));
-		qexec.close();
-		if(resformat.lastQueriedElemCount==0) {
-			return "";
-		}
-		return res;
-	}
-	
-	
-
-
-
-
 }
 

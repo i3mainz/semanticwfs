@@ -524,15 +524,11 @@ public class WebService {
 				writer.writeAttribute("xmlns:gml", "http://www.opengis.net/gml/3.2");
 				writer.writeAttribute("service", "OGCAPI-FEATURES");
 				writer.writeAttribute("version", "1.0.0");
-				writer.writeStartElement("gml:boundedBy");
-				writer.writeEndElement();
-				writer.writeStartElement("sf:featureMember");
+				writer.writeStartElement("Id");
+				writer.writeCharacters(collectionid);
 				writer.writeEndElement();
 				writer.writeStartElement("Title");
-				writer.writeCharacters(workingobj.getString("name"));
-				writer.writeEndElement();
-				writer.writeStartElement("Description");
-				writer.writeCharacters("");
+				writer.writeCharacters(workingobj.getString("description"));
 				writer.writeEndElement();
 				for(ResultFormatter formatter:ResultFormatter.resultMap.values()) {
 					writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
@@ -571,12 +567,12 @@ public class WebService {
 			StringBuilder builder=new StringBuilder();
 			builder.append(htmlHead);
 			builder.append("<body><h1 align=\"center\">");
-			builder.append(collectionid);
-			builder.append("</h1>Serializations:<ul>");
+			builder.append((workingobj.getString("description")!=null?workingobj.getString("description"):collectionid));
+			builder.append("</h1><table width=100%><tr><td>Serializations:<ul>");
 			for(ResultFormatter formatter:ResultFormatter.resultMap.values()) {
 				builder.append("<li><a href=\""+this.wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name") + "/items?f="+formatter.exposedType+"\">["+formatter.exposedType.toUpperCase()+"]</a></li>");
 			}
-			builder.append("</ul>Contents:<table width=\"100%\" border=\"1\"><tr><th>Value</th><th>Type</th>");
+			builder.append("</ul></td><td>Contents:<table width=\"100%\" border=\"1\"><tr><th>Value</th><th>Type</th>");
 			for(String elem:mapping.keySet()) {
 				if(!elem.equals("http://www.opengis.net/ont/geosparql#hasGeometry") &&
 						!elem.equals("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")) {
@@ -596,7 +592,7 @@ public class WebService {
 				}
 				}
 			}
-			builder.append("</table></body></html>");
+			builder.append("</table></td></tr></table></body></html>");
 			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
 		} else {
 			return Response.ok("").type(MediaType.TEXT_PLAIN).build();
@@ -622,9 +618,10 @@ public class WebService {
 	@Path("/collections/{collectionid}/items")
 	public Response collectionItems(@PathParam("collectionid") String collectionid,
 			@DefaultValue("json") @QueryParam("f") String format, 
-			@DefaultValue("-1") @QueryParam("limit") String limit,
+			@DefaultValue("5") @QueryParam("limit") String limit,
 			@DefaultValue("0") @QueryParam("offset") String offset,
-			@QueryParam("bbox") String bbox, @QueryParam("datetime") String datetime) {
+			@DefaultValue("") @QueryParam("bbox") String bbox,
+			@DefaultValue("") @QueryParam("datetime") String datetime) {
 		System.out.println("Limit: "+limit);
 		if (collectionid == null) {
 			throw new NotFoundException();
@@ -650,15 +647,9 @@ public class WebService {
 		System.out.println("Attcount: "+workingobj.getInt("attcount"));
 		System.out.println(limit);
 		try {
-			String res;
-			if(limit.equals("-1") && offset.equals("0")) {
-				res = TripleStoreConnector.executeQuery(workingobj.getString("query"),
-						workingobj.getString("triplestore"), format,"sf:featureMember",collectionid,workingobj);
-			}else {
-				res = TripleStoreConnector.executeQuery(workingobj.getString("query"),
+			String res = TripleStoreConnector.executeQuery(workingobj.getString("query"),
 						workingobj.getString("triplestore"), format,""+(Integer.valueOf(limit)*workingobj.getInt("attcount")),
 						""+(Integer.valueOf(offset)*workingobj.getInt("attcount")),"sf:featureMember",collectionid,"",workingobj,"");
-			}
 			System.out.println(res);
 			if(res==null || res.isEmpty()) {
 				throw new NotFoundException();

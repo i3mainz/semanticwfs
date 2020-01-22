@@ -1,7 +1,6 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter;
 
 import java.io.StringWriter;
-import java.util.Arrays;
 import java.util.Iterator;
 
 import javax.xml.stream.XMLOutputFactory;

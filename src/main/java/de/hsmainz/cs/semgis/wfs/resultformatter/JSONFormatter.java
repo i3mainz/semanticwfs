@@ -1,13 +1,11 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter;
 
 import java.util.Iterator;
-import java.util.List;
 
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
-import org.apache.jena.query.ResultSetFormatter;
 import org.apache.jena.rdf.model.Literal;
 import org.json.JSONArray;
 import org.json.JSONObject;

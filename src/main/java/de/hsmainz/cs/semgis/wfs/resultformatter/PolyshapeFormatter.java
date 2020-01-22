@@ -17,7 +17,7 @@ public class PolyshapeFormatter extends WFSResultFormatter {
 
 	public PolyshapeFormatter() {
 		this.mimeType="text/plain";
-		this.exposedType="text/plain";
+		this.exposedType="text/polyshape";
 	}
 	
 	@Override
