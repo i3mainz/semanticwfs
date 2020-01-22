@@ -10,6 +10,8 @@ import javax.xml.stream.XMLStreamWriter;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 
+import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
+
 public class GMLFormatter extends WFSResultFormatter {
 
 	public GMLFormatter() {
@@ -36,7 +38,7 @@ public class GMLFormatter extends WFSResultFormatter {
 		lastQueriedElemCount=0;
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();
 		StringWriter strwriter=new StringWriter();
-		XMLStreamWriter writer=factory.createXMLStreamWriter(strwriter);
+		XMLStreamWriter writer=new IndentingXMLStreamWriter(factory.createXMLStreamWriter(strwriter));
 		//writer.writeStartDocument();
 		String lastInd="";
 		String rel="",val="";
