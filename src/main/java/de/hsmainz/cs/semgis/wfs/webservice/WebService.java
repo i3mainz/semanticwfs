@@ -1440,7 +1440,7 @@ public class WebService {
 		writer.writeStartElement("complexContent");
 		writer.writeStartElement("extension");
 		writer.writeAttribute("base", "gml:AbstractFeatureType");
-		writer.writeStartElement("sequence");
+		writer.writeStartElement("all");
 		if(!featureTypeCache.containsKey(typename.toLowerCase())) {
 			featureTypeCache.put(typename.toLowerCase(),TripleStoreConnector
 				.getFeatureTypeInformation(workingobj.getString("query"), workingobj.getString("triplestore"),
@@ -1449,7 +1449,13 @@ public class WebService {
 		Map<String,String>mapping=featureTypeCache.get(typename.toLowerCase());
 		for(String elem:mapping.keySet()) {
 			writer.writeStartElement("element"); writer.writeAttribute("name", elem);
-			writer.writeAttribute("type", mapping.get(elem)); 
+			if(mapping.get(elem).contains("^^")) {
+				writer.writeAttribute("type", mapping.get(elem).substring(mapping.get(elem).lastIndexOf("^^")+2)); 
+			}else if(mapping.get(elem).startsWith("http") || mapping.get(elem).startsWith("file:/")){
+				writer.writeAttribute("type","http://www.w3.org/2001/XMLSchema#anyURI");
+			}else {
+				writer.writeAttribute("type","http://www.w3.org/2001/XMLSchema#string"); 	
+			}
 			writer.writeAttribute("minOccurs", "0"); 
 			writer.writeEndElement(); 
 		}
