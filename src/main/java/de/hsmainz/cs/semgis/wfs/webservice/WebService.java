@@ -23,12 +23,10 @@ import javax.xml.stream.XMLStreamWriter;
 import com.sun.jersey.api.NotFoundException;
 import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
 
-import org.apache.jena.sparql.expr.NodeValue;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import de.hsmainz.cs.semgis.wfs.converters.AsGeoJSON;
 import de.hsmainz.cs.semgis.wfs.resultformatter.HTMLFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
 import de.hsmainz.cs.semgis.wfs.triplestore.TripleStoreConnector;
@@ -40,7 +38,7 @@ public class WebService {
 
 	JSONObject wfsconf = new JSONObject();
 	
-	Map<String,Map<String,String>> featureTypeCache;
+	static Map<String,Map<String,String>> featureTypeCache;
 
 	String htmlHead="<html><head><link rel=\"stylesheet\" href=\"https://unpkg.com/leaflet@1.5.1/dist/leaflet.css\"\r\n" + 
 			"   integrity=\"sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==\"\r\n" + 
@@ -53,7 +51,7 @@ public class WebService {
 	public WebService() throws IOException {
 		String text2 = new String(Files.readAllBytes(Paths.get("wfsconf.json")), StandardCharsets.UTF_8);
 		wfsconf = new JSONObject(text2);
-		this.featureTypeCache=new TreeMap<>();
+		featureTypeCache=new TreeMap<>();
 	}
 
 	@GET
@@ -312,7 +310,7 @@ public class WebService {
 		if(!workingobj.has("attcount") && !workingobj.getString("query").contains("?rel") && !workingobj.getString("query").contains("?val")) {
 			workingobj.put("attcount", 1);
 		}else if(!workingobj.has("attcount")) {
-			this.featureTypeCache.put(collectionid,TripleStoreConnector
+			featureTypeCache.put(collectionid.toLowerCase(),TripleStoreConnector
 					.getFeatureTypeInformation(workingobj.getString("query"), workingobj.getString("triplestore"),
 			  workingobj.getString("name"),workingobj));		
 		}
@@ -620,12 +618,12 @@ public class WebService {
 		if (workingobj == null) {
 			throw new NotFoundException();
 		}
-		if(!featureTypeCache.containsKey(collectionid)) {
-			this.featureTypeCache.put(collectionid,TripleStoreConnector
+		if(!featureTypeCache.containsKey(collectionid.toLowerCase())) {
+			featureTypeCache.put(collectionid.toLowerCase(),TripleStoreConnector
 					.getFeatureTypeInformation(workingobj.getString("query"), workingobj.getString("triplestore"),
 			  workingobj.getString("name"),workingobj)); 
 		}
-		Map<String,String> mapping=this.featureTypeCache.get(collectionid);
+		Map<String,String> mapping=featureTypeCache.get(collectionid.toLowerCase());
 		if (format != null && format.contains("json")) {
 			JSONObject result = new JSONObject();
 			result.put("id", workingobj.getString("name"));
@@ -828,7 +826,7 @@ public class WebService {
 		if(!workingobj.has("attcount") && !workingobj.getString("query").contains("?rel") && !workingobj.getString("query").contains("?val")) {
 			workingobj.put("attcount", 1);
 		}else if(!workingobj.has("attcount")) {
-			this.featureTypeCache.put(workingobj.getString("name"),TripleStoreConnector
+			featureTypeCache.put(workingobj.getString("name").toLowerCase(),TripleStoreConnector
 					.getFeatureTypeInformation(workingobj.getString("query"), workingobj.getString("triplestore"),
 			  workingobj.getString("name"),workingobj));		
 		}
@@ -1443,12 +1441,12 @@ public class WebService {
 		writer.writeStartElement("extension");
 		writer.writeAttribute("base", "gml:AbstractFeatureType");
 		writer.writeStartElement("sequence");
-		if(this.featureTypeCache.containsKey(typename)) {
-			this.featureTypeCache.put(typename,TripleStoreConnector
+		if(featureTypeCache.containsKey(typename.toLowerCase())) {
+			featureTypeCache.put(typename.toLowerCase(),TripleStoreConnector
 				.getFeatureTypeInformation(workingobj.getString("query"), workingobj.getString("triplestore"),
 		  workingobj.getString("name"),workingobj));
 		}
-		Map<String,String>mapping=this.featureTypeCache.get(typename);
+		Map<String,String>mapping=featureTypeCache.get(typename.toLowerCase());
 		for(String elem:mapping.keySet()) {
 			writer.writeStartElement("element"); writer.writeAttribute("name", elem);
 			writer.writeAttribute("type", mapping.get(elem)); 
@@ -1494,7 +1492,7 @@ public class WebService {
 		if(!workingobj.has("attcount") && !workingobj.getString("query").contains("?rel") && !workingobj.getString("query").contains("?val")) {
 			workingobj.put("attcount", 1);
 		}else if(!workingobj.has("attcount")) {
-			this.featureTypeCache.put(typename,TripleStoreConnector
+			featureTypeCache.put(typename.toLowerCase(),TripleStoreConnector
 					.getFeatureTypeInformation(workingobj.getString("query"), workingobj.getString("triplestore"),
 			  workingobj.getString("name"),workingobj));		
 		}
