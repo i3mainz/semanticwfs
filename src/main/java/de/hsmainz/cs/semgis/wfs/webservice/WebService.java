@@ -826,7 +826,7 @@ public class WebService {
 		if(!workingobj.has("attcount") && !workingobj.getString("query").contains("?rel") && !workingobj.getString("query").contains("?val")) {
 			workingobj.put("attcount", 1);
 		}else if(!workingobj.has("attcount")) {
-			featureTypeCache.put(workingobj.getString("name").toLowerCase(),TripleStoreConnector
+			featureTypeCache.put(collectionid.toLowerCase(),TripleStoreConnector
 					.getFeatureTypeInformation(workingobj.getString("query"), workingobj.getString("triplestore"),
 			  workingobj.getString("name"),workingobj));		
 		}
