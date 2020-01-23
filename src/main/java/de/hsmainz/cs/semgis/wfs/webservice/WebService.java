@@ -1443,9 +1443,12 @@ public class WebService {
 		writer.writeStartElement("extension");
 		writer.writeAttribute("base", "gml:AbstractFeatureType");
 		writer.writeStartElement("sequence");
-		Map<String,String>mapping=TripleStoreConnector
+		if(this.featureTypeCache.containsKey(typename)) {
+			this.featureTypeCache.put(typename,TripleStoreConnector
 				.getFeatureTypeInformation(workingobj.getString("query"), workingobj.getString("triplestore"),
-		  workingobj.getString("name"),workingobj); 
+		  workingobj.getString("name"),workingobj));
+		}
+		Map<String,String>mapping=this.featureTypeCache.get(typename);
 		for(String elem:mapping.keySet()) {
 			writer.writeStartElement("element"); writer.writeAttribute("name", elem);
 			writer.writeAttribute("type", mapping.get(elem)); 
