@@ -95,14 +95,14 @@ public class WebService {
 				}
 				if ("getFeature".equalsIgnoreCase(request)) {
 					try {
-						return this.getFeature(typename, output, count,startindex,sortBy,version,resourceids,filter,filterLanguage);
+						return this.getFeature(typename, output, count,startindex,sortBy,version,resourceids,filter,filterLanguage,resultType);
 					} catch (XMLStreamException e) {
 						e.printStackTrace();
 						return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 					}
 				}
 				if ("getPropertyValue".equalsIgnoreCase(request)) {
-					return this.getPropertyValue(typename, propertyname, output,resourceids,filter,count);
+					return this.getPropertyValue(typename, propertyname, output,resourceids,filter,count,resultType);
 				}
 			}
 			return Response.ok("").type(MediaType.TEXT_PLAIN).build();
@@ -1469,7 +1469,8 @@ public class WebService {
 			@DefaultValue("2.0.0") @QueryParam("version") String version, 
 			@DefaultValue("") @QueryParam("resourceid") String resourceids, 
 			@DefaultValue("") @QueryParam("filter") String filter, 
-			@DefaultValue("SPARQL") @QueryParam("filterLanguage") String filterLanguage) throws JSONException, XMLStreamException {
+			@DefaultValue("SPARQL") @QueryParam("filterLanguage") String filterLanguage,
+			@DefaultValue("results") @QueryParam("resultType") String resultType) throws JSONException, XMLStreamException {
 		System.out.println(typename);	
 		if (typename == null) {
 			throw new NotFoundException();
@@ -1504,6 +1505,9 @@ public class WebService {
 			}
 		} catch (JSONException | XMLStreamException e1) {
 			e1.printStackTrace();
+		}
+		if(resultType.equalsIgnoreCase("hits")) {
+			return Response.ok((Integer.valueOf(res)/workingobj.getInt("attcount"))+"").type(MediaType.TEXT_PLAIN).build();
 		}
 		System.out.println(output);
 		if(output.contains("gml")) {
@@ -1582,7 +1586,8 @@ public class WebService {
 			@DefaultValue("json") @QueryParam("outputFormat") String output,
 			@DefaultValue("") @QueryParam("resourceids") String resourceids,
 			@DefaultValue("") @QueryParam("filter") String filter
-			,@DefaultValue("0") @QueryParam("count") String count) {
+			,@DefaultValue("0") @QueryParam("count") String count
+			,@DefaultValue("results") @QueryParam("resultType") String resultType) {
 		System.out.println(typename);	
 		System.out.println(propertyname);
 		if (typename == null || propertyname==null) {
@@ -1616,11 +1621,14 @@ public class WebService {
 			res = TripleStoreConnector.executePropertyValueQuery(
 					workingobj.getString("triplestore"),
 					output,propertyname, "gml:featureMember",typename,resourceids,workingobj,
-					filter,count);
+					filter,count,resultType);
 			System.out.println(res);
 		} catch (JSONException | XMLStreamException e1) {
 			e1.printStackTrace();
 		}
+		if(resultType.equalsIgnoreCase("hits")) {
+			return Response.ok(res).type(MediaType.TEXT_PLAIN).build();
+		}			
 		if(output!=null && output.contains("json")) {
 			return Response.ok(res).type(MediaType.APPLICATION_JSON).build();
 		}else if(output!=null && output.contains("gml")) {

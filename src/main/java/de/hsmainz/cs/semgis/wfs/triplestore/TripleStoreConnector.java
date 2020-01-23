@@ -120,7 +120,7 @@ public abstract class TripleStoreConnector {
 	
 	public static String executePropertyValueQuery(String queryurl,String output,String propertyValue,
 			String startingElement,String featuretype,
-			String resourceids,JSONObject workingobj,String filter,String count) throws XMLStreamException {
+			String resourceids,JSONObject workingobj,String filter,String count,String resultType) throws XMLStreamException {
 		String queryString=" SELECT ?"+featuretype.toLowerCase()+" ?member WHERE{"+System.lineSeparator();
 		if(!resourceids.isEmpty() && !resourceids.contains(",")) {
 			queryString=queryString.replace("WHERE{","WHERE{ BIND( <"+workingobj.getString("namespace")+resourceids+"> AS ?"+workingobj.getString("indvar")+") "+System.lineSeparator());
@@ -151,6 +151,9 @@ public abstract class TripleStoreConnector {
 		qexec.close();
 		if(resformat.lastQueriedElemCount==0) {
 			return "";
+		}
+		if(resultType.equalsIgnoreCase("hits")) {
+			return resformat.lastQueriedElemCount.toString();
 		}
 		return res;
 	}
