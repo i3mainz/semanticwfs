@@ -404,7 +404,9 @@ public class WebService {
 			builder.append("</h1>");
 			builder.append("<ul>");
 			builder.append(res);
-			builder.append("</ul></body></html>");
+			builder.append("</ul>");
+			builder.append("<table width=100%><tr><td><a href=\""+this.wfsconf.getString("baseurl")+"/collections/"+collectionid+"?f=html\">Back to "+collectionid+" Collection</a></td><td align=right>This page in <a href=\""+this.wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"/items/"+featureid+"?f=gml\">[GML]</a> <a href=\""+this.wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"/items/"+featureid+"?f=json\">[JSON]</a></body></html>");
+			builder.append("</body></html>");
 			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
 		}else {
 			return Response.ok(res).type(MediaType.TEXT_PLAIN).build();
@@ -913,7 +915,9 @@ public class WebService {
 				builder.append(collectionid);
 				builder.append("</h1>");
 				builder.append(res);
-				builder.append("<script>$( document ).ready(function() {$('#queryres').DataTable();});</script></body></html>");
+				builder.append("<script>$( document ).ready(function() {$('#queryres').DataTable();});</script>");
+				builder.append("<table width=100%><tr><td><a href=\""+this.wfsconf.getString("baseurl")+"/collections/"+collectionid+"?f=html\">Back to "+collectionid+" Collection</a></td><td align=right>This page in <a href=\""+this.wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"/items?f=gml\">[GML]</a> <a href=\""+this.wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"/items?f=json\">[JSON]</a></body></html>");
+				builder.append("</body></html>");
 				return Response.ok(builder.toString()).type(ResultFormatter.getFormatter(format).mimeType).build();
 			}else {				
 				return Response.ok(res).type(ResultFormatter.getFormatter(format).mimeType).build();
