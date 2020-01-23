@@ -16,7 +16,7 @@ public class RDFFormatter extends ResultFormatter {
 	
 	@Override
 	public String formatter(ResultSet results, Integer offset, String startingElement, String featuretype,
-			String typeColumn) throws XMLStreamException {
+			String typeColumn,Boolean onlyproperty) throws XMLStreamException {
 		StringBuilder builder=new StringBuilder();
 		String rel="",val="",lastInd="",geomLiteral="";
 		builder.append("<http://www.opengis.net/ont/geosparql#Geometry> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> ."+System.lineSeparator());

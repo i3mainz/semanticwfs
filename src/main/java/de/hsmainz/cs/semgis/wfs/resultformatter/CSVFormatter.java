@@ -14,7 +14,7 @@ public class CSVFormatter extends WFSResultFormatter {
 	}
 	
 	@Override
-	public String formatter(ResultSet results,Integer offset,String startingElement,String featuretype,String typeColumn) {
+	public String formatter(ResultSet results,Integer offset,String startingElement,String featuretype,String typeColumn,Boolean onlyproperty) {
     	Boolean first=true;
     	StringBuilder resultCSV=new StringBuilder();
     	StringBuilder resultCSVHeader=new StringBuilder();

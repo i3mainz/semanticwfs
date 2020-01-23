@@ -18,7 +18,7 @@ public class JSONFormatter extends WFSResultFormatter {
 	}
 	
 	@Override
-	public String formatter(ResultSet results,Integer offset,String startingElement,String featuretype,String typeColumn) throws XMLStreamException {
+	public String formatter(ResultSet results,Integer offset,String startingElement,String featuretype,String typeColumn,Boolean onlyproperty) throws XMLStreamException {
 	    JSONArray obj=new JSONArray();
 	    while(results.hasNext()) {
 	    	this.lastQueriedElemCount++;

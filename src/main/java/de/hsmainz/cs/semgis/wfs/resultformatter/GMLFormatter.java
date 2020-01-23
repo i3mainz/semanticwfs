@@ -34,7 +34,7 @@ public class GMLFormatter extends WFSResultFormatter {
 	}
 	
 	@Override
-	public String formatter(ResultSet results,Integer offset,String startingElement,String featuretype,String typeColumn) throws XMLStreamException {
+	public String formatter(ResultSet results,Integer offset,String startingElement,String featuretype,String typeColumn,Boolean onlyproperty) throws XMLStreamException {
 		lastQueriedElemCount=0;
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();
 		StringWriter strwriter=new StringWriter();
@@ -53,13 +53,15 @@ public class GMLFormatter extends WFSResultFormatter {
 				}
 				if(!solu.get(featuretype.toLowerCase()).toString().equals(lastInd) || lastInd.isEmpty()) {
 					lastQueriedElemCount++;
-					if(!first) {
+					if(!first && !onlyproperty) {
 						writer.writeEndElement();    
 						writer.writeEndElement();
 					}
-					writer.writeStartElement(startingElement);
-					writer.writeStartElement(featuretype);
-					writer.writeAttribute("gml:id", curfeaturetype);
+					if(!onlyproperty) {
+						writer.writeStartElement(startingElement);
+						writer.writeStartElement(featuretype);				
+						writer.writeAttribute("gml:id", curfeaturetype);
+					}
 					first=false;
 				}
 			}
@@ -110,8 +112,10 @@ public class GMLFormatter extends WFSResultFormatter {
 			}
 			lastInd=solu.get(featuretype.toLowerCase()).toString();
 	    }
-		writer.writeEndElement();    
-		writer.writeEndElement();
+	    if(!onlyproperty) {
+	    	writer.writeEndElement();    
+	    	writer.writeEndElement();
+	    }
 		//writer.writeEndDocument();
 		writer.flush();	
 		return strwriter.toString();

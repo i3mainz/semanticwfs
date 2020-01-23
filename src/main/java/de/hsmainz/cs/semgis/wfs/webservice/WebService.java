@@ -63,6 +63,7 @@ public class WebService {
 			@DefaultValue("") @QueryParam("TYPENAMES") String typenames,
 			@DefaultValue("") @QueryParam("SRSNAME") String srsname,
 			@DefaultValue("") @QueryParam("BBOX") String bbox,
+			@DefaultValue("") @QueryParam("VALUEREFERENCE") String propertyname,
 			@DefaultValue("ASC") @QueryParam("SORTBY") String sortBy,
 			@DefaultValue("results") @QueryParam("RESULTTYPE") String resultType,
 			@DefaultValue("") @QueryParam("RESOURCEID") String resourceids,
@@ -99,6 +100,9 @@ public class WebService {
 						e.printStackTrace();
 						return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 					}
+				}
+				if ("getPropertyValue".equalsIgnoreCase(request)) {
+					return this.getPropertyValue(typename, propertyname, output,resourceids,filter,count);
 				}
 			}
 			return Response.ok("").type(MediaType.TEXT_PLAIN).build();
@@ -303,7 +307,7 @@ public class WebService {
 				break;
 			}
 		}
-		if (workingobj == null) {
+		if (workingobj ==null) {
 			throw new NotFoundException();
 		}
 		if(!workingobj.has("attcount") && !workingobj.getString("query").contains("?rel") && !workingobj.getString("query").contains("?val")) {
@@ -774,9 +778,6 @@ public class WebService {
 				builder.append("<li><a href=\""+this.wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name") + "/items?f="+formatter.exposedType+"\">["+formatter.exposedType.toUpperCase()+"]</a></li>");
 			}
 			builder.append("</td></tr></table>");
-			//builder.append("<script>var overlayMaps={}; var overlayControl; var typeColumn=\""+(workingobj.has("typeColumn")?workingobj.getString("typeColumn"):"")+"\"; var markercollection=[];var geojson="+geojson.toString()+"</script>");
-			//builder.append(((HTMLFormatter)ResultFormatter.getFormatter("html")).htmlHeader);
-			//builder.append("</td></tr></table>");		
 			builder.append("<table width=100%><tr><td><a href=\""+this.wfsconf.getString("baseurl")+"/collections?f=html\">Back to Collections</a></td><td align=right>This page in <a href=\""+this.wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"?f=gml\">[GML]</a> <a href=\""+this.wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"?f=json\">[JSON]</a></body></html>");
 			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
 		} else {
@@ -1111,9 +1112,6 @@ public class WebService {
 		describeSpatialCapabilitiesWFS10(writer,versionnamespace,"http://www.opengis.net/ogc");
 		writer.writeEndElement();
 		writer.writeEndElement();
-		// writer.writeEndElement();
-		// writer.writeEndElement();
-		// writer.writeEndElement();
 		writer.writeEndElement();
 		writer.writeEndDocument();
 		return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
@@ -1164,12 +1162,6 @@ public class WebService {
 		writer.writeCharacters(wfsconf.has("abstract") ? wfsconf.getString("abstract") : "");
 		writer.writeEndElement();
 		writer.writeEndElement();
-		// ServiceProvider
-		// Capabilities
-		// writer.writeStartElement("http://www.opengis.net/wfs/2.0","Capability");
-		// writer.writeStartElement("http://www.opengis.net/wfs/2.0","Request");
-		// writer.writeStartElement("http://www.opengis.net/wfs/2.0","GetCapabilities");
-		// OperationsMetadata
 		writer.writeStartElement(owsns, "OperationsMetadata");
 		writer.writeStartElement(owsns, "Operation");
 		writer.writeAttribute("name", "GetCapabilities");
@@ -1224,9 +1216,6 @@ public class WebService {
 		describeSpatialCapabilities(writer,versionnamespace,"http://www.opengis.net/fes/"+versionnamespace);
 		writer.writeEndElement();
 		writer.writeEndElement();
-		// writer.writeEndElement();
-		// writer.writeEndElement();
-		// writer.writeEndElement();
 		writer.writeEndElement();
 		writer.writeEndDocument();
 		return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
@@ -1588,11 +1577,14 @@ public class WebService {
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/wfs/getPropertyValue")
-	public String getPropertyValue(@QueryParam("typename") String typename,
-			@QueryParam("propertyname") String propertyname,
+	public Response getPropertyValue(@QueryParam("typename") String typename,
+			@QueryParam("valuereference") String propertyname,
 			@DefaultValue("json") @QueryParam("outputFormat") String output,
-			@DefaultValue("5") @QueryParam("count") String count) {
+			@DefaultValue("") @QueryParam("resourceids") String resourceids,
+			@DefaultValue("") @QueryParam("filter") String filter
+			,@DefaultValue("0") @QueryParam("count") String count) {
 		System.out.println(typename);	
+		System.out.println(propertyname);
 		if (typename == null || propertyname==null) {
 			throw new NotFoundException();
 		}
@@ -1606,17 +1598,57 @@ public class WebService {
 		}
 		if(workingobj==null)
 			throw new NotFoundException();
-		/*String res = "";
-		 * 
+		if(!propertyname.startsWith("http")) {
+			if(!featureTypeCache.containsKey(typename.toLowerCase())) {
+				featureTypeCache.put(typename.toLowerCase(),TripleStoreConnector
+					.getFeatureTypeInformation(workingobj.getString("query"), workingobj.getString("triplestore"),
+						workingobj.getString("name"),workingobj));
+			}
+			for(String key:featureTypeCache.get(typename.toLowerCase()).keySet()) {
+				if(key.contains(propertyname)) {
+					propertyname=key;
+					break;
+				}
+			}
+		}
+		String res = ""; 
 		try {
-			res = TripleStoreConnector.executeQuery(workingobj.getString("query"),
+			res = TripleStoreConnector.executePropertyValueQuery(
 					workingobj.getString("triplestore"),
-					output, count,startindex,"gml:featureMember",typename);
+					output,propertyname, "gml:featureMember",typename,resourceids,workingobj,
+					filter,count);
 			System.out.println(res);
 		} catch (JSONException | XMLStreamException e1) {
 			e1.printStackTrace();
-		}*/
-		return "";
+		}
+		if(output!=null && output.contains("json")) {
+			return Response.ok(res).type(MediaType.APPLICATION_JSON).build();
+		}else if(output!=null && output.contains("gml")) {
+			StringWriter strwriter = new StringWriter();
+			XMLOutputFactory outputf = XMLOutputFactory.newInstance();
+			XMLStreamWriter writer;
+			try {
+				writer = new IndentingXMLStreamWriter(outputf.createXMLStreamWriter(strwriter));
+				writer.writeStartDocument();
+				writer.writeStartElement("ValueCollection");
+				writer.writeDefaultNamespace("http://www.opengis.net/wfs/2.0");
+				writer.writeCharacters("");
+				writer.flush();
+				strwriter.write(res);
+				writer.writeEndElement();
+				writer.writeEndDocument();
+				writer.flush();
+			}catch(Exception e) {
+				e.printStackTrace();
+				return Response.ok("").type(MediaType.TEXT_PLAIN).build();
+			}	
+			return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
+		}else if(output!=null && output.contains("html")) {
+			return Response.ok(res).type(MediaType.TEXT_HTML).build();
+		}else if(output!=null) {
+			return Response.ok(res).type(MediaType.TEXT_PLAIN).build();
+		}
+		return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 	}
 	
 	@GET
