@@ -1441,7 +1441,7 @@ public class WebService {
 		writer.writeStartElement("extension");
 		writer.writeAttribute("base", "gml:AbstractFeatureType");
 		writer.writeStartElement("sequence");
-		if(featureTypeCache.containsKey(typename.toLowerCase())) {
+		if(!featureTypeCache.containsKey(typename.toLowerCase())) {
 			featureTypeCache.put(typename.toLowerCase(),TripleStoreConnector
 				.getFeatureTypeInformation(workingobj.getString("query"), workingobj.getString("triplestore"),
 		  workingobj.getString("name"),workingobj));
