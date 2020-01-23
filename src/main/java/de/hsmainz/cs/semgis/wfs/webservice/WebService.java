@@ -38,7 +38,7 @@ public class WebService {
 
 	JSONObject wfsconf = new JSONObject();
 	
-	static Map<String,Map<String,String>> featureTypeCache;
+	static Map<String,Map<String,String>> featureTypeCache=new TreeMap<>();;
 
 	String htmlHead="<html><head><link rel=\"stylesheet\" href=\"https://unpkg.com/leaflet@1.5.1/dist/leaflet.css\"\r\n" + 
 			"   integrity=\"sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==\"\r\n" + 
@@ -51,7 +51,6 @@ public class WebService {
 	public WebService() throws IOException {
 		String text2 = new String(Files.readAllBytes(Paths.get("wfsconf.json")), StandardCharsets.UTF_8);
 		wfsconf = new JSONObject(text2);
-		featureTypeCache=new TreeMap<>();
 	}
 
 	@GET
@@ -1396,7 +1395,8 @@ public class WebService {
 	@GET
 	@Produces(MediaType.TEXT_XML)
 	@Path("/wfs/describeFeatureType")
-	public Response describeFeatureType(@QueryParam("typename") String typename,@DefaultValue("version") @QueryParam("version")String version) throws XMLStreamException {
+	public Response describeFeatureType(@QueryParam("typename") String typename,
+			@DefaultValue("version") @QueryParam("version")String version) throws XMLStreamException {
 		if(typename==null)
 			throw new NotFoundException();
 		JSONObject workingobj = null;
