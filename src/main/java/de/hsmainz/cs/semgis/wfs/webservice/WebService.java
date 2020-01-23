@@ -263,7 +263,7 @@ public class WebService {
 				if(this.wfsconf.getJSONArray("datasets").getJSONObject(i).has("schema")) {
 					builder.append("<a href=\""+this.wfsconf.getJSONArray("datasets").getJSONObject(i).get("schema")+"\" target=\"_blank\">[Schema]</a>");
 				}else {
-					builder.append("<a href=\""+this.wfsconf.getString("baseurl") + "/collections/"+ curobj.getString("name") + "/items\" target=\"_blank\">[Schema]</a>");
+					builder.append("<a href=\""+this.wfsconf.getString("baseurl") + "/collections/"+ curobj.getString("name") + "/schema\" target=\"_blank\">[Schema]</a>");
 				}
 				builder.append("</td><td align=center>");
 				Integer counter=0;
