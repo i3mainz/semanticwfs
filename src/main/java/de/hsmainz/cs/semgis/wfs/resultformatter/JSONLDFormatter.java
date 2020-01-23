@@ -20,7 +20,7 @@ public class JSONLDFormatter extends WFSResultFormatter {
 	}
 	
 	@Override
-	public String formatter(ResultSet results,Integer offset,String startingElement,String featuretype,String typeColumn,Boolean onlyproperty) throws XMLStreamException {
+	public String formatter(ResultSet results,Integer offset,String startingElement,String featuretype,String propertytype,String typeColumn,Boolean onlyproperty) throws XMLStreamException {
 		JSONObject result=new JSONObject();
 	    JSONArray obj=new JSONArray();
 	    JSONObject context=new JSONObject();

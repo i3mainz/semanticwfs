@@ -95,7 +95,7 @@ public abstract class ResultFormatter {
 	}
 	
 	public abstract String formatter(ResultSet results,Integer offset,String startingElement,
-			String featuretype,String typeColumn,Boolean onlyproperty) throws XMLStreamException;
+			String featuretype,String propertytype,String typeColumn,Boolean onlyproperty) throws XMLStreamException;
 
 	public String formatHeader() {
 		return "";

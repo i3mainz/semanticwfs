@@ -12,7 +12,7 @@ public class GeoTIFFFormatter extends WCSResultFormatter {
 	}
 	
 	@Override
-	public String formatter(ResultSet results,Integer offset,String startingElement,String featuretype,String typeColumn,Boolean onlyproperty) throws XMLStreamException {
+	public String formatter(ResultSet results,Integer offset,String startingElement,String featuretype,String propertytype,String typeColumn,Boolean onlyproperty) throws XMLStreamException {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -1644,7 +1644,11 @@ public class WebService {
 			}	
 			return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
 		}else if(output!=null && output.contains("html")) {
-			return Response.ok(res).type(MediaType.TEXT_HTML).build();
+			StringBuilder builder=new StringBuilder();
+			builder.append("<html><head></head><body><h1 align=center>PropertyRequest: "+typename+"["+propertyname+"]</h1>");
+			builder.append(res);
+			builder.append("<a href=\""+this.wfsconf.getString("baseurl")+"/?f=html\">Back to LandingPage</a></body></html>");
+			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
 		}else if(output!=null) {
 			return Response.ok(res).type(MediaType.TEXT_PLAIN).build();
 		}

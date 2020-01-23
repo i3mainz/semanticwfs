@@ -147,7 +147,7 @@ public abstract class TripleStoreConnector {
 			return null;
 		}
 		ResultSet results = qexec.execSelect();
-		String res=resformat.formatter(results,0,startingElement,featuretype,(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""),true);
+		String res=resformat.formatter(results,0,startingElement,featuretype,propertyValue,(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""),true);
 		qexec.close();
 		if(resformat.lastQueriedElemCount==0) {
 			return "";
@@ -182,7 +182,7 @@ public abstract class TripleStoreConnector {
 			return null;
 		}
 		ResultSet results = qexec.execSelect();
-		String res=resformat.formatter(results,Integer.valueOf(offset),startingElement,featuretype,(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""),false);
+		String res=resformat.formatter(results,Integer.valueOf(offset),startingElement,featuretype,"",(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""),false);
 		qexec.close();
 		if(resformat.lastQueriedElemCount==0) {
 			return "";
