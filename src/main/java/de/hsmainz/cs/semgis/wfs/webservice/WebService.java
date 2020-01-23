@@ -6,6 +6,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -38,6 +39,8 @@ public class WebService {
 	JSONObject triplestoreconf = new JSONObject();
 
 	JSONObject wfsconf = new JSONObject();
+	
+	Map<String,Map<String,String>> featureTypeCache;
 
 	String htmlHead="<html><head><link rel=\"stylesheet\" href=\"https://unpkg.com/leaflet@1.5.1/dist/leaflet.css\"\r\n" + 
 			"   integrity=\"sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==\"\r\n" + 
@@ -50,6 +53,7 @@ public class WebService {
 	public WebService() throws IOException {
 		String text2 = new String(Files.readAllBytes(Paths.get("wfsconf.json")), StandardCharsets.UTF_8);
 		wfsconf = new JSONObject(text2);
+		this.featureTypeCache=new TreeMap<>();
 	}
 
 	@GET
@@ -302,9 +306,9 @@ public class WebService {
 		if(!workingobj.has("attcount") && !workingobj.getString("query").contains("?rel") && !workingobj.getString("query").contains("?val")) {
 			workingobj.put("attcount", 1);
 		}else if(!workingobj.has("attcount")) {
-			TripleStoreConnector
+			this.featureTypeCache.put(collectionid,TripleStoreConnector
 					.getFeatureTypeInformation(workingobj.getString("query"), workingobj.getString("triplestore"),
-			  workingobj.getString("name"),workingobj);		
+			  workingobj.getString("name"),workingobj));		
 		}
 		String query=workingobj.getString("query");
 		String res = "";
@@ -608,9 +612,12 @@ public class WebService {
 		if (workingobj == null) {
 			throw new NotFoundException();
 		}
-		Map<String,String>mapping=TripleStoreConnector
-				.getFeatureTypeInformation(workingobj.getString("query"), workingobj.getString("triplestore"),
-		  workingobj.getString("name"),workingobj); 
+		if(!featureTypeCache.containsKey(collectionid)) {
+			this.featureTypeCache.put(collectionid,TripleStoreConnector
+					.getFeatureTypeInformation(workingobj.getString("query"), workingobj.getString("triplestore"),
+			  workingobj.getString("name"),workingobj)); 
+		}
+		Map<String,String> mapping=this.featureTypeCache.get(collectionid);
 		if (format != null && format.contains("json")) {
 			JSONObject result = new JSONObject();
 			result.put("id", workingobj.getString("name"));
@@ -813,9 +820,9 @@ public class WebService {
 		if(!workingobj.has("attcount") && !workingobj.getString("query").contains("?rel") && !workingobj.getString("query").contains("?val")) {
 			workingobj.put("attcount", 1);
 		}else if(!workingobj.has("attcount")) {
-			TripleStoreConnector
+			this.featureTypeCache.put(workingobj.getString("name"),TripleStoreConnector
 					.getFeatureTypeInformation(workingobj.getString("query"), workingobj.getString("triplestore"),
-			  workingobj.getString("name"),workingobj);		
+			  workingobj.getString("name"),workingobj));		
 		}
 		System.out.println("Attcount: "+workingobj.getInt("attcount"));
 		System.out.println(limit);
@@ -1474,9 +1481,9 @@ public class WebService {
 		if(!workingobj.has("attcount") && !workingobj.getString("query").contains("?rel") && !workingobj.getString("query").contains("?val")) {
 			workingobj.put("attcount", 1);
 		}else if(!workingobj.has("attcount")) {
-			TripleStoreConnector
+			this.featureTypeCache.put(typename,TripleStoreConnector
 					.getFeatureTypeInformation(workingobj.getString("query"), workingobj.getString("triplestore"),
-			  workingobj.getString("name"),workingobj);		
+			  workingobj.getString("name"),workingobj));		
 		}
 		String res = "";
 		try {
