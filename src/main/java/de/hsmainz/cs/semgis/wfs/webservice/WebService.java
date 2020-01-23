@@ -321,7 +321,7 @@ public class WebService {
 		String res = "";
 		try {
 			res = TripleStoreConnector.executeQuery(query, workingobj.getString("triplestore"),
-					format, "0","0","sf:featureMember",collectionid,featureid,workingobj,"");
+					format, "0","0","sf:featureMember",collectionid,featureid,workingobj,"","");
 			System.out.println(res);
 			if(res==null || res.isEmpty()) {
 				throw new NotFoundException();
@@ -835,7 +835,7 @@ public class WebService {
 		try {
 			String res = TripleStoreConnector.executeQuery(workingobj.getString("query"),
 						workingobj.getString("triplestore"), format,""+(Integer.valueOf(limit)*workingobj.getInt("attcount")),
-						""+(Integer.valueOf(offset)*workingobj.getInt("attcount")),"sf:featureMember",collectionid,"",workingobj,"");
+						""+(Integer.valueOf(offset)*workingobj.getInt("attcount")),"sf:featureMember",collectionid,"",workingobj,"","");
 			System.out.println(res);
 			if(res==null || res.isEmpty()) {
 				throw new NotFoundException();
@@ -1498,7 +1498,7 @@ public class WebService {
 					workingobj.getString("triplestore"),
 					output, ""+(Integer.valueOf(count)*workingobj.getInt("attcount")),""
 					+(Integer.valueOf(startindex)*workingobj.getInt("attcount")),
-					"gml:featureMember",typename,resourceids,workingobj,filter);
+					"gml:featureMember",typename,resourceids,workingobj,filter,resultType);
 			System.out.println(res);
 			if(res.isEmpty()) {
 				throw new NotFoundException();
@@ -1507,7 +1507,7 @@ public class WebService {
 			e1.printStackTrace();
 		}
 		if(resultType.equalsIgnoreCase("hits")) {
-			return Response.ok((Integer.valueOf(res)/workingobj.getInt("attcount"))+"").type(MediaType.TEXT_PLAIN).build();
+			return Response.ok(res).type(MediaType.TEXT_PLAIN).build();
 		}
 		System.out.println(output);
 		if(output.contains("gml")) {

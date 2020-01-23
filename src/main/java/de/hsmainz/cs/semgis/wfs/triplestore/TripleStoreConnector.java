@@ -121,7 +121,12 @@ public abstract class TripleStoreConnector {
 	public static String executePropertyValueQuery(String queryurl,String output,String propertyValue,
 			String startingElement,String featuretype,
 			String resourceids,JSONObject workingobj,String filter,String count,String resultType) throws XMLStreamException {
-		String queryString=" SELECT ?"+featuretype.toLowerCase()+" ?member WHERE{"+System.lineSeparator();
+		String queryString="";
+		if(resultType.equalsIgnoreCase("hits")) {
+			queryString=" SELECT DISTINCT (COUNT ?"+featuretype.toLowerCase()+" AS ?count) WHERE { ?"+featuretype.toLowerCase()+" ?abc ?def .} "+System.lineSeparator();
+		}else {
+			queryString+=" SELECT ?"+featuretype.toLowerCase()+" ?member WHERE{"+System.lineSeparator();
+		}
 		if(!resourceids.isEmpty() && !resourceids.contains(",")) {
 			queryString=queryString.replace("WHERE{","WHERE{ BIND( <"+workingobj.getString("namespace")+resourceids+"> AS ?"+workingobj.getString("indvar")+") "+System.lineSeparator());
 		}else if(!resourceids.isEmpty() && resourceids.contains(",")) {
@@ -147,19 +152,26 @@ public abstract class TripleStoreConnector {
 			return null;
 		}
 		ResultSet results = qexec.execSelect();
+		if(resultType.equalsIgnoreCase("hits")) {
+			if(results.hasNext()) {
+				return results.next().get("count").toString();
+			}
+		}
 		String res=resformat.formatter(results,0,startingElement,featuretype,propertyValue,(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""),true);
 		qexec.close();
 		if(resformat.lastQueriedElemCount==0) {
 			return "";
 		}
-		if(resultType.equalsIgnoreCase("hits")) {
-			return resformat.lastQueriedElemCount.toString();
-		}
 		return res;
 	}
 	
 	
-	public static String executeQuery(String queryString,String queryurl,String output,String count,String offset,String startingElement,String featuretype,String resourceids,JSONObject workingobj,String filter) throws XMLStreamException {
+	public static String executeQuery(String queryString,String queryurl,String output,String count,String offset,String startingElement,String featuretype,String resourceids,JSONObject workingobj,String filter,String resultType) throws XMLStreamException {
+		if(resultType.equalsIgnoreCase("hits")) {
+			queryString=" SELECT DISTINCT (COUNT ?"+featuretype.toLowerCase()+" AS ?count) WHERE{ ?"+featuretype.toLowerCase()+" ?abc ?def .}"+System.lineSeparator();
+		}else {
+			queryString+=" SELECT ?"+featuretype.toLowerCase()+" ?member WHERE{"+System.lineSeparator();
+		}
 		if(!resourceids.isEmpty() && !resourceids.contains(",")) {
 			queryString=queryString.replace("WHERE{","WHERE{ BIND( <"+workingobj.getString("namespace")+resourceids+"> AS ?"+workingobj.getString("indvar")+") ");
 		}else if(!resourceids.isEmpty() && resourceids.contains(",")) {
@@ -185,6 +197,11 @@ public abstract class TripleStoreConnector {
 			return null;
 		}
 		ResultSet results = qexec.execSelect();
+		if(resultType.equalsIgnoreCase("hits")) {
+			if(results.hasNext()) {
+				return results.next().get("count").toString();
+			}
+		}
 		String res=resformat.formatter(results,Integer.valueOf(offset),startingElement,featuretype,"",(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""),false);
 		qexec.close();
 		if(resformat.lastQueriedElemCount==0) {
