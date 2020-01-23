@@ -7,9 +7,11 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.regex.Pattern;
 
 import javax.xml.stream.XMLStreamException;
 
+import org.apache.jena.ext.com.google.common.base.CaseFormat;
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
@@ -39,6 +41,10 @@ public abstract class TripleStoreConnector {
 			e.printStackTrace();
 		}
 	}
+	
+	static Pattern spatialFunctions=Pattern.compile(".*(equals|disjoint|intersects|touches|crosses|within|contains|overlaps|relate|dwithin|beyond).*",Pattern.CASE_INSENSITIVE);
+	
+	static Pattern binaryOperators=Pattern.compile(".*(<|>|=|<=|>=|<>).*",Pattern.CASE_INSENSITIVE);
 	
 	protected static Map<String,Map<String,String>> featureTypes=new TreeMap<>();
 	
@@ -100,22 +106,40 @@ public abstract class TripleStoreConnector {
 	}
 
 	
-	public String CQLfilterStringToSPARQLQuery(String queryString,String filter) {
+	public static void main(String[] args) {
+		System.out.println(CQLfilterStringToSPARQLQuery("", "abc=4"));
+	}
+	
+	public static String CQLfilterStringToSPARQLQuery(String queryString,String filter) {
 		StringBuilder builder=new StringBuilder();
+		builder.append("FILTER(");
 		if(filter.contains("AND")) {
 			for(String filterex:filter.split("AND")) {
 				if(filterex.contains("BETWEEN")) {
 					
+				}else if(filterex.equalsIgnoreCase("LIKE")){
+					builder.append("REGEX");
+					//EQUALS, DISJOINT, INTERSECTS, TOUCHES, CROSSES, WITHIN, CONTAINS, OVERLAPS, RELATE, DWITHIN, BEYOND
+				}else if(spatialFunctions.pattern().matches(filterex)){
+					builder.append("sf:"+filterex+" ");
 				}else {
-					if(filter.contains("=")) {
+					if(filterex.contains("=") || filterex.contains("<") || filterex.contains(">")) {
 						
+						builder.append("?"+filterex);
 					}
 				}
 			}
 		}else if(filter.contains("=")){
-			builder.append(filter.substring(0,filter.indexOf('='))+" "+filter.substring(filter.indexOf('=')+1));
+			builder.append("?"+filter.substring(0,filter.lastIndexOf('=')+1));
+			String suffix=filter.substring(filter.lastIndexOf('=')+1);
+			if(suffix.matches("[0-9\\.]+")) {
+				builder.append(suffix+" ");
+			}else {
+				builder.append("\""+suffix+"\"");
+			}
 		}
-		return "";
+		builder.append(")");
+		return builder.toString();
 	}
 	
 	public static String executePropertyValueQuery(String queryurl,String output,String propertyValue,
