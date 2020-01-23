@@ -252,12 +252,18 @@ public class WebService {
 			builder.append("<h1 align=center>");
 			builder.append("FeatureCollection View");
 			builder.append("</h1>");
-			builder.append("<table width=100% border=1><tr><th>Collection</th><th>Decription</th><th>Formats</th></tr>");
+			builder.append("<table width=100% border=1><tr><th>Collection</th><th>Decription</th><th>Schema</th><th>Formats</th></tr>");
 			for (int i = 0; i < this.wfsconf.getJSONArray("datasets").length(); i++) {
 				JSONObject curobj = this.wfsconf.getJSONArray("datasets").getJSONObject(i);
 				builder.append("<tr><td align=center><a href=\""+this.wfsconf.getString("baseurl")+"/collections/"+this.wfsconf.getJSONArray("datasets").getJSONObject(i).get("name")+"?f=html\">"+this.wfsconf.getJSONArray("datasets").getJSONObject(i).get("name")+"</a></td><td align=center>");
 				if(this.wfsconf.getJSONArray("datasets").getJSONObject(i).has("description")) {
 					builder.append(this.wfsconf.getJSONArray("datasets").getJSONObject(i).get("description"));
+				}
+				builder.append("</td><td align=center>");
+				if(this.wfsconf.getJSONArray("datasets").getJSONObject(i).has("schema")) {
+					builder.append("<a href=\""+this.wfsconf.getJSONArray("datasets").getJSONObject(i).get("schema")+"\" target=\"_blank\">[Schema]</a>");
+				}else {
+					builder.append("<a href=\""+this.wfsconf.getString("baseurl") + "/collections/"+ curobj.getString("name") + "/items\" target=\"_blank\">[Schema]</a>");
 				}
 				builder.append("</td><td align=center>");
 				Integer counter=0;
