@@ -10,6 +10,7 @@ import java.util.TreeMap;
 
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.PathParam;
@@ -84,6 +85,29 @@ public class WebService {
 		return Response.ok("").type(MediaType.APPLICATION_XML).build();
 	}
 
+	@POST
+	@Path("/wfs")
+	public Response entryPointPOST(@DefaultValue("WFS") @QueryParam("SERVICE") String service,
+			@DefaultValue("GetCapabilities") @QueryParam("REQUEST") String request,
+			@DefaultValue("2.0.0") @QueryParam("VERSION") String version,
+			@DefaultValue("") @QueryParam("TYPENAME") String typename,
+			@DefaultValue("") @QueryParam("TYPENAMES") String typenames,
+			@DefaultValue("") @QueryParam("SRSNAME") String srsName,
+			@DefaultValue("gml") @QueryParam("EXCEPTIONS") String exceptions,
+			@DefaultValue("") @QueryParam("BBOX") String bbox,
+			@DefaultValue("") @QueryParam("VALUEREFERENCE") String propertyname,
+			@DefaultValue("ASC") @QueryParam("SORTBY") String sortBy,
+			@DefaultValue("results") @QueryParam("RESULTTYPE") String resultType,
+			@DefaultValue("") @QueryParam("RESOURCEID") String resourceids,
+			@DefaultValue("") @QueryParam("GMLOBJECTID") String gmlobjectid,
+			@DefaultValue("0") @QueryParam("STARTINDEX") String startindex,
+			@DefaultValue("") @QueryParam("FILTER") String filter,
+			@DefaultValue("") @QueryParam("FILTERLANGUAGE") String filterLanguage,
+			@DefaultValue("gml") @QueryParam("OUTPUTFORMAT") String output,
+			@DefaultValue("5") @QueryParam("COUNT") String count) {
+	    return entryPoint(service,request,version,typename,typenames,srsName,exceptions,bbox,propertyname,sortBy,resultType,resourceids,gmlobjectid,startindex,filter,filterLanguage,output,count);
+	}
+	
 	@GET
 	@Produces(MediaType.TEXT_XML)
 	@Path("/wfs")
@@ -812,7 +836,7 @@ public class WebService {
 			builder.append(builder2.toString());
 			builder.append("</td></tr><tr><td>Serializations:<ul>");
 			for(ResultFormatter formatter:ResultFormatter.resultMap.values()) {
-				builder.append("<li><a href=\""+this.wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name") + "/items?f="+formatter.exposedType+"\">["+formatter.exposedType.toUpperCase()+"]</a></li>");
+				builder.append("<li><a href=\""+this.wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name") + "/items?limit=5&f="+formatter.exposedType+"\">["+formatter.exposedType.toUpperCase()+"]</a></li>");
 			}
 			builder.append("</td></tr></table>");
 			builder.append("<table width=100%><tr><td><a href=\""+this.wfsconf.getString("baseurl")+"/collections?f=html\">Back to Collections</a></td><td align=right>This page in <a href=\""+this.wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"?f=gml\">[GML]</a> <a href=\""+this.wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"?f=json\">[JSON]</a></body></html>");
@@ -1811,6 +1835,10 @@ public class WebService {
 		return wfsconf.toString(2);
 	}
 
+	
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
+	@Path("/service/addPrefixes")
 	public String transaction() {
 		return null;
 	}
