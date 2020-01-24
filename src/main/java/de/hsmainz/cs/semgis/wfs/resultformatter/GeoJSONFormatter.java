@@ -106,6 +106,7 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 						NodeValue nodeval = geojson.exec(NodeValue.makeNode(solu.getLiteral(name).getString(),
 								solu.getLiteral(name).getDatatype()));
 						JSONObject geomobj = new JSONObject(nodeval.asNode().getLiteralValue().toString());
+						
 						//System.out.println("ADD GEOMETRY!");
 						//System.out.println(geomobj);
 						geoms.add(geomobj);

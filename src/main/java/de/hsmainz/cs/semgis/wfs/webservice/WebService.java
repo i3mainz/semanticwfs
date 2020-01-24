@@ -52,6 +52,37 @@ public class WebService {
 		String text2 = new String(Files.readAllBytes(Paths.get("wfsconf.json")), StandardCharsets.UTF_8);
 		wfsconf = new JSONObject(text2);
 	}
+	
+	public Response createExceptionResponse(Exception e,String format) {
+		if(format==null || format.equals("gml")) {
+			StringWriter strwriter = new StringWriter();
+			XMLOutputFactory output = XMLOutputFactory.newInstance();
+			XMLStreamWriter writer;
+			try {
+				writer = new IndentingXMLStreamWriter(output.createXMLStreamWriter(strwriter));
+				writer.writeStartDocument();
+				writer.writeStartElement("ExceptionReport");
+				writer.setDefaultNamespace("http://www.opengis.net/ogc");
+				writer.writeNamespace("xsi", "https://www.w3.org/2001/XMLSchema-instance");
+
+					writer.writeStartElement("Exception");
+				
+				writer.writeAttribute("locator", e.getStackTrace()[0].getClassName());
+				writer.writeStartElement("ExceptionText");
+				writer.writeCharacters(e.getMessage());
+				writer.writeEndElement();
+				writer.writeEndElement();
+				writer.writeEndDocument();
+				writer.flush();
+				} catch (XMLStreamException e1 ) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					return Response.ok("").type(MediaType.APPLICATION_XML).build();
+				}
+				return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
+		}
+		return Response.ok("").type(MediaType.APPLICATION_XML).build();
+	}
 
 	@GET
 	@Produces(MediaType.TEXT_XML)
@@ -62,6 +93,7 @@ public class WebService {
 			@DefaultValue("") @QueryParam("TYPENAME") String typename,
 			@DefaultValue("") @QueryParam("TYPENAMES") String typenames,
 			@DefaultValue("") @QueryParam("SRSNAME") String srsName,
+			@DefaultValue("gml") @QueryParam("EXCEPTIONS") String exceptions,
 			@DefaultValue("") @QueryParam("BBOX") String bbox,
 			@DefaultValue("") @QueryParam("VALUEREFERENCE") String propertyname,
 			@DefaultValue("ASC") @QueryParam("SORTBY") String sortBy,
@@ -254,7 +286,7 @@ public class WebService {
 			} catch (XMLStreamException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				return Response.ok("").type(MediaType.TEXT_PLAIN).build();
+				return this.createExceptionResponse(e, "");
 			}
 		} else if (format == null || format.contains("html")) {
 			StringBuilder builder = new StringBuilder();
@@ -333,7 +365,7 @@ public class WebService {
 			}
 		} catch (JSONException | XMLStreamException e1) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			return this.createExceptionResponse(e1, "");
 		}
 
 		if (format != null && format.contains("json")) {
@@ -410,7 +442,7 @@ public class WebService {
 				return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
 			} catch (XMLStreamException e) {
 				e.printStackTrace();
-				return Response.ok("").type(MediaType.TEXT_PLAIN).build();
+				return this.createExceptionResponse(e, "");
 			}
 		} else if (format == null || format.contains("html")) {
 			StringBuilder builder = new StringBuilder();
@@ -576,7 +608,7 @@ public class WebService {
 				return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
 			} catch (XMLStreamException e) {
 				// TODO Auto-generated catch block
-				return Response.ok(strwriter.toString()).type(MediaType.TEXT_PLAIN).build();
+				return this.createExceptionResponse(e, "");
 			}
 		}else if (format.contains("html")) {
 			StringBuilder builder=new StringBuilder();
@@ -719,7 +751,7 @@ public class WebService {
 				return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
 			} catch (XMLStreamException e) {
 				e.printStackTrace();
-				return Response.ok("").type(MediaType.TEXT_PLAIN).build();
+				return this.createExceptionResponse(e, "");
 			}
 		}else if(format == null || format.contains("html")){
 			StringBuilder builder=new StringBuilder();
@@ -922,7 +954,7 @@ public class WebService {
 				} catch (XMLStreamException e) {
 					e.printStackTrace();
 					// TODO Auto-generated catch block
-					return Response.ok("").type(MediaType.TEXT_PLAIN).build();
+					return this.createExceptionResponse(e, "");
 				}
 			} else if (format == null || format.contains("html")) {
 				StringBuilder builder = new StringBuilder();
@@ -995,7 +1027,7 @@ public class WebService {
 				return Response.ok(strwriter.toString()).type(ResultFormatter.getFormatter(format).mimeType).build();
 			} catch (XMLStreamException e) {
 				e.printStackTrace();
-				return Response.ok("").type(MediaType.TEXT_PLAIN).build();
+				return this.createExceptionResponse(e, "");
 			}
 		}else if(format == null || format.contains("html")) {
 			StringBuilder builder=new StringBuilder();
@@ -1553,6 +1585,7 @@ public class WebService {
 			}
 		} catch (JSONException | XMLStreamException e1) {
 			e1.printStackTrace();
+			return this.createExceptionResponse(e1, "");
 		}
 		System.out.println(output);
 		if(output.contains("gml")) {
@@ -1585,7 +1618,7 @@ public class WebService {
 				return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
 			}catch(Exception e) {
 				e.printStackTrace();
-				return Response.ok("").type(MediaType.TEXT_PLAIN).build();
+				return this.createExceptionResponse(e, "");
 			}
 		}else if(output.contains("json")) {
 			JSONObject result = new JSONObject();
@@ -1636,7 +1669,7 @@ public class WebService {
 		} catch (JSONException | XMLStreamException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return Response.ok("").type(MediaType.TEXT_PLAIN).build();
+			return this.createExceptionResponse(e, "");
 		}
 	}
 	
@@ -1687,6 +1720,7 @@ public class WebService {
 			System.out.println(res);
 		} catch (JSONException | XMLStreamException e1) {
 			e1.printStackTrace();
+			return this.createExceptionResponse(e1, "");
 		}
 		if(resultType.equalsIgnoreCase("hits")) {
 			return Response.ok(res).type(MediaType.TEXT_PLAIN).build();
@@ -1710,7 +1744,7 @@ public class WebService {
 				writer.flush();
 			}catch(Exception e) {
 				e.printStackTrace();
-				return Response.ok("").type(MediaType.TEXT_PLAIN).build();
+				return this.createExceptionResponse(e, "");
 			}	
 			return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
 		}else if(output!=null && output.contains("html")) {
