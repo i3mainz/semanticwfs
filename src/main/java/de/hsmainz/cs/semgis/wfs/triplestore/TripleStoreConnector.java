@@ -4,17 +4,13 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
 
-import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamWriter;
 
-import org.apache.jena.ext.com.google.common.base.CaseFormat;
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
@@ -24,7 +20,6 @@ import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Literal;
 import org.json.JSONObject;
 
-import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
 
 import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
 
@@ -112,10 +107,10 @@ public abstract class TripleStoreConnector {
 
 	
 	public static void main(String[] args) {
-		System.out.println(CQLfilterStringToSPARQLQuery("abc=4 AND DISJOINT(the_geom, POLYGON((-90 40, -90 45, -60 45, -60 40, -90 40)))"));
+		System.out.println(CQLfilterStringToSPARQLQuery("abc=4 AND DISJOINT(the_geom, POLYGON((-90 40, -90 45, -60 45, -60 40, -90 40)))","namedplace"));
 	}
 	
-	public static String CQLfilterStringToSPARQLQuery(String filter) {
+	public static String CQLfilterStringToSPARQLQuery(String filter,String featuretype) {
 		if(filter.isEmpty())
 			return filter;
 		StringBuilder builder=new StringBuilder();
@@ -138,7 +133,15 @@ public abstract class TripleStoreConnector {
 				}else if(spatialFunctions.matcher(filterex).matches()){
 					String prefix=filterex.substring(0,filterex.indexOf(',')+1).trim();			
 					builder.append("geo:sf"+prefix+" \""+filterex.substring(filterex.indexOf(',')+1,filterex.length()-1).trim()+"\"^^geo:wktLiteral)");
-				}else if(binaryOperators.matcher(filterex).matches()) {				
+				}else if(binaryOperators.matcher(filterex).matches()) {
+					String[] splitted=filterex.split("<|>|=|<=|>=|<>");
+					if(filterex.contains("=")) {
+						//builder.append("?"+featuretype.toLowerCase()+" ?abc \""+WebService+"\". "+System.lineSeparator());
+					}else {
+						
+					}
+					
+					//builder.append("?"+featuretype.toLowerCase()+" ?abc "+WebService+". "+System.lineSeparator());
 					builder.append("?"+filterex);
 				}
 				builder.append(" && ");
@@ -179,7 +182,7 @@ public abstract class TripleStoreConnector {
 			queryString=queryString.replace("WHERE{",toreplace.toString());	
 		}
 		queryString+="?"+workingobj.getString("indvar")+" <"+propertyValue+"> ?member ."+System.lineSeparator();
-		queryString+=CQLfilterStringToSPARQLQuery(filter);
+		queryString+=CQLfilterStringToSPARQLQuery(filter,featuretype);
 		queryString+="} ORDER BY ?"+featuretype.toLowerCase()+System.lineSeparator();
 		Integer limit=Integer.valueOf(count);
 		if(limit>0)
@@ -227,12 +230,13 @@ public abstract class TripleStoreConnector {
 			toreplace.append("}");
 			queryString=queryString.replace("WHERE{",toreplace.toString());	
 		}
-		queryString=queryString.substring(0,queryString.lastIndexOf('}'))+CQLfilterStringToSPARQLQuery(filter)+"}";
-		queryString+="ORDER BY ?"+featuretype.toLowerCase()+System.lineSeparator();
+		queryString=queryString.substring(0,queryString.lastIndexOf('}'))+CQLfilterStringToSPARQLQuery(filter,featuretype)+"}";
+		if(!resultType.equalsIgnoreCase("hits"))
+			queryString+="ORDER BY ?"+featuretype.toLowerCase()+System.lineSeparator();
 		Integer limit=Integer.valueOf(count);
 		Integer offsetval=Integer.valueOf(offset);
 		System.out.println("Count: "+count);
-		if(limit>=1) {
+		if(limit>=1 && !resultType.equalsIgnoreCase("hits")) {
 			queryString+=" LIMIT "+count+System.lineSeparator();
 		}
 		if(offsetval>0) {

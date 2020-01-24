@@ -1058,7 +1058,7 @@ public class WebService {
 		writer.writeStartElement("DCPType");
 		writer.writeStartElement("HTTP");
 		writer.writeStartElement("Get");
-		writer.writeAttribute("onlineResource", this.wfsconf.getString("baseurl"));
+		writer.writeAttribute("onlineResource", this.wfsconf.getString("baseurl")+"/wfs");
 		writer.writeEndElement();
 		writer.writeEndElement();
 		writer.writeEndElement();
@@ -1071,7 +1071,7 @@ public class WebService {
 		writer.writeStartElement("DCPType");
 		writer.writeStartElement("HTTP");
 		writer.writeStartElement("Get");
-		writer.writeAttribute("onlineResource", this.wfsconf.getString("baseurl"));
+		writer.writeAttribute("onlineResource", this.wfsconf.getString("baseurl")+"/wfs");
 		writer.writeEndElement();
 		writer.writeEndElement();
 		writer.writeEndElement();
