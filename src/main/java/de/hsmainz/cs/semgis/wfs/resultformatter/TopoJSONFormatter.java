@@ -13,7 +13,8 @@ public class TopoJSONFormatter extends WFSResultFormatter {
 	
 	@Override
 	public String formatter(ResultSet results,String startingElement,
-			String featuretype,String propertytype,String typeColumn,Boolean onlyproperty,Boolean onlyhits) throws XMLStreamException {
+			String featuretype,String propertytype,
+			String typeColumn,Boolean onlyproperty,Boolean onlyhits,String srsName) throws XMLStreamException {
 		return null;
 	}
 

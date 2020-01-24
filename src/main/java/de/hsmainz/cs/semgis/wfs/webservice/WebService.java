@@ -61,12 +61,13 @@ public class WebService {
 			@DefaultValue("2.0.0") @QueryParam("VERSION") String version,
 			@DefaultValue("") @QueryParam("TYPENAME") String typename,
 			@DefaultValue("") @QueryParam("TYPENAMES") String typenames,
-			@DefaultValue("") @QueryParam("SRSNAME") String srsname,
+			@DefaultValue("") @QueryParam("SRSNAME") String srsName,
 			@DefaultValue("") @QueryParam("BBOX") String bbox,
 			@DefaultValue("") @QueryParam("VALUEREFERENCE") String propertyname,
 			@DefaultValue("ASC") @QueryParam("SORTBY") String sortBy,
 			@DefaultValue("results") @QueryParam("RESULTTYPE") String resultType,
 			@DefaultValue("") @QueryParam("RESOURCEID") String resourceids,
+			@DefaultValue("") @QueryParam("GMLOBJECTID") String gmlobjectid,
 			@DefaultValue("0") @QueryParam("STARTINDEX") String startindex,
 			@DefaultValue("") @QueryParam("FILTER") String filter,
 			@DefaultValue("") @QueryParam("FILTERLANGUAGE") String filterLanguage,
@@ -96,7 +97,7 @@ public class WebService {
 				}
 				if ("getFeature".equalsIgnoreCase(request)) {
 					try {
-						return this.getFeature(typename, output, count,startindex,sortBy,version,resourceids,filter,filterLanguage,resultType);
+						return this.getFeature(typename, output, count,startindex,sortBy,version,resourceids,filter,filterLanguage,resultType,srsName);
 					} catch (XMLStreamException e) {
 						e.printStackTrace();
 						return Response.ok("").type(MediaType.TEXT_PLAIN).build();
@@ -104,6 +105,9 @@ public class WebService {
 				}
 				if ("getPropertyValue".equalsIgnoreCase(request)) {
 					return this.getPropertyValue(typename, propertyname, output,resourceids,filter,count,resultType);
+				}
+				if ("getGmlObject".equalsIgnoreCase(request)) {
+					return this.getGmlObject(typename, gmlobjectid,"4",output);
 				}
 			}
 			return Response.ok("").type(MediaType.TEXT_PLAIN).build();
@@ -296,7 +300,7 @@ public class WebService {
 	public Response getFeatureById(@PathParam("collectionid") String collectionid,
 			@PathParam("featureid") String featureid, 
 			@DefaultValue("json") @QueryParam("f") String format) {
-		System.out.println("Featureid");
+		System.out.println(collectionid+" - "+featureid);
 		if (collectionid == null) {
 			throw new NotFoundException();
 		}
@@ -322,7 +326,7 @@ public class WebService {
 		String res = "";
 		try {
 			res = TripleStoreConnector.executeQuery(query, workingobj.getString("triplestore"),
-					format, "0","0","sf:featureMember",collectionid,featureid,workingobj,"","");
+					format, "0","0","sf:featureMember",collectionid,featureid,workingobj,"","","");
 			System.out.println(res);
 			if(res==null || res.isEmpty()) {
 				throw new NotFoundException();
@@ -836,7 +840,7 @@ public class WebService {
 		try {
 			String res = TripleStoreConnector.executeQuery(workingobj.getString("query"),
 						workingobj.getString("triplestore"), format,""+(Integer.valueOf(limit)*workingobj.getInt("attcount")),
-						""+(Integer.valueOf(offset)*workingobj.getInt("attcount")),"sf:featureMember",collectionid,"",workingobj,"","");
+						""+(Integer.valueOf(offset)*workingobj.getInt("attcount")),"sf:featureMember",collectionid,"",workingobj,"","","");
 			System.out.println(res);
 			if(res==null || res.isEmpty()) {
 				throw new NotFoundException();
@@ -1063,6 +1067,15 @@ public class WebService {
 		writer.writeEndElement();
 		writer.writeEndElement();
 		writer.writeEndElement();
+		writer.writeStartElement("GetGmlObject");
+		writer.writeStartElement("DCPType");
+		writer.writeStartElement("HTTP");
+		writer.writeStartElement("Get");
+		writer.writeAttribute("onlineResource", this.wfsconf.getString("baseurl")+"/wfs?");
+		writer.writeEndElement();
+		writer.writeEndElement();
+		writer.writeEndElement();
+		writer.writeEndElement();
 		writer.writeStartElement("DescribeFeatureType");
 		writer.writeStartElement("SchemaDescriptionLanguage");
 		writer.writeStartElement("XMLSCHEMA");
@@ -1196,6 +1209,17 @@ public class WebService {
 		writer.writeEndElement();
 		writer.writeStartElement(owsns,"Operation");
 		writer.writeAttribute("name","DescribeFeatureType");
+		writer.writeStartElement(owsns,"DCP");
+		writer.writeStartElement(owsns, "HTTP");
+		writer.writeStartElement(owsns, "Get");
+		writer.writeAttribute("xlink:type", "simple");
+		writer.writeAttribute("xlink:href", this.wfsconf.getString("baseurl")+"/wfs?");
+		writer.writeEndElement();
+		writer.writeEndElement();
+		writer.writeEndElement();
+		writer.writeEndElement();
+		writer.writeStartElement(owsns,"Operation");
+		writer.writeAttribute("name","GetGmlObject");
 		writer.writeStartElement(owsns,"DCP");
 		writer.writeStartElement(owsns, "HTTP");
 		writer.writeStartElement(owsns, "Get");
@@ -1488,11 +1512,12 @@ public class WebService {
 			@DefaultValue("json") @QueryParam("outputFormat") String output,
 			@DefaultValue("5") @QueryParam("count") String count,
 			@DefaultValue("0") @QueryParam("startindex") String startindex,
+			@DefaultValue("") @QueryParam("srsName") String srsName,
 			@DefaultValue("ASC") @QueryParam("sortBy") String sortBy,
 			@DefaultValue("2.0.0") @QueryParam("version") String version, 
 			@DefaultValue("") @QueryParam("resourceid") String resourceids, 
 			@DefaultValue("") @QueryParam("filter") String filter, 
-			@DefaultValue("SPARQL") @QueryParam("filterLanguage") String filterLanguage,
+			@DefaultValue("CQL") @QueryParam("filterLanguage") String filterLanguage,
 			@DefaultValue("results") @QueryParam("resultType") String resultType) throws JSONException, XMLStreamException {
 		System.out.println(typename);	
 		if (typename == null) {
@@ -1521,7 +1546,7 @@ public class WebService {
 					workingobj.getString("triplestore"),
 					output, ""+(Integer.valueOf(count)*workingobj.getInt("attcount")),""
 					+(Integer.valueOf(startindex)*workingobj.getInt("attcount")),
-					"gml:featureMember",typename,resourceids,workingobj,filter,resultType);
+					"gml:featureMember",typename,resourceids,workingobj,filter,resultType,srsName);
 			System.out.println(res);
 			if(res.isEmpty()) {
 				throw new NotFoundException();
@@ -1602,8 +1627,17 @@ public class WebService {
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/wfs/getGmlObject")
-	public String getGmlObject() {
-		return null;
+	public Response getGmlObject(@QueryParam("typename") String typename,
+			@QueryParam("GmlObjectId") String gmlobjectid,
+			@DefaultValue("4") @QueryParam("traverseXlinkDepth") String traverseXlinkDepth,
+			@DefaultValue("gml") @QueryParam("outputFormat") String output) {
+		try {
+			return this.getFeature(typename,output,"1","0","","ASC","2.0.0", gmlobjectid,"","CQL","");
+		} catch (JSONException | XMLStreamException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return Response.ok("").type(MediaType.TEXT_PLAIN).build();
+		}
 	}
 	
 	@GET
@@ -1649,7 +1683,7 @@ public class WebService {
 			res = TripleStoreConnector.executePropertyValueQuery(
 					workingobj.getString("triplestore"),
 					output,propertyname, "gml:featureMember",typename,resourceids,workingobj,
-					filter,count,resultType);
+					filter,count,resultType,"");
 			System.out.println(res);
 		} catch (JSONException | XMLStreamException e1) {
 			e1.printStackTrace();

@@ -13,7 +13,8 @@ public class GMLCOVFormatter extends WCSResultFormatter {
 	
 	@Override
 	public String formatter(ResultSet results,String startingElement,
-			String featuretype,String propertytype,String typeColumn,Boolean onlyproperty,Boolean onlyhits) throws XMLStreamException {
+			String featuretype,String propertytype,String typeColumn,
+			Boolean onlyproperty,Boolean onlyhits,String srsName) throws XMLStreamException {
 		// TODO Auto-generated method stub
 		return null;
 	}

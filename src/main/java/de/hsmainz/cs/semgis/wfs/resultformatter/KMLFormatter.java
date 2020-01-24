@@ -21,7 +21,8 @@ public class KMLFormatter extends WFSResultFormatter {
 	
 	@Override
 	public String formatter(ResultSet results,String startingElement,
-			String featuretype,String propertytype,String typeColumn,Boolean onlyproperty,Boolean onlyhits) throws XMLStreamException {
+			String featuretype,String propertytype,
+			String typeColumn,Boolean onlyproperty,Boolean onlyhits,String srsName) throws XMLStreamException {
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();
 		StringWriter strwriter=new StringWriter();
 		XMLStreamWriter writer=new IndentingXMLStreamWriter(factory.createXMLStreamWriter(strwriter));

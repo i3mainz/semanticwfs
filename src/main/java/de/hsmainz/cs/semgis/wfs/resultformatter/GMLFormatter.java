@@ -35,7 +35,8 @@ public class GMLFormatter extends WFSResultFormatter {
 	
 	@Override
 	public String formatter(ResultSet results,String startingElement,
-			String featuretype,String propertytype,String typeColumn,Boolean onlyproperty,Boolean onlyhits) throws XMLStreamException {
+			String featuretype,String propertytype,
+			String typeColumn,Boolean onlyproperty,Boolean onlyhits,String srsName) throws XMLStreamException {
 		lastQueriedElemCount=0;
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();
 		StringWriter strwriter=new StringWriter();

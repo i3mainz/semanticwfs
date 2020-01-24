@@ -6,6 +6,10 @@ import java.util.TreeMap;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.jena.query.ResultSet;
+import org.locationtech.proj4j.CRSFactory;
+import org.locationtech.proj4j.CoordinateTransform;
+import org.locationtech.proj4j.CoordinateTransformFactory;
+import org.locationtech.proj4j.ProjCoordinate;
 
 public abstract class ResultFormatter {
 
@@ -94,8 +98,19 @@ public abstract class ResultFormatter {
 		//resultMap.put("polyshape", new PolyshapeFormatter());
 	}
 	
+	/*public convertCoordinates() {
+		ProjCoordinate coord = new ProjCoordinate(5439627.33, 5661628.09);
+        System.out.println(coord);
+
+        ProjCoordinate target = new ProjCoordinate();
+        CRSFactory crsFactory = new CRSFactory();
+        CoordinateTransformFactory f = new CoordinateTransformFactory();
+        CoordinateTransform t;
+	}*/
+	
 	public abstract String formatter(ResultSet results,String startingElement,
-			String featuretype,String propertytype,String typeColumn,Boolean onlyproperty,Boolean onlyhits) throws XMLStreamException;
+			String featuretype,String propertytype,String typeColumn,
+			Boolean onlyproperty,Boolean onlyhits,String srsName) throws XMLStreamException;
 
 	public String formatHeader() {
 		return "";

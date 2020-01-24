@@ -162,7 +162,7 @@ public abstract class TripleStoreConnector {
 	
 	public static String executePropertyValueQuery(String queryurl,String output,String propertyValue,
 			String startingElement,String featuretype,
-			String resourceids,JSONObject workingobj,String filter,String count,String resultType) throws XMLStreamException {
+			String resourceids,JSONObject workingobj,String filter,String count,String resultType,String srsName) throws XMLStreamException {
 		String queryString="";
 		if(resultType.equalsIgnoreCase("hits")) {
 			queryString=" SELECT (COUNT(DISTINCT ?"+featuretype.toLowerCase()+") AS ?count) "+queryString.substring(queryString.indexOf("WHERE"));
@@ -203,7 +203,7 @@ public abstract class TripleStoreConnector {
 				return results.next().getLiteral("count").getString();
 			}
 		}
-		String res=resformat.formatter(results,startingElement,featuretype,propertyValue,(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""),true,false);
+		String res=resformat.formatter(results,startingElement,featuretype,propertyValue,(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""),true,false,srsName);
 		qexec.close();
 		if(resformat.lastQueriedElemCount==0) {
 			return "";
@@ -212,7 +212,7 @@ public abstract class TripleStoreConnector {
 	}
 	
 	
-	public static String executeQuery(String queryString,String queryurl,String output,String count,String offset,String startingElement,String featuretype,String resourceids,JSONObject workingobj,String filter,String resultType) throws XMLStreamException {
+	public static String executeQuery(String queryString,String queryurl,String output,String count,String offset,String startingElement,String featuretype,String resourceids,JSONObject workingobj,String filter,String resultType,String srsName) throws XMLStreamException {
 		System.out.println(resultType);
 		if(resultType.equalsIgnoreCase("hits")) {
 			queryString=" SELECT (COUNT(DISTINCT ?"+featuretype.toLowerCase()+") AS ?count) "+queryString.substring(queryString.indexOf("WHERE"));
@@ -257,7 +257,7 @@ public abstract class TripleStoreConnector {
 				return results.next().getLiteral("count").getString();
 			}
 		}
-		String res=resformat.formatter(results,startingElement,featuretype,"",(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""),false,false);
+		String res=resformat.formatter(results,startingElement,featuretype,"",(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""),false,false,srsName);
 		qexec.close();
 		if(resformat.lastQueriedElemCount==0) {
 			return "";

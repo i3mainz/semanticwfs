@@ -22,7 +22,7 @@ public class PolyshapeFormatter extends WFSResultFormatter {
 	
 	@Override
 	public String formatter(ResultSet results,String startingElement,String featuretype,
-			String propertytype,String typeColumn,Boolean onlyproperty,Boolean onlyhits) throws XMLStreamException {
+			String propertytype,String typeColumn,Boolean onlyproperty,Boolean onlyhits,String srsName) throws XMLStreamException {
 		List<QuerySolution> test=ResultSetFormatter.toList(results);
     	Boolean first=true;
     	StringBuilder resultCSV=new StringBuilder();
