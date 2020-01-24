@@ -183,9 +183,11 @@ public abstract class TripleStoreConnector {
 		}
 		queryString+="?"+workingobj.getString("indvar")+" <"+propertyValue+"> ?member ."+System.lineSeparator();
 		queryString+=CQLfilterStringToSPARQLQuery(filter,featuretype);
-		queryString+="} ORDER BY ?"+featuretype.toLowerCase()+System.lineSeparator();
+		queryString+="}"+System.lineSeparator();
+		if(!resultType.equalsIgnoreCase("hits"))
+			queryString+="ORDER BY ?"+featuretype.toLowerCase()+System.lineSeparator();
 		Integer limit=Integer.valueOf(count);
-		if(limit>0)
+		if(limit>0 && !resultType.equalsIgnoreCase("hits"))
 			queryString+=" LIMIT "+limit;
 		System.out.println(prefixCollection+queryString);
 		System.out.println(resourceids);
@@ -198,7 +200,6 @@ public abstract class TripleStoreConnector {
 		ResultSet results = qexec.execSelect();
 		if(resultType.equalsIgnoreCase("hits")) {
 			if(results.hasNext()) {
-
 				return results.next().getLiteral("count").getString();
 			}
 		}
@@ -232,7 +233,7 @@ public abstract class TripleStoreConnector {
 		}
 		queryString=queryString.substring(0,queryString.lastIndexOf('}'))+CQLfilterStringToSPARQLQuery(filter,featuretype)+"}";
 		if(!resultType.equalsIgnoreCase("hits"))
-			queryString+="ORDER BY ?"+featuretype.toLowerCase()+System.lineSeparator();
+			queryString+=System.lineSeparator()+"ORDER BY ?"+featuretype.toLowerCase()+System.lineSeparator();
 		Integer limit=Integer.valueOf(count);
 		Integer offsetval=Integer.valueOf(offset);
 		System.out.println("Count: "+count);
