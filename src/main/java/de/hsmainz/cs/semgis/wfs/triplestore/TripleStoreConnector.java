@@ -195,7 +195,7 @@ public abstract class TripleStoreConnector {
 				return results.next().getLiteral("count").getString();
 			}
 		}
-		String res=resformat.formatter(results,0,startingElement,featuretype,propertyValue,(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""),true);
+		String res=resformat.formatter(results,0,startingElement,featuretype,propertyValue,(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""),true,false);
 		qexec.close();
 		if(resformat.lastQueriedElemCount==0) {
 			return "";
