@@ -1170,7 +1170,7 @@ public class WebService {
 		writer.writeStartElement(owsns, "HTTP");
 		writer.writeStartElement(owsns, "Get");
 		writer.writeAttribute("xlink:type", "simple");
-		writer.writeAttribute("xlink:href", this.wfsconf.getString("baseurl"));
+		writer.writeAttribute("xlink:href", this.wfsconf.getString("baseurl")+"/wfs");
 		writer.writeEndElement();
 		writer.writeEndElement();
 		writer.writeStartElement(owsns, "Parameter");
@@ -1189,7 +1189,7 @@ public class WebService {
 		writer.writeStartElement(owsns, "HTTP");
 		writer.writeStartElement(owsns, "Get");
 		writer.writeAttribute("xlink:type", "simple");
-		writer.writeAttribute("xlink:href", this.wfsconf.getString("baseurl"));
+		writer.writeAttribute("xlink:href", this.wfsconf.getString("baseurl")+"/wfs");
 		writer.writeEndElement();
 		writer.writeEndElement();
 		writer.writeStartElement(owsns, "Parameter");
