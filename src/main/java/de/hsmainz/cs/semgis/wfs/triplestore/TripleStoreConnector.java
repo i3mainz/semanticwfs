@@ -180,7 +180,7 @@ public abstract class TripleStoreConnector {
 		}
 		queryString+="?"+workingobj.getString("indvar")+" <"+propertyValue+"> ?member ."+System.lineSeparator();
 		queryString+=CQLfilterStringToSPARQLQuery(filter);
-		queryString+="}"+System.lineSeparator();
+		queryString+="} ORDER BY ?"+featuretype.toLowerCase()+System.lineSeparator();
 		Integer limit=Integer.valueOf(count);
 		if(limit>0)
 			queryString+=" LIMIT "+limit;
@@ -228,6 +228,7 @@ public abstract class TripleStoreConnector {
 			queryString=queryString.replace("WHERE{",toreplace.toString());	
 		}
 		queryString=queryString.substring(0,queryString.lastIndexOf('}'))+CQLfilterStringToSPARQLQuery(filter)+"}";
+		queryString+="ORDER BY ?"+featuretype.toLowerCase()+System.lineSeparator();
 		Integer limit=Integer.valueOf(count);
 		Integer offsetval=Integer.valueOf(offset);
 		System.out.println("Count: "+count);
@@ -235,7 +236,7 @@ public abstract class TripleStoreConnector {
 			queryString+=" LIMIT "+count+System.lineSeparator();
 		}
 		if(offsetval>0) {
-			queryString+=" OFFSET "+count+System.lineSeparator();
+			queryString+=" OFFSET "+offsetval+System.lineSeparator();
 		}
 		System.out.println(prefixCollection+queryString);
 		System.out.println(resourceids);
