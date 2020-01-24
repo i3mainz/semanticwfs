@@ -24,7 +24,8 @@ public class GeoJSONLDFormatter extends WFSResultFormatter {
 	}
 	
 	@Override
-	public String formatter(ResultSet results,Integer offset,String startingElement,String featuretype,String propertytype,String typeColumn,Boolean onlyproperty) {
+	public String formatter(ResultSet results,Integer offset,String startingElement,
+			String featuretype,String propertytype,String typeColumn,Boolean onlyproperty,Boolean onlyhits) {
 		lastQueriedElemCount=0;
 		JSONObject geojsonresults = new JSONObject();
 		List<JSONArray> allfeatures = new LinkedList<JSONArray>();

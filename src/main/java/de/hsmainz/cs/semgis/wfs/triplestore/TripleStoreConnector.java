@@ -4,12 +4,15 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
 
+import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
 
 import org.apache.jena.ext.com.google.common.base.CaseFormat;
 import org.apache.jena.query.Query;
@@ -20,6 +23,8 @@ import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Literal;
 import org.json.JSONObject;
+
+import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
 
 import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
 
@@ -186,6 +191,7 @@ public abstract class TripleStoreConnector {
 		ResultSet results = qexec.execSelect();
 		if(resultType.equalsIgnoreCase("hits")) {
 			if(results.hasNext()) {
+
 				return results.next().getLiteral("count").getString();
 			}
 		}
@@ -237,7 +243,7 @@ public abstract class TripleStoreConnector {
 				return results.next().getLiteral("count").getString();
 			}
 		}
-		String res=resformat.formatter(results,Integer.valueOf(offset),startingElement,featuretype,"",(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""),false);
+		String res=resformat.formatter(results,Integer.valueOf(offset),startingElement,featuretype,"",(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""),false,false);
 		qexec.close();
 		if(resformat.lastQueriedElemCount==0) {
 			return "";

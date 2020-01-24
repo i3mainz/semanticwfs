@@ -1507,9 +1507,6 @@ public class WebService {
 		} catch (JSONException | XMLStreamException e1) {
 			e1.printStackTrace();
 		}
-		if(resultType.equalsIgnoreCase("hits")) {
-			return Response.ok(res).type(MediaType.TEXT_PLAIN).build();
-		}
 		System.out.println(output);
 		if(output.contains("gml")) {
 			StringWriter strwriter = new StringWriter();
@@ -1528,9 +1525,13 @@ public class WebService {
 				writer.writeNamespace("xlink", "http://www.w3.org/1999/xlink");
 				writer.setPrefix("gml", "http://www.opengis.net/gml");
 				writer.setPrefix("wfs", "http://www.opengis.net/wfs");
-				writer.writeCharacters("");
-				writer.flush();
-				strwriter.write(res);
+				if(resultType.equalsIgnoreCase("hits")) {
+					writer.writeAttribute("numberOfFeatures", res);
+				}else {
+					writer.writeCharacters("");
+					writer.flush();
+					strwriter.write(res);
+				}
 				writer.writeEndElement();
 				writer.writeEndDocument();
 				writer.flush();
@@ -1550,7 +1551,11 @@ public class WebService {
 			result.put("type", "FeatureCollection");
 			result.put("links", links);
 			result.put("timeStamp", System.currentTimeMillis());
-			result.put("numberMatched", features.length());
+			if(resultType.equalsIgnoreCase("hits")) {
+				result.put("numberMatched", res);
+			}else {
+				result.put("numberMatched", features.length());
+			}
 			result.put("numberReturned", features.length());
 			result.put("features", features);
 			System.out.println("EXPORT JSON: "+result.toString());
