@@ -47,6 +47,13 @@
     <artifactId>json</artifactId>
     <version>20190722</version>
 </dependency>
+<!-- https://mvnrepository.com/artifact/org.locationtech.proj4j/proj4j -->
+<dependency>
+    <groupId>org.locationtech.proj4j</groupId>
+    <artifactId>proj4j</artifactId>
+    <version>1.1.0</version>
+</dependency>
+
 <!-- https://mvnrepository.com/artifact/org.locationtech.jts/jts-core -->
 <dependency>
     <groupId>org.locationtech.jts</groupId>
