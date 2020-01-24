@@ -24,7 +24,7 @@ public class GeoJSONLDFormatter extends WFSResultFormatter {
 	}
 	
 	@Override
-	public String formatter(ResultSet results,Integer offset,String startingElement,
+	public String formatter(ResultSet results,String startingElement,
 			String featuretype,String propertytype,String typeColumn,Boolean onlyproperty,Boolean onlyhits) {
 		lastQueriedElemCount=0;
 		JSONObject geojsonresults = new JSONObject();
@@ -32,7 +32,6 @@ public class GeoJSONLDFormatter extends WFSResultFormatter {
 		JSONObject result = new JSONObject();
 		JSONArray obj = new JSONArray();
 		Boolean first = true;
-		int i = 0;
 		String geomvarname = "";
 		String relationName = "";
 		String lastgeom = "";
@@ -79,10 +78,6 @@ public class GeoJSONLDFormatter extends WFSResultFormatter {
 		List<JSONObject> geoms = new LinkedList<JSONObject>();
 		while (results.hasNext()) {
 			// System.out.println(i);
-			if (i < offset) {
-				i++;
-				continue;
-			}
 			QuerySolution solu = results.next();
 			Iterator<String> varnames = solu.varNames();
 			int geomvars = 0;

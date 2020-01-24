@@ -33,11 +33,11 @@ public class HTMLFormatter extends ResultFormatter {
 	}
 
 	@Override
-	public String formatter(ResultSet results, Integer offset, String startingElement, String featuretype,
+	public String formatter(ResultSet results, String startingElement, String featuretype,
 			String propertytype, String typeColumn, Boolean onlyproperty,Boolean onlyhits) throws XMLStreamException {
 		ResultFormatter format = resultMap.get("geojson");
 		JSONObject geojson = new JSONObject(
-				format.formatter(results, offset, startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits));
+				format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits));
 		this.lastQueriedElemCount = format.lastQueriedElemCount;
 		// System.out.println(geojson);
 		StringBuilder builder = new StringBuilder();

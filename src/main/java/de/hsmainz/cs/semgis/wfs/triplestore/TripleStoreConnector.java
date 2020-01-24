@@ -123,19 +123,23 @@ public abstract class TripleStoreConnector {
 		if(filter.contains("AND")) {
 			Boolean containedbetween=false;
 			String betweenleftoperand="";
+			String betweenrightoperand="";
 			for(String filterex:filter.split("AND")) {
 				System.out.println(filterex);
 				if(filterex.contains("BETWEEN")) {
 					containedbetween=true;
-				}else if(filterex.equalsIgnoreCase("LIKE")){
-					builder.append("REGEX");
-					//EQUALS, DISJOINT, INTERSECTS, TOUCHES, CROSSES, WITHIN, CONTAINS, OVERLAPS, RELATE, DWITHIN, BEYOND
+					betweenleftoperand=filterex.substring(0,filterex.indexOf("BETWEEN"));
+					betweenrightoperand=filterex.substring(filterex.indexOf("BETWEEN")+8);
+				}else if(!filterex.contains("BETWEEN") && containedbetween) {
+					containedbetween=false;
+					builder.append("?"+betweenleftoperand+" > "+betweenrightoperand+" && ?"+betweenleftoperand+" < "+filterex.trim()+" ");
+				} if(filterex.equalsIgnoreCase("LIKE")){
+					builder.append("regex(str(?"+filterex.substring(0,filterex.indexOf("LIKE")).trim()+"),\""+filterex.substring(filterex.indexOf("LIKE")+4).trim()+"\",\"i\") ");
 				}else if(spatialFunctions.matcher(filterex).matches()){
 					String prefix=filterex.substring(0,filterex.indexOf(',')+1).trim();			
 					builder.append("geo:sf"+prefix+" \""+filterex.substring(filterex.indexOf(',')+1,filterex.length()-1).trim()+"\"^^geo:wktLiteral)");
-				}else if(binaryOperators.matcher(filterex).matches()) {
-						
-						builder.append("?"+filterex);
+				}else if(binaryOperators.matcher(filterex).matches()) {				
+					builder.append("?"+filterex);
 				}
 				builder.append(" && ");
 			}
@@ -195,7 +199,7 @@ public abstract class TripleStoreConnector {
 				return results.next().getLiteral("count").getString();
 			}
 		}
-		String res=resformat.formatter(results,0,startingElement,featuretype,propertyValue,(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""),true,false);
+		String res=resformat.formatter(results,startingElement,featuretype,propertyValue,(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""),true,false);
 		qexec.close();
 		if(resformat.lastQueriedElemCount==0) {
 			return "";
@@ -225,9 +229,13 @@ public abstract class TripleStoreConnector {
 		}
 		queryString=queryString.substring(0,queryString.lastIndexOf('}'))+CQLfilterStringToSPARQLQuery(filter)+"}";
 		Integer limit=Integer.valueOf(count);
+		Integer offsetval=Integer.valueOf(offset);
 		System.out.println("Count: "+count);
 		if(limit>=1) {
-			queryString+=" LIMIT "+count;
+			queryString+=" LIMIT "+count+System.lineSeparator();
+		}
+		if(offsetval>0) {
+			queryString+=" OFFSET "+count+System.lineSeparator();
 		}
 		System.out.println(prefixCollection+queryString);
 		System.out.println(resourceids);
@@ -243,7 +251,7 @@ public abstract class TripleStoreConnector {
 				return results.next().getLiteral("count").getString();
 			}
 		}
-		String res=resformat.formatter(results,Integer.valueOf(offset),startingElement,featuretype,"",(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""),false,false);
+		String res=resformat.formatter(results,startingElement,featuretype,"",(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""),false,false);
 		qexec.close();
 		if(resformat.lastQueriedElemCount==0) {
 			return "";

@@ -94,7 +94,7 @@ public abstract class ResultFormatter {
 		//resultMap.put("polyshape", new PolyshapeFormatter());
 	}
 	
-	public abstract String formatter(ResultSet results,Integer offset,String startingElement,
+	public abstract String formatter(ResultSet results,String startingElement,
 			String featuretype,String propertytype,String typeColumn,Boolean onlyproperty,Boolean onlyhits) throws XMLStreamException;
 
 	public String formatHeader() {
