@@ -73,6 +73,7 @@ public class WebService {
 			@DefaultValue("gml") @QueryParam("OUTPUTFORMAT") String output,
 			@DefaultValue("5") @QueryParam("COUNT") String count) {
 			System.out.println("Request: "+request);
+			System.out.println("ResultType: "+resultType);
 			if(typename.isEmpty() && !typenames.isEmpty()) {
 				typename=typenames;
 			}

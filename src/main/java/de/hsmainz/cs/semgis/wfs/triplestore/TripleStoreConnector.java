@@ -42,7 +42,7 @@ public abstract class TripleStoreConnector {
 		}
 	}
 	
-	static Pattern spatialFunctions=Pattern.compile(".*(equals|disjoint|intersects|touches|crosses|within|contains|overlaps|relate|dwithin|beyond).*",Pattern.CASE_INSENSITIVE);
+	static Pattern spatialFunctions=Pattern.compile(".*(equals|disjoint|intersects|touches|crosses|within|contains|overlaps|dwithin).*",Pattern.CASE_INSENSITIVE);
 	
 	static Pattern binaryOperators=Pattern.compile(".*(<|>|=|<=|>=|<>).*",Pattern.CASE_INSENSITIVE);
 	
@@ -107,28 +107,32 @@ public abstract class TripleStoreConnector {
 
 	
 	public static void main(String[] args) {
-		System.out.println(CQLfilterStringToSPARQLQuery("", "abc=4"));
+		System.out.println(CQLfilterStringToSPARQLQuery("", "abc=4 AND DISJOINT(the_geom, POLYGON((-90 40, -90 45, -60 45, -60 40, -90 40)))"));
 	}
 	
 	public static String CQLfilterStringToSPARQLQuery(String queryString,String filter) {
 		StringBuilder builder=new StringBuilder();
 		builder.append("FILTER(");
 		if(filter.contains("AND")) {
+			Boolean containedbetween=false;
+			String betweenleftoperand="";
 			for(String filterex:filter.split("AND")) {
+				System.out.println(filterex);
 				if(filterex.contains("BETWEEN")) {
-					
+					containedbetween=true;
 				}else if(filterex.equalsIgnoreCase("LIKE")){
 					builder.append("REGEX");
 					//EQUALS, DISJOINT, INTERSECTS, TOUCHES, CROSSES, WITHIN, CONTAINS, OVERLAPS, RELATE, DWITHIN, BEYOND
-				}else if(spatialFunctions.pattern().matches(filterex)){
-					builder.append("sf:"+filterex+" ");
-				}else {
-					if(filterex.contains("=") || filterex.contains("<") || filterex.contains(">")) {
+				}else if(spatialFunctions.matcher(filterex).matches()){
+					String prefix=filterex.substring(0,filterex.indexOf(',')+1).trim();			
+					builder.append("geo:sf"+prefix+" \""+filterex.substring(filterex.indexOf(',')+1,filterex.length()-1).trim()+"\"^^geo:wktLiteral)");
+				}else if(binaryOperators.matcher(filterex).matches()) {
 						
 						builder.append("?"+filterex);
-					}
 				}
+				builder.append(" && ");
 			}
+			builder.delete(builder.length()-4,builder.length());
 		}else if(filter.contains("=")){
 			builder.append("?"+filter.substring(0,filter.lastIndexOf('=')+1));
 			String suffix=filter.substring(filter.lastIndexOf('=')+1);
@@ -147,7 +151,7 @@ public abstract class TripleStoreConnector {
 			String resourceids,JSONObject workingobj,String filter,String count,String resultType) throws XMLStreamException {
 		String queryString="";
 		if(resultType.equalsIgnoreCase("hits")) {
-			queryString=" SELECT DISTINCT (COUNT ?"+featuretype.toLowerCase()+" AS ?count) WHERE { ?"+featuretype.toLowerCase()+" ?abc ?def .} "+System.lineSeparator();
+			queryString=" SELECT (COUNT(DISTINCT ?"+featuretype.toLowerCase()+") AS ?count) WHERE { ?"+featuretype.toLowerCase()+" ?abc ?def .} "+System.lineSeparator();
 		}else {
 			queryString+=" SELECT ?"+featuretype.toLowerCase()+" ?member WHERE{"+System.lineSeparator();
 		}
@@ -178,7 +182,7 @@ public abstract class TripleStoreConnector {
 		ResultSet results = qexec.execSelect();
 		if(resultType.equalsIgnoreCase("hits")) {
 			if(results.hasNext()) {
-				return results.next().get("count").toString();
+				return results.next().getLiteral("count").getString();
 			}
 		}
 		String res=resformat.formatter(results,0,startingElement,featuretype,propertyValue,(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""),true);
@@ -191,8 +195,9 @@ public abstract class TripleStoreConnector {
 	
 	
 	public static String executeQuery(String queryString,String queryurl,String output,String count,String offset,String startingElement,String featuretype,String resourceids,JSONObject workingobj,String filter,String resultType) throws XMLStreamException {
+		System.out.println(resultType);
 		if(resultType.equalsIgnoreCase("hits")) {
-			queryString=" SELECT DISTINCT (COUNT ?"+featuretype.toLowerCase()+" AS ?count) WHERE{ ?"+featuretype.toLowerCase()+" ?abc ?def .}"+System.lineSeparator();
+			queryString=" SELECT (COUNT(DISTINCT ?"+featuretype.toLowerCase()+") AS ?count) WHERE{ ?"+featuretype.toLowerCase()+" ?abc ?def .}"+System.lineSeparator();
 		}else {
 			queryString+=" SELECT ?"+featuretype.toLowerCase()+" ?member WHERE{"+System.lineSeparator();
 		}
@@ -223,7 +228,7 @@ public abstract class TripleStoreConnector {
 		ResultSet results = qexec.execSelect();
 		if(resultType.equalsIgnoreCase("hits")) {
 			if(results.hasNext()) {
-				return results.next().get("count").toString();
+				return results.next().getLiteral("count").getString();
 			}
 		}
 		String res=resformat.formatter(results,Integer.valueOf(offset),startingElement,featuretype,"",(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""),false);
