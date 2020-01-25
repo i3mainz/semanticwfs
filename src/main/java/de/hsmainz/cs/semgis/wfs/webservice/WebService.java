@@ -1685,10 +1685,10 @@ public class WebService {
 		}
 		String res = "";
 		if(resultType.equalsIgnoreCase("hits") 
-				&& hitCache.containsKey(typename) 
-				&& hitCache.get(typename).getOne().getTime()
-				< (System.currentTimeMillis() +  milliesInDays)) {
-			res=hitCache.get(typename).getTwo();
+				&& hitCache.containsKey(typename.toLowerCase()) 
+				&& (hitCache.get(typename.toLowerCase()).getOne().getTime()+ milliesInDays)
+				> System.currentTimeMillis()) {
+			res=hitCache.get(typename.toLowerCase()).getTwo();
 		}else {
 		try {
 			res = TripleStoreConnector.executeQuery(workingobj.getString("query"),
@@ -1701,7 +1701,7 @@ public class WebService {
 				throw new NotFoundException();
 			}
 			if(resultType.equalsIgnoreCase("hits")) {
-				hitCache.put(typename,new Tuple<Date,String>(new Date(System.currentTimeMillis()),res));
+				hitCache.put(typename.toLowerCase(),new Tuple<Date,String>(new Date(System.currentTimeMillis()),res));
 			}
 		} catch (JSONException | XMLStreamException e1) {
 			e1.printStackTrace();
