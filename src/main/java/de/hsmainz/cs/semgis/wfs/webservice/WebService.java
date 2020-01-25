@@ -1603,7 +1603,10 @@ public class WebService {
 		}
 		writer.writeStartDocument();
 		writer.writeStartElement("schema");
-		writer.writeDefaultNamespace((workingobj.has("namespace")?workingobj.getString("namespace"):this.wfsconf.getString("baseurl")));
+		//writer.writeAttribute("targetNamespace",(workingobj.has("namespace")?workingobj.getString("namespace"):this.wfsconf.getString("baseurl")));
+		writer.writeDefaultNamespace("http://www.w3.org/2001/XMLSchema");
+		writer.writeNamespace("app",(workingobj.has("namespace")?workingobj.getString("namespace"):this.wfsconf.getString("baseurl")));
+		writer.setPrefix("app",(workingobj.has("namespace")?workingobj.getString("namespace"):this.wfsconf.getString("baseurl")));
 		writer.writeNamespace("wfs", "http://www.opengis.net/wfs"+versionnamespace);
 		writer.writeNamespace("ows", "http://www.opengis.net/ows/1.1");
 		writer.writeNamespace("sf", "http://www.opengis.net/ogcapi-features-1/1.0/sf");
