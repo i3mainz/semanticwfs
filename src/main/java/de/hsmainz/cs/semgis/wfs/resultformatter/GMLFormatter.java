@@ -103,9 +103,8 @@ public class GMLFormatter extends WFSResultFormatter {
 				}else {
 					writer.writeStartElement(rel);
 				}
-				splitted=splitURL(val);
-				if(splitted!=null) {
-					writer.writeCharacters(splitted[1]);
+				if(val.contains("^^")) {
+					writer.writeCharacters(val.substring(0,val.lastIndexOf("^^")));
 				}else {
 					writer.writeCharacters(val);
 				}		

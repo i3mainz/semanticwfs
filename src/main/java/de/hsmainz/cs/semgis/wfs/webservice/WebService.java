@@ -191,19 +191,19 @@ public class WebService {
 			link.put("rel", "self");
 			link.put("title", "This document");
 			link.put("type", "application/json");
-			link.put("href", this.wfsconf.get("baseurl")+"/collections?f=json");
+			link.put("href", wfsconf.get("baseurl")+"/collections?f=json");
 			links.put(link);
 			link=new JSONObject();
 			link.put("rel", "alternate");
 			link.put("title", "This document as XML");
 			link.put("type", "text/xml");
-			link.put("href", this.wfsconf.get("baseurl")+"/collections?f=gml");
+			link.put("href", wfsconf.get("baseurl")+"/collections?f=gml");
 			links.put(link);
 			link=new JSONObject();
 			link.put("rel", "alternate");
 			link.put("title", "This document as HTML");
 			link.put("type", "text/html");
-			link.put("href", this.wfsconf.get("baseurl")+"/collections?f=html");
+			link.put("href", wfsconf.get("baseurl")+"/collections?f=html");
 			links.put(link);
 			link=new JSONObject();
 			link.put("rel", "describedBy");
@@ -213,9 +213,9 @@ public class WebService {
 			links.put(link);
 			result.put("links", links);
 			result.put("collections", collections);
-			for (int i = 0; i < this.wfsconf.getJSONArray("datasets").length(); i++) {
+			for (int i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
 				JSONObject coll = new JSONObject();
-				JSONObject curobj = this.wfsconf.getJSONArray("datasets").getJSONObject(i);
+				JSONObject curobj = wfsconf.getJSONArray("datasets").getJSONObject(i);
 				coll.put("id", curobj.getString("name"));
 				coll.put("title", curobj.getString("name"));
 				JSONObject extent=new JSONObject();
@@ -231,7 +231,7 @@ public class WebService {
 					}else {
 						link.put("rel", "alternate");
 					}
-					link.put("href", this.wfsconf.getString("baseurl") + "/collections/" + curobj.getString("name") + "/items/" + "?f="+formatter.exposedType);
+					link.put("href", wfsconf.getString("baseurl") + "/collections/" + curobj.getString("name") + "/items/" + "?f="+formatter.exposedType);
 					link.put("type", formatter.exposedType);
 					link.put("title", curobj.getString("name"));
 					colinks.put(link);
@@ -258,7 +258,7 @@ public class WebService {
 				writer.writeAttribute("service", "OGCAPI-FEATURES");
 				writer.writeAttribute("version", "1.0.0");
 				writer.writeStartElement("Title");
-				writer.writeCharacters(this.wfsconf.getString("servicetitle"));
+				writer.writeCharacters(wfsconf.getString("servicetitle"));
 				writer.writeEndElement();
 				writer.writeStartElement("Description");
 				writer.writeCharacters("");
@@ -267,19 +267,19 @@ public class WebService {
 				writer.writeAttribute("rel", "self");
 				writer.writeAttribute("title", "This document");
 				writer.writeAttribute("type", "text/xml");
-				writer.writeAttribute("href", this.wfsconf.get("baseurl")+"/collections?f=gml");
+				writer.writeAttribute("href", wfsconf.get("baseurl")+"/collections?f=gml");
 				writer.writeEndElement();
 				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
 				writer.writeAttribute("rel", "alternate");
 				writer.writeAttribute("title", "This document as JSON");
 				writer.writeAttribute("type", "application/json");
-				writer.writeAttribute("href", this.wfsconf.get("baseurl")+"/collections?f=json");
+				writer.writeAttribute("href", wfsconf.get("baseurl")+"/collections?f=json");
 				writer.writeEndElement();
 				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
 				writer.writeAttribute("rel", "alternate");
 				writer.writeAttribute("title", "This document as HTML");
 				writer.writeAttribute("type", "application/json");
-				writer.writeAttribute("href", this.wfsconf.get("baseurl")+"/collections?f=html");
+				writer.writeAttribute("href", wfsconf.get("baseurl")+"/collections?f=html");
 				writer.writeEndElement();
 				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
 				writer.writeAttribute("rel", "describedBy");
@@ -287,8 +287,8 @@ public class WebService {
 				writer.writeAttribute("type", "application/xml");
 				writer.writeAttribute("href", "http://www.acme.com/3.0/wfs/collections/schema");
 				writer.writeEndElement();
-				for (int i = 0; i < this.wfsconf.getJSONArray("datasets").length(); i++) {
-					JSONObject curobj = this.wfsconf.getJSONArray("datasets").getJSONObject(i);
+				for (int i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
+					JSONObject curobj = wfsconf.getJSONArray("datasets").getJSONObject(i);
 					writer.writeStartElement("Collection");
 					writer.writeStartElement("Id");
 					writer.writeCharacters(curobj.getString("name"));
@@ -301,7 +301,7 @@ public class WebService {
 						writer.writeAttribute("rel", "items");
 						writer.writeAttribute("title", curobj.getString("name"));
 						writer.writeAttribute("type", formatter.exposedType);
-						writer.writeAttribute("href", this.wfsconf.getString("baseurl") + "/collections/"
+						writer.writeAttribute("href", wfsconf.getString("baseurl") + "/collections/"
 								+ curobj.getString("name") + "/items?f="+formatter.exposedType);
 						writer.writeEndElement();
 					}
@@ -328,17 +328,17 @@ public class WebService {
 			builder.append("FeatureCollection View");
 			builder.append("</h1>");
 			builder.append("<table width=100% border=1><tr><th>Collection</th><th>Decription</th><th>Schema</th><th>Formats</th></tr>");
-			for (int i = 0; i < this.wfsconf.getJSONArray("datasets").length(); i++) {
-				JSONObject curobj = this.wfsconf.getJSONArray("datasets").getJSONObject(i);
-				builder.append("<tr><td align=center><a href=\""+this.wfsconf.getString("baseurl")+"/collections/"+this.wfsconf.getJSONArray("datasets").getJSONObject(i).get("name")+"?f=html\">"+this.wfsconf.getJSONArray("datasets").getJSONObject(i).get("name")+"</a></td><td align=center>");
-				if(this.wfsconf.getJSONArray("datasets").getJSONObject(i).has("description")) {
-					builder.append(this.wfsconf.getJSONArray("datasets").getJSONObject(i).get("description"));
+			for (int i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
+				JSONObject curobj = wfsconf.getJSONArray("datasets").getJSONObject(i);
+				builder.append("<tr><td align=center><a href=\""+wfsconf.getString("baseurl")+"/collections/"+wfsconf.getJSONArray("datasets").getJSONObject(i).get("name")+"?f=html\">"+wfsconf.getJSONArray("datasets").getJSONObject(i).get("name")+"</a></td><td align=center>");
+				if(wfsconf.getJSONArray("datasets").getJSONObject(i).has("description")) {
+					builder.append(wfsconf.getJSONArray("datasets").getJSONObject(i).get("description"));
 				}
 				builder.append("</td><td align=center>");
-				if(this.wfsconf.getJSONArray("datasets").getJSONObject(i).has("schema")) {
-					builder.append("<a href=\""+this.wfsconf.getJSONArray("datasets").getJSONObject(i).get("schema")+"\" target=\"_blank\">[Schema]</a>");
+				if(wfsconf.getJSONArray("datasets").getJSONObject(i).has("schema")) {
+					builder.append("<a href=\""+wfsconf.getJSONArray("datasets").getJSONObject(i).get("schema")+"\" target=\"_blank\">[Schema]</a>");
 				}else {
-					builder.append("<a href=\""+this.wfsconf.getString("baseurl") + "/collections/"+ curobj.getString("name") + "/schema\" target=\"_blank\">[Schema]</a>");
+					builder.append("<a href=\""+wfsconf.getString("baseurl") + "/collections/"+ curobj.getString("name") + "/schema\" target=\"_blank\">[Schema]</a>");
 				}
 				builder.append("</td><td align=center>");
 				Integer counter=0;
@@ -346,13 +346,13 @@ public class WebService {
 					if(counter%4==0) {
 						builder.append("<br>");
 					}
-					builder.append("<a href=\""+this.wfsconf.getString("baseurl") + "/collections/"+ curobj.getString("name") + "/items?f="+formatter.exposedType+"\">["+formatter.exposedType.toUpperCase()+"]</a>&nbsp;&nbsp;");
+					builder.append("<a href=\""+wfsconf.getString("baseurl") + "/collections/"+ curobj.getString("name") + "/items?f="+formatter.exposedType+"\">["+formatter.exposedType.toUpperCase()+"]</a>&nbsp;&nbsp;");
 					counter++;
 				}
 				builder.append("</td></tr>");
 			}
 			builder.append("</table>");
-			builder.append("<table width=100%><tr><td><a href=\""+this.wfsconf.getString("baseurl")+"/?f=html\">Back to LandingPage</a></td><td align=right>This page in <a href=\""+this.wfsconf.getString("baseurl") + "/collections?f=gml\">[GML]</a> <a href=\""+this.wfsconf.getString("baseurl") + "/collections?f=json\">[JSON]</a></body></html>");
+			builder.append("<table width=100%><tr><td><a href=\""+wfsconf.getString("baseurl")+"/?f=html\">Back to LandingPage</a></td><td align=right>This page in <a href=\""+wfsconf.getString("baseurl") + "/collections?f=gml\">[GML]</a> <a href=\""+wfsconf.getString("baseurl") + "/collections?f=json\">[JSON]</a></body></html>");
 			return Response.ok(builder.toString()).type(ResultFormatter.getFormatter(format).mimeType).build();
 		}else {
 			throw new NotFoundException();
@@ -370,8 +370,8 @@ public class WebService {
 			throw new NotFoundException();
 		}
 		JSONObject workingobj = null;
-		for (int i = 0; i < this.wfsconf.getJSONArray("datasets").length(); i++) {
-			JSONObject curobj = this.wfsconf.getJSONArray("datasets").getJSONObject(i);
+		for (int i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
+			JSONObject curobj = wfsconf.getJSONArray("datasets").getJSONObject(i);
 			if (curobj.getString("name").equalsIgnoreCase(collectionid)) {
 				workingobj = curobj;
 				break;
@@ -412,7 +412,7 @@ public class WebService {
 				}else {
 					link.put("rel", "alternate");
 				}
-				link.put("href", this.wfsconf.getString("baseurl") + "/collections/" + collectionid + "/items/" + featureid
+				link.put("href", wfsconf.getString("baseurl") + "/collections/" + collectionid + "/items/" + featureid
 						+ "?f="+formatter.exposedType);
 				link.put("type", formatter.exposedType);
 				link.put("title", featureid);
@@ -464,7 +464,7 @@ public class WebService {
 					}
 					writer.writeAttribute("title", workingobj.getString("name"));
 					writer.writeAttribute("type", formatter.exposedType);
-					writer.writeAttribute("href", this.wfsconf.getString("baseurl") + "/collections/"
+					writer.writeAttribute("href", wfsconf.getString("baseurl") + "/collections/"
 							+ workingobj.getString("name") + "/items/+" + featureid + "?f="+formatter.exposedType);
 					writer.writeEndElement();
 				}
@@ -486,7 +486,7 @@ public class WebService {
 			builder.append("<ul>");
 			builder.append(res);
 			builder.append("</ul>");
-			builder.append("<table width=100%><tr><td><a href=\""+this.wfsconf.getString("baseurl")+"/collections/"+collectionid+"?f=html\">Back to "+collectionid+" Collection</a></td><td align=right>This page in <a href=\""+this.wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"/items/"+featureid+"?f=gml\">[GML]</a> <a href=\""+this.wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"/items/"+featureid+"?f=json\">[JSON]</a></body></html>");
+			builder.append("<table width=100%><tr><td><a href=\""+wfsconf.getString("baseurl")+"/collections/"+collectionid+"?f=html\">Back to "+collectionid+" Collection</a></td><td align=right>This page in <a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"/items/"+featureid+"?f=gml\">[GML]</a> <a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"/items/"+featureid+"?f=json\">[JSON]</a></body></html>");
 			builder.append("</body></html>");
 			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
 		}else {
@@ -502,61 +502,61 @@ public class WebService {
 			JSONObject result = new JSONObject();
 			JSONArray links = new JSONArray();
 			JSONObject link = new JSONObject();
-			link.put("href", this.wfsconf.getString("baseurl")+"?f=json");
+			link.put("href", wfsconf.getString("baseurl")+"?f=json");
 			link.put("rel", "self");
 			link.put("type", "application/json");
 			link.put("title", "This document");
 			links.put(link);
 			link = new JSONObject();
-			link.put("href", this.wfsconf.getString("baseurl")+"?f=gml");
+			link.put("href", wfsconf.getString("baseurl")+"?f=gml");
 			link.put("rel", "alternate");
 			link.put("type", "application/xml");
 			link.put("title", "This document as XML");
 			links.put(link);
 			link = new JSONObject();
-			link.put("href", this.wfsconf.getString("baseurl")+"?f=html");
+			link.put("href", wfsconf.getString("baseurl")+"?f=html");
 			link.put("rel", "alternate");
 			link.put("type", "text/html");
 			link.put("title", "This document as HTML");
 			links.put(link);
 			link = new JSONObject();
-			link.put("href", this.wfsconf.getString("baseurl")+"/conformance?f=html");
+			link.put("href", wfsconf.getString("baseurl")+"/conformance?f=html");
 			link.put("rel", "conformance");
 			link.put("type", "text/html");
 			link.put("title", "Conformance Declaration as HTML");
 			links.put(link);
 			link = new JSONObject();
-			link.put("href", this.wfsconf.getString("baseurl")+"/conformance?f=gml");
+			link.put("href", wfsconf.getString("baseurl")+"/conformance?f=gml");
 			link.put("rel", "conformance");
 			link.put("type", "application/xml");
 			link.put("title", "Conformance Declaration as XML");
 			links.put(link);
 			link = new JSONObject();
-			link.put("href", this.wfsconf.getString("baseurl")+"/conformance?f=json");
+			link.put("href", wfsconf.getString("baseurl")+"/conformance?f=json");
 			link.put("rel", "conformance");
 			link.put("type", "application/json");
 			link.put("title", "Conformance Declaration as JSON");
 			links.put(link);
 			link = new JSONObject();
-			link.put("href", this.wfsconf.getString("baseurl")+"/collections?f=json");
+			link.put("href", wfsconf.getString("baseurl")+"/collections?f=json");
 			link.put("rel", "data");
 			link.put("type", "application/json");
 			link.put("title", "Collections Metadata as JSON");
 			links.put(link);
 			link = new JSONObject();
-			link.put("href", this.wfsconf.getString("baseurl")+"/collections?f=gml");
+			link.put("href", wfsconf.getString("baseurl")+"/collections?f=gml");
 			link.put("rel", "data");
 			link.put("type", "application/xml");
 			link.put("title", "Collections Metadata as XML");
 			links.put(link);
 			link = new JSONObject();
-			link.put("href", this.wfsconf.getString("baseurl")+"/collections?f=html");
+			link.put("href", wfsconf.getString("baseurl")+"/collections?f=html");
 			link.put("rel", "data");
 			link.put("type", "text/html");
 			link.put("title", "Collections Metadata as HTML");
 			links.put(link);
-			result.put("title", this.wfsconf.getString("servicetitle"));
-			result.put("description", this.wfsconf.getString("servicedescription"));
+			result.put("title", wfsconf.getString("servicetitle"));
+			result.put("description", wfsconf.getString("servicedescription"));
 			result.put("links", links);
 			return Response.ok(result.toString(2)).type(MediaType.APPLICATION_JSON).build();
 		} else if (format.contains("gml")) {
@@ -576,64 +576,64 @@ public class WebService {
 				writer.writeAttribute("service", "OGCAPI-FEATURES");
 				writer.writeAttribute("version", "1.0.0");
 				writer.writeStartElement("Title");
-				writer.writeCharacters(this.wfsconf.getString("servicetitle"));
+				writer.writeCharacters(wfsconf.getString("servicetitle"));
 				writer.writeEndElement();
 				writer.writeStartElement("Description");
-				writer.writeCharacters(this.wfsconf.getString("servicedescription"));
+				writer.writeCharacters(wfsconf.getString("servicedescription"));
 				writer.writeEndElement();
 				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
 				writer.writeAttribute("rel", "self");
 				writer.writeAttribute("title", "This document");
 				writer.writeAttribute("type", "application/xml");
-				writer.writeAttribute("href", this.wfsconf.getString("baseurl")+"/?f=gml");
+				writer.writeAttribute("href", wfsconf.getString("baseurl")+"/?f=gml");
 				writer.writeEndElement();
 				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
 				writer.writeAttribute("rel", "alternate");
 				writer.writeAttribute("title", "This document as JSON");
 				writer.writeAttribute("type", "application/json");
-				writer.writeAttribute("href", this.wfsconf.getString("baseurl")+"/?f=json");
+				writer.writeAttribute("href", wfsconf.getString("baseurl")+"/?f=json");
 				writer.writeEndElement();
 				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
 				writer.writeAttribute("rel", "alternate");
 				writer.writeAttribute("title", "This document as HTML");
 				writer.writeAttribute("type", "text/html");
-				writer.writeAttribute("href", this.wfsconf.getString("baseurl")+"/?f=html");
+				writer.writeAttribute("href", wfsconf.getString("baseurl")+"/?f=html");
 				writer.writeEndElement();
 				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
 				writer.writeAttribute("rel", "conformance");
 				writer.writeAttribute("title", "Conformance Declaration as JSON");
 				writer.writeAttribute("type", "application/json");
-				writer.writeAttribute("href", this.wfsconf.getString("baseurl")+"/conformance?f=json");
+				writer.writeAttribute("href", wfsconf.getString("baseurl")+"/conformance?f=json");
 				writer.writeEndElement();
 				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
 				writer.writeAttribute("rel", "conformance");
 				writer.writeAttribute("title", "Conformance Declaration as XML");
 				writer.writeAttribute("type", "application/xml");
-				writer.writeAttribute("href", this.wfsconf.getString("baseurl")+"/conformance?f=gml");
+				writer.writeAttribute("href", wfsconf.getString("baseurl")+"/conformance?f=gml");
 				writer.writeEndElement();
 				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
 				writer.writeAttribute("rel", "conformance");
 				writer.writeAttribute("title", "Conformance Declaration as HTML");
 				writer.writeAttribute("type", "text/html");
-				writer.writeAttribute("href", this.wfsconf.getString("baseurl")+"/conformance?f=html");
+				writer.writeAttribute("href", wfsconf.getString("baseurl")+"/conformance?f=html");
 				writer.writeEndElement();
 				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
 				writer.writeAttribute("rel", "data");
 				writer.writeAttribute("title", "Collections Metadata as JSON");
 				writer.writeAttribute("type", "application/json");
-				writer.writeAttribute("href", this.wfsconf.getString("baseurl")+"/collections?f=json");
+				writer.writeAttribute("href", wfsconf.getString("baseurl")+"/collections?f=json");
 				writer.writeEndElement();
 				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
 				writer.writeAttribute("rel", "data");
 				writer.writeAttribute("title", "Collections Metadata as XML");
 				writer.writeAttribute("type", "application/xml");
-				writer.writeAttribute("href", this.wfsconf.getString("baseurl")+"/collections?f=gml");
+				writer.writeAttribute("href", wfsconf.getString("baseurl")+"/collections?f=gml");
 				writer.writeEndElement();
 				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
 				writer.writeAttribute("rel", "data");
 				writer.writeAttribute("title", "Collections Metadata as HTML");
 				writer.writeAttribute("type", "text/html");
-				writer.writeAttribute("href", this.wfsconf.getString("baseurl")+"/collections?f=html");
+				writer.writeAttribute("href", wfsconf.getString("baseurl")+"/collections?f=html");
 				writer.writeEndElement();
 				writer.writeEndElement();
 				writer.writeEndDocument();
@@ -646,24 +646,24 @@ public class WebService {
 		}else if (format.contains("html")) {
 			StringBuilder builder=new StringBuilder();
 			builder.append(htmlHead);
-			builder.append("<body><h1 align=\"center\">LandingPage: "+this.wfsconf.getString("servicetitle"));
-			builder.append("</h1><p>"+this.wfsconf.getString("servicedescription")+"</p><ul>");
-			builder.append("<li>LandingPage in <a href=\""+this.wfsconf.getString("baseurl")+"/?f=html\">[HTML]</a>");
-			builder.append(" <a href=\""+this.wfsconf.getString("baseurl")+"/?f=gml\">[XML]</a>");
-			builder.append(" <a href=\""+this.wfsconf.getString("baseurl")+"/?f=json\">[JSON]</a></li>");
-			builder.append("<li>Conformance Declaration in <a href=\""+this.wfsconf.getString("baseurl")+"/conformance?f=html\">[HTML]</a>");
-			builder.append(" <a href=\""+this.wfsconf.getString("baseurl")+"/conformance?f=gml\">[XML]</a>");
-			builder.append(" <a href=\""+this.wfsconf.getString("baseurl")+"/conformance?f=json\">[JSON]</a></li>");
-			builder.append("<li>Collections Metadata in <a href=\""+this.wfsconf.getString("baseurl")+"/collections?f=html\">[HTML]</a>");
-			builder.append(" <a href=\""+this.wfsconf.getString("baseurl")+"/collections?f=gml\">[XML]</a>");
-			builder.append(" <a href=\""+this.wfsconf.getString("baseurl")+"/collections?f=json\">[JSON]</a></li></ul>");
+			builder.append("<body><h1 align=\"center\">LandingPage: "+wfsconf.getString("servicetitle"));
+			builder.append("</h1><p>"+wfsconf.getString("servicedescription")+"</p><ul>");
+			builder.append("<li>LandingPage in <a href=\""+wfsconf.getString("baseurl")+"/?f=html\">[HTML]</a>");
+			builder.append(" <a href=\""+wfsconf.getString("baseurl")+"/?f=gml\">[XML]</a>");
+			builder.append(" <a href=\""+wfsconf.getString("baseurl")+"/?f=json\">[JSON]</a></li>");
+			builder.append("<li>Conformance Declaration in <a href=\""+wfsconf.getString("baseurl")+"/conformance?f=html\">[HTML]</a>");
+			builder.append(" <a href=\""+wfsconf.getString("baseurl")+"/conformance?f=gml\">[XML]</a>");
+			builder.append(" <a href=\""+wfsconf.getString("baseurl")+"/conformance?f=json\">[JSON]</a></li>");
+			builder.append("<li>Collections Metadata in <a href=\""+wfsconf.getString("baseurl")+"/collections?f=html\">[HTML]</a>");
+			builder.append(" <a href=\""+wfsconf.getString("baseurl")+"/collections?f=gml\">[XML]</a>");
+			builder.append(" <a href=\""+wfsconf.getString("baseurl")+"/collections?f=json\">[JSON]</a></li></ul>");
 			builder.append("This homepage also exposes a WFS 1.0.0, 1.1.0, 2.0.0 compatible Webservice:<ul>");
 			builder.append("<li>GetCapabilities WFS 1.0.0 ");
-			builder.append("<a href=\""+this.wfsconf.getString("baseurl")+"/wfs?REQUEST=getCapabilities&VERSION=1.0.0\">[XML]</a><br/>");
+			builder.append("<a href=\""+wfsconf.getString("baseurl")+"/wfs?REQUEST=getCapabilities&VERSION=1.0.0\">[XML]</a><br/>");
 			builder.append("</li><li>GetCapabilities WFS 1.1.0 ");
-			builder.append("<a href=\""+this.wfsconf.getString("baseurl")+"/wfs?REQUEST=getCapabilities&VERSION=1.1.0\">[XML]</a>");
+			builder.append("<a href=\""+wfsconf.getString("baseurl")+"/wfs?REQUEST=getCapabilities&VERSION=1.1.0\">[XML]</a>");
 			builder.append("</li><li>GetCapabilities WFS 2.0.0 ");
-			builder.append("<a href=\""+this.wfsconf.getString("baseurl")+"/wfs?REQUEST=getCapabilities&VERSION=2.0.0\">[XML]</a>");
+			builder.append("<a href=\""+wfsconf.getString("baseurl")+"/wfs?REQUEST=getCapabilities&VERSION=2.0.0\">[XML]</a>");
 			builder.append("</li></ul></body></html>");
 			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
 		}else {
@@ -681,8 +681,8 @@ public class WebService {
 			throw new NotFoundException();
 		}
 		JSONObject workingobj = null;
-		for (int i = 0; i < this.wfsconf.getJSONArray("datasets").length(); i++) {
-			JSONObject curobj = this.wfsconf.getJSONArray("datasets").getJSONObject(i);
+		for (int i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
+			JSONObject curobj = wfsconf.getJSONArray("datasets").getJSONObject(i);
 			if (curobj.getString("name").equalsIgnoreCase(collectionid)) {
 				workingobj = curobj;
 				break;
@@ -716,7 +716,7 @@ public class WebService {
 				}else {
 					link.put("rel", "alternate");
 				}
-				link.put("href", this.wfsconf.getString("baseurl") + "/collections/" + collectionid + "/items/"
+				link.put("href", wfsconf.getString("baseurl") + "/collections/" + collectionid + "/items/"
 						+ "?f="+formatter.exposedType);
 				link.put("type", formatter.exposedType);
 				link.put("title", collectionid);
@@ -724,7 +724,7 @@ public class WebService {
 			}
 			JSONObject link=new JSONObject();
 			link.put("rel", "describedBy");
-			link.put("href", this.wfsconf.getString("baseurl") + "/collections/" + collectionid + "/schema/");
+			link.put("href", wfsconf.getString("baseurl") + "/collections/" + collectionid + "/schema/");
 			link.put("type", "application/xml");
 			link.put("title", collectionid+" Schema");
 			links.put(link);
@@ -762,7 +762,7 @@ public class WebService {
 					}
 					writer.writeAttribute("title", workingobj.getString("name"));
 					writer.writeAttribute("type", formatter.exposedType);
-					writer.writeAttribute("href", this.wfsconf.getString("baseurl") + "/collections/"
+					writer.writeAttribute("href", wfsconf.getString("baseurl") + "/collections/"
 							+ workingobj.getString("name") + "/items?f="+formatter.exposedType);
 					writer.writeEndElement();
 				}
@@ -770,7 +770,7 @@ public class WebService {
 				writer.writeAttribute("rel", "describedBy");
 				writer.writeAttribute("title", workingobj.getString("name"));
 				writer.writeAttribute("type", "application/xml");
-				writer.writeAttribute("href", this.wfsconf.getString("baseurl") + "/collections/"
+				writer.writeAttribute("href", wfsconf.getString("baseurl") + "/collections/"
 						+ workingobj.getString("name") + "/schema/");
 				writer.writeEndElement();
 				writer.writeStartElement("Extent");
@@ -845,10 +845,10 @@ public class WebService {
 			builder.append(builder2.toString());
 			builder.append("</td></tr><tr><td>Serializations:<ul>");
 			for(ResultFormatter formatter:ResultFormatter.resultMap.values()) {
-				builder.append("<li><a href=\""+this.wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name") + "/items?limit=5&f="+formatter.exposedType+"\">["+formatter.exposedType.toUpperCase()+"]</a></li>");
+				builder.append("<li><a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name") + "/items?limit=5&f="+formatter.exposedType+"\">["+formatter.exposedType.toUpperCase()+"]</a></li>");
 			}
 			builder.append("</td></tr></table>");
-			builder.append("<table width=100%><tr><td><a href=\""+this.wfsconf.getString("baseurl")+"/collections?f=html\">Back to Collections</a></td><td align=right>This page in <a href=\""+this.wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"?f=gml\">[GML]</a> <a href=\""+this.wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"?f=json\">[JSON]</a></body></html>");
+			builder.append("<table width=100%><tr><td><a href=\""+wfsconf.getString("baseurl")+"/collections?f=html\">Back to Collections</a></td><td align=right>This page in <a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"?f=gml\">[GML]</a> <a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"?f=json\">[JSON]</a></body></html>");
 			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
 		} else {
 			throw new NotFoundException();
@@ -883,8 +883,8 @@ public class WebService {
 			throw new NotFoundException();
 		}
 		JSONObject workingobj = null;
-		for (int i = 0; i < this.wfsconf.getJSONArray("datasets").length(); i++) {
-			JSONObject curobj = this.wfsconf.getJSONArray("datasets").getJSONObject(i);
+		for (int i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
+			JSONObject curobj = wfsconf.getJSONArray("datasets").getJSONObject(i);
 			if (curobj.getString("name").equalsIgnoreCase(collectionid)) {
 				workingobj = curobj;
 				break;
@@ -921,7 +921,7 @@ public class WebService {
 					}else {
 						link.put("rel", "alternate");
 					}
-					link.put("href", this.wfsconf.getString("baseurl") + "/collections/" + collectionid + "/items?f="+formatter.exposedType);
+					link.put("href", wfsconf.getString("baseurl") + "/collections/" + collectionid + "/items?f="+formatter.exposedType);
 					link.put("type", formatter.exposedType);
 					link.put("title", collectionid);
 					links.put(link);
@@ -975,7 +975,7 @@ public class WebService {
 						}
 						writer.writeAttribute("title", workingobj.getString("name"));
 						writer.writeAttribute("type", formatter.exposedType);
-						writer.writeAttribute("href", this.wfsconf.getString("baseurl") + "/collections/"
+						writer.writeAttribute("href", wfsconf.getString("baseurl") + "/collections/"
 								+ workingobj.getString("name") + "/items?f="+formatter.exposedType);
 						writer.writeEndElement();
 					}
@@ -997,7 +997,7 @@ public class WebService {
 				builder.append("</h1>");
 				builder.append(res);
 				builder.append("<script>$( document ).ready(function() {$('#queryres').DataTable();});</script>");
-				builder.append("<table width=100%><tr><td><a href=\""+this.wfsconf.getString("baseurl")+"/collections/"+collectionid+"?f=html\">Back to "+collectionid+" Collection</a></td><td align=right>This page in <a href=\""+this.wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"/items?f=gml\">[GML]</a> <a href=\""+this.wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"/items?f=json\">[JSON]</a></body></html>");
+				builder.append("<table width=100%><tr><td><a href=\""+wfsconf.getString("baseurl")+"/collections/"+collectionid+"?f=html\">Back to "+collectionid+" Collection</a></td><td align=right>This page in <a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"/items?f=gml\">[GML]</a> <a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"/items?f=json\">[JSON]</a></body></html>");
 				builder.append("</body></html>");
 				return Response.ok(builder.toString()).type(ResultFormatter.getFormatter(format).mimeType).build();
 			}else {				
@@ -1070,7 +1070,7 @@ public class WebService {
 			builder.append("<li><a target=\"_blank\" href=\"http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/html\">HTML</a></li>");
 			builder.append("<li><a target=\"_blank\" href=\"http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/geojson\">GeoJSON</a></li>");
 			builder.append("<li><a target=\"_blank\" href=\"http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/gmlsf0\">GMLSf0</a></li>");
-			builder.append("</ul><a href=\""+this.wfsconf.getString("baseurl")+"/?f=html\">Back to LandingPage</a></body></html>");
+			builder.append("</ul><a href=\""+wfsconf.getString("baseurl")+"/?f=html\">Back to LandingPage</a></body></html>");
 			return Response.ok(builder.toString()).type(ResultFormatter.getFormatter(format).mimeType).build();
 		}else {
 			throw new NotFoundException();
@@ -1127,10 +1127,10 @@ public class WebService {
 		writer.writeStartElement("DCPType");
 		writer.writeStartElement("HTTP");
 		writer.writeStartElement("Get");
-		writer.writeAttribute("onlineResource", this.wfsconf.getString("baseurl")+"/wfs?");
+		writer.writeAttribute("onlineResource", wfsconf.getString("baseurl")+"/wfs?");
 		writer.writeEndElement();
 		writer.writeStartElement("Post");
-		writer.writeAttribute("onlineResource", this.wfsconf.getString("baseurl")+"/wfs");
+		writer.writeAttribute("onlineResource", wfsconf.getString("baseurl")+"/wfs");
 		writer.writeEndElement();
 		writer.writeEndElement();
 		writer.writeEndElement();
@@ -1139,10 +1139,10 @@ public class WebService {
 		writer.writeStartElement("DCPType");
 		writer.writeStartElement("HTTP");
 		writer.writeStartElement("Get");
-		writer.writeAttribute("onlineResource", this.wfsconf.getString("baseurl")+"/wfs?");
+		writer.writeAttribute("onlineResource", wfsconf.getString("baseurl")+"/wfs?");
 		writer.writeEndElement();
 		writer.writeStartElement("Post");
-		writer.writeAttribute("onlineResource", this.wfsconf.getString("baseurl")+"/wfs");
+		writer.writeAttribute("onlineResource", wfsconf.getString("baseurl")+"/wfs");
 		writer.writeEndElement();
 		writer.writeEndElement();
 		writer.writeEndElement();
@@ -1151,10 +1151,10 @@ public class WebService {
 		writer.writeStartElement("DCPType");
 		writer.writeStartElement("HTTP");
 		writer.writeStartElement("Get");
-		writer.writeAttribute("onlineResource", this.wfsconf.getString("baseurl")+"/wfs?");
+		writer.writeAttribute("onlineResource", wfsconf.getString("baseurl")+"/wfs?");
 		writer.writeEndElement();
 		writer.writeStartElement("Post");
-		writer.writeAttribute("onlineResource", this.wfsconf.getString("baseurl")+"/wfs");
+		writer.writeAttribute("onlineResource", wfsconf.getString("baseurl")+"/wfs");
 		writer.writeEndElement();
 		writer.writeEndElement();
 		writer.writeEndElement();
@@ -1167,10 +1167,10 @@ public class WebService {
 		writer.writeStartElement("DCPType");
 		writer.writeStartElement("HTTP");
 		writer.writeStartElement("Get");
-		writer.writeAttribute("onlineResource", this.wfsconf.getString("baseurl")+"/wfs?");
+		writer.writeAttribute("onlineResource", wfsconf.getString("baseurl")+"/wfs?");
 		writer.writeEndElement();
 		writer.writeStartElement("Post");
-		writer.writeAttribute("onlineResource", this.wfsconf.getString("baseurl")+"/wfs");
+		writer.writeAttribute("onlineResource", wfsconf.getString("baseurl")+"/wfs");
 		writer.writeEndElement();
 		writer.writeEndElement();
 		writer.writeEndElement();
@@ -1192,10 +1192,10 @@ public class WebService {
 		writer.writeStartElement("DCPType");
 		writer.writeStartElement("HTTP");
 		writer.writeStartElement("Get");
-		writer.writeAttribute("onlineResource", this.wfsconf.getString("baseurl")+"/wfs?");
+		writer.writeAttribute("onlineResource", wfsconf.getString("baseurl")+"/wfs?");
 		writer.writeEndElement();
 		writer.writeStartElement("Post");
-		writer.writeAttribute("onlineResource", this.wfsconf.getString("baseurl")+"/wfs");
+		writer.writeAttribute("onlineResource", wfsconf.getString("baseurl")+"/wfs");
 		writer.writeEndElement();
 		writer.writeEndElement();
 		writer.writeEndElement();
@@ -1207,8 +1207,8 @@ public class WebService {
 		writer.writeStartElement("Query");
 		writer.writeEndElement();
 		writer.writeEndElement();
-		for (int i = 0; i < this.wfsconf.getJSONArray("datasets").length(); i++) {
-			describeFeatureTypeWFS10(writer, this.wfsconf.getJSONArray("datasets").getJSONObject(i),versionnamespace,version);
+		for (int i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
+			describeFeatureTypeWFS10(writer, wfsconf.getJSONArray("datasets").getJSONObject(i),versionnamespace,version);
 		}
 		writer.writeEndElement();
 		writer.writeStartElement("http://www.opengis.net/ogc", "Filter_Capabilities");
@@ -1272,11 +1272,11 @@ public class WebService {
 		writer.writeStartElement(owsns, "HTTP");
 		writer.writeStartElement(owsns, "Get");
 		writer.writeAttribute("xlink:type", "simple");
-		writer.writeAttribute("xlink:href", this.wfsconf.getString("baseurl")+"/wfs?");
+		writer.writeAttribute("xlink:href", wfsconf.getString("baseurl")+"/wfs?");
 		writer.writeEndElement();
 		writer.writeStartElement(owsns, "Post");
 		writer.writeAttribute("xlink:type", "simple");
-		writer.writeAttribute("xlink:href", this.wfsconf.getString("baseurl")+"/wfs");
+		writer.writeAttribute("xlink:href", wfsconf.getString("baseurl")+"/wfs");
 		writer.writeEndElement();
 		writer.writeEndElement();
 		writer.writeStartElement(owsns, "Parameter");
@@ -1295,11 +1295,11 @@ public class WebService {
 		writer.writeStartElement(owsns, "HTTP");
 		writer.writeStartElement(owsns, "Get");
 		writer.writeAttribute("xlink:type", "simple");
-		writer.writeAttribute("xlink:href", this.wfsconf.getString("baseurl")+"/wfs?");
+		writer.writeAttribute("xlink:href", wfsconf.getString("baseurl")+"/wfs?");
 		writer.writeEndElement();
 		writer.writeStartElement(owsns, "Post");
 		writer.writeAttribute("xlink:type", "simple");
-		writer.writeAttribute("xlink:href", this.wfsconf.getString("baseurl")+"/wfs");
+		writer.writeAttribute("xlink:href", wfsconf.getString("baseurl")+"/wfs");
 		writer.writeEndElement();
 		writer.writeEndElement();
 		writer.writeEndElement();
@@ -1310,11 +1310,11 @@ public class WebService {
 		writer.writeStartElement(owsns, "HTTP");
 		writer.writeStartElement(owsns, "Get");
 		writer.writeAttribute("xlink:type", "simple");
-		writer.writeAttribute("xlink:href", this.wfsconf.getString("baseurl")+"/wfs?");
+		writer.writeAttribute("xlink:href", wfsconf.getString("baseurl")+"/wfs?");
 		writer.writeEndElement();
 		writer.writeStartElement(owsns, "Post");
 		writer.writeAttribute("xlink:type", "simple");
-		writer.writeAttribute("xlink:href", this.wfsconf.getString("baseurl")+"/wfs");
+		writer.writeAttribute("xlink:href", wfsconf.getString("baseurl")+"/wfs");
 		writer.writeEndElement();
 		writer.writeEndElement();
 		writer.writeEndElement();
@@ -1325,11 +1325,11 @@ public class WebService {
 		writer.writeStartElement(owsns, "HTTP");
 		writer.writeStartElement(owsns, "Get");
 		writer.writeAttribute("xlink:type", "simple");
-		writer.writeAttribute("xlink:href", this.wfsconf.getString("baseurl")+"/wfs?");
+		writer.writeAttribute("xlink:href", wfsconf.getString("baseurl")+"/wfs?");
 		writer.writeEndElement();
 		writer.writeStartElement(owsns, "Post");
 		writer.writeAttribute("xlink:type", "simple");
-		writer.writeAttribute("xlink:href", this.wfsconf.getString("baseurl")+"/wfs");
+		writer.writeAttribute("xlink:href", wfsconf.getString("baseurl")+"/wfs");
 		writer.writeEndElement();
 		writer.writeEndElement();
 		writer.writeEndElement();
@@ -1340,11 +1340,11 @@ public class WebService {
 		writer.writeStartElement(owsns, "HTTP");
 		writer.writeStartElement(owsns, "Get");
 		writer.writeAttribute("xlink:type", "simple");
-		writer.writeAttribute("xlink:href", this.wfsconf.getString("baseurl")+"/wfs?");
+		writer.writeAttribute("xlink:href", wfsconf.getString("baseurl")+"/wfs?");
 		writer.writeEndElement();
 		writer.writeStartElement(owsns, "Post");
 		writer.writeAttribute("xlink:type", "simple");
-		writer.writeAttribute("xlink:href", this.wfsconf.getString("baseurl")+"/wfs");
+		writer.writeAttribute("xlink:href", wfsconf.getString("baseurl")+"/wfs");
 		writer.writeEndElement();
 		writer.writeEndElement();
 		writer.writeStartElement(owsns, "Parameter");
@@ -1364,8 +1364,8 @@ public class WebService {
 		writer.writeCharacters("Query");
 		writer.writeEndElement();
 		writer.writeEndElement();
-		for (int i = 0; i < this.wfsconf.getJSONArray("datasets").length(); i++) {
-			describeFeatureType(writer, this.wfsconf.getJSONArray("datasets").getJSONObject(i),versionnamespace,version);
+		for (int i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
+			describeFeatureType(writer, wfsconf.getJSONArray("datasets").getJSONObject(i),versionnamespace,version);
 		}
 		writer.writeEndElement();
 		writer.writeStartElement("http://www.opengis.net/fes/"+versionnamespace, "Filter_Capabilities");
@@ -1581,8 +1581,8 @@ public class WebService {
 		if(typename==null)
 			throw new NotFoundException();
 		JSONObject workingobj = null;
-		for (int i = 0; i < this.wfsconf.getJSONArray("datasets").length(); i++) {
-			JSONObject curobj = this.wfsconf.getJSONArray("datasets").getJSONObject(i);
+		for (int i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
+			JSONObject curobj = wfsconf.getJSONArray("datasets").getJSONObject(i);
 			if (curobj.getString("name").equalsIgnoreCase(typename)) {
 				workingobj = curobj;
 				break;
@@ -1603,10 +1603,10 @@ public class WebService {
 		}
 		writer.writeStartDocument();
 		writer.writeStartElement("schema");
-		//writer.writeAttribute("targetNamespace",(workingobj.has("namespace")?workingobj.getString("namespace"):this.wfsconf.getString("baseurl")));
+		//writer.writeAttribute("targetNamespace",(workingobj.has("namespace")?workingobj.getString("namespace"):wfsconf.getString("baseurl")));
 		writer.writeDefaultNamespace("http://www.w3.org/2001/XMLSchema");
-		writer.writeNamespace("app",(workingobj.has("namespace")?workingobj.getString("namespace"):this.wfsconf.getString("baseurl")));
-		writer.setPrefix("app",(workingobj.has("namespace")?workingobj.getString("namespace"):this.wfsconf.getString("baseurl")));
+		writer.writeNamespace("app",(workingobj.has("namespace")?workingobj.getString("namespace"):wfsconf.getString("baseurl")));
+		writer.setPrefix("app",(workingobj.has("namespace")?workingobj.getString("namespace"):wfsconf.getString("baseurl")));
 		writer.writeNamespace("wfs", "http://www.opengis.net/wfs"+versionnamespace);
 		writer.writeNamespace("ows", "http://www.opengis.net/ows/1.1");
 		writer.writeNamespace("sf", "http://www.opengis.net/ogcapi-features-1/1.0/sf");
@@ -1678,8 +1678,8 @@ public class WebService {
 			throw new NotFoundException();
 		}
 		JSONObject workingobj = null;
-		for (int i = 0; i < this.wfsconf.getJSONArray("datasets").length(); i++) {
-			JSONObject curobj = this.wfsconf.getJSONArray("datasets").getJSONObject(i);
+		for (int i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
+			JSONObject curobj = wfsconf.getJSONArray("datasets").getJSONObject(i);
 			if (curobj.getString("name").equalsIgnoreCase(typename)) {
 				workingobj = curobj;
 				break;
@@ -1729,7 +1729,7 @@ public class WebService {
 				writer = new IndentingXMLStreamWriter(outputf.createXMLStreamWriter(strwriter));
 				writer.writeStartDocument();
 				writer.writeStartElement("wfs:FeatureCollection");
-				writer.writeDefaultNamespace((this.wfsconf.getString("baseurl")+"/").replace("//","/"));
+				writer.writeDefaultNamespace((wfsconf.getString("baseurl")+"/").replace("//","/"));
 				writer.writeNamespace("ows", "http://www.opengis.net/ows/1.1");
 				writer.writeNamespace("sf", "http://www.opengis.net/ogcapi-features-1/1.0/sf");
 				writer.writeNamespace("ogc", "http://www.opengis.net/ogc");
@@ -1823,8 +1823,8 @@ public class WebService {
 			throw new NotFoundException();
 		}
 		JSONObject workingobj = null;
-		for (int i = 0; i < this.wfsconf.getJSONArray("datasets").length(); i++) {
-			JSONObject curobj = this.wfsconf.getJSONArray("datasets").getJSONObject(i);
+		for (int i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
+			JSONObject curobj = wfsconf.getJSONArray("datasets").getJSONObject(i);
 			if (curobj.getString("name").equalsIgnoreCase(typename)) {
 				workingobj = curobj;
 				break;
@@ -1885,7 +1885,7 @@ public class WebService {
 			StringBuilder builder=new StringBuilder();
 			builder.append("<html><head></head><body><h1 align=center>PropertyRequest: "+typename+"["+propertyname+"]</h1>");
 			builder.append(res);
-			builder.append("<a href=\""+this.wfsconf.getString("baseurl")+"/?f=html\">Back to LandingPage</a></body></html>");
+			builder.append("<a href=\""+wfsconf.getString("baseurl")+"/?f=html\">Back to LandingPage</a></body></html>");
 			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
 		}else if(output!=null) {
 			return Response.ok(res).type(MediaType.TEXT_PLAIN).build();
@@ -1902,7 +1902,7 @@ public class WebService {
 			@QueryParam("triplestore") String triplestore,
 			@QueryParam("username") String username,
 			@QueryParam("password") String password) {
-		JSONArray datasets=this.wfsconf.getJSONArray("datasets");
+		JSONArray datasets=wfsconf.getJSONArray("datasets");
 		JSONObject toadd=new JSONObject();
 		toadd.put("name",name);
 		toadd.put("namespace",namespace);
