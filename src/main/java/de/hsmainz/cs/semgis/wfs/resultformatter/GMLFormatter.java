@@ -73,7 +73,6 @@ public class GMLFormatter extends WFSResultFormatter {
 				if(curvar.contains("_geom")) {
 					writer.writeStartElement("the_geom");
 					writer.writeAttribute("gml:id",curfeaturetype+"_GEOMETRY");
-					writer.writeAttribute("srsName",srsName);
 					if(solu.get(curvar).toString().contains("wkt")) {
 						writer.writeStartElement("gml:"+solu.get(curvar).toString().substring(0,solu.get(curvar).toString().indexOf('(')));
 						writer.writeStartElement("gml:pos");
