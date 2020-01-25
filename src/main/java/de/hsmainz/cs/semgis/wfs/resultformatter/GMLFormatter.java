@@ -71,7 +71,7 @@ public class GMLFormatter extends WFSResultFormatter {
 			while(iter.hasNext()) {
 				String curvar=iter.next();
 				if(curvar.contains("_geom")) {
-					writer.writeStartElement("geometry");
+					writer.writeStartElement("the_geom");
 					if(solu.get(curvar).toString().contains("wkt")) {
 						writer.writeStartElement("gml:"+solu.get(curvar).toString().substring(0,solu.get(curvar).toString().indexOf('(')));
 						writer.writeStartElement("gml:pos");
