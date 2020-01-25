@@ -1687,7 +1687,7 @@ public class WebService {
 		if(resultType.equalsIgnoreCase("hits") 
 				&& hitCache.containsKey(typename) 
 				&& hitCache.get(typename).getOne().getTime()
-				< (System.currentTimeMillis() -  milliesInDays)) {
+				< (System.currentTimeMillis() +  milliesInDays)) {
 			res=hitCache.get(typename).getTwo();
 		}else {
 		try {
