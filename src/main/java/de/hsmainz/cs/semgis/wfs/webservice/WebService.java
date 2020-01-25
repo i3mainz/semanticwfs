@@ -1625,15 +1625,21 @@ public class WebService {
 				.getFeatureTypeInformation(workingobj.getString("query"), workingobj.getString("triplestore"),
 		  workingobj.getString("name"),workingobj));
 		}
+		writer.writeStartElement("element");
+		writer.writeAttribute("name","the_geom");
+		writer.writeAttribute("minOccurs","0");
+		writer.writeAttribute("type","gml:GeometryPropertyType");
+		writer.writeEndElement();
 		Map<String,String>mapping=featureTypeCache.get(typename.toLowerCase());
 		for(String elem:mapping.keySet()) {
-			writer.writeStartElement("element"); writer.writeAttribute("name", elem);
+			writer.writeStartElement("element"); 
+			writer.writeAttribute("name", elem);
 			if(mapping.get(elem).contains("^^")) {
 				writer.writeAttribute("type", mapping.get(elem).substring(mapping.get(elem).lastIndexOf("^^")+2)); 
 			}else if(mapping.get(elem).startsWith("http") || mapping.get(elem).startsWith("file:/")){
-				writer.writeAttribute("type","http://www.w3.org/2001/XMLSchema#anyURI");
+				writer.writeAttribute("type","anyURI");
 			}else {
-				writer.writeAttribute("type","http://www.w3.org/2001/XMLSchema#string"); 	
+				writer.writeAttribute("type","string"); 	
 			}
 			writer.writeAttribute("minOccurs", "0"); 
 			writer.writeEndElement(); 
