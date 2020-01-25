@@ -1628,7 +1628,7 @@ public class WebService {
 		writer.writeStartElement("element");
 		writer.writeAttribute("name","the_geom");
 		writer.writeAttribute("minOccurs","0");
-		writer.writeAttribute("type","gml:GeometryPropertyType");
+		writer.writeAttribute("type","gml:PointPropertyType");
 		writer.writeEndElement();
 		Map<String,String>mapping=featureTypeCache.get(typename.toLowerCase());
 		for(String elem:mapping.keySet()) {
