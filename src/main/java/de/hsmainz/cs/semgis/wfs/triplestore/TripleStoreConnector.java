@@ -49,6 +49,51 @@ public abstract class TripleStoreConnector {
 	
 	protected static Map<String,Map<String,String>> featureTypes=new TreeMap<>();
 	
+	public static String getBoundingBoxFromTripleStoreData(String triplestore,String queryString) {
+		Query query = QueryFactory.create(prefixCollection+queryString);
+		QueryExecution qexec = QueryExecutionFactory.sparqlService(triplestore, query);
+		ResultSet results = qexec.execSelect();
+		Double minx=Double.MAX_VALUE,maxx=Double.MIN_VALUE,miny=Double.MAX_VALUE,maxy=Double.MIN_VALUE;
+		while(results.hasNext()) {
+			QuerySolution solu=results.next();
+			String wktLiteral=solu.get("the_geom").toString().substring(0,solu.get("the_geom").toString().indexOf("^^"));
+			wktLiteral=wktLiteral.replace("(","").replace(")","").replace(","," ").trim();
+			Integer counter=0;
+			for(String coord:wktLiteral.split(" ")) {
+				Double curcoord=Double.valueOf(coord);
+				if(counter%2==0) {
+					if(curcoord<minx) {
+						minx=curcoord;
+					}
+					if(curcoord>maxx) {
+						maxx=curcoord;
+					}
+				}else {
+					if(curcoord<miny) {
+						miny=curcoord;
+					}
+					if(curcoord>maxy) {
+						maxy=curcoord;
+					}
+				}
+				counter++;
+			}
+		}
+		return minx+" "+miny+" "+maxx+" "+maxy;
+	}
+	
+	public static String getTemporalExtentFromTripleStoreData(String triplestore,String queryString) {
+		Query query = QueryFactory.create(prefixCollection+queryString);
+		QueryExecution qexec = QueryExecutionFactory.sparqlService(triplestore, query);
+		ResultSet results = qexec.execSelect();
+		while(results.hasNext()) {
+			QuerySolution solu=results.next();
+			String wktLiteral=solu.get("the_geom").toString();
+			
+		}
+		return "";
+	}
+	
 	public static Map<String,String> getFeatureTypeInformation(String queryString,String queryurl,String featuretype,JSONObject workingobj){
 		if(featureTypes.containsKey(featuretype)) {
 			return featureTypes.get(featuretype);
