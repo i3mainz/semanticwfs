@@ -86,7 +86,8 @@ public class WebService {
 	}
 
 	@POST
-	@Path("/wfs")
+	@Produces(MediaType.TEXT_XML)
+	@Path("/post/wfs")
 	public Response entryPointPOST(@DefaultValue("WFS") @QueryParam("SERVICE") String service,
 			@DefaultValue("GetCapabilities") @QueryParam("REQUEST") String request,
 			@DefaultValue("2.0.0") @QueryParam("VERSION") String version,
@@ -1882,11 +1883,15 @@ public class WebService {
 	
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
-	@Path("/service/addPrefixes")
+	@Path("/transaction")
 	public String transaction() {
 		return null;
 	}
 
+	
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
+	@Path("/lockFeature")
 	public String lockFeature() {
 		return null;
 	}
