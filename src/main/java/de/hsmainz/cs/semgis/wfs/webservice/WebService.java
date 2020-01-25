@@ -1362,6 +1362,7 @@ public class WebService {
 		writer.writeEndElement();
 		writer.writeStartElement("http://www.opengis.net/fes/"+versionnamespace, "Filter_Capabilities");
 		describeSpatialCapabilities(writer,versionnamespace,"http://www.opengis.net/fes/"+versionnamespace);
+		describeScalarCapabilities(writer, versionnamespace, "http://www.opengis.net/fes/"+versionnamespace);
 		writer.writeEndElement();
 		writer.writeEndElement();
 		writer.writeEndElement();
@@ -1446,32 +1447,6 @@ public class WebService {
 		writer.writeEndElement();
 		writer.writeEndElement();
 	}
-
-	public void describeSpatialCapabilitiesWFS10(XMLStreamWriter writer,String versionnamespace,String namespace) throws XMLStreamException {
-		writer.writeStartElement(namespace, "Spatial_Capabilities");
-		writer.writeStartElement(namespace, "Spatial_Operators");
-		writer.writeStartElement(namespace, "BBOX");
-		writer.writeEndElement();
-		writer.writeStartElement(namespace, "Intersects");
-		writer.writeEndElement();
-		writer.writeStartElement(namespace, "Contains");
-		writer.writeEndElement();
-		writer.writeStartElement(namespace, "Crosses");
-		writer.writeEndElement();
-		writer.writeStartElement(namespace, "Touches");
-		writer.writeEndElement();
-		writer.writeStartElement(namespace, "Within");
-		writer.writeEndElement();
-		writer.writeStartElement(namespace, "Overlaps");
-		writer.writeEndElement();
-		writer.writeStartElement(namespace, "Disjoint");
-		writer.writeEndElement();
-		writer.writeStartElement(namespace,"Equals");
-		writer.writeEndElement();
-		writer.writeStartElement(namespace, "DWithin");
-		writer.writeEndElement();
-		writer.writeEndElement();
-	}
 	
 	public void describeSpatialCapabilities(XMLStreamWriter writer,String versionnamespace,String namespace) throws XMLStreamException {
 		writer.writeStartElement(namespace, "SpatialCapabilities");
@@ -1528,6 +1503,67 @@ public class WebService {
 		writer.writeEndElement();
 		writer.writeEndElement();
 	}
+
+	public void describeSpatialCapabilitiesWFS10(XMLStreamWriter writer,String versionnamespace,String namespace) throws XMLStreamException {
+		writer.writeStartElement(namespace, "Spatial_Capabilities");
+		writer.writeStartElement(namespace, "Spatial_Operators");
+		writer.writeStartElement(namespace, "BBOX");
+		writer.writeEndElement();
+		writer.writeStartElement(namespace, "Intersects");
+		writer.writeEndElement();
+		writer.writeStartElement(namespace, "Contains");
+		writer.writeEndElement();
+		writer.writeStartElement(namespace, "Crosses");
+		writer.writeEndElement();
+		writer.writeStartElement(namespace, "Touches");
+		writer.writeEndElement();
+		writer.writeStartElement(namespace, "Within");
+		writer.writeEndElement();
+		writer.writeStartElement(namespace, "Overlaps");
+		writer.writeEndElement();
+		writer.writeStartElement(namespace, "Disjoint");
+		writer.writeEndElement();
+		writer.writeStartElement(namespace,"Equals");
+		writer.writeEndElement();
+		writer.writeStartElement(namespace, "DWithin");
+		writer.writeEndElement();
+		writer.writeEndElement();
+	}
+	
+	public void describeScalarCapabilities(XMLStreamWriter writer,String versionnamespace,String namespace) throws XMLStreamException {
+		writer.writeStartElement(namespace, "Scalar_Capabilities");
+		writer.writeStartElement(namespace, "LogicalOperators");
+		writer.writeEndElement();
+		writer.writeStartElement(namespace, "ComparisonOperators");
+		writer.writeStartElement(namespace, "ComparisonOperator");
+		writer.writeCharacters("LessThan");
+		writer.writeEndElement();
+		writer.writeStartElement(namespace, "ComparisonOperator");
+		writer.writeCharacters("GreaterThan");
+		writer.writeEndElement();
+		writer.writeStartElement(namespace, "ComparisonOperator");
+		writer.writeCharacters("LessThanEqualTo");
+		writer.writeEndElement();
+		writer.writeStartElement(namespace, "ComparisonOperator");
+		writer.writeCharacters("GreaterThanEqualTo");
+		writer.writeEndElement();
+		writer.writeStartElement(namespace, "ComparisonOperator");
+		writer.writeCharacters("EqualTo");
+		writer.writeEndElement();
+		writer.writeStartElement(namespace, "ComparisonOperator");
+		writer.writeCharacters("NotEqualTo");
+		writer.writeEndElement();
+		writer.writeStartElement(namespace, "ComparisonOperator");
+		writer.writeCharacters("Like");
+		writer.writeEndElement();
+		writer.writeStartElement(namespace, "ComparisonOperator");
+		writer.writeCharacters("Between");
+		writer.writeEndElement();
+		writer.writeStartElement(namespace, "ArithmeticOperators");
+		writer.writeEndElement();
+		writer.writeEndElement();
+	}
+	
 
 	@GET
 	@Produces(MediaType.TEXT_XML)
