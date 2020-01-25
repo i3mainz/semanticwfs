@@ -154,7 +154,7 @@ public class WebService {
 				}
 				if ("getFeature".equalsIgnoreCase(request)) {
 					try {
-						return this.getFeature(typename, output, count,startindex,sortBy,version,resourceids,filter,filterLanguage,resultType,srsName);
+						return this.getFeature(typename, output, count,startindex,srsName,sortBy,version,resourceids,filter,filterLanguage,resultType);
 					} catch (XMLStreamException e) {
 						e.printStackTrace();
 						return Response.ok("").type(MediaType.TEXT_PLAIN).build();
