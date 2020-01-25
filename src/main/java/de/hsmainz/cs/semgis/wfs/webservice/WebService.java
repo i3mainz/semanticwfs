@@ -37,9 +37,9 @@ import de.hsmainz.cs.semgis.wfs.util.Tuple;
 @Path("/")
 public class WebService {
 
-	JSONObject triplestoreconf = new JSONObject();
+	static JSONObject triplestoreconf = new JSONObject();
 
-	JSONObject wfsconf = new JSONObject();
+	static JSONObject wfsconf = null;
 	
 	public static Map<String,Map<String,String>> featureTypeCache=new TreeMap<>();
 	
@@ -56,8 +56,10 @@ public class WebService {
 			"<link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' /></head>";
 	
 	public WebService() throws IOException {
-		String text2 = new String(Files.readAllBytes(Paths.get("wfsconf.json")), StandardCharsets.UTF_8);
-		wfsconf = new JSONObject(text2);
+		if(wfsconf==null) {
+			String text2 = new String(Files.readAllBytes(Paths.get("wfsconf.json")), StandardCharsets.UTF_8);
+			wfsconf = new JSONObject(text2);
+		}
 	}
 	
 	public Response createExceptionResponse(Exception e,String format) {
