@@ -1601,7 +1601,7 @@ public class WebService {
 		}
 		writer.writeStartDocument();
 		writer.writeStartElement("schema");
-		writer.writeDefaultNamespace("http://www.w3.org/2001/XMLSchema");
+		writer.writeDefaultNamespace((workingobj.has("namespace")?workingobj.getString("namespace"):this.wfsconf.getString("baseurl")));
 		writer.writeNamespace("wfs", "http://www.opengis.net/wfs"+versionnamespace);
 		writer.writeNamespace("ows", "http://www.opengis.net/ows/1.1");
 		writer.writeNamespace("sf", "http://www.opengis.net/ogcapi-features-1/1.0/sf");
@@ -1682,20 +1682,21 @@ public class WebService {
 		}
 		if(workingobj==null)
 			throw new NotFoundException();
-		if(!workingobj.has("attcount") && !workingobj.getString("query").contains("?rel") && !workingobj.getString("query").contains("?val")) {
-			workingobj.put("attcount", 1);
-		}else if(!workingobj.has("attcount")) {
-			featureTypeCache.put(typename.toLowerCase(),TripleStoreConnector
-					.getFeatureTypeInformation(workingobj.getString("query"), workingobj.getString("triplestore"),
-			  workingobj.getString("name"),workingobj));		
-		}
 		String res = "";
+		System.out.println(hitCache);
 		if(resultType.equalsIgnoreCase("hits") 
 				&& hitCache.containsKey(typename.toLowerCase()) 
 				&& (hitCache.get(typename.toLowerCase()).getOne().getTime()+ milliesInDays)
 				> System.currentTimeMillis()) {
 			res=hitCache.get(typename.toLowerCase()).getTwo();
 		}else {
+			if(!workingobj.has("attcount") && !workingobj.getString("query").contains("?rel") && !workingobj.getString("query").contains("?val")) {
+				workingobj.put("attcount", 1);
+			}else if(!workingobj.has("attcount")) {
+				featureTypeCache.put(typename.toLowerCase(),TripleStoreConnector
+						.getFeatureTypeInformation(workingobj.getString("query"), workingobj.getString("triplestore"),
+				  workingobj.getString("name"),workingobj));		
+			}
 		try {
 			res = TripleStoreConnector.executeQuery(workingobj.getString("query"),
 					workingobj.getString("triplestore"),

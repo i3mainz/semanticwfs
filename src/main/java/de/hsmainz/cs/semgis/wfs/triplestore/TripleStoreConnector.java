@@ -68,7 +68,6 @@ public abstract class TripleStoreConnector {
 			query = QueryFactory.create(prefixCollection+queryString);
 			qexec = QueryExecutionFactory.sparqlService(queryurl, query);
 			results = qexec.execSelect();
-
 		}
 		String rel="",val="";
 		Integer attcount=0;
@@ -203,7 +202,7 @@ public abstract class TripleStoreConnector {
 		queryString+=CQLfilterStringToSPARQLQuery(filter,featuretype);
 		queryString+="}"+System.lineSeparator();
 		if(!resultType.equalsIgnoreCase("hits"))
-			queryString+="ORDER BY ?"+featuretype.toLowerCase()+System.lineSeparator();
+			queryString+=" ORDER BY ?"+featuretype.toLowerCase()+System.lineSeparator();
 		Integer limit=Integer.valueOf(count);
 		if(limit>0 && !resultType.equalsIgnoreCase("hits"))
 			queryString+=" LIMIT "+limit;
