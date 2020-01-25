@@ -22,6 +22,7 @@ import org.json.JSONObject;
 
 
 import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
+import de.hsmainz.cs.semgis.wfs.webservice.WebService;
 
 
 public abstract class TripleStoreConnector {
@@ -110,9 +111,20 @@ public abstract class TripleStoreConnector {
 		System.out.println(CQLfilterStringToSPARQLQuery("abc=4 AND DISJOINT(the_geom, POLYGON((-90 40, -90 45, -60 45, -60 40, -90 40)))","namedplace"));
 	}
 	
+	public static String getPropertyFromMapping(String typename,String propertyname) {
+		for(String key:WebService.featureTypeCache.get(typename.toLowerCase()).keySet()) {
+			if(key.contains(propertyname)) {
+				propertyname=key;
+				return key;
+			}
+		}
+		return null;
+	}
+	
 	public static String CQLfilterStringToSPARQLQuery(String filter,String featuretype) {
 		if(filter.isEmpty())
 			return filter;
+		StringBuilder additionaltriples=new StringBuilder();
 		StringBuilder builder=new StringBuilder();
 		builder.append("FILTER(");
 		if(filter.contains("AND")) {
@@ -127,18 +139,24 @@ public abstract class TripleStoreConnector {
 					betweenrightoperand=filterex.substring(filterex.indexOf("BETWEEN")+8);
 				}else if(!filterex.contains("BETWEEN") && containedbetween) {
 					containedbetween=false;
+					String propname=filterex.substring(0,filterex.indexOf("LIKE")).trim();
+					additionaltriples.append("?"+betweenleftoperand+" <"+getPropertyFromMapping(featuretype, propname)+"> ?"+propname+" ."+System.lineSeparator());
 					builder.append("?"+betweenleftoperand+" > "+betweenrightoperand+" && ?"+betweenleftoperand+" < "+filterex.trim()+" ");
 				} if(filterex.equalsIgnoreCase("LIKE")){
-					builder.append("regex(str(?"+filterex.substring(0,filterex.indexOf("LIKE")).trim()+"),\""+filterex.substring(filterex.indexOf("LIKE")+4).trim()+"\",\"i\") ");
+					String propname=filterex.substring(0,filterex.indexOf("LIKE")).trim();
+					additionaltriples.append("?"+featuretype.toLowerCase()+" <"+getPropertyFromMapping(featuretype, propname)+"> ?"+propname+" ."+System.lineSeparator());
+					builder.append("regex(str(?"+propname+"),\""+filterex.substring(filterex.indexOf("LIKE")+4).trim()+"\",\"i\") ");
 				}else if(spatialFunctions.matcher(filterex).matches()){
 					String prefix=filterex.substring(0,filterex.indexOf(',')+1).trim();			
 					builder.append("geo:sf"+prefix+" \""+filterex.substring(filterex.indexOf(',')+1,filterex.length()-1).trim()+"\"^^geo:wktLiteral)");
 				}else if(binaryOperators.matcher(filterex).matches()) {
 					String[] splitted=filterex.split("<|>|=|<=|>=|<>");
 					if(filterex.contains("=")) {
-						//builder.append("?"+featuretype.toLowerCase()+" ?abc \""+WebService+"\". "+System.lineSeparator());
+						String propname=filterex.substring(0,filterex.indexOf('=')).toLowerCase();
+						additionaltriples.append("?"+featuretype.toLowerCase()+" <"+getPropertyFromMapping(featuretype, propname)+"> ?"+propname+" ."+System.lineSeparator());
+						builder.append("?"+filterex.toLowerCase().trim()+" ");
 					}else {
-						
+						//builder.append("?"+featuretype.toLowerCase()+" "+getPropertyFromMapping(featuretype, )
 					}
 					
 					//builder.append("?"+featuretype.toLowerCase()+" ?abc "+WebService+". "+System.lineSeparator());
