@@ -5,6 +5,7 @@ import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -31,6 +32,7 @@ import org.json.JSONObject;
 import de.hsmainz.cs.semgis.wfs.resultformatter.HTMLFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
 import de.hsmainz.cs.semgis.wfs.triplestore.TripleStoreConnector;
+import de.hsmainz.cs.semgis.wfs.util.Tuple;
 
 @Path("/")
 public class WebService {
@@ -39,7 +41,11 @@ public class WebService {
 
 	JSONObject wfsconf = new JSONObject();
 	
-	public static Map<String,Map<String,String>> featureTypeCache=new TreeMap<>();;
+	public static Map<String,Map<String,String>> featureTypeCache=new TreeMap<>();
+	
+	public static Map<String,Tuple<Date,String>> hitCache=new TreeMap<>();
+	
+	public static long milliesInDays=24 * 60 * 60 * 1000;
 
 	String htmlHead="<html><head><link rel=\"stylesheet\" href=\"https://unpkg.com/leaflet@1.5.1/dist/leaflet.css\"\r\n" + 
 			"   integrity=\"sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==\"\r\n" + 
@@ -1678,6 +1684,12 @@ public class WebService {
 			  workingobj.getString("name"),workingobj));		
 		}
 		String res = "";
+		if(resultType.equalsIgnoreCase("hits") 
+				&& hitCache.containsKey(typename) 
+				&& hitCache.get(typename).getOne().getTime()
+				< (System.currentTimeMillis() -  milliesInDays)) {
+			res=hitCache.get(typename).getTwo();
+		}else {
 		try {
 			res = TripleStoreConnector.executeQuery(workingobj.getString("query"),
 					workingobj.getString("triplestore"),
@@ -1688,9 +1700,13 @@ public class WebService {
 			if(res.isEmpty()) {
 				throw new NotFoundException();
 			}
+			if(resultType.equalsIgnoreCase("hits")) {
+				hitCache.put(typename,new Tuple<Date,String>(new Date(System.currentTimeMillis()),res));
+			}
 		} catch (JSONException | XMLStreamException e1) {
 			e1.printStackTrace();
 			return this.createExceptionResponse(e1, "");
+		}
 		}
 		System.out.println(output);
 		if(output.contains("gml")) {
@@ -1711,6 +1727,7 @@ public class WebService {
 				writer.setPrefix("gml", "http://www.opengis.net/gml");
 				writer.setPrefix("wfs", "http://www.opengis.net/wfs");
 				if(resultType.equalsIgnoreCase("hits")) {
+
 					writer.writeAttribute("numberOfFeatures", res);
 				}else {
 					writer.writeCharacters("");
