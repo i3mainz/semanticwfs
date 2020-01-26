@@ -1642,7 +1642,13 @@ public class WebService {
 			if(elem.equals("namespaces"))
 				continue;
 			writer.writeStartElement("element"); 
-			writer.writeAttribute("name", elem);
+			if(elem.startsWith("http") && elem.contains("#")) {
+				writer.writeAttribute("name", elem.substring(elem.lastIndexOf('#')+1));
+			}else if(elem.startsWith("http") && elem.contains("/")) {
+				writer.writeAttribute("name", elem.substring(elem.lastIndexOf('/')+1));
+			}else {
+				writer.writeAttribute("name", elem);
+			}
 			if(mapping.get(elem).contains("^^")) {
 				writer.writeAttribute("type", mapping.get(elem).substring(mapping.get(elem).lastIndexOf("^^")+2)); 
 			}else if(mapping.get(elem).startsWith("http") || mapping.get(elem).startsWith("file:/")){
