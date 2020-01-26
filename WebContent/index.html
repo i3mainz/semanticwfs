@@ -132,7 +132,7 @@ function clearMap() {
             		/*if($('#dataset').val()=="linkedgeodata.ttl"){
             			return new L.LatLng(coords[0], coords[1], coords[2]);
             		}*/
-            		return new L.LatLng(coords[0], coords[1], coords[2]);
+            		return new L.LatLng(coords[1], coords[0], coords[2]);
 
                 },
                 pointToLayer: function (feature, latlng) {
@@ -192,8 +192,12 @@ function clearMap() {
  }
 
   function chooseSampleQuery(){
-        yasqe.setValue(prefixList+"\n"+$('#samplequeries :selected').val().replace(".",".\n").replace("}","\n}\n").replace("{","{\n"))
-        $('#queryinput').val(prefixList+"\n"+$('#samplequeries :selected').val().replace(".",".\n").replace("}","\n}\n").replace("{","{\n"));
+	  	var queryString=prefixList+"\n"+$('#samplequeries :selected').val().replace(".",".\n").replace("}","\n}\n").replace("{","{\n");
+	  	if(queryString.includes("LIMIT")){
+	  		queryString=queryString.substring(0,queryString.indexOf("LIMIT"));
+	  	}
+        yasqe.setValue(queryString+" LIMIT 10")
+        $('#queryinput').val(queryString+" LIMIT 10");
   }
         
   function refreshQueries(){
