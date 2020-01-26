@@ -1957,6 +1957,25 @@ public class WebService {
 		return wfsconf.toString(2);
 	}
 
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
+	@Path("/queryConfigs")
+	public Response queryConfigs() {
+		JSONObject res=new JSONObject();
+		for(int i=0;i<wfsconf.getJSONArray("datasets").length();i++){
+			JSONObject curjson=wfsconf.getJSONArray("datasets").getJSONObject(i);
+			JSONObject instance=new JSONObject();
+			if(!res.has(curjson.getString("triplestore"))) {
+				res.put(curjson.getString("triplestore"),new JSONArray());
+			}
+			res.getJSONArray(curjson.getString("triplestore")).put(instance);
+			instance.put("triplestore",curjson.getString("triplestore"));
+			instance.put("query",curjson.getString("query"));
+			instance.put("name",curjson.getString("name"));
+		}
+		return Response.ok(res).type(MediaType.APPLICATION_JSON).build();
+	}
+	
 	
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
