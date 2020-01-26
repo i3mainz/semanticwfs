@@ -99,6 +99,7 @@ public abstract class TripleStoreConnector {
 			return featureTypes.get(featuretype);
 		}
 		Map<String,String> result=new TreeMap<>();
+		Map<String,String> nscache=new TreeMap<>();
 		System.out.println(prefixCollection+queryString);
 		Query query = QueryFactory.create(prefixCollection+queryString);
 		QueryExecution qexec = QueryExecutionFactory.sparqlService(queryurl, query+" LIMIT 1");
@@ -115,7 +116,8 @@ public abstract class TripleStoreConnector {
 			results = qexec.execSelect();
 		}
 		String rel="",val="";
-		Integer attcount=0;
+		Integer attcount=0,nscounter=0;
+		result.put("namespaces","");
 		while(results.hasNext()) {
 			solu=results.next();
 			varnames=solu.varNames();
@@ -129,6 +131,10 @@ public abstract class TripleStoreConnector {
 					result.put("http://www.opengis.net/ont/geosparql#asWKT",solu.getLiteral(varname).toString());
 					//geomLiteral=solu.getLiteral(varname).toString();
 				}else {
+					String ns=varname.substring(0,varname.lastIndexOf('#')+1);
+					if(!ns.isEmpty() && !nscache.containsKey(ns)) {
+						nscache.put(ns,"ns"+nscounter++);
+					}
 					try {
 						Literal lit=solu.getLiteral(varname);
 						result.put(varname, lit.getDatatypeURI());
@@ -139,12 +145,19 @@ public abstract class TripleStoreConnector {
 
 			}
 			if(!rel.isEmpty() && !val.isEmpty()) {
+				if(rel.contains("http") && rel.contains("#")) {
+					String ns=rel.substring(0,rel.lastIndexOf('#')+1);
+					if(!ns.isEmpty() && !nscache.containsKey(ns)) {
+						nscache.put(ns,"ns"+nscounter++);
+					}
+				}
 				result.put(rel, val);
 				rel="";
 				val="";
 			}
 			attcount++;
 		}
+		WebService.nameSpaceCache.put(featuretype.toLowerCase(),nscache);
 		System.out.println(result);
 		workingobj.put("attcount",attcount);
 			return result;

@@ -43,6 +43,8 @@ public class WebService {
 	
 	public static Map<String,Map<String,String>> featureTypeCache=new TreeMap<>();
 	
+	public static Map<String,Map<String,String>> nameSpaceCache=new TreeMap<>();
+	
 	public static Map<String,Tuple<Date,String>> hitCache=new TreeMap<>();
 	
 	public static long milliesInDays=24 * 60 * 60 * 1000;
@@ -1637,6 +1639,8 @@ public class WebService {
 		writer.writeEndElement();
 		Map<String,String>mapping=featureTypeCache.get(typename.toLowerCase());
 		for(String elem:mapping.keySet()) {
+			if(elem.equals("namespaces"))
+				continue;
 			writer.writeStartElement("element"); 
 			writer.writeAttribute("name", elem);
 			if(mapping.get(elem).contains("^^")) {
@@ -1738,10 +1742,14 @@ public class WebService {
 				writer.writeNamespace("xlink", "http://www.w3.org/1999/xlink");
 				writer.setPrefix("gml", "http://www.opengis.net/gml");
 				writer.setPrefix("wfs", "http://www.opengis.net/wfs");
+				
 				if(resultType.equalsIgnoreCase("hits")) {
-
 					writer.writeAttribute("numberOfFeatures", res);
 				}else {
+					for(String ns:nameSpaceCache.get(typename.toLowerCase()).keySet()) {
+						writer.setPrefix(nameSpaceCache.get(typename.toLowerCase()).get(ns),ns);
+						writer.writeNamespace(nameSpaceCache.get(typename.toLowerCase()).get(ns),ns);
+					}
 					writer.writeCharacters("");
 					writer.flush();
 					strwriter.write(res);

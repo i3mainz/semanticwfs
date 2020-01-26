@@ -12,6 +12,8 @@ import org.apache.jena.query.ResultSet;
 
 import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
 
+import de.hsmainz.cs.semgis.wfs.webservice.WebService;
+
 public class GMLFormatter extends WFSResultFormatter {
 
 	public GMLFormatter() {
@@ -22,11 +24,11 @@ public class GMLFormatter extends WFSResultFormatter {
 	public String[] splitURL(String url) {
 		String[] res=new String[]{"",""};
 		if(url.contains("http") && url.contains("#")){
-			res[0]=url.substring(0,url.lastIndexOf('#'));
+			res[0]=url.substring(0,url.lastIndexOf('#')+1);
 			res[1]=url.substring(url.lastIndexOf('#')+1);
 			return res;
 		}else if(url.contains("http") && url.contains("/")){
-			res[0]=url.substring(0,url.lastIndexOf('/'));
+			res[0]=url.substring(0,url.lastIndexOf('/')+1);
 			res[1]=url.substring(url.lastIndexOf('/')+1);
 			return res;
 		}
@@ -61,6 +63,9 @@ public class GMLFormatter extends WFSResultFormatter {
 					}
 					if(!onlyproperty) {
 						writer.writeStartElement(startingElement);
+						for(String ns:WebService.nameSpaceCache.get(featuretype.toLowerCase()).keySet()) {
+							writer.setPrefix(WebService.nameSpaceCache.get(featuretype.toLowerCase()).get(ns),ns);
+						}
 						writer.writeStartElement(featuretype);				
 						writer.writeAttribute("gml:id", curfeaturetype);
 					}
@@ -97,16 +102,24 @@ public class GMLFormatter extends WFSResultFormatter {
 			if(!rel.isEmpty() && !val.isEmpty()) {
 				if(!rel.equals("http://www.opengis.net/ont/geosparql#hasGeometry") && !rel.equalsIgnoreCase("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")) {
 				String[] splitted=splitURL(rel);
-				if(splitted!=null) {		
+				if(splitted!=null) {	
+					System.out.println(WebService.nameSpaceCache);
 					//writer.setPrefix(splitted[0].substring(splitted[0].length()-4,splitted[0].length()-1), splitted[0]);
-					writer.writeStartElement(splitted[1]);
+					System.out.println(splitted[0]);
+					writer.writeStartElement(splitted[0],splitted[1]);
 				}else {
 					writer.writeStartElement(rel);
 				}
 				if(val.contains("^^")) {
 					writer.writeCharacters(val.substring(0,val.lastIndexOf("^^")));
 				}else {
-					writer.writeCharacters(val);
+					splitted=splitURL(val);
+					if(splitted!=null) {		
+						//writer.setPrefix(splitted[0].substring(splitted[0].length()-4,splitted[0].length()-1), splitted[0]);
+						writer.writeCharacters(splitted[1]);
+					}else {
+						writer.writeCharacters(val);
+					}
 				}		
 				writer.writeEndElement();
 				}
