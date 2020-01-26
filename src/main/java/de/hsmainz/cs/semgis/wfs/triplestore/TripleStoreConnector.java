@@ -95,8 +95,8 @@ public abstract class TripleStoreConnector {
 	}
 	
 	public static Map<String,String> getFeatureTypeInformation(String queryString,String queryurl,String featuretype,JSONObject workingobj){
-		if(featureTypes.containsKey(featuretype)) {
-			return featureTypes.get(featuretype);
+		if(featureTypes.containsKey(featuretype.toLowerCase())) {
+			return featureTypes.get(featuretype.toLowerCase());
 		}
 		Map<String,String> result=new TreeMap<>();
 		Map<String,String> nscache=new TreeMap<>();
@@ -128,28 +128,39 @@ public abstract class TripleStoreConnector {
 				}else if(varname.equals("val")){
 					val=solu.get(varname).toString();
 				}else if(varname.contains("_geom")){
+					if(!nscache.containsKey("http://www.opengis.net/ont/geosparql#"))
+							nscache.put("http://www.opengis.net/ont/geosparql#","ns"+nscounter++);
 					result.put("http://www.opengis.net/ont/geosparql#asWKT",solu.getLiteral(varname).toString());
 					//geomLiteral=solu.getLiteral(varname).toString();
 				}else {
-					String ns=varname.substring(0,varname.lastIndexOf('#')+1);
-					if(!ns.isEmpty() && !nscache.containsKey(ns)) {
+					String ns=null;
+					String varval=solu.get(varname).toString();
+					if(varval.contains("http") && varval.contains("#")) {
+						ns=varval.substring(0,varval.lastIndexOf('#')+1);
+					}else if(varval.contains("http") && varval.contains("/")) {
+						ns=varval.substring(0,varval.lastIndexOf('/')+1);
+					}
+					if(ns!=null && !ns.isEmpty() && !nscache.containsKey(ns)) {
 						nscache.put(ns,"ns"+nscounter++);
 					}
 					try {
 						Literal lit=solu.getLiteral(varname);
 						result.put(varname, lit.getDatatypeURI());
 					}catch(Exception e) {
-						result.put(varname, solu.get(varname).toString());	
+						result.put(varname, varval);	
 					}  
 				}
 
 			}
 			if(!rel.isEmpty() && !val.isEmpty()) {
+				String ns=null;
 				if(rel.contains("http") && rel.contains("#")) {
-					String ns=rel.substring(0,rel.lastIndexOf('#')+1);
-					if(!ns.isEmpty() && !nscache.containsKey(ns)) {
-						nscache.put(ns,"ns"+nscounter++);
-					}
+					ns=rel.substring(0,rel.lastIndexOf('#')+1);
+				}else if(rel.contains("http") && rel.contains("/")) {
+					ns=rel.substring(0,rel.lastIndexOf('/')+1);
+				}
+				if(ns!=null && !ns.isEmpty() && !nscache.containsKey(ns)) {
+					nscache.put(ns,"ns"+nscounter++);
 				}
 				result.put(rel, val);
 				rel="";

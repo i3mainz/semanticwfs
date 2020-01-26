@@ -63,6 +63,7 @@ public class GMLFormatter extends WFSResultFormatter {
 					}
 					if(!onlyproperty) {
 						writer.writeStartElement(startingElement);
+						System.out.println(WebService.nameSpaceCache);
 						for(String ns:WebService.nameSpaceCache.get(featuretype.toLowerCase()).keySet()) {
 							writer.setPrefix(WebService.nameSpaceCache.get(featuretype.toLowerCase()).get(ns),ns);
 						}

@@ -1699,7 +1699,11 @@ public class WebService {
 				> System.currentTimeMillis()) {
 			res=hitCache.get(typename.toLowerCase()).getTwo();
 		}else {
-			if(!workingobj.has("attcount") && !workingobj.getString("query").contains("?rel") && !workingobj.getString("query").contains("?val")) {
+			if(!workingobj.has("attcount") && !workingobj.getString("query").contains("?rel") 
+					&& !workingobj.getString("query").contains("?val")) {
+				featureTypeCache.put(typename.toLowerCase(),TripleStoreConnector
+						.getFeatureTypeInformation(workingobj.getString("query"), workingobj.getString("triplestore"),
+				  workingobj.getString("name"),workingobj));
 				workingobj.put("attcount", 1);
 			}else if(!workingobj.has("attcount")) {
 				featureTypeCache.put(typename.toLowerCase(),TripleStoreConnector
