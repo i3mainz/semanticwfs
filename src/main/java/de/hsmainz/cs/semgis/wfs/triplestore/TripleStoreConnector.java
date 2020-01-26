@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
@@ -18,9 +20,11 @@ import org.apache.jena.query.QueryFactory;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Literal;
+import org.apache.jena.sparql.expr.NodeValue;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
-
+import de.hsmainz.cs.semgis.wfs.converters.AsGeoJSON;
 import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
 import de.hsmainz.cs.semgis.wfs.webservice.WebService;
 
@@ -80,6 +84,126 @@ public abstract class TripleStoreConnector {
 			}
 		}
 		return minx+" "+miny+" "+maxx+" "+maxy;
+	}
+	
+	static Integer resultSetSize=0;
+	
+	public static String executeQuery(String query, String endpoint, Boolean geojsonout) {
+		query = prefixCollection + query;
+		System.out.println(query);
+		Query queryjena = QueryFactory.create(query);
+		//"http://localhost:8080/rdf4j-server/repositories/pleiades"
+		QueryExecution qe = QueryExecutionFactory.sparqlService(endpoint, queryjena);
+			ResultSet rs = qe.execSelect();
+			JSONArray geojsonresults = new JSONArray();
+			List<JSONArray> allfeatures = new LinkedList<JSONArray>();
+			JSONObject result = new JSONObject();
+			JSONArray obj = new JSONArray();
+			Boolean first = true;
+			String geomvarname="";
+			String relationName = "";
+			Integer counter=0;
+			Boolean newobject=true;
+			JSONObject jsonobj = new JSONObject();
+			JSONObject properties = new JSONObject();
+			List<JSONObject> geoms = new LinkedList<JSONObject>();
+			System.out.println(resultSetSize);
+			String lastgeom="";
+			int geomvars=0;
+			while (rs.hasNext()) {
+				QuerySolution solu=rs.next();
+				counter++;
+				if(!first) {
+					if(!geomvarname.isEmpty() && solu.get(geomvarname)!=null && solu.get(geomvarname).toString().equals(lastgeom)) {
+						newobject=false;
+					}else {
+						newobject=true;
+					}
+					if(newobject) {
+						//System.out.println("Geomvars: "+geomvars);
+						int geomcounter = 0;
+						for (JSONObject geom : geoms) {
+							JSONObject geojsonobj = new JSONObject();
+							geojsonobj.put("type", "Feature");
+							geojsonobj.put("properties", properties);
+							geojsonobj.put("geometry", geom);
+							allfeatures.get(geomcounter % geomvars).put(geojsonobj);
+							geomcounter++;
+						}
+					}
+				}
+				if(newobject) {
+					geomvars = 0;
+					jsonobj = new JSONObject();
+					properties = new JSONObject();
+					geoms = new LinkedList<JSONObject>();
+				}
+				//System.out.println(counter);
+				Iterator<String> varnames = solu.varNames();
+				while (varnames.hasNext()) {
+
+					String name = varnames.next();
+					if (name.endsWith("_geom")) {
+						System.out.println("Geomvar: "+name);
+						geomvars++;
+						geomvarname=name;
+						if (first) {
+							JSONObject geojsonresult = new JSONObject();
+							geojsonresult.put("type", "FeatureCollection");
+							geojsonresult.put("name", name);
+							JSONArray features = new JSONArray();
+							allfeatures.add(features);
+							geojsonresults.put(geojsonresult);
+							geojsonresults.getJSONObject(geojsonresults.length() - 1).put("features", features);
+						}
+						if(newobject) {
+							AsGeoJSON geojson = new AsGeoJSON();
+							lastgeom=solu.get(name).toString();
+							try {
+								NodeValue val = geojson.exec(NodeValue.makeNode(solu.getLiteral(name).getString(),
+									solu.getLiteral(name).getDatatype()));
+								JSONObject geomobj = new JSONObject(val.asNode().getLiteralValue().toString());
+								geoms.add(geomobj);
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+							properties.put(name, solu.get(name));
+						}else{
+							properties.put(name, lastgeom);
+						}
+					} 
+					
+					if (name.endsWith("_rel")) {
+						relationName = solu.get(name).toString();
+					} else {
+						if (!relationName.isEmpty()) {
+							//System.out.println("Putting property: "+relationName+" - "+solu.get(name));
+							properties.put(relationName, solu.get(name));
+						} else {
+							properties.put(name, solu.get(name));
+						}
+					}
+					//System.out.println(relationName);
+					//System.out.println(name);
+					//System.out.println(solu.get(name));
+					if(!geojsonout) {
+						jsonobj.put(name, solu.get(name));
+					}
+				}
+				if(!geojsonout) {
+					obj.put(jsonobj);
+				}
+					first = false;
+			}
+			qe.close();
+			result.put("geojson", geojsonresults);
+			result.put("data", obj);
+			result.put("size", counter);
+			resultSetSize=counter;
+			if (geojsonout) {
+				return geojsonresults.toString();
+			}
+			return result.toString();
 	}
 	
 	public static String getTemporalExtentFromTripleStoreData(String triplestore,String queryString) {
@@ -171,6 +295,7 @@ public abstract class TripleStoreConnector {
 		WebService.nameSpaceCache.put(featuretype.toLowerCase(),nscache);
 		System.out.println(result);
 		workingobj.put("attcount",attcount);
+		qexec.close();
 			return result;
 	}
 

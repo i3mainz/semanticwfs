@@ -1965,7 +1965,7 @@ public class WebService {
 
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
-	@Path("/queryConfigs")
+	@Path("/service/queryConfigs")
 	public Response queryConfigs() {
 		JSONObject res=new JSONObject();
 		for(int i=0;i<wfsconf.getJSONArray("datasets").length();i++){
@@ -1979,7 +1979,27 @@ public class WebService {
 			instance.put("query",curjson.getString("query"));
 			instance.put("name",curjson.getString("name"));
 		}
-		return Response.ok(res).type(MediaType.APPLICATION_JSON).build();
+		return Response.ok(res.toString(2)).type(MediaType.APPLICATION_JSON).build();
+	}
+	
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
+	@Path("/service/queryservice")
+    public String queryService(@QueryParam("query") String query,
+    		@QueryParam("endpoint") String endpoint) { 
+		final String dir = System.getProperty("user.dir");
+        System.out.println("current dir = " + dir); 
+		return TripleStoreConnector.executeQuery(query,endpoint,false);
+	}
+	
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
+	@Path("/service/queryservicegeojson")
+    public String queryService(@QueryParam("query") String query,@QueryParam("endpoint") String endpoint,
+    		@QueryParam("geojson") String geojson) { 
+		final String dir = System.getProperty("user.dir");
+        System.out.println("current dir = " + dir); 
+		return TripleStoreConnector.executeQuery(query,endpoint,true);
 	}
 	
 	

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-<title>BKG Triple Store Overview</title>
+<title>BKG WFS Triple Stores</title>
 <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -195,6 +195,11 @@ function clearMap() {
         yasqe.setValue(prefixList+"\n"+$('#samplequeries :selected').val().replace(".",".\n").replace("}","\n}\n").replace("{","{\n"))
         $('#queryinput').val(prefixList+"\n"+$('#samplequeries :selected').val().replace(".",".\n").replace("}","\n}\n").replace("{","{\n"));
   }
+        
+  function refreshQueries(){
+      $('#samplequeries').html(tripleStoreToQueries[$('#dataset').val()]);
+      chooseSampleQuery();
+  }
   </script>
   <style>
   #mapid { height: 500px;}
@@ -212,7 +217,7 @@ function clearMap() {
 <body>
 <header>
 <div class="page-header">
-<h1 align="center">BKG NamedPlaces</h1>
+<h1 align="center">BKG WFS Triple Stores</h1>
 </div>
 </header>
 <div class="container" role="main">
@@ -221,8 +226,25 @@ function clearMap() {
 Query Input:<br/>
 <span id="numberexamples"></span> Example Queries:
 <script>
+var tripleStoreToQueries={}
 $( document ).ready(function() {
-	$('#numberexamples').html($('#samplequeries option').length);
+	$.getJSON( "rest/service/queryConfigs", function( data ) {
+		  var triplestores=""
+		  for (triplestore in data) {
+		  	triplestores+="<option value=\""+triplestore+"\">"+triplestore+"</option>"
+		  	tripleStoreToQueries[triplestore]=""
+		  	var first=true;
+		  	for(obj in data[triplestore]){
+		  		if(first){
+		  			tripleStoreToQueries[triplestore]+="<option selected=\"selected\" value=\""+data[triplestore][obj]["query"]+"\">"+data[triplestore][obj]["name"]+"</option>"
+		  			first=false;
+		  		}else{
+		  			tripleStoreToQueries[triplestore]+="<option value=\""+data[triplestore][obj]["query"]+"\">"+data[triplestore][obj]["name"]+"</option>"
+		  		}		
+		  	}
+		  }
+		  $('#dataset').html(triplestores);
+		});
 	chooseSampleQuery();
 });
 </script>
@@ -233,8 +255,7 @@ $( document ).ready(function() {
 <br/>
 <textarea id="queryinput" rows=16 cols=45>
 </textarea><br/>
-<select id="dataset">
-<option value="sparql" selected="selected">BKG Store</option>
+<select id="dataset" onChange="refreshQueries()">
 </select>
 <br/>
 <b>Note: </b> Query variables ending in "_geom" are rendered in the map view.
