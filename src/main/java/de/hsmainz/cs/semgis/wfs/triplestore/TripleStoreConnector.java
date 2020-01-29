@@ -235,6 +235,7 @@ public abstract class TripleStoreConnector {
 			result=new TreeMap<>();
 			queryString=queryString.replace("WHERE{","WHERE{ BIND( <"+solu.get(featuretype.toLowerCase())+"> AS ?"+featuretype.toLowerCase()+") ");
 			System.out.println(prefixCollection+queryString);
+			queryString+=" ORDER BY ?"+featuretype.toLowerCase()+System.lineSeparator();
 			query = QueryFactory.create(prefixCollection+queryString);
 			qexec = QueryExecutionFactory.sparqlService(queryurl, query);
 			results = qexec.execSelect();
