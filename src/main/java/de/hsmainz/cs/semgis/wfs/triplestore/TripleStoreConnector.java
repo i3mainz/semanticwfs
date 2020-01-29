@@ -54,11 +54,12 @@ public abstract class TripleStoreConnector {
 	protected static Map<String,Map<String,String>> featureTypes=new TreeMap<>();
 	
 	public static Double[] getBoundingBoxFromTripleStoreData(String triplestore,String queryString) {
+		Double minx=Double.MAX_VALUE,maxx=Double.MIN_VALUE,miny=Double.MAX_VALUE,maxy=Double.MIN_VALUE;
 		queryString=" SELECT ?the_geom "+queryString.substring(queryString.indexOf("WHERE"));
+		try {
 		Query query = QueryFactory.create(prefixCollection+queryString);
 		QueryExecution qexec = QueryExecutionFactory.sparqlService(triplestore, query);
 		ResultSet results = qexec.execSelect();
-		Double minx=Double.MAX_VALUE,maxx=Double.MIN_VALUE,miny=Double.MAX_VALUE,maxy=Double.MIN_VALUE;
 		Integer outercounter=0;
 		while(results.hasNext()) {
 			QuerySolution solu=results.next();
@@ -95,6 +96,9 @@ public abstract class TripleStoreConnector {
 			outercounter++;
 		}
 		System.out.println(outercounter/2);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 		return new Double[] {minx,miny,maxx,maxy};
 	}
 	
