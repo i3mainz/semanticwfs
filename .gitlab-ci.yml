@@ -29,7 +29,7 @@ build:
   artifacts:
     when: on_success
     paths:
-    - target/*.jar
+    - target/
 
 release-image:
   image: docker:git
@@ -41,7 +41,7 @@ release-image:
   script:
 #    - docker pull $CONTAINER_TEST_IMAGE
 #    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
-    - docker run --rm -v "$PWD":/app -w /app maven:3-jdk-8 mvn clean install
+#    - docker run --rm -v "$PWD":/app -w /app maven:3-jdk-8 mvn clean install
     - docker build -t $CONTAINER_RELEASE_IMAGE .
     - docker push $CONTAINER_RELEASE_IMAGE  
 #  tags:
