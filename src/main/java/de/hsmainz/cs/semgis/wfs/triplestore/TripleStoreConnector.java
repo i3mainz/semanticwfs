@@ -62,6 +62,9 @@ public abstract class TripleStoreConnector {
 		Integer outercounter=0;
 		while(results.hasNext()) {
 			QuerySolution solu=results.next();
+			if(solu.get("the_geom")==null) {
+				continue;
+			}
 			String wktLiteral=solu.get("the_geom").toString();
 			System.out.println(solu.get("the_geom"));
 			if(!wktLiteral.contains("(")) {
