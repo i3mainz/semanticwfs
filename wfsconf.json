@@ -12,6 +12,6 @@
 "triplestore":"https://www.i3mainz.de/projekte/bkg/integrationtest/sparql",
 "type":"WFS", "typecolumn":"http://inspire.ec.europa.eu/schemas/gn/4.0#type", "name":"NamedPlace"},
 {"namespace":"","indvar":"","description":"Sample FeatureType","query":"SELECT * WHERE{ ?a ?b ?c } LIMIT 1",
-"triplestore":"https://query.wikidata.org","type":"WCS", "name":"MySecondFeatureType"}
+"triplestore":"https://query.wikidata.org/sparql","type":"WCS", "name":"MySecondFeatureType"}
 ]
 }
