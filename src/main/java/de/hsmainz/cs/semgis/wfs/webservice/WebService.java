@@ -851,7 +851,7 @@ public class WebService {
 				builder.append("<li><a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name") + "/items?limit=5&f="+formatter.exposedType+"\">["+formatter.exposedType.toUpperCase()+"]</a></li>");
 			}
 			builder.append("</td></tr></table>");
-			builder.append("<table width=100%><tr><td><a href=\""+wfsconf.getString("baseurl")+"/collections/"+workingobj.getString("name")+"/items?f=html&limit=1&offset="+(Integer.valueOf(offset)!=0?(Integer.valueOf(offset)-1)+"":"0")+"\">[Previous]</a></td><td align=right><a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"/items?f=html&limit=1&offset="+(Integer.valueOf(offset)+1)+"\">[Next]</a></body></html>");
+			builder.append("<table width=100%><tr><td><a href=\""+wfsconf.getString("baseurl")+"/collections/"+workingobj.getString("name")+"/items?f=html&limit=1&offset="+(Integer.valueOf(offset)!=0?(Integer.valueOf(offset)-1)+"":"0")+"\">[Previous]</a></td><td align=right><a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"/items?f=html&limit=1&offset="+(Integer.valueOf(offset)+1)+"\">[Next]</a></td></tr></table>");
 			builder.append("<table width=100%><tr><td><a href=\""+wfsconf.getString("baseurl")+"/collections?f=html\">Back to Collections</a></td><td align=right>This page in <a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"?f=gml\">[GML]</a> <a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"?f=json\">[JSON]</a></body></html>");
 			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
 		} else {
@@ -1001,6 +1001,9 @@ public class WebService {
 				builder.append("</h1>");
 				builder.append(res);
 				builder.append("<script>$( document ).ready(function() {$('#queryres').DataTable();});</script>");
+				if(Integer.valueOf(limit)==1) {
+					builder.append("<table width=100%><tr><td><a href=\""+wfsconf.getString("baseurl")+"/collections/"+workingobj.getString("name")+"/items?f=html&limit=1&offset="+(Integer.valueOf(offset)!=0?(Integer.valueOf(offset)-1)+"":"0")+"\">[Previous]</a></td><td align=right><a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"/items?f=html&limit=1&offset="+(Integer.valueOf(offset)+1)+"\">[Next]</a></td></tr></table>");
+				}
 				builder.append("<table width=100%><tr><td><a href=\""+wfsconf.getString("baseurl")+"/collections/"+collectionid+"?f=html\">Back to "+collectionid+" Collection</a></td><td align=right>This page in <a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"/items?f=gml\">[GML]</a> <a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"/items?f=json\">[JSON]</a></body></html>");
 				builder.append("</body></html>");
 				return Response.ok(builder.toString()).type(ResultFormatter.getFormatter(format).mimeType).build();
