@@ -53,15 +53,22 @@ public abstract class TripleStoreConnector {
 	
 	protected static Map<String,Map<String,String>> featureTypes=new TreeMap<>();
 	
-	public static String getBoundingBoxFromTripleStoreData(String triplestore,String queryString) {
+	public static Double[] getBoundingBoxFromTripleStoreData(String triplestore,String queryString) {
+		queryString=" SELECT ?the_geom "+queryString.substring(queryString.indexOf("WHERE"));
 		Query query = QueryFactory.create(prefixCollection+queryString);
 		QueryExecution qexec = QueryExecutionFactory.sparqlService(triplestore, query);
 		ResultSet results = qexec.execSelect();
 		Double minx=Double.MAX_VALUE,maxx=Double.MIN_VALUE,miny=Double.MAX_VALUE,maxy=Double.MIN_VALUE;
+		Integer outercounter=0;
 		while(results.hasNext()) {
 			QuerySolution solu=results.next();
-			String wktLiteral=solu.get("the_geom").toString().substring(0,solu.get("the_geom").toString().indexOf("^^"));
-			wktLiteral=wktLiteral.replace("(","").replace(")","").replace(","," ").trim();
+			String wktLiteral=solu.get("the_geom").toString();
+			System.out.println(solu.get("the_geom"));
+			if(!wktLiteral.contains("(")) {
+				continue;
+			}
+			wktLiteral=wktLiteral.substring(0,wktLiteral.indexOf("^^"));
+			wktLiteral=wktLiteral.substring(wktLiteral.indexOf('(')).replace("(","").replace(")","").replace(","," ").trim();
 			Integer counter=0;
 			for(String coord:wktLiteral.split(" ")) {
 				Double curcoord=Double.valueOf(coord);
@@ -82,8 +89,15 @@ public abstract class TripleStoreConnector {
 				}
 				counter++;
 			}
+			outercounter++;
 		}
-		return minx+" "+miny+" "+maxx+" "+maxy;
+		System.out.println(outercounter/2);
+		return new Double[] {minx,miny,maxx,maxy};
+	}
+	
+	public static void main(String[] args) {
+		//System.out.println(CQLfilterStringToSPARQLQuery("abc=4 AND DISJOINT(the_geom, POLYGON((-90 40, -90 45, -60 45, -60 40, -90 40)))","namedplace"));
+		System.out.println(getBoundingBoxFromTripleStoreData("https://query.wikidata.org/sparql", "SELECT ?wikidatacity ?wikidatacityLabel ?the_geom WHERE{ ?wikidatacity wdt:P31 wd:Q515 . ?wikidatacity wdt:P625 ?the_geom . SERVICE wikibase:label { bd:serviceParam wikibase:language '[AUTO_LANGUAGE],en'. } }"));
 	}
 	
 	static Integer resultSetSize=0;
@@ -298,11 +312,6 @@ public abstract class TripleStoreConnector {
 		workingobj.put("attcount",attcount);
 		qexec.close();
 			return result;
-	}
-
-	
-	public static void main(String[] args) {
-		System.out.println(CQLfilterStringToSPARQLQuery("abc=4 AND DISJOINT(the_geom, POLYGON((-90 40, -90 45, -60 45, -60 40, -90 40)))","namedplace"));
 	}
 	
 	public static String getPropertyFromMapping(String typename,String propertyname) {

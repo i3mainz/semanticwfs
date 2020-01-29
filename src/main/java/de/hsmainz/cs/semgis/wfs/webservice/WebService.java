@@ -47,6 +47,8 @@ public class WebService {
 	
 	public static Map<String,Tuple<Date,String>> hitCache=new TreeMap<>();
 	
+	public static Map<String,Double[]> bboxCache=new TreeMap<>();
+	
 	public static long milliesInDays=24 * 60 * 60 * 1000;
 
 	String htmlHead="<html><head><link rel=\"stylesheet\" href=\"https://unpkg.com/leaflet@1.5.1/dist/leaflet.css\"\r\n" + 
@@ -1451,13 +1453,17 @@ public class WebService {
 			}
 		}
 		writer.writeEndElement();
+		if(!bboxCache.containsKey(featuretype.getString("name").toLowerCase())) {
+			bboxCache.put(featuretype.getString("name").toLowerCase(),TripleStoreConnector.getBoundingBoxFromTripleStoreData(featuretype.getString("triplestore"), featuretype.getString("query")));
+		}
+		Double[] bbox=bboxCache.get(featuretype.getString("name").toLowerCase());
 		writer.writeStartElement("http://www.opengis.net/ows/1.1", "WGS84BoundingBox");
 		writer.writeAttribute("dimensions", "2");
 		writer.writeStartElement("http://www.opengis.net/ows/1.1", "lowerCorner");
-		writer.writeCharacters("11.2299229840604 51.2165647648912");
+		writer.writeCharacters(bbox[0]+" "+bbox[1]);
 		writer.writeEndElement();
 		writer.writeStartElement("http://www.opengis.net/ows/1.1", "upperCorner");
-		writer.writeCharacters("14.8566506458591 53.5637800901802");
+		writer.writeCharacters(bbox[2]+" "+bbox[3]);
 		writer.writeEndElement();
 		writer.writeEndElement();
 		writer.writeEndElement();
