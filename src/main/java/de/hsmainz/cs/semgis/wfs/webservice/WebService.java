@@ -1417,11 +1417,15 @@ public class WebService {
 			}
 		}
 		writer.writeEndElement();
+		if(!bboxCache.containsKey(featuretype.getString("name").toLowerCase())) {
+			bboxCache.put(featuretype.getString("name").toLowerCase(),TripleStoreConnector.getBoundingBoxFromTripleStoreData(featuretype.getString("triplestore"), featuretype.getString("query")));
+		}
+		Double[] bbox=bboxCache.get(featuretype.getString("name").toLowerCase());
 		writer.writeStartElement("http://www.opengis.net/ows/1.1", "LatLongBoundingBox");
-		writer.writeAttribute("minx","11.2299229840604");
-		writer.writeAttribute("miny","51.2165647648912");
-		writer.writeAttribute("maxx","14.8566506458591");
-		writer.writeAttribute("maxy","53.5637800901802");
+		writer.writeAttribute("minx",bbox[0]+"");
+		writer.writeAttribute("miny",bbox[1]+"");
+		writer.writeAttribute("maxx",bbox[2]+"");
+		writer.writeAttribute("maxy",bbox[3]+"");
 		writer.writeEndElement();
 		writer.writeEndElement();
 	}
