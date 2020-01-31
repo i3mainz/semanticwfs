@@ -395,7 +395,7 @@ public class WebService {
 		String res = "";
 		try {
 			res = TripleStoreConnector.executeQuery(query, workingobj.getString("triplestore"),
-					format, "0","0","sf:featureMember",collectionid,featureid,workingobj,"","","");
+					format, "0","0","sf:featureMember",collectionid,featureid,workingobj,"","","","");
 			System.out.println(res);
 			if(res==null || res.isEmpty()) {
 				throw new NotFoundException();
@@ -883,6 +883,8 @@ public class WebService {
 			@DefaultValue("5") @QueryParam("limit") String limit,
 			@DefaultValue("0") @QueryParam("offset") String offset,
 			@DefaultValue("") @QueryParam("bbox") String bbox,
+			@DefaultValue("") @QueryParam("filter") String filter,
+			@DefaultValue("") @QueryParam("filter-lang") String filterlang,
 			@DefaultValue("") @QueryParam("datetime") String datetime) {
 		System.out.println("Limit: "+limit);
 		if (collectionid == null) {
@@ -911,7 +913,8 @@ public class WebService {
 		try {
 			String res = TripleStoreConnector.executeQuery(workingobj.getString("query"),
 						workingobj.getString("triplestore"), format,""+(Integer.valueOf(limit)*workingobj.getInt("attcount")),
-						""+(Integer.valueOf(offset)*workingobj.getInt("attcount")),"sf:featureMember",collectionid,"",workingobj,"","","");
+						""+(Integer.valueOf(offset)*workingobj.getInt("attcount")),
+						"sf:featureMember",collectionid,"",workingobj,filter,"","",bbox);
 			System.out.println(res);
 			if(res==null || res.isEmpty()) {
 				throw new NotFoundException();
@@ -1736,7 +1739,7 @@ public class WebService {
 					workingobj.getString("triplestore"),
 					output, ""+(Integer.valueOf(count)*workingobj.getInt("attcount")),""
 					+(Integer.valueOf(startindex)*workingobj.getInt("attcount")),
-					"gml:featureMember",typename,resourceids,workingobj,filter,resultType,srsName);
+					"gml:featureMember",typename,resourceids,workingobj,filter,resultType,srsName,"");
 			System.out.println(res);
 			if(res.isEmpty()) {
 				throw new NotFoundException();

@@ -331,12 +331,17 @@ public abstract class TripleStoreConnector {
 		return null;
 	}
 	
-	public static String CQLfilterStringToSPARQLQuery(String filter,String featuretype) {
+	public static String CQLfilterStringToSPARQLQuery(String filter,String bbox,String queryurl,String featuretype) {
 		if(filter.isEmpty())
 			return filter;
 		StringBuilder additionaltriples=new StringBuilder();
 		StringBuilder builder=new StringBuilder();
 		builder.append("FILTER(");
+		if(!bbox.isEmpty()) {
+			String[] bboxcoords=bbox.split(",");			
+			builder.append(" geo:sfContains(\"POLYGON(("+bboxcoords[0]+" "+bboxcoords[1]+","+bboxcoords[2]+" "+bboxcoords[1]+
+					","+bboxcoords[2]+" "+bboxcoords[3]+","+bboxcoords[0]+" "+bboxcoords[3]+","+bboxcoords[0]+" "+bboxcoords[1]+"))^^geo:wktLiteral,?the_geom) ");
+		}
 		if(filter.contains("AND")) {
 			Boolean containedbetween=false;
 			String betweenleftoperand="";
@@ -410,7 +415,7 @@ public abstract class TripleStoreConnector {
 			queryString=queryString.replace("WHERE{",toreplace.toString());	
 		}
 		queryString+="?"+workingobj.getString("indvar")+" <"+propertyValue+"> ?member ."+System.lineSeparator();
-		queryString+=CQLfilterStringToSPARQLQuery(filter,featuretype);
+		queryString+=CQLfilterStringToSPARQLQuery(filter,"",queryurl,featuretype);
 		queryString+="}"+System.lineSeparator();
 		if(!resultType.equalsIgnoreCase("hits"))
 			queryString+=" ORDER BY ?"+featuretype.toLowerCase()+System.lineSeparator();
@@ -440,7 +445,9 @@ public abstract class TripleStoreConnector {
 	}
 	
 	
-	public static String executeQuery(String queryString,String queryurl,String output,String count,String offset,String startingElement,String featuretype,String resourceids,JSONObject workingobj,String filter,String resultType,String srsName) throws XMLStreamException {
+	public static String executeQuery(String queryString,String queryurl,String output,String count,
+			String offset,String startingElement,String featuretype,String resourceids,JSONObject workingobj,
+			String filter,String resultType,String srsName,String bbox) throws XMLStreamException {
 		System.out.println(resultType);
 		if(resultType.equalsIgnoreCase("hits")) {
 			queryString=" SELECT (COUNT(DISTINCT ?"+featuretype.toLowerCase()+") AS ?count) "+queryString.substring(queryString.indexOf("WHERE"));
@@ -459,7 +466,7 @@ public abstract class TripleStoreConnector {
 			toreplace.append("}");
 			queryString=queryString.replace("WHERE{",toreplace.toString());	
 		}
-		queryString=queryString.substring(0,queryString.lastIndexOf('}'))+CQLfilterStringToSPARQLQuery(filter,featuretype)+"}";
+		queryString=queryString.substring(0,queryString.lastIndexOf('}'))+CQLfilterStringToSPARQLQuery(filter,bbox,queryurl,featuretype)+"}";
 		if(!resultType.equalsIgnoreCase("hits"))
 			queryString+=System.lineSeparator()+"ORDER BY ?"+featuretype.toLowerCase()+System.lineSeparator();
 		Integer limit=Integer.valueOf(count);
