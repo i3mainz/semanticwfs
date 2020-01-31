@@ -336,16 +336,18 @@ public abstract class TripleStoreConnector {
 			return filter;
 		StringBuilder additionaltriples=new StringBuilder();
 		StringBuilder builder=new StringBuilder();
-		builder.append("FILTER(");
+
 		if(!bbox.isEmpty()) {
 			String[] bboxcoords=bbox.split(",");
 			if(queryurl.contains("wikidata")) {
-				
+				builder.append("SERVICE wikibase:box { ?place wdt:P625 ?the_geom .  bd:serviceParam wikibase:cornerSouthWest \"POINT("+bboxcoords[0]+","+bboxcoords[1]+")\"^^geo:wktLiteral . bd:serviceParam wikibase:cornerNorthEast \"POINT("+bboxcoords[2]+","+bboxcoords[3]+")\"^^geo:wktLiteral . }"+System.lineSeparator());
+				builder.append("FILTER(");
 			}else {
-				builder.append(" geof:sfIntersects(\"POLYGON(("+bboxcoords[0]+" "+bboxcoords[1]+","+bboxcoords[2]+" "+bboxcoords[1]+
-						","+bboxcoords[2]+" "+bboxcoords[3]+","+bboxcoords[0]+" "+bboxcoords[3]+","+bboxcoords[0]+" "+bboxcoords[1]+"))\"^^geo:wktLiteral,?the_geom) ");
-
+				builder.append("FILTER(");
+				builder.append(" geof:sfIntersects(\"POLYGON(("+bboxcoords[1]+" "+bboxcoords[0]+","+bboxcoords[1]+" "+bboxcoords[2]+","+bboxcoords[3]+" "+bboxcoords[2]+","+bboxcoords[3]+" "+bboxcoords[0]+","+bboxcoords[1]+" "+bboxcoords[0]+"))\"^^geo:wktLiteral,?the_geom) ");
 			}
+		}else {
+			builder.append("FILTER(");
 		}
 		if(filter.isEmpty())
 			return builder.toString()+")"+System.lineSeparator();
