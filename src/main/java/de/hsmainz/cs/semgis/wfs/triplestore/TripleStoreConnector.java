@@ -339,7 +339,7 @@ public abstract class TripleStoreConnector {
 		builder.append("FILTER(");
 		if(!bbox.isEmpty()) {
 			String[] bboxcoords=bbox.split(",");			
-			builder.append(" geo:sfContains(\"POLYGON(("+bboxcoords[0]+" "+bboxcoords[1]+","+bboxcoords[2]+" "+bboxcoords[1]+
+			builder.append(" geo:sfIntersects(\"POLYGON(("+bboxcoords[0]+" "+bboxcoords[1]+","+bboxcoords[2]+" "+bboxcoords[1]+
 					","+bboxcoords[2]+" "+bboxcoords[3]+","+bboxcoords[0]+" "+bboxcoords[3]+","+bboxcoords[0]+" "+bboxcoords[1]+"))^^geo:wktLiteral,?the_geom) ");
 		}
 		if(filter.contains("AND")) {

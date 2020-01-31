@@ -883,6 +883,7 @@ public class WebService {
 			@DefaultValue("5") @QueryParam("limit") String limit,
 			@DefaultValue("0") @QueryParam("offset") String offset,
 			@DefaultValue("") @QueryParam("bbox") String bbox,
+			@DefaultValue("") @QueryParam("bbox-crs") String bboxcrs,
 			@DefaultValue("") @QueryParam("filter") String filter,
 			@DefaultValue("") @QueryParam("filter-lang") String filterlang,
 			@DefaultValue("") @QueryParam("datetime") String datetime) {
