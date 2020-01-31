@@ -1396,6 +1396,14 @@ public class WebService {
 		return constructCapabilities(version,version.substring(0,version.lastIndexOf('.')));
 	}
 
+	/**
+	 * Describes a feature type according to the WFS1.0 specification.
+	 * @param writer
+	 * @param featuretype
+	 * @param versionnamespace
+	 * @param version
+	 * @throws XMLStreamException
+	 */
 	public void describeFeatureTypeWFS10(XMLStreamWriter writer, JSONObject featuretype,String versionnamespace,String version) throws XMLStreamException {
 		writer.setPrefix("wfs", "http://www.opengis.net/wfs");
 		writer.writeStartElement("http://www.opengis.net/wfs", "FeatureType");
