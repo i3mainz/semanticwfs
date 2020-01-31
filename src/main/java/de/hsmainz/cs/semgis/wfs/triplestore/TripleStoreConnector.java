@@ -331,12 +331,38 @@ public abstract class TripleStoreConnector {
 		return null;
 	}
 	
-	public static String CQLfilterStringToSPARQLQuery(String filter,String featuretype) {
-		if(filter.isEmpty())
+	public static String CQLfilterStringToSPARQLQuery(String filter,String bbox,String curquery,String queryurl,String featuretype) {
+		if(filter.isEmpty() && bbox.isEmpty())
 			return filter;
 		StringBuilder additionaltriples=new StringBuilder();
 		StringBuilder builder=new StringBuilder();
-		builder.append("FILTER(");
+		System.out.println("Curquery: "+curquery);
+		if(!bbox.isEmpty()) {
+			String[] bboxcoords=bbox.split(",");
+			if(queryurl.contains("wikidata")) {
+				String newcurquery="";
+				String the_geomline="";
+				for(String line:curquery.split(System.lineSeparator())) {
+					if(line.contains("the_geom") && !line.contains("SELECT")) {
+						the_geomline=line;					
+					}else {
+						newcurquery+=line+System.lineSeparator();
+					}
+				}
+				curquery=newcurquery;
+				builder.append("SERVICE wikibase:box { "+the_geomline+System.lineSeparator()+"  bd:serviceParam wikibase:cornerSouthWest \"POINT("+bboxcoords[1]+","+bboxcoords[0]+")\"^^geo:wktLiteral . "+System.lineSeparator()+"bd:serviceParam wikibase:cornerNorthEast \"POINT("+bboxcoords[3]+","+bboxcoords[2]+")\"^^geo:wktLiteral . "+System.lineSeparator()+" }"+System.lineSeparator());
+				builder.append("FILTER(");
+			}else {
+				builder.append("FILTER(");
+				builder.append(" geof:sfIntersects(\"POLYGON(("+bboxcoords[1]+" "+bboxcoords[0]+","+bboxcoords[1]+" "+bboxcoords[2]+","+bboxcoords[3]+" "+bboxcoords[2]+","+bboxcoords[3]+" "+bboxcoords[0]+","+bboxcoords[1]+" "+bboxcoords[0]+"))\"^^geo:wktLiteral,?the_geom) ");
+			}
+		}else {
+			builder.append("FILTER(");
+		}
+		if(filter.isEmpty()) {
+			builder.append(")");		
+			return curquery+builder.toString().replace("FILTER()","")+System.lineSeparator();
+		}
 		if(filter.contains("AND")) {
 			Boolean containedbetween=false;
 			String betweenleftoperand="";
@@ -385,7 +411,7 @@ public abstract class TripleStoreConnector {
 			}
 		}
 		builder.append(")"+System.lineSeparator());
-		return builder.toString();
+		return curquery+builder.toString();
 	}
 	
 	public static String executePropertyValueQuery(String queryurl,String output,String propertyValue,
@@ -399,18 +425,20 @@ public abstract class TripleStoreConnector {
 			queryString+=" SELECT ?"+featuretype.toLowerCase()+" ?member WHERE{"+System.lineSeparator();
 		}
 		if(!resourceids.isEmpty() && !resourceids.contains(",")) {
-			queryString=queryString.replace("WHERE{","WHERE{ BIND( <"+workingobj.getString("namespace")+resourceids+"> AS ?"+workingobj.getString("indvar")+") "+System.lineSeparator());
+			queryString=queryString.replace("WHERE{","WHERE{"+System.lineSeparator()+" BIND( <"+workingobj.getString("namespace")+resourceids+"> AS ?"+workingobj.getString("indvar")+") "+System.lineSeparator());
 		}else if(!resourceids.isEmpty() && resourceids.contains(",")) {
 			StringBuilder toreplace=new StringBuilder();
-			toreplace.append("WHERE{ VALUES ?"+workingobj.getString("indvar")+"{ ");
+			toreplace.append("WHERE{ "+System.lineSeparator()+"VALUES ?"+workingobj.getString("indvar")+"{ ");
 			for(String uri:resourceids.split(",")) {
 				toreplace.append("<"+workingobj.getString("namespace")+uri+"> "); 
 			}
 			toreplace.append("} "+System.lineSeparator());
-			queryString=queryString.replace("WHERE{",toreplace.toString());	
+			queryString=queryString.replace("WHERE{",System.lineSeparator()+toreplace.toString());	
+		}else {
+			queryString=queryString.replace("WHERE{","WHERE{"+System.lineSeparator());
 		}
 		queryString+="?"+workingobj.getString("indvar")+" <"+propertyValue+"> ?member ."+System.lineSeparator();
-		queryString+=CQLfilterStringToSPARQLQuery(filter,featuretype);
+		queryString=CQLfilterStringToSPARQLQuery(filter,"",queryString.substring(0,queryString.lastIndexOf('}')),queryurl,featuretype);
 		queryString+="}"+System.lineSeparator();
 		if(!resultType.equalsIgnoreCase("hits"))
 			queryString+=" ORDER BY ?"+featuretype.toLowerCase()+System.lineSeparator();
@@ -440,8 +468,12 @@ public abstract class TripleStoreConnector {
 	}
 	
 	
-	public static String executeQuery(String queryString,String queryurl,String output,String count,String offset,String startingElement,String featuretype,String resourceids,JSONObject workingobj,String filter,String resultType,String srsName) throws XMLStreamException {
+	public static String executeQuery(String queryString,String queryurl,String output,String count,
+			String offset,String startingElement,String featuretype,String resourceids,JSONObject workingobj,
+			String filter,String resultType,String srsName,String bbox) throws XMLStreamException {
 		System.out.println(resultType);
+		queryString=queryString.replace(".","."+System.lineSeparator());
+		System.out.println(queryString);
 		if(resultType.equalsIgnoreCase("hits")) {
 			queryString=" SELECT (COUNT(DISTINCT ?"+featuretype.toLowerCase()+") AS ?count) "+queryString.substring(queryString.indexOf("WHERE"));
 			//queryString=" SELECT (COUNT(DISTINCT ?"+featuretype.toLowerCase()+") AS ?count) WHERE{ ?"+featuretype.toLowerCase()+" ?abc ?def .}"+System.lineSeparator();
@@ -449,17 +481,20 @@ public abstract class TripleStoreConnector {
 			queryString+=" SELECT ?"+featuretype.toLowerCase()+" ?member WHERE{"+System.lineSeparator();
 		}
 		if(!resourceids.isEmpty() && !resourceids.contains(",")) {
-			queryString=queryString.replace("WHERE{","WHERE{ BIND( <"+workingobj.getString("namespace")+resourceids+"> AS ?"+workingobj.getString("indvar")+") ");
+			queryString=queryString.replace("WHERE{","WHERE{"+System.lineSeparator()+" BIND( <"+workingobj.getString("namespace")+resourceids+"> AS ?"+workingobj.getString("indvar")+") ");
 		}else if(!resourceids.isEmpty() && resourceids.contains(",")) {
 			StringBuilder toreplace=new StringBuilder();
-			toreplace.append("WHERE{ VALUES ?"+workingobj.getString("indvar")+"{ ");
+			toreplace.append("WHERE{ "+System.lineSeparator()+" VALUES ?"+workingobj.getString("indvar")+"{ ");
 			for(String uri:resourceids.split(",")) {
 				toreplace.append("<"+workingobj.getString("namespace")+uri+"> "); 
 			}
-			toreplace.append("}");
-			queryString=queryString.replace("WHERE{",toreplace.toString());	
+			toreplace.append("}"+System.lineSeparator());
+			queryString=queryString.replace("WHERE{",System.lineSeparator()+toreplace.toString());	
+		}else {
+			queryString=queryString.replace("WHERE{","WHERE{"+System.lineSeparator());
 		}
-		queryString=queryString.substring(0,queryString.lastIndexOf('}'))+CQLfilterStringToSPARQLQuery(filter,featuretype)+"}";
+		System.out.println("PreCurQuery: "+queryString);
+		queryString=CQLfilterStringToSPARQLQuery(filter,bbox,queryString.substring(0,queryString.lastIndexOf('}')),queryurl,featuretype)+"}";
 		if(!resultType.equalsIgnoreCase("hits"))
 			queryString+=System.lineSeparator()+"ORDER BY ?"+featuretype.toLowerCase()+System.lineSeparator();
 		Integer limit=Integer.valueOf(count);
