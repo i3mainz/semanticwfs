@@ -332,16 +332,23 @@ public abstract class TripleStoreConnector {
 	}
 	
 	public static String CQLfilterStringToSPARQLQuery(String filter,String bbox,String queryurl,String featuretype) {
-		if(filter.isEmpty())
+		if(filter.isEmpty() && bbox.isEmpty())
 			return filter;
 		StringBuilder additionaltriples=new StringBuilder();
 		StringBuilder builder=new StringBuilder();
 		builder.append("FILTER(");
 		if(!bbox.isEmpty()) {
-			String[] bboxcoords=bbox.split(",");			
-			builder.append(" geo:sfIntersects(\"POLYGON(("+bboxcoords[0]+" "+bboxcoords[1]+","+bboxcoords[2]+" "+bboxcoords[1]+
-					","+bboxcoords[2]+" "+bboxcoords[3]+","+bboxcoords[0]+" "+bboxcoords[3]+","+bboxcoords[0]+" "+bboxcoords[1]+"))^^geo:wktLiteral,?the_geom) ");
+			String[] bboxcoords=bbox.split(",");
+			if(queryurl.contains("wikidata")) {
+				
+			}else {
+				builder.append(" geof:sfIntersects(\"POLYGON(("+bboxcoords[0]+" "+bboxcoords[1]+","+bboxcoords[2]+" "+bboxcoords[1]+
+						","+bboxcoords[2]+" "+bboxcoords[3]+","+bboxcoords[0]+" "+bboxcoords[3]+","+bboxcoords[0]+" "+bboxcoords[1]+"))\"^^geo:wktLiteral,?the_geom) ");
+
+			}
 		}
+		if(filter.isEmpty())
+			return builder.toString()+")"+System.lineSeparator();
 		if(filter.contains("AND")) {
 			Boolean containedbetween=false;
 			String betweenleftoperand="";

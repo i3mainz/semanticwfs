@@ -163,7 +163,7 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 				geojsonobj.put("id",lastInd);
 				//allfeatures.get(geomcounter).put(geojsonobj);
 				features.put(geojsonobj);
-				System.out.println(geojsonobj);
+				//System.out.println(geojsonobj);
 				geomcounter++;
 			}
 		}else {
@@ -174,8 +174,8 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 			//allfeatures.get(geomcounter).put(geojsonobj);
 			features.put(geojsonobj);
 		}
-		System.out.println(obj);
-		System.out.println(geojsonresults.toString(2));
+		//System.out.println(obj);
+		//System.out.println(geojsonresults.toString(2));
 		return geojsonresults.toString(2);
 	}
 

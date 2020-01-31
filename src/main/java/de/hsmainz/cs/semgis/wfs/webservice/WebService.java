@@ -880,7 +880,7 @@ public class WebService {
 	@Path("/collections/{collectionid}/items")
 	public Response collectionItems(@PathParam("collectionid") String collectionid,
 			@DefaultValue("json") @QueryParam("f") String format, 
-			@DefaultValue("5") @QueryParam("limit") String limit,
+			@DefaultValue("10") @QueryParam("limit") String limit,
 			@DefaultValue("0") @QueryParam("offset") String offset,
 			@DefaultValue("") @QueryParam("bbox") String bbox,
 			@DefaultValue("") @QueryParam("bbox-crs") String bboxcrs,
@@ -916,7 +916,7 @@ public class WebService {
 						workingobj.getString("triplestore"), format,""+(Integer.valueOf(limit)*workingobj.getInt("attcount")),
 						""+(Integer.valueOf(offset)*workingobj.getInt("attcount")),
 						"sf:featureMember",collectionid,"",workingobj,filter,"","",bbox);
-			System.out.println(res);
+			//System.out.println(res);
 			if(res==null || res.isEmpty()) {
 				throw new NotFoundException();
 			}
@@ -1693,7 +1693,7 @@ public class WebService {
 	@Path("/wfs/getFeature")
 	public Response getFeature(@QueryParam("typename") String typename, 
 			@DefaultValue("json") @QueryParam("outputFormat") String output,
-			@DefaultValue("5") @QueryParam("count") String count,
+			@DefaultValue("10") @QueryParam("count") String count,
 			@DefaultValue("0") @QueryParam("startindex") String startindex,
 			@DefaultValue("") @QueryParam("srsName") String srsName,
 			@DefaultValue("ASC") @QueryParam("sortBy") String sortBy,

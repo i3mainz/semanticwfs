@@ -3,8 +3,10 @@ PREFIX skos:  <http://www.w3.org/2004/02/skos/core#>
 PREFIX lemon: <http://www.lemon-model.net/lemon#>
 PREFIX dbo:<http://dbpedia.org/ontology/>
 PREFIX geom: <http://geovocab.org/geometry#>
+PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
 PREFIX ogc: <http://www.opengis.net/ont/geosparql#>
 PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX lemon: <http://lemon-model.net/lemon#>
 PREFIX bn-lemon: <http://babelnet.org/model/babelnet#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX lexinfo: <http://www.lexinfo.net/ontology/2.0/lexinfo#>
