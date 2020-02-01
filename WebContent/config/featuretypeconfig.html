@@ -78,6 +78,119 @@ $(document).ready( function () {
 		});
 } );
 
+function saveTextAsFile(tosave,fileext,filename)
+{
+    var a = document.createElement('a');
+    a.style = "display: none";  
+    var blob= new Blob([tosave], {type:'text/plain'});
+    var url = window.URL.createObjectURL(blob);
+    var filename = filename+fileext;
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function(){
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);  
+    }, 1000);
+}
+
+function sendQuery(geojsonres){
+	var url=document.location.href
+	if(!(url.endsWith("/"))){
+		url+="/"
+	}
+	var endpoint=$('#dataset').val()
+	if(!(endpoint.includes("http"))){
+	    endpoint=url+$('#dataset').val()
+	}
+    $.get(url+"rest/service/queryservice?query="+encodeURIComponent(yasqe.getValue())+"&endpoint="+encodeURIComponent(endpoint), function(data, status){
+        //alert("Data: " + data + "\nStatus: " + status);
+        var json=JSON.parse(data)
+                $('#number').text(json["size"]+" Results");
+        var i=1;
+        var table="<thead><tr><th>Counter</th>"
+        for(variable in json["data"][0]){
+        	table+="<th>"+variable+"</th>"
+        }
+        table+="</tr></thead><tbody>"
+        for(obj in json["data"]){
+        	table+="<tr><td>"+i+++"</td>"
+        	for(variable in json["data"][obj]){
+        		if(json["data"][obj][variable].startsWith("http") || json["data"][obj][variable].startsWith("https")){
+            		table+="<td><a href=\""+json["data"][obj][variable]+"\" target=\"_blank\">"+json["data"][obj][variable]+"</a></td>"
+        		}else{
+            		table+="<td>"+json["data"][obj][variable]+"</td>"        			
+        		}
+        	}
+        	table+="</tr>"
+        }
+        $('#queryres').html(table+"</tbody>")
+
+        clearMap();
+        var overlays={}
+        for(layer in json["geojson"]){
+            var officiallayer=L.geoJSON(json["geojson"][layer],{
+            	coordsToLatLng: function (coords) {
+            		//console.log($('#dataset').val())
+            		/*if($('#dataset').val()=="linkedgeodata.ttl"){
+            			return new L.LatLng(coords[0], coords[1], coords[2]);
+            		}*/
+            		return new L.LatLng(coords[1], coords[0], coords[2]);
+
+                },
+                pointToLayer: function (feature, latlng) {
+                	var greyIcon = new L.Icon({
+                        iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
+                        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                        iconSize: [25, 41],
+                        iconAnchor: [12, 41],
+                        popupAnchor: [1, -34],
+                        shadowSize: [41, 41]
+                    });
+                	var mark=L.marker(latlng,{icon: greyIcon})
+                	markercollection.push(mark)
+                    return mark;
+                },
+                style: function(){
+                	return {fillColor: ("color" in json["geojson"][layer]?json["geojson"][layer]["color"]:colorArray[layer%colorArray.length]),
+                        color: ("color" in json["geojson"][layer]?json["geojson"][layer]["color"]:colorArray[layer%colorArray.length])}
+                },
+            	onEachFeature: function (feature, layer) {
+            		 var popup="GeoJSON Result<br/><ul>"
+             		 for(prop in feature.properties){
+            		 	popup+="<li>"+prop+" - ";
+            		 	var value=trimcoords(feature.properties[prop],90)
+                		if(value.startsWith("http") || value.startsWith("https")){
+                    		popup+="<a href=\""+value+"\" target=\"_blank\">"+value+"</a>"
+                		}else{
+                			popup+=value        			
+                		}
+            		 	popup+="</li>"
+            		 }
+            		 popup+="</ul>"
+            	     layer.bindPopup(popup);
+            }});
+            gardensLayerGroup = L.layerGroup()
+            .addLayer(officiallayer)
+            .addTo(mymap);
+            overlays[json["geojson"][layer]["name"]]=gardensLayerGroup;
+            //layercontrol.addOverlay(gardensLayerGroup, json["geojson"][layer]["name"]);
+            //overlayMaps[layer+""]=officiallayer;
+
+        }
+        mymap.removeControl(layercontrol);
+		// add one with the cities
+		overlayControl = L.control.layers(baseMaps, overlays).addTo(mymap);
+        mymap.fitBounds(officiallayer.getBounds());
+        $('#queryres').DataTable();
+        //$("#queryres").tablesorter();
+        if(geojsonres){
+        	saveTextAsFile(JSON.stringify(json["geojson"][0],null, 2),".geojson","queryresult")
+        }
+    });
+  }
+
 function chooseSampleQuery(){
 	yasqe.setValue(prefixList+"\n"+$('#samplequeries :selected').val().replace(".",".\n").replace("}","\n}\n").replace("{","{\n"))
     $('#queryinput').val(prefixList+"\n"+$('#samplequeries :selected').val().replace(".",".\n").replace("}","\n}\n").replace("{","{\n"));
@@ -89,11 +202,12 @@ function addFeature(){
 </script>
 </head>
 <body>
+<header>
 <h1 id="servicetitle" align="center"></h1>
+</header>
 <div class="container" role="main">
   <div class="row">
   <div class="col-sm-5">
-Query Input:<br/>
 <span id="numberexamples"></span> Feature Type Queries:
 <script>
 $( document ).ready(function() {
@@ -102,10 +216,12 @@ $( document ).ready(function() {
 </script>
 <select id="samplequeries" onChange="chooseSampleQuery()">
 <option value='SELECT ?accum_geom ?the_geom WHERE { ?geom geo:asWKT ?the_geom . BIND(geo:ST_Accum(?the_geom,?the_geom) AS ?accum_geom) } LIMIT 100'>geo:ST_Accum</option>
-</select>&nbsp;<a href="#" id="postgisdoc" target="_blank">POSTGIS Docs</a>
+</select>
 <br/>
 <textarea id="queryinput" rows=4 cols=45>
 </textarea>
+<button id="sendQueryButton" onClick="sendQuery(false)">Test Query</button>
+<button id="sendQueryGeoJSONButton" onClick="sendQuery(true)">Test Query with GeoJSON result</button>
 <table width="100%">
 <tr><td>Featuretype Name:</td><td><input type="text" id="featuretypename"/></td></tr>
 <tr><td>TripleStore:</td><td><input type="text" id="triplestore"/></td></tr>
