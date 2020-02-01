@@ -186,7 +186,7 @@ public class WebService {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections")
-	public Response collections(@DefaultValue("json") @QueryParam("f") String format) {
+	public Response collections(@DefaultValue("html") @QueryParam("f") String format) {
 		System.out.println(format);
 		if (format != null && format.contains("json")) {
 			JSONObject result = new JSONObject();
@@ -369,7 +369,7 @@ public class WebService {
 	@Path("/collections/{collectionid}/items/{featureid}")
 	public Response getFeatureById(@PathParam("collectionid") String collectionid,
 			@PathParam("featureid") String featureid, 
-			@DefaultValue("json") @QueryParam("f") String format) {
+			@DefaultValue("html") @QueryParam("f") String format) {
 		System.out.println(collectionid+" - "+featureid);
 		if (collectionid == null) {
 			throw new NotFoundException();
@@ -669,7 +669,7 @@ public class WebService {
 			builder.append("<a href=\""+wfsconf.getString("baseurl")+"/wfs?REQUEST=getCapabilities&VERSION=1.1.0\">[XML]</a>");
 			builder.append("</li><li>GetCapabilities WFS 2.0.0 ");
 			builder.append("<a href=\""+wfsconf.getString("baseurl")+"/wfs?REQUEST=getCapabilities&VERSION=2.0.0\">[XML]</a>");
-			builder.append("</li></ul></div></div></div></body></html>");
+			builder.append("</li></ul>Local Options:<ul><li><a href=\"https://www.i3mainz.de/projekte/bkg/integrationtest\">Local Triple Store</a></li><li><a href=\"https://www.i3mainz.de/projekte/bkg/semanticwfs/snorql\">Linked Data Browser (SNORQL)</a></li><li><a href=\"https://www.i3mainz.de/projekte/bkg/semanticwfs/config/featuretypeconfig.html\">Semantic WFS Configuration</a></li></ul></div></div></div></body></html>");
 			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
 		}else {
 			throw new NotFoundException();
@@ -680,7 +680,7 @@ public class WebService {
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections/{collectionid}")
 	public Response collectionInformation(@PathParam("collectionid") String collectionid,
-			@DefaultValue("json") @QueryParam("f") String format, @QueryParam("limit") String limit,
+			@DefaultValue("html") @QueryParam("f") String format, @QueryParam("limit") String limit,
 			 @DefaultValue("0") @QueryParam("offset") String offset,
 			@QueryParam("bbox") String bbox) {
 		if (collectionid == null) {
@@ -880,7 +880,7 @@ public class WebService {
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections/{collectionid}/items")
 	public Response collectionItems(@PathParam("collectionid") String collectionid,
-			@DefaultValue("json") @QueryParam("f") String format, 
+			@DefaultValue("html") @QueryParam("f") String format, 
 			@DefaultValue("10") @QueryParam("limit") String limit,
 			@DefaultValue("0") @QueryParam("offset") String offset,
 			@DefaultValue("") @QueryParam("bbox") String bbox,
@@ -1026,7 +1026,7 @@ public class WebService {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/conformance")
-	public Response conformance(@DefaultValue("json") @QueryParam("f") String format) {
+	public Response conformance(@DefaultValue("html") @QueryParam("f") String format) {
 		if (format != null && format.contains("json")) {
 			JSONObject result = new JSONObject();
 			JSONArray conforms = new JSONArray();

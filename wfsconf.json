@@ -2,16 +2,22 @@
 "servicetitle":"BKG WFS Service",
 "servicedescription":"Testwebservice with a Triple Store backend",
 "datasets":[
-{"namespace":"http://www.wikidata.org/entity/","indvar":"wikidatacity",
+{"namespace":"http://www.wikidata.org/entity/","indvar":"wikidatacity","useorderby":true,
 "description":"Cities in Wikidata","geometrytype":"Point","targetCRS":"EPSG:4326",
 "query":"SELECT ?wikidatacity ?wikidatacityLabel ?the_geom WHERE{ ?wikidatacity wdt:P31 wd:Q515 . ?wikidatacity wdt:P625 ?the_geom . SERVICE wikibase:label { bd:serviceParam wikibase:language '[AUTO_LANGUAGE],en'. } }",
 "triplestore":"https://query.wikidata.org/sparql","type":"WFS", "name":"WikidataCity"},
+{"namespace":"http://linkedgeodata.org/ontology/","indvar":"osmbar","useorderby":false,
+"description":"Bars in OpenStreetMap","geometrytype":"Point","targetCRS":"EPSG:4326",
+"query":"SELECT ?osmbar ?label ?lat ?lon WHERE{ ?osmbar rdf:type lgdo:Bar ; rdfs:label ?label ; geo-pos:lat ?lat ; geo-pos:long ?lon . }",
+"triplestore":"http://linkedgeodata.org/sparql","type":"WFS", "name":"OSMBar"},
+{"namespace":"http://www.geonames.org/ontology#","indvar":"geonamesplace","useorderby":false,
+"description":"Places in Geonames","geometrytype":"Point","targetCRS":"EPSG:4326",
+"query":"SELECT ?geonamesplace ?class ?label ?lat ?lon WHERE{ ?geonamesplace rdf:type gn:Feature ; rdfs:label ?label ; geo-pos:lat ?lat ; geo-pos:long ?lon . }",
+"triplestore":"http://factforge.net/repositories/ff-news","type":"WFS", "name":"GeoNamesPlace"},
 {"namespace":"http://inspire.ec.europa.eu/schemas/gn/4.0#",
-"indvar":"namedplace","description":"NamedPlaces in Germany","geometrytype":"Point","targetCRS":"EPSG:4326",
-"query":"SELECT ?namedplace ?rel ?val ?the_geom WHERE{ ?namedplace rdf:type gn:NamedPlace . ?namedplace ?rel ?val . OPTIONAL{?val geo:asWKT ?the_geom .} }",
+"indvar":"namedplace","description":"NamedPlaces in Germany","geometrytype":"Point","targetCRS":"EPSG:4326","useorderby":true,
+"query":"SELECT ?namedplace ?rel ?val ?the_geom WHERE{ ?namedplace rdf:type ign:NamedPlace . ?namedplace ?rel ?val . OPTIONAL{?val geo:asWKT ?the_geom .} }",
 "triplestore":"https://www.i3mainz.de/projekte/bkg/integrationtest/sparql",
-"type":"WFS", "typecolumn":"http://inspire.ec.europa.eu/schemas/gn/4.0#type", "name":"NamedPlace"},
-{"namespace":"","indvar":"","description":"Sample FeatureType","query":"SELECT * WHERE{ ?a ?b ?c } LIMIT 1",
-"triplestore":"https://query.wikidata.org/sparql","type":"WCS", "name":"MySecondFeatureType"}
+"type":"WFS", "typecolumn":"http://inspire.ec.europa.eu/schemas/gn/4.0#type", "name":"NamedPlace"}
 ]
 }
