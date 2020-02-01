@@ -20,15 +20,16 @@
 <script>
 var overlayMaps={}
 var featuretypeToQuery={}
+var featuretypeToEndPoint={}
 $(document).ready( function () {
 	$.getJSON("../service/featureTypes", function(result){
 		   $('#servicetitle').html(result["servicetitle"]);
 		   var selectcontent="";
-		   var tablecontent="<thead><tr><th>FeatureType</th><th>Query</th><th>Namespace</th><th>IndVariable</th>"
-		   +"<th>Triple Store</th><th>Options</th></tr></thead><tbody>"
+		   var tablecontent="<thead><tr><th>FeatureType</th><th>Query</th><th>Namespace</th><th>IndVariable</th><th>Triple Store</th><th>Options</th></tr></thead><tbody>"
 		   for(featuretype in result["datasets"]){
 			   selectcontent+="<option value=\""+result["datasets"][featuretype]["query"]+"\">"+result["datasets"][featuretype]["name"]+"</option>"
 			   featuretypeToQuery[result["datasets"][featuretype]["name"]]=result["datasets"][featuretype]["query"]
+			   featuretypeToEndPoint[result["datasets"][featuretype]["name"]]=result["datasets"][featuretype]["triplestore"]
 			   tablecontent+="<tr><td>"
 			   +result["datasets"][featuretype]["name"]+"</td><td>"
 			   +result["datasets"][featuretype]["query"]+"</td><td>"
@@ -100,14 +101,15 @@ function sendQuery(geojsonres){
 	if(!(url.endsWith("/"))){
 		url+="/"
 	}
-	var endpoint=$('#dataset').val()
+	var endpoint=$('#samplequeries :selected').text()
+	console.log(endpoint);
 	if(!(endpoint.includes("http"))){
 	    endpoint=url+$('#dataset').val()
 	}
-    $.get(url+"rest/service/queryservice?query="+encodeURIComponent(yasqe.getValue())+"&endpoint="+encodeURIComponent(endpoint), function(data, status){
+    $.get("../service/queryservice?query="+encodeURIComponent(yasqe.getValue())+"&endpoint="+encodeURIComponent(featuretypeToEndPoint[$('#samplequeries :selected').text()]), function(data, status){
         //alert("Data: " + data + "\nStatus: " + status);
         var json=JSON.parse(data)
-                $('#number').text(json["size"]+" Results");
+        $('#number').text(json["size"]+" Results");
         var i=1;
         var table="<thead><tr><th>Counter</th>"
         for(variable in json["data"][0]){
@@ -126,7 +128,6 @@ function sendQuery(geojsonres){
         	table+="</tr>"
         }
         $('#queryres').html(table+"</tbody>")
-
         clearMap();
         var overlays={}
         for(layer in json["geojson"]){
