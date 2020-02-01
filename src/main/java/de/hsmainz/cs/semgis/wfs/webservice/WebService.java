@@ -487,12 +487,12 @@ public class WebService {
 			builder.append(htmlHead);
 			builder.append("<body><header><h1 align=\"center\">");
 			builder.append(featureid);
-			builder.append("</h1></header>");
+			builder.append("</h1></header><div class=\"container\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\">");
 			builder.append("<ul>");
 			builder.append(res);
 			builder.append("</ul>");
-			builder.append("<table width=100%><tr><td><a href=\""+wfsconf.getString("baseurl")+"/collections/"+collectionid+"?f=html\">Back to "+collectionid+" Collection</a></td><td align=right>This page in <a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"/items/"+featureid+"?f=gml\">[GML]</a> <a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"/items/"+featureid+"?f=json\">[JSON]</a></body></html>");
-			builder.append("</body></html>");
+			builder.append("<table width=100%><tr><td><a href=\""+wfsconf.getString("baseurl")+"/collections/"+collectionid+"?f=html\">Back to "+collectionid+" Collection</a></td><td align=right>This page in <a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"/items/"+featureid+"?f=gml\">[GML]</a> <a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"/items/"+featureid+"?f=json\">[JSON]</a>");
+			builder.append("</div></div></div></body></html>");
 			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
 		}else {
 			return Response.ok(res).type(MediaType.TEXT_PLAIN).build();
@@ -652,7 +652,7 @@ public class WebService {
 			StringBuilder builder=new StringBuilder();
 			builder.append(htmlHead);
 			builder.append("<body><header><h1 align=\"center\">LandingPage: "+wfsconf.getString("servicetitle"));
-			builder.append("</h1></header><p>"+wfsconf.getString("servicedescription")+"</p><ul>");
+			builder.append("</h1></header><div class=\"container\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\"><p>"+wfsconf.getString("servicedescription")+"</p><ul>");
 			builder.append("<li>LandingPage in <a href=\""+wfsconf.getString("baseurl")+"/?f=html\">[HTML]</a>");
 			builder.append(" <a href=\""+wfsconf.getString("baseurl")+"/?f=gml\">[XML]</a>");
 			builder.append(" <a href=\""+wfsconf.getString("baseurl")+"/?f=json\">[JSON]</a></li>");
@@ -669,7 +669,7 @@ public class WebService {
 			builder.append("<a href=\""+wfsconf.getString("baseurl")+"/wfs?REQUEST=getCapabilities&VERSION=1.1.0\">[XML]</a>");
 			builder.append("</li><li>GetCapabilities WFS 2.0.0 ");
 			builder.append("<a href=\""+wfsconf.getString("baseurl")+"/wfs?REQUEST=getCapabilities&VERSION=2.0.0\">[XML]</a>");
-			builder.append("</li></ul></body></html>");
+			builder.append("</li></ul></div></div></div></body></html>");
 			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
 		}else {
 			throw new NotFoundException();
@@ -1005,14 +1005,14 @@ public class WebService {
 				builder.append(htmlHead);
 				builder.append("<body><header><h1 align=\"center\">");
 				builder.append(collectionid);
-				builder.append("</h1></head>");
+				builder.append("</h1></head><div class=\"container\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\">");
 				builder.append(res);
 				builder.append("<script>$( document ).ready(function() {$('#queryres').DataTable();});</script>");
 				if(Integer.valueOf(limit)==1) {
 					builder.append("<table width=100%><tr><td><a href=\""+wfsconf.getString("baseurl")+"/collections/"+workingobj.getString("name")+"/items?f=html&limit=1&offset="+(Integer.valueOf(offset)!=0?(Integer.valueOf(offset)-1)+"":"0")+"\">[Previous]</a></td><td align=right><a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"/items?f=html&limit=1&offset="+(Integer.valueOf(offset)+1)+"\">[Next]</a></td></tr></table>");
 				}
 				builder.append("<table width=100%><tr><td><a href=\""+wfsconf.getString("baseurl")+"/collections/"+collectionid+"?f=html\">Back to "+collectionid+" Collection</a></td><td align=right>This page in <a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"/items?f=gml\">[GML]</a> <a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"/items?f=json\">[JSON]</a></body></html>");
-				builder.append("</body></html>");
+				builder.append("</div></div></div></body></html>");
 				return Response.ok(builder.toString()).type(ResultFormatter.getFormatter(format).mimeType).build();
 			}else {				
 				return Response.ok(res).type(ResultFormatter.getFormatter(format).mimeType).build();
@@ -1078,13 +1078,13 @@ public class WebService {
 			}
 		}else if(format == null || format.contains("html")) {
 			StringBuilder builder=new StringBuilder();
-			builder.append("<html><head></head><body><h1>Conformance</h1><ul>");
+			builder.append("<html><head></head><body><header><h1 align=\"center\">Conformance</h1></header><div class=\"container\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\"><ul>");
 			builder.append("<li><a target=\"_blank\" href=\"http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/core\">Core</a></li>");
 			builder.append("<li><a target=\"_blank\" href=\"http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/oas30\">Oas30</a></li>");
 			builder.append("<li><a target=\"_blank\" href=\"http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/html\">HTML</a></li>");
 			builder.append("<li><a target=\"_blank\" href=\"http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/geojson\">GeoJSON</a></li>");
 			builder.append("<li><a target=\"_blank\" href=\"http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/gmlsf0\">GMLSf0</a></li>");
-			builder.append("</ul><a href=\""+wfsconf.getString("baseurl")+"/?f=html\">Back to LandingPage</a></body></html>");
+			builder.append("</ul><a href=\""+wfsconf.getString("baseurl")+"/?f=html\">Back to LandingPage</a></div></div></div></body></html>");
 			return Response.ok(builder.toString()).type(ResultFormatter.getFormatter(format).mimeType).build();
 		}else {
 			throw new NotFoundException();
@@ -1823,11 +1823,11 @@ public class WebService {
 		}else if(output.contains("html")) {
 			StringBuilder builder = new StringBuilder();
 			builder.append(htmlHead);
-			builder.append("<body><h1 align=\"center\">");
+			builder.append("<body><header><h1 align=\"center\">");
 			builder.append(typename);
-			builder.append("</h1>");
+			builder.append("</h1></header><div class=\"container\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\">");
 			builder.append(res);
-			builder.append("<script>$( document ).ready(function() {$('#queryres').DataTable();});</script></body></html>");
+			builder.append("<script>$( document ).ready(function() {$('#queryres').DataTable();});</script></div></div></div></body></html>");
 			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
 		} else if(output.contains("csv") || output.contains("geouri") || output.contains("geohash")) {
 			return Response.ok(res).type(MediaType.TEXT_PLAIN).build();
@@ -1929,9 +1929,9 @@ public class WebService {
 			return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
 		}else if(output!=null && output.contains("html")) {
 			StringBuilder builder=new StringBuilder();
-			builder.append("<html><head></head><body><header><h1 align=center>PropertyRequest: "+typename+"["+propertyname+"]</h1></header>");
+			builder.append("<html><head></head><body><header><h1 align=center>PropertyRequest: "+typename+"["+propertyname+"]</h1></header><div class=\"container\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\">");
 			builder.append(res);
-			builder.append("<a href=\""+wfsconf.getString("baseurl")+"/?f=html\">Back to LandingPage</a></body></html>");
+			builder.append("<a href=\""+wfsconf.getString("baseurl")+"/?f=html\">Back to LandingPage</a></div></div></div></body></html>");
 			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
 		}else if(output!=null) {
 			return Response.ok(res).type(MediaType.TEXT_PLAIN).build();
