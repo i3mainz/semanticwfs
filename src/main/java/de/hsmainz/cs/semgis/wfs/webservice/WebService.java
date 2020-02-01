@@ -54,6 +54,7 @@ public class WebService {
 	String htmlHead="<html><head><link rel=\"stylesheet\" href=\"https://unpkg.com/leaflet@1.5.1/dist/leaflet.css\"\r\n" + 
 			"   integrity=\"sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==\"\r\n" + 
 			"   crossorigin=\"\"/>\r\n" + 
+			" <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css\" integrity=\"sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb\" crossorigin=\"anonymous\">"+
 			"<script src=\"https://unpkg.com/leaflet@1.5.1/dist/leaflet.js\"\r\n" + 
 			"   integrity=\"sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==\"\r\n" + 
 			"   crossorigin=\"\"></script><link rel=\"stylesheet\" href=\"https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css\"/><script src=\"https://code.jquery.com/jquery-3.4.1.min.js\"></script><script src=\"https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js\"></script><script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>\r\n" + 
@@ -328,10 +329,10 @@ public class WebService {
 		} else if (format == null || format.contains("html")) {
 			StringBuilder builder = new StringBuilder();
 			builder.append(htmlHead);
-			builder.append("<h1 align=center>");
+			builder.append("<header><div class=\"page-header\"><h1 align=center>");
 			builder.append("FeatureCollection View");
-			builder.append("</h1>");
-			builder.append("<table width=100% border=1><tr><th>Collection</th><th>Decription</th><th>Schema</th><th>Formats</th></tr>");
+			builder.append("</h1></div></header>");
+			builder.append("<div class=\"container\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\"><table width=100% border=1><tr><th>Collection</th><th>Decription</th><th>Schema</th><th>Formats</th></tr>");
 			for (int i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
 				JSONObject curobj = wfsconf.getJSONArray("datasets").getJSONObject(i);
 				builder.append("<tr><td align=center><a href=\""+wfsconf.getString("baseurl")+"/collections/"+wfsconf.getJSONArray("datasets").getJSONObject(i).get("name")+"?f=html\">"+wfsconf.getJSONArray("datasets").getJSONObject(i).get("name")+"</a></td><td align=center>");
@@ -356,7 +357,7 @@ public class WebService {
 				builder.append("</td></tr>");
 			}
 			builder.append("</table>");
-			builder.append("<table width=100%><tr><td><a href=\""+wfsconf.getString("baseurl")+"/?f=html\">Back to LandingPage</a></td><td align=right>This page in <a href=\""+wfsconf.getString("baseurl") + "/collections?f=gml\">[GML]</a> <a href=\""+wfsconf.getString("baseurl") + "/collections?f=json\">[JSON]</a></body></html>");
+			builder.append("<table width=100%><tr><td><a href=\""+wfsconf.getString("baseurl")+"/?f=html\">Back to LandingPage</a></td><td align=right>This page in <a href=\""+wfsconf.getString("baseurl") + "/collections?f=gml\">[GML]</a> <a href=\""+wfsconf.getString("baseurl") + "/collections?f=json\">[JSON]</a></div></div></div></body></html>");
 			return Response.ok(builder.toString()).type(ResultFormatter.getFormatter(format).mimeType).build();
 		}else {
 			throw new NotFoundException();
@@ -484,9 +485,9 @@ public class WebService {
 		} else if (format == null || format.contains("html")) {
 			StringBuilder builder = new StringBuilder();
 			builder.append(htmlHead);
-			builder.append("<body><h1 align=\"center\">");
+			builder.append("<body><header><h1 align=\"center\">");
 			builder.append(featureid);
-			builder.append("</h1>");
+			builder.append("</h1></header>");
 			builder.append("<ul>");
 			builder.append(res);
 			builder.append("</ul>");
@@ -650,8 +651,8 @@ public class WebService {
 		}else if (format.contains("html")) {
 			StringBuilder builder=new StringBuilder();
 			builder.append(htmlHead);
-			builder.append("<body><h1 align=\"center\">LandingPage: "+wfsconf.getString("servicetitle"));
-			builder.append("</h1><p>"+wfsconf.getString("servicedescription")+"</p><ul>");
+			builder.append("<body><header><h1 align=\"center\">LandingPage: "+wfsconf.getString("servicetitle"));
+			builder.append("</h1></header><p>"+wfsconf.getString("servicedescription")+"</p><ul>");
 			builder.append("<li>LandingPage in <a href=\""+wfsconf.getString("baseurl")+"/?f=html\">[HTML]</a>");
 			builder.append(" <a href=\""+wfsconf.getString("baseurl")+"/?f=gml\">[XML]</a>");
 			builder.append(" <a href=\""+wfsconf.getString("baseurl")+"/?f=json\">[JSON]</a></li>");
@@ -802,9 +803,9 @@ public class WebService {
 			geojson.put("geometry",geometry);
 			geojson.put("properties",properties);
 			builder.append(htmlHead);
-			builder.append("<body><h1 align=\"center\">");
+			builder.append("<body><header><h1 align=\"center\">");
 			builder.append((workingobj.getString("description")!=null?workingobj.getString("description"):collectionid));
-			builder.append("</h1>");
+			builder.append("</h1></header><div class=\"container\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\">");
 			builder.append("<table width=100%><tr><td width=\"100%\" rowspan=2>");
 			builder.append("<script>var overlayMaps={}; var overlayControl; var typeColumn=\""+(workingobj.has("typeColumn")?workingobj.getString("typeColumn"):"")+"\"; var markercollection=[];");
 			builder2.append(((HTMLFormatter)ResultFormatter.getFormatter("html")).htmlHeader);
@@ -854,7 +855,7 @@ public class WebService {
 			}
 			builder.append("</td></tr></table>");
 			builder.append("<table width=100%><tr><td><a href=\""+wfsconf.getString("baseurl")+"/collections/"+workingobj.getString("name")+"/items?f=html&limit=1&offset="+(Integer.valueOf(offset)!=0?(Integer.valueOf(offset)-1)+"":"0")+"\">[Previous]</a></td><td align=right><a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"/items?f=html&limit=1&offset="+(Integer.valueOf(offset)+1)+"\">[Next]</a></td></tr></table>");
-			builder.append("<table width=100%><tr><td><a href=\""+wfsconf.getString("baseurl")+"/collections?f=html\">Back to Collections</a></td><td align=right>This page in <a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"?f=gml\">[GML]</a> <a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"?f=json\">[JSON]</a></body></html>");
+			builder.append("<table width=100%><tr><td><a href=\""+wfsconf.getString("baseurl")+"/collections?f=html\">Back to Collections</a></td><td align=right>This page in <a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"?f=gml\">[GML]</a> <a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"?f=json\">[JSON]</a></div></div></div></body></html>");
 			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
 		} else {
 			throw new NotFoundException();
@@ -1002,9 +1003,9 @@ public class WebService {
 			} else if (format == null || format.contains("html")) {
 				StringBuilder builder = new StringBuilder();
 				builder.append(htmlHead);
-				builder.append("<body><h1 align=\"center\">");
+				builder.append("<body><header><h1 align=\"center\">");
 				builder.append(collectionid);
-				builder.append("</h1>");
+				builder.append("</h1></head>");
 				builder.append(res);
 				builder.append("<script>$( document ).ready(function() {$('#queryres').DataTable();});</script>");
 				if(Integer.valueOf(limit)==1) {
@@ -1928,7 +1929,7 @@ public class WebService {
 			return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
 		}else if(output!=null && output.contains("html")) {
 			StringBuilder builder=new StringBuilder();
-			builder.append("<html><head></head><body><h1 align=center>PropertyRequest: "+typename+"["+propertyname+"]</h1>");
+			builder.append("<html><head></head><body><header><h1 align=center>PropertyRequest: "+typename+"["+propertyname+"]</h1></header>");
 			builder.append(res);
 			builder.append("<a href=\""+wfsconf.getString("baseurl")+"/?f=html\">Back to LandingPage</a></body></html>");
 			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
