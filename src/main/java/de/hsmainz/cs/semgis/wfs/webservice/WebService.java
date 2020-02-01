@@ -1078,7 +1078,7 @@ public class WebService {
 			}
 		}else if(format == null || format.contains("html")) {
 			StringBuilder builder=new StringBuilder();
-			builder.append("<html><head></head><body><header><h1 align=\"center\">Conformance</h1></header><div class=\"container\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\"><ul>");
+			builder.append("<html><head>"+htmlHead+"</head><body><header><h1 align=\"center\">Conformance</h1></header><div class=\"container\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\"><ul>");
 			builder.append("<li><a target=\"_blank\" href=\"http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/core\">Core</a></li>");
 			builder.append("<li><a target=\"_blank\" href=\"http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/oas30\">Oas30</a></li>");
 			builder.append("<li><a target=\"_blank\" href=\"http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/html\">HTML</a></li>");

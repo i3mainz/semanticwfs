@@ -333,7 +333,7 @@ public abstract class TripleStoreConnector {
 	
 	public static String CQLfilterStringToSPARQLQuery(String filter,String bbox,String curquery,String queryurl,String featuretype) {
 		if(filter.isEmpty() && bbox.isEmpty())
-			return filter;
+			return curquery;
 		StringBuilder additionaltriples=new StringBuilder();
 		StringBuilder builder=new StringBuilder();
 		System.out.println("Curquery: "+curquery);
@@ -438,7 +438,8 @@ public abstract class TripleStoreConnector {
 			queryString=queryString.replace("WHERE{","WHERE{"+System.lineSeparator());
 		}
 		queryString+="?"+workingobj.getString("indvar")+" <"+propertyValue+"> ?member ."+System.lineSeparator();
-		queryString=CQLfilterStringToSPARQLQuery(filter,"",queryString.substring(0,queryString.lastIndexOf('}')),queryurl,featuretype);
+		queryString=queryString.substring(0,queryString.lastIndexOf('}'));
+		queryString=CQLfilterStringToSPARQLQuery(filter,"",queryString,queryurl,featuretype);
 		queryString+="}"+System.lineSeparator();
 		if(!resultType.equalsIgnoreCase("hits"))
 			queryString+=" ORDER BY ?"+featuretype.toLowerCase()+System.lineSeparator();
@@ -494,7 +495,8 @@ public abstract class TripleStoreConnector {
 			queryString=queryString.replace("WHERE{","WHERE{"+System.lineSeparator());
 		}
 		System.out.println("PreCurQuery: "+queryString);
-		queryString=CQLfilterStringToSPARQLQuery(filter,bbox,queryString.substring(0,queryString.lastIndexOf('}')),queryurl,featuretype)+"}";
+		queryString=queryString.substring(0,queryString.lastIndexOf('}'));
+		queryString=CQLfilterStringToSPARQLQuery(filter,bbox,queryString,queryurl,featuretype)+"}";
 		if(!resultType.equalsIgnoreCase("hits"))
 			queryString+=System.lineSeparator()+"ORDER BY ?"+featuretype.toLowerCase()+System.lineSeparator();
 		Integer limit=Integer.valueOf(count);
