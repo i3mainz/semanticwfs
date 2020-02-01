@@ -19,7 +19,7 @@
 <script>
 var overlayMaps={}
 $(document).ready( function () {
-	$.getJSON("../rest/service/featureTypes", function(result){
+	$.getJSON("../service/featureTypes", function(result){
 		   $('#servicetitle').html(result["servicetitle"]);
 		   var tablecontent="<thead><tr><th>FeatureType</th><th>Query</th><th>Namespace</th><th>IndVariable</th>"
 		   +"<th>Triple Store</th><th>Options</th></tr></thead><tbody>"
@@ -67,7 +67,7 @@ $(document).ready( function () {
 		        e.stopPropagation();
 		      });
 		});
-	$.getJSON("../rest/service/prefixes", function(result){
+	$.getJSON("../service/prefixes", function(result){
 		   $('#prefixes').html(result);
 		});
 } );
