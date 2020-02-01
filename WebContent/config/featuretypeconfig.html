@@ -79,6 +79,35 @@ $(document).ready( function () {
 		});
 } );
 
+function clearMap() {
+    for(i in mymap._layers) {
+        if(mymap._layers[i]._path != undefined) {
+            try {
+                mymap.removeLayer(mymap._layers[i]);
+            }
+            catch(e) {
+                console.log("problem with " + e + mymap._layers[i]);
+            }
+        }
+    }
+	if(!first){
+		mymap.removeControl(overlayControl);
+	}else{
+		first=false;
+	}
+	// now put the control back
+
+	layercontrol.addTo(mymap);
+	for(marker in markercollection){
+		mymap.removeLayer(markercollection[marker])
+	}
+	markercollection=[]
+    /*    for(decorator in decorators){
+		mymap.removeLayer(decorators[decorator])
+	}
+	decorators=[]*/
+}
+
 function saveTextAsFile(tosave,fileext,filename)
 {
     var a = document.createElement('a');
