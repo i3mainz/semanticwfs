@@ -18,12 +18,16 @@
   </style>
 <script>
 var overlayMaps={}
+var featuretypeToQuery={}
 $(document).ready( function () {
 	$.getJSON("../service/featureTypes", function(result){
 		   $('#servicetitle').html(result["servicetitle"]);
+		   var selectcontent="";
 		   var tablecontent="<thead><tr><th>FeatureType</th><th>Query</th><th>Namespace</th><th>IndVariable</th>"
 		   +"<th>Triple Store</th><th>Options</th></tr></thead><tbody>"
 		   for(featuretype in result["datasets"]){
+			   selectcontent+="<option value=\""+result["datasets"][featuretype]["name"]+"\">"+result["datasets"][featuretype]["name"]+"</option>"
+			   featuretypeToQuery[result["datasets"][featuretype]["name"]]=result["datasets"][featuretype]["query"]
 			   tablecontent+="<tr><td>"
 			   +result["datasets"][featuretype]["name"]+"</td><td>"
 			   +result["datasets"][featuretype]["query"]+"</td><td>"
@@ -32,6 +36,7 @@ $(document).ready( function () {
 			   +result["datasets"][featuretype]["triplestore"]+"</td><td><i class=\"fa fa-pencil-square\" aria-hidden=\"true\"></i><i class=\"fa fa-minus-square\" aria-hidden=\"true\"></i> </td></tr>"
 		   }
 		   tablecontent+="</tbody>"
+		   $('#samplequeries').html(selectcontent);
 		   $('#featuretypes').html(tablecontent);
 		   $('#featuretypes').DataTable();
 		   $("#featuretypes").on('mousedown.edit', "i.fa.fa-pencil-square", function(e) {
@@ -71,6 +76,12 @@ $(document).ready( function () {
 		   $('#prefixes').html(result);
 		});
 } );
+
+function chooseSampleQuery(){
+	yasqe.setValue(prefixList+"\n"+$('#samplequeries :selected').val().replace(".",".\n").replace("}","\n}\n").replace("{","{\n"))
+    $('#queryinput').val(prefixList+"\n"+$('#samplequeries :selected').val().replace(".",".\n").replace("}","\n}\n").replace("{","{\n"));
+}
+    
 function addFeature(){
 	
 }
@@ -82,10 +93,9 @@ function addFeature(){
   <div class="row">
   <div class="col-sm-5">
 Query Input:<br/>
-<span id="numberexamples"></span> Example Queries for New Functions:
+<span id="numberexamples"></span> Feature Type Queries:
 <script>
 $( document ).ready(function() {
-	$('#numberexamples').html($('#samplequeries option').length);
 	chooseSampleQuery();
 });
 </script>
