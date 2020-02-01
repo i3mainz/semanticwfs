@@ -669,7 +669,7 @@ public class WebService {
 			builder.append("<a href=\""+wfsconf.getString("baseurl")+"/wfs?REQUEST=getCapabilities&VERSION=1.1.0\">[XML]</a>");
 			builder.append("</li><li>GetCapabilities WFS 2.0.0 ");
 			builder.append("<a href=\""+wfsconf.getString("baseurl")+"/wfs?REQUEST=getCapabilities&VERSION=2.0.0\">[XML]</a>");
-			builder.append("</li></ul>Local Options:<ul><li><a href=\"https://www.i3mainz.de/projekte/bkg/integrationtest\">Local Triple Store</a></li><li><a href=\"https://www.i3mainz.de/projekte/bkg/semanticwfs/snorql\">Linked Data Browser (SNORQL)</a></li><li><a href=\"https://www.i3mainz.de/projekte/bkg/semanticwfs/config/featuretypeconfig.html\">Semantic WFS Configuration</a></li></ul></div></div></div></body></html>");
+			builder.append("</li></ul>Local Options:<ul><li><a href=\"https://www.i3mainz.de/projekte/bkg/integrationtest/\">Local Triple Store</a></li><li><a href=\"https://www.i3mainz.de/projekte/bkg/semanticwfs/snorql/\">Linked Data Browser (SNORQL)</a></li><li><a href=\"https://www.i3mainz.de/projekte/bkg/semanticwfs/config/featuretypeconfig.html\">Semantic WFS Configuration</a></li></ul></div></div></div></body></html>");
 			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
 		}else {
 			throw new NotFoundException();
