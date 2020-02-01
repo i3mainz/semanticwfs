@@ -27,7 +27,7 @@ $(document).ready( function () {
 		   var tablecontent="<thead><tr><th>FeatureType</th><th>Query</th><th>Namespace</th><th>IndVariable</th>"
 		   +"<th>Triple Store</th><th>Options</th></tr></thead><tbody>"
 		   for(featuretype in result["datasets"]){
-			   selectcontent+="<option value=\""+result["datasets"][featuretype]["name"]+"\">"+result["datasets"][featuretype]["name"]+"</option>"
+			   selectcontent+="<option value=\""+result["datasets"][featuretype]["query"]+"\">"+result["datasets"][featuretype]["name"]+"</option>"
 			   featuretypeToQuery[result["datasets"][featuretype]["name"]]=result["datasets"][featuretype]["query"]
 			   tablecontent+="<tr><td>"
 			   +result["datasets"][featuretype]["name"]+"</td><td>"
