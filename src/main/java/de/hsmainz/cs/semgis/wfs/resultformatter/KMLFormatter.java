@@ -9,6 +9,7 @@ import javax.xml.stream.XMLStreamWriter;
 
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
+import org.json.JSONObject;
 
 import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
 
@@ -29,7 +30,7 @@ public class KMLFormatter extends WFSResultFormatter {
 		writer.writeStartDocument();
 		writer.writeStartElement("Document");
 		writer.writeDefaultNamespace("http://www.opengis.net/kml/2.2");
-		String rel="",val="",curfeaturetype="",lastInd="";
+		String rel="",val="",curfeaturetype="",lastInd="",lon="",lat="";
 	    while(results.hasNext()) {
 	    	this.lastQueriedElemCount++;
 	    	QuerySolution solu=results.next();
@@ -63,6 +64,10 @@ public class KMLFormatter extends WFSResultFormatter {
 					rel=solu.get(name).toString();
 				}else if("val".equalsIgnoreCase(name) || name.contains("_val")){
 					val=solu.get(name).toString();
+				}else if("lat".equalsIgnoreCase(name)){
+					lat=solu.get(name).toString();
+				}else if("lon".equalsIgnoreCase(name)){
+					lon=solu.get(name).toString();
 				}else {
 					if((name.contains("http") || name.contains("file:/")) && name.contains("#")) {
 						writer.writeStartElement(name.substring(name.lastIndexOf('#')+1));
@@ -87,6 +92,22 @@ public class KMLFormatter extends WFSResultFormatter {
 				}
 				rel="";
 				val="";
+			}
+			if(!lat.isEmpty() && !lon.isEmpty()) {
+				System.out.println("LatLon: "+lat+","+lon);
+				if(lat.contains("^^")) {
+					lat=lat.substring(0,lat.indexOf("^^"));
+				}
+				if(lon.contains("^^")) {
+					lon=lon.substring(0,lon.indexOf("^^"));
+				}
+				writer.writeStartElement("the_geom");
+				writer.writeStartElement("coordinates");
+				writer.writeCharacters(lon+" "+lat);
+				writer.writeEndElement();
+				writer.writeEndElement();
+				lat="";
+				lon="";
 			}
 			lastInd=solu.get(featuretype.toLowerCase()).toString();	
 	    }
