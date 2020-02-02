@@ -22,6 +22,11 @@
 "indvar":"item","description":"NamedPlaces in Germany","geometrytype":"Point","targetCRS":"EPSG:4326","useorderby":true,
 "query":"SELECT ?item ?rel ?val ?the_geom WHERE{ ?item rdf:type ign:NamedPlace . ?item ?rel ?val . OPTIONAL{?val geo:asWKT ?the_geom .} }",
 "triplestore":"https://www.i3mainz.de/projekte/bkg/integrationtest/sparql",
-"type":"WFS", "typecolumn":"http://inspire.ec.europa.eu/schemas/gn/4.0#type", "name":"NamedPlace"}
+"type":"WFS", "typecolumn":"http://inspire.ec.europa.eu/schemas/gn/4.0#type", "name":"NamedPlace"},
+{"namespace":"http://pleiades.stoa.org/places/vocab#",
+"indvar":"item","description":"Pleiades Locations","geometrytype":"Point","targetCRS":"EPSG:4326","useorderby":true,
+"query":"SELECT ?item ?the_geom WHERE {?a rdf:type pleiades:Place . ?a pleiades:hasLocation ?item . ?item geo:asWKT ?wkt_geom . }",
+"triplestore":"https://sandbox.mainzed.org/pleiades/sparql",
+"type":"WFS", "name":"PleiadesLocations"}
 ]
 }
