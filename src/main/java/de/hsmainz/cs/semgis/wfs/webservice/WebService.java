@@ -65,6 +65,12 @@ public class WebService {
 			String text2 = new String(Files.readAllBytes(Paths.get("wfsconf.json")), StandardCharsets.UTF_8);
 			wfsconf = new JSONObject(text2);
 		}
+		for(Integer i=0;i<wfsconf.getJSONArray("datasets").length();i++) {
+			JSONObject featuretype=wfsconf.getJSONArray("datasets").getJSONObject(i);
+			if(!bboxCache.containsKey(featuretype.getString("name").toLowerCase())) {
+				bboxCache.put(featuretype.getString("name").toLowerCase(),TripleStoreConnector.getBoundingBoxFromTripleStoreData(featuretype.getString("triplestore"), featuretype.getString("query")));
+			}
+		}
 	}
 	
 	public Response createExceptionResponse(Exception e,String format) {
