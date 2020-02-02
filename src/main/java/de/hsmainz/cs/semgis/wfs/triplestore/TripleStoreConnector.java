@@ -54,7 +54,7 @@ public abstract class TripleStoreConnector {
 		if(queryString.contains("the_geom")) {
 			queryString=" SELECT ?the_geom "+queryString.substring(queryString.indexOf("WHERE"));
 		}else if(queryString.contains("lat") && queryString.contains("lon")) {
-			queryString=" SELECT ?lat ?lon "+queryString.substring(queryString.indexOf("WHERE"));
+			queryString=" SELECT (MIN(?lat) AS ?minlat) (MAX(?lat) AS ?maxlat) (MIN(?lon) AS ?minlon) (MAX(?lon) AS ?maxlon) "+queryString.substring(queryString.indexOf("WHERE"));
 		}
 		try {
 		Query query = QueryFactory.create(prefixCollection+queryString);
@@ -63,8 +63,23 @@ public abstract class TripleStoreConnector {
 		Integer outercounter=0;
 		while(results.hasNext()) {
 			QuerySolution solu=results.next();
-			if(solu.get("the_geom")==null && solu.get("lat")==null && solu.get("lon")==null) {
+			if(solu.get("the_geom")==null && solu.get("minlat")==null && solu.get("minlon")==null) {
 				continue;
+			}
+			if(solu.get("minlon")!=null) {
+				if(solu.get("minlon")!=null) {
+					minx=Double.valueOf(solu.get("minlon").toString().substring(0,solu.get("minlon").toString().indexOf("^^")));
+				}
+				if(solu.get("minlat")!=null) {
+					miny=Double.valueOf(solu.get("minlat").toString().substring(0,solu.get("minlat").toString().indexOf("^^")));
+				}
+				if(solu.get("maxlon")!=null) {
+					maxx=Double.valueOf(solu.get("maxlon").toString().substring(0,solu.get("maxlon").toString().indexOf("^^")));
+				}
+				if(solu.get("maxlat")!=null) {
+					maxy=Double.valueOf(solu.get("maxlat").toString().substring(0,solu.get("maxlat").toString().indexOf("^^")));
+				}
+				return new Double[] {minx,miny,maxx,maxy};
 			}
 			if(solu.get("the_geom")!=null) {
 			String wktLiteral=solu.get("the_geom").toString();
