@@ -137,6 +137,10 @@ function sendQuery(geojsonres){
 	if(!(url.endsWith("/"))){
 		url+="/"
 	}
+	if(!yasqe.getValue().includes("?item") || (!yasqe.getValue().includes("?the_geom") && !yasqe.getValue().includes("?lat") && yasqe.getValue().includes("?lon"))){
+		alert("Query must include the variable ?item for the instance and at least the variable ?the_geom or the variables ?lat and ?lon for the geometry!");
+		return;
+	}
 	var endpoint=$('#samplequeries :selected').text()
 	console.log(endpoint);
 	if(!(endpoint.includes("http"))){
@@ -145,25 +149,6 @@ function sendQuery(geojsonres){
     $.get("../service/queryservice?query="+encodeURIComponent(yasqe.getValue())+"&endpoint="+encodeURIComponent(featuretypeToEndPoint[$('#samplequeries :selected').text()]), function(data, status){
         //alert("Data: " + data + "\nStatus: " + status);
         var json=JSON.parse(data)
-        $('#number').text(json["size"]+" Results");
-        var i=1;
-        var table="<thead><tr><th>Counter</th>"
-        for(variable in json["data"][0]){
-        	table+="<th>"+variable+"</th>"
-        }
-        table+="</tr></thead><tbody>"
-        for(obj in json["data"]){
-        	table+="<tr><td>"+i+++"</td>"
-        	for(variable in json["data"][obj]){
-        		if(json["data"][obj][variable].startsWith("http") || json["data"][obj][variable].startsWith("https")){
-            		table+="<td><a href=\""+json["data"][obj][variable]+"\" target=\"_blank\">"+json["data"][obj][variable]+"</a></td>"
-        		}else{
-            		table+="<td>"+json["data"][obj][variable]+"</td>"        			
-        		}
-        	}
-        	table+="</tr>"
-        }
-        $('#queryres').html(table+"</tbody>")
         clearMap();
         var overlays={}
         for(layer in json["geojson"]){
