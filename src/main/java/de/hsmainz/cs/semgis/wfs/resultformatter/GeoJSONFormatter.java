@@ -42,7 +42,7 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 		JSONArray features = new JSONArray();
 		allfeatures.add(features);
 		geojsonresults.put("features", features);
-		String rel = "", val = "", lastInd = "";
+		String rel = "", val = "", lastInd = "",lat="",lon="";
 		JSONObject jsonobj = new JSONObject();
 
 		JSONObject properties = new JSONObject();
@@ -121,8 +121,12 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 				if (name.endsWith("_rel") || name.equals("rel")) {
 					relationName = solu.get(name).toString();
 					rel = solu.get(name).toString();
-				} else if (name.endsWith("_val") || name.equals("val")) {
+				}else if (name.endsWith("_val") || name.equals("val")) {
 					val = solu.get(name).toString();
+				}else if (name.equals("lat")) {
+					lat = solu.get(name).toString();
+				}else if (name.equals("lon")) {
+					lon = solu.get(name).toString();
 				}else if (name.equalsIgnoreCase(featuretype)) {
 					continue;
 				} else {
@@ -149,6 +153,21 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 				}
 				rel = "";
 				val = "";
+			}
+			if(!lat.isEmpty() && !lon.isEmpty()) {
+				System.out.println("LatLon: "+lat+","+lon);
+				if(lat.contains("^^")) {
+					lat=lat.substring(0,lat.indexOf("^^"));
+				}
+				if(lon.contains("^^")) {
+					lon=lon.substring(0,lon.indexOf("^^"));
+				}
+				JSONObject geomobj=new JSONObject("{\"type\":\"Point\",\"coordinates\":["+lon+","+lat+"]}");
+				geoms.add(geomobj);
+				properties.put("lat", lat);
+				properties.put("lon",lon);
+				lat="";
+				lon="";
 			}
 			first = false;
 			lastInd = solu.get(featuretype.toLowerCase()).toString();

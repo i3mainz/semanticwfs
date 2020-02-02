@@ -9,6 +9,7 @@ import javax.xml.stream.XMLStreamWriter;
 
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
+import org.json.JSONObject;
 
 import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
 
@@ -45,7 +46,7 @@ public class GMLFormatter extends WFSResultFormatter {
 		XMLStreamWriter writer=new IndentingXMLStreamWriter(factory.createXMLStreamWriter(strwriter));
 		//writer.writeStartDocument();
 		String lastInd="";
-		String rel="",val="";
+		String rel="",val="",lat="",lon="";
 		Boolean first=true;
 	    while(results.hasNext()) {
 	    	QuerySolution solu=results.next();
@@ -94,6 +95,10 @@ public class GMLFormatter extends WFSResultFormatter {
 					rel=solu.get(curvar).toString();
 				}else if("val".equalsIgnoreCase(curvar) || curvar.contains("_val")){
 					val=solu.get(curvar).toString();
+				}else if("lat".equalsIgnoreCase(curvar)){
+					lat=solu.get(curvar).toString();
+				}else if("lon".equalsIgnoreCase(curvar)){
+					lon=solu.get(curvar).toString();
 				}else {
 					writer.writeStartElement(curvar);
 					writer.writeCharacters(solu.get(curvar).toString());
@@ -126,6 +131,26 @@ public class GMLFormatter extends WFSResultFormatter {
 				}
 				rel="";
 				val="";
+			}
+			if(!lat.isEmpty() && !lon.isEmpty()) {
+				System.out.println("LatLon: "+lat+","+lon);
+				if(lat.contains("^^")) {
+					lat=lat.substring(0,lat.indexOf("^^"));
+				}
+				if(lon.contains("^^")) {
+					lon=lon.substring(0,lon.indexOf("^^"));
+				}
+				writer.writeStartElement("the_geom");
+				writer.writeStartElement("gml:Point");
+				writer.writeAttribute("gml:id",curfeaturetype+"_GEOMETRY");
+					//writer.writeAttribute("srsName", srsName);
+				writer.writeStartElement("gml:pos");
+				writer.writeCharacters(lon+" "+lat);
+				writer.writeEndElement();
+				writer.writeEndElement();
+				writer.writeEndElement();
+				lat="";
+				lon="";
 			}
 			lastInd=solu.get(featuretype.toLowerCase()).toString();
 	    }

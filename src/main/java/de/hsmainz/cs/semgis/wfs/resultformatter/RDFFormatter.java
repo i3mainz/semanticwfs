@@ -6,6 +6,7 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
+import org.json.JSONObject;
 
 public class RDFFormatter extends ResultFormatter {
 
@@ -18,7 +19,7 @@ public class RDFFormatter extends ResultFormatter {
 	public String formatter(ResultSet results, String startingElement, String featuretype,String propertytype,
 			String typeColumn,Boolean onlyproperty,Boolean onlyhits,String srsName) throws XMLStreamException {
 		StringBuilder builder=new StringBuilder();
-		String rel="",val="",lastInd="",geomLiteral="";
+		String rel="",val="",lastInd="",geomLiteral="",lat="",lon="";
 		builder.append("<http://www.opengis.net/ont/geosparql#Geometry> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> ."+System.lineSeparator());
 		builder.append("<http://www.opengis.net/ont/geosparql#Feature> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> ."+System.lineSeparator());
 		builder.append("<http://www.opengis.net/ont/geosparql#SpatialObject> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> ."+System.lineSeparator());
@@ -44,6 +45,10 @@ public class RDFFormatter extends ResultFormatter {
 					rel=solu.get(name).toString();
 				}else if("val".equalsIgnoreCase(name) || name.contains("_val")){
 					val=solu.get(name).toString();
+				}else if("lat".equalsIgnoreCase(name)){
+					lat=solu.get(name).toString();
+				}else if("lon".equalsIgnoreCase(name)){
+					lon=solu.get(name).toString();
 				}else {
 					if(val.startsWith("http") || val.startsWith("file:/")) {
 						builder.append("<"+solu.get(featuretype.toLowerCase())+"> <"+name+"> <"+solu.get(name).toString()+"> ."+System.lineSeparator());		
@@ -53,6 +58,21 @@ public class RDFFormatter extends ResultFormatter {
 						builder.append("<"+solu.get(featuretype.toLowerCase())+"> <"+name+"> \""+solu.get(name).toString()+"\"^^<http://www.w3.org/2001/XMLSchema#string> ."+System.lineSeparator());
 					}
 	    		}
+			}
+			if(!lat.isEmpty() && !lon.isEmpty()) {
+				System.out.println("LatLon: "+lat+","+lon);
+				if(lat.contains("^^")) {
+					lat=lat.substring(0,lat.indexOf("^^"));
+				}
+				if(lon.contains("^^")) {
+					lon=lon.substring(0,lon.indexOf("^^"));
+				}
+				geomLiteral="\"Point("+lon+" "+lat+")\"^^<http://www.opengis.net/ont/geosparql#wktLiteral> .";
+				builder.append("<"+solu.get(featuretype.toLowerCase())+"_geom> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.opengis.net/ont/geosparql#Geometry> ."+System.lineSeparator());
+				builder.append("<"+solu.get(featuretype.toLowerCase())+"> <http://www.opengis.net/ont/geosparql#hasGeometry> <"+solu.get(featuretype.toLowerCase())+"_geom> ."+System.lineSeparator());
+				builder.append("<"+solu.get(featuretype.toLowerCase())+"_geom> <http://www.opengis.net/ont/geosparql#asWKT> "+geomLiteral+System.lineSeparator());
+				lat="";
+				lon="";
 			}
 			if(!rel.isEmpty() && !val.isEmpty()) {
 				if(!geomLiteral.isEmpty()) {

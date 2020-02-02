@@ -246,10 +246,14 @@ public abstract class TripleStoreConnector {
 		Map<String,String> result=new TreeMap<>();
 		Map<String,String> nscache=new TreeMap<>();
 		System.out.println(prefixCollection+queryString);
-		queryString+=" ORDER BY ?"+featuretype.toLowerCase()+System.lineSeparator();
-		Query query = QueryFactory.create(prefixCollection+queryString);
-		QueryExecution qexec = QueryExecutionFactory.sparqlService(queryurl, query+" LIMIT 1");
+		if(workingobj.has("useorderby") && workingobj.getBoolean("useorderby"))
+			queryString+=" ORDER BY ?"+featuretype.toLowerCase()+System.lineSeparator();
+		Query query = QueryFactory.create(prefixCollection+queryString+" LIMIT 1");
+		QueryExecution qexec = QueryExecutionFactory.sparqlService(queryurl, query);
 		ResultSet results = qexec.execSelect();
+		if(!results.hasNext()) {
+			return null;
+		}
 		QuerySolution solu=results.next();
 		Iterator<String> varnames=solu.varNames();
 		System.out.println(solu.get(featuretype.toLowerCase()));
@@ -333,7 +337,7 @@ public abstract class TripleStoreConnector {
 	
 	public static String CQLfilterStringToSPARQLQuery(String filter,String bbox,String curquery,String queryurl,String featuretype) {
 		if(filter.isEmpty() && bbox.isEmpty())
-			return filter;
+			return curquery;
 		StringBuilder additionaltriples=new StringBuilder();
 		StringBuilder builder=new StringBuilder();
 		System.out.println("Curquery: "+curquery);
@@ -438,9 +442,10 @@ public abstract class TripleStoreConnector {
 			queryString=queryString.replace("WHERE{","WHERE{"+System.lineSeparator());
 		}
 		queryString+="?"+workingobj.getString("indvar")+" <"+propertyValue+"> ?member ."+System.lineSeparator();
-		queryString=CQLfilterStringToSPARQLQuery(filter,"",queryString.substring(0,queryString.lastIndexOf('}')),queryurl,featuretype);
+		queryString=queryString.substring(0,queryString.lastIndexOf('}'));
+		queryString=CQLfilterStringToSPARQLQuery(filter,"",queryString,queryurl,featuretype);
 		queryString+="}"+System.lineSeparator();
-		if(!resultType.equalsIgnoreCase("hits"))
+		if(!resultType.equalsIgnoreCase("hits") && workingobj.has("useorderby") && workingobj.getBoolean("useorderby"))
 			queryString+=" ORDER BY ?"+featuretype.toLowerCase()+System.lineSeparator();
 		Integer limit=Integer.valueOf(count);
 		if(limit>0 && !resultType.equalsIgnoreCase("hits"))
@@ -494,8 +499,9 @@ public abstract class TripleStoreConnector {
 			queryString=queryString.replace("WHERE{","WHERE{"+System.lineSeparator());
 		}
 		System.out.println("PreCurQuery: "+queryString);
-		queryString=CQLfilterStringToSPARQLQuery(filter,bbox,queryString.substring(0,queryString.lastIndexOf('}')),queryurl,featuretype)+"}";
-		if(!resultType.equalsIgnoreCase("hits"))
+		queryString=queryString.substring(0,queryString.lastIndexOf('}'));
+		queryString=CQLfilterStringToSPARQLQuery(filter,bbox,queryString,queryurl,featuretype)+"}";
+		if(!resultType.equalsIgnoreCase("hits") && workingobj.has("useorderby") && workingobj.getBoolean("useorderby"))
 			queryString+=System.lineSeparator()+"ORDER BY ?"+featuretype.toLowerCase()+System.lineSeparator();
 		Integer limit=Integer.valueOf(count);
 		Integer offsetval=Integer.valueOf(offset);
