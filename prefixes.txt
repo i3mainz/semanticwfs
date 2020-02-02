@@ -15,6 +15,7 @@ Prefix lgdo:<http://linkedgeodata.org/ontology/>
 PREFIX owl:<http://www.w3.org/2002/07/owl#>
 PREFIX gn: <http://www.geonames.org/ontology#>
 PREFIX ign:<http://inspire.ec.europa.eu/schemas/gn/4.0#>
+PREFIX pleiades: <http://pleiades.stoa.org/places/vocab#>
 PREFIX gml:<http://www.opengis.net/gml/3.2#>
 PREFIX geo:<http://www.opengis.net/ont/geosparql#>
 PREFIX omgeo:<http://www.ontotext.com/owlim/geo#>
