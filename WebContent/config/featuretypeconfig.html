@@ -151,8 +151,8 @@ function sendQuery(geojsonres){
         var json=JSON.parse(data)
         clearMap();
         var overlays={}
-        for(layer in json["geojson"]){
-            var officiallayer=L.geoJSON(json["geojson"][layer],{
+        //for(layer in json){
+            var officiallayer=L.geoJSON(json,{
             	coordsToLatLng: function (coords) {
             		//console.log($('#dataset').val())
             		/*if($('#dataset').val()=="linkedgeodata.ttl"){
@@ -175,8 +175,8 @@ function sendQuery(geojsonres){
                     return mark;
                 },
                 style: function(){
-                	return {fillColor: ("color" in json["geojson"][layer]?json["geojson"][layer]["color"]:colorArray[layer%colorArray.length]),
-                        color: ("color" in json["geojson"][layer]?json["geojson"][layer]["color"]:colorArray[layer%colorArray.length])}
+                	return {fillColor: ("color" in json?json["color"]:colorArray[layer%colorArray.length]),
+                        color: ("color" in json?json["color"]:colorArray[layer%colorArray.length])}
                 },
             	onEachFeature: function (feature, layer) {
             		 var popup="GeoJSON Result<br/><ul>"
@@ -196,11 +196,11 @@ function sendQuery(geojsonres){
             gardensLayerGroup = L.layerGroup()
             .addLayer(officiallayer)
             .addTo(mymap);
-            overlays[json["geojson"][layer]["name"]]=gardensLayerGroup;
+            overlays[json["name"]]=gardensLayerGroup;
             //layercontrol.addOverlay(gardensLayerGroup, json["geojson"][layer]["name"]);
             //overlayMaps[layer+""]=officiallayer;
 
-        }
+        //}
         mymap.removeControl(layercontrol);
 		// add one with the cities
 		overlayControl = L.control.layers(baseMaps, overlays).addTo(mymap);
