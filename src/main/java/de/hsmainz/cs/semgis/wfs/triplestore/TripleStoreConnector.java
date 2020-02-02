@@ -5,8 +5,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
@@ -20,11 +18,8 @@ import org.apache.jena.query.QueryFactory;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Literal;
-import org.apache.jena.sparql.expr.NodeValue;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
-import de.hsmainz.cs.semgis.wfs.converters.AsGeoJSON;
 import de.hsmainz.cs.semgis.wfs.resultformatter.GeoJSONFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
 import de.hsmainz.cs.semgis.wfs.webservice.WebService;
@@ -56,17 +51,22 @@ public abstract class TripleStoreConnector {
 	
 	public static Double[] getBoundingBoxFromTripleStoreData(String triplestore,String queryString) {
 		Double minx=Double.MAX_VALUE,maxx=Double.MIN_VALUE,miny=Double.MAX_VALUE,maxy=Double.MIN_VALUE;
-		queryString=" SELECT ?the_geom "+queryString.substring(queryString.indexOf("WHERE"));
+		if(queryString.contains("the_geom")) {
+			queryString=" SELECT ?the_geom "+queryString.substring(queryString.indexOf("WHERE"));
+		}else if(queryString.contains("lat") && queryString.contains("lon")) {
+			queryString=" SELECT ?lat ?lon "+queryString.substring(queryString.indexOf("WHERE"));
+		}
 		try {
 		Query query = QueryFactory.create(prefixCollection+queryString);
-		QueryExecution qexec = QueryExecutionFactory.sparqlService(triplestore, query);
+		QueryExecution qexec = QueryExecutionFactory.sparqlService(triplestore, query+" LIMIT 5000");
 		ResultSet results = qexec.execSelect();
 		Integer outercounter=0;
 		while(results.hasNext()) {
 			QuerySolution solu=results.next();
-			if(solu.get("the_geom")==null) {
+			if(solu.get("the_geom")==null && solu.get("lat")==null && solu.get("lon")==null) {
 				continue;
 			}
+			if(solu.get("the_geom")!=null) {
 			String wktLiteral=solu.get("the_geom").toString();
 			System.out.println(solu.get("the_geom"));
 			if(!wktLiteral.contains("(")) {
@@ -93,6 +93,22 @@ public abstract class TripleStoreConnector {
 					}
 				}
 				counter++;
+			}
+			}else if(solu.get("lat")!=null && solu.get("lon")!=null) {
+				Double lon=Double.valueOf(solu.get("lon").toString().substring(0,solu.get("lon").toString().indexOf("^^")));
+				Double lat=Double.valueOf(solu.get("lat").toString().substring(0,solu.get("lat").toString().indexOf("^^")));
+				if(lon<minx) {
+					minx=lon;
+				}
+				if(lon>maxx) {
+					maxx=lon;
+				}
+				if(lat<miny) {
+					miny=lat;
+				}
+				if(lat>maxy) {
+					maxy=lat;
+				}
 			}
 			outercounter++;
 		}
@@ -142,7 +158,7 @@ public abstract class TripleStoreConnector {
 		Map<String,String> nscache=new TreeMap<>();
 		System.out.println(prefixCollection+queryString);
 		if(workingobj.has("useorderby") && workingobj.getBoolean("useorderby"))
-			queryString+=" ORDER BY ?"+featuretype.toLowerCase()+System.lineSeparator();
+			queryString+=" ORDER BY ?"+workingobj.getString("indvar")+System.lineSeparator();
 		Query query = QueryFactory.create(prefixCollection+queryString+" LIMIT 1");
 		QueryExecution qexec = QueryExecutionFactory.sparqlService(queryurl, query);
 		ResultSet results = qexec.execSelect();
@@ -154,7 +170,7 @@ public abstract class TripleStoreConnector {
 		System.out.println(solu.get(featuretype.toLowerCase()));
 		if(solu.get(featuretype.toLowerCase())!=null) {
 			result=new TreeMap<>();
-			queryString=queryString.replace("WHERE{","WHERE{ BIND( <"+solu.get(featuretype.toLowerCase())+"> AS ?"+featuretype.toLowerCase()+") ");
+			queryString=queryString.replace("WHERE{","WHERE{ BIND( <"+solu.get(featuretype.toLowerCase())+"> AS ?"+workingobj.getString("indvar")+") ");
 			System.out.println(prefixCollection+queryString);
 			query = QueryFactory.create(prefixCollection+queryString);
 			qexec = QueryExecutionFactory.sparqlService(queryurl, query);
@@ -230,7 +246,7 @@ public abstract class TripleStoreConnector {
 		return null;
 	}
 	
-	public static String CQLfilterStringToSPARQLQuery(String filter,String bbox,String curquery,String queryurl,String featuretype) {
+	public static String CQLfilterStringToSPARQLQuery(String filter,String bbox,String curquery,String queryurl,String featuretype,String indvar) {
 		if(filter.isEmpty() && bbox.isEmpty())
 			return curquery;
 		StringBuilder additionaltriples=new StringBuilder();
@@ -279,7 +295,7 @@ public abstract class TripleStoreConnector {
 					builder.append("?"+betweenleftoperand+" > "+betweenrightoperand+" && ?"+betweenleftoperand+" < "+filterex.trim()+" ");
 				} if(filterex.equalsIgnoreCase("LIKE")){
 					String propname=filterex.substring(0,filterex.indexOf("LIKE")).trim();
-					additionaltriples.append("?"+featuretype.toLowerCase()+" <"+getPropertyFromMapping(featuretype, propname)+"> ?"+propname+" ."+System.lineSeparator());
+					additionaltriples.append("?"+indvar+" <"+getPropertyFromMapping(featuretype, propname)+"> ?"+propname+" ."+System.lineSeparator());
 					builder.append("regex(str(?"+propname+"),\""+filterex.substring(filterex.indexOf("LIKE")+4).trim()+"\",\"i\") ");
 				}else if(spatialFunctions.matcher(filterex).matches()){
 					String prefix=filterex.substring(0,filterex.indexOf(',')+1).trim();			
@@ -288,7 +304,7 @@ public abstract class TripleStoreConnector {
 					String[] splitted=filterex.split("<|>|=|<=|>=|<>");
 					if(filterex.contains("=")) {
 						String propname=filterex.substring(0,filterex.indexOf('=')).toLowerCase();
-						additionaltriples.append("?"+featuretype.toLowerCase()+" <"+getPropertyFromMapping(featuretype, propname)+"> ?"+propname+" ."+System.lineSeparator());
+						additionaltriples.append("?"+indvar+" <"+getPropertyFromMapping(featuretype, propname)+"> ?"+propname+" ."+System.lineSeparator());
 						builder.append("?"+filterex.toLowerCase().trim()+" ");
 					}else {
 						//builder.append("?"+featuretype.toLowerCase()+" "+getPropertyFromMapping(featuretype, )
@@ -316,18 +332,21 @@ public abstract class TripleStoreConnector {
 	public static String executePropertyValueQuery(String queryurl,String output,String propertyValue,
 			String startingElement,String featuretype,
 			String resourceids,JSONObject workingobj,String filter,String count,String resultType,String srsName) throws XMLStreamException {
-		String queryString="";
+		String queryString="",indvar="item";
+		if(workingobj.has("indvar")) {
+			indvar=workingobj.getString("indvar");
+		}
 		if(resultType.equalsIgnoreCase("hits")) {
-			queryString=" SELECT (COUNT(DISTINCT ?"+featuretype.toLowerCase()+") AS ?count) "+queryString.substring(queryString.indexOf("WHERE"));
+			queryString=" SELECT (COUNT(DISTINCT ?"+indvar+") AS ?count) "+queryString.substring(queryString.indexOf("WHERE"));
 			//queryString=" SELECT (COUNT(DISTINCT ?"+featuretype.toLowerCase()+") AS ?count) WHERE { ?"+featuretype.toLowerCase()+" ?abc ?def .} "+System.lineSeparator();
 		}else {
 			queryString+=" SELECT ?"+featuretype.toLowerCase()+" ?member WHERE{"+System.lineSeparator();
 		}
 		if(!resourceids.isEmpty() && !resourceids.contains(",")) {
-			queryString=queryString.replace("WHERE{","WHERE{"+System.lineSeparator()+" BIND( <"+workingobj.getString("namespace")+resourceids+"> AS ?"+workingobj.getString("indvar")+") "+System.lineSeparator());
+			queryString=queryString.replace("WHERE{","WHERE{"+System.lineSeparator()+" BIND( <"+workingobj.getString("namespace")+resourceids+"> AS ?"+indvar+") "+System.lineSeparator());
 		}else if(!resourceids.isEmpty() && resourceids.contains(",")) {
 			StringBuilder toreplace=new StringBuilder();
-			toreplace.append("WHERE{ "+System.lineSeparator()+"VALUES ?"+workingobj.getString("indvar")+"{ ");
+			toreplace.append("WHERE{ "+System.lineSeparator()+"VALUES ?"+indvar+"{ ");
 			for(String uri:resourceids.split(",")) {
 				toreplace.append("<"+workingobj.getString("namespace")+uri+"> "); 
 			}
@@ -338,10 +357,10 @@ public abstract class TripleStoreConnector {
 		}
 		queryString+="?"+workingobj.getString("indvar")+" <"+propertyValue+"> ?member ."+System.lineSeparator();
 		queryString=queryString.substring(0,queryString.lastIndexOf('}'));
-		queryString=CQLfilterStringToSPARQLQuery(filter,"",queryString,queryurl,featuretype);
+		queryString=CQLfilterStringToSPARQLQuery(filter,"",queryString,queryurl,featuretype,indvar);
 		queryString+="}"+System.lineSeparator();
 		if(!resultType.equalsIgnoreCase("hits") && workingobj.has("useorderby") && workingobj.getBoolean("useorderby"))
-			queryString+=" ORDER BY ?"+featuretype.toLowerCase()+System.lineSeparator();
+			queryString+=" ORDER BY ?"+indvar+System.lineSeparator();
 		Integer limit=Integer.valueOf(count);
 		if(limit>0 && !resultType.equalsIgnoreCase("hits"))
 			queryString+=" LIMIT "+limit;
@@ -359,7 +378,7 @@ public abstract class TripleStoreConnector {
 				return results.next().getLiteral("count").getString();
 			}
 		}
-		String res=resformat.formatter(results,startingElement,featuretype,propertyValue,(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""),true,false,srsName);
+		String res=resformat.formatter(results,startingElement,indvar,propertyValue,(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""),true,false,srsName);
 		qexec.close();
 		if(resformat.lastQueriedElemCount==0) {
 			return "";
@@ -372,19 +391,23 @@ public abstract class TripleStoreConnector {
 			String offset,String startingElement,String featuretype,String resourceids,JSONObject workingobj,
 			String filter,String resultType,String srsName,String bbox) throws XMLStreamException {
 		System.out.println(resultType);
+		String indvar="item";
+		if(workingobj.has("indvar")) {
+			indvar=workingobj.getString("indvar");
+		}
 		queryString=queryString.replace(".","."+System.lineSeparator());
 		System.out.println(queryString);
 		if(resultType.equalsIgnoreCase("hits")) {
-			queryString=" SELECT (COUNT(DISTINCT ?"+featuretype.toLowerCase()+") AS ?count) "+queryString.substring(queryString.indexOf("WHERE"));
+			queryString=" SELECT (COUNT(DISTINCT "+indvar+") AS ?count) "+queryString.substring(queryString.indexOf("WHERE"));
 			//queryString=" SELECT (COUNT(DISTINCT ?"+featuretype.toLowerCase()+") AS ?count) WHERE{ ?"+featuretype.toLowerCase()+" ?abc ?def .}"+System.lineSeparator();
 		}else {
 			queryString+=" SELECT ?"+featuretype.toLowerCase()+" ?member WHERE{"+System.lineSeparator();
 		}
 		if(!resourceids.isEmpty() && !resourceids.contains(",")) {
-			queryString=queryString.replace("WHERE{","WHERE{"+System.lineSeparator()+" BIND( <"+workingobj.getString("namespace")+resourceids+"> AS ?"+workingobj.getString("indvar")+") ");
+			queryString=queryString.replace("WHERE{","WHERE{"+System.lineSeparator()+" BIND( <"+workingobj.getString("namespace")+resourceids+"> AS ?"+indvar+") ");
 		}else if(!resourceids.isEmpty() && resourceids.contains(",")) {
 			StringBuilder toreplace=new StringBuilder();
-			toreplace.append("WHERE{ "+System.lineSeparator()+" VALUES ?"+workingobj.getString("indvar")+"{ ");
+			toreplace.append("WHERE{ "+System.lineSeparator()+" VALUES ?"+indvar+"{ ");
 			for(String uri:resourceids.split(",")) {
 				toreplace.append("<"+workingobj.getString("namespace")+uri+"> "); 
 			}
@@ -395,9 +418,9 @@ public abstract class TripleStoreConnector {
 		}
 		System.out.println("PreCurQuery: "+queryString);
 		queryString=queryString.substring(0,queryString.lastIndexOf('}'));
-		queryString=CQLfilterStringToSPARQLQuery(filter,bbox,queryString,queryurl,featuretype)+"}";
+		queryString=CQLfilterStringToSPARQLQuery(filter,bbox,queryString,queryurl,featuretype,indvar)+"}";
 		if(!resultType.equalsIgnoreCase("hits") && workingobj.has("useorderby") && workingobj.getBoolean("useorderby"))
-			queryString+=System.lineSeparator()+"ORDER BY ?"+featuretype.toLowerCase()+System.lineSeparator();
+			queryString+=System.lineSeparator()+"ORDER BY ?"+indvar+System.lineSeparator();
 		Integer limit=Integer.valueOf(count);
 		Integer offsetval=Integer.valueOf(offset);
 		System.out.println("Count: "+count);
@@ -421,7 +444,7 @@ public abstract class TripleStoreConnector {
 				return results.next().getLiteral("count").getString();
 			}
 		}
-		String res=resformat.formatter(results,startingElement,featuretype,"",(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""),false,false,srsName);
+		String res=resformat.formatter(results,startingElement,indvar,"",(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""),false,false,srsName);
 		qexec.close();
 		if(resformat.lastQueriedElemCount==0) {
 			return "";

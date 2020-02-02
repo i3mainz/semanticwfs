@@ -914,7 +914,7 @@ public class WebService {
 		}else if(!workingobj.has("attcount")) {
 			featureTypeCache.put(collectionid.toLowerCase(),TripleStoreConnector
 					.getFeatureTypeInformation(workingobj.getString("query"), workingobj.getString("triplestore"),
-			  workingobj.getString("name"),workingobj));		
+			  "item",workingobj));		
 		}
 		System.out.println("Attcount: "+workingobj.getInt("attcount"));
 		System.out.println(limit);
