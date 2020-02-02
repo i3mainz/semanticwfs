@@ -82,6 +82,10 @@ $(document).ready( function () {
 		});
 } );
 
+function trimcoords(coords,length){
+	return coords.length > length ? coords.replace("undefined,","").substring(0, length - 3) + "...)" : coords;	
+}
+
 function clearMap() {
     for(i in mymap._layers) {
         if(mymap._layers[i]._path != undefined) {
