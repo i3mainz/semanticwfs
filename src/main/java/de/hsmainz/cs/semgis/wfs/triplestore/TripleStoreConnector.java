@@ -58,7 +58,7 @@ public abstract class TripleStoreConnector {
 		Double minx=Double.MAX_VALUE,maxx=Double.MIN_VALUE,miny=Double.MAX_VALUE,maxy=Double.MIN_VALUE;
 		queryString=" SELECT ?the_geom "+queryString.substring(queryString.indexOf("WHERE"));
 		try {
-		Query query = QueryFactory.create(prefixCollection+queryString+"LIMIT");
+		Query query = QueryFactory.create(prefixCollection+queryString);
 		QueryExecution qexec = QueryExecutionFactory.sparqlService(triplestore, query);
 		ResultSet results = qexec.execSelect();
 		Integer outercounter=0;
