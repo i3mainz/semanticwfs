@@ -252,7 +252,7 @@ $( document ).ready(function() {
 });
 </script>
 <select id="samplequeries" onChange="chooseSampleQuery()">
-<option value='SELECT ?accum_geom ?the_geom WHERE { ?geom geo:asWKT ?the_geom . BIND(geo:ST_Accum(?the_geom,?the_geom) AS ?accum_geom) } LIMIT 100'>geo:ST_Accum</option>
+<option value=''>geo:ST_Accum</option>
 </select>
 <br/>
 <textarea id="queryinput" rows=4 cols=45>
@@ -267,7 +267,6 @@ $( document ).ready(function() {
 </table>
 </div>
 <div class="col-sm-7" id="mapid">
-
       
 <script>
 var mymap = L.map('mapid',{fullscreenControl: true,fullscreenControlOptions: {position: 'topleft'}}).setView([51.505, -0.09], 13);
