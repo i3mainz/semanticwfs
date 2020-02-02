@@ -111,12 +111,7 @@ function closeWaitingDialog() {
    document.getElementById("loadingScreen").close()
 }
 
-function getClassHierarchy(classeswithinstances){
-console.log(JSON.stringify(classeswithinstances))
-// ?subject a owl:Class . NOT{ ?subject rdfs:subClassOf <http://www.xplanung.de/xplangml/5/0#> } .
-//?subject a owl:Class . } UNION 
-// (COUNT(?individual) AS ?individualc )
-query= `PREFIX owl: <http://www.w3.org/2002/07/owl#>
+var classhierarchyquery=`PREFIX owl: <http://www.w3.org/2002/07/owl#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 SELECT DISTINCT ?subject ?label ?supertype
@@ -140,6 +135,13 @@ WHERE {
         ?subject != owl:Ontology) )
 } ORDER BY ?subject
 `
+
+function getClassHierarchy(classeswithinstances){
+console.log(JSON.stringify(classeswithinstances))
+// ?subject a owl:Class . NOT{ ?subject rdfs:subClassOf <http://www.xplanung.de/xplangml/5/0#> } .
+//?subject a owl:Class . } UNION 
+// (COUNT(?individual) AS ?individualc )
+query=classhierarchyquery
 console.log(query)
 currdfstore.execute(query, function(success,results){
       // console.log(results)
@@ -2549,8 +2551,15 @@ function originQuery(){
 <div id="mapid" style="height:100%" width="80%">
 <script>
 var tripleStoreToQueries={}
+function chooseSampleQuery(endpoint,){
+    d3sparql.query = function(endpoint, sparql, callback) {
+        var url = endpoint + "?query=" + encodeURIComponent(classhierarchyquery)
+        if (d3sparql.debug) { console.log(endpoint) }
+        d3sparql.fetch(url, callback)
+}
+}
 $( document ).ready(function() {
-	$.getJSON( "rest/service/queryConfigs", function( data ) {
+	$.getJSON( "http://www.i3mainz.de/projekte/bkg/semanticwfs/service/queryConfigs", function( data ) {
 		  var triplestores=""
 		  for (triplestore in data) {
 		  	triplestores+="<option value=\""+triplestore+"\">"+triplestore+"</option>"
@@ -2567,7 +2576,7 @@ $( document ).ready(function() {
 		  }
 		  $('#triplestore').html(triplestores);
 		});
-	chooseSampleQuery();
+	chooseSampleQuery($('#triplestore').val(),);
 });
 	var mymap = L.map('mapid',{fullscreenControl: true,fullscreenControlOptions: {position: 'topleft'}}).setView([51.505, -0.09], 13);
 	var layer=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
