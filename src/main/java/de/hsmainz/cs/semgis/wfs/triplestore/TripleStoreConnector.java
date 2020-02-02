@@ -129,7 +129,7 @@ public abstract class TripleStoreConnector {
 			JSONObject properties = new JSONObject();
 			List<JSONObject> geoms = new LinkedList<JSONObject>();
 			System.out.println(resultSetSize);
-			String lastgeom="";
+			String lastgeom="",rel="",val="",lat="",lon="";
 			int geomvars=0;
 			while (rs.hasNext()) {
 				QuerySolution solu=rs.next();
@@ -181,9 +181,9 @@ public abstract class TripleStoreConnector {
 							AsGeoJSON geojson = new AsGeoJSON();
 							lastgeom=solu.get(name).toString();
 							try {
-								NodeValue val = geojson.exec(NodeValue.makeNode(solu.getLiteral(name).getString(),
+								NodeValue vall = geojson.exec(NodeValue.makeNode(solu.getLiteral(name).getString(),
 									solu.getLiteral(name).getDatatype()));
-								JSONObject geomobj = new JSONObject(val.asNode().getLiteralValue().toString());
+								JSONObject geomobj = new JSONObject(vall.asNode().getLiteralValue().toString());
 								geoms.add(geomobj);
 							} catch (Exception e) {
 								e.printStackTrace();
@@ -194,11 +194,18 @@ public abstract class TripleStoreConnector {
 						}
 					} 
 					
-					if (name.endsWith("_rel")) {
+					if (name.endsWith("_rel") || name.equals("rel")) {
 						relationName = solu.get(name).toString();
+						rel = solu.get(name).toString();
+					}else if (name.endsWith("_val") || name.equals("val")) {
+						val = solu.get(name).toString();
+					}else if (name.equals("lat")) {
+						lat = solu.get(name).toString();
+					}else if (name.equals("lon")) {
+						lon = solu.get(name).toString();
 					} else {
 						if (!relationName.isEmpty()) {
-							//System.out.println("Putting property: "+relationName+" - "+solu.get(name));
+							// System.out.println("Putting property: "+relationName+" - "+solu.get(name));
 							properties.put(relationName, solu.get(name));
 						} else {
 							properties.put(name, solu.get(name));
@@ -211,6 +218,30 @@ public abstract class TripleStoreConnector {
 						jsonobj.put(name, solu.get(name));
 					}
 				}
+				if (!rel.isEmpty() && !val.isEmpty()) {
+					if(!rel.equals("http://www.opengis.net/ont/geosparql#hasGeometry") &&
+							!rel.equals("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")) {
+						properties.put(rel, val);
+					}
+					rel = "";
+					val = "";
+				}
+				if(!lat.isEmpty() && !lon.isEmpty()) {
+					System.out.println("LatLon: "+lat+","+lon);
+					if(lat.contains("^^")) {
+						lat=lat.substring(0,lat.indexOf("^^"));
+					}
+					if(lon.contains("^^")) {
+						lon=lon.substring(0,lon.indexOf("^^"));
+					}
+					JSONObject geomobj=new JSONObject("{\"type\":\"Point\",\"coordinates\":["+lon+","+lat+"]}");
+					geoms.add(geomobj);
+					properties.put("lat", lat);
+					properties.put("lon",lon);
+					lat="";
+					lon="";
+				}
+				first = false;
 				if(!geojsonout) {
 					obj.put(jsonobj);
 				}
