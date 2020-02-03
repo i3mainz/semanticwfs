@@ -17,7 +17,7 @@ public class RDFFormatter extends ResultFormatter {
 	
 	@Override
 	public String formatter(ResultSet results, String startingElement, String featuretype,String propertytype,
-			String typeColumn,Boolean onlyproperty,Boolean onlyhits,String srsName) throws XMLStreamException {
+			String typeColumn,Boolean onlyproperty,Boolean onlyhits,String srsName,String indvar) throws XMLStreamException {
 		StringBuilder builder=new StringBuilder();
 		String rel="",val="",lastInd="",geomLiteral="",lat="",lon="";
 		builder.append("<http://www.opengis.net/ont/geosparql#Geometry> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> ."+System.lineSeparator());
@@ -32,7 +32,7 @@ public class RDFFormatter extends ResultFormatter {
 		while(results.hasNext()) {
 			QuerySolution solu=results.next();
 			Iterator<String> varnames=solu.varNames();
-			if(!solu.get(featuretype.toLowerCase()).toString().equals(lastInd) || lastInd.isEmpty()) {
+			if(!solu.get(indvar).toString().equals(lastInd) || lastInd.isEmpty()) {
 				lastQueriedElemCount++;
 			}
 			while(varnames.hasNext()) {
@@ -51,11 +51,11 @@ public class RDFFormatter extends ResultFormatter {
 					lon=solu.get(name).toString();
 				}else {
 					if(val.startsWith("http") || val.startsWith("file:/")) {
-						builder.append("<"+solu.get(featuretype.toLowerCase())+"> <"+name+"> <"+solu.get(name).toString()+"> ."+System.lineSeparator());		
+						builder.append("<"+solu.get(indvar)+"> <"+name+"> <"+solu.get(name).toString()+"> ."+System.lineSeparator());		
 					}else if(val.contains("^^")) {
-						builder.append("<"+solu.get(featuretype.toLowerCase())+"> <"+name+"> \""+solu.get(name).toString().substring(0,solu.get(name).toString().indexOf("^^"))+"\"^^<"+solu.get(name).toString().substring(solu.get(name).toString().indexOf("^^")+2)+"> ."+System.lineSeparator());
+						builder.append("<"+solu.get(indvar)+"> <"+name+"> \""+solu.get(name).toString().substring(0,solu.get(name).toString().indexOf("^^"))+"\"^^<"+solu.get(name).toString().substring(solu.get(name).toString().indexOf("^^")+2)+"> ."+System.lineSeparator());
 					}else {
-						builder.append("<"+solu.get(featuretype.toLowerCase())+"> <"+name+"> \""+solu.get(name).toString()+"\"^^<http://www.w3.org/2001/XMLSchema#string> ."+System.lineSeparator());
+						builder.append("<"+solu.get(indvar)+"> <"+name+"> \""+solu.get(name).toString()+"\"^^<http://www.w3.org/2001/XMLSchema#string> ."+System.lineSeparator());
 					}
 	    		}
 			}
@@ -68,29 +68,29 @@ public class RDFFormatter extends ResultFormatter {
 					lon=lon.substring(0,lon.indexOf("^^"));
 				}
 				geomLiteral="\"Point("+lon+" "+lat+")\"^^<http://www.opengis.net/ont/geosparql#wktLiteral> .";
-				builder.append("<"+solu.get(featuretype.toLowerCase())+"_geom> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.opengis.net/ont/geosparql#Geometry> ."+System.lineSeparator());
-				builder.append("<"+solu.get(featuretype.toLowerCase())+"> <http://www.opengis.net/ont/geosparql#hasGeometry> <"+solu.get(featuretype.toLowerCase())+"_geom> ."+System.lineSeparator());
-				builder.append("<"+solu.get(featuretype.toLowerCase())+"_geom> <http://www.opengis.net/ont/geosparql#asWKT> "+geomLiteral+System.lineSeparator());
+				builder.append("<"+solu.get(indvar)+"_geom> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.opengis.net/ont/geosparql#Geometry> ."+System.lineSeparator());
+				builder.append("<"+solu.get(indvar)+"> <http://www.opengis.net/ont/geosparql#hasGeometry> <"+solu.get(indvar)+"_geom> ."+System.lineSeparator());
+				builder.append("<"+solu.get(indvar)+"_geom> <http://www.opengis.net/ont/geosparql#asWKT> "+geomLiteral+System.lineSeparator());
 				lat="";
 				lon="";
 			}
 			if(!rel.isEmpty() && !val.isEmpty()) {
 				if(!geomLiteral.isEmpty()) {
 					builder.append("<"+val+"> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.opengis.net/ont/geosparql#Geometry> ."+System.lineSeparator());
-					builder.append("<"+solu.get(featuretype.toLowerCase())+"> <http://www.opengis.net/ont/geosparql#hasGeometry> <"+val+"> ."+System.lineSeparator());
+					builder.append("<"+solu.get(indvar)+"> <http://www.opengis.net/ont/geosparql#hasGeometry> <"+val+"> ."+System.lineSeparator());
 					builder.append("<"+val+"> <http://www.opengis.net/ont/geosparql#asWKT> "+geomLiteral+System.lineSeparator());
 				}else if(val.startsWith("http") || val.startsWith("file:/")) {
-					builder.append("<"+solu.get(featuretype.toLowerCase())+"> <"+rel+"> <"+val+"> ."+System.lineSeparator());		
+					builder.append("<"+solu.get(indvar)+"> <"+rel+"> <"+val+"> ."+System.lineSeparator());		
 				}else if(val.contains("^^")) {
-					builder.append("<"+solu.get(featuretype.toLowerCase())+"> <"+rel+"> \""+val.substring(0,val.indexOf("^^"))+"\"^^<"+val.substring(val.indexOf("^^")+2)+"> ."+System.lineSeparator());
+					builder.append("<"+solu.get(indvar)+"> <"+rel+"> \""+val.substring(0,val.indexOf("^^"))+"\"^^<"+val.substring(val.indexOf("^^")+2)+"> ."+System.lineSeparator());
 				}else {
-					builder.append("<"+solu.get(featuretype.toLowerCase())+"> <"+rel+"> \""+val+"\"^^<http://www.w3.org/2001/XMLSchema#string> ."+System.lineSeparator());
+					builder.append("<"+solu.get(indvar)+"> <"+rel+"> \""+val+"\"^^<http://www.w3.org/2001/XMLSchema#string> ."+System.lineSeparator());
 				}
 				rel="";
 				val="";
 				geomLiteral="";
 			}
-			lastInd=solu.get(featuretype.toLowerCase()).toString();
+			lastInd=solu.get(indvar).toString();
 		}
 		return builder.toString();
 	}

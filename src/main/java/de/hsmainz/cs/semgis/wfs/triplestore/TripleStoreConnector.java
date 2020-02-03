@@ -91,6 +91,8 @@ public abstract class TripleStoreConnector {
 			wktLiteral=wktLiteral.substring(wktLiteral.indexOf('(')).replace("(","").replace(")","").replace(","," ").trim();
 			Integer counter=0;
 			for(String coord:wktLiteral.split(" ")) {
+				if(coord.isEmpty())
+					continue;
 				Double curcoord=Double.valueOf(coord);
 				if(counter%2==0) {
 					if(curcoord<minx) {
@@ -149,7 +151,7 @@ public abstract class TripleStoreConnector {
 		QueryExecution qe = QueryExecutionFactory.sparqlService(endpoint, queryjena);
 			ResultSet rs = qe.execSelect();
 		GeoJSONFormatter form=new GeoJSONFormatter();
-		String res=form.formatter(rs, "", "item", "", "", false, false, "");
+		String res=form.formatter(rs, "", "item", "", "", false, false, "","item");
 		return res;
 	}
 	
@@ -238,6 +240,15 @@ public abstract class TripleStoreConnector {
 
 			}
 			if(!lat.isEmpty() && !lon.isEmpty()) {
+				String ns=null;
+				if(lat.contains("http") && lat.contains("#")) {
+					ns=lat.substring(0,lat.lastIndexOf('#')+1);
+				}else if(lat.contains("http") && lat.contains("/")) {
+					ns=lat.substring(0,lat.lastIndexOf('/')+1);
+				}
+				if(ns!=null && !ns.isEmpty() && !nscache.containsKey(ns)) {
+					nscache.put(ns,"ns"+nscounter++);
+				}
 				result.put("http://www.opengis.net/ont/geosparql#asWKT","Point("+lon.substring(0,lon.indexOf("^^"))+" "+lat.substring(0,lat.indexOf("^^"))+")");
 			}
 			if(!rel.isEmpty() && !val.isEmpty()) {
@@ -257,6 +268,7 @@ public abstract class TripleStoreConnector {
 			attcount++;
 		}
 		WebService.nameSpaceCache.put(featuretype.toLowerCase(),nscache);
+		System.out.println("NamespaceCache: "+WebService.nameSpaceCache);
 		System.out.println(result);
 		workingobj.put("attcount",attcount);
 		qexec.close();
@@ -405,7 +417,7 @@ public abstract class TripleStoreConnector {
 				return results.next().getLiteral("count").getString();
 			}
 		}
-		String res=resformat.formatter(results,startingElement,indvar,propertyValue,(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""),true,false,srsName);
+		String res=resformat.formatter(results,startingElement,featuretype.toLowerCase(),propertyValue,(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""),true,false,srsName,(workingobj.has("indvar")?workingobj.getString("indvar"):"item"));
 		qexec.close();
 		if(resformat.lastQueriedElemCount==0) {
 			return "";
@@ -471,7 +483,7 @@ public abstract class TripleStoreConnector {
 				return results.next().getLiteral("count").getString();
 			}
 		}
-		String res=resformat.formatter(results,startingElement,indvar,"",(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""),false,false,srsName);
+		String res=resformat.formatter(results,startingElement,featuretype.toLowerCase(),"",(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""),false,false,srsName,(workingobj.has("indvar")?workingobj.getString("indvar"):"item"));
 		qexec.close();
 		if(resformat.lastQueriedElemCount==0) {
 			return "";

@@ -25,7 +25,7 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 	@Override
 	public String formatter(ResultSet results, String startingElement, 
 			String featuretype,String propertytype,
-			String typeColumn,Boolean onlyproperty,Boolean onlyhits,String srsName) {
+			String typeColumn,Boolean onlyproperty,Boolean onlyhits,String srsName,String indvar) {
 		lastQueriedElemCount=0;
 		JSONObject geojsonresults = new JSONObject();
 		List<JSONArray> allfeatures = new LinkedList<JSONArray>();
@@ -53,7 +53,7 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 			Iterator<String> varnames = solu.varNames();
 			int geomvars = 0;
 			//System.out.println(solu.get(featuretype.toLowerCase()).toString() + " - " + lastInd);
-			if (!solu.get(featuretype.toLowerCase()).toString().equals(lastInd) || lastInd.isEmpty()) {
+			if (!solu.get(indvar).toString().equals(lastInd) || lastInd.isEmpty()) {
 				//System.out.println("NEW OBJECT!");
 				newobject = true;
 			} else {
@@ -170,7 +170,7 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 				lon="";
 			}
 			first = false;
-			lastInd = solu.get(featuretype.toLowerCase()).toString();
+			lastInd = solu.get(indvar).toString();
 		}
 		if(!onlyproperty) {
 			int geomcounter=0;

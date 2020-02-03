@@ -39,7 +39,7 @@ public class GMLFormatter extends WFSResultFormatter {
 	@Override
 	public String formatter(ResultSet results,String startingElement,
 			String featuretype,String propertytype,
-			String typeColumn,Boolean onlyproperty,Boolean onlyhits,String srsName) throws XMLStreamException {
+			String typeColumn,Boolean onlyproperty,Boolean onlyhits,String srsName,String indvar) throws XMLStreamException {
 		lastQueriedElemCount=0;
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();
 		StringWriter strwriter=new StringWriter();
@@ -51,12 +51,12 @@ public class GMLFormatter extends WFSResultFormatter {
 	    while(results.hasNext()) {
 	    	QuerySolution solu=results.next();
 			String curfeaturetype="";
-			if(solu.get(featuretype.toLowerCase())!=null) {
-				curfeaturetype=solu.get(featuretype.toLowerCase()).toString();
+			if(solu.get(indvar)!=null) {
+				curfeaturetype=solu.get(indvar).toString();
 				if(curfeaturetype.contains("http") && curfeaturetype.contains("#")){
 					curfeaturetype=curfeaturetype.substring(curfeaturetype.lastIndexOf('#')+1);
 				}
-				if(!solu.get(featuretype.toLowerCase()).toString().equals(lastInd) || lastInd.isEmpty()) {
+				if(!solu.get(indvar).toString().equals(lastInd) || lastInd.isEmpty()) {
 					lastQueriedElemCount++;
 					if(!first && !onlyproperty) {
 						writer.writeEndElement();    
@@ -65,6 +65,7 @@ public class GMLFormatter extends WFSResultFormatter {
 					if(!onlyproperty) {
 						writer.writeStartElement(startingElement);
 						System.out.println(WebService.nameSpaceCache);
+						System.out.println(featuretype.toLowerCase());
 						for(String ns:WebService.nameSpaceCache.get(featuretype.toLowerCase()).keySet()) {
 							writer.setPrefix(WebService.nameSpaceCache.get(featuretype.toLowerCase()).get(ns),ns);
 						}
@@ -152,7 +153,7 @@ public class GMLFormatter extends WFSResultFormatter {
 				lat="";
 				lon="";
 			}
-			lastInd=solu.get(featuretype.toLowerCase()).toString();
+			lastInd=solu.get(indvar).toString();
 	    }
 	    if(!onlyproperty) {
 	    	writer.writeEndElement();    

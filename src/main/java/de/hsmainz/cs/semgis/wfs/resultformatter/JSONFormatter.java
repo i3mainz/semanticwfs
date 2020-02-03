@@ -20,7 +20,7 @@ public class JSONFormatter extends WFSResultFormatter {
 	@Override
 	public String formatter(ResultSet results,String startingElement,
 			String featuretype,String propertytype,
-			String typeColumn,Boolean onlyproperty,Boolean onlyhits,String srsName) throws XMLStreamException {
+			String typeColumn,Boolean onlyproperty,Boolean onlyhits,String srsName,String indvar) throws XMLStreamException {
 	    JSONArray obj=new JSONArray();
 	    while(results.hasNext()) {
 	    	this.lastQueriedElemCount++;

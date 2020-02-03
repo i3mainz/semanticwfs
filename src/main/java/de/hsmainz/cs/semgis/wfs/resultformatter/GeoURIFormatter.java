@@ -20,7 +20,7 @@ public class GeoURIFormatter extends WFSResultFormatter {
 	@Override
 	public String formatter(ResultSet results,String startingElement,
 			String featuretype,String propertytype,
-			String typeColumn,Boolean onlyproperty,Boolean onlyhits,String srsName) {
+			String typeColumn,Boolean onlyproperty,Boolean onlyhits,String srsName,String indvar) {
 		List<QuerySolution> test=ResultSetFormatter.toList(results);
     	Boolean first=true;
     	StringBuilder resultCSV=new StringBuilder();
@@ -31,7 +31,7 @@ public class GeoURIFormatter extends WFSResultFormatter {
 	    	while(varnames.hasNext()) {
 	    		String name=varnames.next();
 	    		String curfeaturetype="";
-		    	if(solu.get(featuretype.toLowerCase())!=null) {
+		    	if(solu.get(indvar)!=null) {
 					curfeaturetype=solu.get(featuretype.toLowerCase()).toString();
 					if(curfeaturetype.contains("http") && curfeaturetype.contains("#")){
 						curfeaturetype=curfeaturetype.substring(curfeaturetype.lastIndexOf('#')+1);

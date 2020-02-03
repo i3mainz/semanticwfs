@@ -16,7 +16,7 @@ public class CSVFormatter extends WFSResultFormatter {
 	@Override
 	public String formatter(ResultSet results,String startingElement,
 			String featuretype,String propertytype,
-			String typeColumn,Boolean onlyproperty,Boolean onlyhits,String srsName) {
+			String typeColumn,Boolean onlyproperty,Boolean onlyhits,String srsName,String indvar) {
     	Boolean first=true;
     	StringBuilder resultCSV=new StringBuilder();
     	StringBuilder resultCSVHeader=new StringBuilder();
@@ -25,8 +25,8 @@ public class CSVFormatter extends WFSResultFormatter {
 	    	QuerySolution solu=results.next();
 	    	Iterator<String> varnames = solu.varNames();
 	    	String curfeaturetype="";
-	    	if(solu.get(featuretype.toLowerCase())!=null) {
-				curfeaturetype=solu.get(featuretype.toLowerCase()).toString();
+	    	if(solu.get(indvar)!=null) {
+				curfeaturetype=solu.get(indvar).toString();
 				if(curfeaturetype.contains("http") && curfeaturetype.contains("#")){
 					curfeaturetype=curfeaturetype.substring(curfeaturetype.lastIndexOf('#')+1);
 				}
@@ -90,7 +90,7 @@ public class CSVFormatter extends WFSResultFormatter {
 			}
 	    	
 	    	System.out.println(resultCSV.toString());
-			lastInd=solu.get(featuretype.toLowerCase()).toString();
+			lastInd=solu.get(indvar).toString();
 	    	//resultCSV.delete(resultCSV.length()-1,resultCSV.length());
 	    }
 	    return resultCSVHeader.toString()+resultCSV;

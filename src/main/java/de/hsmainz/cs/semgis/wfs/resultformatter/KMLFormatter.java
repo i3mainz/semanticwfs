@@ -23,7 +23,7 @@ public class KMLFormatter extends WFSResultFormatter {
 	@Override
 	public String formatter(ResultSet results,String startingElement,
 			String featuretype,String propertytype,
-			String typeColumn,Boolean onlyproperty,Boolean onlyhits,String srsName) throws XMLStreamException {
+			String typeColumn,Boolean onlyproperty,Boolean onlyhits,String srsName,String indvar) throws XMLStreamException {
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();
 		StringWriter strwriter=new StringWriter();
 		XMLStreamWriter writer=new IndentingXMLStreamWriter(factory.createXMLStreamWriter(strwriter));
@@ -34,12 +34,12 @@ public class KMLFormatter extends WFSResultFormatter {
 	    while(results.hasNext()) {
 	    	this.lastQueriedElemCount++;
 	    	QuerySolution solu=results.next();
-			if(solu.get(featuretype.toLowerCase())!=null) {
+			if(solu.get(indvar)!=null) {
 				curfeaturetype=solu.get(featuretype.toLowerCase()).toString();
 				if(curfeaturetype.contains("http") && curfeaturetype.contains("#")){
 					curfeaturetype=curfeaturetype.substring(curfeaturetype.lastIndexOf('#')+1);
 				}
-				if(!solu.get(featuretype.toLowerCase()).toString().equals(lastInd) || lastInd.isEmpty()) {
+				if(!solu.get(indvar).toString().equals(lastInd) || lastInd.isEmpty()) {
 					if(!lastInd.isEmpty()) {
 						writer.writeEndElement();
 						writer.writeEndElement();  
@@ -109,7 +109,7 @@ public class KMLFormatter extends WFSResultFormatter {
 				lat="";
 				lon="";
 			}
-			lastInd=solu.get(featuretype.toLowerCase()).toString();	
+			lastInd=solu.get(indvar).toString();	
 	    }
 		writer.writeEndElement();
 		writer.writeEndDocument();
