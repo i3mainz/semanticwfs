@@ -437,7 +437,7 @@ public abstract class TripleStoreConnector {
 		queryString=queryString.replace(".","."+System.lineSeparator());
 		System.out.println(queryString);
 		if(resultType.equalsIgnoreCase("hits")) {
-			queryString=" SELECT (COUNT(DISTINCT "+indvar+") AS ?count) "+queryString.substring(queryString.indexOf("WHERE"));
+			queryString=" SELECT (COUNT(DISTINCT ?"+indvar+") AS ?count) "+queryString.substring(queryString.indexOf("WHERE"));
 			//queryString=" SELECT (COUNT(DISTINCT ?"+featuretype.toLowerCase()+") AS ?count) WHERE{ ?"+featuretype.toLowerCase()+" ?abc ?def .}"+System.lineSeparator();
 		}else {
 			queryString+=" SELECT ?"+featuretype.toLowerCase()+" ?member WHERE{"+System.lineSeparator();
