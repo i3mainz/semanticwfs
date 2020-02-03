@@ -2,7 +2,7 @@
 "servicetitle":"BKG WFS Service",
 "servicedescription":"Testwebservice with a Triple Store backend",
 "datasets":[
-{"namespace":"http://www.wikidata.org/entity/","indvar":"wikidatacity","useorderby":true,
+{"namespace":"http://www.wikidata.org/entity/","indvar":"item","useorderby":true,
 "description":"Cities in Wikidata","geometrytype":"Point","targetCRS":"EPSG:4326",
 "query":"SELECT ?item ?itemLabel ?the_geom WHERE{ ?item wdt:P31 wd:Q515 . ?item wdt:P625 ?the_geom . SERVICE wikibase:label { bd:serviceParam wikibase:language '[AUTO_LANGUAGE],en'. } }",
 "triplestore":"https://query.wikidata.org/sparql","type":"WFS", "name":"WikidataCity"},
