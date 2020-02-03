@@ -816,6 +816,7 @@ public class WebService {
 			builder.append("<script>var overlayMaps={}; var overlayControl; var typeColumn=\""+(workingobj.has("typeColumn")?workingobj.getString("typeColumn"):"")+"\"; var markercollection=[];");
 			builder2.append(((HTMLFormatter)ResultFormatter.getFormatter("html")).htmlHeader);
 			builder2.append("</ul></td><td>Contents:<table border=\"1\"><tr><th>Value</th><th>Type</th>");
+			String lon=null,lat=null;
 			for(String elem:mapping.keySet()) {
 				if(!elem.equals("http://www.opengis.net/ont/geosparql#hasGeometry") &&
 						!elem.equals("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")) {
@@ -848,6 +849,19 @@ public class WebService {
 					for(String coord:coords.split(" ")) {
 						arr.put(Double.valueOf(coord));
 					}
+				}
+				if(elem.contains("http://www.w3.org/2003/01/geo/wgs84_pos#lat")) {
+					lat=mapping.get(elem).substring(0,mapping.get(elem).indexOf("^^"));
+				}
+				if(elem.contains("http://www.w3.org/2003/01/geo/wgs84_pos#long")) {
+					lon=mapping.get(elem).substring(0,mapping.get(elem).indexOf("^^"));
+				}
+				if(lat!=null && lon!=null) {
+					geometry.put("type","Point");
+					JSONArray arr=new JSONArray();
+					geometry.put("coordinates",arr);
+					arr.put(lon);
+					arr.put(lat);	
 				}
 				properties.put(elem,mapping.get(elem));
 				}

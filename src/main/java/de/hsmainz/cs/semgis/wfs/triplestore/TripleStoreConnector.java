@@ -196,7 +196,7 @@ public abstract class TripleStoreConnector {
 			qexec = QueryExecutionFactory.sparqlService(queryurl, query);
 			results = qexec.execSelect();
 		}
-		String rel="",val="";
+		String rel="",val="",lat="",lon="";
 		Integer attcount=0,nscounter=0;
 		result.put("namespaces","");
 		while(results.hasNext()) {
