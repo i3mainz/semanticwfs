@@ -850,10 +850,10 @@ public class WebService {
 						arr.put(Double.valueOf(coord));
 					}
 				}
-				if(elem.contains("http://www.w3.org/2003/01/geo/wgs84_pos#lat")) {
+				if(elem.contains("lat")) {
 					lat=mapping.get(elem).substring(0,mapping.get(elem).indexOf("^^"));
 				}
-				if(elem.contains("http://www.w3.org/2003/01/geo/wgs84_pos#long")) {
+				if(elem.contains("lon")) {
 					lon=mapping.get(elem).substring(0,mapping.get(elem).indexOf("^^"));
 				}
 				if(lat!=null && lon!=null) {
