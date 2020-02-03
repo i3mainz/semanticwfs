@@ -169,11 +169,15 @@ public abstract class TripleStoreConnector {
 		if(featureTypes.containsKey(featuretype.toLowerCase())) {
 			return featureTypes.get(featuretype.toLowerCase());
 		}
+		String indvar="item";
+		if(workingobj.has("indvar")) {
+			indvar=workingobj.getString("indvar");
+		}
 		Map<String,String> result=new TreeMap<>();
 		Map<String,String> nscache=new TreeMap<>();
 		System.out.println(prefixCollection+queryString);
 		if(workingobj.has("useorderby") && workingobj.getBoolean("useorderby"))
-			queryString+=" ORDER BY ?"+workingobj.getString("indvar")+System.lineSeparator();
+			queryString+=" ORDER BY ?"+indvar+System.lineSeparator();
 		Query query = QueryFactory.create(prefixCollection+queryString+" LIMIT 1");
 		QueryExecution qexec = QueryExecutionFactory.sparqlService(queryurl, query);
 		ResultSet results = qexec.execSelect();
@@ -185,7 +189,7 @@ public abstract class TripleStoreConnector {
 		System.out.println(solu.get(featuretype.toLowerCase()));
 		if(solu.get(featuretype.toLowerCase())!=null) {
 			result=new TreeMap<>();
-			queryString=queryString.replace("WHERE{","WHERE{ BIND( <"+solu.get(featuretype.toLowerCase())+"> AS ?"+workingobj.getString("indvar")+") ");
+			queryString=queryString.replace("WHERE{","WHERE{ BIND( <"+solu.get(indvar)+"> AS ?"+indvar+") ");
 			System.out.println(prefixCollection+queryString);
 			query = QueryFactory.create(prefixCollection+queryString);
 			qexec = QueryExecutionFactory.sparqlService(queryurl, query);

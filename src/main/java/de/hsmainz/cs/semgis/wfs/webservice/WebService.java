@@ -910,11 +910,14 @@ public class WebService {
 			throw new NotFoundException();
 		}
 		if(!workingobj.has("attcount") && !workingobj.getString("query").contains("?rel") && !workingobj.getString("query").contains("?val")) {
+			featureTypeCache.put(collectionid.toLowerCase(),TripleStoreConnector
+					.getFeatureTypeInformation(workingobj.getString("query"), workingobj.getString("triplestore"),
+					workingobj.getString("name"),workingobj));
 			workingobj.put("attcount", 1);
 		}else if(!workingobj.has("attcount")) {
 			featureTypeCache.put(collectionid.toLowerCase(),TripleStoreConnector
 					.getFeatureTypeInformation(workingobj.getString("query"), workingobj.getString("triplestore"),
-			  "item",workingobj));		
+			  workingobj.getString("name"),workingobj));		
 		}
 		System.out.println("Attcount: "+workingobj.getInt("attcount"));
 		System.out.println(limit);
