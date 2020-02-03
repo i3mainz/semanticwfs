@@ -189,7 +189,7 @@ public abstract class TripleStoreConnector {
 		}
 		QuerySolution solu=results.next();
 		Iterator<String> varnames=solu.varNames();
-		System.out.println(solu.get(featuretype.toLowerCase()));
+		System.out.println(solu.get(indvar));
 		if(solu.get(indvar)!=null) {
 			result=new TreeMap<>();
 			queryString=queryString.replace("WHERE{","WHERE{ BIND( <"+solu.get(indvar)+"> AS ?"+indvar+") ");
@@ -250,6 +250,8 @@ public abstract class TripleStoreConnector {
 					nscache.put(ns,"ns"+nscounter++);
 				}
 				result.put("http://www.opengis.net/ont/geosparql#asWKT","Point("+lon.substring(0,lon.indexOf("^^"))+" "+lat.substring(0,lat.indexOf("^^"))+")");
+				lat="";
+				lon="";
 			}
 			if(!rel.isEmpty() && !val.isEmpty()) {
 				String ns=null;

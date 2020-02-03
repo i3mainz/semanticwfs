@@ -25,7 +25,7 @@
 "type":"WFS", "typecolumn":"http://inspire.ec.europa.eu/schemas/gn/4.0#type", "name":"NamedPlace"},
 {"namespace":"http://pleiades.stoa.org/places/vocab#",
 "indvar":"item","description":"Pleiades Locations","geometrytype":"Point","targetCRS":"EPSG:4326","useorderby":true,
-"query":"SELECT ?item ?the_geom WHERE {?a rdf:type pleiades:Place . ?a pleiades:hasLocation ?item . ?item geo:asWKT ?the_geom . }",
+"query":"SELECT ?item ?the_geom WHERE{ ?a rdf:type pleiades:Place . ?a pleiades:hasLocation ?item . ?item geo:asWKT ?the_geom . }",
 "triplestore":"https://sandbox.mainzed.org/pleiades/sparql",
 "type":"WFS", "name":"PleiadesLocations"}
 ]
