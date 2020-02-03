@@ -188,7 +188,7 @@ public abstract class TripleStoreConnector {
 		QuerySolution solu=results.next();
 		Iterator<String> varnames=solu.varNames();
 		System.out.println(solu.get(featuretype.toLowerCase()));
-		if(solu.get(featuretype.toLowerCase())!=null) {
+		if(solu.get(indvar)!=null) {
 			result=new TreeMap<>();
 			queryString=queryString.replace("WHERE{","WHERE{ BIND( <"+solu.get(indvar)+"> AS ?"+indvar+") ");
 			System.out.println(prefixCollection+queryString);
