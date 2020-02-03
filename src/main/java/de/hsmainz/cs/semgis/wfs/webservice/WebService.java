@@ -860,7 +860,7 @@ public class WebService {
 				builder.append("<li><a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name") + "/items?limit=5&f="+formatter.exposedType+"\">["+formatter.exposedType.toUpperCase()+"]</a></li>");
 			}
 			builder.append("</td></tr></table>");
-			builder.append("<table width=100%><tr><td align=right><a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"/items?f=html\">[Next]</a></td></tr></table>");
+			builder.append("<table width=100%><tr><td align=left><a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"/items?f=html\">[Sample]</a></td><td align=right><a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"/items?f=html&limit=1&offset="+(offset+1)+"\">[Next]</a></td></tr></table>");
 			builder.append("<table width=100%><tr><td><a href=\""+wfsconf.getString("baseurl")+"/collections?f=html\">Back to Collections</a></td><td align=right>This page in <a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"?f=gml\">[GML]</a> <a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"?f=json\">[JSON]</a></div></div></div></body></html>");
 			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
 		} else {
@@ -1754,6 +1754,9 @@ public class WebService {
 				featureTypeCache.put(typename.toLowerCase(),TripleStoreConnector
 						.getFeatureTypeInformation(workingobj.getString("query"), workingobj.getString("triplestore"),
 				  workingobj.getString("name"),workingobj));		
+			}
+			if(workingobj.getInt("attcount")==0) {
+				workingobj.put("attcount",1);
 			}
 		try {
 			res = TripleStoreConnector.executeQuery(workingobj.getString("query"),
