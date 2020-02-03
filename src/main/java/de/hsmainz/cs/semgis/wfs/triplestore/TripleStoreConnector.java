@@ -175,13 +175,14 @@ public abstract class TripleStoreConnector {
 		}
 		Map<String,String> result=new TreeMap<>();
 		Map<String,String> nscache=new TreeMap<>();
-		System.out.println(prefixCollection+queryString);
-		if(workingobj.has("useorderby") && workingobj.getBoolean("useorderby"))
-			queryString+=" ORDER BY ?"+indvar+System.lineSeparator();
+		System.out.println(prefixCollection+queryString+" LIMIT 1");
+		//if(workingobj.has("useorderby") && workingobj.getBoolean("useorderby"))
+			//queryString+=" ORDER BY ?"+indvar+System.lineSeparator();
 		Query query = QueryFactory.create(prefixCollection+queryString+" LIMIT 1");
 		QueryExecution qexec = QueryExecutionFactory.sparqlService(queryurl, query);
 		ResultSet results = qexec.execSelect();
 		if(!results.hasNext()) {
+			System.out.println("No results!?!");
 			return null;
 		}
 		QuerySolution solu=results.next();
