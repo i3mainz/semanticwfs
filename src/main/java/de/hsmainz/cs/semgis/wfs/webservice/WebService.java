@@ -919,6 +919,8 @@ public class WebService {
 					.getFeatureTypeInformation(workingobj.getString("query"), workingobj.getString("triplestore"),
 			  workingobj.getString("name"),workingobj));		
 		}
+		if(workingobj.getInt("attcount")==0)
+			workingobj.put("attcount",1);
 		System.out.println("Attcount: "+workingobj.getInt("attcount"));
 		System.out.println(limit);
 		try {
