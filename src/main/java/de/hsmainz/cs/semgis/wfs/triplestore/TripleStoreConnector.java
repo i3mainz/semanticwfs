@@ -238,7 +238,7 @@ public abstract class TripleStoreConnector {
 
 			}
 			if(!lat.isEmpty() && !lon.isEmpty()) {
-				result.put("http://www.opengis.net/ont/geosparql#asWKT","Point("+lon+" "+lat+")");
+				result.put("http://www.opengis.net/ont/geosparql#asWKT","Point("+lon.substring(0,lon.indexOf("^^"))+" "+lat.substring(0,lat.indexOf("^^"))+")");
 			}
 			if(!rel.isEmpty() && !val.isEmpty()) {
 				String ns=null;
