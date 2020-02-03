@@ -851,10 +851,10 @@ public class WebService {
 					}
 				}
 				if(elem.contains("lat")) {
-					lat=mapping.get(elem).substring(0,mapping.get(elem).indexOf("^^"));
+					lat=mapping.get(elem);
 				}
 				if(elem.contains("lon")) {
-					lon=mapping.get(elem).substring(0,mapping.get(elem).indexOf("^^"));
+					lon=mapping.get(elem);
 				}
 				if(lat!=null && lon!=null) {
 					geometry.put("type","Point");

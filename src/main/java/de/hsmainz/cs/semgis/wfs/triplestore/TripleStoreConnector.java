@@ -208,6 +208,10 @@ public abstract class TripleStoreConnector {
 					rel=solu.get(varname).toString();
 				}else if(varname.equals("val")){
 					val=solu.get(varname).toString();
+				}else if(varname.equals("lat")) {
+					lat=solu.get(varname).toString();
+				}else if(varname.equals("lon")){
+					lon=solu.get(varname).toString();
 				}else if(varname.contains("_geom")){
 					if(!nscache.containsKey("http://www.opengis.net/ont/geosparql#"))
 							nscache.put("http://www.opengis.net/ont/geosparql#","ns"+nscounter++);
@@ -232,6 +236,9 @@ public abstract class TripleStoreConnector {
 					}  
 				}
 
+			}
+			if(!lat.isEmpty() && !lon.isEmpty()) {
+				result.put("http://www.opengis.net/ont/geosparql#asWKT","Point("+lon+" "+lat+")");
 			}
 			if(!rel.isEmpty() && !val.isEmpty()) {
 				String ns=null;
