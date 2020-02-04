@@ -272,6 +272,8 @@ public abstract class TripleStoreConnector {
 					ns=lat.substring(0,lat.lastIndexOf('#')+1);
 				}else if(lat.contains("http") && lat.contains("/")) {
 					ns=lat.substring(0,lat.lastIndexOf('/')+1);
+				}else if(lat.contains("^^")) {
+					ns=lat.substring(lat.lastIndexOf("^^")+2);
 				}
 				if(ns!=null && !ns.isEmpty() && !nscache.containsKey(ns)) {
 					nscache.put(ns,"ns"+nscounter++);
