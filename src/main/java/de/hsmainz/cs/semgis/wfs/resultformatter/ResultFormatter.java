@@ -6,10 +6,6 @@ import java.util.TreeMap;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.jena.query.ResultSet;
-import org.locationtech.proj4j.CRSFactory;
-import org.locationtech.proj4j.CoordinateTransform;
-import org.locationtech.proj4j.CoordinateTransformFactory;
-import org.locationtech.proj4j.ProjCoordinate;
 
 public abstract class ResultFormatter {
 
@@ -27,7 +23,7 @@ public abstract class ResultFormatter {
 			return resultMap.get(formatString);
 		}
 		formatString=formatString.replace("+","");
-		if(formatString.contains("geojsonld")) {
+		if(formatString.contains("geojsonld") || formatString.contains("geo+json+ld")) {
 			return resultMap.get("geojsonld");
 		}
 		if(formatString.contains("geojson") || formatString.contains("geo+json")) {
