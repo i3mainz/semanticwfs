@@ -268,12 +268,12 @@ public abstract class TripleStoreConnector {
 			}
 			if(!lat.isEmpty() && !lon.isEmpty()) {
 				String ns=null;
-				if(lat.contains("http") && lat.contains("#")) {
+				if(lat.contains("^^")) {
+					ns=lat.substring(lat.lastIndexOf("^^")+2);
+				}else if(lat.contains("http") && lat.contains("#")) {
 					ns=lat.substring(0,lat.lastIndexOf('#')+1);
 				}else if(lat.contains("http") && lat.contains("/")) {
 					ns=lat.substring(0,lat.lastIndexOf('/')+1);
-				}else if(lat.contains("^^")) {
-					ns=lat.substring(lat.lastIndexOf("^^")+2);
 				}
 				if(ns!=null && !ns.isEmpty() && !nscache.containsKey(ns)) {
 					nscache.put(ns,"ns"+nscounter++);
