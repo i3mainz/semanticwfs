@@ -30,7 +30,7 @@ public abstract class ResultFormatter {
 		if(formatString.contains("geojsonld")) {
 			return resultMap.get("geojsonld");
 		}
-		if(formatString.contains("geojson")) {
+		if(formatString.contains("geojson") || formatString.contains("geo+json")) {
 			return resultMap.get("geojson");
 		}
 		if(formatString.contains("gml")) {
