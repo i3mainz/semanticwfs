@@ -35,7 +35,7 @@ public class KMLFormatter extends WFSResultFormatter {
 	    	this.lastQueriedElemCount++;
 	    	QuerySolution solu=results.next();
 			if(solu.get(indvar)!=null) {
-				curfeaturetype=solu.get(featuretype.toLowerCase()).toString();
+				curfeaturetype=solu.get(indvar).toString();
 				if(curfeaturetype.contains("http") && curfeaturetype.contains("#")){
 					curfeaturetype=curfeaturetype.substring(curfeaturetype.lastIndexOf('#')+1);
 				}
