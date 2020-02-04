@@ -42,6 +42,8 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 		JSONArray features = new JSONArray();
 		allfeatures.add(features);
 		geojsonresults.put("features", features);
+		List<String> latlist=new LinkedList<String>();
+		List<String> lonlist=new LinkedList<String>();
 		String rel = "", val = "", lastInd = "",lat="",lon="";
 		JSONObject jsonobj = new JSONObject();
 
@@ -55,6 +57,42 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 			//System.out.println(solu.get(featuretype.toLowerCase()).toString() + " - " + lastInd);
 			if (!solu.get(indvar).toString().equals(lastInd) || lastInd.isEmpty()) {
 				//System.out.println("NEW OBJECT!");
+				if(!latlist.isEmpty() && !lonlist.isEmpty()) {
+					if(latlist.size()==1 && lonlist.size()==1) {
+						JSONObject geomobj=new JSONObject("{\"type\":\"Point\",\"coordinates\":["+lon+","+lat+"]}");
+						geoms.add(geomobj);
+						properties.put("lat", lat);
+						properties.put("lon",lon);
+					}else if(latlist.get(latlist.size()-1).equals(latlist.get(0)) && lonlist.get(latlist.size()-1).equals(lonlist.get(0))) {
+						JSONObject geomobj=new JSONObject();
+						geomobj.put("type","Polygon");
+						JSONArray arr=new JSONArray();
+						JSONArray arr2=new JSONArray();
+						arr.put(arr2);
+						geomobj.put("coordinates",arr);
+						for(int i=0;i<latlist.size();i++) {
+							JSONArray arr3=new JSONArray();
+							arr3.put(lonlist.get(i));
+							arr3.put(latlist.get(i));
+							arr2.put(arr3);
+						}
+						geoms.add(geomobj);
+					}else if(!latlist.get(latlist.size()-1).equals(latlist.get(0)) || !lonlist.get(latlist.size()-1).equals(lonlist.get(0))) {
+						JSONObject geomobj=new JSONObject();
+						geomobj.put("type","LineString");
+						JSONArray arr=new JSONArray();
+						geomobj.put("coordinates",arr);
+						for(int i=0;i<latlist.size();i++) {
+							JSONArray arr2=new JSONArray();
+							arr2.put(lonlist.get(i));
+							arr2.put(latlist.get(i));
+							arr.put(arr2);
+						}
+						geoms.add(geomobj);
+					}
+					latlist.clear();
+					lonlist.clear();
+				}
 				newobject = true;
 			} else {
 				newobject = false;
@@ -162,10 +200,8 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 				if(lon.contains("^^")) {
 					lon=lon.substring(0,lon.indexOf("^^"));
 				}
-				JSONObject geomobj=new JSONObject("{\"type\":\"Point\",\"coordinates\":["+lon+","+lat+"]}");
-				geoms.add(geomobj);
-				properties.put("lat", lat);
-				properties.put("lon",lon);
+				lonlist.add(lon);
+				latlist.add(lat);
 				lat="";
 				lon="";
 			}

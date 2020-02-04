@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
@@ -198,12 +200,37 @@ public abstract class TripleStoreConnector {
 			qexec = QueryExecutionFactory.sparqlService(queryurl, query);
 			results = qexec.execSelect();
 		}
-		String rel="",val="",lat="",lon="";
+		String rel="",val="",lat="",lon="",lastInd="";
+		List<String> latlist=new LinkedList<String>();
+		List<String> lonlist=new LinkedList<String>();
 		Integer attcount=0,nscounter=0;
 		result.put("namespaces","");
 		while(results.hasNext()) {
 			solu=results.next();
 			varnames=solu.varNames();
+			if(lastInd.isEmpty() || !lastInd.equals(solu.get(indvar).toString())) {
+				if(!latlist.isEmpty() && !lonlist.isEmpty()) {
+					if(latlist.size()==1 && lonlist.size()==1) {
+						result.put("http://www.opengis.net/ont/geosparql#asWKT","Point("+lonlist.get(0).substring(0,lonlist.get(0).indexOf("^^"))+" "+latlist.get(0).substring(0,latlist.get(0).indexOf("^^"))+")");
+					}else if(latlist.get(latlist.size()-1).equals(latlist.get(0)) && lonlist.get(latlist.size()-1).equals(lonlist.get(0))) {
+						StringBuilder builder=new StringBuilder();
+						for(int i=0;i<latlist.size();i++) {
+							builder.append(latlist.get(i)+" "+lonlist.get(i)+",");
+						}
+						builder.delete(builder.length()-1,builder.length());
+						result.put("http://www.opengis.net/ont/geosparql#asWKT","Polygon(("+builder.toString()+"))");
+					}else if(!latlist.get(latlist.size()-1).equals(latlist.get(0)) || !lonlist.get(latlist.size()-1).equals(lonlist.get(0))) {
+						StringBuilder builder=new StringBuilder();
+						for(int i=0;i<latlist.size();i++) {
+							builder.append(latlist.get(i)+" "+lonlist.get(i)+",");
+						}
+						builder.delete(builder.length()-1,builder.length());
+						result.put("http://www.opengis.net/ont/geosparql#asWKT","LineString(("+builder.toString()+"))");
+					}
+					latlist.clear();
+					lonlist.clear();
+				}
+			}
 			while(varnames.hasNext()) {
 				String varname=varnames.next();
 				if(varname.equals("rel")) {
@@ -248,8 +275,9 @@ public abstract class TripleStoreConnector {
 				}
 				if(ns!=null && !ns.isEmpty() && !nscache.containsKey(ns)) {
 					nscache.put(ns,"ns"+nscounter++);
-				}
-				result.put("http://www.opengis.net/ont/geosparql#asWKT","Point("+lon.substring(0,lon.indexOf("^^"))+" "+lat.substring(0,lat.indexOf("^^"))+")");
+				}	
+				latlist.add(lat.substring(0,lat.indexOf("^^")));
+				lonlist.add(lon.substring(0,lon.indexOf("^^")));
 				lat="";
 				lon="";
 			}

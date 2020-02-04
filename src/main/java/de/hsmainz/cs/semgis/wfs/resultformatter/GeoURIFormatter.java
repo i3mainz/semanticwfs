@@ -32,7 +32,7 @@ public class GeoURIFormatter extends WFSResultFormatter {
 	    		String name=varnames.next();
 	    		String curfeaturetype="";
 		    	if(solu.get(indvar)!=null) {
-					curfeaturetype=solu.get(featuretype.toLowerCase()).toString();
+					curfeaturetype=solu.get(indvar).toString();
 					if(curfeaturetype.contains("http") && curfeaturetype.contains("#")){
 						curfeaturetype=curfeaturetype.substring(curfeaturetype.lastIndexOf('#')+1);
 					}
