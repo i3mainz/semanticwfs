@@ -1708,7 +1708,7 @@ public class WebService {
 			if(mapping.get(elem).contains("^^")) {
 				writer.writeAttribute("type", mapping.get(elem).substring(mapping.get(elem).lastIndexOf("^^")+2)); 
 			}else if(mapping.get(elem).startsWith("http") || mapping.get(elem).startsWith("file:/")){
-				writer.writeAttribute("type","anyURI");
+				writer.writeAttribute("type","string");
 			}else {
 				writer.writeAttribute("type","string"); 	
 			}
