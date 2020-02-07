@@ -813,7 +813,7 @@ public class WebService {
 			geojson.put("geometry",geometry);
 			geojson.put("properties",properties);
 			builder.append(htmlHead);
-			builder.append("<body><header><h1 align=\"center\">");
+			builder.append("<script>var espg=\""+(workingobj.has("targetCRS")?workingobj.get("targetCRS"):"")+"\";</script><body><header><h1 align=\"center\">");
 			builder.append((workingobj.getString("description")!=null?workingobj.getString("description"):collectionid));
 			builder.append("</h1></header><div class=\"container\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\">");
 			builder.append("<table width=100%><tr><td width=\"100%\" rowspan=2>");
