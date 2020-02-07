@@ -885,14 +885,19 @@ public class WebService {
 	@GET
 	@Produces({ MediaType.APPLICATION_XML })
 	@Path("/collections/{collectionid}/schema")
-	public Response getSchema(@PathParam("collectionid") String collectionid) {
-		try {
-			return this.describeFeatureType(collectionid, "2.0.0");
-		} catch (XMLStreamException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			throw new NotFoundException();
+	public Response getSchema(@PathParam("collectionid") String collectionid,@DefaultValue("gml") @QueryParam("f") String format) {
+		if(format.contains("json")) {
+			return this.describeFeatureTypeJSON(collectionid, "1.0.0");
+		}else {
+			try {
+				return this.describeFeatureType(collectionid, "2.0.0");
+			} catch (XMLStreamException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				throw new NotFoundException();
+			}
 		}
+
 	}
 	
 	
@@ -1725,6 +1730,85 @@ public class WebService {
 		return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
 	}
 
+	@GET
+	@Produces(MediaType.TEXT_XML)
+	@Path("/wfs/describeFeatureTypeJSON")
+	public Response describeFeatureTypeJSON(@QueryParam("typename") String typename,
+			@DefaultValue("version") @QueryParam("version")String version) {
+		if(typename==null)
+			throw new NotFoundException();
+		JSONObject workingobj = null;
+		for (int i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
+			JSONObject curobj = wfsconf.getJSONArray("datasets").getJSONObject(i);
+			if (curobj.getString("name").equalsIgnoreCase(typename)) {
+				workingobj = curobj;
+				break;
+			}
+		}
+		if (workingobj == null)
+			throw new NotFoundException();
+		JSONObject schema=new JSONObject();
+		JSONArray required=new JSONArray();
+		schema.put("definitions",new JSONObject());
+		schema.put("$schema","http://json-schema.org/draft-07/schema#");
+		schema.put("$id",wfsconf.getString("baseurl") + "/collections/"+ typename + "/schema?f=json");
+		schema.put("type","object");
+		schema.put("title",typename);
+		schema.put("description",(workingobj.has("description")?workingobj.getString("description"):""));
+		schema.put("readOnly",true);
+		schema.put("writeOnly",false);
+		schema.put("required",required);
+		JSONObject properties=new JSONObject();
+		schema.put("properties",properties);
+		if(!featureTypeCache.containsKey(typename.toLowerCase())) {
+			featureTypeCache.put(typename.toLowerCase(),TripleStoreConnector
+				.getFeatureTypeInformation(workingobj.getString("query"), workingobj.getString("triplestore"),
+		  workingobj.getString("name"),workingobj));
+		}
+		Map<String,String>mapping=featureTypeCache.get(typename.toLowerCase());
+		for(String elem:mapping.keySet()) {
+			if(elem.equals("namespaces"))
+				continue;
+			if(elem.startsWith("http") && elem.contains("#")) {
+				required.put(elem.substring(elem.lastIndexOf('#')+1));
+			}else if(elem.startsWith("http") && elem.contains("/")) {
+				required.put(elem.substring(elem.lastIndexOf('/')+1));
+			}else {
+				required.put(elem);
+			}
+		}
+		for(String elem:mapping.keySet()) {
+			if(elem.equals("namespaces"))
+				continue;
+			JSONObject prop=new JSONObject();
+			String curprop="";
+			if(elem.startsWith("http") && elem.contains("#")) {
+				curprop=elem.substring(elem.lastIndexOf('#')+1);
+				properties.put(curprop,prop);
+			}else if(elem.startsWith("http") && elem.contains("/")) {
+				curprop=elem.substring(elem.lastIndexOf('/')+1);
+				properties.put(elem.substring(elem.lastIndexOf('/')+1),prop);
+			}else {
+				curprop=elem;
+				properties.put(elem,prop);
+			}
+			prop.put("$id",wfsconf.getString("baseurl") + "/collections/"+ typename + "/"+curprop);
+			if(mapping.get(elem).contains("^^")) {
+				prop.put("type", mapping.get(elem).substring(mapping.get(elem).lastIndexOf("^^")+2)); 
+			}else if(mapping.get(elem).startsWith("http") || mapping.get(elem).startsWith("file:/")){
+				prop.put("type","string");
+			}else {
+				prop.put("type","string"); 	
+			}
+			prop.put("title",curprop);
+			prop.put("description",curprop+" Property");
+			JSONArray examples=new JSONArray();
+			prop.put("examples",examples);
+		}
+		return Response.ok(schema.toString(2)).type(MediaType.APPLICATION_JSON).build();
+	}
+
+	
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/wfs/getFeature")
