@@ -47,7 +47,7 @@ function getRandomColor() {
 }
 var colormap={}
 var layercontrol=L.control.layers(baseMaps,overlayMaps).addTo(map);
-var geojsonlayer=L.geoJSON(geojson["features"], {
+var geojsonlayer=L.geoJSON(geojson, {
 style: function(feature){
 	return {
         fillColor: 'blue',
