@@ -58,7 +58,7 @@ public class KMLFormatter extends WFSResultFormatter {
 					writer.writeCharacters(solu.get(name).toString().substring(solu.get(name).toString().indexOf('(')+1,solu.get(name).toString().indexOf(')')).trim().replace(" ",","));
 					writer.writeEndElement();
 					writer.writeEndElement();
-				}else if(name.equalsIgnoreCase(featuretype)){
+				}else if(name.equalsIgnoreCase(indvar)){
 					continue;
 				}else if("rel".equalsIgnoreCase(name) || name.contains("_rel")){
 					rel=solu.get(name).toString();

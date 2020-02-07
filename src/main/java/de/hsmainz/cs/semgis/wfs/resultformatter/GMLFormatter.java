@@ -90,7 +90,7 @@ public class GMLFormatter extends WFSResultFormatter {
 						writer.writeEndElement();
 					}
 					writer.writeEndElement();
-				}else if(curvar.equalsIgnoreCase(featuretype)){
+				}else if(curvar.equalsIgnoreCase(indvar)){
 					continue;
 				}else if("rel".equalsIgnoreCase(curvar) || curvar.contains("_rel")){
 					rel=solu.get(curvar).toString();

@@ -56,7 +56,7 @@ public class CSVFormatter extends WFSResultFormatter {
 	    			if(first) {
 	    				resultCSVHeader.append("the_geom,");
 	    			}
-	    		}else if(name.equalsIgnoreCase(featuretype)){
+	    		}else if(name.equalsIgnoreCase(indvar)){
 					continue;
 				}else if("rel".equalsIgnoreCase(name) || name.contains("_rel")){
 					rel=solu.get(name).toString();

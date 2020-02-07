@@ -174,7 +174,7 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 					lat = solu.get(name).toString();
 				}else if (name.equals("lon")) {
 					lon = solu.get(name).toString();
-				}else if (name.equalsIgnoreCase(featuretype)) {
+				}else if (name.equalsIgnoreCase(indvar)) {
 					continue;
 				} else {
 					if (!relationName.isEmpty()) {
