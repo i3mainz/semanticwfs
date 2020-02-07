@@ -1,5 +1,5 @@
 <div id="mapid" style="height: 500px;"><script>
-if(epsg!="" && epsg in epsgdefs){
+if(epsg!="" && epsg!="EPSG:4326" && epsg in epsgdefs){
 	geojson=convertGeoJSON(geojson,epsgdefs[epsg])
 	console.log(geojson);
 }
@@ -58,14 +58,16 @@ style: function(feature){
     };
 },
 coordsToLatLng: function (coords) {
-	if(typeof coords[0] !== 'undefined' && typeof coords[1] !== 'undefined' && typeof coords[2] !== 'undefined'){
-		return new L.LatLng(coords[1], coords[0], coords[2]);
+    console.log(coords)
+	console.log(coords[0])
+    console.log(coords[1])
+	if(typeof coords[0] !== 'undefined' && typeof coords[1] !== 'undefined'){
+		return new L.LatLng(coords[1], coords[0]);
+	}else if(typeof coords[0][1]!== 'undefined'){
+		return new L.LatLng(coords[0][1], coords[0][0]);
 	}
-	if(typeof coords[0] !== 'undefined'){
-		return new L.LatLng(coords[1], coords[2], coords[0]);
-	}
-	return new L.LatLng(coords[0], coords[1]);
-},		
+	return new L.LatLng(0, 0);
+},	
 pointToLayer: function(feature, latlng){
 			var color="";
 			if(typeColumn==""){
@@ -116,5 +118,10 @@ onEachFeature: function (feature, layer) {
 	 }});popup+="</ul>"
 	 console.log(feature)
          layer.bindPopup(popup,{maxWidth : 560});
- }}).addTo(map);map.fitBounds(geojsonlayer.getBounds());</script>
+ }}).addTo(map);
+try {
+	map.fitBounds(geojsonlayer.getBounds());
+}catch (e) {
+}
+</script>
  </div>
