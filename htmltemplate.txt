@@ -1,6 +1,7 @@
 <div id="mapid" style="height: 500px;"><script>
 if(epsg!="" && epsg in epsgdefs){
 	geojson=convertGeoJSON(geojson,epsgdefs[epsg])
+	console.log(geojson);
 }
 var map = L.map('mapid',{fullscreenControl: true,fullscreenControlOptions: {position: 'topleft'}}).setView([51.505, -0.09], 13);
 var wmsLayer = L.tileLayer.wms('https://sgx.geodatenzentrum.de/wms_topplus_web_open', {
