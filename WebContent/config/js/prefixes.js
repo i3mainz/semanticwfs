@@ -12,6 +12,7 @@ function convertGeoJSON(geojson,from){
 		coords=geojson["geometry"]["coordinates"]
 		geojson["geometry"]["coordinates"]=exportConvert(coords,from,geojson["geometry"]["type"],false)
 	}
+	console.log(geojson);
 	return geojson;
 }
 
