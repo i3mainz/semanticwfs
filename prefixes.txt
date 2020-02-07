@@ -19,6 +19,7 @@ PREFIX pleiades: <http://pleiades.stoa.org/places/vocab#>
 PREFIX gml:<http://www.opengis.net/gml/3.2#>
 PREFIX geo:<http://www.opengis.net/ont/geosparql#>
 PREFIX omgeo:<http://www.ontotext.com/owlim/geo#>
+PREFIX xplan4:<http://www.xplanung.de/xplangml/4/1#>
 PREFIX ff:<http://factforge.net>
 PREFIX om:<http://www.ontotext.com/owlim>
 PREFIX wd:<http://www.wikidata.org/entity/>

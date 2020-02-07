@@ -27,6 +27,11 @@
 "indvar":"item","description":"Pleiades Locations","geometrytype":"Point","targetCRS":"EPSG:4326","useorderby":true,
 "query":"SELECT ?item ?the_geom WHERE{ ?a rdf:type pleiades:Place . ?a pleiades:hasLocation ?item . ?item geo:asWKT ?the_geom . }",
 "triplestore":"https://sandbox.mainzed.org/pleiades/sparql",
-"type":"WFS", "name":"PleiadesLocations"}
+"type":"WFS", "name":"PleiadesLocations"},
+{"namespace":"http://pleiades.stoa.org/places/vocab#",
+"indvar":"item","description":"XPlanung Hamburg","geometrytype":"Point","targetCRS":"EPSG:25832","useorderby":true,
+"query":"SELECT ?item ?the_geom WHERE{ ?item rdf:type xplan4:BP_Wegerecht . ?item ?rel ?val . OPTIONAL{?val geo:asWKT ?the_geom .} }",
+"triplestore":"https://www.i3mainz.de/projekte/bkg/xplanung/sparql",
+"type":"WFS", "name":"XPlanungWegerechtHamburg"}
 ]
 }

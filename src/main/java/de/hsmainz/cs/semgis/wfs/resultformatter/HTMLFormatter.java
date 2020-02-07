@@ -35,16 +35,16 @@ public class HTMLFormatter extends ResultFormatter {
 	@Override
 	public String formatter(ResultSet results, String startingElement, String featuretype,
 			String propertytype, 
-			String typeColumn, Boolean onlyproperty,Boolean onlyhits,String srsName,String indvar) throws XMLStreamException {
+			String typeColumn, Boolean onlyproperty,Boolean onlyhits,String srsName,String indvar,String epsg) throws XMLStreamException {
 		ResultFormatter format = resultMap.get("geojson");
 		JSONObject geojson = new JSONObject(
-				format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,srsName,indvar));
+				format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,srsName,indvar,epsg));
 		this.lastQueriedElemCount = format.lastQueriedElemCount;
 		// System.out.println(geojson);
 		StringBuilder builder = new StringBuilder();
 		if (!onlyproperty) {
 			builder.append("<script>var overlayMaps={}; var overlayControl; var typeColumn=\"" + typeColumn
-					+ "\"; var markercollection=[];var geojson=" + geojson.toString() + "</script>");
+					+ "\"; var markercollection=[];var epsg=\""+epsg+"\" var geojson=" + geojson.toString() + "</script>");
 			builder.append(htmlHeader);
 		}
 		builder.append("<table width=\"100%\" align=\"center\" id=\"queryres\" class=\"tablesorter\" border=\"1\">");
