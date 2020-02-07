@@ -349,7 +349,8 @@ public class WebService {
 				if(wfsconf.getJSONArray("datasets").getJSONObject(i).has("schema")) {
 					builder.append("<a href=\""+wfsconf.getJSONArray("datasets").getJSONObject(i).get("schema")+"\" target=\"_blank\">[Schema]</a>");
 				}else {
-					builder.append("<a href=\""+wfsconf.getString("baseurl") + "/collections/"+ curobj.getString("name") + "/schema\" target=\"_blank\">[Schema]</a>");
+					builder.append("<a href=\""+wfsconf.getString("baseurl") + "/collections/"+ curobj.getString("name") + "/schema\" target=\"_blank\">[XML Schema]</a><br/>");
+					builder.append("<a href=\""+wfsconf.getString("baseurl") + "/collections/"+ curobj.getString("name") + "/schema?f=json\" target=\"_blank\">[JSON Schema]</a>");
 				}
 				builder.append("</td><td align=center>");
 				Integer counter=0;
