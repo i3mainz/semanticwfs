@@ -6,11 +6,11 @@ function convertGeoJSON(geojson,from){
 	if("features" in geojson){
 		for(feature in geojson["features"]){
 			coords=geojson["features"][feature]["geometry"]["coordinates"]
-			geojson["features"][feature]["geometry"]["coordinates"]=exportConvert(coords,from,geojson["features"][feature]["geometry"]["type"],false)
+			geojson["features"][feature]["geometry"]["coordinates"]=exportConvert(coords,from,geojson["features"][feature]["geometry"]["type"],true)
 		}
 	}else{
 		coords=geojson["geometry"]["coordinates"]
-		geojson["geometry"]["coordinates"]=exportConvert(coords,from,geojson["geometry"]["type"],false)
+		geojson["geometry"]["coordinates"]=exportConvert(coords,from,geojson["geometry"]["type"],true)
 	}
 	console.log(geojson);
 	return geojson;
@@ -19,8 +19,8 @@ function convertGeoJSON(geojson,from){
 function exportConvert(coordinates,from,geomtype,switchlatlong){
     console.log("ExportConvert")
     coords=convertit(coordinates,from,epsgdefs["EPSG:4326"],switchlatlong)
-    console.log("Coords: "+coords)
-    res=geometryToGeoJSON(geomtype,coords)
+    //console.log("Coords: "+coords)
+    //res=geometryToGeoJSON(geomtype,coords)
     console.log("Res: "+res)
     return res;
 }
