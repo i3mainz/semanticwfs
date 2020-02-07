@@ -217,6 +217,49 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 			first = false;
 			lastInd = solu.get(indvar).toString();
 		}
+		System.out.println("LastLat: "+latlist.toString()+" "+lonlist.toString());
+		if(!latlist.isEmpty() && !lonlist.isEmpty()) {
+			if(latlist.size()==1 && lonlist.size()==1) {
+				JSONObject geomobj=new JSONObject("{\"type\":\"Point\",\"coordinates\":["+lonlist.get(0)+","+latlist.get(0)+"]}");
+				geoms.add(geomobj);
+				properties.put("lat", latlist.get(0));
+				properties.put("lon",lonlist.get(0));
+			}else if(latlist.get(latlist.size()-1).equals(latlist.get(0)) && lonlist.get(lonlist.size()-1).equals(lonlist.get(0))) {
+				JSONObject geomobj=new JSONObject();
+				geomobj.put("type","Polygon");
+				JSONArray arr=new JSONArray();
+				JSONArray arr2=new JSONArray();
+				arr.put(arr2);
+				String lit="Polygon(";
+				geomobj.put("coordinates",arr);
+				for(int i=0;i<latlist.size();i++) {
+					JSONArray arr3=new JSONArray();
+					arr3.put(lonlist.get(i));
+					arr3.put(latlist.get(i));
+					lit+=lonlist.get(i)+" "+lonlist.get(i)+",";
+					arr2.put(arr3);
+				}
+				geoms.add(geomobj);
+				properties.put("geometry", lit.substring(0,lit.length()-1)+")");
+			}else if(!latlist.get(latlist.size()-1).equals(latlist.get(0)) || !lonlist.get(lonlist.size()-1).equals(lonlist.get(0))) {
+				JSONObject geomobj=new JSONObject();
+				geomobj.put("type","LineString");
+				JSONArray arr=new JSONArray();
+				String lit="LineString(";
+				geomobj.put("coordinates",arr);
+				for(int i=0;i<latlist.size();i++) {
+					JSONArray arr2=new JSONArray();
+					arr2.put(lonlist.get(i));
+					arr2.put(latlist.get(i));
+					lit+=lonlist.get(i)+" "+lonlist.get(i)+",";
+					arr.put(arr2);
+				}
+				geoms.add(geomobj);
+				properties.put("geometry", lit.substring(0,lit.length()-1)+")");
+			}
+			latlist.clear();
+			lonlist.clear();
+		}
 		if(!onlyproperty) {
 			int geomcounter=0;
 			for (JSONObject geom : geoms) {

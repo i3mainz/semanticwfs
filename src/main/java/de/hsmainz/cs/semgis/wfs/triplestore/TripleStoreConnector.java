@@ -211,7 +211,7 @@ public abstract class TripleStoreConnector {
 			if(lastInd.isEmpty() || !lastInd.equals(solu.get(indvar).toString())) {
 				if(!latlist.isEmpty() && !lonlist.isEmpty()) {
 					if(latlist.size()==1 && lonlist.size()==1) {
-						result.put("http://www.opengis.net/ont/geosparql#asWKT","Point("+lonlist.get(0).substring(0,lonlist.get(0).indexOf("^^"))+" "+latlist.get(0).substring(0,latlist.get(0).indexOf("^^"))+")");
+						result.put("http://www.opengis.net/ont/geosparql#asWKT","Point("+lonlist.get(0)+" "+latlist.get(0)+")");
 					}else if(latlist.get(latlist.size()-1).equals(latlist.get(0)) && lonlist.get(latlist.size()-1).equals(lonlist.get(0))) {
 						StringBuilder builder=new StringBuilder();
 						for(int i=0;i<latlist.size();i++) {
@@ -298,6 +298,27 @@ public abstract class TripleStoreConnector {
 				val="";
 			}
 			attcount++;
+		}
+		if(!latlist.isEmpty() && !lonlist.isEmpty()) {
+			if(latlist.size()==1 && lonlist.size()==1) {
+				result.put("http://www.opengis.net/ont/geosparql#asWKT","Point("+lonlist.get(0)+" "+latlist.get(0)+")");
+			}else if(latlist.get(latlist.size()-1).equals(latlist.get(0)) && lonlist.get(latlist.size()-1).equals(lonlist.get(0))) {
+				StringBuilder builder=new StringBuilder();
+				for(int i=0;i<latlist.size();i++) {
+					builder.append(latlist.get(i)+" "+lonlist.get(i)+",");
+				}
+				builder.delete(builder.length()-1,builder.length());
+				result.put("http://www.opengis.net/ont/geosparql#asWKT","Polygon(("+builder.toString()+"))");
+			}else if(!latlist.get(latlist.size()-1).equals(latlist.get(0)) || !lonlist.get(latlist.size()-1).equals(lonlist.get(0))) {
+				StringBuilder builder=new StringBuilder();
+				for(int i=0;i<latlist.size();i++) {
+					builder.append(latlist.get(i)+" "+lonlist.get(i)+",");
+				}
+				builder.delete(builder.length()-1,builder.length());
+				result.put("http://www.opengis.net/ont/geosparql#asWKT","LineString(("+builder.toString()+"))");
+			}
+			latlist.clear();
+			lonlist.clear();
 		}
 		WebService.nameSpaceCache.put(featuretype.toLowerCase(),nscache);
 		System.out.println("NamespaceCache: "+WebService.nameSpaceCache);
