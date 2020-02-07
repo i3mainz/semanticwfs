@@ -817,7 +817,7 @@ public class WebService {
 			builder.append((workingobj.getString("description")!=null?workingobj.getString("description"):collectionid));
 			builder.append("</h1></header><div class=\"container\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\">");
 			builder.append("<table width=100%><tr><td width=\"100%\" rowspan=2>");
-			builder.append("<script>var overlayMaps={}; var overlayControl; var typeColumn=\""+(workingobj.has("typeColumn")?workingobj.getString("typeColumn"):"")+"\"; var markercollection=[]; var epsg=\""+(workingobj.has("targetCRS")?workingobj.getString("targetCRS"):"")+"\"");
+			builder.append("<script>var overlayMaps={}; var overlayControl; var typeColumn=\""+(workingobj.has("typeColumn")?workingobj.getString("typeColumn"):"")+"\"; var markercollection=[]; var epsg=\""+(workingobj.has("targetCRS")?workingobj.getString("targetCRS"):"")+"\";");
 			builder2.append(((HTMLFormatter)ResultFormatter.getFormatter("html")).htmlHeader);
 			builder2.append("</ul></td><td>Contents:<table border=\"1\"><tr><th>Value</th><th>Type</th>");
 			String lon=null,lat=null;
