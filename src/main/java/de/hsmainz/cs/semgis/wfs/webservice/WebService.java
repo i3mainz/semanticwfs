@@ -991,6 +991,9 @@ public class WebService {
 					writer.writeAttribute("xmlns:sf", "http://www.opengis.net/ogcapi-features-1/1.0/sf");
 					writer.writeAttribute("xmlns:gml", "http://www.opengis.net/gml/3.2");
 					writer.setDefaultNamespace("http://www.opengis.net/ogcapi-features-1/1.0");
+					for(String ns:WebService.nameSpaceCache.get(collectionid.toLowerCase()).keySet()) {
+						writer.writeAttribute("xmlns:"+WebService.nameSpaceCache.get(collectionid.toLowerCase()).get(ns),ns);
+					}
 					writer.setPrefix("atom", "http://www.w3.org/2005/Atom");
 					writer.writeAttribute("service", "OGCAPI-FEATURES");
 					writer.writeAttribute("version", "1.0.0");

@@ -6,6 +6,9 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
+import org.apache.jena.sparql.expr.NodeValue;
+
+import de.hsmainz.cs.semgis.wfs.converters.AsGPX;
 
 
 public class GPXFormatter extends WFSResultFormatter {
@@ -20,23 +23,32 @@ public class GPXFormatter extends WFSResultFormatter {
 			String featuretype,String propertytype,
 			String typeColumn,Boolean onlyproperty,Boolean onlyhits,String srsName,String indvar) throws XMLStreamException {
 		StringBuilder gpxout=new StringBuilder();
+		StringBuilder attbuilder=new StringBuilder();
 		gpxout.append("<?xml version='1.0' encoding='UTF-8' standalone='no' ?><gpx version='1.0'><name>"+featuretype+"</name>");
 	    while(results.hasNext()) {
 	    	this.lastQueriedElemCount++;
 	    	QuerySolution solu=results.next();
-	    	gpxout.append("<trk>");
 	    	Iterator<String> varnames = solu.varNames();
+	    	gpxout.append(attbuilder.toString());
+	    	attbuilder.delete(0,attbuilder.length());
+	    	if(lastQueriedElemCount>0) {
+	    		attbuilder.append("</wpt>");
+	    	}
 	    	while(varnames.hasNext()) {
 	    		String name=varnames.next();
-	    		if(!name.endsWith("_geom")) {
-	    			gpxout.append("<"+name+">");
-	    			gpxout.append(solu.get(name));
-	    			gpxout.append("</"+name+">");
-	    		}else {/*
+	    		if(name.equalsIgnoreCase("lat")){
+	    			if(solu.get("lon")!=null) {
+	    				gpxout.append("<wpt lat=\""+solu.get("lat").toString().substring(0,solu.get("lat").toString().indexOf("^^"))+"\" lon=\""+solu.get("lon").toString().substring(0,solu.get("lon").toString().indexOf("^^"))+"\">");
+	    			}
+	    		}else if(!name.endsWith("_geom")) {
+	    			attbuilder.append("<"+name+">");
+	    			attbuilder.append(solu.get(name));
+	    			attbuilder.append("</"+name+">");
+	    		}else {
 	    			AsGPX gpx=new AsGPX();
 	    			NodeValue val=gpx.exec(NodeValue.makeNode(solu.getLiteral(name).getString(),solu.getLiteral(name).getDatatype()));
 	    			String res=val.asString();
-	    			gpxout.append(res);*/
+	    			gpxout.append(res);
 	    		}
 	    	}
 	    	gpxout.append("</trk>");
