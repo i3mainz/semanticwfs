@@ -39,7 +39,7 @@ public class RDFFormatter extends ResultFormatter {
 				String name=varnames.next();
 				if(name.endsWith("_geom")) {
 					geomLiteral="\""+solu.get(name).toString().substring(0,solu.get(name).toString().indexOf("^^"))+"\"^^<"+solu.get(name).toString().substring(solu.get(name).toString().indexOf("^^")+2)+"> .";
-				}else if(name.equalsIgnoreCase(featuretype)){
+				}else if(name.equalsIgnoreCase(indvar)){
 					continue;
 				}else if("rel".equalsIgnoreCase(name) || name.contains("_rel")){
 					rel=solu.get(name).toString();
