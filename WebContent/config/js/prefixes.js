@@ -19,8 +19,8 @@ function convertGeoJSON(geojson,from){
 function exportConvert(coordinates,from,geomtype,switchlatlong){
     console.log("ExportConvert")
     coords=convertit(coordinates,from,epsgdefs["EPSG:4326"],switchlatlong)
-    //console.log("Coords: "+coords)
-    //res=geometryToGeoJSON(geomtype,coords)
+    console.log("Coords: "+coords)
+    res=geometryToGeoJSON(geomtype,coords)
     console.log("Res: "+res)
     return res;
 }
