@@ -162,7 +162,7 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-					properties.put(name, solu.get(name));
+					addKeyVal(properties, name, solu.get(name).toString());
 				}
 				/*
 				 * } else { properties.put(name, lastgeom); }
