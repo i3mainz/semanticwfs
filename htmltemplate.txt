@@ -106,13 +106,13 @@ onEachFeature: function (feature, layer) {
  if(prop.includes("http") && prop.includes("#")){
  		ns=prop.substring(0,prop.indexOf('#'))
  		if(!(ns in colorcodes)){
-			colorcodes[ns]=colors[colorcounter++]
+			colorcodes[ns]=getRandomColor();
 		}
 	 	popup+="<li><a href='"+prop+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+prop.substring(prop.lastIndexOf('#')+1)+"</a> - "
  }else if(prop.includes("http")){
   		ns=prop.substring(0,prop.indexOf('/'))
  		if(!(ns in colorcodes)){
-			colorcodes[ns]=colors[colorcounter++]
+			colorcodes[ns]=getRandomColor();
 		}
 	 	popup+="<li><a href='"+prop+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+prop.substring(prop.lastIndexOf('/')+1)+"</a> - "
  }else{
@@ -121,19 +121,19 @@ onEachFeature: function (feature, layer) {
  if(feature.properties[prop].includes("http") && feature.properties[prop].includes("^^")){
      ns=prop.substring(0,prop.indexOf('^^'))
  	 if(!(ns in colorcodes)){
-		colorcodes[ns]=colors[colorcounter++]
+		colorcodes[ns]=getRandomColor();
 	 }
      popup+="<a href='"+feature.properties[prop]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+feature.properties[prop].substring(0,feature.properties[prop].lastIndexOf('^')-1)+"</a></li>"
  }else if(feature.properties[prop].includes("http") && feature.properties[prop].includes("#")){
  	ns=prop.substring(0,prop.indexOf('#'))
  	 if(!(ns in colorcodes)){
-		colorcodes[ns]=colors[colorcounter++]
+		colorcodes[ns]=getRandomColor();
 	 }
      popup+="<a href='"+feature.properties[prop]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+feature.properties[prop].substring(feature.properties[prop].lastIndexOf('#')+1)+"</a></li>"
  }else if(feature.properties[prop].includes("http") || feature.properties[prop].includes("file:/")){
   	 ns=prop.substring(0,prop.indexOf('/'))
  	 if(!(ns in colorcodes)){
-		colorcodes[ns]=colors[colorcounter++]
+		colorcodes[ns]=getRandomColor();
 	 }
      popup+="<a href='"+feature.properties[prop]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+feature.properties[prop].substring(feature.properties[prop].lastIndexOf('/')+1)+"</a></li>"
  }else{
