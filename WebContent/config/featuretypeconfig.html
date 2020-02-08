@@ -27,6 +27,7 @@ var markercollection=[]
 var first=true;
 var featuretypeToQuery={}
 var featuretypeToEndPoint={}
+var colorcodes={}
 $(document).ready( function () {
 	$.getJSON("../service/featureTypes", function(result){
 		   $('#servicetitle').html(result["servicetitle"]);
@@ -87,6 +88,16 @@ $(document).ready( function () {
 
 function trimcoords(coords,length){
 	return coords.length > length ? coords.replace("undefined,","").substring(0, length - 3) + "...)" : coords;	
+}
+
+function getRandomColor() {
+	  var letters = '0123456789ABCDEF';
+	  var color = '#';
+	  for (var i = 0; i < 6; i++) {
+	    color += letters[Math.floor(Math.random() * 16)];
+	  }
+	  console.log(color)
+	  return color;
 }
 
 function clearMap() {
@@ -182,19 +193,70 @@ function sendQuery(geojsonres){
                         color: ("color" in json?json["color"]:colorArray[layer%colorArray.length])}
                 },
             	onEachFeature: function (feature, layer) {
-            		 var popup="GeoJSON Result<br/><ul>"
-             		 for(prop in feature.properties){
-            		 	popup+="<li>"+prop+" - ";
-            		 	var value=trimcoords(feature.properties[prop],90)
-                		if(value.startsWith("http") || value.startsWith("https")){
-                    		popup+="<a href=\""+value+"\" target=\"_blank\">"+value+"</a>"
-                		}else{
-                			popup+=value        			
-                		}
-            		 	popup+="</li>"
+            		 var popup="Item: <a href='"+feature.id+"' target='_blank'>"+
+            		 (feature.id.includes('#')?feature.id.substring(feature.id.lastIndexOf('#')+1):feature.id)+"</a>"
+            		 if("http://www.w3.org/1999/02/22-rdf-syntax-ns#type" in feature.properties){
+            		 	if(feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].includes("http") && feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].includes("#")){
+            	 			ns=feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].substring(0,feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].indexOf('#'))
+            	 			if(!(ns in colorcodes)){
+            					colorcodes[ns]=getRandomColor();
+            				}
+            		 		popup+="(<a href='"+feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].substring(feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].lastIndexOf('#')+1)+"</a>)"
+            	 		}else if(feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].includes("http")){
+            	  			ns=feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].substring(0,feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].indexOf('/'))
+            	 			if(!(ns in colorcodes)){
+            					colorcodes[ns]=getRandomColor();
+            				}
+            		 		popup+="(<a href='"+feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].substring(feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].lastIndexOf('/')+1)+"</a>)"
+            	 		}else{
+            		 		popup+="("+feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"]+")"
+            		 	}
             		 }
+            		 popup+="<br/>Properties:<ul>"
+            	   Object.keys(feature.properties).sort().forEach(function(prop) {
+            	   	if(prop=="http://www.w3.org/1999/02/22-rdf-syntax-ns#type"){
+            	   		return;
+            	   	}
+            	 if(prop.includes("http") && prop.includes("#")){
+            	 		ns=prop.substring(0,prop.indexOf('#'))
+            	 		if(!(ns in colorcodes)){
+            				colorcodes[ns]=getRandomColor();
+            			}
+            		 	popup+="<li><a href='"+prop+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+prop.substring(prop.lastIndexOf('#')+1)+"</a> - "
+            	 }else if(prop.includes("http")){
+            	  		ns=prop.substring(0,prop.indexOf('/'))
+            	 		if(!(ns in colorcodes)){
+            				colorcodes[ns]=getRandomColor();
+            			}
+            		 	popup+="<li><a href='"+prop+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+prop.substring(prop.lastIndexOf('/')+1)+"</a> - "
+            	 }else{
+            		 	popup+="<li>"+prop+" - "
+            		 }
+            	 if(feature.properties[prop].includes("http") && feature.properties[prop].includes("^^")){
+            	     ns=feature.properties[prop].substring(0,feature.properties[prop].indexOf('^^'))
+            	 	 if(!(ns in colorcodes)){
+            			colorcodes[ns]=getRandomColor();
+            		 }
+            	     popup+="<a href='"+feature.properties[prop]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+feature.properties[prop].substring(0,feature.properties[prop].lastIndexOf('^')-1)+"</a></li>"
+            	 }else if(feature.properties[prop].includes("http") && feature.properties[prop].includes("#")){
+            	 	ns=feature.properties[prop].substring(0,feature.properties[prop].indexOf('#'))
+            	 	 if(!(ns in colorcodes)){
+            			colorcodes[ns]=getRandomColor();
+            		 }
+            	     popup+="<a href='"+feature.properties[prop]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+feature.properties[prop].substring(feature.properties[prop].lastIndexOf('#')+1)+"</a></li>"
+            	 }else if(feature.properties[prop].includes("http") || feature.properties[prop].includes("file:/")){
+            	  	 ns=feature.properties[prop].substring(0,feature.properties[prop].indexOf('/'))
+            	 	 if(!(ns in colorcodes)){
+            			colorcodes[ns]=getRandomColor();
+            		 }
+            	     popup+="<a href='"+feature.properties[prop]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+feature.properties[prop].substring(feature.properties[prop].lastIndexOf('/')+1)+"</a></li>"
+            	 }else{
+            	  popup+=feature.properties[prop]+"</li>"
+            	 }
+            	 });
             		 popup+="</ul>"
-            	     layer.bindPopup(popup);
+            	console.log(feature)
+            	   layer.bindPopup(popup,{maxWidth : 560});
             }});
             gardensLayerGroup = L.layerGroup()
             .addLayer(officiallayer)
