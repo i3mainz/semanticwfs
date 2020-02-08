@@ -1,6 +1,7 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter;
 
 import java.util.Iterator;
+import java.util.List;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -17,7 +18,7 @@ public class GeoHashFormatter extends WFSResultFormatter {
 	@Override
 	public String formatter(ResultSet results,String startingElement,
 			String featuretype,String propertytype,String typeColumn,
-			Boolean onlyproperty,Boolean onlyhits,String srsName,String indvar,String epsg) throws XMLStreamException {
+			Boolean onlyproperty,Boolean onlyhits,String srsName,String indvar,String epsg,List<String> eligiblenamespaces,List<String> noteligiblenamespaces) throws XMLStreamException {
     	Boolean first=true;
     	StringBuilder resultCSV=new StringBuilder();
     	StringBuilder resultCSVHeader=new StringBuilder();

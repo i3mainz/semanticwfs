@@ -1,6 +1,7 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter;
 
 import java.util.Iterator;
+import java.util.List;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -21,7 +22,7 @@ public class GPXFormatter extends WFSResultFormatter {
 	@Override
 	public String formatter(ResultSet results,String startingElement,
 			String featuretype,String propertytype,
-			String typeColumn,Boolean onlyproperty,Boolean onlyhits,String srsName,String indvar,String epsg) throws XMLStreamException {
+			String typeColumn,Boolean onlyproperty,Boolean onlyhits,String srsName,String indvar,String epsg,List<String> eligiblenamespaces,List<String> noteligiblenamespaces) throws XMLStreamException {
 		StringBuilder gpxout=new StringBuilder();
 		StringBuilder attbuilder=new StringBuilder();
 		gpxout.append("<?xml version='1.0' encoding='UTF-8' standalone='no' ?><gpx version='1.0'><name>"+featuretype+"</name>");

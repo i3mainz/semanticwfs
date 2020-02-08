@@ -2,6 +2,7 @@ package de.hsmainz.cs.semgis.wfs.resultformatter;
 
 import java.io.StringWriter;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -39,7 +40,7 @@ public class GMLFormatter extends WFSResultFormatter {
 	@Override
 	public String formatter(ResultSet results,String startingElement,
 			String featuretype,String propertytype,
-			String typeColumn,Boolean onlyproperty,Boolean onlyhits,String srsName,String indvar,String epsg) throws XMLStreamException {
+			String typeColumn,Boolean onlyproperty,Boolean onlyhits,String srsName,String indvar,String epsg,List<String> eligiblenamespaces,List<String> noteligiblenamespaces) throws XMLStreamException {
 		lastQueriedElemCount=0;
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();
 		StringWriter strwriter=new StringWriter();

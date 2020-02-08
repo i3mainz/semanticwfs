@@ -99,10 +99,30 @@ pointToLayer: function(feature, latlng){
             return L.marker(latlng,{icon: greenIcon})
 },
 onEachFeature: function (feature, layer) {
-	 var popup="Item: <a href='"+feature.id+"' target='_blank'>"+(feature.id.includes('#')?feature.id.substring(feature.id.lastIndexOf('#')+1):feature.id)+"</a><br/>Properties:<ul>"
+	 var popup="Item: <a href='"+feature.id+"' target='_blank'>"+
+	 (feature.id.includes('#')?feature.id.substring(feature.id.lastIndexOf('#')+1):feature.id)+"</a>"
+	 if("http://www.w3.org/1999/02/22-rdf-syntax-ns#type" in feature.properties){
+	 	if(feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].includes("http") && feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].includes("#")){
+ 			ns=feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].substring(0,feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].indexOf('#'))
+ 			if(!(ns in colorcodes)){
+				colorcodes[ns]=getRandomColor();
+			}
+	 		popup+="(<a href='"+feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].substring(prop.lastIndexOf('#')+1)+"</a>)"
+ 		}else if(feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].includes("http")){
+  			ns=feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].substring(0,feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].indexOf('/'))
+ 			if(!(ns in colorcodes)){
+				colorcodes[ns]=getRandomColor();
+			}
+	 		popup+="(<a href='"+feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].substring(prop.lastIndexOf('/')+1)+"</a>)"
+ 		}else{
+	 		popup+="("+prop+")"
+	 	}
+	 }
+	 popup+="<br/>Properties:<ul>"
    Object.keys(feature.properties).sort().forEach(function(prop) {
-   				
-
+   	if(prop=="http://www.w3.org/1999/02/22-rdf-syntax-ns#type"){
+   		continue;
+   	}
  if(prop.includes("http") && prop.includes("#")){
  		ns=prop.substring(0,prop.indexOf('#'))
  		if(!(ns in colorcodes)){

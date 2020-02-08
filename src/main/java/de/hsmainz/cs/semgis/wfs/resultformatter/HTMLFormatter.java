@@ -5,6 +5,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -35,10 +36,10 @@ public class HTMLFormatter extends ResultFormatter {
 	@Override
 	public String formatter(ResultSet results, String startingElement, String featuretype,
 			String propertytype, 
-			String typeColumn, Boolean onlyproperty,Boolean onlyhits,String srsName,String indvar,String epsg) throws XMLStreamException {
+			String typeColumn, Boolean onlyproperty,Boolean onlyhits,String srsName,String indvar,String epsg,List<String> eligiblenamespaces,List<String> noteligiblenamespaces) throws XMLStreamException {
 		ResultFormatter format = resultMap.get("geojson");
 		JSONObject geojson = new JSONObject(
-				format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,srsName,indvar,epsg));
+				format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,srsName,indvar,epsg,eligiblenamespaces,noteligiblenamespaces));
 		this.lastQueriedElemCount = format.lastQueriedElemCount;
 		// System.out.println(geojson);
 		StringBuilder builder = new StringBuilder();

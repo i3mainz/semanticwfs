@@ -153,7 +153,7 @@ public abstract class TripleStoreConnector {
 		QueryExecution qe = QueryExecutionFactory.sparqlService(endpoint, queryjena);
 			ResultSet rs = qe.execSelect();
 		GeoJSONFormatter form=new GeoJSONFormatter();
-		String res=form.formatter(rs, "", "item", "", "", false, false, "","item","");
+		String res=form.formatter(rs, "", "item", "", "", false, false, "","item","",null,null);
 		return res;
 	}
 	
@@ -472,7 +472,7 @@ public abstract class TripleStoreConnector {
 		}
 		String res=resformat.formatter(results,startingElement,featuretype.toLowerCase(),propertyValue,
 				(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""),true,false,
-				srsName,(workingobj.has("indvar")?workingobj.getString("indvar"):"item"),(workingobj.has("targetCRS")?workingobj.getString("targetCRS"):""));
+				srsName,(workingobj.has("indvar")?workingobj.getString("indvar"):"item"),(workingobj.has("targetCRS")?workingobj.getString("targetCRS"):""),null,null);
 		qexec.close();
 		if(resformat.lastQueriedElemCount==0) {
 			return "";
@@ -540,7 +540,7 @@ public abstract class TripleStoreConnector {
 		}
 		String res=resformat.formatter(results,startingElement,featuretype.toLowerCase(),"",
 				(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""),false,false,
-				srsName,(workingobj.has("indvar")?workingobj.getString("indvar"):"item"),(workingobj.has("targetCRS")?workingobj.getString("targetCRS"):""));
+				srsName,(workingobj.has("indvar")?workingobj.getString("indvar"):"item"),(workingobj.has("targetCRS")?workingobj.getString("targetCRS"):""),null,null);
 		qexec.close();
 		if(resformat.lastQueriedElemCount==0) {
 			return "";
