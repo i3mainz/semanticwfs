@@ -121,7 +121,7 @@ onEachFeature: function (feature, layer) {
 	 popup+="<br/>Properties:<ul>"
    Object.keys(feature.properties).sort().forEach(function(prop) {
    	if(prop=="http://www.w3.org/1999/02/22-rdf-syntax-ns#type"){
-   		continue;
+   		return;
    	}
  if(prop.includes("http") && prop.includes("#")){
  		ns=prop.substring(0,prop.indexOf('#'))
