@@ -3,6 +3,7 @@ if(epsg!="" && epsg!="EPSG:4326" && epsg in epsgdefs){
 	geojson=convertGeoJSON(geojson,epsgdefs[epsg])
 	console.log(geojson);
 }
+var colorcodes={}
 var map = L.map('mapid',{fullscreenControl: true,fullscreenControlOptions: {position: 'topleft'}}).setView([51.505, -0.09], 13);
 var wmsLayer = L.tileLayer.wms('https://sgx.geodatenzentrum.de/wms_topplus_web_open', {
 layers: 'web',
@@ -100,19 +101,41 @@ pointToLayer: function(feature, latlng){
 onEachFeature: function (feature, layer) {
 	 var popup="Item: <a href='"+feature.id+"' target='_blank'>"+(feature.id.includes('#')?feature.id.substring(feature.id.lastIndexOf('#')+1):feature.id)+"</a><br/>Properties:<ul>"
    Object.keys(feature.properties).sort().forEach(function(prop) {
+   				
+
  if(prop.includes("http") && prop.includes("#")){
-	 	popup+="<li><a href='"+prop+"' target='_blank'>"+prop.substring(prop.lastIndexOf('#')+1)+"</a> - "
+ 		ns=prop.substring(0,prop.indexOf('#'))
+ 		if(!(ns in colorcodes)){
+			colorcodes[ns]=colors[colorcounter++]
+		}
+	 	popup+="<li><a href='"+prop+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+prop.substring(prop.lastIndexOf('#')+1)+"</a> - "
  }else if(prop.includes("http")){
-	 	popup+="<li><a href='"+prop+"' target='_blank'>"+prop.substring(prop.lastIndexOf('/')+1)+"</a> - "
+  		ns=prop.substring(0,prop.indexOf('/'))
+ 		if(!(ns in colorcodes)){
+			colorcodes[ns]=colors[colorcounter++]
+		}
+	 	popup+="<li><a href='"+prop+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+prop.substring(prop.lastIndexOf('/')+1)+"</a> - "
  }else{
 	 	popup+="<li>"+prop+" - "
 	 }
  if(feature.properties[prop].includes("http") && feature.properties[prop].includes("^^")){
-     popup+="<a href='"+feature.properties[prop]+"' target='_blank'>"+feature.properties[prop].substring(0,feature.properties[prop].lastIndexOf('^')-1)+"</a></li>"
+     ns=prop.substring(0,prop.indexOf('^^'))
+ 	 if(!(ns in colorcodes)){
+		colorcodes[ns]=colors[colorcounter++]
+	 }
+     popup+="<a href='"+feature.properties[prop]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+feature.properties[prop].substring(0,feature.properties[prop].lastIndexOf('^')-1)+"</a></li>"
  }else if(feature.properties[prop].includes("http") && feature.properties[prop].includes("#")){
-     popup+="<a href='"+feature.properties[prop]+"' target='_blank'>"+feature.properties[prop].substring(feature.properties[prop].lastIndexOf('#')+1)+"</a></li>"
+ 	ns=prop.substring(0,prop.indexOf('#'))
+ 	 if(!(ns in colorcodes)){
+		colorcodes[ns]=colors[colorcounter++]
+	 }
+     popup+="<a href='"+feature.properties[prop]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+feature.properties[prop].substring(feature.properties[prop].lastIndexOf('#')+1)+"</a></li>"
  }else if(feature.properties[prop].includes("http") || feature.properties[prop].includes("file:/")){
-     popup+="<a href='"+feature.properties[prop]+"' target='_blank'>"+feature.properties[prop].substring(feature.properties[prop].lastIndexOf('/')+1)+"</a></li>"
+  	 ns=prop.substring(0,prop.indexOf('/'))
+ 	 if(!(ns in colorcodes)){
+		colorcodes[ns]=colors[colorcounter++]
+	 }
+     popup+="<a href='"+feature.properties[prop]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+feature.properties[prop].substring(feature.properties[prop].lastIndexOf('/')+1)+"</a></li>"
  }else{
   popup+=feature.properties[prop]+"</li>"
 	 }});popup+="</ul>"
