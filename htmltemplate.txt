@@ -119,19 +119,19 @@ onEachFeature: function (feature, layer) {
 	 	popup+="<li>"+prop+" - "
 	 }
  if(feature.properties[prop].includes("http") && feature.properties[prop].includes("^^")){
-     ns=prop.substring(0,prop.indexOf('^^'))
+     ns=feature.properties[prop].substring(0,feature.properties[prop].indexOf('^^'))
  	 if(!(ns in colorcodes)){
 		colorcodes[ns]=getRandomColor();
 	 }
      popup+="<a href='"+feature.properties[prop]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+feature.properties[prop].substring(0,feature.properties[prop].lastIndexOf('^')-1)+"</a></li>"
  }else if(feature.properties[prop].includes("http") && feature.properties[prop].includes("#")){
- 	ns=prop.substring(0,prop.indexOf('#'))
+ 	ns=feature.properties[prop].substring(0,feature.properties[prop].indexOf('#'))
  	 if(!(ns in colorcodes)){
 		colorcodes[ns]=getRandomColor();
 	 }
      popup+="<a href='"+feature.properties[prop]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+feature.properties[prop].substring(feature.properties[prop].lastIndexOf('#')+1)+"</a></li>"
  }else if(feature.properties[prop].includes("http") || feature.properties[prop].includes("file:/")){
-  	 ns=prop.substring(0,prop.indexOf('/'))
+  	 ns=feature.properties[prop].substring(0,feature.properties[prop].indexOf('/'))
  	 if(!(ns in colorcodes)){
 		colorcodes[ns]=getRandomColor();
 	 }
