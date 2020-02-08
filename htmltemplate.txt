@@ -107,13 +107,13 @@ onEachFeature: function (feature, layer) {
  			if(!(ns in colorcodes)){
 				colorcodes[ns]=getRandomColor();
 			}
-	 		popup+="(<a href='"+feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].substring(prop.lastIndexOf('#')+1)+"</a>)"
+	 		popup+="(<a href='"+feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].substring(feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].lastIndexOf('#')+1)+"</a>)"
  		}else if(feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].includes("http")){
   			ns=feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].substring(0,feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].indexOf('/'))
  			if(!(ns in colorcodes)){
 				colorcodes[ns]=getRandomColor();
 			}
-	 		popup+="(<a href='"+feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].substring(prop.lastIndexOf('/')+1)+"</a>)"
+	 		popup+="(<a href='"+feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].substring(feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].lastIndexOf('/')+1)+"</a>)"
  		}else{
 	 		popup+="("+prop+")"
 	 	}

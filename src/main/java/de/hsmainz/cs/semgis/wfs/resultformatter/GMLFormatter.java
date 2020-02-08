@@ -10,6 +10,7 @@ import javax.xml.stream.XMLStreamWriter;
 
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
+import org.apache.jena.sparql.function.library.namespace;
 import org.json.JSONObject;
 
 import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
@@ -40,14 +41,17 @@ public class GMLFormatter extends WFSResultFormatter {
 	@Override
 	public String formatter(ResultSet results,String startingElement,
 			String featuretype,String propertytype,
-			String typeColumn,Boolean onlyproperty,Boolean onlyhits,String srsName,String indvar,String epsg,List<String> eligiblenamespaces,List<String> noteligiblenamespaces) throws XMLStreamException {
+			String typeColumn,Boolean onlyproperty,Boolean onlyhits,String srsName,
+			String indvar,String epsg,
+			List<String> eligiblenamespaces,
+			List<String> noteligiblenamespaces) throws XMLStreamException {
 		lastQueriedElemCount=0;
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();
 		StringWriter strwriter=new StringWriter();
 		XMLStreamWriter writer=new IndentingXMLStreamWriter(factory.createXMLStreamWriter(strwriter));
 		//writer.writeStartDocument();
 		String lastInd="";
-		String rel="",val="",lat="",lon="";
+		String rel="",val="",lat="",lon="",rdftype="";
 		Boolean first=true;
 	    while(results.hasNext()) {
 	    	QuerySolution solu=results.next();
@@ -108,6 +112,9 @@ public class GMLFormatter extends WFSResultFormatter {
 				}
 			}
 			if(!rel.isEmpty() && !val.isEmpty()) {
+				if(rel.equalsIgnoreCase("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")) {
+					rdftype=val;
+				}
 				if(!rel.equals("http://www.opengis.net/ont/geosparql#hasGeometry") && !rel.equalsIgnoreCase("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")) {
 				String[] splitted=splitURL(rel);
 				if(splitted!=null) {	

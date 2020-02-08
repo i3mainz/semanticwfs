@@ -181,9 +181,9 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 				} else {
 					if (!relationName.isEmpty()) {
 						// System.out.println("Putting property: "+relationName+" - "+solu.get(name));
-						properties.put(relationName, solu.get(name));
+						addKeyVal(properties, relationName, solu.get(name).toString());
 					} else {
-						properties.put(name, solu.get(name));
+						addKeyVal(properties, name, solu.get(name).toString());
 					}
 				}
 				// System.out.println(relationName);
@@ -197,7 +197,7 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 			}
 			if (!rel.isEmpty() && !val.isEmpty()) {
 				if(!rel.equals("http://www.opengis.net/ont/geosparql#hasGeometry")) {
-					properties.put(rel, val);
+					addKeyVal(properties, rel, val);
 				}
 				rel = "";
 				val = "";
@@ -287,6 +287,20 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 		//System.out.println(obj);
 		//System.out.println(geojsonresults.toString(2));
 		return geojsonresults.toString(2);
+	}
+	
+	public static void addKeyVal(JSONObject properties,String rel,String val) {
+		if(properties.has(rel)) {
+			try {
+				properties.getJSONArray(rel).put(val);
+			}catch(Exception e) {
+				String oldval=properties.getString(rel);
+				properties.put(rel,new JSONArray());
+				properties.getJSONArray(rel).put(oldval);
+				properties.getJSONArray(rel).put(val);
+			}
+		}
+		properties.put(rel, val);
 	}
 
 }
