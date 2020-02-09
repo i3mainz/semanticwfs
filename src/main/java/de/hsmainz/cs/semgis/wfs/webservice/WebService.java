@@ -688,6 +688,105 @@ public class WebService {
 
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
+	@Path("/collections/{collectionid}/metadata")
+	public Response getCollectionMetadata(@PathParam("collectionid") String collectionid,
+			@DefaultValue("html") @QueryParam("f") String format, @QueryParam("limit") String limit,
+			 @DefaultValue("0") @QueryParam("offset") String offset,
+			@QueryParam("bbox") String bbox) {
+		if (collectionid == null) {
+			throw new NotFoundException();
+		}
+		JSONObject workingobj = null;
+		for (int i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
+			JSONObject curobj = wfsconf.getJSONArray("datasets").getJSONObject(i);
+			if (curobj.getString("name").equalsIgnoreCase(collectionid)) {
+				workingobj = curobj;
+				break;
+			}
+		}
+		if (workingobj == null) {
+			throw new NotFoundException();
+		}
+		if(!featureTypeCache.containsKey(collectionid.toLowerCase())) {
+			featureTypeCache.put(collectionid.toLowerCase(),TripleStoreConnector
+					.getFeatureTypeInformation(workingobj.getString("query"), workingobj.getString("triplestore"),
+			  workingobj.getString("name"),workingobj)); 
+		}
+		Map<String,String> mapping=featureTypeCache.get(collectionid.toLowerCase());
+		StringWriter strwriter = new StringWriter();
+		XMLOutputFactory output = XMLOutputFactory.newInstance();
+		XMLStreamWriter writer;
+		try {
+			writer = new IndentingXMLStreamWriter(output.createXMLStreamWriter(strwriter));
+			writer.writeStartDocument();
+			writer.setPrefix("gmd", "http://www.isotc211.org/2005/gmd");
+			writer.writeStartElement("http://www.isotc211.org/2005/gmd","MD_Metadata");
+			writer.writeNamespace("gmd", "http://www.isotc211.org/2005/gmd");
+			writer.writeNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
+			writer.writeNamespace("gco", "http://www.isotc211.org/2005/gco");
+			writer.writeStartElement("http://www.isotc211.org/2005/gmd","characterSet");
+			writer.writeStartElement("MD_CharacterSetCode");
+			writer.writeAttribute("codelist", "http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/ML_gmxCodelists.xml#MD_CharacterSetCode");
+			writer.writeAttribute("codeListValue", "utf8");
+			writer.writeEndElement();
+			writer.writeEndElement();
+			writer.writeStartElement("http://www.isotc211.org/2005/gmd","datasetURI");
+			writer.writeStartElement("http://www.isotc211.org/2005/gco","CharacterString");
+			writer.writeCharacters(workingobj.getString("baseurl")+"/collections/"+collectionid);
+			writer.writeEndElement();
+			writer.writeEndElement();
+			writer.writeStartElement("http://www.isotc211.org/2005/gmd","contact");
+			writer.writeStartElement("http://www.isotc211.org/2005/gmd", "CI_ResponsibleParty");
+			writer.writeStartElement("http://www.isotc211.org/2005/gmd", "individualName");
+			writer.writeEndElement();
+			writer.writeStartElement("http://www.isotc211.org/2005/gmd", "organisationName");
+			writer.writeEndElement();
+			writer.writeStartElement("http://www.isotc211.org/2005/gmd", "positionName");
+			writer.writeEndElement();
+			writer.writeEndElement();
+			writer.writeEndElement();
+			writer.writeStartElement("http://www.isotc211.org/2005/gmd","identificationInfo");
+			writer.writeEndElement();
+			writer.writeStartElement("http://www.isotc211.org/2005/gmd","distributionInfo");
+			writer.writeEndElement();
+			writer.writeStartElement("http://www.isotc211.org/2005/gmd","dataQualityInfo");
+			writer.writeEndElement();
+			writer.writeStartElement("http://www.isotc211.org/2005/gmd","referenceSysteminfo");
+			writer.writeStartElement("http://www.isotc211.org/2005/gmd","MD_ReferenceSystem");
+			writer.writeStartElement("http://www.isotc211.org/2005/gmd","referenceSystemIdentifier");
+			writer.writeStartElement("http://www.isotc211.org/2005/gmd","RS_Identifier");
+			writer.writeStartElement("http://www.isotc211.org/2005/gmd","code");
+			writer.writeStartElement("http://www.isotc211.org/2005/gco","CharacterString");
+			writer.writeCharacters(workingobj.getString("targetCRS").substring(workingobj.getString("targetCRS").indexOf(':')+1));
+			writer.writeEndElement();
+			writer.writeEndElement();
+			writer.writeStartElement("http://www.isotc211.org/2005/gmd","codeSpace");
+			writer.writeStartElement("http://www.isotc211.org/2005/gco","CharacterString");
+			writer.writeCharacters("urn:ogc:def:crs:EPSG");
+			writer.writeEndElement();
+			writer.writeEndElement();
+			writer.writeStartElement("http://www.isotc211.org/2005/gmd","version");
+			writer.writeStartElement("http://www.isotc211.org/2005/gco","CharacterString");
+			writer.writeCharacters("6.11.2");
+			writer.writeEndElement();
+			writer.writeEndElement();
+			writer.writeEndElement();
+			writer.writeEndElement();
+			writer.writeEndElement();
+			writer.writeEndElement();
+			
+			writer.writeEndElement();
+			writer.writeEndDocument();
+			writer.flush();
+			return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
+		} catch (XMLStreamException e) {
+			e.printStackTrace();
+			return this.createExceptionResponse(e, "");
+		}		
+	}
+	
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections/{collectionid}")
 	public Response collectionInformation(@PathParam("collectionid") String collectionid,
 			@DefaultValue("html") @QueryParam("f") String format, @QueryParam("limit") String limit,

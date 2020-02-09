@@ -169,6 +169,10 @@ public abstract class TripleStoreConnector {
 		return "";
 	}
 	
+	public static String getMetaData(String queryString,String queryurl,String featuretype,JSONObject workingobject) {
+		return "";
+	}
+	
 	public static Map<String,String> getFeatureTypeInformation(String queryString,String queryurl,String featuretype,JSONObject workingobj){
 		if(featureTypes.containsKey(featuretype.toLowerCase())) {
 			return featureTypes.get(featuretype.toLowerCase());
