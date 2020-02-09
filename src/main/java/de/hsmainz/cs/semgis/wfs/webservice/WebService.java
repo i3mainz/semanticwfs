@@ -732,7 +732,7 @@ public class WebService {
 			writer.writeEndElement();
 			writer.writeStartElement("http://www.isotc211.org/2005/gmd","datasetURI");
 			writer.writeStartElement("http://www.isotc211.org/2005/gco","CharacterString");
-			writer.writeCharacters(workingobj.getString("baseurl")+"/collections/"+collectionid);
+			writer.writeCharacters(wfsconf.getString("baseurl")+"/collections/"+collectionid);
 			writer.writeEndElement();
 			writer.writeEndElement();
 			writer.writeStartElement("http://www.isotc211.org/2005/gmd","contact");
