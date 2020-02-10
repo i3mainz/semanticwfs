@@ -133,6 +133,40 @@ public class WebService {
 	
 	@GET
 	@Produces(MediaType.TEXT_XML)
+	@Path("/csw")
+	public Response entryPointCSW( @DefaultValue("CSW") @QueryParam("SERVICE") String service,
+			@DefaultValue("GetCapabilities") @QueryParam("REQUEST") String request,
+			@DefaultValue("2.0.2") @QueryParam("VERSION") String version,
+			@DefaultValue("") @QueryParam("TYPENAME") String typename,
+			@DefaultValue("") @QueryParam("TYPENAMES") String typenames,			
+			@DefaultValue("gml") @QueryParam("OUTPUTFORMAT") String output
+			) {
+		if (service.equalsIgnoreCase("WFS")) {
+			if ("getCapabilities".equalsIgnoreCase(request)) {
+				return this.constructCapabilitiesCSW(version,version.substring(0,version.lastIndexOf('.')));
+			}
+			if ("getRecordById".equalsIgnoreCase(request)) {
+				return this.getCollectionMetadata(typename,output);
+			}
+		}
+		return Response.ok("").type(MediaType.TEXT_PLAIN).build();
+	}
+
+	
+	@POST
+	@Produces(MediaType.TEXT_XML)
+	@Path("/post/csw")
+	public Response entryPointCSWPost( @DefaultValue("CSW") @QueryParam("SERVICE") String service,
+			@DefaultValue("GetCapabilities") @QueryParam("REQUEST") String request,
+			@DefaultValue("2.0.2") @QueryParam("VERSION") String version,
+			@DefaultValue("") @QueryParam("TYPENAME") String typename,
+			@DefaultValue("") @QueryParam("TYPENAMES") String typenames,			
+			@DefaultValue("gml") @QueryParam("OUTPUTFORMAT") String output) {
+		return this.entryPointCSW(service, request, version,typename,typenames,output);
+	}
+	
+	@GET
+	@Produces(MediaType.TEXT_XML)
 	@Path("/wfs")
 	public Response entryPoint( @DefaultValue("WFS") @QueryParam("SERVICE") String service,
 			@DefaultValue("GetCapabilities") @QueryParam("REQUEST") String request,
@@ -690,9 +724,7 @@ public class WebService {
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections/{collectionid}/metadata")
 	public Response getCollectionMetadata(@PathParam("collectionid") String collectionid,
-			@DefaultValue("html") @QueryParam("f") String format, @QueryParam("limit") String limit,
-			 @DefaultValue("0") @QueryParam("offset") String offset,
-			@QueryParam("bbox") String bbox) {
+			@DefaultValue("html") @QueryParam("f") String format) {
 		if (collectionid == null) {
 			throw new NotFoundException();
 		}
@@ -1480,6 +1512,10 @@ public class WebService {
 			writer.writeEndElement();
 			writer.writeStartElement(owsns, "Abstract");
 			writer.writeCharacters(wfsconf.has("abstract") ? wfsconf.getString("abstract") : "");
+			writer.writeEndElement();
+			writer.writeStartElement("http://www.opengis.net/fes/"+versionnamespace, "Filter_Capabilities");
+			describeSpatialCapabilities(writer,versionnamespace,"http://www.opengis.net/fes/"+versionnamespace);
+			describeScalarCapabilities(writer, versionnamespace, "http://www.opengis.net/fes/"+versionnamespace);
 			writer.writeEndElement();
 			writer.writeEndElement();
 		} catch (XMLStreamException e) {
