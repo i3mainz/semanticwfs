@@ -1475,13 +1475,12 @@ public class WebService {
 	}
 	
 	
-	public Response constructCapabilitiesCSW(String version,String versionnamespace) {
+	public Response constructCapabilitiesCSW(String version,String versionnamespace) throws XMLStreamException {
 		String serviceType = "CSW";
 		String owsns="http://www.opengis.net/ows/1.1";
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();
 		StringWriter strwriter = new StringWriter();
 		XMLStreamWriter xmlwriter;
-		try {
 			xmlwriter = factory.createXMLStreamWriter(strwriter);
 			IndentingXMLStreamWriter writer = new IndentingXMLStreamWriter(xmlwriter);
 			writer.writeStartDocument();
@@ -1518,12 +1517,8 @@ public class WebService {
 			describeScalarCapabilities(writer, versionnamespace, "http://www.opengis.net/fes/"+versionnamespace);
 			writer.writeEndElement();
 			writer.writeEndElement();
-		} catch (XMLStreamException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return null;
+			writer.writeEndDocument();
+			return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
 	}
 	
 	public Response constructCapabilities(String version,String versionnamespace) throws XMLStreamException {
