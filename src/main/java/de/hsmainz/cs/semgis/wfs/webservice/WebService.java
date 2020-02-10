@@ -151,8 +151,17 @@ public class WebService {
 					return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 				}
 			}
-			if ("getRecordById".equalsIgnoreCase(request)) {
+			if ("describeRecord".equalsIgnoreCase(request)) {
+				return Response.ok("").type(MediaType.TEXT_PLAIN).build();
+			}
+			if ("harvest".equalsIgnoreCase(request)) {
+				return Response.ok("").type(MediaType.TEXT_PLAIN).build();
+			}
+			if ("getRecords".equalsIgnoreCase(request)) {
 				return this.getCollectionMetadata(typename,output);
+			}
+			if ("getRecordById".equalsIgnoreCase(request)) {
+				return this.getCollectionsMetadata(output);
 			}
 		}
 		return Response.ok("").type(MediaType.TEXT_PLAIN).build();
@@ -726,6 +735,41 @@ public class WebService {
 		}
 	}
 
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
+	@Path("/collections/metadata")
+	public Response getCollectionsMetadata(@DefaultValue("html") @QueryParam("f") String format) {
+		StringWriter strwriter = new StringWriter();
+		XMLOutputFactory output = XMLOutputFactory.newInstance();
+		XMLStreamWriter writer;
+		try {
+			writer = new IndentingXMLStreamWriter(output.createXMLStreamWriter(strwriter));
+			writer.writeStartDocument();
+			writer.setPrefix("gmd", "http://www.isotc211.org/2005/gmd");
+			writer.setPrefix("gmx", "http://www.isotc211.org/2005/gmx");
+			writer.setPrefix("gco", "http://www.isotc211.org/2005/gco");
+			writer.writeStartElement("http://www.opengis.net/cat/csw/2.0.2","GetRecordsResponse");
+			writer.writeStartElement("http://www.opengis.net/cat/csw/2.0.2","SearchStatus");
+			writer.writeAttribute("timestamp", new Date(System.currentTimeMillis()).toGMTString());
+			writer.writeEndElement();
+			writer.writeStartElement("http://www.opengis.net/cat/csw/2.0.2","SearchResults");
+			writer.flush();
+		for (int i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
+			JSONObject curobj = wfsconf.getJSONArray("datasets").getJSONObject(i);
+			String res=getCollectionMetadata(wfsconf.getJSONArray("datasets").getJSONObject(i).getString("name"), "").getEntity().toString();
+			strwriter.write(res);
+		}
+		writer.writeEndElement();
+		writer.writeEndDocument();
+		writer.flush();
+		return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
+		} catch (XMLStreamException e) {
+			e.printStackTrace();
+			return this.createExceptionResponse(e, "");
+		}		
+	}
+	
+	
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections/{collectionid}/metadata")
