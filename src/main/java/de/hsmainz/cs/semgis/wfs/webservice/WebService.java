@@ -745,6 +745,12 @@ public class WebService {
 			writer.writeCharacters(collectionid);
 			writer.writeEndElement();
 			writer.writeEndElement();
+			writer.writeStartElement("http://www.isotc211.org/2005/gmd","spatialRepresentationType");
+			writer.writeStartElement("MD_SpatialRepresentationTypeCode");
+			writer.writeAttribute("codeListValue","vector");
+			writer.writeAttribute("codeList","http://www.isotc211.org/2005/resources/codeList.xml#MD_SpatialRepresentationTypeCode");
+			writer.writeEndElement();
+			writer.writeEndElement();
 			writer.writeStartElement("http://www.isotc211.org/2005/gmd","extent");
 			writer.writeStartElement("EX_Extent");
 			writer.writeStartElement("http://www.isotc211.org/2005/gmd","geographicElement");
@@ -788,6 +794,12 @@ public class WebService {
 			writer.writeStartElement("http://www.isotc211.org/2005/gmd","metadataStandardVersion");
 			writer.writeStartElement("http://www.isotc211.org/2005/gco","CharacterString");
 			writer.writeCharacters("1.0");
+			writer.writeEndElement();
+			writer.writeEndElement();
+			writer.writeStartElement("http://www.isotc211.org/2005/gmd","status");
+			writer.writeStartElement("MD_ProgressCode");
+			writer.writeAttribute("codeList", "http://www.isotc211.org/2005/resources/codeList.xml#MD_ProgressCode");
+			writer.writeAttribute("codeListValue", "onGoing");
 			writer.writeEndElement();
 			writer.writeEndElement();
 			writer.writeStartElement("http://www.isotc211.org/2005/gmd","identificationInfo");
@@ -1428,6 +1440,54 @@ public class WebService {
 		writer.writeEndElement();
 		writer.writeEndDocument();
 		return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
+	}
+	
+	
+	public Response constructCapabilitiesCSW(String version,String versionnamespace) {
+		String serviceType = "CSW";
+		String owsns="http://www.opengis.net/ows/1.1";
+		XMLOutputFactory factory = XMLOutputFactory.newInstance();
+		StringWriter strwriter = new StringWriter();
+		XMLStreamWriter xmlwriter;
+		try {
+			xmlwriter = factory.createXMLStreamWriter(strwriter);
+			IndentingXMLStreamWriter writer = new IndentingXMLStreamWriter(xmlwriter);
+			writer.writeStartDocument();
+			writer.writeStartElement("http://www.opengis.net/cat/csw/"+versionnamespace,"Capabilities");
+			writer.writeDefaultNamespace("http://www.opengis.net/wfs"+versionnamespace);
+			writer.writeAttribute("version", version);
+			writer.writeNamespace("csw", "http://www.opengis.net/cat/csw/"+versionnamespace);
+			writer.writeNamespace("wfs", "http://www.opengis.net/wfs"+versionnamespace);
+			writer.writeNamespace("ows", "http://www.opengis.net/ows/1.1");
+			writer.writeNamespace("sf", "http://www.opengis.net/ogcapi-features-1/1.0/sf");
+			writer.writeNamespace("ogc", "http://www.opengis.net/ogc");
+			writer.writeNamespace("fes", "http://www.opengis.net/fes/"+versionnamespace);
+			writer.writeNamespace("gml", "http://www.opengis.net/gml");
+			writer.writeNamespace("xlink", "http://www.w3.org/1999/xlink");
+			writer.writeStartElement(owsns, "ServiceIdentification");
+			writer.writeStartElement(owsns, "ServiceType");
+			writer.writeAttribute("codeSpace", "OGC");
+			writer.writeCharacters(serviceType);
+			writer.writeEndElement();
+			writer.writeStartElement(owsns, "ServiceTypeVersion");
+			writer.writeCharacters(version);
+			writer.writeEndElement();
+			writer.writeStartElement(owsns, "Title");
+			writer.writeCharacters(wfsconf.has("servicetitle") ? wfsconf.getString("servicetitle") : "");
+			writer.writeEndElement();
+			writer.writeStartElement(owsns, "Fees");
+			writer.writeCharacters(wfsconf.has("fees") ? wfsconf.getString("fees") : "none");
+			writer.writeEndElement();
+			writer.writeStartElement(owsns, "Abstract");
+			writer.writeCharacters(wfsconf.has("abstract") ? wfsconf.getString("abstract") : "");
+			writer.writeEndElement();
+			writer.writeEndElement();
+		} catch (XMLStreamException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 	
 	public Response constructCapabilities(String version,String versionnamespace) throws XMLStreamException {
