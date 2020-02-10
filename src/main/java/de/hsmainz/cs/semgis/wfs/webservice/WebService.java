@@ -143,7 +143,13 @@ public class WebService {
 			) {
 		if (service.equalsIgnoreCase("WFS")) {
 			if ("getCapabilities".equalsIgnoreCase(request)) {
-				return this.constructCapabilitiesCSW(version,version.substring(0,version.lastIndexOf('.')));
+				try {
+					return this.constructCapabilitiesCSW(version,version.substring(0,version.lastIndexOf('.')));
+				} catch (XMLStreamException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					return Response.ok("").type(MediaType.TEXT_PLAIN).build();
+				}
 			}
 			if ("getRecordById".equalsIgnoreCase(request)) {
 				return this.getCollectionMetadata(typename,output);
