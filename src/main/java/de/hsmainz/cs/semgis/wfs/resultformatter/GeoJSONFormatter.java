@@ -48,7 +48,6 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 		List<String> lonlist=new LinkedList<String>();
 		String rel = "", val = "", lastInd = "",lat="",lon="";
 		JSONObject jsonobj = new JSONObject();
-
 		JSONObject properties = new JSONObject();
 		List<JSONObject> geoms = new LinkedList<JSONObject>();
 		while (results.hasNext()) {
@@ -164,9 +163,6 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 					}
 					addKeyVal(properties, name, solu.get(name).toString());
 				}
-				/*
-				 * } else { properties.put(name, lastgeom); }
-				 */
 				if (name.endsWith("_rel") || name.equals("rel")) {
 					relationName = solu.get(name).toString();
 					rel = solu.get(name).toString();

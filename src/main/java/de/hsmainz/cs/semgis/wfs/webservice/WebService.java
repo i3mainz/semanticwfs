@@ -1490,9 +1490,10 @@ public class WebService {
 			xmlwriter = factory.createXMLStreamWriter(strwriter);
 			IndentingXMLStreamWriter writer = new IndentingXMLStreamWriter(xmlwriter);
 			writer.writeStartDocument();
+			writer.setPrefix("csw", "http://www.opengis.net/cat/csw/"+versionnamespace);
 			writer.writeStartElement("http://www.opengis.net/cat/csw/"+versionnamespace,"Capabilities");
 			writer.writeDefaultNamespace("http://www.opengis.net/wfs"+versionnamespace);
-			writer.writeAttribute("version", version);
+			writer.writeAttribute("version", version);		
 			writer.writeNamespace("csw", "http://www.opengis.net/cat/csw/"+versionnamespace);
 			writer.writeNamespace("wfs", "http://www.opengis.net/wfs"+versionnamespace);
 			writer.writeNamespace("ows", "http://www.opengis.net/ows/1.1");
@@ -1510,7 +1511,7 @@ public class WebService {
 			writer.writeCharacters(version);
 			writer.writeEndElement();
 			writer.writeStartElement(owsns, "Title");
-			writer.writeCharacters(wfsconf.has("servicetitle") ? wfsconf.getString("servicetitle") : "");
+			writer.writeCharacters(wfsconf.has("servicetitle") ? wfsconf.getString("servicetitle").replace("WFS","CSW") : "");
 			writer.writeEndElement();
 			writer.writeStartElement(owsns, "Fees");
 			writer.writeCharacters(wfsconf.has("fees") ? wfsconf.getString("fees") : "none");

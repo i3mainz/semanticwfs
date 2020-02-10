@@ -170,6 +170,7 @@ public abstract class TripleStoreConnector {
 	}
 	
 	public static String getMetaData(String queryString,String queryurl,String featuretype,JSONObject workingobject) {
+		
 		return "";
 	}
 	
