@@ -141,7 +141,7 @@ public class WebService {
 			@DefaultValue("") @QueryParam("TYPENAMES") String typenames,			
 			@DefaultValue("gml") @QueryParam("OUTPUTFORMAT") String output
 			) {
-		if (service.equalsIgnoreCase("WFS")) {
+		if (service.equalsIgnoreCase("CSW")) {
 			if ("getCapabilities".equalsIgnoreCase(request)) {
 				try {
 					return this.constructCapabilitiesCSW(version,version.substring(0,version.lastIndexOf('.')));
