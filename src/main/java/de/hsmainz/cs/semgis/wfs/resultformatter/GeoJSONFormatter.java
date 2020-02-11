@@ -41,6 +41,7 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 		Boolean newobject = true;
 		geojsonresults.put("type", "FeatureCollection");
 		geojsonresults.put("name", featuretype);
+		//TODO Write GeoJSON styles
 		JSONArray features = new JSONArray();
 		allfeatures.add(features);
 		geojsonresults.put("features", features);

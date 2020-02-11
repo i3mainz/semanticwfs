@@ -24,6 +24,7 @@ import org.json.JSONObject;
 
 import de.hsmainz.cs.semgis.wfs.resultformatter.GeoJSONFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
+import de.hsmainz.cs.semgis.wfs.resultstyleformatter.ResultStyleFormatter;
 import de.hsmainz.cs.semgis.wfs.webservice.WebService;
 
 
@@ -174,7 +175,27 @@ public abstract class TripleStoreConnector {
 		return "";
 	}
 	
-	public static Map<String,String> getFeatureTypeInformation(String queryString,String queryurl,String featuretype,JSONObject workingobj){
+	public static String getStyle(String queryString,String queryurl,String featuretype,String output,JSONObject workingobject) {
+		queryString="SELECT ?pointstyle ?linestringstyle ?polygonstyle WHERE { <"+featuretype+"> semgis:hasStyle ?style . ?style semgis:hasPointStyle ?pointstyle . ?style semgis:hasPointStyle ?linestringstyle . ?style semgis:hasPointStyle ?polygonstyle . }";
+		Query query = QueryFactory.create(prefixCollection+queryString+" LIMIT 1");
+		QueryExecution qexec = QueryExecutionFactory.sparqlService(queryurl, query);
+		
+		ResultSet results = qexec.execSelect();
+		ResultStyleFormatter resformat=ResultStyleFormatter.getFormatter(output);
+		try {
+			String res=resformat.formatter(results);
+			qexec.close();
+			return res;
+		} catch (XMLStreamException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		qexec.close();
+		return null;
+	}
+	
+	public static Map<String,String> getFeatureTypeInformation(String queryString,String queryurl,
+			String featuretype,JSONObject workingobj){
 		if(featureTypes.containsKey(featuretype.toLowerCase())) {
 			return featureTypes.get(featuretype.toLowerCase());
 		}

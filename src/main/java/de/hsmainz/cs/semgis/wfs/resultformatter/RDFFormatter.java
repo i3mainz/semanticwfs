@@ -7,7 +7,6 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
-import org.json.JSONObject;
 
 public class RDFFormatter extends ResultFormatter {
 

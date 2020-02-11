@@ -23,7 +23,6 @@ public class JSONLDFormatter extends WFSResultFormatter {
 	public String formatter(ResultSet results,String startingElement,
 			String featuretype,String propertytype,
 			String typeColumn,Boolean onlyproperty,Boolean onlyhits,String srsName,String indvar,String epsg,List<String> eligiblenamespaces,List<String> noteligiblenamespaces) throws XMLStreamException {
-		JSONObject result=new JSONObject();
 	    JSONArray obj=new JSONArray();
 	    JSONObject context=new JSONObject();
 	    Boolean first=true;

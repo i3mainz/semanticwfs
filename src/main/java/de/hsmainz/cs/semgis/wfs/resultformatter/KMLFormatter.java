@@ -10,7 +10,6 @@ import javax.xml.stream.XMLStreamWriter;
 
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
-import org.json.JSONObject;
 
 import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
 
@@ -32,6 +31,9 @@ public class KMLFormatter extends WFSResultFormatter {
 		writer.writeStartElement("Document");
 		writer.writeDefaultNamespace("http://www.opengis.net/kml/2.2");
 		String rel="",val="",curfeaturetype="",lastInd="",lon="",lat="";
+		writer.writeStartElement("Style");
+		//TODO Write styles from graph
+		writer.writeEndElement();
 	    while(results.hasNext()) {
 	    	this.lastQueriedElemCount++;
 	    	QuerySolution solu=results.next();

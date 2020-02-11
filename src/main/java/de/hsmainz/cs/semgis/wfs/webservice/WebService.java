@@ -133,6 +133,33 @@ public class WebService {
 	
 	@GET
 	@Produces(MediaType.TEXT_XML)
+	@Path("/vectortiles")
+	public Response vectorTiles(@DefaultValue("CSW") @QueryParam("SERVICE") String service,
+	@DefaultValue("GetCapabilities") @QueryParam("REQUEST") String request,
+	@DefaultValue("2.0.2") @QueryParam("VERSION") String version,
+	@DefaultValue("") @QueryParam("TYPENAME") String typename,
+	@DefaultValue("") @QueryParam("TYPENAMES") String typenames,			
+	@DefaultValue("gml") @QueryParam("OUTPUTFORMAT") String output
+	){
+		return null;
+	}
+	
+	@GET
+	@Produces(MediaType.TEXT_XML)
+	@Path("/style")
+	public Response vectorTiles(@DefaultValue("WFS") @QueryParam("SERVICE") String service,
+	@DefaultValue("GetStyle") @QueryParam("REQUEST") String request,
+	@DefaultValue("") @QueryParam("TYPENAME") String typename,
+	@DefaultValue("") @QueryParam("TYPENAMES") String typenames,			
+	@DefaultValue("gml") @QueryParam("OUTPUTFORMAT") String output
+	){
+		
+		
+		return null;
+	}
+	
+	@GET
+	@Produces(MediaType.TEXT_XML)
 	@Path("/csw")
 	public Response entryPointCSW( @DefaultValue("CSW") @QueryParam("SERVICE") String service,
 			@DefaultValue("GetCapabilities") @QueryParam("REQUEST") String request,
