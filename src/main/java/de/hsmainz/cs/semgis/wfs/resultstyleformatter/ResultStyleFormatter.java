@@ -51,7 +51,7 @@ public abstract class ResultStyleFormatter {
         CoordinateTransform t;
 	}*/
 	
-	public abstract String formatter(ResultSet results) throws XMLStreamException;
+	public abstract String formatter(ResultSet results,String featuretype) throws XMLStreamException;
 
 	public String formatHeader() {
 		return "";

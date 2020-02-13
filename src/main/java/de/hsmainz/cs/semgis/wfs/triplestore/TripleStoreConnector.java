@@ -171,19 +171,21 @@ public abstract class TripleStoreConnector {
 	}
 	
 	public static String getMetaData(String queryString,String queryurl,String featuretype,JSONObject workingobject) {
-		
+		queryString="SELECT ?pointstyle ?linestringstyle ?polygonstyle WHERE { <"+featuretype+"> semgis:hasStyle ?style . ?style semgis:hasPointStyle ?pointstyle . ?style semgis:hasPointStyle ?linestringstyle . ?style semgis:hasPointStyle ?polygonstyle . }";
+		Query query = QueryFactory.create(prefixCollection+queryString+" LIMIT 1");
+		QueryExecution qexec = QueryExecutionFactory.sparqlService(queryurl, query);	
+		ResultSet results = qexec.execSelect();
 		return "";
 	}
 	
 	public static String getStyle(String queryString,String queryurl,String featuretype,String output,JSONObject workingobject) {
 		queryString="SELECT ?pointstyle ?linestringstyle ?polygonstyle WHERE { <"+featuretype+"> semgis:hasStyle ?style . ?style semgis:hasPointStyle ?pointstyle . ?style semgis:hasPointStyle ?linestringstyle . ?style semgis:hasPointStyle ?polygonstyle . }";
 		Query query = QueryFactory.create(prefixCollection+queryString+" LIMIT 1");
-		QueryExecution qexec = QueryExecutionFactory.sparqlService(queryurl, query);
-		
+		QueryExecution qexec = QueryExecutionFactory.sparqlService(queryurl, query);	
 		ResultSet results = qexec.execSelect();
 		ResultStyleFormatter resformat=ResultStyleFormatter.getFormatter(output);
 		try {
-			String res=resformat.formatter(results);
+			String res=resformat.formatter(results,featuretype);
 			qexec.close();
 			return res;
 		} catch (XMLStreamException e) {

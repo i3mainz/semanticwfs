@@ -147,13 +147,37 @@ public class WebService {
 	@GET
 	@Produces(MediaType.TEXT_XML)
 	@Path("/style")
-	public Response vectorTiles(@DefaultValue("WFS") @QueryParam("SERVICE") String service,
+	public Response styles(@DefaultValue("WFS") @QueryParam("SERVICE") String service,
 	@DefaultValue("GetStyle") @QueryParam("REQUEST") String request,
 	@DefaultValue("") @QueryParam("TYPENAME") String typename,
 	@DefaultValue("") @QueryParam("TYPENAMES") String typenames,			
 	@DefaultValue("gml") @QueryParam("OUTPUTFORMAT") String output
 	){
-		
+		if(output.contains("gml")) {
+			StringWriter strwriter=new StringWriter();
+			XMLOutputFactory outputt = XMLOutputFactory.newInstance();
+			XMLStreamWriter writer;
+				try {
+					writer = new IndentingXMLStreamWriter(outputt.createXMLStreamWriter(strwriter));
+					writer.writeStartDocument();
+					writer.writeAttribute("xmlns", "http://www.opengis.net/ogcapi-features-1/1.0");
+					writer.writeAttribute("xmlns:sld", "http://www.opengis.net/sld");
+					writer.writeAttribute("xmlns:ogc", "http://www.opengis.net/ogc");
+					writer.writeAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink");
+					writer.writeAttribute("xmlns:gml", "http://www.opengis.net/gml");
+					writer.writeAttribute("xmlns:xsi","http://www.w3.org/1999/xlink");
+					writer.writeAttribute("version","1.0.0");
+					writer.writeStartElement("sld:NamedLayer");
+					writer.writeStartElement("sld:Name");
+					writer.writeCharacters(typename);
+					writer.writeEndElement();
+					writer.writeStartElement("sld:StyledLayerDescriptor");
+				} catch (XMLStreamException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+		}
 		
 		return null;
 	}

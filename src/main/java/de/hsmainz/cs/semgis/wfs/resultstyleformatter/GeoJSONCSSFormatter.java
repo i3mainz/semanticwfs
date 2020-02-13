@@ -7,7 +7,7 @@ import org.apache.jena.query.ResultSet;
 public class GeoJSONCSSFormatter extends ResultStyleFormatter {
 
 	@Override
-	public String formatter(ResultSet results) throws XMLStreamException {
+	public String formatter(ResultSet results,String featuretype) throws XMLStreamException {
 		// TODO Auto-generated method stub
 		return null;
 	}
