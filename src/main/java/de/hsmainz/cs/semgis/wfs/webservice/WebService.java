@@ -481,7 +481,8 @@ public class WebService {
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections/{collectionid}/items/{featureid}")
 	public Response getFeatureById(@PathParam("collectionid") String collectionid,
-			@PathParam("featureid") String featureid, 
+			@PathParam("featureid") String featureid,
+			@DefaultValue("") @PathParam("style") String style, 
 			@DefaultValue("html") @QueryParam("f") String format) {
 		System.out.println(collectionid+" - "+featureid);
 		if (collectionid == null) {
@@ -2278,7 +2279,7 @@ public class WebService {
 			@DefaultValue("0") @QueryParam("startindex") String startindex,
 			@DefaultValue("") @QueryParam("srsName") String srsName,
 			@DefaultValue("ASC") @QueryParam("sortBy") String sortBy,
-			@DefaultValue("") @QueryParam("sortBy") String style,
+			@DefaultValue("") @QueryParam("styles") String style,
 			@DefaultValue("2.0.0") @QueryParam("version") String version, 
 			@DefaultValue("") @QueryParam("resourceid") String resourceids, 
 			@DefaultValue("") @QueryParam("filter") String filter, 

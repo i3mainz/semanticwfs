@@ -306,8 +306,10 @@ public abstract class TripleStoreConnector {
 				if(ns!=null && !ns.isEmpty() && !nscache.containsKey(ns)) {
 					nscache.put(ns,"ns"+nscounter++);
 				}	
-				latlist.add(lat.substring(0,lat.indexOf("^^")));
-				lonlist.add(lon.substring(0,lon.indexOf("^^")));
+				if(lat.contains("^^") && lon.contains("^^")) {
+					latlist.add(lat.substring(0,lat.indexOf("^^")));
+					lonlist.add(lon.substring(0,lon.indexOf("^^")));
+				}
 				lat="";
 				lon="";
 			}
