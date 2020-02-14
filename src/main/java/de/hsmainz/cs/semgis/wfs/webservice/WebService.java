@@ -121,6 +121,7 @@ public class WebService {
 			@DefaultValue("") @QueryParam("BBOX") String bbox,
 			@DefaultValue("") @QueryParam("VALUEREFERENCE") String propertyname,
 			@DefaultValue("ASC") @QueryParam("SORTBY") String sortBy,
+			@DefaultValue("") @QueryParam("STYLES") String style,
 			@DefaultValue("results") @QueryParam("RESULTTYPE") String resultType,
 			@DefaultValue("") @QueryParam("RESOURCEID") String resourceids,
 			@DefaultValue("") @QueryParam("GMLOBJECTID") String gmlobjectid,
@@ -129,7 +130,7 @@ public class WebService {
 			@DefaultValue("") @QueryParam("FILTERLANGUAGE") String filterLanguage,
 			@DefaultValue("gml") @QueryParam("OUTPUTFORMAT") String output,
 			@DefaultValue("5") @QueryParam("COUNT") String count) {
-	    return entryPoint(service,request,version,typename,typenames,srsName,exceptions,bbox,propertyname,sortBy,resultType,resourceids,gmlobjectid,startindex,filter,filterLanguage,output,count);
+	    return entryPoint(service,request,version,typename,typenames,srsName,exceptions,bbox,propertyname,sortBy,style,resultType,resourceids,gmlobjectid,startindex,filter,filterLanguage,output,count);
 	}
 	
 	@GET
@@ -245,6 +246,7 @@ public class WebService {
 			@DefaultValue("") @QueryParam("BBOX") String bbox,
 			@DefaultValue("") @QueryParam("VALUEREFERENCE") String propertyname,
 			@DefaultValue("ASC") @QueryParam("SORTBY") String sortBy,
+			@DefaultValue("") @QueryParam("STYLES") String style,
 			@DefaultValue("results") @QueryParam("RESULTTYPE") String resultType,
 			@DefaultValue("") @QueryParam("RESOURCEID") String resourceids,
 			@DefaultValue("") @QueryParam("GMLOBJECTID") String gmlobjectid,
@@ -277,7 +279,7 @@ public class WebService {
 				}
 				if ("getFeature".equalsIgnoreCase(request)) {
 					try {
-						return this.getFeature(typename, output, count,startindex,srsName,sortBy,version,resourceids,filter,filterLanguage,resultType);
+						return this.getFeature(typename, output, count,startindex,srsName,sortBy,style,version,resourceids,filter,filterLanguage,resultType);
 					} catch (XMLStreamException e) {
 						e.printStackTrace();
 						return Response.ok("").type(MediaType.TEXT_PLAIN).build();
@@ -800,6 +802,7 @@ public class WebService {
 			writer.setPrefix("gmd", "http://www.isotc211.org/2005/gmd");
 			writer.setPrefix("gmx", "http://www.isotc211.org/2005/gmx");
 			writer.setPrefix("gco", "http://www.isotc211.org/2005/gco");
+			writer.setPrefix("csw","http://www.opengis.net/cat/csw/2.0.2");
 			writer.writeStartElement("http://www.opengis.net/cat/csw/2.0.2","GetRecordsResponse");
 			writer.writeStartElement("http://www.opengis.net/cat/csw/2.0.2","SearchStatus");
 			writer.writeAttribute("timestamp", new Date(System.currentTimeMillis()).toGMTString());
@@ -2275,6 +2278,7 @@ public class WebService {
 			@DefaultValue("0") @QueryParam("startindex") String startindex,
 			@DefaultValue("") @QueryParam("srsName") String srsName,
 			@DefaultValue("ASC") @QueryParam("sortBy") String sortBy,
+			@DefaultValue("") @QueryParam("sortBy") String style,
 			@DefaultValue("2.0.0") @QueryParam("version") String version, 
 			@DefaultValue("") @QueryParam("resourceid") String resourceids, 
 			@DefaultValue("") @QueryParam("filter") String filter, 
@@ -2417,7 +2421,7 @@ public class WebService {
 			@DefaultValue("4") @QueryParam("traverseXlinkDepth") String traverseXlinkDepth,
 			@DefaultValue("gml") @QueryParam("outputFormat") String output) {
 		try {
-			return this.getFeature(typename,output,"1","0","","ASC","2.0.0", gmlobjectid,"","CQL","");
+			return this.getFeature(typename,output,"1","0","","ASC","","2.0.0", gmlobjectid,"","CQL","");
 		} catch (JSONException | XMLStreamException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
