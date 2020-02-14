@@ -50,6 +50,8 @@ public class WebService {
 	public static Map<String,Double[]> bboxCache=new TreeMap<>();
 	
 	public static long milliesInDays=24 * 60 * 60 * 1000;
+	
+	public XMLStreamWriter xmlwriter;
 
 	String htmlHead;
 	
@@ -211,7 +213,7 @@ public class WebService {
 				return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 			}
 			if ("getRecords".equalsIgnoreCase(request)) {
-				return this.getCollectionMetadata(typename,output);
+				return this.getCollectionMetadata(typename,output,"false");
 			}
 			if ("getRecordById".equalsIgnoreCase(request)) {
 				return this.getCollectionsMetadata(output);
@@ -805,19 +807,20 @@ public class WebService {
 			writer.setPrefix("gco", "http://www.isotc211.org/2005/gco");
 			writer.setPrefix("csw","http://www.opengis.net/cat/csw/2.0.2");
 			writer.writeStartElement("http://www.opengis.net/cat/csw/2.0.2","GetRecordsResponse");
+			writer.writeNamespace("csw", "http://www.opengis.net/cat/csw/2.0.2");
 			writer.writeStartElement("http://www.opengis.net/cat/csw/2.0.2","SearchStatus");
 			writer.writeAttribute("timestamp", new Date(System.currentTimeMillis()).toGMTString());
 			writer.writeEndElement();
 			writer.writeStartElement("http://www.opengis.net/cat/csw/2.0.2","SearchResults");
 			writer.flush();
-		for (int i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
-			JSONObject curobj = wfsconf.getJSONArray("datasets").getJSONObject(i);
-			String res=getCollectionMetadata(wfsconf.getJSONArray("datasets").getJSONObject(i).getString("name"), "").getEntity().toString();
-			strwriter.write(res);
-		}
-		writer.writeEndElement();
-		writer.writeEndDocument();
-		writer.flush();
+			this.xmlwriter=writer;
+			for (int i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
+				JSONObject curobj = wfsconf.getJSONArray("datasets").getJSONObject(i);
+				getCollectionMetadata(wfsconf.getJSONArray("datasets").getJSONObject(i).getString("name"), "","true");
+			}
+			writer.writeEndElement();
+			writer.writeEndDocument();
+			writer.flush();
 		return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
 		} catch (XMLStreamException e) {
 			e.printStackTrace();
@@ -830,7 +833,8 @@ public class WebService {
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections/{collectionid}/metadata")
 	public Response getCollectionMetadata(@PathParam("collectionid") String collectionid,
-			@DefaultValue("html") @QueryParam("f") String format) {
+			@DefaultValue("html") @QueryParam("f") String format,
+			@DefaultValue("false") @QueryParam("collectioncall") String collectioncall) {
 		if (collectionid == null) {
 			throw new NotFoundException();
 		}
@@ -839,7 +843,7 @@ public class WebService {
 			JSONObject curobj = wfsconf.getJSONArray("datasets").getJSONObject(i);
 			if (curobj.getString("name").equalsIgnoreCase(collectionid)) {
 				workingobj = curobj;
-				break;
+				break; 
 			}
 		}
 		if (workingobj == null) {
@@ -855,8 +859,13 @@ public class WebService {
 		XMLOutputFactory output = XMLOutputFactory.newInstance();
 		XMLStreamWriter writer;
 		try {
-			writer = new IndentingXMLStreamWriter(output.createXMLStreamWriter(strwriter));
-			writer.writeStartDocument();
+			
+			if("true".equals(collectioncall)) {
+				writer=this.xmlwriter;			
+			}else {
+				writer = new IndentingXMLStreamWriter(output.createXMLStreamWriter(strwriter));
+				writer.writeStartDocument();
+			}
 			writer.setPrefix("gmd", "http://www.isotc211.org/2005/gmd");
 			writer.setPrefix("gmx", "http://www.isotc211.org/2005/gmx");
 			writer.setPrefix("gco", "http://www.isotc211.org/2005/gco");
@@ -982,11 +991,12 @@ public class WebService {
 			writer.writeEndElement();
 			writer.writeEndElement();
 			writer.writeEndElement();
+			writer.writeEndElement();	
 			writer.writeEndElement();
 			writer.writeEndElement();
-			
-			writer.writeEndElement();
-			writer.writeEndDocument();
+			if(!"true".equals(collectioncall)) {
+				writer.writeEndDocument();
+			}
 			writer.flush();
 			return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
 		} catch (XMLStreamException e) {
