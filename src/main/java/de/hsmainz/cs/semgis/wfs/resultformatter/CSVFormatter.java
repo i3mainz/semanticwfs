@@ -7,6 +7,8 @@ import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Literal;
 
+import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
+
 public class CSVFormatter extends WFSResultFormatter {
 
 	public CSVFormatter() {
@@ -19,7 +21,7 @@ public class CSVFormatter extends WFSResultFormatter {
 			String featuretype,String propertytype,
 			String typeColumn,Boolean onlyproperty,Boolean onlyhits,
 			String srsName,String indvar,String epsg,List<String> eligiblenamespaces,
-			List<String> noteligiblenamespaces,String mapstyle) {
+			List<String> noteligiblenamespaces,StyleObject mapstyle) {
     	Boolean first=true;
     	StringBuilder resultCSV=new StringBuilder();
     	StringBuilder resultCSVHeader=new StringBuilder();

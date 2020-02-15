@@ -8,6 +8,8 @@ import javax.xml.stream.XMLStreamException;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 
+import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
+
 public class GeoHashFormatter extends WFSResultFormatter {
 
 	public GeoHashFormatter() {
@@ -20,7 +22,7 @@ public class GeoHashFormatter extends WFSResultFormatter {
 			String featuretype,String propertytype,String typeColumn,
 			Boolean onlyproperty,Boolean onlyhits,String srsName,String indvar,
 			String epsg,List<String> eligiblenamespaces,List<String> noteligiblenamespace
-			,String mapstyle) throws XMLStreamException {
+			,StyleObject mapstyle) throws XMLStreamException {
     	Boolean first=true;
     	StringBuilder resultCSV=new StringBuilder();
     	StringBuilder resultCSVHeader=new StringBuilder();

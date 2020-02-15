@@ -205,7 +205,7 @@ public class WebService {
 		if (workingobj == null) {
 			throw new NotFoundException();
 		}
-		return Response.ok(TripleStoreConnector.getStyle(collectionid,styleid,workingobj.getString("triplestore"))).type(MediaType.APPLICATION_XML).build();
+		return Response.ok(TripleStoreConnector.getStyle(collectionid,styleid,workingobj.getString("triplestore"),workingobj.getString("namespace"))).type(MediaType.APPLICATION_XML).build();
 	}
 	
 	@GET

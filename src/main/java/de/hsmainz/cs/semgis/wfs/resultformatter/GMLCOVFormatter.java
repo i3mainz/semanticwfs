@@ -6,6 +6,8 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.jena.query.ResultSet;
 
+import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
+
 public class GMLCOVFormatter extends WCSResultFormatter {
 
 	public GMLCOVFormatter() {
@@ -18,7 +20,7 @@ public class GMLCOVFormatter extends WCSResultFormatter {
 			String featuretype,String propertytype,String typeColumn,
 			Boolean onlyproperty,Boolean onlyhits,String srsName,
 			String indvar,String epsg,List<String> eligiblenamespaces,
-			List<String> noteligiblenamespaces,String mapstyle) throws XMLStreamException {
+			List<String> noteligiblenamespaces,StyleObject mapstyle) throws XMLStreamException {
 		// TODO Auto-generated method stub
 		return null;
 	}

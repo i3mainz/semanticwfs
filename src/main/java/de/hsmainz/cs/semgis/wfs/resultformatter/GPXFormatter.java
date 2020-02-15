@@ -10,6 +10,7 @@ import org.apache.jena.query.ResultSet;
 import org.apache.jena.sparql.expr.NodeValue;
 
 import de.hsmainz.cs.semgis.wfs.converters.AsGPX;
+import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
 
 public class GPXFormatter extends WFSResultFormatter {
@@ -24,7 +25,7 @@ public class GPXFormatter extends WFSResultFormatter {
 			String featuretype,String propertytype,
 			String typeColumn,Boolean onlyproperty,Boolean onlyhits,
 			String srsName,String indvar,String epsg,List<String> eligiblenamespaces,
-			List<String> noteligiblenamespaces,String mapstyle) throws XMLStreamException {
+			List<String> noteligiblenamespaces,StyleObject mapstyle) throws XMLStreamException {
 		StringBuilder gpxout=new StringBuilder();
 		StringBuilder attbuilder=new StringBuilder();
 		gpxout.append("<?xml version='1.0' encoding='UTF-8' standalone='no' ?><gpx version='1.0'><name>"+featuretype+"</name>");

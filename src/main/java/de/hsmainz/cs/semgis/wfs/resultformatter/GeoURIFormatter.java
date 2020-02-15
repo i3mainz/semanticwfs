@@ -9,6 +9,7 @@ import org.apache.jena.query.ResultSetFormatter;
 import org.apache.jena.sparql.expr.NodeValue;
 
 import de.hsmainz.cs.semgis.wfs.converters.AsGeoURI;
+import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
 public class GeoURIFormatter extends WFSResultFormatter {
 
@@ -22,7 +23,7 @@ public class GeoURIFormatter extends WFSResultFormatter {
 			String featuretype,String propertytype,
 			String typeColumn,Boolean onlyproperty,Boolean onlyhits,
 			String srsName,String indvar,String epsg,List<String> eligiblenamespaces,
-			List<String> noteligiblenamespaces,String mapstyle) {
+			List<String> noteligiblenamespaces,StyleObject mapstyle) {
 		List<QuerySolution> test=ResultSetFormatter.toList(results);
     	Boolean first=true;
     	StringBuilder resultCSV=new StringBuilder();

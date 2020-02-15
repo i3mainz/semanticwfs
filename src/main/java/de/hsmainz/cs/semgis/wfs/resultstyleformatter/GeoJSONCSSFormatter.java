@@ -1,10 +1,7 @@
 package de.hsmainz.cs.semgis.wfs.resultstyleformatter;
 
-import java.util.Map;
-import java.util.TreeMap;
-
 import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamWriter;
+
 
 import org.apache.jena.query.ResultSet;
 import org.json.JSONObject;
@@ -37,8 +34,16 @@ public class GeoJSONCSSFormatter extends ResultStyleFormatter {
 
 	@Override
 	public String formatGeometry(String geometrytype,StyleObject styleobj) {
-		// TODO Auto-generated method stub
-		return null;
+		if(geometrytype.contains("Point")) {
+			return cssLiteralToJSON(styleobj.pointStyle).toString();
+		}
+		if(geometrytype.contains("LineString")) {
+			return cssLiteralToJSON(styleobj.lineStringStyle).toString();
+		}
+		if(geometrytype.contains("Polygon")) {
+			return cssLiteralToJSON(styleobj.polygonStyle).toString();
+		}
+		return "{}";
 	}
 
 }

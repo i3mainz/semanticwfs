@@ -8,6 +8,8 @@ import javax.xml.stream.XMLStreamException;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 
+import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
+
 public class RDFFormatter extends ResultFormatter {
 
 	public RDFFormatter() {
@@ -19,7 +21,7 @@ public class RDFFormatter extends ResultFormatter {
 	public String formatter(ResultSet results, String startingElement, String featuretype,String propertytype,
 			String typeColumn,Boolean onlyproperty,Boolean onlyhits,String srsName,
 			String indvar,String epsg,List<String> eligiblenamespaces,
-			List<String> noteligiblenamespaces,String mapstyle) throws XMLStreamException {
+			List<String> noteligiblenamespaces,StyleObject mapstyle) throws XMLStreamException {
 		StringBuilder builder=new StringBuilder();
 		String rel="",val="",lastInd="",geomLiteral="",lat="",lon="";
 		builder.append("<http://www.opengis.net/ont/geosparql#Geometry> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> ."+System.lineSeparator());

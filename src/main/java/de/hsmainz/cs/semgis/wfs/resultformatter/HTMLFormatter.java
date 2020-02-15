@@ -13,6 +13,8 @@ import org.apache.jena.query.ResultSet;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
+
 public class HTMLFormatter extends ResultFormatter {
 
 	public String htmlHeader = "";
@@ -38,7 +40,7 @@ public class HTMLFormatter extends ResultFormatter {
 			String propertytype, 
 			String typeColumn, Boolean onlyproperty,Boolean onlyhits,
 			String srsName,String indvar,String epsg,List<String> eligiblenamespaces,
-			List<String> noteligiblenamespaces,String mapstyle) throws XMLStreamException {
+			List<String> noteligiblenamespaces,StyleObject mapstyle) throws XMLStreamException {
 		ResultFormatter format = resultMap.get("geojson");
 		JSONObject geojson = new JSONObject(
 				format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,srsName,indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle));

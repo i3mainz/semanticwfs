@@ -155,7 +155,7 @@ public abstract class TripleStoreConnector {
 		QueryExecution qe = QueryExecutionFactory.sparqlService(endpoint, queryjena);
 			ResultSet rs = qe.execSelect();
 		GeoJSONFormatter form=new GeoJSONFormatter();
-		String res=form.formatter(rs, "", "item", "", "", false, false, "","item","",null,null,"");
+		String res=form.formatter(rs, "", "item", "", "", false, false, "","item","",null,null,null);
 		return res;
 	}
 	
@@ -188,22 +188,23 @@ public abstract class TripleStoreConnector {
 		String result="<?xml version=\"1.0\"?><styles>"+System.lineSeparator();
 		while(results.hasNext()) {
 			QuerySolution curresult = results.next();
-			result+="<style>"+curresult.get("style")+"</style>"+System.lineSeparator();
+			result+="<style uri=\""+curresult.get("style")+"\">"+curresult.get("style").toString().substring(curresult.get("style").toString().indexOf("#")+1)+"</style>"+System.lineSeparator();
 		}
 		result+="</styles>"+System.lineSeparator();
 		return result;
 	}
 	
-	public static StyleObject getStyle(String featuretype,String stylename,String triplestore) {
-		String queryString="SELECT ?style ?styleLabel ?image ?pointstyle ?hatch ?linestringStyle ?linestringImage ?linestringImageStyle ?polygonstyle WHERE { "
-	    +" OPTIONAL {<"+stylename+"> rdfs:label ?styleLabel .}"+System.lineSeparator()
-		+" OPTIONAL {<"+stylename+"> semgis:linestringImage ?linestringImage .} "+System.lineSeparator()
-		+" OPTIONAL {<"+stylename+"> semgis:linestringImageStyle ?linestringImageStyle .} "+System.lineSeparator()
-		+" OPTIONAL {<"+stylename+"> semgis:hatch ?hatch .}"+System.lineSeparator()
-		+" OPTIONAL {<"+stylename+"> semgis:image ?image .}"+System.lineSeparator()
-		+" OPTIONAL {<"+stylename+"> semgis:imageStyle ?pointstyle .}"+System.lineSeparator()
-		+" OPTIONAL {<"+stylename+"> semgis:linestringStyle ?linestringstyle .}"+System.lineSeparator()
-		+" OPTIONAL {<"+stylename+"> semgis:polygonStyle ?polygonstyle .} }";
+	public static StyleObject getStyle(String featuretype,String stylename,String triplestore,String namespace) {
+		String queryString="SELECT ?style ?styleLabel ?pointstyle ?hatch ?linestringStyle ?linestringImage ?linestringImageStyle ?polygonstyle WHERE { "
+	    +" OPTIONAL {<"+namespace+stylename+"> rdfs:label ?styleLabel .}"+System.lineSeparator()
+		+" OPTIONAL {<"+namespace+stylename+"> semgis:linestringImage ?linestringImage .} "+System.lineSeparator()
+		+" OPTIONAL {<"+namespace+stylename+"> semgis:linestringImageStyle ?linestringImageStyle .} "+System.lineSeparator()
+		+" OPTIONAL {<"+namespace+stylename+"> semgis:hatch ?hatch .}"+System.lineSeparator()
+		+" OPTIONAL {<"+namespace+stylename+"> semgis:image ?pointstyle .}"+System.lineSeparator()
+		+" OPTIONAL {<"+namespace+stylename+"> semgis:imageStyle ?pointstyle .}"+System.lineSeparator()
+		+" OPTIONAL {<"+namespace+stylename+"> semgis:linestringStyle ?linestringstyle .}"+System.lineSeparator()
+		+" OPTIONAL {<"+namespace+stylename+"> semgis:polygonStyle ?polygonstyle .}"+System.lineSeparator()+" }";
+		System.out.println(queryString);
 		Query query = QueryFactory.create(prefixCollection+queryString+" LIMIT 1");
 		QueryExecution qexec = QueryExecutionFactory.sparqlService(triplestore, query);	
 		ResultSet results = qexec.execSelect();
@@ -526,7 +527,7 @@ public abstract class TripleStoreConnector {
 		String res=resformat.formatter(results,startingElement,featuretype.toLowerCase(),propertyValue,
 				(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""),true,false,
 				srsName,(workingobj.has("indvar")?workingobj.getString("indvar"):"item"),
-				(workingobj.has("targetCRS")?workingobj.getString("targetCRS"):""),null,null,"");
+				(workingobj.has("targetCRS")?workingobj.getString("targetCRS"):""),null,null,null);
 		qexec.close();
 		if(resformat.lastQueriedElemCount==0) {
 			return "";
@@ -539,6 +540,10 @@ public abstract class TripleStoreConnector {
 			String offset,String startingElement,String featuretype,String resourceids,JSONObject workingobj,
 			String filter,String resultType,String srsName,String bbox,String mapstyle) throws XMLStreamException {
 		System.out.println(resultType);
+		StyleObject style=null;
+		if(!mapstyle.isEmpty()) {
+			style=TripleStoreConnector.getStyle(featuretype, mapstyle, workingobj.getString("triplestore"),workingobj.getString("namespace"));
+		}
 		String indvar="item";
 		if(workingobj.has("indvar")) {
 			indvar=workingobj.getString("indvar");
@@ -595,7 +600,7 @@ public abstract class TripleStoreConnector {
 		String res=resformat.formatter(results,startingElement,featuretype.toLowerCase(),"",
 				(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""),false,false,
 				srsName,(workingobj.has("indvar")?workingobj.getString("indvar"):"item"),
-				(workingobj.has("targetCRS")?workingobj.getString("targetCRS"):""),null,null,mapstyle);
+				(workingobj.has("targetCRS")?workingobj.getString("targetCRS"):""),null,null,style);
 		qexec.close();
 		if(resformat.lastQueriedElemCount==0) {
 			return "";

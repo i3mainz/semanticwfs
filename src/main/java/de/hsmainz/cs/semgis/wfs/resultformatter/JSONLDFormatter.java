@@ -12,6 +12,8 @@ import org.apache.jena.rdf.model.Literal;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
+
 public class JSONLDFormatter extends WFSResultFormatter {
 
 	public JSONLDFormatter() {
@@ -24,7 +26,7 @@ public class JSONLDFormatter extends WFSResultFormatter {
 			String featuretype,String propertytype,
 			String typeColumn,Boolean onlyproperty,Boolean onlyhits,
 			String srsName,String indvar,String epsg,List<String> eligiblenamespaces,
-			List<String> noteligiblenamespaces,String mapstyle) throws XMLStreamException {
+			List<String> noteligiblenamespaces,StyleObject mapstyle) throws XMLStreamException {
 	    JSONArray obj=new JSONArray();
 	    JSONObject context=new JSONObject();
 	    Boolean first=true;

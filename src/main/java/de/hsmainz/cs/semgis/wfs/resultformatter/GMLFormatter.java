@@ -15,6 +15,7 @@ import org.json.JSONObject;
 
 import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
 
+import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 import de.hsmainz.cs.semgis.wfs.webservice.WebService;
 
 public class GMLFormatter extends WFSResultFormatter {
@@ -44,7 +45,7 @@ public class GMLFormatter extends WFSResultFormatter {
 			String typeColumn,Boolean onlyproperty,Boolean onlyhits,String srsName,
 			String indvar,String epsg,
 			List<String> eligiblenamespaces,
-			List<String> noteligiblenamespaces,String mapstyle) throws XMLStreamException {
+			List<String> noteligiblenamespaces,StyleObject mapstyle) throws XMLStreamException {
 		lastQueriedElemCount=0;
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();
 		StringWriter strwriter=new StringWriter();

@@ -14,6 +14,7 @@ import org.apache.jena.query.ResultSet;
 import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
 
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.KMLStyleFormatter;
+import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
 public class KMLFormatter extends WFSResultFormatter {
 
@@ -28,7 +29,7 @@ public class KMLFormatter extends WFSResultFormatter {
 			String featuretype,String propertytype,
 			String typeColumn,Boolean onlyproperty,Boolean onlyhits,
 			String srsName,String indvar,String epsg,List<String> eligiblenamespaces,
-			List<String> noteligiblenamespaces,String mapstyle) throws XMLStreamException {
+			List<String> noteligiblenamespaces,StyleObject mapstyle) throws XMLStreamException {
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();
 		StringWriter strwriter=new StringWriter();
 		XMLStreamWriter writer=new IndentingXMLStreamWriter(factory.createXMLStreamWriter(strwriter));
@@ -37,7 +38,11 @@ public class KMLFormatter extends WFSResultFormatter {
 		writer.writeDefaultNamespace("http://www.opengis.net/kml/2.2");
 		String rel="",val="",curfeaturetype="",lastInd="",lon="",lat="";
 		writer.writeStartElement("Style");
-		//TODO Write styles from graph
+		writer.writeCharacters("");
+		writer.flush();
+		strwriter.write(this.styleformatter.formatGeometry("LineString", mapstyle));
+		strwriter.write(this.styleformatter.formatGeometry("Polygon", mapstyle));
+		strwriter.write(this.styleformatter.formatGeometry("Point", mapstyle));
 		writer.writeEndElement();
 	    while(results.hasNext()) {
 	    	this.lastQueriedElemCount++;
