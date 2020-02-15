@@ -12,4 +12,10 @@ public class MapCSSFormatter extends ResultStyleFormatter {
 		return null;
 	}
 
+	@Override
+	public String formatGeometry(String geometrytype, StyleObject styleobj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

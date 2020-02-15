@@ -8,6 +8,8 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.jena.query.ResultSet;
 
+import de.hsmainz.cs.semgis.wfs.resultstyleformatter.ResultStyleFormatter;
+
 public abstract class ResultFormatter {
 
 	public static Map<String,ResultFormatter> resultMap=new TreeMap<String, ResultFormatter>();
@@ -17,6 +19,8 @@ public abstract class ResultFormatter {
 	public String mimeType="text/plain";
 	
 	public String exposedType="application/vnd.geo+json";
+	
+	public ResultStyleFormatter styleformatter;
 	
 	public static ResultFormatter getFormatter(String formatString) {
 		formatString=formatString.toLowerCase();
@@ -107,7 +111,8 @@ public abstract class ResultFormatter {
 	
 	public abstract String formatter(ResultSet results,String startingElement,
 			String featuretype,String propertytype,String typeColumn,
-			Boolean onlyproperty,Boolean onlyhits,String srsName,String indvar,String epsg,List<String> eligiblenamespaces,List<String> noteligiblenamespaces) throws XMLStreamException;
+			Boolean onlyproperty,Boolean onlyhits,String srsName,String indvar,
+			String epsg,List<String> eligiblenamespaces,List<String> noteligiblenamespaces,String mapstyle) throws XMLStreamException;
 
 	public String formatHeader() {
 		return "";

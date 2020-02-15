@@ -25,6 +25,7 @@ import org.json.JSONObject;
 import de.hsmainz.cs.semgis.wfs.resultformatter.GeoJSONFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.ResultStyleFormatter;
+import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 import de.hsmainz.cs.semgis.wfs.webservice.WebService;
 
 
@@ -154,7 +155,7 @@ public abstract class TripleStoreConnector {
 		QueryExecution qe = QueryExecutionFactory.sparqlService(endpoint, queryjena);
 			ResultSet rs = qe.execSelect();
 		GeoJSONFormatter form=new GeoJSONFormatter();
-		String res=form.formatter(rs, "", "item", "", "", false, false, "","item","",null,null);
+		String res=form.formatter(rs, "", "item", "", "", false, false, "","item","",null,null,"");
 		return res;
 	}
 	
@@ -178,22 +179,44 @@ public abstract class TripleStoreConnector {
 		return "";
 	}
 	
-	public static String getStyle(String queryString,String queryurl,String featuretype,String output,JSONObject workingobject) {
-		queryString="SELECT ?pointstyle ?linestringstyle ?polygonstyle WHERE { <"+featuretype+"> semgis:hasStyle ?style . ?style semgis:hasPointStyle ?pointstyle . ?style semgis:hasPointStyle ?linestringstyle . ?style semgis:hasPointStyle ?polygonstyle . }";
+	public static String getStyleNames(String queryString,JSONObject workingobject) {
+		queryString="SELECT ?style ?styleLabel ?pointstyle ?linestringstyle ?polygonstyle WHERE { <"+workingobject.getString("class")+"> owl:equivalentClass ?equivclass ."+System.lineSeparator()+" ?equivclass owl:intersectionOf ?intersect ."+System.lineSeparator()+" ?intersect rdf:rest ?rest."+System.lineSeparator()+" ?rest rdf:first ?first ."+System.lineSeparator()+" ?first owl:allValuesFrom ?styleclass ."+System.lineSeparator()+" ?style rdf:type ?styleclass."+System.lineSeparator()+" OPTIONAL{?style rdfs:label ?styleLabel .} }";
 		Query query = QueryFactory.create(prefixCollection+queryString+" LIMIT 1");
-		QueryExecution qexec = QueryExecutionFactory.sparqlService(queryurl, query);	
+		System.out.println(queryString);
+		QueryExecution qexec = QueryExecutionFactory.sparqlService(workingobject.getString("triplestore"), query);	
 		ResultSet results = qexec.execSelect();
-		ResultStyleFormatter resformat=ResultStyleFormatter.getFormatter(output);
-		try {
-			String res=resformat.formatter(results,featuretype);
-			qexec.close();
-			return res;
-		} catch (XMLStreamException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		String result="<?xml version=\"1.0\"?><styles>"+System.lineSeparator();
+		while(results.hasNext()) {
+			QuerySolution curresult = results.next();
+			result+="<style>"+curresult.get("style")+"</style>"+System.lineSeparator();
 		}
-		qexec.close();
-		return null;
+		result+="</styles>"+System.lineSeparator();
+		return result;
+	}
+	
+	public static StyleObject getStyle(String featuretype,String stylename,String triplestore) {
+		String queryString="SELECT ?style ?styleLabel ?image ?pointstyle ?hatch ?linestringStyle ?linestringImage ?linestringImageStyle ?polygonstyle WHERE { "
+	    +" OPTIONAL {<"+stylename+"> rdfs:label ?styleLabel .}"+System.lineSeparator()
+		+" OPTIONAL {<"+stylename+"> semgis:linestringImage ?linestringImage .} "+System.lineSeparator()
+		+" OPTIONAL {<"+stylename+"> semgis:linestringImageStyle ?linestringImageStyle .} "+System.lineSeparator()
+		+" OPTIONAL {<"+stylename+"> semgis:hatch ?hatch .}"+System.lineSeparator()
+		+" OPTIONAL {<"+stylename+"> semgis:image ?image .}"+System.lineSeparator()
+		+" OPTIONAL {<"+stylename+"> semgis:imageStyle ?pointstyle .}"+System.lineSeparator()
+		+" OPTIONAL {<"+stylename+"> semgis:linestringStyle ?linestringstyle .}"+System.lineSeparator()
+		+" OPTIONAL {<"+stylename+"> semgis:polygonStyle ?polygonstyle .} }";
+		Query query = QueryFactory.create(prefixCollection+queryString+" LIMIT 1");
+		QueryExecution qexec = QueryExecutionFactory.sparqlService(triplestore, query);	
+		ResultSet results = qexec.execSelect();
+		QuerySolution solu=results.next();
+		StyleObject result=new StyleObject();
+		result.pointStyle=solu.get("pointstyle")!=null?solu.get("pointstyle").toString():null;
+		result.pointImage=solu.get("image")!=null?solu.get("image").toString():null;
+		result.lineStringImage=solu.get("linestringImage")!=null?solu.get("linestringImage").toString():null;
+		result.lineStringStyle=solu.get("linestringStyle")!=null?solu.get("linestringStyle").toString():null;
+		result.polygonStyle=solu.get("polygonStyle")!=null?solu.get("polygonStyle").toString():null;
+		result.polygonImage=solu.get("polygonImage")!=null?solu.get("polygonImage").toString():null;
+		result.hatch=solu.get("hatch")!=null?solu.get("hatch").toString():null;
+		return result;
 	}
 	
 	public static Map<String,String> getFeatureTypeInformation(String queryString,String queryurl,
@@ -502,7 +525,8 @@ public abstract class TripleStoreConnector {
 		}
 		String res=resformat.formatter(results,startingElement,featuretype.toLowerCase(),propertyValue,
 				(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""),true,false,
-				srsName,(workingobj.has("indvar")?workingobj.getString("indvar"):"item"),(workingobj.has("targetCRS")?workingobj.getString("targetCRS"):""),null,null);
+				srsName,(workingobj.has("indvar")?workingobj.getString("indvar"):"item"),
+				(workingobj.has("targetCRS")?workingobj.getString("targetCRS"):""),null,null,"");
 		qexec.close();
 		if(resformat.lastQueriedElemCount==0) {
 			return "";
@@ -513,7 +537,7 @@ public abstract class TripleStoreConnector {
 	
 	public static String executeQuery(String queryString,String queryurl,String output,String count,
 			String offset,String startingElement,String featuretype,String resourceids,JSONObject workingobj,
-			String filter,String resultType,String srsName,String bbox) throws XMLStreamException {
+			String filter,String resultType,String srsName,String bbox,String mapstyle) throws XMLStreamException {
 		System.out.println(resultType);
 		String indvar="item";
 		if(workingobj.has("indvar")) {
@@ -570,7 +594,8 @@ public abstract class TripleStoreConnector {
 		}
 		String res=resformat.formatter(results,startingElement,featuretype.toLowerCase(),"",
 				(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""),false,false,
-				srsName,(workingobj.has("indvar")?workingobj.getString("indvar"):"item"),(workingobj.has("targetCRS")?workingobj.getString("targetCRS"):""),null,null);
+				srsName,(workingobj.has("indvar")?workingobj.getString("indvar"):"item"),
+				(workingobj.has("targetCRS")?workingobj.getString("targetCRS"):""),null,null,mapstyle);
 		qexec.close();
 		if(resformat.lastQueriedElemCount==0) {
 			return "";

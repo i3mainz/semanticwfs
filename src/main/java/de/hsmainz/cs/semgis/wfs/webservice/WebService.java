@@ -150,8 +150,8 @@ public class WebService {
 	
 	@GET
 	@Produces(MediaType.TEXT_XML)
-	@Path("/style")
-	public Response styles(@DefaultValue("WFS") @QueryParam("SERVICE") String service,
+	@Path("/collections/{collectionid}/style/{styleid}")
+	public Response style(@DefaultValue("WFS") @QueryParam("SERVICE") String service,
 	@DefaultValue("GetStyle") @QueryParam("REQUEST") String request,
 	@DefaultValue("") @QueryParam("TYPENAME") String typename,
 	@DefaultValue("") @QueryParam("TYPENAMES") String typenames,			
@@ -184,6 +184,50 @@ public class WebService {
 		}
 		
 		return null;
+	}
+	
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
+	@Path("/collections/{collectionid}/style/{styleid}")
+	public Response getCollectionStyles(@PathParam("collectionid") String collectionid,
+			@PathParam("styleid") String styleid,@DefaultValue("html") @QueryParam("f") String format) {
+		if (collectionid == null) {
+			throw new NotFoundException();
+		}
+		JSONObject workingobj = null;
+		for (int i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
+			JSONObject curobj = wfsconf.getJSONArray("datasets").getJSONObject(i);
+			if (curobj.getString("name").equalsIgnoreCase(collectionid)) {
+				workingobj = curobj;
+				break;
+			}
+		}
+		if (workingobj == null) {
+			throw new NotFoundException();
+		}
+		return Response.ok(TripleStoreConnector.getStyle(collectionid,styleid,workingobj.getString("triplestore"))).type(MediaType.APPLICATION_XML).build();
+	}
+	
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
+	@Path("/collections/{collectionid}/styles")
+	public Response getCollectionStyles(@PathParam("collectionid") String collectionid,
+			@DefaultValue("html") @QueryParam("f") String format) {
+		if (collectionid == null) {
+			throw new NotFoundException();
+		}
+		JSONObject workingobj = null;
+		for (int i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
+			JSONObject curobj = wfsconf.getJSONArray("datasets").getJSONObject(i);
+			if (curobj.getString("name").equalsIgnoreCase(collectionid)) {
+				workingobj = curobj;
+				break;
+			}
+		}
+		if (workingobj == null) {
+			throw new NotFoundException();
+		}
+		return Response.ok(TripleStoreConnector.getStyleNames(workingobj.getString("query"), workingobj)).type(MediaType.APPLICATION_XML).build();
 	}
 	
 	@GET
@@ -512,7 +556,7 @@ public class WebService {
 		String res = "";
 		try {
 			res = TripleStoreConnector.executeQuery(query, workingobj.getString("triplestore"),
-					format, "0","0","sf:featureMember",collectionid,featureid,workingobj,"","","","");
+					format, "0","0","sf:featureMember",collectionid,featureid,workingobj,"","","","",style);
 			System.out.println(res);
 			if(res==null || res.isEmpty()) {
 				throw new NotFoundException();
@@ -1232,6 +1276,7 @@ public class WebService {
 			@DefaultValue("10") @QueryParam("limit") String limit,
 			@DefaultValue("0") @QueryParam("offset") String offset,
 			@DefaultValue("") @QueryParam("bbox") String bbox,
+			@DefaultValue("") @QueryParam("style") String style,
 			@DefaultValue("") @QueryParam("bbox-crs") String bboxcrs,
 			@DefaultValue("") @QueryParam("filter") String filter,
 			@DefaultValue("") @QueryParam("filter-lang") String filterlang,
@@ -1269,7 +1314,7 @@ public class WebService {
 			String res = TripleStoreConnector.executeQuery(workingobj.getString("query"),
 						workingobj.getString("triplestore"), format,""+(Integer.valueOf(limit)*workingobj.getInt("attcount")),
 						""+(Integer.valueOf(offset)*workingobj.getInt("attcount")),
-						"sf:featureMember",collectionid,"",workingobj,filter,"","",bbox);
+						"sf:featureMember",collectionid,"",workingobj,filter,"","",bbox,style);
 			//System.out.println(res);
 			if(res==null || res.isEmpty()) {
 				throw new NotFoundException();
@@ -2336,7 +2381,7 @@ public class WebService {
 					workingobj.getString("triplestore"),
 					output, ""+(Integer.valueOf(count)*workingobj.getInt("attcount")),""
 					+(Integer.valueOf(startindex)*workingobj.getInt("attcount")),
-					"gml:featureMember",typename,resourceids,workingobj,filter,resultType,srsName,"");
+					"gml:featureMember",typename,resourceids,workingobj,filter,resultType,srsName,"",style);
 			System.out.println(res);
 			if(res.isEmpty()) {
 				throw new NotFoundException();

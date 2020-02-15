@@ -4,7 +4,7 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.jena.query.ResultSet;
 
-public class SimpleStyleFormatter extends ResultStyleFormatter {
+public class KMLStyleFormatter extends ResultStyleFormatter {
 
 	@Override
 	public String formatter(ResultSet results, String featuretype) throws XMLStreamException {

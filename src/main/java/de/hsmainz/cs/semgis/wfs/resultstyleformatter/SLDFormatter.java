@@ -97,4 +97,10 @@ public class SLDFormatter extends ResultStyleFormatter {
 		}
 	}
 
+	@Override
+	public String formatGeometry(String geometrytype,StyleObject style) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

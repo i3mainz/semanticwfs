@@ -13,17 +13,22 @@ import org.apache.jena.query.ResultSet;
 
 import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
 
+import de.hsmainz.cs.semgis.wfs.resultstyleformatter.KMLStyleFormatter;
+
 public class KMLFormatter extends WFSResultFormatter {
 
 	public KMLFormatter() {
 		this.mimeType="application/xml";
 		this.exposedType="application/inkml+xml";
+		this.styleformatter=new KMLStyleFormatter();
 	}
 	
 	@Override
 	public String formatter(ResultSet results,String startingElement,
 			String featuretype,String propertytype,
-			String typeColumn,Boolean onlyproperty,Boolean onlyhits,String srsName,String indvar,String epsg,List<String> eligiblenamespaces,List<String> noteligiblenamespaces) throws XMLStreamException {
+			String typeColumn,Boolean onlyproperty,Boolean onlyhits,
+			String srsName,String indvar,String epsg,List<String> eligiblenamespaces,
+			List<String> noteligiblenamespaces,String mapstyle) throws XMLStreamException {
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();
 		StringWriter strwriter=new StringWriter();
 		XMLStreamWriter writer=new IndentingXMLStreamWriter(factory.createXMLStreamWriter(strwriter));

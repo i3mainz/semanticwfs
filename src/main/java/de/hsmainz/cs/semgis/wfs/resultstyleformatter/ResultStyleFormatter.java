@@ -60,5 +60,7 @@ public abstract class ResultStyleFormatter {
 	public String formatFooter() {
 		return "";
 	}
+
+	public abstract String formatGeometry(String geometrytype, StyleObject styleobj);
 	
 }
