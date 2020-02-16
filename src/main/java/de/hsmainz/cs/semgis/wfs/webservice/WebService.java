@@ -69,6 +69,7 @@ public class WebService {
 		htmlHead="<html><head><link rel=\"stylesheet\" href=\"https://unpkg.com/leaflet@1.5.1/dist/leaflet.css\"\r\n" + 
 				"   integrity=\"sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==\"\r\n" + 
 				"   crossorigin=\"\"/>\r\n" + 
+				"<script src=\"https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.bundled.js\"></script>"+
 				"<script src=\""+wfsconf.getString("baseurl")+"/config/js/proj4.js\"></script>"+
 				"<script src=\""+wfsconf.getString("baseurl")+"/config/js/prefixes.js\"></script>"+
 				"<script src=\""+wfsconf.getString("baseurl")+"/config/js/Leaflet.geojsoncss.min.js\"></script>"+
