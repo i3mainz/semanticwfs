@@ -9,6 +9,7 @@ import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.sparql.expr.NodeValue;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import de.hsmainz.cs.semgis.wfs.converters.AsGeoJSON;
@@ -327,11 +328,11 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 		return geojsonresults.toString(2);
 	}
 	
-	public static void addKeyVal(JSONObject properties,String rel,String val) {
+	public void addKeyVal(JSONObject properties,String rel,String val) {
 		if(properties.has(rel)) {
 			try {
 				properties.getJSONArray(rel).put(val);
-			}catch(Exception e) {
+			}catch(JSONException e) {
 				String oldval=properties.getString(rel);
 				properties.put(rel,new JSONArray());
 				properties.getJSONArray(rel).put(oldval);

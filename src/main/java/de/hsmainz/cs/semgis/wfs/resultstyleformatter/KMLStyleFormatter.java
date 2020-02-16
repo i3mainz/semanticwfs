@@ -38,6 +38,8 @@ public class KMLStyleFormatter extends ResultStyleFormatter {
 	
 	@Override
 	public String formatGeometry(String geometrytype, StyleObject styleobj) {
+		if(styleobj==null)
+			return "";
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();
 		StringWriter strwriter=new StringWriter();
 		try {
