@@ -35,7 +35,7 @@ public class CSVFormatter extends WFSResultFormatter {
 				if(curfeaturetype.contains("http") && curfeaturetype.contains("#")){
 					curfeaturetype=curfeaturetype.substring(curfeaturetype.lastIndexOf('#')+1);
 				}
-				if(!solu.get(featuretype.toLowerCase()).toString().equals(lastInd) || lastInd.isEmpty()) {
+				if(!solu.get(indvar).toString().equals(lastInd) || lastInd.isEmpty()) {
 					lastQueriedElemCount++;
 					if(resultCSV.length()>0) {
 						resultCSV.delete(resultCSV.length()-1, resultCSV.length());

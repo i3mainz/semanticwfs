@@ -15,7 +15,6 @@ import org.json.JSONObject;
 import de.hsmainz.cs.semgis.wfs.converters.AsGeoJSON;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.GeoJSONCSSFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
-import de.hsmainz.cs.semgis.wfs.triplestore.TripleStoreConnector;
 
 public class GeoJSONFormatter extends WFSResultFormatter {
 
