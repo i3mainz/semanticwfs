@@ -202,7 +202,7 @@ public abstract class TripleStoreConnector {
 		+" OPTIONAL {<"+namespace+stylename+"> semgis:hatch ?hatch .}"+System.lineSeparator()
 		+" OPTIONAL {<"+namespace+stylename+"> semgis:image ?pointstyle .}"+System.lineSeparator()
 		+" OPTIONAL {<"+namespace+stylename+"> semgis:imageStyle ?pointstyle .}"+System.lineSeparator()
-		+" OPTIONAL {<"+namespace+stylename+"> semgis:linestringStyle ?linestringstyle .}"+System.lineSeparator()
+		+" OPTIONAL {<"+namespace+stylename+"> semgis:linestringStyle ?linestringStyle .}"+System.lineSeparator()
 		+" OPTIONAL {<"+namespace+stylename+"> semgis:polygonStyle ?polygonstyle .}"+System.lineSeparator()+" }";
 		System.out.println(queryString);
 		Query query = QueryFactory.create(prefixCollection+queryString+" LIMIT 1");

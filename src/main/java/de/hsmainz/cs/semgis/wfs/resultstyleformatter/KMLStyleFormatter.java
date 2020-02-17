@@ -44,11 +44,19 @@ public class KMLStyleFormatter extends ResultStyleFormatter {
 		StringWriter strwriter=new StringWriter();
 		try {
 			XMLStreamWriter writer=new IndentingXMLStreamWriter(factory.createXMLStreamWriter(strwriter));
-			writer.writeStartElement(geometrytype+"Style");
+			if(geometrytype.contains("Point"))
+				writer.writeStartElement("IconStyle");
+			else
+				writer.writeStartElement(geometrytype+"Style");
 			writer.writeCharacters("");
 			writer.flush();
 			if(geometrytype.contains("Point")) {
 				cssLiteralToKML(styleobj.pointStyle,writer);
+				writer.writeStartElement("Icon");
+				writer.writeStartElement("href");
+				writer.writeCharacters(styleobj.pointImage);
+				writer.writeEndElement();
+				writer.writeEndElement();
 			}
 			if(geometrytype.contains("LineString")) {
 				cssLiteralToKML(styleobj.lineStringStyle,writer);
