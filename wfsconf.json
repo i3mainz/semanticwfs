@@ -43,5 +43,15 @@
 "triplestore":"https://www.i3mainz.de/projekte/bkg/xplanung/sparql",
 "type":"WFS", 
 "name":"XPlanungWegerechtHamburg"}
+,
+{"namespace":"http://www.xplanung.de/xplangml/4/1#",
+"indvar":"item","description":"XPlanung BP_StraﬂenbegrenzungsLinie Hamburg","geometrytype":"Point","targetCRS":"EPSG:25832","useorderby":true,
+"class":"http://www.xplanung.de/xplangml/4/1#BP_StrassenbegrenzungsLinie",
+"namespaces":["http://www.xplanung.de/xplangml/4/1","http://www.opengis.net/gml/"],
+"namespacesmetadata":["http://www.w3.org/ns/prov#","http://www.w3.org/ns/dcat#"],
+"query":"SELECT ?item ?rel ?val ?the_geom WHERE{ ?item rdf:type xplan4:BP_StrassenbegrenzungsLinie . ?item ?rel ?val . OPTIONAL{?val geo:asWKT ?the_geom .} }",
+"triplestore":"https://www.i3mainz.de/projekte/bkg/xplanung/sparql",
+"type":"WFS", 
+"name":"BP_StrassenbegrenzungsLinie"}
 ]
 }
