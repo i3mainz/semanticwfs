@@ -1,4 +1,8 @@
-<div id="mapid" style="height: 500px;"><script>
+<div id="mapid" class="left col-sm-9" style="height: 500px;">
+ </div>
+    <div class="left col-sm-3" id="contentdesc" style="height:500px;overflow-y: scroll;">
+	</div>
+<script>
 if(epsg!="" && epsg!="EPSG:4326" && epsg in epsgdefs){
 	geojson=convertGeoJSON(geojson,epsgdefs[epsg])
 	console.log(geojson);
@@ -19,6 +23,10 @@ var baseMaps = {"OSM": layer,"BKG":wmsLayer}; baseMaps["OSM"].addTo(map);	L.cont
 $( document ).ready(function() {
 	$('#queryres').DataTable();
 });
+
+function isArray(what) {
+    return Object.prototype.toString.call(what) === '[object Array]';
+}
 
 function saveTextAsFile(tosave,fileext,filename)
 {
@@ -48,7 +56,7 @@ function getRandomColor() {
 }
 var colormap={}
 var layercontrol=L.control.layers(baseMaps,overlayMaps).addTo(map);
-var geojsonlayer=L.geoJSON(geojson, {
+var geojsonlayer=L.geoJSON.css(geojson, {
 style: function(feature){
 	return {
         fillColor: 'blue',
@@ -99,6 +107,10 @@ pointToLayer: function(feature, latlng){
             return L.marker(latlng,{icon: greenIcon})
 },
 onEachFeature: function (feature, layer) {
+     if(feature.style.hatch!=null){
+		stripes = new L.StripePattern(feature.style.hatch); 
+	    stripes.addTo(map);
+	 }
 	 var popup="Item: <a href='"+feature.id+"' target='_blank'>"+
 	 (feature.id.includes('#')?feature.id.substring(feature.id.lastIndexOf('#')+1):feature.id)+"</a>"
 	 if("http://www.w3.org/1999/02/22-rdf-syntax-ns#type" in feature.properties){
@@ -114,10 +126,9 @@ onEachFeature: function (feature, layer) {
 				colorcodes[ns]=getRandomColor();
 			}
 	 		popup+="(<a href='"+feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].substring(feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].lastIndexOf('/')+1)+"</a>)"
- 		}else{
-	 		popup+="("+feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"]+")"
-	 	}
+ 		}
 	 }
+     layer.bindPopup(popup,{maxWidth : 560});
 	 popup+="<br/>Properties:<ul>"
    Object.keys(feature.properties).sort().forEach(function(prop) {
    	if(prop=="http://www.w3.org/1999/02/22-rdf-syntax-ns#type"){
@@ -138,33 +149,43 @@ onEachFeature: function (feature, layer) {
  }else{
 	 	popup+="<li>"+prop+" - "
 	 }
- if(feature.properties[prop].includes("http") && feature.properties[prop].includes("^^")){
-     ns=feature.properties[prop].substring(0,feature.properties[prop].indexOf('^^'))
- 	 if(!(ns in colorcodes)){
-		colorcodes[ns]=getRandomColor();
-	 }
-     popup+="<a href='"+feature.properties[prop]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+feature.properties[prop].substring(0,feature.properties[prop].lastIndexOf('^')-1)+"</a></li>"
- }else if(feature.properties[prop].includes("http") && feature.properties[prop].includes("#")){
- 	ns=feature.properties[prop].substring(0,feature.properties[prop].indexOf('#'))
- 	 if(!(ns in colorcodes)){
-		colorcodes[ns]=getRandomColor();
-	 }
-     popup+="<a href='"+feature.properties[prop]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+feature.properties[prop].substring(feature.properties[prop].lastIndexOf('#')+1)+"</a></li>"
- }else if(feature.properties[prop].includes("http") || feature.properties[prop].includes("file:/")){
-  	 ns=feature.properties[prop].substring(0,feature.properties[prop].indexOf('/'))
- 	 if(!(ns in colorcodes)){
-		colorcodes[ns]=getRandomColor();
-	 }
-     popup+="<a href='"+feature.properties[prop]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+feature.properties[prop].substring(feature.properties[prop].lastIndexOf('/')+1)+"</a></li>"
+ if(!isArray(feature.properties[prop])){
+ 	array=[feature.properties[prop]]
  }else{
-  popup+=feature.properties[prop]+"</li>"
-	 }});popup+="</ul>"
+ 	array=feature.properties[prop]
+ }
+ for(elem in array){
+    if(array[elem].includes("http") && array[elem].includes("^^")){
+     ns=array[elem].substring(0,array[elem].indexOf('^^'))
+ 	 if(!(ns in colorcodes)){
+		colorcodes[ns]=getRandomColor();
+	 }
+     popup+="<a href='"+array[elem]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+array[elem].substring(0,array[elem].lastIndexOf('^')-1)+"</a><br/>"
+    }else if(array[elem].includes("http") && array[elem].includes("#")){
+ 	ns=array[elem].substring(0,array[elem].indexOf('#'))
+ 	 if(!(ns in colorcodes)){
+		colorcodes[ns]=getRandomColor();
+	 }
+     popup+="<a href='"+array[elem]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+array[elem].substring(array[elem].lastIndexOf('#')+1)+"</a><br/>"
+    }else if(array[elem].includes("http") || array[elem].includes("file:/")){
+  	 ns=array[elem].substring(0,array[elem].indexOf('/'))
+ 	 if(!(ns in colorcodes)){
+		colorcodes[ns]=getRandomColor();
+	 }
+     popup+="<a href='"+array[elem]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+array[elem].substring(array[elem].lastIndexOf('/')+1)+"</a><br/>"
+    }else{
+      popup+=array[elem]+"<br/>"
+    }
+ }
+ popup+="</li>"
+});popup+="</ul>"
 	 console.log(feature)
-         layer.bindPopup(popup,{maxWidth : 560});
+	layer.on('click', function (e) {
+		$('#contentdesc').html(popup)
+	});
  }}).addTo(map);
 try {
 	map.fitBounds(geojsonlayer.getBounds());
 }catch (e) {
 }
 </script>
- </div>
