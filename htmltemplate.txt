@@ -3,25 +3,37 @@
     <div class="left col-sm-3" id="contentdesc" style="height:500px;overflow-y: scroll;">
 	</div>
 <script>
+function toggle_visibility(id) 
+  {
+      var e = document.getElementById(id);
+      if (e.style.display == 'block' || e.style.display=='')
+      {
+          e.style.display = 'none';
+      }
+      else 
+      {
+          e.style.display = 'block';
+      }
+  }
 if(epsg!="" && epsg!="EPSG:4326" && epsg in epsgdefs){
 	geojson=convertGeoJSON(geojson,epsgdefs[epsg])
 	console.log(geojson);
 }
 var colorcodes={}
-var map = L.map('mapid',{fullscreenControl: true,fullscreenControlOptions: {position: 'topleft'}}).setView([51.505, -0.09], 13);
+var map = L.map('mapid',{fullscreenControl: true,fullscreenControlOptions: {position: 'topleft'}}).setView([51.505, -0.09], 18);
 var wmsLayer = L.tileLayer.wms('https://sgx.geodatenzentrum.de/wms_topplus_web_open', {
 layers: 'web',
 format: 'image/png',
  transparent: true,
 attribution: '&copy; Bundesamt f&uuml;r Kartographie und Geod&auml;sie 2017, <a href="http://sg.geodatenzentrum.de/web_public/Datenquellen_TopPlus_Open.pdf">Datenquellen</a>'
 }); 
-var layer=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'});
+var layer=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',maxZoom: 20});
 var baseMaps = {"OSM": layer,"BKG":wmsLayer}; baseMaps["OSM"].addTo(map);	L.control.scale({
 	position: 'bottomright',
 	imperial: false
 }).addTo(map);
 $( document ).ready(function() {
-	$('#queryres').DataTable();
+	$('#queryres').DataTable({"scrollX":"100%","scrollCollapse": true});
 });
 
 function isArray(what) {
@@ -107,7 +119,7 @@ pointToLayer: function(feature, latlng){
             return L.marker(latlng,{icon: greenIcon})
 },
 onEachFeature: function (feature, layer) {
-     if(feature.style.hatch!=null){
+     if("style" in feature && "hatch" in feature.style){
 		stripes = new L.StripePattern(feature.style.hatch); 
 	    stripes.addTo(map);
 	 }
@@ -128,7 +140,11 @@ onEachFeature: function (feature, layer) {
 	 		popup+="(<a href='"+feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].substring(feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].lastIndexOf('/')+1)+"</a>)"
  		}
 	 }
-     layer.bindPopup(popup,{maxWidth : 560});
+	 if(typeof stripes !== 'undefined'){
+	    poly=L.polygon(feature["geometry"]["coordinates"],{"fillPattern":stripes}).addTo(map);
+     }else {
+		layer.bindPopup(popup,{maxWidth : 560});
+	 }
 	 popup+="<br/>Properties:<ul>"
    Object.keys(feature.properties).sort().forEach(function(prop) {
    	if(prop=="http://www.w3.org/1999/02/22-rdf-syntax-ns#type"){
@@ -153,6 +169,7 @@ onEachFeature: function (feature, layer) {
  	array=[feature.properties[prop]]
  }else{
  	array=feature.properties[prop]
+    popup+="<a href=\"#\" onclick=\"toggle_visibility('"+prop+"')\">[x]</a><br/><span id=\""+prop+"\">"
  }
  for(elem in array){
     if(array[elem].includes("http") && array[elem].includes("^^")){
