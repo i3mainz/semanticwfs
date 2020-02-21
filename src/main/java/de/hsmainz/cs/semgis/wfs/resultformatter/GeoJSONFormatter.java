@@ -333,6 +333,7 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 				properties.getJSONArray(rel).put(val);
 			}catch(JSONException e) {
 				String oldval=properties.getString(rel);
+				properties.remove(rel);
 				properties.put(rel,new JSONArray());
 				properties.getJSONArray(rel).put(oldval);
 				properties.getJSONArray(rel).put(val);
