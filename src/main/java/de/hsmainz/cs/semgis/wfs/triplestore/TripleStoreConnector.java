@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 import javax.xml.stream.XMLStreamException;
@@ -134,6 +135,7 @@ public abstract class TripleStoreConnector {
 			outercounter++;
 		}
 		System.out.println(outercounter/2);
+		qexec.close();
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -156,6 +158,7 @@ public abstract class TripleStoreConnector {
 			ResultSet rs = qe.execSelect();
 		GeoJSONFormatter form=new GeoJSONFormatter();
 		String res=form.formatter(rs, "", "item", "", "", false, false, "","item","",null,null,null);
+		qe.close();
 		return res;
 	}
 	
@@ -168,6 +171,7 @@ public abstract class TripleStoreConnector {
 			String wktLiteral=solu.get("the_geom").toString();
 			
 		}
+		qexec.close();
 		return "";
 	}
 	
@@ -176,6 +180,7 @@ public abstract class TripleStoreConnector {
 		Query query = QueryFactory.create(prefixCollection+queryString+" LIMIT 1");
 		QueryExecution qexec = QueryExecutionFactory.sparqlService(queryurl, query);	
 		ResultSet results = qexec.execSelect();
+		qexec.close();
 		return "";
 	}
 	
@@ -191,37 +196,50 @@ public abstract class TripleStoreConnector {
 			result+="<style uri=\""+curresult.get("style")+"\">"+curresult.get("style").toString().substring(curresult.get("style").toString().indexOf("#")+1)+"</style>"+System.lineSeparator();
 		}
 		result+="</styles>"+System.lineSeparator();
+		qexec.close();
 		return result;
 	}
 	
 	public static StyleObject getStyle(String featuretype,String stylename,String triplestore,String namespace) {
-		String queryString="SELECT ?style ?styleLabel ?pointstyle ?hatch ?linestringStyle ?linestringImage ?linestringImageStyle ?polygonstyle WHERE { "
+		if(WebService.styleCache.containsKey(triplestore) && WebService.styleCache.get(triplestore).containsKey(stylename)) {
+			return WebService.styleCache.get(triplestore).get(stylename);
+		}
+		String queryString="SELECT ?style ?styleLabel ?pointStyle ?pointImage ?hatch ?linestringStyle ?linestringImage ?linestringImageStyle ?polygonStyle ?polygonImage WHERE { "
 	    +" OPTIONAL {<"+namespace+stylename+"> rdfs:label ?styleLabel .}"+System.lineSeparator()
 		+" OPTIONAL {<"+namespace+stylename+"> semgis:linestringImage ?linestringImage .} "+System.lineSeparator()
 		+" OPTIONAL {<"+namespace+stylename+"> semgis:linestringImageStyle ?linestringImageStyle .} "+System.lineSeparator()
 		+" OPTIONAL {<"+namespace+stylename+"> semgis:hatch ?hatch .}"+System.lineSeparator()
-		+" OPTIONAL {<"+namespace+stylename+"> semgis:image ?pointstyle .}"+System.lineSeparator()
-		+" OPTIONAL {<"+namespace+stylename+"> semgis:imageStyle ?pointstyle .}"+System.lineSeparator()
+		+" OPTIONAL {<"+namespace+stylename+"> semgis:image ?pointImage .}"+System.lineSeparator()
+		+" OPTIONAL {<"+namespace+stylename+"> semgis:imageStyle ?pointStyle .}"+System.lineSeparator()
 		+" OPTIONAL {<"+namespace+stylename+"> semgis:linestringStyle ?linestringStyle .}"+System.lineSeparator()
-		+" OPTIONAL {<"+namespace+stylename+"> semgis:polygonStyle ?polygonstyle .}"+System.lineSeparator()+" }";
+		+" OPTIONAL {<"+namespace+stylename+"> semgis:polygonStyle ?polygonStyle .}"+System.lineSeparator()
+		+" OPTIONAL {<"+namespace+stylename+"> semgis:polygonImage ?polygonImage .}"+System.lineSeparator()+" }";
 		System.out.println(queryString);
 		Query query = QueryFactory.create(prefixCollection+queryString+" LIMIT 1");
 		QueryExecution qexec = QueryExecutionFactory.sparqlService(triplestore, query);	
 		ResultSet results = qexec.execSelect();
+		System.out.println("Style Query finished!");
 		QuerySolution solu=results.next();
 		StyleObject result=new StyleObject();
-		result.pointStyle=solu.get("pointstyle")!=null?solu.get("pointstyle").toString():null;
-		result.pointImage=solu.get("image")!=null?solu.get("image").toString():null;
+		result.pointStyle=solu.get("pointStyle")!=null?solu.get("pointStyle").toString():null;
+		result.pointImage=solu.get("pointImage")!=null?solu.get("pointImage").toString():null;
 		result.lineStringImage=solu.get("linestringImage")!=null?solu.get("linestringImage").toString():null;
+		result.lineStringImageStyle=solu.get("linestringImageStyle")!=null?solu.get("linestringImageStyle").toString():null;
 		result.lineStringStyle=solu.get("linestringStyle")!=null?solu.get("linestringStyle").toString():null;
 		result.polygonStyle=solu.get("polygonStyle")!=null?solu.get("polygonStyle").toString():null;
 		result.polygonImage=solu.get("polygonImage")!=null?solu.get("polygonImage").toString():null;
 		result.hatch=solu.get("hatch")!=null?solu.get("hatch").toString():null;
+		if(!WebService.styleCache.containsKey(triplestore)) {
+			WebService.styleCache.put(triplestore,new TreeMap<>());
+		}
+		WebService.styleCache.get(triplestore).put(stylename,result);
+		qexec.close();
 		return result;
 	}
 	
 	public static Map<String,String> getFeatureTypeInformation(String queryString,String queryurl,
 			String featuretype,JSONObject workingobj){
+		System.out.println("Getting FeatureType Information for "+featuretype+"...");
 		if(featureTypes.containsKey(featuretype.toLowerCase())) {
 			return featureTypes.get(featuretype.toLowerCase());
 		}
@@ -234,13 +252,23 @@ public abstract class TripleStoreConnector {
 		System.out.println(prefixCollection+queryString+" LIMIT 1");
 		//if(workingobj.has("useorderby") && workingobj.getBoolean("useorderby"))
 			//queryString+=" ORDER BY ?"+indvar+System.lineSeparator();
-		Query query = QueryFactory.create(prefixCollection+queryString+" LIMIT 1");
+		Query query;
+		if(queryString.contains("?rel") && queryString.contains("?val")) {
+			query = QueryFactory.create(prefixCollection+queryString+" LIMIT 100");
+		}else {
+			query = QueryFactory.create(prefixCollection+queryString+" LIMIT 1");
+		}
+		System.out.println("Starting query execution... "+queryurl);
 		QueryExecution qexec = QueryExecutionFactory.sparqlService(queryurl, query);
+		qexec.setTimeout(1, TimeUnit.MINUTES);
 		ResultSet results = qexec.execSelect();
+		System.out.println("Hello");
 		if(!results.hasNext()) {
 			System.out.println("No results!?!");
+			qexec.close();
 			return null;
 		}
+		System.out.println("Executed query... getting results");
 		QuerySolution solu=results.next();
 		Iterator<String> varnames=solu.varNames();
 		System.out.println(solu.get(indvar));
@@ -248,6 +276,7 @@ public abstract class TripleStoreConnector {
 			result=new TreeMap<>();
 			queryString=queryString.replace("WHERE{","WHERE{ BIND( <"+solu.get(indvar)+"> AS ?"+indvar+") ");
 			System.out.println(prefixCollection+queryString);
+			qexec.close();
 			query = QueryFactory.create(prefixCollection+queryString);
 			qexec = QueryExecutionFactory.sparqlService(queryurl, query);
 			results = qexec.execSelect();
@@ -260,7 +289,7 @@ public abstract class TripleStoreConnector {
 		while(results.hasNext()) {
 			solu=results.next();
 			varnames=solu.varNames();
-			if(lastInd.isEmpty() || !lastInd.equals(solu.get(indvar).toString())) {
+			if(lastInd.isEmpty()) {
 				if(!latlist.isEmpty() && !lonlist.isEmpty()) {
 					if(latlist.size()==1 && lonlist.size()==1) {
 						result.put("http://www.opengis.net/ont/geosparql#asWKT","Point("+lonlist.get(0)+" "+latlist.get(0)+")");
@@ -282,6 +311,8 @@ public abstract class TripleStoreConnector {
 					latlist.clear();
 					lonlist.clear();
 				}
+			}else if(!lastInd.equals(solu.get(indvar).toString())) {
+				break;
 			}
 			while(varnames.hasNext()) {
 				String varname=varnames.next();
@@ -313,6 +344,7 @@ public abstract class TripleStoreConnector {
 						Literal lit=solu.getLiteral(varname);
 						result.put(varname, lit.getDatatypeURI());
 					}catch(Exception e) {
+						e.printStackTrace();
 						result.put(varname, varval);	
 					}  
 				}
@@ -540,9 +572,11 @@ public abstract class TripleStoreConnector {
 			String offset,String startingElement,String featuretype,String resourceids,JSONObject workingobj,
 			String filter,String resultType,String srsName,String bbox,String mapstyle) throws XMLStreamException {
 		System.out.println(resultType);
+		System.out.println(mapstyle);
 		StyleObject style=null;
 		if(!mapstyle.isEmpty()) {
 			style=TripleStoreConnector.getStyle(featuretype, mapstyle, workingobj.getString("triplestore"),workingobj.getString("namespace"));
+			System.out.println(style);
 		}
 		String indvar="item";
 		if(workingobj.has("indvar")) {
@@ -554,7 +588,7 @@ public abstract class TripleStoreConnector {
 			queryString=" SELECT (COUNT(DISTINCT ?"+indvar+") AS ?count) "+queryString.substring(queryString.indexOf("WHERE"));
 			//queryString=" SELECT (COUNT(DISTINCT ?"+featuretype.toLowerCase()+") AS ?count) WHERE{ ?"+featuretype.toLowerCase()+" ?abc ?def .}"+System.lineSeparator();
 		}else {
-			queryString+=" SELECT ?"+featuretype.toLowerCase()+" ?member WHERE{"+System.lineSeparator();
+			queryString+=" SELECT ?"+indvar+" ?member WHERE{"+System.lineSeparator();
 		}
 		if(!resourceids.isEmpty() && !resourceids.contains(",")) {
 			queryString=queryString.replace("WHERE{","WHERE{"+System.lineSeparator()+" BIND( <"+workingobj.getString("namespace")+resourceids+"> AS ?"+indvar+") ");
@@ -594,12 +628,14 @@ public abstract class TripleStoreConnector {
 		ResultSet results = qexec.execSelect();
 		if(resultType.equalsIgnoreCase("hits")) {
 			if(results.hasNext()) {
-				return results.next().getLiteral("count").getString();
+				String res=results.next().getLiteral("count").getString();
+				qexec.close();
+				return res;
 			}
 		}
 		String res=resformat.formatter(results,startingElement,featuretype.toLowerCase(),"",
 				(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""),false,false,
-				srsName,(workingobj.has("indvar")?workingobj.getString("indvar"):"item"),
+				srsName,indvar,
 				(workingobj.has("targetCRS")?workingobj.getString("targetCRS"):""),null,null,style);
 		qexec.close();
 		if(resformat.lastQueriedElemCount==0) {

@@ -31,6 +31,7 @@ import org.json.JSONObject;
 
 import de.hsmainz.cs.semgis.wfs.resultformatter.HTMLFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
+import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 import de.hsmainz.cs.semgis.wfs.triplestore.TripleStoreConnector;
 import de.hsmainz.cs.semgis.wfs.util.Tuple;
 
@@ -46,6 +47,8 @@ public class WebService {
 	public static Map<String,Map<String,String>> nameSpaceCache=new TreeMap<>();
 	
 	public static Map<String,Tuple<Date,String>> hitCache=new TreeMap<>();
+	
+	public static Map<String,Map<String,StyleObject>> styleCache=new TreeMap<>();
 	
 	public static Map<String,Double[]> bboxCache=new TreeMap<>();
 	
@@ -69,14 +72,18 @@ public class WebService {
 		htmlHead="<html><head><link rel=\"stylesheet\" href=\"https://unpkg.com/leaflet@1.5.1/dist/leaflet.css\"\r\n" + 
 				"   integrity=\"sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==\"\r\n" + 
 				"   crossorigin=\"\"/>\r\n" + 
-				"<script src=\"https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.bundled.js\"></script>"+
 				"<script src=\""+wfsconf.getString("baseurl")+"/config/js/proj4.js\"></script>"+
 				"<script src=\""+wfsconf.getString("baseurl")+"/config/js/prefixes.js\"></script>"+
-				"<script src=\""+wfsconf.getString("baseurl")+"/config/js/Leaflet.geojsoncss.min.js\"></script>"+
 				" <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css\" integrity=\"sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb\" crossorigin=\"anonymous\">"+
 				"<script src=\"https://unpkg.com/leaflet@1.5.1/dist/leaflet.js\"\r\n" + 
 				"   integrity=\"sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==\"\r\n" + 
-				"   crossorigin=\"\"></script><link rel=\"stylesheet\" href=\"https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css\"/><script src=\"https://code.jquery.com/jquery-3.4.1.min.js\"></script><script src=\"https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js\"></script><script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>\r\n" + 
+				"   crossorigin=\"\"></script><link rel=\"stylesheet\" href=\"https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css\"/>\r\n"+
+				"<script src=\""+wfsconf.getString("baseurl")+"/config/js/leaflet.pattern.js\"></script>\r\n"+
+				"<script src=\""+wfsconf.getString("baseurl")+"/config/js/Leaflet.geojsoncss.min.js\"></script>\r\n"+
+				"<script src=\"https://code.jquery.com/jquery-3.4.1.min.js\"></script>\r\n"+
+				"<script src=\"https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.bundled.js\"></script>\r\n"+
+				"<script src=\"https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js\"></script>\r\n"+
+				"<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>\r\n" + 
 				"<link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' /></head>";
 	}
 	
@@ -529,9 +536,9 @@ public class WebService {
 	@Path("/collections/{collectionid}/items/{featureid}")
 	public Response getFeatureById(@PathParam("collectionid") String collectionid,
 			@PathParam("featureid") String featureid,
-			@DefaultValue("") @PathParam("style") String style, 
+			@DefaultValue("") @QueryParam("style") String style, 
 			@DefaultValue("html") @QueryParam("f") String format) {
-		System.out.println(collectionid+" - "+featureid);
+		System.out.println(collectionid+" - "+featureid+" - "+style);
 		if (collectionid == null) {
 			throw new NotFoundException();
 		}
@@ -648,10 +655,8 @@ public class WebService {
 			builder.append(htmlHead);
 			builder.append("<body><header><h1 align=\"center\">");
 			builder.append(featureid);
-			builder.append("</h1></header><div class=\"container\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\">");
-			builder.append("<ul>");
+			builder.append("</h1></header><div class=\"container\" role=\"main\"><div class=\"row\">");
 			builder.append(res);
-			builder.append("</ul>");
 			builder.append("<table width=100%><tr><td><a href=\""+wfsconf.getString("baseurl")+"/collections/"+collectionid+"?f=html\">Back to "+collectionid+" Collection</a></td><td align=right>This page in <a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"/items/"+featureid+"?f=gml\">[GML]</a> <a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"/items/"+featureid+"?f=json\">[JSON]</a>");
 			builder.append("</div></div></div></body></html>");
 			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
@@ -1215,7 +1220,12 @@ public class WebService {
 					JSONArray arr=new JSONArray();
 					geometry.put("coordinates",arr);
 					for(String coord:coords.split(" ")) {
-						arr.put(Double.valueOf(coord));
+						if(coord.contains(",")) {
+							String[] commasplit=coord.split(",");
+							arr.put(Double.valueOf(commasplit[0]));
+							arr.put(Double.valueOf(commasplit[1]));
+						}
+						
 					}
 				}
 				if(elem.contains("lat")) {
@@ -1297,7 +1307,8 @@ public class WebService {
 		if (workingobj == null) {
 			throw new NotFoundException();
 		}
-		if(!workingobj.has("attcount") && !workingobj.getString("query").contains("?rel") && !workingobj.getString("query").contains("?val")) {
+		if(!workingobj.has("attcount") && !workingobj.getString("query").contains("?rel") && 
+				!workingobj.getString("query").contains("?val")) {
 			featureTypeCache.put(collectionid.toLowerCase(),TripleStoreConnector
 					.getFeatureTypeInformation(workingobj.getString("query"), workingobj.getString("triplestore"),
 					workingobj.getString("name"),workingobj));
@@ -1407,14 +1418,14 @@ public class WebService {
 				builder.append(htmlHead);
 				builder.append("<body><header><h1 align=\"center\">");
 				builder.append(collectionid);
-				builder.append("</h1></head><div class=\"container\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\">");
+				builder.append("</h1></head><div class=\"container\" role=\"main\"><div class=\"row\">");
 				builder.append(res);
-				builder.append("<script>$( document ).ready(function() {$('#queryres').DataTable();});</script>");
+				//builder.append("<script>$( document ).ready(function() {$('#queryres').DataTable({\"scrollX\":\"100%\",\"scrollCollapse\": true});});</script>");
 				if(Integer.valueOf(limit)==1) {
 					builder.append("<table width=100%><tr><td><a href=\""+wfsconf.getString("baseurl")+"/collections/"+workingobj.getString("name")+"/items?f=html&limit=1&offset="+(Integer.valueOf(offset)!=0?(Integer.valueOf(offset)-1)+"":"0")+"\">[Previous]</a></td><td align=right><a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"/items?f=html&limit=1&offset="+(Integer.valueOf(offset)+1)+"\">[Next]</a></td></tr></table>");
 				}
-				builder.append("<table width=100%><tr><td><a href=\""+wfsconf.getString("baseurl")+"/collections/"+collectionid+"?f=html\">Back to "+collectionid+" Collection</a></td><td align=right>This page in <a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"/items?f=gml&limit="+limit+"&offset="+offset+"\">[GML]</a> <a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"/items?f=geojson&limit="+limit+"&offset="+offset+"\">[JSON]</a></body></html>");
-				builder.append("</div></div></div></body></html>");
+				builder.append("<table width=100%><tr><td><a href=\""+wfsconf.getString("baseurl")+"/collections/"+collectionid+"?f=html\">Back to "+collectionid+" Collection</a></td><td align=right>This page in <a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"/items?f=gml&limit="+limit+"&offset="+offset+"\">[GML]</a> <a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"/items?f=geojson&limit="+limit+"&offset="+offset+"\">[JSON]</a>");
+				builder.append("</div></div></body></html>");
 				return Response.ok(builder.toString()).type(ResultFormatter.getFormatter(format).mimeType).build();
 			}else {				
 				return Response.ok(res).type(ResultFormatter.getFormatter(format).mimeType).build();
@@ -2458,9 +2469,9 @@ public class WebService {
 			builder.append(htmlHead);
 			builder.append("<body><header><h1 align=\"center\">");
 			builder.append(typename);
-			builder.append("</h1></header><div class=\"container\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\">");
+			builder.append("</h1></header><div class=\"container\" role=\"main\"><div class=\"row\">");
 			builder.append(res);
-			builder.append("<script>$( document ).ready(function() {$('#queryres').DataTable();});</script></div></div></div></body></html>");
+			//builder.append("<script>$( document ).ready(function() {$('#queryres').DataTable({\"scrollX\":\"100%\",\"scrollCollapse\": true});});</script></div></div></div></body></html>");
 			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
 		} else if(output.contains("csv") || output.contains("geouri") || output.contains("geohash")) {
 			return Response.ok(res).type(MediaType.TEXT_PLAIN).build();

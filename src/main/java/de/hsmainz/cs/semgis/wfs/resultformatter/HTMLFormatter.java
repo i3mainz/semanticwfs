@@ -52,7 +52,7 @@ public class HTMLFormatter extends ResultFormatter {
 					+ "\"; var markercollection=[];var epsg=\""+epsg+"\"; var geojson=" + geojson.toString() + "</script>");
 			builder.append(htmlHeader);
 		}
-		builder.append("<table width=\"100%\" align=\"center\" id=\"queryres\" class=\"tablesorter\" border=\"1\">");
+		builder.append("<div class=\"row\"><div class=\"left col-sm-12\"><table width=\"100%\" align=\"center\" id=\"queryres\" class=\"tablesorter\" border=\"1\">");
 		Boolean first = true;
 		JSONArray features = geojson.getJSONArray("features");
 
@@ -114,7 +114,7 @@ public class HTMLFormatter extends ResultFormatter {
 			}
 			builder.append("</tr>");
 		}
-		builder.append("</tbody></table>");
+		builder.append("</tbody></table></div></div>");
 		// System.out.println(builder.toString());
 		return builder.toString();
 	}

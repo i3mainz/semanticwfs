@@ -2,7 +2,6 @@ package de.hsmainz.cs.semgis.wfs.resultstyleformatter;
 
 import javax.xml.stream.XMLStreamException;
 
-import org.apache.jena.atlas.json.JsonArray;
 import org.apache.jena.query.ResultSet;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -21,14 +20,25 @@ public class GeoJSONCSSFormatter extends ResultStyleFormatter {
 	
 	public JSONObject cssLiteralToJSON(String cssString) {
 		JSONObject styleproperties=new JSONObject();
+		if(cssString==null)
+			return styleproperties;
+		cssString=cssString.substring(0,cssString.indexOf("^^"));
 		if(cssString.contains(";")) {
 			for(String statement:cssString.split(";")) {
 				String[] split=statement.split(":");
-				styleproperties.put(split[0],split[1]);
+				styleproperties.put(split[0].replace("\\","").replace("\"","").replace("{","").replace("}","").trim(),
+						split[1].replace("\\","").replace("\"","").replace("{","").replace("}","").trim());
+			}
+		}else if(cssString.contains(",")) {
+			for(String statement:cssString.split(",")) {
+				String[] split=statement.split(":");
+				styleproperties.put(split[0].replace("\\","").replace("\"","").replace("{","").replace("}","").trim(),
+						split[1].replace("\\","").replace("\"","").replace("{","").replace("}","").trim());
 			}
 		}else {
 			String[] split=cssString.split(":");
-			styleproperties.put(split[0],split[1]);
+			styleproperties.put(split[0].replace("\\","").replace("\"","").replace("{","").replace("}","").trim(),
+					split[1].replace("\\","").replace("\"","").replace("{","").replace("}","").trim());
 		}
 		return styleproperties;
 	}
@@ -56,12 +66,64 @@ public class GeoJSONCSSFormatter extends ResultStyleFormatter {
 		    	iconobj.put("iconAnchor", anchor);
 				props.put("icon", iconobj);
 		    }
+			System.out.println(props.toString());
+		    return props.toString();
 		}
 		if(geometrytype.contains("LineString")) {
-			return cssLiteralToJSON(styleobj.lineStringStyle).toString();
+			JSONObject props=cssLiteralToJSON(styleobj.lineStringStyle);
+			 if(styleobj.lineStringImage!=null) {
+			    	JSONObject iconobj=new JSONObject();
+			    	if(styleobj.lineStringImage.contains("svg")) {
+			    		iconobj.put("iconUrl", "url('data:image/svg+xml;utf8,"+styleobj.lineStringImage+"')");
+			    	}else if(styleobj.lineStringImage.contains("http")) {
+			    		iconobj.put("iconUrl", styleobj.lineStringImage);
+			    	}else {
+			    		iconobj.put("iconUrl", styleobj.lineStringImage);
+			    	}
+			    	JSONArray size=new JSONArray();
+			    	size.put(32);
+			    	size.put(32);
+			    	JSONArray anchor=new JSONArray();
+			    	size.put(16);
+			    	size.put(16);
+			    	iconobj.put("iconSize",size);
+			    	iconobj.put("iconAnchor", anchor);
+					props.put("icon", iconobj);
+			    }
+			if(styleobj.hatch!=null) {
+				JSONObject hatch=cssLiteralToJSON(styleobj.hatch);
+				props.put("hatch",hatch);
+			}
+			System.out.println(props);
+			return props.toString();
 		}
 		if(geometrytype.contains("Polygon")) {
-			return cssLiteralToJSON(styleobj.polygonStyle).toString();
+			JSONObject props=cssLiteralToJSON(styleobj.polygonStyle);
+			if(styleobj.polygonImage!=null) {
+		    	JSONObject iconobj=new JSONObject();
+		    	if(styleobj.polygonImage.contains("svg")) {
+		    		iconobj.put("iconUrl", "url('data:image/svg+xml;utf8,"+styleobj.polygonImage+"')");
+		    	}else if(styleobj.polygonImage.contains("http")) {
+		    		iconobj.put("iconUrl", styleobj.polygonImage);
+		    	}else {
+		    		iconobj.put("iconUrl", styleobj.polygonImage);
+		    	}
+		    	JSONArray size=new JSONArray();
+		    	size.put(32);
+		    	size.put(32);
+		    	JSONArray anchor=new JSONArray();
+		    	size.put(16);
+		    	size.put(16);
+		    	iconobj.put("iconSize",size);
+		    	iconobj.put("iconAnchor", anchor);
+				props.put("icon", iconobj);
+		    }
+			if(styleobj.hatch!=null) {
+				JSONObject hatch=cssLiteralToJSON(styleobj.hatch);
+				props.put("hatch",hatch);
+			}
+			System.out.println(props);
+			return props.toString();
 		}
 		return "{}";
 	}
