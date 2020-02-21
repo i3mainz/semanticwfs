@@ -55,6 +55,7 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 		String rel = "", val = "", lastInd = "",lat="",lon="";
 		JSONObject jsonobj = new JSONObject();
 		JSONObject properties = new JSONObject();
+		JSONObject style = new JSONObject();
 		List<JSONObject> geoms = new LinkedList<JSONObject>();
 		while (results.hasNext()) {
 			// System.out.println(i);
@@ -74,7 +75,7 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 						if(mapstyle!=null) {
 							JSONObject geojsonstyle=new JSONObject(this.styleformatter.formatGeometry("Point", mapstyle));
 							for(String key:geojsonstyle.keySet()) {
-								properties.put(key,geojsonstyle.get(key));
+								style.put(key,geojsonstyle.get(key));
 							}
 						}
 					}else if(latlist.get(latlist.size()-1).equals(latlist.get(0)) && lonlist.get(lonlist.size()-1).equals(lonlist.get(0))) {
@@ -96,7 +97,7 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 						if(mapstyle!=null) {
 							JSONObject geojsonstyle=new JSONObject(this.styleformatter.formatGeometry("Polygon", mapstyle));
 							for(String key:geojsonstyle.keySet()) {
-								properties.put(key,geojsonstyle.get(key));
+								style.put(key,geojsonstyle.get(key));
 							}
 						}
 						properties.put("geometry", lit.substring(0,lit.length()-1)+")");
@@ -117,7 +118,7 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 						if(mapstyle!=null) {
 							JSONObject geojsonstyle=new JSONObject(this.styleformatter.formatGeometry("LineString", mapstyle));
 							for(String key:geojsonstyle.keySet()) {
-								properties.put(key,geojsonstyle.get(key));
+								style.put(key,geojsonstyle.get(key));
 							}
 						}
 						properties.put("geometry", lit.substring(0,lit.length()-1)+")");
@@ -141,6 +142,8 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 					geojsonobj.put("type", "Feature");
 					geojsonobj.put("properties", properties);
 					geojsonobj.put("geometry", geom);
+					if(!style.isEmpty())
+						geojsonobj.put("style", style);
 					geojsonobj.put("id",lastInd);
 					//allfeatures.get(geomcounter).put(geojsonobj);
 					features.put(geojsonobj);
@@ -151,6 +154,8 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 						JSONObject geojsonobj = new JSONObject();
 						geojsonobj.put("type", "Feature");
 						geojsonobj.put("properties", properties);
+						if(!style.isEmpty())
+							geojsonobj.put("style", style);
 						geojsonobj.put("id",lastInd);
 						if(!geoms.isEmpty())
 							geojsonobj.put("geometry",geoms.get(0));
@@ -160,6 +165,7 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 				geomvars=0;
 				jsonobj = new JSONObject();
 				properties = new JSONObject();
+				style=new JSONObject();
 				geoms = new LinkedList<JSONObject>();
 			}
 			while (varnames.hasNext()) {
@@ -248,7 +254,7 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 				if(mapstyle!=null) {
 					JSONObject geojsonstyle=new JSONObject(this.styleformatter.formatGeometry("Point", mapstyle));
 					for(String key:geojsonstyle.keySet()) {
-						properties.put(key,geojsonstyle.get(key));
+						style.put(key,geojsonstyle.get(key));
 					}
 				}
 			}else if(latlist.get(latlist.size()-1).equals(latlist.get(0)) && lonlist.get(lonlist.size()-1).equals(lonlist.get(0))) {
@@ -270,7 +276,7 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 				if(mapstyle!=null) {
 					JSONObject geojsonstyle=new JSONObject(this.styleformatter.formatGeometry("Polygon", mapstyle));
 					for(String key:geojsonstyle.keySet()) {
-						properties.put(key,geojsonstyle.get(key));
+						style.put(key,geojsonstyle.get(key));
 					}
 				}
 				properties.put("geometry", lit.substring(0,lit.length()-1)+")");
@@ -291,7 +297,7 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 				if(mapstyle!=null) {
 					JSONObject geojsonstyle=new JSONObject(this.styleformatter.formatGeometry("LineString", mapstyle));
 					for(String key:geojsonstyle.keySet()) {
-						properties.put(key,geojsonstyle.get(key));
+						style.put(key,geojsonstyle.get(key));
 					}
 				}
 				properties.put("geometry", lit.substring(0,lit.length()-1)+")");
@@ -305,6 +311,8 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 				JSONObject geojsonobj = new JSONObject();
 				geojsonobj.put("type", "Feature");
 				geojsonobj.put("properties", properties);
+				if(!style.isEmpty())
+					geojsonobj.put("style", style);
 				geojsonobj.put("geometry", geom);
 				geojsonobj.put("id",lastInd);
 				//allfeatures.get(geomcounter).put(geojsonobj);
@@ -315,6 +323,8 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 		}else {
 			JSONObject geojsonobj = new JSONObject();
 			geojsonobj.put("type", "Feature");
+			if(!style.isEmpty())
+				geojsonobj.put("style", style);
 			geojsonobj.put("properties", properties);
 			geojsonobj.put("id",lastInd);
 			if(!geoms.isEmpty())
