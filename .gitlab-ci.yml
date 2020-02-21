@@ -54,7 +54,7 @@ pages:
   image: ubuntu:latest
   before_script:
   - apt-get update
-  - apt-get install doxygen -y
+  - apt-get install doxygen graphviz -y
   script:
   - cd docs
   - doxygen Doxyfile
