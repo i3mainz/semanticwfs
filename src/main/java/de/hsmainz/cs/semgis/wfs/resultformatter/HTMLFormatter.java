@@ -18,11 +18,18 @@ import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 public class HTMLFormatter extends ResultFormatter {
 
 	public String htmlHeader = "";
+	
+	public String htmlHeader2 ="";
 
 	public HTMLFormatter() {
 		super();
 		try {
 			this.htmlHeader = readFile("htmltemplate.txt", StandardCharsets.UTF_8);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			this.htmlHeader2 = readFile("htmltemplate2.txt", StandardCharsets.UTF_8);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

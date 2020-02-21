@@ -1,0 +1,207 @@
+<div id="mapid" class="left col-sm-9" style="height: 500px;">
+
+ </div>
+<script>
+function toggle_visibility(id) 
+  {
+      var e = document.getElementById(id);
+      if (e.style.display == 'block' || e.style.display=='')
+      {
+          e.style.display = 'none';
+      }
+      else 
+      {
+          e.style.display = 'block';
+      }
+  }
+if(epsg!="" && epsg!="EPSG:4326" && epsg in epsgdefs){
+	geojson=convertGeoJSON(geojson,epsgdefs[epsg])
+	console.log(geojson);
+}
+var colorcodes={}
+var map = L.map('mapid',{fullscreenControl: true,fullscreenControlOptions: {position: 'topleft'}}).setView([51.505, -0.09], 18);
+var wmsLayer = L.tileLayer.wms('https://sgx.geodatenzentrum.de/wms_topplus_web_open', {
+layers: 'web',
+format: 'image/png',
+ transparent: true,
+attribution: '&copy; Bundesamt f&uuml;r Kartographie und Geod&auml;sie 2017, <a href="http://sg.geodatenzentrum.de/web_public/Datenquellen_TopPlus_Open.pdf">Datenquellen</a>'
+}); 
+var layer=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',maxZoom: 20});
+var baseMaps = {"OSM": layer,"BKG":wmsLayer}; baseMaps["OSM"].addTo(map);	L.control.scale({
+	position: 'bottomright',
+	imperial: false
+}).addTo(map);
+$( document ).ready(function() {
+	$('#queryres').DataTable({"scrollX":"100%","scrollCollapse": true});
+});
+
+function isArray(what) {
+    return Object.prototype.toString.call(what) === '[object Array]';
+}
+
+function saveTextAsFile(tosave,fileext,filename)
+{
+    var a = document.createElement('a');
+    a.style = "display: none";  
+    var blob= new Blob([tosave], {type:'text/plain'});
+    var url = window.URL.createObjectURL(blob);
+    var filename = filename+fileext;
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function(){
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);  
+    }, 1000);
+}
+
+function getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  console.log(color)
+  return color;
+}
+var colormap={}
+var layercontrol=L.control.layers(baseMaps,overlayMaps).addTo(map);
+var geojsonlayer=L.geoJSON.css(geojson, {
+style: function(feature){
+	return {
+        fillColor: 'blue',
+        weight: 2,
+        opacity: 1,
+        color: 'white',  //Outline color
+        fillOpacity: 0.7
+    };
+},
+coordsToLatLng: function (coords) {
+    console.log(coords)
+	console.log(coords[0])
+    console.log(coords[1])
+	if(typeof coords[0] !== 'undefined' && typeof coords[1] !== 'undefined'){
+		return new L.LatLng(coords[1], coords[0]);
+	}else if(typeof coords[0] !== 'undefined' && typeof coords[0][1]!== 'undefined'){
+		return new L.LatLng(coords[0][1], coords[0][0]);
+	}
+	return new L.LatLng(0, 0);
+},	
+pointToLayer: function(feature, latlng){
+			var color="";
+			if(typeColumn==""){
+				if(!("" in colormap)){
+					colormap[""]=getRandomColor();
+				}
+				color=colormap[""];
+			}else{
+				if(typeColumn in feature.properties){
+					if(!(feature.properties[typeColumn] in colormap)){
+						colormap[feature.properties[typeColumn]]=getRandomColor();
+					}
+					color=colormap[feature.properties[typeColumn]]
+				}else{
+					if(!("" in colormap)){
+					colormap[""]=getRandomColor();
+					}
+					color=colormap[""];
+				}
+			}
+			 var greenIcon = L.divIcon({
+				className: "my-custom-pin",
+				iconAnchor: [0, 24],
+				labelAnchor: [-6, 0],
+				popupAnchor: [0, -36],
+				html: "<span style=\"background-color: "+color+"; width: 1.5rem;height: 1.5rem;display: block;left: -1rem;top: 0rem;position: relative;border-radius: 3rem 3rem 0;transform: rotate(45deg);border: 1px solid #FFFFFF;\"/>"
+			});
+            return L.marker(latlng,{icon: greenIcon})
+},
+onEachFeature: function (feature, layer) {
+     if("style" in feature && "hatch" in feature.style){
+		stripes = new L.StripePattern(feature.style.hatch); 
+	    stripes.addTo(map);
+	 }
+	 var popup="Item: <a href='"+feature.id+"' target='_blank'>"+
+	 (feature.id.includes('#')?feature.id.substring(feature.id.lastIndexOf('#')+1):feature.id)+"</a>"
+	 if("http://www.w3.org/1999/02/22-rdf-syntax-ns#type" in feature.properties){
+	 	if(feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].includes("http") && feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].includes("#")){
+ 			ns=feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].substring(0,feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].indexOf('#'))
+ 			if(!(ns in colorcodes)){
+				colorcodes[ns]=getRandomColor();
+			}
+	 		popup+="(<a href='"+feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].substring(feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].lastIndexOf('#')+1)+"</a>)"
+ 		}else if(feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].includes("http")){
+  			ns=feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].substring(0,feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].indexOf('/'))
+ 			if(!(ns in colorcodes)){
+				colorcodes[ns]=getRandomColor();
+			}
+	 		popup+="(<a href='"+feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].substring(feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].lastIndexOf('/')+1)+"</a>)"
+ 		}
+	 }
+	 if(typeof stripes !== 'undefined'){
+	    poly=L.polygon(feature["geometry"]["coordinates"],{"fillPattern":stripes}).addTo(map);
+     }else {
+		layer.bindPopup(popup,{maxWidth : 560});
+	 }
+	 popup+="<br/>Properties:<ul>"
+   Object.keys(feature.properties).sort().forEach(function(prop) {
+   	if(prop=="http://www.w3.org/1999/02/22-rdf-syntax-ns#type"){
+   		return;
+   	}
+ if(prop.includes("http") && prop.includes("#")){
+ 		ns=prop.substring(0,prop.indexOf('#'))
+ 		if(!(ns in colorcodes)){
+			colorcodes[ns]=getRandomColor();
+		}
+	 	popup+="<li><a href='"+prop+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+prop.substring(prop.lastIndexOf('#')+1)+"</a> - "
+ }else if(prop.includes("http")){
+  		ns=prop.substring(0,prop.indexOf('/'))
+ 		if(!(ns in colorcodes)){
+			colorcodes[ns]=getRandomColor();
+		}
+	 	popup+="<li><a href='"+prop+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+prop.substring(prop.lastIndexOf('/')+1)+"</a> - "
+ }else{
+	 	popup+="<li>"+prop+" - "
+	 }
+ if(!isArray(feature.properties[prop])){
+ 	array=[feature.properties[prop]]
+ }else{
+ 	array=feature.properties[prop]
+    popup+="<a href=\"#\" onclick=\"toggle_visibility('"+prop+"')\">[x]</a><br/><span id=\""+prop+"\">"
+ }
+ for(elem in array){
+    if(array[elem].includes("http") && array[elem].includes("^^")){
+     ns=array[elem].substring(0,array[elem].indexOf('^^'))
+ 	 if(!(ns in colorcodes)){
+		colorcodes[ns]=getRandomColor();
+	 }
+     popup+="<a href='"+array[elem]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+array[elem].substring(0,array[elem].lastIndexOf('^')-1)+"</a><br/>"
+    }else if(array[elem].includes("http") && array[elem].includes("#")){
+ 	ns=array[elem].substring(0,array[elem].indexOf('#'))
+ 	 if(!(ns in colorcodes)){
+		colorcodes[ns]=getRandomColor();
+	 }
+     popup+="<a href='"+array[elem]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+array[elem].substring(array[elem].lastIndexOf('#')+1)+"</a><br/>"
+    }else if(array[elem].includes("http") || array[elem].includes("file:/")){
+  	 ns=array[elem].substring(0,array[elem].indexOf('/'))
+ 	 if(!(ns in colorcodes)){
+		colorcodes[ns]=getRandomColor();
+	 }
+     popup+="<a href='"+array[elem]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+array[elem].substring(array[elem].lastIndexOf('/')+1)+"</a><br/>"
+    }else{
+      popup+=array[elem]+"<br/>"
+    }
+ }
+ popup+="</li>"
+});popup+="</ul>"
+	 console.log(feature)
+	layer.on('click', function (e) {
+		$('#contentdesc').html(popup)
+	});
+ }}).addTo(map);
+try {
+	map.fitBounds(geojsonlayer.getBounds());
+}catch (e) {
+}
+</script>

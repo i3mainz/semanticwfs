@@ -1184,11 +1184,11 @@ public class WebService {
 			builder.append(htmlHead);
 			builder.append("<script>var espg=\""+(workingobj.has("targetCRS")?workingobj.get("targetCRS"):"")+"\";</script><body><header><h1 align=\"center\">");
 			builder.append((workingobj.getString("description")!=null?workingobj.getString("description"):collectionid));
-			builder.append("</h1></header><div class=\"container\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\">");
-			builder.append("<table width=100%><tr><td width=\"100%\" rowspan=2>");
+			builder.append("</h1></header><div class=\"container\" role=\"main\"><div class=\"row\">");
+			builder.append("</div><div class=\"row\"><table width=100%><tr><td width=\"100%\" rowspan=2>");
 			builder.append("<script>var overlayMaps={}; var overlayControl; var typeColumn=\""+(workingobj.has("typeColumn")?workingobj.getString("typeColumn"):"")+"\"; var markercollection=[]; var epsg=\""+(workingobj.has("targetCRS")?workingobj.getString("targetCRS"):"")+"\";");
-			builder2.append(((HTMLFormatter)ResultFormatter.getFormatter("html")).htmlHeader);
-			builder2.append("</ul></td><td>Contents:<table border=\"1\"><tr><th>Value</th><th>Type</th>");
+			builder2.append(((HTMLFormatter)ResultFormatter.getFormatter("html")).htmlHeader2);
+			builder2.append("</td><td>Contents:<table border=\"1\"><tr><th>Value</th><th>Type</th>");
 			String lon=null,lat=null;
 			for(String elem:mapping.keySet()) {
 				if(!elem.equals("http://www.opengis.net/ont/geosparql#hasGeometry") &&
