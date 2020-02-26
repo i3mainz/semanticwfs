@@ -417,7 +417,7 @@ public abstract class TripleStoreConnector {
 		}
 		if(!latlist.isEmpty() && !lonlist.isEmpty()) {
 			if(latlist.size()==1 && lonlist.size()==1) {
-				result.put("http://www.opengis.net/ont/geosparql#asWKT","Point("+latlist.get(0)+" "+lonlist.get(0)+")");
+				result.put("http://www.opengis.net/ont/geosparql#asWKT","Point("+lonlist.get(0)+" "+latlist.get(0)+")");
 			}else if(latlist.get(latlist.size()-1).equals(latlist.get(0)) && lonlist.get(lonlist.size()-1).equals(lonlist.get(0))) {
 				StringBuilder builder=new StringBuilder();
 				for(int i=0;i<latlist.size();i++) {

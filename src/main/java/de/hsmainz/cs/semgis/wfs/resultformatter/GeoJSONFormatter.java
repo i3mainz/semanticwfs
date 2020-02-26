@@ -92,7 +92,7 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 							JSONArray arr3=new JSONArray();
 							arr3.put(lonlist.get(i));
 							arr3.put(latlist.get(i));
-							lit+=lonlist.get(i)+" "+lonlist.get(i)+",";
+							lit+=lonlist.get(i)+" "+latlist.get(i)+",";
 							arr2.put(arr3);
 						}
 						geoms.add(geomobj);
@@ -114,7 +114,7 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 							JSONArray arr2=new JSONArray();
 							arr2.put(lonlist.get(i));
 							arr2.put(latlist.get(i));
-							lit+=lonlist.get(i)+" "+lonlist.get(i)+",";
+							lit+=lonlist.get(i)+" "+latlist.get(i)+",";
 							arr.put(arr2);
 						}
 						geoms.add(geomobj);
@@ -282,7 +282,7 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 					JSONArray arr3=new JSONArray();
 					arr3.put(lonlist.get(i));
 					arr3.put(latlist.get(i));
-					lit+=lonlist.get(i)+" "+lonlist.get(i)+",";
+					lit+=lonlist.get(i)+" "+latlist.get(i)+",";
 					arr2.put(arr3);
 				}
 				geoms.add(geomobj);
@@ -304,7 +304,7 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 					JSONArray arr2=new JSONArray();
 					arr2.put(lonlist.get(i));
 					arr2.put(latlist.get(i));
-					lit+=lonlist.get(i)+" "+lonlist.get(i)+",";
+					lit+=lonlist.get(i)+" "+latlist.get(i)+",";
 					arr.put(arr2);
 				}
 				geoms.add(geomobj);

@@ -39,14 +39,14 @@ public class StyleObject {
 	
 	public String toJSON() {
 		JSONObject result=new JSONObject();
-		result.put("pointStyle",pointStyle.replace("\"","").replace("\\",""));
-		result.put("pointImage",pointImage.replace("\"","").replace("\\",""));
-		result.put("lineStringStyle",lineStringStyle.replace("\"","").replace("\\",""));
-		result.put("lineStringImage",lineStringImage.replace("\"","").replace("\\",""));
-		result.put("lineStringImageStyle",lineStringImageStyle.replace("\"","").replace("\\",""));
-		result.put("polygonStyle",polygonStyle.replace("\"","").replace("\\",""));
-		result.put("polygonImage",polygonImage.replace("\"","").replace("\\",""));
-		result.put("hatch",hatch.replace("\"","").replace("\\",""));
+		result.put("pointStyle",(pointStyle!=null?pointStyle.replace("\"","").replace("\\",""):null));
+		result.put("pointImage",(pointImage!=null?pointImage.replace("\"","").replace("\\",""):null));
+		result.put("lineStringStyle",(lineStringStyle!=null?lineStringStyle.replace("\"","").replace("\\",""):null));
+		result.put("lineStringImage",(lineStringImage!=null?lineStringImage.replace("\"","").replace("\\",""):null));
+		result.put("lineStringImageStyle",(lineStringImageStyle!=null?lineStringImageStyle.replace("\"","").replace("\\",""):null));
+		result.put("polygonStyle",(polygonStyle!=null?polygonStyle.replace("\"","").replace("\\",""):null));
+		result.put("polygonImage",(polygonImage!=null?polygonImage.replace("\"","").replace("\\",""):null));
+		result.put("hatch",(hatch!=null?hatch.replace("\"","").replace("\\",""):null));
 		result.put("styleName",styleName);
 		return result.toString(2);
 	}
@@ -54,14 +54,14 @@ public class StyleObject {
 	public String toHTML() {
 		StringBuilder result=new StringBuilder();
 		result.append("<table border=1><tr><th>Styleaspect</th><th>CSS</th></tr>");
-		result.append("<tr><td>pointStyle</td><td>"+pointStyle.replace("\"","").replace("\\","")+"</td></tr>");
-		result.append("<tr><td>pointImage</td><td>"+pointImage.replace("\"","").replace("\\","")+"</td></tr>");
-		result.append("<tr><td>lineStringStyle</td><td>"+lineStringStyle.replace("\"","").replace("\\","")+"</td></tr>");
-		result.append("<tr><td>lineStringImage</td><td>"+lineStringImage.replace("\"","").replace("\\","")+"</td></tr>");
-		result.append("<tr><td>lineStringImageStyle</td><td>"+lineStringImageStyle.replace("\"","").replace("\\","")+"</td></tr>");
-		result.append("<tr><td>polygonStyle</td><td>"+polygonStyle.replace("\"","").replace("\\","")+"</td></tr>");
-		result.append("<tr><td>polygonImage</td><td>"+polygonImage.replace("\"","").replace("\\","")+"</td></tr>");
-		result.append("<tr><td>hatch</td><td>"+hatch.replace("\"","").replace("\\","")+"</td></tr>");
+		result.append("<tr><td>pointStyle</td><td>"+(pointStyle!=null?pointStyle.replace("\"","").replace("\\",""):"")+"</td></tr>");
+		result.append("<tr><td>pointImage</td><td>"+(pointImage!=null?pointImage.replace("\"","").replace("\\",""):"")+"</td></tr>");
+		result.append("<tr><td>lineStringStyle</td><td>"+(lineStringStyle!=null?lineStringStyle.replace("\"","").replace("\\",""):"")+"</td></tr>");
+		result.append("<tr><td>lineStringImage</td><td>"+(lineStringImage!=null?lineStringImage.replace("\"","").replace("\\",""):"")+"</td></tr>");
+		result.append("<tr><td>lineStringImageStyle</td><td>"+(lineStringImageStyle!=null?lineStringImageStyle.replace("\"","").replace("\\",""):"")+"</td></tr>");
+		result.append("<tr><td>polygonStyle</td><td>"+(polygonStyle!=null?polygonStyle.replace("\"","").replace("\\",""):"")+"</td></tr>");
+		result.append("<tr><td>polygonImage</td><td>"+(polygonImage!=null?polygonImage.replace("\"","").replace("\\",""):"")+"</td></tr>");
+		result.append("<tr><td>hatch</td><td>"+(hatch!=null?hatch.replace("\"","").replace("\\",""):"")+"</td></tr>");
 		result.append("<tr><td>styleName</td><td>"+styleName+"</td></tr></table>");
 		return result.toString();
 	}
