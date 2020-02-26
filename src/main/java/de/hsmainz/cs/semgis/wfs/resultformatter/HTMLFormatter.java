@@ -14,6 +14,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
+import de.hsmainz.cs.semgis.wfs.triplestore.TripleStoreConnector;
 import de.hsmainz.cs.semgis.wfs.webservice.WebService;
 
 public class HTMLFormatter extends ResultFormatter {
@@ -62,9 +63,7 @@ public class HTMLFormatter extends ResultFormatter {
 		}
 		
 		builder.append("<div class=\"row\"><div class=\"left col-sm-12\"><select id=\"styles\">");
-		for(String key:WebService.styleCache.get(featuretype).keySet()) {
-			builder.append("<option value=\""+key+"\">"+key+"</option>");
-		}
+		builder.append("<option value=\""+featuretype+"_DefaultStyle\">"+featuretype+"_DefaultStyle</option>");
 		builder.append("</select><button value=\"Apply Style\"/><table width=\"100%\" align=\"center\" id=\"queryres\" class=\"tablesorter\" border=\"1\">");
 		Boolean first = true;
 		JSONArray features = geojson.getJSONArray("features");
