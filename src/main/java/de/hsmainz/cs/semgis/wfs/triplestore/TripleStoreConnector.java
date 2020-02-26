@@ -203,6 +203,16 @@ public abstract class TripleStoreConnector {
 				resultjson.getJSONArray("styles").put(style);
 			}
 			result=resultjson.toString(2);
+		}else if("html".equals(format)) {
+			result="";
+			result+="<table><tr><th>Stylename</th><th></th></tr>";
+			while(results.hasNext()) {
+				QuerySolution curresult = results.next();
+				result+="<tr><td>"+curresult.get("style").toString()
+						.substring(curresult.get("style").toString().indexOf("#")+1)
+				+"</td><td>"+curresult.get("style")+"</td></tr>";
+			}
+			result+="</table>";
 		}else {
 			result="<?xml version=\"1.0\"?><styles>"+System.lineSeparator();
 			while(results.hasNext()) {

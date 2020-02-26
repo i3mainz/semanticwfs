@@ -1257,7 +1257,7 @@ public class WebService {
 				properties.put(elem,mapping.get(elem));
 				}
 			}
-			builder2.append("</table>");
+			builder2.append("</table><br/>Styles:"+getCollectionStyles(collectionid, format));
 			builder.append("var geojson="+geojson.toString()+"</script>");
 			builder.append(builder2.toString());
 			builder.append("</td></tr><tr><td>Serializations:<ul>");
