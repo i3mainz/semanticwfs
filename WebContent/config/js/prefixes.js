@@ -62,7 +62,8 @@ function geometryToGeoJSON(geomtype,coordinates){
 		res["geometry"]["coordinates"]+="]"
 	}
     console.log(res)
-	return JSON.parse(res["geometry"]);
+    res["geometry"]["coordinates"]=JSON.parse(res["geometry"]["coordinates"])
+	return res["geometry"];
 }
 
 function convertit(coordinates,source,dest,switchlatlong){
