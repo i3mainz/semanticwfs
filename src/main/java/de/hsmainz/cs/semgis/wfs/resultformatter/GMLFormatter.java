@@ -10,8 +10,6 @@ import javax.xml.stream.XMLStreamWriter;
 
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
-import org.apache.jena.sparql.function.library.namespace;
-import org.json.JSONObject;
 
 import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
 
