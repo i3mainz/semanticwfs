@@ -215,6 +215,9 @@ public class WebService {
 		}
 		StyleObject obj=TripleStoreConnector.getStyle(collectionid,styleid,
 				workingobj.getString("triplestore"),workingobj.getString("namespace"));
+		if(obj==null) {
+			throw new NotFoundException();
+		}
 		if(format.contains("json")) {
 			return Response.ok(obj.toJSON()).type(MediaType.APPLICATION_JSON).build();
 		}else if(format.contains("xml")) {
@@ -241,6 +244,9 @@ public class WebService {
 		}
 		if (workingobj == null) {
 			throw new NotFoundException();
+		}
+		if(format.contains("json")) {
+			return Response.ok(TripleStoreConnector.getStyleNames(workingobj.getString("query"), workingobj,format)).type(MediaType.APPLICATION_JSON).build();
 		}
 		return Response.ok(TripleStoreConnector.getStyleNames(workingobj.getString("query"), workingobj,format)).type(MediaType.APPLICATION_XML).build();
 	}

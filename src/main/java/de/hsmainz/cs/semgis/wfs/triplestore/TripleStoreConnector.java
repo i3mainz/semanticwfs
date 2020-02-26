@@ -200,6 +200,7 @@ public abstract class TripleStoreConnector {
 				QuerySolution curresult = results.next();
 				style.put("uri",curresult.get("style"));
 				style.put("name",curresult.get("style").toString().substring(curresult.get("style").toString().indexOf("#")+1));
+				resultjson.getJSONArray("styles").put(style);
 			}
 			result=resultjson.toString(2);
 		}else {
@@ -233,20 +234,24 @@ public abstract class TripleStoreConnector {
 		QueryExecution qexec = QueryExecutionFactory.sparqlService(triplestore, query);	
 		ResultSet results = qexec.execSelect();
 		System.out.println("Style Query finished!");
-		QuerySolution solu=results.next();
-		StyleObject result=new StyleObject();
-		result.pointStyle=solu.get("pointStyle")!=null?solu.get("pointStyle").toString():null;
-		result.pointImage=solu.get("pointImage")!=null?solu.get("pointImage").toString():null;
-		result.lineStringImage=solu.get("linestringImage")!=null?solu.get("linestringImage").toString():null;
-		result.lineStringImageStyle=solu.get("linestringImageStyle")!=null?solu.get("linestringImageStyle").toString():null;
-		result.lineStringStyle=solu.get("linestringStyle")!=null?solu.get("linestringStyle").toString():null;
-		result.polygonStyle=solu.get("polygonStyle")!=null?solu.get("polygonStyle").toString():null;
-		result.polygonImage=solu.get("polygonImage")!=null?solu.get("polygonImage").toString():null;
-		result.hatch=solu.get("hatch")!=null?solu.get("hatch").toString():null;
-		if(!WebService.styleCache.containsKey(triplestore)) {
-			WebService.styleCache.put(triplestore,new TreeMap<>());
+		StyleObject result=null;
+		if(results.hasNext()) {
+			result=new StyleObject();
+			QuerySolution solu=results.next();
+			result.styleName=stylename;
+			result.pointStyle=solu.get("pointStyle")!=null?solu.get("pointStyle").toString():null;
+			result.pointImage=solu.get("pointImage")!=null?solu.get("pointImage").toString():null;
+			result.lineStringImage=solu.get("linestringImage")!=null?solu.get("linestringImage").toString():null;
+			result.lineStringImageStyle=solu.get("linestringImageStyle")!=null?solu.get("linestringImageStyle").toString():null;
+			result.lineStringStyle=solu.get("linestringStyle")!=null?solu.get("linestringStyle").toString():null;
+			result.polygonStyle=solu.get("polygonStyle")!=null?solu.get("polygonStyle").toString():null;
+			result.polygonImage=solu.get("polygonImage")!=null?solu.get("polygonImage").toString():null;
+			result.hatch=solu.get("hatch")!=null?solu.get("hatch").toString():null;
+			if(!WebService.styleCache.containsKey(triplestore)) {
+				WebService.styleCache.put(triplestore,new TreeMap<>());
+			}
+			WebService.styleCache.get(triplestore).put(stylename,result);			
 		}
-		WebService.styleCache.get(triplestore).put(stylename,result);
 		qexec.close();
 		return result;
 	}
