@@ -247,6 +247,8 @@ public class WebService {
 		}
 		if(format.contains("json")) {
 			return Response.ok(TripleStoreConnector.getStyleNames(workingobj,format)).type(MediaType.APPLICATION_JSON).build();
+		}else if(format.contains("html")) {
+			return Response.ok(TripleStoreConnector.getStyleNames(workingobj,format)).type(MediaType.TEXT_HTML).build();
 		}
 		return Response.ok(TripleStoreConnector.getStyleNames(workingobj,format)).type(MediaType.APPLICATION_XML).build();
 	}

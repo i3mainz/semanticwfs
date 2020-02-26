@@ -48,6 +48,7 @@ function geometryToGeoJSON(geomtype,coordinates){
 		break;
 	}	
 	splstr=coordinates.toString().split(",")
+	console.log(res)
 	i=0;
 		while(i<splstr.length){
 			res["geometry"]["coordinates"]+="["+splstr[i]+", "+splstr[i+1]+"], "
@@ -59,6 +60,7 @@ function geometryToGeoJSON(geomtype,coordinates){
 	}else{
 		res["geometry"]["coordinates"]+="]"
 	}
+    console.log(res)
 	return JSON.parse(res["geometry"]["coordinates"]);
 }
 

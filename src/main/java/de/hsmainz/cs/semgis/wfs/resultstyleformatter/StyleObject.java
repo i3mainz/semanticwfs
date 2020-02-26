@@ -39,14 +39,14 @@ public class StyleObject {
 	
 	public String toJSON() {
 		JSONObject result=new JSONObject();
-		result.put("pointStyle",pointStyle);
-		result.put("pointImage",pointImage);
-		result.put("lineStringStyle",lineStringStyle);
-		result.put("lineStringImage",lineStringImage);
-		result.put("lineStringImageStyle",lineStringImageStyle);
-		result.put("polygonStyle",polygonStyle);
-		result.put("polygonImage",polygonImage);
-		result.put("hatch",hatch);
+		result.put("pointStyle",pointStyle.replace("\"","").replace("\\",""));
+		result.put("pointImage",pointImage.replace("\"","").replace("\\",""));
+		result.put("lineStringStyle",lineStringStyle.replace("\"","").replace("\\",""));
+		result.put("lineStringImage",lineStringImage.replace("\"","").replace("\\",""));
+		result.put("lineStringImageStyle",lineStringImageStyle.replace("\"","").replace("\\",""));
+		result.put("polygonStyle",polygonStyle.replace("\"","").replace("\\",""));
+		result.put("polygonImage",polygonImage.replace("\"","").replace("\\",""));
+		result.put("hatch",hatch.replace("\"","").replace("\\",""));
 		result.put("styleName",styleName);
 		return result.toString(2);
 	}
