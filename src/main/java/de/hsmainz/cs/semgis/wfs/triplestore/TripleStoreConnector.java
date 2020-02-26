@@ -21,6 +21,7 @@ import org.apache.jena.query.QueryFactory;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Literal;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import de.hsmainz.cs.semgis.wfs.resultformatter.GeoJSONFormatter;
@@ -184,18 +185,31 @@ public abstract class TripleStoreConnector {
 		return "";
 	}
 	
-	public static String getStyleNames(String queryString,JSONObject workingobject) {
+	public static String getStyleNames(String queryString,JSONObject workingobject,String format) {
 		queryString="SELECT ?style ?styleLabel ?pointstyle ?linestringstyle ?polygonstyle WHERE { <"+workingobject.getString("class")+"> owl:equivalentClass ?equivclass ."+System.lineSeparator()+" ?equivclass owl:intersectionOf ?intersect ."+System.lineSeparator()+" ?intersect rdf:rest ?rest."+System.lineSeparator()+" ?rest rdf:first ?first ."+System.lineSeparator()+" ?first owl:allValuesFrom ?styleclass ."+System.lineSeparator()+" ?style rdf:type ?styleclass."+System.lineSeparator()+" OPTIONAL{?style rdfs:label ?styleLabel .} }";
 		Query query = QueryFactory.create(prefixCollection+queryString+" LIMIT 1");
 		System.out.println(queryString);
 		QueryExecution qexec = QueryExecutionFactory.sparqlService(workingobject.getString("triplestore"), query);	
 		ResultSet results = qexec.execSelect();
-		String result="<?xml version=\"1.0\"?><styles>"+System.lineSeparator();
-		while(results.hasNext()) {
-			QuerySolution curresult = results.next();
-			result+="<style uri=\""+curresult.get("style")+"\">"+curresult.get("style").toString().substring(curresult.get("style").toString().indexOf("#")+1)+"</style>"+System.lineSeparator();
+		String result="";
+		if("json".equals(format)) {
+			JSONObject resultjson=new JSONObject();
+			resultjson.put("styles",new JSONArray());
+			while(results.hasNext()) {
+				JSONObject style=new JSONObject();
+				QuerySolution curresult = results.next();
+				style.put("uri",curresult.get("style"));
+				style.put("name",curresult.get("style").toString().substring(curresult.get("style").toString().indexOf("#")+1));
+			}
+			result=resultjson.toString(2);
+		}else {
+			result="<?xml version=\"1.0\"?><styles>"+System.lineSeparator();
+			while(results.hasNext()) {
+				QuerySolution curresult = results.next();
+				result+="<style uri=\""+curresult.get("style")+"\">"+curresult.get("style").toString().substring(curresult.get("style").toString().indexOf("#")+1)+"</style>"+System.lineSeparator();
+			}
+			result+="</styles>"+System.lineSeparator();
 		}
-		result+="</styles>"+System.lineSeparator();
 		qexec.close();
 		return result;
 	}
@@ -293,14 +307,14 @@ public abstract class TripleStoreConnector {
 				if(!latlist.isEmpty() && !lonlist.isEmpty()) {
 					if(latlist.size()==1 && lonlist.size()==1) {
 						result.put("http://www.opengis.net/ont/geosparql#asWKT","Point("+lonlist.get(0)+" "+latlist.get(0)+")");
-					}else if(latlist.get(latlist.size()-1).equals(latlist.get(0)) && lonlist.get(latlist.size()-1).equals(lonlist.get(0))) {
+					}else if(latlist.get(latlist.size()-1).equals(latlist.get(0)) && lonlist.get(lonlist.size()-1).equals(lonlist.get(0))) {
 						StringBuilder builder=new StringBuilder();
 						for(int i=0;i<latlist.size();i++) {
 							builder.append(lonlist.get(i)+" "+latlist.get(i)+",");
 						}
 						builder.delete(builder.length()-1,builder.length());
 						result.put("http://www.opengis.net/ont/geosparql#asWKT","Polygon(("+builder.toString()+"))");
-					}else if(!latlist.get(latlist.size()-1).equals(latlist.get(0)) || !lonlist.get(latlist.size()-1).equals(lonlist.get(0))) {
+					}else if(!latlist.get(latlist.size()-1).equals(latlist.get(0)) || !lonlist.get(lonlist.size()-1).equals(lonlist.get(0))) {
 						StringBuilder builder=new StringBuilder();
 						for(int i=0;i<latlist.size();i++) {
 							builder.append(lonlist.get(i)+" "+latlist.get(i)+",");
@@ -388,14 +402,14 @@ public abstract class TripleStoreConnector {
 		if(!latlist.isEmpty() && !lonlist.isEmpty()) {
 			if(latlist.size()==1 && lonlist.size()==1) {
 				result.put("http://www.opengis.net/ont/geosparql#asWKT","Point("+latlist.get(0)+" "+lonlist.get(0)+")");
-			}else if(latlist.get(latlist.size()-1).equals(latlist.get(0)) && lonlist.get(latlist.size()-1).equals(lonlist.get(0))) {
+			}else if(latlist.get(latlist.size()-1).equals(latlist.get(0)) && lonlist.get(lonlist.size()-1).equals(lonlist.get(0))) {
 				StringBuilder builder=new StringBuilder();
 				for(int i=0;i<latlist.size();i++) {
 					builder.append(lonlist.get(i)+" "+latlist.get(i)+",");
 				}
 				builder.delete(builder.length()-1,builder.length());
 				result.put("http://www.opengis.net/ont/geosparql#asWKT","Polygon(("+builder.toString()+"))");
-			}else if(!latlist.get(latlist.size()-1).equals(latlist.get(0)) || !lonlist.get(latlist.size()-1).equals(lonlist.get(0))) {
+			}else if(!latlist.get(latlist.size()-1).equals(latlist.get(0)) || !lonlist.get(lonlist.size()-1).equals(lonlist.get(0))) {
 				StringBuilder builder=new StringBuilder();
 				for(int i=0;i<latlist.size();i++) {
 					builder.append(lonlist.get(i)+" "+latlist.get(i)+",");

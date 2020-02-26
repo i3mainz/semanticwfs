@@ -197,7 +197,7 @@ public class WebService {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections/{collectionid}/style/{styleid}")
-	public Response getCollectionStyles(@PathParam("collectionid") String collectionid,
+	public Response getCollectionStyle(@PathParam("collectionid") String collectionid,
 			@PathParam("styleid") String styleid,@DefaultValue("html") @QueryParam("f") String format) {
 		if (collectionid == null) {
 			throw new NotFoundException();
@@ -213,7 +213,14 @@ public class WebService {
 		if (workingobj == null) {
 			throw new NotFoundException();
 		}
-		return Response.ok(TripleStoreConnector.getStyle(collectionid,styleid,workingobj.getString("triplestore"),workingobj.getString("namespace"))).type(MediaType.APPLICATION_XML).build();
+		StyleObject obj=TripleStoreConnector.getStyle(collectionid,styleid,
+				workingobj.getString("triplestore"),workingobj.getString("namespace"));
+		if(format.contains("json")) {
+			return Response.ok(obj.toJSON()).type(MediaType.APPLICATION_JSON).build();
+		}else if(format.contains("xml")) {
+			return Response.ok(obj.toXML()).type(MediaType.APPLICATION_XML).build();
+		}
+		return Response.ok(obj.toString()).type(MediaType.TEXT_PLAIN).build();
 	}
 	
 	@GET
@@ -235,7 +242,7 @@ public class WebService {
 		if (workingobj == null) {
 			throw new NotFoundException();
 		}
-		return Response.ok(TripleStoreConnector.getStyleNames(workingobj.getString("query"), workingobj)).type(MediaType.APPLICATION_XML).build();
+		return Response.ok(TripleStoreConnector.getStyleNames(workingobj.getString("query"), workingobj,format)).type(MediaType.APPLICATION_XML).build();
 	}
 	
 	@GET
