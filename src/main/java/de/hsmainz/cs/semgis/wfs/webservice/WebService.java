@@ -248,11 +248,11 @@ public class WebService {
 			throw new NotFoundException();
 		}
 		if(format.contains("json")) {
-			return Response.ok(TripleStoreConnector.getStyleNames(workingobj,format)).type(MediaType.APPLICATION_JSON).build();
+			return Response.ok(TripleStoreConnector.getStyleNames(wfsconf.getString("baseurl"),workingobj,format)).type(MediaType.APPLICATION_JSON).build();
 		}else if(format.contains("html")) {
-			return Response.ok(TripleStoreConnector.getStyleNames(workingobj,format)).type(MediaType.TEXT_HTML).build();
+			return Response.ok(TripleStoreConnector.getStyleNames(wfsconf.getString("baseurl"),workingobj,format)).type(MediaType.TEXT_HTML).build();
 		}
-		return Response.ok(TripleStoreConnector.getStyleNames(workingobj,format)).type(MediaType.APPLICATION_XML).build();
+		return Response.ok(TripleStoreConnector.getStyleNames(wfsconf.getString("baseurl"),workingobj,format)).type(MediaType.APPLICATION_XML).build();
 	}
 	
 	@GET
@@ -1265,7 +1265,7 @@ public class WebService {
 				properties.put(elem,mapping.get(elem));
 				}
 			}
-			builder2.append("</table><br/>Styles:"+TripleStoreConnector.getStyleNames(workingobj, format));
+			builder2.append("</table><br/>Styles:"+TripleStoreConnector.getStyleNames(wfsconf.getString("baseurl"),workingobj, format));
 			builder.append("var geojson="+geojson.toString()+"</script>");
 			builder.append(builder2.toString());
 			builder.append("</td></tr><tr><td>Serializations:<ul>");
@@ -1445,7 +1445,9 @@ public class WebService {
 				builder.append(res);
 				//builder.append("<script>$( document ).ready(function() {$('#queryres').DataTable({\"scrollX\":\"100%\",\"scrollCollapse\": true});});</script>");
 				if(Integer.valueOf(limit)==1) {
-					builder.append("<table width=100%><tr><td><a href=\""+wfsconf.getString("baseurl")+"/collections/"+workingobj.getString("name")+"/items?f=html&limit=1&offset="+(Integer.valueOf(offset)!=0?(Integer.valueOf(offset)-1)+"":"0")+"\">[Previous]</a></td><td align=right><a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"/items?f=html&limit=1&offset="+(Integer.valueOf(offset)+1)+"\">[Next]</a></td></tr></table>");
+					builder.append("<table width=100%><tr><td><a href=\""+wfsconf.getString("baseurl")+"/collections/"
+				+workingobj.getString("name")+"/items?f=html&limit=1&offset="+(Integer.valueOf(offset)!=0?(Integer.valueOf(offset)-1)+"":"0")
+				+"\">[Previous]</a></td><td align=right><a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"/items?f=html&limit=1&offset="+(Integer.valueOf(offset)+1)+"\">[Next]</a></td></tr></table>");
 				}
 				builder.append("<table width=100%><tr><td><a href=\""+wfsconf.getString("baseurl")+"/collections/"+collectionid+"?f=html\">Back to "+collectionid+" Collection</a></td><td align=right>This page in <a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"/items?f=gml&limit="+limit+"&offset="+offset+"\">[GML]</a> <a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"/items?f=geojson&limit="+limit+"&offset="+offset+"\">[JSON]</a>");
 				builder.append("</div></div></body></html>");
