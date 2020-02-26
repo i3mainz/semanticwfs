@@ -1203,7 +1203,9 @@ public class WebService {
 			builder.append((workingobj.getString("description")!=null?workingobj.getString("description"):collectionid));
 			builder.append("</h1></header><div class=\"container\" role=\"main\"><div class=\"row\">");
 			builder.append("</div><div class=\"row\"><table width=100%><tr><td width=\"100%\" rowspan=2>");
-			builder.append("<script>var overlayMaps={}; var overlayControl; var typeColumn=\""+(workingobj.has("typeColumn")?workingobj.getString("typeColumn"):"")+"\"; var markercollection=[]; var epsg=\""+(workingobj.has("targetCRS")?workingobj.getString("targetCRS"):"")+"\";");
+			builder.append("<script>var overlayMaps={}; var overlayControl; var typeColumn=\""+
+			(workingobj.has("typeColumn")?workingobj.getString("typeColumn"):"")+"\"; var markercollection=[]; var epsg=\""+
+					(workingobj.has("targetCRS")?workingobj.getString("targetCRS"):"")+"\";");
 			builder2.append(((HTMLFormatter)ResultFormatter.getFormatter("html")).htmlHeader2);
 			builder2.append("</td><td>Contents:<table border=\"1\"><tr><th>Value</th><th>Type</th>");
 			String lon=null,lat=null;
@@ -1224,9 +1226,11 @@ public class WebService {
 					builder2.append("</td><td align=center><a href=\""+type+"\">"+type.substring(type.lastIndexOf('#')+1)+"</a></td></tr>");
 				}else {
 					if((mapping.get(elem).contains("http") || mapping.get(elem).contains("file:/") ) && mapping.get(elem).contains("#")) {
-						builder2.append("</td><td align=center><a href=\""+mapping.get(elem)+"\">"+mapping.get(elem).substring(mapping.get(elem).lastIndexOf('#')+1)+"</a></td></tr>");						
+						builder2.append("</td><td align=center><a href=\""+mapping.get(elem)+"\">"+
+					mapping.get(elem).substring(mapping.get(elem).lastIndexOf('#')+1)+"</a></td></tr>");						
 					}else if((mapping.get(elem).contains("http") || mapping.get(elem).contains("file:/") ) && mapping.get(elem).contains("/")) {
-						builder2.append("</td><td align=center><a href=\""+mapping.get(elem)+"\">"+mapping.get(elem).substring(mapping.get(elem).lastIndexOf('/')+1)+"</a></td></tr>");						
+						builder2.append("</td><td align=center><a href=\""+mapping.get(elem)+"\">"+
+					mapping.get(elem).substring(mapping.get(elem).lastIndexOf('/')+1)+"</a></td></tr>");						
 					}else {
 						builder2.append("</td><td align=center><a href=\""+mapping.get(elem)+"\">"+mapping.get(elem)+"</a></td></tr>");
 					}
@@ -1266,10 +1270,12 @@ public class WebService {
 			builder.append(builder2.toString());
 			builder.append("</td></tr><tr><td>Serializations:<ul>");
 			for(ResultFormatter formatter:ResultFormatter.resultMap.values()) {
-				builder.append("<li><a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name") + "/items?limit=5&f="+formatter.exposedType+"\">["+formatter.exposedType.toUpperCase()+"]</a></li>");
+				builder.append("<li><a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name") +
+						"/items?limit=5&f="+formatter.exposedType+"\">["+formatter.exposedType.toUpperCase()+"]</a></li>");
 			}
 			builder.append("</td></tr></table>");
-			builder.append("<table width=100%><tr><td align=left><a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"/items?f=html\">[Sample]</a></td><td align=right><a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"/items?f=html&limit=1&offset="+(offset+1)+"\">[Next]</a></td></tr></table>");
+			builder.append("<table width=100%><tr><td align=left><a href=\""+wfsconf.getString("baseurl") + "/collections/"+
+			workingobj.getString("name")+"/items?f=html\">[Sample]</a></td><td align=right><a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"/items?f=html&limit=1&offset="+(offset+1)+"\">[Next]</a></td></tr></table>");
 			builder.append("<table width=100%><tr><td><a href=\""+wfsconf.getString("baseurl")+"/collections?f=html\">Back to Collections</a></td><td align=right>This page in <a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"?f=gml\">[GML]</a> <a href=\""+wfsconf.getString("baseurl") + "/collections/"+ workingobj.getString("name")+"?f=geojson\">[JSON]</a></div></div></div></body></html>");
 			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
 		} else {

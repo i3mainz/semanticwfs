@@ -83,7 +83,7 @@ coordsToLatLng: function (coords) {
 	if(typeof coords[0] !== 'undefined' && typeof coords[1] !== 'undefined'){
 		return new L.LatLng(coords[0], coords[1]);
 	}else if(typeof coords[0] !== 'undefined' && typeof coords[0][1]!== 'undefined'){
-		return new L.LatLng(coords[0][1], coords[0][0]);
+		return new L.LatLng(coords[0][0], coords[0][1]);
 	}
 	return new L.LatLng(0, 0);
 },	
