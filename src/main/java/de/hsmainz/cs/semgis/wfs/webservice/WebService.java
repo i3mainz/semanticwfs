@@ -222,7 +222,7 @@ public class WebService {
 			return Response.ok(obj.toJSON()).type(MediaType.APPLICATION_JSON).build();
 		}else if(format.contains("xml")) {
 			return Response.ok(obj.toXML()).type(MediaType.APPLICATION_XML).build();
-		}else if(format.contains("xml")) {
+		}else if(format.contains("html")) {
 			return Response.ok(obj.toHTML()).type(MediaType.TEXT_HTML).build();
 		}
 		return Response.ok(obj.toString()).type(MediaType.TEXT_PLAIN).build();
