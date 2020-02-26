@@ -185,8 +185,8 @@ public abstract class TripleStoreConnector {
 		return "";
 	}
 	
-	public static String getStyleNames(String queryString,JSONObject workingobject,String format) {
-		queryString="SELECT ?style ?styleLabel ?pointstyle ?linestringstyle ?polygonstyle WHERE { <"+workingobject.getString("class")+"> owl:equivalentClass ?equivclass ."+System.lineSeparator()+" ?equivclass owl:intersectionOf ?intersect ."+System.lineSeparator()+" ?intersect rdf:rest ?rest."+System.lineSeparator()+" ?rest rdf:first ?first ."+System.lineSeparator()+" ?first owl:allValuesFrom ?styleclass ."+System.lineSeparator()+" ?style rdf:type ?styleclass."+System.lineSeparator()+" OPTIONAL{?style rdfs:label ?styleLabel .} }";
+	public static String getStyleNames(JSONObject workingobject,String format) {
+		String queryString="SELECT ?style ?styleLabel ?pointstyle ?linestringstyle ?polygonstyle WHERE { <"+workingobject.getString("class")+"> owl:equivalentClass ?equivclass ."+System.lineSeparator()+" ?equivclass owl:intersectionOf ?intersect ."+System.lineSeparator()+" ?intersect rdf:rest ?rest."+System.lineSeparator()+" ?rest rdf:first ?first ."+System.lineSeparator()+" ?first owl:allValuesFrom ?styleclass ."+System.lineSeparator()+" ?style rdf:type ?styleclass."+System.lineSeparator()+" OPTIONAL{?style rdfs:label ?styleLabel .} }";
 		Query query = QueryFactory.create(prefixCollection+queryString+" LIMIT 1");
 		System.out.println(queryString);
 		QueryExecution qexec = QueryExecutionFactory.sparqlService(workingobject.getString("triplestore"), query);	
@@ -205,12 +205,13 @@ public abstract class TripleStoreConnector {
 			result=resultjson.toString(2);
 		}else if("html".equals(format)) {
 			result="";
-			result+="<table><tr><th>Stylename</th><th></th></tr>";
+			result+="<table border=1><tr><th>Stylename</th><th>URI</th></tr>";
 			while(results.hasNext()) {
 				QuerySolution curresult = results.next();
 				result+="<tr><td>"+curresult.get("style").toString()
 						.substring(curresult.get("style").toString().indexOf("#")+1)
-				+"</td><td>"+curresult.get("style")+"</td></tr>";
+				+"</td><td><a href=\""+curresult.get("style")+"\">"+curresult.get("style").toString()
+				.substring(curresult.get("style").toString().indexOf("#")+1)+"</a></td></tr>";
 			}
 			result+="</table>";
 		}else {

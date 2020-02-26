@@ -246,9 +246,9 @@ public class WebService {
 			throw new NotFoundException();
 		}
 		if(format.contains("json")) {
-			return Response.ok(TripleStoreConnector.getStyleNames(workingobj.getString("query"), workingobj,format)).type(MediaType.APPLICATION_JSON).build();
+			return Response.ok(TripleStoreConnector.getStyleNames(workingobj,format)).type(MediaType.APPLICATION_JSON).build();
 		}
-		return Response.ok(TripleStoreConnector.getStyleNames(workingobj.getString("query"), workingobj,format)).type(MediaType.APPLICATION_XML).build();
+		return Response.ok(TripleStoreConnector.getStyleNames(workingobj,format)).type(MediaType.APPLICATION_XML).build();
 	}
 	
 	@GET
@@ -1257,7 +1257,7 @@ public class WebService {
 				properties.put(elem,mapping.get(elem));
 				}
 			}
-			builder2.append("</table><br/>Styles:"+getCollectionStyles(collectionid, format));
+			builder2.append("</table><br/>Styles:"+TripleStoreConnector.getStyleNames(workingobj, format));
 			builder.append("var geojson="+geojson.toString()+"</script>");
 			builder.append(builder2.toString());
 			builder.append("</td></tr><tr><td>Serializations:<ul>");
