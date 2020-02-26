@@ -10,4 +10,6 @@ COPY prefixes.txt /usr/local/tomcat/
 
 COPY htmltemplate.txt /usr/local/tomcat/
 
+COPY htmltemplate2.txt /usr/local/tomcat/
+
 COPY target/*.war /usr/local/tomcat/webapps/
