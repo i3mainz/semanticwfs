@@ -51,6 +51,21 @@ public class StyleObject {
 		return result.toString(2);
 	}
 	
+	public String toHTML() {
+		StringBuilder result=new StringBuilder();
+		result.append("<table border=1><tr><th>Styleaspect</th><th>CSS</th></tr>");
+		result.append("<tr><td>pointStyle</td><td>"+pointStyle.replace("\"","").replace("\\","")+"</td></tr>");
+		result.append("<tr><td>pointImage</td><td>"+pointImage.replace("\"","").replace("\\","")+"</td></tr>");
+		result.append("<tr><td>lineStringStyle</td><td>"+lineStringStyle.replace("\"","").replace("\\","")+"</td></tr>");
+		result.append("<tr><td>lineStringImage</td><td>"+lineStringImage.replace("\"","").replace("\\","")+"</td></tr>");
+		result.append("<tr><td>lineStringImageStyle</td><td>"+lineStringImageStyle.replace("\"","").replace("\\","")+"</td></tr>");
+		result.append("<tr><td>polygonStyle</td><td>"+polygonStyle.replace("\"","").replace("\\","")+"</td></tr>");
+		result.append("<tr><td>polygonImage</td><td>"+polygonImage.replace("\"","").replace("\\","")+"</td></tr>");
+		result.append("<tr><td>hatch</td><td>"+hatch.replace("\"","").replace("\\","")+"</td></tr>");
+		result.append("<tr><td>styleName</td><td>"+styleName+"</td></tr></table>");
+		return result.toString();
+	}
+	
 	public String toXML() {
 		StringWriter strwriter = new StringWriter();
 		XMLOutputFactory output = XMLOutputFactory.newInstance();

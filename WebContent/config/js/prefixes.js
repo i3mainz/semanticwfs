@@ -28,21 +28,22 @@ function exportConvert(coordinates,from,geomtype,switchlatlong){
 function geometryToGeoJSON(geomtype,coordinates){
     res={}
 	res["geometry"]={}
+    geomtype=geomtype.toLowerCase()
 	switch(geomtype){
-            case "LinearRing": 
-            case "Polygon": 
+            case "linearring": 
+            case "polygon": 
                 res["geometry"]["type"]="Polygon"
 		res["geometry"]["coordinates"]="[["
 		break;
-            case "Envelope":
+            case "envelope":
             res["geometry"]["type"]="Envelope"
 		res["geometry"]["coordinates"]="["
 		break;
-            case "LineString":
+            case "linestring":
                 res["geometry"]["type"]="LineString"
 		res["geometry"]["coordinates"]="["
 		break;
-            case "Point":
+            case "point":
                 res["geometry"]["type"]="Point"
 		res["geometry"]["coordinates"]="["
 		break;
