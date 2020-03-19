@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<data>
+<user name="timo" password="3c9909afec25354d551dae21590bb26e38d53f2173b8d3dc3eee4c047e7ab1c1eb8b85103e3be7ba613b31bb5c9c36214dc9f14a42fd7a2fdb84856bca5c44c2"
+ level="Administrator" uuid="b02ffb4d-b0b9-456b-b783-a7a806a882de"/>
+<user name="falk" password="3c9909afec25354d551dae21590bb26e38d53f2173b8d3dc3eee4c047e7ab1c1eb8b85103e3be7ba613b31bb5c9c36214dc9f14a42fd7a2fdb84856bca5c44c2" level="Configurer"
+uuid="3bc43a13-4b2b-4328-8fc5-15572a443d26" />
+<user name="otto" password="3c9909afec25354d551dae21590bb26e38d53f2173b8d3dc3eee4c047e7ab1c1eb8b85103e3be7ba613b31bb5c9c36214dc9f14a42fd7a2fdb84856bca5c44c2" level="User"
+uuid="99ffb460-6ef0-4932-a44e-1bcf49053dab" />
+</data>

@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -34,6 +35,8 @@ import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 import de.hsmainz.cs.semgis.wfs.triplestore.TripleStoreConnector;
 import de.hsmainz.cs.semgis.wfs.util.Tuple;
+import de.hsmainz.cs.semgis.wfs.util.user.User;
+import de.hsmainz.cs.semgis.wfs.util.user.UserManagementConnection;
 
 @Path("/")
 public class WebService {
@@ -2709,7 +2712,8 @@ public class WebService {
 	@Path("/service/addFeatureType")
 	public String addFeatureType(@QueryParam("query") String sparqlQuery, @QueryParam("typename") String name,
 			@QueryParam("namespace") String namespace, @QueryParam("triplestore") String triplestore,
-			@QueryParam("username") String username, @QueryParam("password") String password) {
+			@QueryParam("username") String username, @QueryParam("password") String password,
+			@DefaultValue("") @QueryParam("authtoken") String authtoken) {
 		JSONArray datasets = wfsconf.getJSONArray("datasets");
 		JSONObject toadd = new JSONObject();
 		toadd.put("name", name);
@@ -2724,8 +2728,22 @@ public class WebService {
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/service/saveFeatureTypes")
 	public String saveFeatureTypes(@QueryParam("featjson") String featureTypesJSON,
-			@QueryParam("username") String username, @QueryParam("password") String password) {
+			@DefaultValue("") @QueryParam("authtoken") String authtoken) {
 		return null;
+	}
+	
+	@POST
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/login")
+    public Response login(@QueryParam("username") String username,@QueryParam("password") String password) { 
+		final String dir = System.getProperty("user.dir");
+        System.out.println("current dir = " + dir); 
+        User user=UserManagementConnection.getInstance().login(username, password);
+        if(user!=null) {
+        	return Response.ok(user.authToken).type(MediaType.TEXT_PLAIN).build();
+        }
+        return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 	}
 
 	@GET
