@@ -612,7 +612,7 @@ public abstract class TripleStoreConnector {
 		if(workingobj.has("indvar")) {
 			indvar=workingobj.getString("indvar");
 		}
-		queryString=queryString.replace(".","."+System.lineSeparator());
+		queryString=queryString.replace(" ."," ."+System.lineSeparator());
 		System.out.println(queryString);
 		if(resultType.equalsIgnoreCase("hits")) {
 			queryString=" SELECT (COUNT(DISTINCT ?"+indvar+") AS ?count) "+queryString.substring(queryString.indexOf("WHERE"));
