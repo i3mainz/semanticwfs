@@ -253,16 +253,6 @@
 "name":"POI_Zoll"}
 ,
 {"namespace":"http://www.xplanung.de/xplangml/4/1#",
-"indvar":"item","description":"POI Zoll","geometrytype":"Point","targetCRS":"EPSG:25832","useorderby":true,
-"class":"https://www.wikidata.org/entity/Q182290",
-"namespaces":["http://www.xplanung.de/xplangml/4/1","http://www.opengis.net/gml/"],
-"namespacesmetadata":["http://www.w3.org/ns/prov#","http://www.w3.org/ns/dcat#"],
-"query":"SELECT ?item ?rel ?val ?the_geom WHERE{ ?item rdf:type <https://www.wikidata.org/entity/Q182290> . ?item ?rel ?val . OPTIONAL{?val geo:asWKT ?the_geom .} }",
-"triplestore":"https://www.i3mainz.de/projekte/bkg/poi/sparql",
-"type":"WFS", 
-"name":"POI_Zoll"}
-,
-{"namespace":"http://www.xplanung.de/xplangml/4/1#",
 "indvar":"item","description":"Schulen","geometrytype":"Point","targetCRS":"EPSG:25832","useorderby":true,
 "class":"https://www.wikidata.org/entity/Q3914",
 "namespaces":["http://www.xplanung.de/xplangml/4/1","http://www.opengis.net/gml/"],
