@@ -28,6 +28,7 @@ function exportConvert(coordinates,from,geomtype,switchlatlong){
 function geometryToGeoJSON(geomtype,coordinates){
     res={}
 	res["geometry"]={}
+    res["geometry"]["coordinates"]=""
     geomtype=geomtype.toLowerCase()
 	switch(geomtype){
             case "linearring": 
