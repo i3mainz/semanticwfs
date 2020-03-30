@@ -46,7 +46,7 @@ function geometryToGeoJSON(geomtype,coordinates){
 		break;
             case "point":
                 res["geometry"]["type"]="Point"
-		res["geometry"]["coordinates"]="["
+		res["geometry"]["coordinates"]=""
 		break;
 	}	
 	splstr=coordinates.toString().split(",")
@@ -60,7 +60,7 @@ function geometryToGeoJSON(geomtype,coordinates){
         if(geomtype=="linearring" || geomtype=="polygon"){
 		res["geometry"]["coordinates"]+="]]"
 	}else{
-		res["geometry"]["coordinates"]+="]"
+		res["geometry"]["coordinates"]+=""
 	}
     console.log(res)
     res["geometry"]["coordinates"]=JSON.parse(res["geometry"]["coordinates"])
