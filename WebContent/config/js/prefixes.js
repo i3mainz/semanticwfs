@@ -30,7 +30,8 @@ function geometryToGeoJSON(geomtype,coordinates){
 	res["geometry"]={}
     res["geometry"]["coordinates"]=""
     geomtype=geomtype.toLowerCase()
-	switch(geomtype){
+    console.log(geomtype.trim())
+	switch(geomtype.trim()){
             case "linearring": 
             case "polygon": 
                 res["geometry"]["type"]="Polygon"
