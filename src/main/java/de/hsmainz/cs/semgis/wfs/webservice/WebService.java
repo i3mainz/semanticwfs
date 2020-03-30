@@ -1291,13 +1291,18 @@ public class WebService {
 									mapping.get(elem).indexOf(')'));
 							JSONArray arr = new JSONArray();
 							geometry.put("coordinates", arr);
+							if(!coords.contains(",")) {
+								String[] commasplit = coords.split(" ");
+								arr.put(Double.valueOf(commasplit[0]));
+								arr.put(Double.valueOf(commasplit[1]));
+							}else {								
 							for (String coord : coords.split(" ")) {
 								if (coord.contains(",")) {
 									String[] commasplit = coord.split(",");
 									arr.put(Double.valueOf(commasplit[0]));
 									arr.put(Double.valueOf(commasplit[1]));
 								}
-
+							}
 							}
 						}
 						if (elem.contains("lat")) {
