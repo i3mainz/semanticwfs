@@ -12,7 +12,7 @@ function login() {
        // und wenn alles erfolgreich verlaufen ist, schreibe eine Meldung
        // in das Response-Div
        success: function(data) { 
-    	   if(data!=""){
+    	   if(data==""){
     		   $('#loginspan').html("You are not logged in <button onClick=\"openLoginDialog()\">Login</button>")
     	   }else{
         	 Cookies.set('bkgtoken',data)
