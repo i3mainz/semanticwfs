@@ -37,6 +37,7 @@ import de.hsmainz.cs.semgis.wfs.triplestore.TripleStoreConnector;
 import de.hsmainz.cs.semgis.wfs.util.Tuple;
 import de.hsmainz.cs.semgis.wfs.util.user.User;
 import de.hsmainz.cs.semgis.wfs.util.user.UserManagementConnection;
+import de.hsmainz.cs.semgis.wfs.util.user.UserType;
 
 @Path("/")
 public class WebService {
@@ -2715,26 +2716,36 @@ public class WebService {
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/service/addFeatureType")
-	public String addFeatureType(@QueryParam("query") String sparqlQuery, @QueryParam("typename") String name,
+	public Boolean addFeatureType(@QueryParam("query") String sparqlQuery, @QueryParam("typename") String name,
 			@QueryParam("namespace") String namespace, @QueryParam("triplestore") String triplestore,
 			@QueryParam("username") String username, @QueryParam("password") String password,
 			@DefaultValue("") @QueryParam("authtoken") String authtoken) {
-		JSONArray datasets = wfsconf.getJSONArray("datasets");
-		JSONObject toadd = new JSONObject();
-		toadd.put("name", name);
-		toadd.put("namespace", namespace);
-		toadd.put("triplestore", triplestore);
-		toadd.put("query", sparqlQuery);
-		datasets.put(toadd);
-		return null;
+		User user=UserManagementConnection.getInstance().loginAuthToken(authtoken);
+		if(user!=null && (user.getUserlevel()==UserType.Configurer || user.getUserlevel()==UserType.Administrator)) {
+			JSONArray datasets = wfsconf.getJSONArray("datasets");
+			JSONObject toadd = new JSONObject();
+			toadd.put("name", name);
+			toadd.put("namespace", namespace);
+			toadd.put("triplestore", triplestore);
+			toadd.put("query", sparqlQuery);
+			datasets.put(toadd);
+			return true;
+		}
+		return false;
 	}
 
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/service/saveFeatureTypes")
-	public String saveFeatureTypes(@QueryParam("featjson") String featureTypesJSON,
+	public Boolean saveFeatureTypes(@QueryParam("featjson") String featureTypesJSON,
 			@DefaultValue("") @QueryParam("authtoken") String authtoken) {
-		return null;
+		User user=UserManagementConnection.getInstance().loginAuthToken(authtoken);
+		if(user!=null && (user.getUserlevel()==UserType.Configurer || user.getUserlevel()==UserType.Administrator)) {
+			JSONArray datasets = wfsconf.getJSONArray("featjson");
+			wfsconf.put("datasets", datasets);
+			return true;
+		}
+		return false;
 	}
 	
 	@POST
