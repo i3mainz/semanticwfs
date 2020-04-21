@@ -110,13 +110,13 @@ public class UserManagementConnection {
 		return null;//"loginfailed_false";
 	}
 	
-	public Boolean loginAuthToken(String authToken){
+	public User loginAuthToken(String authToken){
 		System.out.println("UserNameToPasswordHash: "+userNameToPasswordHash.toString());
 		if(!this.uuidToUser.containsKey(authToken)){
 			System.out.println("Not logged in: Auth Token is invalid! ");
-			return false;//"usernamenotex_false";
+			return this.uuidToUser.get(authToken);//"usernamenotex_false";
 		}
-		return true;
+		return null;
 	}
 		
 	public static UserManagementConnection getInstance(){
