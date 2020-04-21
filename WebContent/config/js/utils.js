@@ -14,9 +14,11 @@ function login() {
        success: function(data) { 
     	   if(data==""){
     		   $('#loginspan').html("You are not logged in <button onClick=\"openLoginDialog()\">Login</button>")
+    		   alert("Login failed!");
     	   }else{
         	 Cookies.set('bkgtoken',data)
         	 $('#loginspan').html("You are logged in <button onClick=\"logout()\">Logout</button>")
+        	 $( "#logindialog" ).dialog( "close" );
     	   }
        }
     });
