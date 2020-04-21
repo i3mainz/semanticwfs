@@ -1,6 +1,5 @@
 function login() {
     var data = new FormData(); // das ist unser Daten-Objekt ...
-    data.append('file', document.getElementById('files').files[0]); // ... an die wir unsere Datei anhngen
     data.append('username',document.getElementById('username'))
     data.append('password',document.getElementById('password'))
     $.ajax({
