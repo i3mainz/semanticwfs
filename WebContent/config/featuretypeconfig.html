@@ -32,11 +32,12 @@ var first=true;
 var featuretypeToQuery={}
 var featuretypeToEndPoint={}
 var colorcodes={}
+
 $(document).ready( function () {
 	$.getJSON("../service/featureTypes", function(result){
 		   $('#servicetitle').html(result["servicetitle"]);
 		   var selectcontent="";
-		   var tablecontent="<thead><tr><th>FeatureType</th><th>Query</th><th>Namespace</th><th>IndVariable</th><th>Triple Store</th><th>Options</th></tr></thead><tbody>"
+		   var tablecontent="<thead><tr><th>FeatureType</th><th>Query</th><th>Namespace</th><th>Metadata Namespace</th><th>IndVariable</th><th>CRS</th><th>Triple Store</th><th>Options</th></tr></thead><tbody>"
 		   for(featuretype in result["datasets"]){
 			   selectcontent+="<option value=\""+result["datasets"][featuretype]["query"]+"\">"+result["datasets"][featuretype]["name"]+"</option>"
 			   featuretypeToQuery[result["datasets"][featuretype]["name"]]=result["datasets"][featuretype]["query"]
@@ -45,8 +46,12 @@ $(document).ready( function () {
 			   +result["datasets"][featuretype]["name"]+"</td><td>"
 			   +result["datasets"][featuretype]["query"]+"</td><td>"
 			   +result["datasets"][featuretype]["namespace"]+"</td><td>"
+			   +result["datasets"][featuretype]["namespacesmetadata"]+"</td><td>"
 			   +result["datasets"][featuretype]["indvar"]+"</td><td>"
-			   +result["datasets"][featuretype]["triplestore"]+"</td><td><i class=\"fa fa-pencil-square\" aria-hidden=\"true\"></i><i class=\"fa fa-minus-square\" aria-hidden=\"true\"></i> </td></tr>"
+			   +result["datasets"][featuretype]["targetCRS"]+"</td><td>"
+			   +result["datasets"][featuretype]["triplestore"]+"</td>
+			   +"<td><i class=\"fa fa-pencil-square\" aria-hidden=\"true\"></i><i class=\"fa fa-minus-square\" aria-hidden=\"true\"></i> </td>"
+			   +"</tr>"
 		   }
 		   tablecontent+="</tbody>"
 		   $('#samplequeries').html(selectcontent);
@@ -149,6 +154,34 @@ function saveTextAsFile(tosave,fileext,filename)
         window.URL.revokeObjectURL(url);  
     }, 1000);
 }
+
+function saveFeatures() {
+	$("#featuretypes > tr.item").each(function() {
+		  $this = $(this);
+		  var value = $this.find("span.value").html();
+		  var quantity = $this.find("input.quantity").val();
+	});
+    var data = new FormData(); // das ist unser Daten-Objekt ...
+    data.append('username',document.getElementById('username').value)
+    data.append('password',document.getElementById('password').value)
+    $.ajax({
+       url: 'rest/service/login',
+       data: data,          // Das ist unser Datenobjekt.
+       type: 'POST',         // HTTP-Methode, hier: POST
+       processData: false,
+       contentType: false,
+       // und wenn alles erfolgreich verlaufen ist, schreibe eine Meldung
+       // in das Response-Div
+       success: function(data) { 
+    	   if(data!=""){
+    		   $('#loginspan').html("You are not logged in <button onClick=\"openLoginDialog()\">Login</button>")
+    	   }else{
+        	 Cookies.set('bkguplifttoken',data)
+        	 $('#loginspan').html("You are logged in <button onClick=\"logout()\">Logout</button>")
+    	   }
+       }
+    });
+ }
 
 function sendQuery(geojsonres){
 	var url=document.location.href
