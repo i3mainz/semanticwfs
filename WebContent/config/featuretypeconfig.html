@@ -36,7 +36,7 @@ var colorcodes={}
 $(document).ready( function () {
     
     $.ajax({
-	    url:'epsg.text',
+	    url:'epsg.txt',
 	    success: function (data){
 	      $('#crs').html(data)
 	    }
