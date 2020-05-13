@@ -34,6 +34,14 @@ var featuretypeToEndPoint={}
 var colorcodes={}
 
 $(document).ready( function () {
+    
+    $.ajax({
+	    url:'epsg.text',
+	    success: function (data){
+	      $('#crs').html(data)
+	    }
+	  });
+    
 	$.getJSON("../service/featureTypes", function(result){
 		   $('#servicetitle').html(result["servicetitle"]);
 		   var selectcontent="";
@@ -321,7 +329,8 @@ function chooseSampleQuery(){
 }
     
 function addFeature(){
-	
+	newrow="<tr><td>"+$('#featuretypename').val()+"</td><td>"+yasqe.getValue()+"</td><td></td><td>"+$('#indvariable').val()+"</td><td></td><td>"+$('#triplestore').val()+"</td><td></td></tr>"
+	$('#featuretypes').append(newrow)
 }
 </script>
 </head>
