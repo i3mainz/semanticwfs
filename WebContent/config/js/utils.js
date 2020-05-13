@@ -3,7 +3,7 @@ function login() {
     data.append('username',document.getElementById('username'))
     data.append('password',document.getElementById('password'))
     $.ajax({
-       url: 'rest/service/login',
+       url: '../rest/service/login',
        data: data,          // Das ist unser Datenobjekt.
        type: 'POST',         // HTTP-Methode, hier: POST
        processData: false,
