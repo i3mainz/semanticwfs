@@ -19,7 +19,7 @@ jobs:
          echo "test"
     - name: Install and Build 🔧
       run: |
-         apt-get install doxygen graphviz -y
+         sudo apt-get install doxygen graphviz -y
          cd docs
          doxygen Doxyfile
     - name: Deploy 🚀
