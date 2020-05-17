@@ -17,9 +17,14 @@ jobs:
       run:  | 
          mvn -B package --file pom.xml
          echo "test"
+    - name: Install and Build 🔧
+      run: |
+         apt-get install doxygen graphviz -y
+         cd docs
+         doxygen Doxyfile
     - name: Deploy 🚀
       uses: JamesIves/github-pages-deploy-action@releases/v3
       with:
          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
          BRANCH: gh-pages
-         FOLDER: docs
+         FOLDER: docs/html
