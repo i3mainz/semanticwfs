@@ -17,7 +17,7 @@ jobs:
       run:  | 
          mvn -B package --file pom.xml
          echo "test"
-    - name: Install and Build 🔧
+    - name: Create Doxygen Documentation 🔧
       run: |
          sudo apt-get install doxygen graphviz -y
          cd docs
