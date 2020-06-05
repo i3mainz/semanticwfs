@@ -80,7 +80,7 @@ public class WebService {
 				+ "   crossorigin=\"\"/>\r\n" + "<script src=\"" + wfsconf.getString("baseurl")
 				+ "/config/js/proj4.js\"></script>" + "<script src=\"" + wfsconf.getString("baseurl")
 				+ "/config/js/prefixes.js\"></script>"
-				+ " <link rel=\"stylesheet\" href=\"/config/css/style.css\">"
+				+ " <link rel=\"stylesheet\" href=\""+wfsconf.getString("baseurl")+"/config/css/style.css\">"
 				+ " <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css\" integrity=\"sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb\" crossorigin=\"anonymous\">"
 				+ "<script src=\"https://unpkg.com/leaflet@1.5.1/dist/leaflet.js\"\r\n"
 				+ "   integrity=\"sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==\"\r\n"
