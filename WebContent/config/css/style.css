@@ -1,50 +1,57 @@
 html { margin: 0; padding: 0; }
-body { font-family: sans-serif; font-size: 80%; margin: 0; padding: 1.2em 2em; }
+body { margin: 0; padding: 1.2em 2em; background:#FFFFFF; }
 #rdficon { float: right; position: relative; top: -28px; }
-#header { border-bottom: 2px solid #696; margin: 0 0 1.2em; padding: 0 0 0.3em; }
-#footer { border-top: 2px solid #696; margin: 1.2em 0 0; padding: 0.3em 0 0; }
+#header { border-bottom: 2px solid #BD1B1B; margin: 0 0 1.2em; padding: 0 0 0.3em; }
+#footer { border-top: 2px solid #BD1B1B; margin: 1.2em 0 0; padding: 0.3em 0 0; }
 #homelink { display: inline; }
 #homelink, #homelink a { color: #666; }
 #homelink a { font-weight: bold; text-decoration: none; }
-#homelink a:hover { color: red; text-decoration: underline; }
-h1 { display: inline; font-weight: normal; font-size: 200%; margin: 0; text-align: left; }
+#homelink a:hover { color: #007F7F; text-decoration: underline; }
+h1 { display: inline; font-weight: normal; font-size: 200%; margin: 0; text-align: center; }
 h2 { font-weight: normal; font-size: 124%; margin: 1.2em 0 0.2em; }
 .page-resource-uri { font-size: 116%; margin: 0.2em 0; }
 .page-resource-uri a { color: #666; text-decoration: none; }
-.page-resource-uri a:hover { color: red; text-decoration: underline; }
+.page-resource-uri a:hover { color: #007F7F; text-decoration: underline; }
+a.footeruri { color: #666; text-decoration: none; }
+a.footeruri:hover { color: #007F7F; text-decoration: underline; }
 img { border: none; }
 table.description { border-collapse: collapse; clear: left; font-size: 100%; margin: 0 0 1em; width: 100%; }
+table.description a:hover { color: #007F7F; text-decoration: underline; }
+table.description a {color: #BD1B1B;}
 table.description th { background: white; text-align: left; }
 table.description td, table.description th { line-height: 1.2em; padding: 0.3em 0.5em; vertical-align: top; }
 table.description ul { margin: 0; padding-left: 1.4em; }
 table.description li { list-style-position: outside; list-style-type: square; margin-left: 0; padding-left: 0; }
 table.description .property-column { width: 13em; }
-.uri { white-space: nowrap; }
-.uri a, a.uri { text-decoration: none; }
+table.description {border-left: 3px solid #8C8C8C; border-top: 3px solid #8C8C8C; border-bottom: 3px solid #8C8C8C; border-right: 3px solid #8C8C8C}
+.uri { white-space: nowrap; color: #BD1B1B; }
+.uri a, a.uri { text-decoration: none; color: #BD1B1B; }
+a.uri:hover { color: #007F7F; text-decoration: underline; }
 .unbound { color: #888; }
 table.description a small, .metadata-table a small  { font-size: 100%; color: #55a; }
 table.description small, .metadata-table a small  { font-size: 100%; color: #666; }
 table.description .property { white-space: nowrap; padding-right: 1.5em; }
-h1, h2 { color: #810; }
-body { background: #cec; }
-table.description .container > td { background: #c0e2c0; padding: 0.2em 0.8em; }
-table.description .even td { background: #d4f6d4; }
-table.description .odd td { background: #f0fcf0; }
+h1, h2 { color: #BD1B1B; }
+table.description .container > td { background: #FFFFF0; padding: 0.2em 0.8em; }
+table.description .even td { background: #FFFFF0; }
+table.description .odd td { background: #E8E8E8; }
 .image { background: white; float: left; margin: 0 1.5em 1.5em 0; padding: 2px; }
-a.expander { text-decoration: none; }
-
+a.expander { text-decoration: none;  }
+a { color: #007F7F; text-decoration: underline; }
+a:hover { color: #007F7F; text-decoration: underline; }
 .metadata-label {
 	font-size: 100%;
-	background: #f0fcf0;
+	background: #E8E8E8;
 	padding: 3px;
 }
 
 .metadata-table {
 	font-size: 100%;
-	border-left: 3px solid #f0fcf0;
-	border-bottom: 3px solid #f0fcf0;
-	border-right: 3px solid #f0fcf0;
-	background: #d4f6d4;
+	border-top: 3px solid #8C8C8C;
+	border-left: 3px solid #8C8C8C;
+	border-bottom: 3px solid #8C8C8C;
+	border-right: 3px solid #8C8C8C;
+	background: #FFFFF0;
 	border-top: 0px solid none;
 	margin: 0px;
 }
