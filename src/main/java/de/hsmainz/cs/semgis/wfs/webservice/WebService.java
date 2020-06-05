@@ -529,7 +529,12 @@ public class WebService {
 					"<div class=\"container\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\"><table width=100% border=1><tr><th>Collection</th><th>Decription</th><th>Schema</th><th>Formats</th></tr>");
 			for (int i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
 				JSONObject curobj = wfsconf.getJSONArray("datasets").getJSONObject(i);
-				builder.append("<tr><td align=center><a href=\"" + wfsconf.getString("baseurl") + "/collections/"
+				if(i%2==0){
+				    builder.append("<tr class=\"even\">");
+				}else{
+				    builder.append("<tr class=\"odd\">");
+				}
+				builder.append("<td align=center><a href=\"" + wfsconf.getString("baseurl") + "/collections/"
 						+ wfsconf.getJSONArray("datasets").getJSONObject(i).get("name") + "?f=html\">"
 						+ wfsconf.getJSONArray("datasets").getJSONObject(i).get("name") + "</a></td><td align=center>");
 				if (wfsconf.getJSONArray("datasets").getJSONObject(i).has("description")) {
