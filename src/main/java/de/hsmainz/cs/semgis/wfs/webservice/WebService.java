@@ -80,8 +80,8 @@ public class WebService {
 				+ "   crossorigin=\"\"/>\r\n" + "<script src=\"" + wfsconf.getString("baseurl")
 				+ "/config/js/proj4.js\"></script>" + "<script src=\"" + wfsconf.getString("baseurl")
 				+ "/config/js/prefixes.js\"></script>"
-				+ " <link rel=\"stylesheet\" href=\""+wfsconf.getString("baseurl")+"/config/css/style.css\">"
 				+ " <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css\" integrity=\"sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb\" crossorigin=\"anonymous\">"
+				+ " <link rel=\"stylesheet\" href=\""+wfsconf.getString("baseurl")+"/config/css/style.css\">"
 				+ "<script src=\"https://unpkg.com/leaflet@1.5.1/dist/leaflet.js\"\r\n"
 				+ "   integrity=\"sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==\"\r\n"
 				+ "   crossorigin=\"\"></script><link rel=\"stylesheet\" href=\"https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css\"/>\r\n"
@@ -526,7 +526,7 @@ public class WebService {
 			builder.append("FeatureCollection View");
 			builder.append("</h1></div></header>");
 			builder.append(
-					"<div class=\"container\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\"><table class=\"description\" width=100% border=1><tr><th>Collection</th><th>Decription</th><th>Schema</th><th>Formats</th></tr>");
+					"<div class=\"container\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\"><table class=\"description\" id=\"collectiontable\" width=100% border=1><thead><tr><th>Collection</th><th>Decription</th><th>Schema</th><th>Formats</th></tr></thead><tbody>");
 			for (int i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
 				JSONObject curobj = wfsconf.getJSONArray("datasets").getJSONObject(i);
 				if(i%2==0){
@@ -563,12 +563,12 @@ public class WebService {
 				}
 				builder.append("</td></tr>");
 			}
-			builder.append("</table>");
-			builder.append("<table width=100%><tr><td><a href=\"" + wfsconf.getString("baseurl")
+			builder.append("</tbody></table>");
+			builder.append("<table width=100%><tbody><tr><td><a href=\"" + wfsconf.getString("baseurl")
 					+ "/?f=html\">Back to LandingPage</a></td><td align=right>This page in <a href=\""
 					+ wfsconf.getString("baseurl") + "/collections?f=gml\">[GML]</a> <a href=\""
 					+ wfsconf.getString("baseurl")
-					+ "/collections?f=json\">[JSON]</a></div></div></div></body></html>");
+					+ "/collections?f=json\">[JSON]</a></td></tr></table></div></div></div><script>$('#collectiontable').DataTable();</script></body></html>");
 			return Response.ok(builder.toString()).type(ResultFormatter.getFormatter(format).mimeType).build();
 		} else {
 			throw new NotFoundException();
