@@ -522,7 +522,7 @@ public class WebService {
 		} else if (format == null || format.contains("html")) {
 			StringBuilder builder = new StringBuilder();
 			builder.append(htmlHead);
-			builder.append("<header><div class=\"page-header\"><h1 align=center>");
+			builder.append("<header id=\"header\"><div class=\"page-header\"><h1 align=center>");
 			builder.append("FeatureCollection View");
 			builder.append("</h1></div></header>");
 			builder.append(
@@ -564,11 +564,11 @@ public class WebService {
 				builder.append("</td></tr>");
 			}
 			builder.append("</tbody></table>");
-			builder.append("<table width=100%><tbody><tr><td><a href=\"" + wfsconf.getString("baseurl")
+			builder.append("<div id=\"footer\"><table width=100%><tbody><tr><td><a href=\"" + wfsconf.getString("baseurl")
 					+ "/?f=html\">Back to LandingPage</a></td><td align=right>This page in <a href=\""
 					+ wfsconf.getString("baseurl") + "/collections?f=gml\">[GML]</a> <a href=\""
 					+ wfsconf.getString("baseurl")
-					+ "/collections?f=json\">[JSON]</a></td></tr></table></div></div></div><script>$('#collectiontable').DataTable();</script></body></html>");
+					+ "/collections?f=json\">[JSON]</a></td></tr></table></div></div></div></div><script>$('#collectiontable').DataTable();</script></body></html>");
 			return Response.ok(builder.toString()).type(ResultFormatter.getFormatter(format).mimeType).build();
 		} else {
 			throw new NotFoundException();
