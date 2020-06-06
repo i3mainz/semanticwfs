@@ -11,12 +11,28 @@
 			<param-name>com.sun.jersey.config.property.packages</param-name>
 			<param-value>de.hsmainz.cs.semgis.wfs.webservice</param-value>
 		</init-param>
-
-				<load-on-startup>1</load-on-startup>
+        <init-param>
+      <param-name>jersey.config.server.provider.packages</param-name>
+      <!-- adding 'io.swagger.v3.jaxrs2.integration.resources' is sufficent on it own to register the following paths:
+      /openapi.json : OpenApi spec in json
+      /openapi.yaml : OpenApi spec in yaml
+      /openapi (Accept:  : "application/json" : OpenApi spec in json
+      /openapi (Accept:  : "application/yaml" : OpenApi spec in yaml
+      -->
+      <param-value>
+        io.swagger.v3.jaxrs2.integration.resources,io.swagger.sample.resource
+      </param-value>
+    </init-param>
+    <init-param>
+      <param-name>openApi.configuration.prettyPrint</param-name>
+      <param-value>true</param-value>
+    </init-param>
+	<load-on-startup>1</load-on-startup>
 	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>jersey-servlet</servlet-name>
 		<url-pattern>/rest/*</url-pattern>
 	</servlet-mapping>
+	
 </web-app>
