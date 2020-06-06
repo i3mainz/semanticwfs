@@ -4,6 +4,6 @@ cacheTTL: 0
 openAPI:
   info:
     version: '1.0.0'
-    title: 'Jersey and Swagger UI example'
+    title: 'API Documentation'
   servers:
     - url: '/rest'
