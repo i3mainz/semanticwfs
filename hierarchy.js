@@ -1,6 +1,6 @@
 var hierarchy =
 [
-    [ "Comparable", "a00661.html", [
+    [ "Comparable", "a00665.html", [
       [ "Tuple< T, T2 >", "a00313.html", null ]
     ] ],
     [ "ResultFormatter", "a00257.html", [
