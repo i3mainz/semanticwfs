@@ -12,6 +12,7 @@ import java.util.TreeMap;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -23,7 +24,6 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
-import com.sun.jersey.api.NotFoundException;
 import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
 
 import org.json.JSONArray;
@@ -38,6 +38,7 @@ import de.hsmainz.cs.semgis.wfs.util.Tuple;
 import de.hsmainz.cs.semgis.wfs.util.user.User;
 import de.hsmainz.cs.semgis.wfs.util.user.UserManagementConnection;
 import de.hsmainz.cs.semgis.wfs.util.user.UserType;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @Path("/")
 public class WebService {
