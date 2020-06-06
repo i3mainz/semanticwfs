@@ -18,7 +18,7 @@ if(epsg!="" && epsg!="EPSG:4326" && epsg in epsgdefs){
 	console.log(geojson);
 }
 var colorcodes={}
-var map = L.map('mapid',{fullscreenControl: true,fullscreenControlOptions: {position: 'topleft'}}).setView([51.505, -0.09], 18);
+var map = L.map('mapid',{fullscreenControl: true,fullscreenControlOptions: {position: 'topleft'}}).setView([51.505, -0.09], 16);
 var wmsLayer = L.tileLayer.wms('https://sgx.geodatenzentrum.de/wms_topplus_web_open', {
 layers: 'web',
 format: 'image/png',
@@ -26,7 +26,7 @@ format: 'image/png',
 attribution: '&copy; Bundesamt f&uuml;r Kartographie und Geod&auml;sie 2017, <a href="http://sg.geodatenzentrum.de/web_public/Datenquellen_TopPlus_Open.pdf">Datenquellen</a>'
 }); 
 var layer=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',maxZoom: 20});
-var baseMaps = {"OSM": layer,"BKG":wmsLayer}; baseMaps["OSM"].addTo(map);	L.control.scale({
+var baseMaps = {"OSM": layer,"BKG":wmsLayer}; baseMaps["BKG"].addTo(map);	L.control.scale({
 	position: 'bottomright',
 	imperial: false
 }).addTo(map);
