@@ -6,4 +6,4 @@ openAPI:
     version: '1.0.0'
     title: 'API Documentation'
   servers:
-    - url: '/rest'
+    - url: '/projekte/bkg/semanticwfs/'
