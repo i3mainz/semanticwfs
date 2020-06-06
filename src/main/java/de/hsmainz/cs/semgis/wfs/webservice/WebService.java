@@ -566,7 +566,7 @@ public class WebService {
 			builder.append("</tbody></table>");
 			builder.append("</div></div></div><footer id=\"footer\"><table width=100%><tbody><tr><td><a href=\"" + wfsconf.getString("baseurl")
 					+ "/?f=html\">Back to LandingPage</a></td><td align=right>This page in <a href=\""
-					+ wfsconf.getString("baseurl") + "/collections?f=gml\">[GML]</a> <a href=\""
+					+ wfsconf.getString("baseurl") + "/collections?f=gml\">[XML]</a> <a href=\""
 					+ wfsconf.getString("baseurl")
 					+ "/collections?f=json\">[JSON]</a></td></tr></table></footer><script>$('#collectiontable').DataTable();</script></body></html>");
 			return Response.ok(builder.toString()).type(ResultFormatter.getFormatter(format).mimeType).build();
@@ -870,9 +870,6 @@ public class WebService {
 			builder.append(
 					"</h1></header><div class=\"container\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\"><p>"
 							+ wfsconf.getString("servicedescription") + "</p><ul>");
-			builder.append("<li>LandingPage in <a href=\"" + wfsconf.getString("baseurl") + "/?f=html\">[HTML]</a>");
-			builder.append(" <a href=\"" + wfsconf.getString("baseurl") + "/?f=gml\">[XML]</a>");
-			builder.append(" <a href=\"" + wfsconf.getString("baseurl") + "/?f=json\">[JSON]</a></li>");
 			builder.append("<li>Conformance Declaration in <a href=\"" + wfsconf.getString("baseurl")
 					+ "/conformance?f=html\">[HTML]</a>");
 			builder.append(" <a href=\"" + wfsconf.getString("baseurl") + "/conformance?f=gml\">[XML]</a>");
@@ -898,9 +895,9 @@ public class WebService {
 							+ wfsconf.getString("baseurl")
 							+ "/config/featuretypeconfig.html\">Semantic WFS Configuration</a></li><li><a href=\"https://www.i3mainz.de/projekte/semgis/gmlimporter/\">Semantic Uplift Tools</a></li></ul></div></div></div><footer id=\"footer\"><table width=100%><tbody><tr><td><a href=\"" + wfsconf.getString("baseurl")
 					+ "/?f=html\">Back to LandingPage</a></td><td align=right>This page in <a href=\""
-					+ wfsconf.getString("baseurl") + "?f=gml\">[GML]</a> <a href=\""
+					+ wfsconf.getString("baseurl") + "/?f=gml\">[XML]</a> <a href=\""
 					+ wfsconf.getString("baseurl")
-					+ "?f=json\">[JSON]</a></td></tr></table></footer></body></html>");
+					+ "/?f=json\">[JSON]</a></td></tr></table></footer></body></html>");
 			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
 		} else {
 			throw new NotFoundException();
