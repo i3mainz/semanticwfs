@@ -53,7 +53,16 @@
     <artifactId>proj4j</artifactId>
     <version>1.1.0</version>
 </dependency>
-
+<dependency>
+      <groupId>io.swagger.core.v3</groupId>
+      <artifactId>swagger-jaxrs2</artifactId>
+      <version>2.1.2</version>
+    </dependency>
+    <dependency>
+      <groupId>io.swagger.core.v3</groupId>
+      <artifactId>swagger-jaxrs2-servlet-initializer-v2</artifactId>
+      <version>2.1.2</version>
+    </dependency>
 <!-- https://mvnrepository.com/artifact/org.locationtech.jts/jts-core -->
 <dependency>
     <groupId>org.locationtech.jts</groupId>
