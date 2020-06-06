@@ -871,6 +871,10 @@ public class WebService {
 			builder.append(
 					"</h1></header><div class=\"container\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\"><p>"
 							+ wfsconf.getString("servicedescription") + "</p><ul>");
+			builder.append("<li>API Documentation in <a href=\"" + wfsconf.getString("baseurl")
+					+ "/api/\">[HTML]</a>");
+			builder.append(" <a href=\"" + wfsconf.getString("baseurl") + "/openapi.yaml\">[YAML]</a>");
+			builder.append(" <a href=\"" + wfsconf.getString("baseurl") + "/openapi.json\">[JSON]</a></li>");
 			builder.append("<li>Conformance Declaration in <a href=\"" + wfsconf.getString("baseurl")
 					+ "/conformance?f=html\">[HTML]</a>");
 			builder.append(" <a href=\"" + wfsconf.getString("baseurl") + "/conformance?f=gml\">[XML]</a>");
