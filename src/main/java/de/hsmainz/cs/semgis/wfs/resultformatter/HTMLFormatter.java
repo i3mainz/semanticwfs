@@ -64,13 +64,13 @@ public class HTMLFormatter extends ResultFormatter {
 		
 		builder.append("<div class=\"row\"><div class=\"left col-sm-12\"><select id=\"styles\">");
 		builder.append("<option value=\""+featuretype+"_DefaultStyle\">"+featuretype+"_DefaultStyle</option>");
-		builder.append("</select><button id=\"applystyle\"/>Apply Style</button><table width=\"100%\" align=\"center\" id=\"queryres\" class=\"tablesorter\" border=\"1\">");
+		builder.append("</select><button id=\"applystyle\"/>Apply Style</button><table width=\"100%\" align=\"center\" id=\"queryres\" class=\"description\" border=\"1\">");
 		Boolean first = true;
 		JSONArray features = geojson.getJSONArray("features");
 
 		for (int i = 0; i < features.length(); i++) {
 			if (first) {
-				builder.append("<thead><tr>");
+				builder.append("<thead><tr class=\"even\">");
 				if (!onlyproperty) {					
 					for (String key : features.getJSONObject(0).getJSONObject("properties").keySet()) {
 						if (key.contains("http")) {
@@ -101,10 +101,14 @@ public class HTMLFormatter extends ResultFormatter {
 								+ "</a></td>");
 					}
 				}
-				builder.append("</tr></thead>");
+				builder.append("</tr></thead><tbody>");
 				first = false;
 			}
-			builder.append("<tbody><tr>");
+			if(i%2==0){
+			    builder.append("<tr class=\"even\">");			    
+			}else{
+			    builder.append("<tr class=\"odd\">");			    
+			}
 			// System.out.println(builder.toString());
 			for (String key : features.getJSONObject(i).getJSONObject("properties").keySet()) {
 				// System.out.println(key);
