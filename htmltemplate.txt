@@ -28,7 +28,7 @@ format: 'image/png',
 attribution: '&copy; Bundesamt f&uuml;r Kartographie und Geod&auml;sie 2017, <a href="http://sg.geodatenzentrum.de/web_public/Datenquellen_TopPlus_Open.pdf">Datenquellen</a>'
 }); 
 var layer=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',maxZoom: 20});
-var baseMaps = {"OSM": layer,"BKG":wmsLayer}; baseMaps["OSM"].addTo(map);	L.control.scale({
+var baseMaps = {"BKG":wmsLayer,"OSM": layer}; baseMaps["BKG"].addTo(map);	L.control.scale({
 	position: 'bottomright',
 	imperial: false
 }).addTo(map);
