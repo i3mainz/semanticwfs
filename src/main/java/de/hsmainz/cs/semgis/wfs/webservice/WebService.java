@@ -701,13 +701,13 @@ public class WebService {
 			builder.append(featureid);
 			builder.append("</h1></header><div class=\"container\" role=\"main\"><div class=\"row\">");
 			builder.append(res);
-			builder.append("<div id=\"footer\"><table width=100%><tbody><tr><td><a href=\"" + wfsconf.getString("baseurl") + "/collections/"
+			builder.append("</div></div></div><footer id=\"footer\"><table width=100%><tbody><tr><td><a href=\"" + wfsconf.getString("baseurl") + "/collections/"
 					+ collectionid + "?f=html\">Back to " + collectionid
 					+ " Collection</a></td><td align=right>This page in <a href=\"" + wfsconf.getString("baseurl")
 					+ "/collections/" + workingobj.getString("name") + "/items/" + featureid
 					+ "?f=gml\">[GML]</a> <a href=\"" + wfsconf.getString("baseurl") + "/collections/"
 					+ workingobj.getString("name") + "/items/" + featureid + "?f=json\">[JSON]</a></td></tr></table>");
-			builder.append("</div></div></div></div></body></html>");
+			builder.append("</footer></body></html>");
 			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
 		} else {
 			return Response.ok(res).type(MediaType.TEXT_PLAIN).build();
@@ -896,7 +896,7 @@ public class WebService {
 							+ wfsconf.getString("baseurl")
 							+ "/snorql/\">Linked Data Browser (SNORQL)</a></li><li><a href=\""
 							+ wfsconf.getString("baseurl")
-							+ "/config/featuretypeconfig.html\">Semantic WFS Configuration</a></li><li><a href=\"https://www.i3mainz.de/projekte/semgis/gmlimporter/\">Semantic Uplift Tools</a></li></ul></div></div></div></body></html>");
+							+ "/config/featuretypeconfig.html\">Semantic WFS Configuration</a></li><li><a href=\"https://www.i3mainz.de/projekte/semgis/gmlimporter/\">Semantic Uplift Tools</a></li></ul></div></div></div><footer id=\"footer\"></footer></body></html>");
 			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
 		} else {
 			throw new NotFoundException();
@@ -1344,12 +1344,12 @@ public class WebService {
 					+ "/collections/" + workingobj.getString("name")
 					+ "/items?f=html\">[Sample]</a></td><td align=right><a href=\"" + wfsconf.getString("baseurl")
 					+ "/collections/" + workingobj.getString("name") + "/items?f=html&limit=1&offset=" + (offset + 1)
-					+ "\">[Next]</a></td></tr></tbody></table>");
-			builder.append("<div id=\"footer\"><table width=100%><tbody><tr><td><a href=\"" + wfsconf.getString("baseurl")
+					+ "\">[Next]</a></td></tr></tbody></table></div></div></div>");
+			builder.append("<footer id=\"footer\"><table width=100%><tbody><tr><td><a href=\"" + wfsconf.getString("baseurl")
 					+ "/collections?f=html\">Back to Collections</a></td><td align=right>This page in <a href=\""
 					+ wfsconf.getString("baseurl") + "/collections/" + workingobj.getString("name")
 					+ "?f=gml\">[GML]</a> <a href=\"" + wfsconf.getString("baseurl") + "/collections/"
-					+ workingobj.getString("name") + "?f=geojson\">[JSON]</a></td></tr></tbody></table></div></div></div></div></body></html>");
+					+ workingobj.getString("name") + "?f=geojson\">[JSON]</a></td></tr></tbody></table></footer></body></html>");
 			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
 		} else {
 			throw new NotFoundException();
@@ -1527,16 +1527,16 @@ public class WebService {
 							+ (Integer.valueOf(offset) != 0 ? (Integer.valueOf(offset) - 1) + "" : "0")
 							+ "\">[Previous]</a></td><td align=right><a href=\"" + wfsconf.getString("baseurl")
 							+ "/collections/" + workingobj.getString("name") + "/items?f=html&limit=1&offset="
-							+ (Integer.valueOf(offset) + 1) + "\">[Next]</a></td></tr></table>");
+							+ (Integer.valueOf(offset) + 1) + "\">[Next]</a></td></tr></table></div></div></div>");
 				}
-				builder.append("<div id=\"footer\"><table width=100%><tbody><tr><td><a href=\"" + wfsconf.getString("baseurl") + "/collections/"
+				builder.append("<footer id=\"footer\"><table width=100%><tbody><tr><td><a href=\"" + wfsconf.getString("baseurl") + "/collections/"
 						+ collectionid + "?f=html\">Back to " + collectionid
 						+ " Collection</a></td><td align=right>This page in <a href=\"" + wfsconf.getString("baseurl")
 						+ "/collections/" + workingobj.getString("name") + "/items?f=gml&limit=" + limit + "&offset="
 						+ offset + "\">[GML]</a> <a href=\"" + wfsconf.getString("baseurl") + "/collections/"
 						+ workingobj.getString("name") + "/items?f=geojson&limit=" + limit + "&offset=" + offset
-						+ "\">[JSON]</a></td></tr></table></div>");
-				builder.append("</div></div></body></html>");
+						+ "\">[JSON]</a></td></tr></tbody></table></footer>");
+				builder.append("</body></html>");
 				return Response.ok(builder.toString()).type(ResultFormatter.getFormatter(format).mimeType).build();
 			} else {
 				return Response.ok(res).type(ResultFormatter.getFormatter(format).mimeType).build();
@@ -2706,12 +2706,12 @@ public class WebService {
 			return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
 		} else if (output != null && output.contains("html")) {
 			StringBuilder builder = new StringBuilder();
-			builder.append("<html><head></head><body><header><h1 align=center>PropertyRequest: " + typename + "["
+			builder.append("<html><head></head><body><header id=\"header\"><h1 align=center>PropertyRequest: " + typename + "["
 					+ propertyname
 					+ "]</h1></header><div class=\"container\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\">");
 			builder.append(res);
-			builder.append("<a href=\"" + wfsconf.getString("baseurl")
-					+ "/?f=html\">Back to LandingPage</a></div></div></div></body></html>");
+			builder.append("</div></div></div><footer id=\"footer\"><a href=\"" + wfsconf.getString("baseurl")
+					+ "/?f=html\">Back to LandingPage</a></footer></body></html>");
 			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
 		} else if (output != null) {
 			return Response.ok(res).type(MediaType.TEXT_PLAIN).build();
