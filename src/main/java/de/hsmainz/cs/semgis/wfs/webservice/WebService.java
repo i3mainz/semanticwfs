@@ -706,7 +706,7 @@ public class WebService {
 					+ " Collection</a></td><td align=right>This page in <a href=\"" + wfsconf.getString("baseurl")
 					+ "/collections/" + workingobj.getString("name") + "/items/" + featureid
 					+ "?f=gml\">[GML]</a> <a href=\"" + wfsconf.getString("baseurl") + "/collections/"
-					+ workingobj.getString("name") + "/items/" + featureid + "?f=json\">[JSON]</a></td></tr></table>");
+					+ workingobj.getString("name") + "/items/" + featureid + "?f=json\">[JSON]</a></td></tr></tbody></table>");
 			builder.append("</footer></body></html>");
 			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
 		} else {
