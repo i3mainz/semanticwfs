@@ -1614,8 +1614,11 @@ public class WebService {
 					"<li><a target=\"_blank\" href=\"http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/geojson\">GeoJSON</a></li>");
 			builder.append(
 					"<li><a target=\"_blank\" href=\"http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/gmlsf0\">GMLSf0</a></li>");
-			builder.append("</ul></div></div></div><footer id=\"footer\"><a href=\"" + wfsconf.getString("baseurl")
-					+ "/?f=html\">Back to LandingPage</a></footer></body></html>");
+			builder.append("</ul></div></div></div><footer id=\"footer\"><table width=\"100%\"><tbody><tr><td><a href=\"" + wfsconf.getString("baseurl")
+					+ "/?f=html\">Back to LandingPage</a></td><td align=right>This page in <a href=\""
+					+ wfsconf.getString("baseurl") + "/conformance/" + workingobj.getString("name")
+					+ "?f=gml\">[GML]</a> <a href=\"" + wfsconf.getString("baseurl") + "/conformance/"
+					+ workingobj.getString("name") + "?f=geojson\">[JSON]</a></td></tr></tbody></table></footer></body></html>");
 			return Response.ok(builder.toString()).type(ResultFormatter.getFormatter(format).mimeType).build();
 		} else {
 			throw new NotFoundException();
