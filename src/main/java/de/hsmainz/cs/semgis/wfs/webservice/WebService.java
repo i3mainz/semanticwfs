@@ -701,7 +701,7 @@ public class WebService {
 			builder.append(featureid);
 			builder.append("</h1></header><div class=\"container\" role=\"main\"><div class=\"row\">");
 			builder.append(res);
-			builder.append("</div></div></div><footer id=\"footer\"><table width=100%><tbody><tr><td><a href=\"" + wfsconf.getString("baseurl") + "/collections/"
+			builder.append("</div></div></div></div><footer id=\"footer\"><table width=100%><tbody><tr><td><a href=\"" + wfsconf.getString("baseurl") + "/collections/"
 					+ collectionid + "?f=html\">Back to " + collectionid
 					+ " Collection</a></td><td align=right>This page in <a href=\"" + wfsconf.getString("baseurl")
 					+ "/collections/" + workingobj.getString("name") + "/items/" + featureid
@@ -1603,7 +1603,7 @@ public class WebService {
 		} else if (format == null || format.contains("html")) {
 			StringBuilder builder = new StringBuilder();
 			builder.append("<html><head>" + htmlHead
-					+ "</head><body><header><h1 align=\"center\">Conformance</h1></header><div class=\"container\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\"><ul>");
+					+ "</head><body><header id=\"header\"><h1 align=\"center\">Conformance</h1></header><div class=\"container\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\"><ul>");
 			builder.append(
 					"<li><a target=\"_blank\" href=\"http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/core\">Core</a></li>");
 			builder.append(
@@ -1614,8 +1614,8 @@ public class WebService {
 					"<li><a target=\"_blank\" href=\"http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/geojson\">GeoJSON</a></li>");
 			builder.append(
 					"<li><a target=\"_blank\" href=\"http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/gmlsf0\">GMLSf0</a></li>");
-			builder.append("</ul><a href=\"" + wfsconf.getString("baseurl")
-					+ "/?f=html\">Back to LandingPage</a></div></div></div></body></html>");
+			builder.append("</ul></div></div></div><footer id=\"footer\"><a href=\"" + wfsconf.getString("baseurl")
+					+ "/?f=html\">Back to LandingPage</a></footer></body></html>");
 			return Response.ok(builder.toString()).type(ResultFormatter.getFormatter(format).mimeType).build();
 		} else {
 			throw new NotFoundException();
