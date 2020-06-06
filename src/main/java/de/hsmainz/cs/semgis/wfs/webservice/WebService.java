@@ -1516,7 +1516,7 @@ public class WebService {
 				builder.append(htmlHead);
 				builder.append("<body><header id=\"header\"><h1 align=\"center\">");
 				builder.append(collectionid);
-				builder.append("</h1></head><div class=\"container\" role=\"main\"><div class=\"row\">");
+				builder.append("</h1></header><div class=\"container\" role=\"main\"><div class=\"row\">");
 				builder.append(res);
 				// builder.append("<script>$( document ).ready(function()
 				// {$('#queryres').DataTable({\"scrollX\":\"100%\",\"scrollCollapse\":
