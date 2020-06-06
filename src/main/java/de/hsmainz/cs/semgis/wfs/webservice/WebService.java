@@ -697,17 +697,17 @@ public class WebService {
 		} else if (format == null || format.contains("html")) {
 			StringBuilder builder = new StringBuilder();
 			builder.append(htmlHead);
-			builder.append("<body><header><h1 align=\"center\">");
+			builder.append("<body><header id=\"header\"><h1 align=\"center\">");
 			builder.append(featureid);
 			builder.append("</h1></header><div class=\"container\" role=\"main\"><div class=\"row\">");
 			builder.append(res);
-			builder.append("<table width=100%><tr><td><a href=\"" + wfsconf.getString("baseurl") + "/collections/"
+			builder.append("<div id=\"footer\"><table width=100%><tbody><tr><td><a href=\"" + wfsconf.getString("baseurl") + "/collections/"
 					+ collectionid + "?f=html\">Back to " + collectionid
 					+ " Collection</a></td><td align=right>This page in <a href=\"" + wfsconf.getString("baseurl")
 					+ "/collections/" + workingobj.getString("name") + "/items/" + featureid
 					+ "?f=gml\">[GML]</a> <a href=\"" + wfsconf.getString("baseurl") + "/collections/"
-					+ workingobj.getString("name") + "/items/" + featureid + "?f=json\">[JSON]</a>");
-			builder.append("</div></div></div></body></html>");
+					+ workingobj.getString("name") + "/items/" + featureid + "?f=json\">[JSON]</a></td></tr></table>");
+			builder.append("</div></div></div></div></body></html>");
 			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
 		} else {
 			return Response.ok(res).type(MediaType.TEXT_PLAIN).build();
@@ -1255,7 +1255,7 @@ public class WebService {
 					+ "\"; var markercollection=[]; var epsg=\""
 					+ (workingobj.has("targetCRS") ? workingobj.getString("targetCRS") : "") + "\";");
 			builder2.append(((HTMLFormatter) ResultFormatter.getFormatter("html")).htmlHeader2);
-			builder2.append("</td><td>Contents:<table border=\"1\"><tr><th>Value</th><th>Type</th>");
+			builder2.append("</td><td>Contents:<table class=\"description\" border=\"1\"><tr><th>Value</th><th>Type</th>");
 			String lon = null, lat = null;
 			if (mapping != null) {
 				for (String elem : mapping.keySet()) {
@@ -1345,11 +1345,11 @@ public class WebService {
 					+ "/items?f=html\">[Sample]</a></td><td align=right><a href=\"" + wfsconf.getString("baseurl")
 					+ "/collections/" + workingobj.getString("name") + "/items?f=html&limit=1&offset=" + (offset + 1)
 					+ "\">[Next]</a></td></tr></tbody></table>");
-			builder.append("<div id=\"footer\"><table width=100%><tr><td><a href=\"" + wfsconf.getString("baseurl")
+			builder.append("<div id=\"footer\"><table width=100%><tbody><tr><td><a href=\"" + wfsconf.getString("baseurl")
 					+ "/collections?f=html\">Back to Collections</a></td><td align=right>This page in <a href=\""
 					+ wfsconf.getString("baseurl") + "/collections/" + workingobj.getString("name")
 					+ "?f=gml\">[GML]</a> <a href=\"" + wfsconf.getString("baseurl") + "/collections/"
-					+ workingobj.getString("name") + "?f=geojson\">[JSON]</a></div></div></div></div></body></html>");
+					+ workingobj.getString("name") + "?f=geojson\">[JSON]</a></td></tr></tbody></table></div></div></div></div></body></html>");
 			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
 		} else {
 			throw new NotFoundException();
