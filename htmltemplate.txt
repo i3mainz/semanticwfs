@@ -20,7 +20,7 @@ if(epsg!="" && epsg!="EPSG:4326" && epsg in epsgdefs){
 	console.log(geojson);
 }
 var colorcodes={}
-var map = L.map('mapid',{fullscreenControl: true,fullscreenControlOptions: {position: 'topleft'}}).setView([51.505, -0.09], 18);
+var map = L.map('mapid',{fullscreenControl: true,fullscreenControlOptions: {position: 'topleft'}}).setView([51.505, -0.09], 16);
 var wmsLayer = L.tileLayer.wms('https://sgx.geodatenzentrum.de/wms_topplus_web_open', {
 layers: 'web',
 format: 'image/png',
