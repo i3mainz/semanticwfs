@@ -11,6 +11,7 @@
 <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' />
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="config/css/style.css"/>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
@@ -350,9 +351,11 @@ function addFeature(){
     </fieldset>
   </form>
 </div>
+<div id="header">
 <header>
 <h1 id="servicetitle" align="center">Feature Type Configuration</h1>
 </header>
+</div>
 <div class="container" role="main">
   <div class="row">
   <div class="col-sm-5">
@@ -369,7 +372,7 @@ $( document ).ready(function() {
 </textarea>
 <button id="sendQueryButton" onClick="sendQuery(false)">Test Query</button>
 <button id="sendQueryGeoJSONButton" onClick="sendQuery(true)">Test Query with GeoJSON result</button>
-<table width="100%">
+<table width="100%" class="description">
 <tr><td>Featuretype Name:</td><td><input type="text" id="featuretypename"/></td></tr>
 <tr><td>TripleStore:</td><td><input type="text" id="triplestore"/></td></tr>
 <tr><td>IndVariable:</td><td><input type="text" id="indvariable"/></td></tr>
@@ -407,13 +410,15 @@ var layercontrol=L.control.layers(baseMaps,overlayMaps).addTo(mymap);
   </div></div></div><div class="row">
   <div class="col-sm-12">
   
-<table id="featuretypes" width="100%" border="1">
+<table id="featuretypes" width="100%" border="1" class="description">
 </table>
 <span id="prefixes">
 
 </span>
 
 </div></div>
+<div id="footer">
+</div>
 <script src="js/utils.js"></script>
 </body>
 </html>
