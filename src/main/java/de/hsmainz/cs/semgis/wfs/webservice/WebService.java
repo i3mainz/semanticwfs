@@ -527,7 +527,7 @@ public class WebService {
 			builder.append("FeatureCollection View");
 			builder.append("</h1></div></header>");
 			builder.append(
-					"<div class=\"container\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\"><table class=\"description\" id=\"collectiontable\" width=100% border=1><thead><tr><th>Collection</th><th>Decription</th><th>Schema</th></tr></thead><tbody>");
+					"<div class=\"container\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\"><table class=\"description\" id=\"collectiontable\" width=100% border=1><thead><tr><th>Collection</th><th>Description</th><th>Schema</th></tr></thead><tbody>");
 			for (int i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
 				JSONObject curobj = wfsconf.getJSONArray("datasets").getJSONObject(i);
 				if(i%2==0){
