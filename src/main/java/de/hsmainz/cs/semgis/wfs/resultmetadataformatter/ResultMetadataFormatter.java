@@ -1,12 +1,12 @@
 package de.hsmainz.cs.semgis.wfs.resultmetadataformatter;
 
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
 
-import org.apache.jena.query.ResultSet;
+import org.json.JSONObject;
 
 public abstract class ResultMetadataFormatter {
 
@@ -18,26 +18,23 @@ public abstract class ResultMetadataFormatter {
 	
 	public String exposedType="application/vnd.geo+json";
 	
+	public XMLStreamWriter xmlwriter;
+	
 	public static ResultMetadataFormatter getFormatter(String formatString) {
 		formatString=formatString.toLowerCase();
 		if(resultMap.containsKey(formatString)) {
 			return resultMap.get(formatString);
 		}
 		formatString=formatString.replace("+","");
-		if(formatString.contains("mapcss")) {
-			return resultMap.get("mapcss");
+		if(formatString.contains("dcat")) {
+			return resultMap.get("geodcat");
 		}
-		if(formatString.contains("geojsoncss")) {
-			return resultMap.get("geojsoncss");
-		}
-		if(formatString.contains("sld")) {
-			return resultMap.get("sld");
-		}
-		return null;
+		return resultMap.get("gmd");
 	}
 	
 	static { 
 		resultMap.put("gmd", new GMDFormatter());
+		resultMap.put("geodcat", new DCATFormatter());
 	}
 	
 	/*public convertCoordinates() {
@@ -50,9 +47,7 @@ public abstract class ResultMetadataFormatter {
         CoordinateTransform t;
 	}*/
 	
-	public abstract String formatter(ResultSet results,String startingElement,
-			String featuretype,String propertytype,String typeColumn,
-			Boolean onlyproperty,Boolean onlyhits,String srsName,String indvar,String epsg,List<String> eligiblenamespaces,List<String> noteligiblenamespaces) throws XMLStreamException;
+	public abstract String formatter(String collectionid, String collectioncall,String collectionurl,JSONObject workingobj) throws XMLStreamException;
 
 	public String formatHeader() {
 		return "";
