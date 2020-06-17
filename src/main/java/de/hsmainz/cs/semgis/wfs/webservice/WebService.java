@@ -1015,26 +1015,14 @@ public class WebService {
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections/{collectionid}")
 	@Operation(
-            summary = "Returns a given collection",
-            description = "Returns metadata of a given collection in a specified format")
-	@Parameter(
-			name="f",
-			description="The format in which the collection should be returned",
-			example="geojson"
-			)
-	@Parameter(
-			name="limit",
-			description="The maximum amount of features to be returned",
-			example="10"
-			)
-	@Parameter(
-			name="offset",
-			description="An offset to be considered when returning features",
-			example="10"
-			)
-	public Response collectionInformation(@PathParam("collectionid") String collectionid,
-			@DefaultValue("html") @QueryParam("f") String format, @QueryParam("limit") String limit,
-			@DefaultValue("0") @QueryParam("offset") String offset, @QueryParam("bbox") String bbox) {
+            summary = "Returns a given collection or parts of it",
+            description = "Returns a given collection in a specified format which conform to certain criteria")
+	public Response collectionInformation(
+			@Parameter(description="The id of the collection to be considered") @PathParam("collectionid") String collectionid,
+			@Parameter(description="The format in which the collection should be returned",example="geojson") @DefaultValue("html") @QueryParam("f") String format,  
+			@Parameter(description="The maximum amount of features to be returned", example="10") @DefaultValue("10") @QueryParam("limit") String limit,
+			@Parameter(description="An offset to be considered when returning features",example="10") @DefaultValue("0") @QueryParam("offset") String offset,
+			@Parameter(description="Defines a bounding box from which to return the given features") @QueryParam("bbox") String bbox) {
 		if (collectionid == null) {
 			throw new NotFoundException();
 		}
