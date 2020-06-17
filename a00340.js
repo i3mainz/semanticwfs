@@ -3,7 +3,7 @@ var a00340 =
     [ "WebService", "a00340.html#a7a8fdc0242859fa8c99102a9095b600f", null ],
     [ "addFeatureType", "a00340.html#a5c129b697f74aaea3a151e0c6f2d26ce", null ],
     [ "addPrefixes", "a00340.html#a286a860174a898905ecad89f5f037cf1", null ],
-    [ "collectionInformation", "a00340.html#a4bf5aa53fd69fabfe2e66f4c1a601874", null ],
+    [ "collectionInformation", "a00340.html#a16a865710dde3c76fa4ebb31e7d641c7", null ],
     [ "collectionItems", "a00340.html#a1d181ee2167c77d686a7c77db89ab833", null ],
     [ "collections", "a00340.html#a6d9cc9ae4430488ec6439c42ad5be8a2", null ],
     [ "conformance", "a00340.html#a76d06c8b39802f87c82cf4044712739b", null ],
