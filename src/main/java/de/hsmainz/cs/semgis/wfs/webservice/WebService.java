@@ -1015,7 +1015,7 @@ public class WebService {
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections/{collectionid}")
 	@Operation(
-            summary = "Returns a given collection or parts of it",
+            summary = "Returns a given collection description or parts of it",
             description = "Returns a given collection in a specified format which conform to certain criteria")
 	public Response collectionInformation(
 			@Parameter(description="The id of the collection to be considered") @PathParam("collectionid") String collectionid,
@@ -1258,8 +1258,10 @@ public class WebService {
 	@GET
 	@Produces({ MediaType.APPLICATION_XML })
 	@Path("/collections/{collectionid}/schema")
-	public Response getSchema(@PathParam("collectionid") String collectionid,
-			@DefaultValue("gml") @QueryParam("f") String format) {
+	public Response getSchema(
+			@Parameter(description="The collection id for which to return the schema") @PathParam("collectionid") String collectionid,
+			@Parameter(description="The format in which the schema should be returned",example="json") @DefaultValue("gml") @QueryParam("f") String format) {
+		
 		if (format.contains("json")) {
 			return this.describeFeatureTypeJSON(collectionid, "1.0.0");
 		} else {
@@ -2376,12 +2378,12 @@ public class WebService {
 	@Path("/wfs/getFeature")
 	public Response getFeature(@QueryParam("typename") String typename,
 			@DefaultValue("json") @QueryParam("outputFormat") String output,
-			@DefaultValue("10") @QueryParam("count") String count,
+			@Parameter(description="The amount of features to be returned",example="10") @DefaultValue("10") @QueryParam("count") String count,
 			@DefaultValue("0") @QueryParam("startindex") String startindex,
 			@DefaultValue("") @QueryParam("srsName") String srsName,
 			@DefaultValue("ASC") @QueryParam("sortBy") String sortBy,
-			@DefaultValue("") @QueryParam("styles") String style,
-			@DefaultValue("2.0.0") @QueryParam("version") String version,
+			@Parameter(description="The style to apply to the returned collection if any") @DefaultValue("") @QueryParam("styles") String style,
+			@Parameter(description="The version of the WFS",example="2.0.0") @DefaultValue("2.0.0") @QueryParam("version") String version,
 			@DefaultValue("") @QueryParam("resourceid") String resourceids,
 			@DefaultValue("") @QueryParam("filter") String filter,
 			@DefaultValue("CQL") @QueryParam("filterLanguage") String filterLanguage,
