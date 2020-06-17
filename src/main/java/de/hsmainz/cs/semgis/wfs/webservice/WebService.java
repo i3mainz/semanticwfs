@@ -555,7 +555,7 @@ public class WebService {
 			builder.append("FeatureCollection View");
 			builder.append("</h1></div></header>");
 			builder.append(
-					"<div class=\"container\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\"><table class=\"description\" id=\"collectiontable\" width=100% border=1><thead><tr><th>Collection</th><th>Decription</th><th>Schema</th><th>Formats</th></tr></thead><tbody>");
+					"<div class=\"container\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\"><table class=\"description\" id=\"collectiontable\" width=100% border=1><thead><tr><th>Collection</th><th>Description</th><th>Schema</th></tr></thead><tbody>");
 			for (int i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
 				JSONObject curobj = wfsconf.getJSONArray("datasets").getJSONObject(i);
 				if(i%2==0){
@@ -579,7 +579,7 @@ public class WebService {
 					builder.append("<a href=\"" + wfsconf.getString("baseurl") + "/collections/"
 							+ curobj.getString("name") + "/schema?f=json\" target=\"_blank\">[JSON Schema]</a>");
 				}
-				builder.append("</td><td align=center>");
+				/*builder.append("</td><td align=center>");
 				Integer counter = 0;
 				for (ResultFormatter formatter : ResultFormatter.resultMap.values()) {
 					if (counter % 4 == 0) {
@@ -589,7 +589,7 @@ public class WebService {
 							+ curobj.getString("name") + "/items?f=" + formatter.exposedType + "\">["
 							+ formatter.exposedType.toUpperCase() + "]</a>&nbsp;&nbsp;");
 					counter++;
-				}
+				}*/
 				builder.append("</td></tr>");
 			}
 			builder.append("</tbody></table>");
@@ -899,6 +899,10 @@ public class WebService {
 			builder.append(
 					"</h1></header><div class=\"container\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\"><p>"
 							+ wfsconf.getString("servicedescription") + "</p><ul>");
+			builder.append("<li>API Documentation in <a href=\"" + wfsconf.getString("baseurl")
+					+ "/api/\">[HTML]</a>");
+			builder.append(" <a href=\"" + wfsconf.getString("baseurl") + "/openapi.yaml\">[YAML]</a>");
+			builder.append(" <a href=\"" + wfsconf.getString("baseurl") + "/openapi.json\">[JSON]</a></li>");
 			builder.append("<li>Conformance Declaration in <a href=\"" + wfsconf.getString("baseurl")
 					+ "/conformance?f=html\">[HTML]</a>");
 			builder.append(" <a href=\"" + wfsconf.getString("baseurl") + "/conformance?f=gml\">[XML]</a>");
