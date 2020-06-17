@@ -37,8 +37,8 @@ public class XSLTTransformer {
 	            }
 	}
 	
-	public static String gmdToGeoDCAT(String source, String destination) throws TransformerException  {
-		System.out.println("Source: " + source + " Destination: " + destination);
+	public static String gmdToGeoDCAT(String source) throws TransformerException  {
+		System.out.println("Source: " + source);
 		InputStreamReader input = new InputStreamReader(new ByteArrayInputStream(source.getBytes(StandardCharsets.UTF_8)));
 		TransformerFactory tFactory = new net.sf.saxon.TransformerFactoryImpl();
 		Source xmlSource = new StreamSource(input);
