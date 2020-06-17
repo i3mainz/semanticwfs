@@ -3,7 +3,7 @@ var a00286 =
     [ "[static initializer]", "a00286.html#a2e87c5ede6b7235170d287cd2e254454", null ],
     [ "formatFooter", "a00286.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00286.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
-    [ "formatter", "a00286.html#aa599a1b0a2c61ab3dacf93d4b1105c87", null ],
+    [ "formatter", "a00286.html#a902b5f00480accd29598a6bf40dfdbf9", null ],
     [ "getFormatter", "a00286.html#ab42a39cb4384c1f14ad0bb6d0e27abd8", null ],
     [ "exposedType", "a00286.html#aa6a844c9b01d97aca583be867a1c5413", null ],
     [ "lastQueriedElemCount", "a00286.html#a1ce6ef499b64cec5981912a236baa199", null ],

@@ -23,7 +23,7 @@ var a00354 =
     [ "entryPointCSWPost", "a00354.html#ab730c29537669b89f96dce42a61e7a0e", null ],
     [ "entryPointPOST", "a00354.html#afdb5fbd0bd643cc27623b04c3c93377a", null ],
     [ "getCapabilities", "a00354.html#a4405733e470b762e5015b57943d05487", null ],
-    [ "getCollectionMetadata", "a00354.html#aa4b760f0a9e36cdfe98e079e2554a066", null ],
+    [ "getCollectionMetadata", "a00354.html#a70cf32b2f2ecef8127e5419c78f4b3e9", null ],
     [ "getCollectionsMetadata", "a00354.html#af5a785f4c43e43c6b18494e0130179a1", null ],
     [ "getCollectionStyle", "a00354.html#a2c73b011030643910ee6e527d2144279", null ],
     [ "getCollectionStyles", "a00354.html#a98a8169189e3dc0061bc5f6338d8a6e0", null ],
