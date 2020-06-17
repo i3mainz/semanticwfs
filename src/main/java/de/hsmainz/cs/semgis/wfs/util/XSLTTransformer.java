@@ -47,7 +47,7 @@ public class XSLTTransformer {
 		StreamResult fOutresult = new StreamResult( outWriter );
 		Transformer transformer = tFactory.newTransformer(xslSource);
 		transformer.transform(xmlSource, fOutresult);
-		return fOutresult.toString();
+		return outWriter.toString();
 	}
 
 }
