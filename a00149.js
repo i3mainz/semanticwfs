@@ -1,4 +1,4 @@
 var a00149 =
 [
-    [ "WebService", "a00333.html", "a00333" ]
+    [ "TripleStoreConnector", "a00316.html", "a00316" ]
 ];
