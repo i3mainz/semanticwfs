@@ -41,6 +41,7 @@ import de.hsmainz.cs.semgis.wfs.util.user.UserManagementConnection;
 import de.hsmainz.cs.semgis.wfs.util.user.UserType;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
@@ -975,7 +976,6 @@ public class WebService {
 
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
-
 	@Path("/collections/{collectionid}/metadata")
 	@Operation(
             summary = "Returns the metadata of a given collection",
@@ -1014,6 +1014,24 @@ public class WebService {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections/{collectionid}")
+	@Operation(
+            summary = "Returns a given collection",
+            description = "Returns metadata of a given collection in a specified format")
+	@Parameter(
+			name="f",
+			description="The format in which the collection should be returned",
+			example="geojson"
+			)
+	@Parameter(
+			name="limit",
+			description="The maximum amount of features to be returned",
+			example="10"
+			)
+	@Parameter(
+			name="offset",
+			description="An offset to be considered when returning features",
+			example="10"
+			)
 	public Response collectionInformation(@PathParam("collectionid") String collectionid,
 			@DefaultValue("html") @QueryParam("f") String format, @QueryParam("limit") String limit,
 			@DefaultValue("0") @QueryParam("offset") String offset, @QueryParam("bbox") String bbox) {
