@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>semanticwfs: Member List</title>
+<title>semanticwfs: Tuple&lt; T, T2 &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -56,80 +56,302 @@ $(function() {
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('a00333.html','');});
+$(document).ready(function(){initNavTree('a00330.html','');});
 </script>
 <div id="doc-content">
 <div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pac-attribs">Package Attributes</a> &#124;
+<a href="a00327.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">WebService Member List</div>  </div>
+<div class="title">Tuple&lt; T, T2 &gt; Class Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a00333.html">WebService</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a00333.html#a5c129b697f74aaea3a151e0c6f2d26ce">addFeatureType</a>(@QueryParam(&quot;query&quot;) String sparqlQuery, @QueryParam(&quot;typename&quot;) String name, @QueryParam(&quot;namespace&quot;) String namespace, @QueryParam(&quot;triplestore&quot;) String triplestore, @QueryParam(&quot;username&quot;) String username, @QueryParam(&quot;password&quot;) String password, @DefaultValue(&quot;&quot;) @QueryParam(&quot;authtoken&quot;) String authtoken)</td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00333.html#a286a860174a898905ecad89f5f037cf1">addPrefixes</a>(@QueryParam(&quot;query&quot;) String sparqlQuery, @QueryParam(&quot;typename&quot;) String name, @QueryParam(&quot;namespace&quot;) String namespace, @QueryParam(&quot;triplestore&quot;) String triplestore)</td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00333.html#a2fcea3e979c877ff708f03f836e27722">bboxCache</a></td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00333.html#a4bf5aa53fd69fabfe2e66f4c1a601874">collectionInformation</a>(@PathParam(&quot;collectionid&quot;) String collectionid, @DefaultValue(&quot;html&quot;) @QueryParam(&quot;f&quot;) String format, @QueryParam(&quot;limit&quot;) String limit, @DefaultValue(&quot;0&quot;) @QueryParam(&quot;offset&quot;) String offset, @QueryParam(&quot;bbox&quot;) String bbox)</td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00333.html#a1d181ee2167c77d686a7c77db89ab833">collectionItems</a>(@PathParam(&quot;collectionid&quot;) String collectionid, @DefaultValue(&quot;html&quot;) @QueryParam(&quot;f&quot;) String format, @DefaultValue(&quot;10&quot;) @QueryParam(&quot;limit&quot;) String limit, @DefaultValue(&quot;0&quot;) @QueryParam(&quot;offset&quot;) String offset, @DefaultValue(&quot;&quot;) @QueryParam(&quot;bbox&quot;) String bbox, @DefaultValue(&quot;&quot;) @QueryParam(&quot;style&quot;) String style, @DefaultValue(&quot;&quot;) @QueryParam(&quot;bbox-crs&quot;) String bboxcrs, @DefaultValue(&quot;&quot;) @QueryParam(&quot;filter&quot;) String filter, @DefaultValue(&quot;&quot;) @QueryParam(&quot;filter-lang&quot;) String filterlang, @DefaultValue(&quot;&quot;) @QueryParam(&quot;datetime&quot;) String datetime)</td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00333.html#a6d9cc9ae4430488ec6439c42ad5be8a2">collections</a>(@DefaultValue(&quot;html&quot;) @QueryParam(&quot;f&quot;) String format)</td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00333.html#a76d06c8b39802f87c82cf4044712739b">conformance</a>(@DefaultValue(&quot;html&quot;) @QueryParam(&quot;f&quot;) String format)</td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00333.html#a0d0a2b65e2cd5792977c400c82ba0676">constructCapabilities</a>(String version, String versionnamespace)</td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00333.html#afc17958c87fe9fcc762b15b9e3f41d2b">constructCapabilitiesCSW</a>(String version, String versionnamespace)</td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00333.html#a02f1bd0586e5b2fc8811c6365800999d">constructCapabilitiesWFS10</a>(String version, String versionnamespace)</td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00333.html#a144f307441a7e2622ad74dd5ef58f017">createExceptionResponse</a>(Exception e, String format)</td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00333.html#a28bcff08fde95d77ffa6a502701688ce">describeFeatureType</a>(XMLStreamWriter writer, JSONObject featuretype, String versionnamespace, String version)</td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00333.html#a10f067eba42289e586f350c48ddba20e">describeFeatureType</a>(@QueryParam(&quot;typename&quot;) String typename, @DefaultValue(&quot;version&quot;) @QueryParam(&quot;version&quot;) String version)</td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00333.html#a89e02f1cb7ed74aa3acf20da27e92c1e">describeFeatureTypeJSON</a>(@QueryParam(&quot;typename&quot;) String typename, @DefaultValue(&quot;version&quot;) @QueryParam(&quot;version&quot;) String version)</td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00333.html#af4323d0e010d3b5f05244c917a43eb59">describeFeatureTypeWFS10</a>(XMLStreamWriter writer, JSONObject featuretype, String versionnamespace, String version)</td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00333.html#a861ccbf29e313388b7b887f247644c2e">describeScalarCapabilities</a>(XMLStreamWriter writer, String versionnamespace, String namespace)</td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00333.html#ad165877472c415f9bfdbad811c99f754">describeSpatialCapabilities</a>(XMLStreamWriter writer, String versionnamespace, String namespace)</td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00333.html#a6196d8576a3809e04288c34d85b3c6bf">describeSpatialCapabilitiesWFS10</a>(XMLStreamWriter writer, String versionnamespace, String namespace)</td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00333.html#ac45dc69febc3ddcf7bea508f57a96691">entryPoint</a>(@DefaultValue(&quot;WFS&quot;) @QueryParam(&quot;SERVICE&quot;) String service, @DefaultValue(&quot;GetCapabilities&quot;) @QueryParam(&quot;REQUEST&quot;) String request, @DefaultValue(&quot;2.0.0&quot;) @QueryParam(&quot;VERSION&quot;) String version, @DefaultValue(&quot;&quot;) @QueryParam(&quot;TYPENAME&quot;) String typename, @DefaultValue(&quot;&quot;) @QueryParam(&quot;TYPENAMES&quot;) String typenames, @DefaultValue(&quot;&quot;) @QueryParam(&quot;SRSNAME&quot;) String srsName, @DefaultValue(&quot;gml&quot;) @QueryParam(&quot;EXCEPTIONS&quot;) String exceptions, @DefaultValue(&quot;&quot;) @QueryParam(&quot;BBOX&quot;) String bbox, @DefaultValue(&quot;&quot;) @QueryParam(&quot;VALUEREFERENCE&quot;) String propertyname, @DefaultValue(&quot;ASC&quot;) @QueryParam(&quot;SORTBY&quot;) String sortBy, @DefaultValue(&quot;&quot;) @QueryParam(&quot;STYLES&quot;) String style, @DefaultValue(&quot;results&quot;) @QueryParam(&quot;RESULTTYPE&quot;) String resultType, @DefaultValue(&quot;&quot;) @QueryParam(&quot;RESOURCEID&quot;) String resourceids, @DefaultValue(&quot;&quot;) @QueryParam(&quot;GMLOBJECTID&quot;) String gmlobjectid, @DefaultValue(&quot;0&quot;) @QueryParam(&quot;STARTINDEX&quot;) String startindex, @DefaultValue(&quot;&quot;) @QueryParam(&quot;FILTER&quot;) String filter, @DefaultValue(&quot;&quot;) @QueryParam(&quot;FILTERLANGUAGE&quot;) String filterLanguage, @DefaultValue(&quot;gml&quot;) @QueryParam(&quot;OUTPUTFORMAT&quot;) String output, @DefaultValue(&quot;5&quot;) @QueryParam(&quot;COUNT&quot;) String count)</td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00333.html#a04fbdb7417dcf59eac247435168004cd">entryPointCSW</a>(@DefaultValue(&quot;CSW&quot;) @QueryParam(&quot;SERVICE&quot;) String service, @DefaultValue(&quot;GetCapabilities&quot;) @QueryParam(&quot;REQUEST&quot;) String request, @DefaultValue(&quot;2.0.2&quot;) @QueryParam(&quot;VERSION&quot;) String version, @DefaultValue(&quot;&quot;) @QueryParam(&quot;TYPENAME&quot;) String typename, @DefaultValue(&quot;&quot;) @QueryParam(&quot;TYPENAMES&quot;) String typenames, @DefaultValue(&quot;gml&quot;) @QueryParam(&quot;OUTPUTFORMAT&quot;) String output)</td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00333.html#ab730c29537669b89f96dce42a61e7a0e">entryPointCSWPost</a>(@DefaultValue(&quot;CSW&quot;) @QueryParam(&quot;SERVICE&quot;) String service, @DefaultValue(&quot;GetCapabilities&quot;) @QueryParam(&quot;REQUEST&quot;) String request, @DefaultValue(&quot;2.0.2&quot;) @QueryParam(&quot;VERSION&quot;) String version, @DefaultValue(&quot;&quot;) @QueryParam(&quot;TYPENAME&quot;) String typename, @DefaultValue(&quot;&quot;) @QueryParam(&quot;TYPENAMES&quot;) String typenames, @DefaultValue(&quot;gml&quot;) @QueryParam(&quot;OUTPUTFORMAT&quot;) String output)</td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00333.html#afdb5fbd0bd643cc27623b04c3c93377a">entryPointPOST</a>(@DefaultValue(&quot;WFS&quot;) @QueryParam(&quot;SERVICE&quot;) String service, @DefaultValue(&quot;GetCapabilities&quot;) @QueryParam(&quot;REQUEST&quot;) String request, @DefaultValue(&quot;2.0.0&quot;) @QueryParam(&quot;VERSION&quot;) String version, @DefaultValue(&quot;&quot;) @QueryParam(&quot;TYPENAME&quot;) String typename, @DefaultValue(&quot;&quot;) @QueryParam(&quot;TYPENAMES&quot;) String typenames, @DefaultValue(&quot;&quot;) @QueryParam(&quot;SRSNAME&quot;) String srsName, @DefaultValue(&quot;gml&quot;) @QueryParam(&quot;EXCEPTIONS&quot;) String exceptions, @DefaultValue(&quot;&quot;) @QueryParam(&quot;BBOX&quot;) String bbox, @DefaultValue(&quot;&quot;) @QueryParam(&quot;VALUEREFERENCE&quot;) String propertyname, @DefaultValue(&quot;ASC&quot;) @QueryParam(&quot;SORTBY&quot;) String sortBy, @DefaultValue(&quot;&quot;) @QueryParam(&quot;STYLES&quot;) String style, @DefaultValue(&quot;results&quot;) @QueryParam(&quot;RESULTTYPE&quot;) String resultType, @DefaultValue(&quot;&quot;) @QueryParam(&quot;RESOURCEID&quot;) String resourceids, @DefaultValue(&quot;&quot;) @QueryParam(&quot;GMLOBJECTID&quot;) String gmlobjectid, @DefaultValue(&quot;0&quot;) @QueryParam(&quot;STARTINDEX&quot;) String startindex, @DefaultValue(&quot;&quot;) @QueryParam(&quot;FILTER&quot;) String filter, @DefaultValue(&quot;&quot;) @QueryParam(&quot;FILTERLANGUAGE&quot;) String filterLanguage, @DefaultValue(&quot;gml&quot;) @QueryParam(&quot;OUTPUTFORMAT&quot;) String output, @DefaultValue(&quot;5&quot;) @QueryParam(&quot;COUNT&quot;) String count)</td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00333.html#aac6cc225f89d757e0034110b178ac276">featureTypeCache</a></td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00333.html#a4405733e470b762e5015b57943d05487">getCapabilities</a>(@DefaultValue(&quot;2.0.0&quot;) @QueryParam(&quot;version&quot;) String version)</td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00333.html#aa4b760f0a9e36cdfe98e079e2554a066">getCollectionMetadata</a>(@PathParam(&quot;collectionid&quot;) String collectionid, @DefaultValue(&quot;html&quot;) @QueryParam(&quot;f&quot;) String format, @DefaultValue(&quot;false&quot;) @QueryParam(&quot;collectioncall&quot;) String collectioncall)</td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00333.html#af5a785f4c43e43c6b18494e0130179a1">getCollectionsMetadata</a>(@DefaultValue(&quot;html&quot;) @QueryParam(&quot;f&quot;) String format)</td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00333.html#a2c73b011030643910ee6e527d2144279">getCollectionStyle</a>(@PathParam(&quot;collectionid&quot;) String collectionid, @PathParam(&quot;styleid&quot;) String styleid, @DefaultValue(&quot;html&quot;) @QueryParam(&quot;f&quot;) String format)</td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00333.html#a98a8169189e3dc0061bc5f6338d8a6e0">getCollectionStyles</a>(@PathParam(&quot;collectionid&quot;) String collectionid, @DefaultValue(&quot;html&quot;) @QueryParam(&quot;f&quot;) String format)</td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00333.html#a0c26d2937232e2137cdb0066235dea47">getFeature</a>(@QueryParam(&quot;typename&quot;) String typename, @DefaultValue(&quot;json&quot;) @QueryParam(&quot;outputFormat&quot;) String output, @DefaultValue(&quot;10&quot;) @QueryParam(&quot;count&quot;) String count, @DefaultValue(&quot;0&quot;) @QueryParam(&quot;startindex&quot;) String startindex, @DefaultValue(&quot;&quot;) @QueryParam(&quot;srsName&quot;) String srsName, @DefaultValue(&quot;ASC&quot;) @QueryParam(&quot;sortBy&quot;) String sortBy, @DefaultValue(&quot;&quot;) @QueryParam(&quot;styles&quot;) String style, @DefaultValue(&quot;2.0.0&quot;) @QueryParam(&quot;version&quot;) String version, @DefaultValue(&quot;&quot;) @QueryParam(&quot;resourceid&quot;) String resourceids, @DefaultValue(&quot;&quot;) @QueryParam(&quot;filter&quot;) String filter, @DefaultValue(&quot;CQL&quot;) @QueryParam(&quot;filterLanguage&quot;) String filterLanguage, @DefaultValue(&quot;results&quot;) @QueryParam(&quot;resultType&quot;) String resultType)</td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00333.html#a913aa55ecf0f56358281be5bfaf0cfe5">getFeatureById</a>(@PathParam(&quot;collectionid&quot;) String collectionid, @PathParam(&quot;featureid&quot;) String featureid, @DefaultValue(&quot;&quot;) @QueryParam(&quot;style&quot;) String style, @DefaultValue(&quot;html&quot;) @QueryParam(&quot;f&quot;) String format)</td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00333.html#a6054667ee75eb4705f6af4db1ea52678">getFeatureTypes</a>()</td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00333.html#a41919f870e710f41155aa6da39757fc9">getGmlObject</a>(@QueryParam(&quot;typename&quot;) String typename, @QueryParam(&quot;GmlObjectId&quot;) String gmlobjectid, @DefaultValue(&quot;4&quot;) @QueryParam(&quot;traverseXlinkDepth&quot;) String traverseXlinkDepth, @DefaultValue(&quot;gml&quot;) @QueryParam(&quot;outputFormat&quot;) String output)</td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00333.html#ac7ca200a0e7247ec7f3c1917d330f65d">getPropertyValue</a>(@QueryParam(&quot;typename&quot;) String typename, @QueryParam(&quot;valuereference&quot;) String propertyname, @DefaultValue(&quot;json&quot;) @QueryParam(&quot;outputFormat&quot;) String output, @DefaultValue(&quot;&quot;) @QueryParam(&quot;resourceids&quot;) String resourceids, @DefaultValue(&quot;&quot;) @QueryParam(&quot;filter&quot;) String filter, @DefaultValue(&quot;0&quot;) @QueryParam(&quot;count&quot;) String count, @DefaultValue(&quot;results&quot;) @QueryParam(&quot;resultType&quot;) String resultType)</td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00333.html#a18a0a48b640b18080e6716cc84db8304">getSchema</a>(@PathParam(&quot;collectionid&quot;) String collectionid, @DefaultValue(&quot;gml&quot;) @QueryParam(&quot;f&quot;) String format)</td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00333.html#ae310b4f88f65f8db789e31b8773c8965">helloWorld</a>()</td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00333.html#a9ebf090c22190f689427fc0956812833">hitCache</a></td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00333.html#abadb2017cd034105cf534f764aee53eb">htmlHead</a></td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"><span class="mlabel">package</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00333.html#ad6a920cd96def32b5ef6a4f99bf46c23">landingPage</a>(@DefaultValue(&quot;html&quot;) @QueryParam(&quot;f&quot;) String format)</td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00333.html#ab5eeb22a4edf8c2b8a9e26b0cf8f5304">lockFeature</a>()</td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00333.html#afcf1494f98149bfbcf6f6d7800b7daa2">login</a>(@QueryParam(&quot;username&quot;) String username, @QueryParam(&quot;password&quot;) String password)</td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00333.html#a103fe877959c559c3efe72dc9db98f5e">milliesInDays</a></td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00333.html#a37319c767ff2ca750a3ab110aa78ac7a">nameSpaceCache</a></td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00333.html#a88724b837ed6ce278eccca40f2f6f87b">prefixes</a>()</td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00333.html#a0db1e9331f9e64ddc4826cf215c25761">queryConfigs</a>()</td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00333.html#aa42b5154ec2b2ed30598975610a291d0">queryService</a>(@QueryParam(&quot;query&quot;) String query, @QueryParam(&quot;endpoint&quot;) String endpoint)</td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00333.html#a0e7356902f2dc233c3c15178db43d691">queryService</a>(@QueryParam(&quot;query&quot;) String query, @QueryParam(&quot;endpoint&quot;) String endpoint, @QueryParam(&quot;geojson&quot;) String geojson)</td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00333.html#a237d3c6cd2974a537f90fb868e861472">saveFeatureTypes</a>(@QueryParam(&quot;featjson&quot;) String featureTypesJSON, @DefaultValue(&quot;&quot;) @QueryParam(&quot;authtoken&quot;) String authtoken)</td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00333.html#a503eb82f8096e9d01d04b51d598aefcd">SERVERURL</a></td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00333.html#a5d430a6faf3d545dd008cdc89376ba6b">SERVICETYPEVERSION</a></td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00333.html#a17829698dc41b256a7d7b5cc89dc01b2">style</a>(@DefaultValue(&quot;WFS&quot;) @QueryParam(&quot;SERVICE&quot;) String service, @DefaultValue(&quot;GetStyle&quot;) @QueryParam(&quot;REQUEST&quot;) String request, @DefaultValue(&quot;&quot;) @QueryParam(&quot;TYPENAME&quot;) String typename, @DefaultValue(&quot;&quot;) @QueryParam(&quot;TYPENAMES&quot;) String typenames, @DefaultValue(&quot;gml&quot;) @QueryParam(&quot;OUTPUTFORMAT&quot;) String output)</td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00333.html#adae526bd90688be0803d1ae1e6b9c1d1">styleCache</a></td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00333.html#a56810f82731fd18b8c6ef24a436ec3a1">transaction</a>()</td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00333.html#ace30f38fba60924b394de3127fb8dec8">triplestoreconf</a></td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"><span class="mlabel">package</span><span class="mlabel">static</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00333.html#aebca3743bf6bb6a049732727cdf3e41e">vectorTiles</a>(@DefaultValue(&quot;CSW&quot;) @QueryParam(&quot;SERVICE&quot;) String service, @DefaultValue(&quot;GetCapabilities&quot;) @QueryParam(&quot;REQUEST&quot;) String request, @DefaultValue(&quot;2.0.2&quot;) @QueryParam(&quot;VERSION&quot;) String version, @DefaultValue(&quot;&quot;) @QueryParam(&quot;TYPENAME&quot;) String typename, @DefaultValue(&quot;&quot;) @QueryParam(&quot;TYPENAMES&quot;) String typenames, @DefaultValue(&quot;gml&quot;) @QueryParam(&quot;OUTPUTFORMAT&quot;) String output)</td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00333.html#a7a8fdc0242859fa8c99102a9095b600f">WebService</a>()</td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00333.html#a9bc418f5f79bbc27b865eb32dfaaf298">wfsconf</a></td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"><span class="mlabel">package</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00333.html#afbd8bf7386c4d548993d0957bfd902bf">xmlwriter</a></td><td class="entry"><a class="el" href="a00333.html">WebService</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<p><a class="el" href="a00330.html" title="Tuple util class. ">Tuple</a> util class.  
+ <a href="a00330.html#details">More...</a></p>
+<div class="dynheader">
+Inheritance diagram for Tuple&lt; T, T2 &gt;:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00329.png" border="0" usemap="#Tuple_3_01T_00_01T2_01_4_inherit__map" alt="Inheritance graph"/></div>
+<map name="Tuple_3_01T_00_01T2_01_4_inherit__map" id="Tuple_3_01T_00_01T2_01_4_inherit__map">
+<area shape="rect" id="node2" href="a00774.html" title="Comparable" alt="" coords="14,5,106,32"/>
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
+Collaboration diagram for Tuple&lt; T, T2 &gt;:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00328.png" border="0" usemap="#Tuple_3_01T_00_01T2_01_4_coll__map" alt="Collaboration graph"/></div>
+<map name="Tuple_3_01T_00_01T2_01_4_coll__map" id="Tuple_3_01T_00_01T2_01_4_coll__map">
+<area shape="rect" id="node2" href="a00774.html" title="Comparable" alt="" coords="5,5,97,32"/>
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a2205a0a8d96aaf2da3bf4e86d94bff9c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00330.html#a2205a0a8d96aaf2da3bf4e86d94bff9c">Tuple</a> (T <a class="el" href="a00330.html#a4d21edec525eb08b9d469baa37aa2193">one</a>, T2 <a class="el" href="a00330.html#a801efe55e90affa4902d8a32f80067b8">two</a>)</td></tr>
+<tr class="separator:a2205a0a8d96aaf2da3bf4e86d94bff9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c836c92534fccf34aea4deff7887572"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00330.html#a8c836c92534fccf34aea4deff7887572">compareTo</a> (Object o)</td></tr>
+<tr class="separator:a8c836c92534fccf34aea4deff7887572"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3ce8ca5a04e8966a9d2158aeeecfc16"><td class="memItemLeft" align="right" valign="top">boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00330.html#ae3ce8ca5a04e8966a9d2158aeeecfc16">equals</a> (Object obj)</td></tr>
+<tr class="separator:ae3ce8ca5a04e8966a9d2158aeeecfc16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a91dcdf481c983152139551c19cab8439"><td class="memItemLeft" align="right" valign="top">T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00330.html#a91dcdf481c983152139551c19cab8439">getOne</a> ()</td></tr>
+<tr class="separator:a91dcdf481c983152139551c19cab8439"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba2e1d54c2884223728d5a2ae3396bd2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00330.html#aba2e1d54c2884223728d5a2ae3396bd2">setOne</a> (final T <a class="el" href="a00330.html#a4d21edec525eb08b9d469baa37aa2193">one</a>)</td></tr>
+<tr class="separator:aba2e1d54c2884223728d5a2ae3396bd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7b063829737d3e1858037d0182e7c86"><td class="memItemLeft" align="right" valign="top">T2&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00330.html#ac7b063829737d3e1858037d0182e7c86">getTwo</a> ()</td></tr>
+<tr class="separator:ac7b063829737d3e1858037d0182e7c86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acfed43a97f7d5fc7b02b43f1b9523123"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00330.html#acfed43a97f7d5fc7b02b43f1b9523123">setTwo</a> (final T2 <a class="el" href="a00330.html#a801efe55e90affa4902d8a32f80067b8">two</a>)</td></tr>
+<tr class="separator:acfed43a97f7d5fc7b02b43f1b9523123"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad146fa8579a5f8a876c4688cc5a68520"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00330.html#ad146fa8579a5f8a876c4688cc5a68520">toString</a> ()</td></tr>
+<tr class="separator:ad146fa8579a5f8a876c4688cc5a68520"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pac-attribs"></a>
+Package Attributes</h2></td></tr>
+<tr class="memitem:a4d21edec525eb08b9d469baa37aa2193"><td class="memItemLeft" align="right" valign="top">T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00330.html#a4d21edec525eb08b9d469baa37aa2193">one</a></td></tr>
+<tr class="separator:a4d21edec525eb08b9d469baa37aa2193"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a801efe55e90affa4902d8a32f80067b8"><td class="memItemLeft" align="right" valign="top">T2&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00330.html#a801efe55e90affa4902d8a32f80067b8">two</a></td></tr>
+<tr class="separator:a801efe55e90affa4902d8a32f80067b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p><a class="el" href="a00330.html" title="Tuple util class. ">Tuple</a> util class. </p>
+<p>User: Timo Homburg Date: 19.11.13 Time: 22:15 To change this template use File | Settings | File Templates. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a2205a0a8d96aaf2da3bf4e86d94bff9c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2205a0a8d96aaf2da3bf4e86d94bff9c">&#9670;&nbsp;</a></span>Tuple()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a00330.html">Tuple</a> </td>
+          <td>(</td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>one</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">T2&#160;</td>
+          <td class="paramname"><em>two</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="reference">References <a class="el" href="a00330.html#a4d21edec525eb08b9d469baa37aa2193">Tuple&lt; T, T2 &gt;.one</a>, and <a class="el" href="a00330.html#a801efe55e90affa4902d8a32f80067b8">Tuple&lt; T, T2 &gt;.two</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00330.html#a8c836c92534fccf34aea4deff7887572">Tuple&lt; T, T2 &gt;.compareTo()</a>.</p>
+<div class="fragment"><div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;                               {</div><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        this.<a class="code" href="a00330.html#a4d21edec525eb08b9d469baa37aa2193">one</a>=<a class="code" href="a00330.html#a4d21edec525eb08b9d469baa37aa2193">one</a>;</div><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        this.<a class="code" href="a00330.html#a801efe55e90affa4902d8a32f80067b8">two</a>=<a class="code" href="a00330.html#a801efe55e90affa4902d8a32f80067b8">two</a>;</div><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    }</div><div class="ttc" id="a00330_html_a4d21edec525eb08b9d469baa37aa2193"><div class="ttname"><a href="a00330.html#a4d21edec525eb08b9d469baa37aa2193">de.hsmainz.cs.semgis.wfs.util.Tuple.one</a></div><div class="ttdeci">T one</div><div class="ttdef"><b>Definition:</b> Tuple.java:11</div></div>
+<div class="ttc" id="a00330_html_a801efe55e90affa4902d8a32f80067b8"><div class="ttname"><a href="a00330.html#a801efe55e90affa4902d8a32f80067b8">de.hsmainz.cs.semgis.wfs.util.Tuple.two</a></div><div class="ttdeci">T2 two</div><div class="ttdef"><b>Definition:</b> Tuple.java:12</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a8c836c92534fccf34aea4deff7887572"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c836c92534fccf34aea4deff7887572">&#9670;&nbsp;</a></span>compareTo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int compareTo </td>
+          <td>(</td>
+          <td class="paramtype">Object&#160;</td>
+          <td class="paramname"><em>o</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="reference">References <a class="el" href="a00330.html#a4d21edec525eb08b9d469baa37aa2193">Tuple&lt; T, T2 &gt;.one</a>, <a class="el" href="a00330.html#a2205a0a8d96aaf2da3bf4e86d94bff9c">Tuple&lt; T, T2 &gt;.Tuple()</a>, and <a class="el" href="a00330.html#a801efe55e90affa4902d8a32f80067b8">Tuple&lt; T, T2 &gt;.two</a>.</p>
+<div class="fragment"><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                                   {</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <a class="code" href="a00330.html#a2205a0a8d96aaf2da3bf4e86d94bff9c">Tuple</a> t=(<a class="code" href="a00330.html#a2205a0a8d96aaf2da3bf4e86d94bff9c">Tuple</a>) o;</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keywordflow">if</span>(t.two== <span class="keyword">this</span>.two &amp;&amp; <span class="keyword">this</span>.one==t.one)</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            <span class="keywordflow">return</span> 0;</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="keywordflow">return</span> 1;</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    }</div><div class="ttc" id="a00330_html_a2205a0a8d96aaf2da3bf4e86d94bff9c"><div class="ttname"><a href="a00330.html#a2205a0a8d96aaf2da3bf4e86d94bff9c">de.hsmainz.cs.semgis.wfs.util.Tuple.Tuple</a></div><div class="ttdeci">Tuple(T one, T2 two)</div><div class="ttdef"><b>Definition:</b> Tuple.java:14</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="ae3ce8ca5a04e8966a9d2158aeeecfc16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae3ce8ca5a04e8966a9d2158aeeecfc16">&#9670;&nbsp;</a></span>equals()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">boolean equals </td>
+          <td>(</td>
+          <td class="paramtype">Object&#160;</td>
+          <td class="paramname"><em>obj</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="fragment"><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                                      {</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keywordflow">if</span>(obj instanceof <a class="code" href="a00330.html#a2205a0a8d96aaf2da3bf4e86d94bff9c">Tuple</a>)</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;            <span class="keywordflow">return</span> this.<a class="code" href="a00330.html#a4d21edec525eb08b9d469baa37aa2193">one</a>.equals(((Tuple)obj).<a class="code" href="a00330.html#a4d21edec525eb08b9d469baa37aa2193">one</a>) &amp;&amp; this.<a class="code" href="a00330.html#a801efe55e90affa4902d8a32f80067b8">two</a>.equals(((Tuple)obj).<a class="code" href="a00330.html#a801efe55e90affa4902d8a32f80067b8">two</a>);</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    }</div><div class="ttc" id="a00330_html_a2205a0a8d96aaf2da3bf4e86d94bff9c"><div class="ttname"><a href="a00330.html#a2205a0a8d96aaf2da3bf4e86d94bff9c">de.hsmainz.cs.semgis.wfs.util.Tuple.Tuple</a></div><div class="ttdeci">Tuple(T one, T2 two)</div><div class="ttdef"><b>Definition:</b> Tuple.java:14</div></div>
+<div class="ttc" id="a00330_html_a4d21edec525eb08b9d469baa37aa2193"><div class="ttname"><a href="a00330.html#a4d21edec525eb08b9d469baa37aa2193">de.hsmainz.cs.semgis.wfs.util.Tuple.one</a></div><div class="ttdeci">T one</div><div class="ttdef"><b>Definition:</b> Tuple.java:11</div></div>
+<div class="ttc" id="a00330_html_a801efe55e90affa4902d8a32f80067b8"><div class="ttname"><a href="a00330.html#a801efe55e90affa4902d8a32f80067b8">de.hsmainz.cs.semgis.wfs.util.Tuple.two</a></div><div class="ttdeci">T2 two</div><div class="ttdef"><b>Definition:</b> Tuple.java:12</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a91dcdf481c983152139551c19cab8439"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a91dcdf481c983152139551c19cab8439">&#9670;&nbsp;</a></span>getOne()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">T getOne </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="reference">References <a class="el" href="a00330.html#a4d21edec525eb08b9d469baa37aa2193">Tuple&lt; T, T2 &gt;.one</a>.</p>
+<div class="fragment"><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                     {</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="a00330.html#a4d21edec525eb08b9d469baa37aa2193">one</a>;</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    }</div><div class="ttc" id="a00330_html_a4d21edec525eb08b9d469baa37aa2193"><div class="ttname"><a href="a00330.html#a4d21edec525eb08b9d469baa37aa2193">de.hsmainz.cs.semgis.wfs.util.Tuple.one</a></div><div class="ttdeci">T one</div><div class="ttdef"><b>Definition:</b> Tuple.java:11</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="ac7b063829737d3e1858037d0182e7c86"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7b063829737d3e1858037d0182e7c86">&#9670;&nbsp;</a></span>getTwo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">T2 getTwo </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="reference">References <a class="el" href="a00330.html#a801efe55e90affa4902d8a32f80067b8">Tuple&lt; T, T2 &gt;.two</a>.</p>
+<div class="fragment"><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                      {</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="a00330.html#a801efe55e90affa4902d8a32f80067b8">two</a>;</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    }</div><div class="ttc" id="a00330_html_a801efe55e90affa4902d8a32f80067b8"><div class="ttname"><a href="a00330.html#a801efe55e90affa4902d8a32f80067b8">de.hsmainz.cs.semgis.wfs.util.Tuple.two</a></div><div class="ttdeci">T2 two</div><div class="ttdef"><b>Definition:</b> Tuple.java:12</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="aba2e1d54c2884223728d5a2ae3396bd2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba2e1d54c2884223728d5a2ae3396bd2">&#9670;&nbsp;</a></span>setOne()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void setOne </td>
+          <td>(</td>
+          <td class="paramtype">final T&#160;</td>
+          <td class="paramname"><em>one</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="reference">References <a class="el" href="a00330.html#a4d21edec525eb08b9d469baa37aa2193">Tuple&lt; T, T2 &gt;.one</a>.</p>
+<div class="fragment"><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                                    {</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        this.<a class="code" href="a00330.html#a4d21edec525eb08b9d469baa37aa2193">one</a> = <a class="code" href="a00330.html#a4d21edec525eb08b9d469baa37aa2193">one</a>;</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    }</div><div class="ttc" id="a00330_html_a4d21edec525eb08b9d469baa37aa2193"><div class="ttname"><a href="a00330.html#a4d21edec525eb08b9d469baa37aa2193">de.hsmainz.cs.semgis.wfs.util.Tuple.one</a></div><div class="ttdeci">T one</div><div class="ttdef"><b>Definition:</b> Tuple.java:11</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="acfed43a97f7d5fc7b02b43f1b9523123"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acfed43a97f7d5fc7b02b43f1b9523123">&#9670;&nbsp;</a></span>setTwo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void setTwo </td>
+          <td>(</td>
+          <td class="paramtype">final T2&#160;</td>
+          <td class="paramname"><em>two</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="reference">References <a class="el" href="a00330.html#a801efe55e90affa4902d8a32f80067b8">Tuple&lt; T, T2 &gt;.two</a>.</p>
+<div class="fragment"><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                                     {</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        this.<a class="code" href="a00330.html#a801efe55e90affa4902d8a32f80067b8">two</a> = <a class="code" href="a00330.html#a801efe55e90affa4902d8a32f80067b8">two</a>;</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    }</div><div class="ttc" id="a00330_html_a801efe55e90affa4902d8a32f80067b8"><div class="ttname"><a href="a00330.html#a801efe55e90affa4902d8a32f80067b8">de.hsmainz.cs.semgis.wfs.util.Tuple.two</a></div><div class="ttdeci">T2 two</div><div class="ttdef"><b>Definition:</b> Tuple.java:12</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="ad146fa8579a5f8a876c4688cc5a68520"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad146fa8579a5f8a876c4688cc5a68520">&#9670;&nbsp;</a></span>toString()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">String toString </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="fragment"><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                             {</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keywordflow">return</span> <span class="stringliteral">&quot;[&quot;</span>+this.<a class="code" href="a00330.html#a4d21edec525eb08b9d469baa37aa2193">one</a>+<span class="stringliteral">&quot;,&quot;</span>+this.<a class="code" href="a00330.html#a801efe55e90affa4902d8a32f80067b8">two</a>+<span class="stringliteral">&quot;]&quot;</span>;</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    }</div><div class="ttc" id="a00330_html_a4d21edec525eb08b9d469baa37aa2193"><div class="ttname"><a href="a00330.html#a4d21edec525eb08b9d469baa37aa2193">de.hsmainz.cs.semgis.wfs.util.Tuple.one</a></div><div class="ttdeci">T one</div><div class="ttdef"><b>Definition:</b> Tuple.java:11</div></div>
+<div class="ttc" id="a00330_html_a801efe55e90affa4902d8a32f80067b8"><div class="ttname"><a href="a00330.html#a801efe55e90affa4902d8a32f80067b8">de.hsmainz.cs.semgis.wfs.util.Tuple.two</a></div><div class="ttdeci">T2 two</div><div class="ttdef"><b>Definition:</b> Tuple.java:12</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a4d21edec525eb08b9d469baa37aa2193"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d21edec525eb08b9d469baa37aa2193">&#9670;&nbsp;</a></span>one</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">T one</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">package</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="reference">Referenced by <a class="el" href="a00330.html#a8c836c92534fccf34aea4deff7887572">Tuple&lt; T, T2 &gt;.compareTo()</a>, <a class="el" href="a00330.html#a91dcdf481c983152139551c19cab8439">Tuple&lt; T, T2 &gt;.getOne()</a>, <a class="el" href="a00330.html#aba2e1d54c2884223728d5a2ae3396bd2">Tuple&lt; T, T2 &gt;.setOne()</a>, and <a class="el" href="a00330.html#a2205a0a8d96aaf2da3bf4e86d94bff9c">Tuple&lt; T, T2 &gt;.Tuple()</a>.</p>
+
+</div>
+</div>
+<a id="a801efe55e90affa4902d8a32f80067b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a801efe55e90affa4902d8a32f80067b8">&#9670;&nbsp;</a></span>two</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">T2 two</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">package</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="reference">Referenced by <a class="el" href="a00330.html#a8c836c92534fccf34aea4deff7887572">Tuple&lt; T, T2 &gt;.compareTo()</a>, <a class="el" href="a00330.html#ac7b063829737d3e1858037d0182e7c86">Tuple&lt; T, T2 &gt;.getTwo()</a>, <a class="el" href="a00330.html#acfed43a97f7d5fc7b02b43f1b9523123">Tuple&lt; T, T2 &gt;.setTwo()</a>, and <a class="el" href="a00330.html#a2205a0a8d96aaf2da3bf4e86d94bff9c">Tuple&lt; T, T2 &gt;.Tuple()</a>.</p>
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.13-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a00147.html">de</a></li><li class="navelem"><a class="el" href="a00148.html">hsmainz</a></li><li class="navelem"><a class="el" href="a00149.html">cs</a></li><li class="navelem"><a class="el" href="a00150.html">semgis</a></li><li class="navelem"><a class="el" href="a00151.html">wfs</a></li><li class="navelem"><a class="el" href="a00156.html">util</a></li><li class="navelem"><a class="el" href="a00330.html">Tuple</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>

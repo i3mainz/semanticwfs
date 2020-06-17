@@ -1,8 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$a00300.html" title="ResultStyleFormatter" alt="" coords="5,107,152,133"/>
-<area shape="rect" id="node2" href="$a00288.html" title="GeoJSONCSSFormatter" alt="" coords="200,5,367,32"/>
-<area shape="rect" id="node3" href="$a00292.html" title="KMLStyleFormatter" alt="" coords="216,56,351,83"/>
-<area shape="rect" id="node4" href="$a00296.html" title="MapCSSFormatter" alt="" coords="218,107,349,133"/>
-<area shape="rect" id="node5" href="$a00304.html" title="SimpleStyleFormatter" alt="" coords="209,157,357,184"/>
-<area shape="rect" id="node6" href="$a00308.html" title="SLDFormatter" alt="" coords="231,208,335,235"/>
+<area shape="rect" id="node1" href="$a00290.html" title="ResultMetadataFormatter" alt="" coords="5,31,176,57"/>
+<area shape="rect" id="node2" href="$a00282.html" title="DCATFormatter" alt="" coords="224,5,339,32"/>
+<area shape="rect" id="node3" href="$a00286.html" title="GMDFormatter" alt="" coords="227,56,336,83"/>
 </map>
