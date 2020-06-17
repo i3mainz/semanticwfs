@@ -39,8 +39,35 @@ import de.hsmainz.cs.semgis.wfs.util.Tuple;
 import de.hsmainz.cs.semgis.wfs.util.user.User;
 import de.hsmainz.cs.semgis.wfs.util.user.UserManagementConnection;
 import de.hsmainz.cs.semgis.wfs.util.user.UserType;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.info.Contact;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.info.License;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
+
+@OpenAPIDefinition(
+		 info = @Info(
+				    title = "SemanticWFS API",
+				    version = "1.0",
+				    description = "The SemanticWFS API provides access to geodata, its metadata and styles which have been stored in a triple store",
+				    contact = @Contact(
+				      name = "Anonymous User",
+				      email = "email@example.com"
+				    ),
+				    license = @License(
+				      url = "https://www.govdata.de/dl-de/by-2-0",
+				      name = "Datenlizenz Deutschland"
+				    )
+				  ),
+				  security = {
+				    @SecurityRequirement(
+				      name = "none"
+				    )
+}
+)
 @Path("/")
 public class WebService {
 
@@ -944,7 +971,11 @@ public class WebService {
 
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
+
 	@Path("/collections/{collectionid}/metadata")
+	@Operation(
+            summary = "Returns the metadata of a given collection",
+            description = "Returns metadata of a given collection in a specified format")
 	public Response getCollectionMetadata(@PathParam("collectionid") String collectionid,
 			@DefaultValue("html") @QueryParam("f") String format,
 			@DefaultValue("false") @QueryParam("collectioncall") String collectioncall) {
