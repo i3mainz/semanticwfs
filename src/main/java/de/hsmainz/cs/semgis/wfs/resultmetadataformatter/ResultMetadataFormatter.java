@@ -47,7 +47,7 @@ public abstract class ResultMetadataFormatter {
         CoordinateTransform t;
 	}*/
 	
-	public abstract String formatter(String collectionid, String collectioncall,String collectionurl,JSONObject workingobj) throws XMLStreamException;
+	public abstract String formatter(String collectionid, String collectioncall,String collectionurl,JSONObject workingobj,String format) throws XMLStreamException;
 
 	public String formatHeader() {
 		return "";

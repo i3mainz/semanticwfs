@@ -12,7 +12,7 @@ import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
 public class GMDFormatter extends ResultMetadataFormatter {
 
 	@Override
-	public String formatter(String collectionid, String collectioncall,String collectionurl,JSONObject workingobj) throws XMLStreamException {
+	public String formatter(String collectionid, String collectioncall,String collectionurl,JSONObject workingobj,String format) throws XMLStreamException {
 		StringWriter strwriter = new StringWriter();
 		XMLOutputFactory output = XMLOutputFactory.newInstance();
 		XMLStreamWriter writer;

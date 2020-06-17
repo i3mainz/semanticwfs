@@ -321,7 +321,7 @@ public class WebService {
 				return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 			}
 			if ("getRecords".equalsIgnoreCase(request)) {
-				return this.getCollectionMetadata(typename, output, "false");
+				return this.getCollectionMetadata(typename, output, "false","");
 			}
 			if ("getRecordById".equalsIgnoreCase(request)) {
 				return this.getCollectionsMetadata(output);
@@ -962,7 +962,7 @@ public class WebService {
 			this.xmlwriter = writer;
 			for (int i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
 				JSONObject curobj = wfsconf.getJSONArray("datasets").getJSONObject(i);
-				getCollectionMetadata(wfsconf.getJSONArray("datasets").getJSONObject(i).getString("name"), "", "true");
+				getCollectionMetadata(wfsconf.getJSONArray("datasets").getJSONObject(i).getString("name"), "gmd", "true","");
 			}
 			writer.writeEndElement();
 			writer.writeEndDocument();
@@ -981,6 +981,7 @@ public class WebService {
             summary = "Returns the metadata of a given collection",
             description = "Returns metadata of a given collection in a specified format")
 	public Response getCollectionMetadata(@PathParam("collectionid") String collectionid,
+			@DefaultValue("gmd") @QueryParam("metadataformat") String mdformat,
 			@DefaultValue("html") @QueryParam("f") String format,
 			@DefaultValue("false") @QueryParam("collectioncall") String collectioncall) {
 		if (collectionid == null) {
@@ -1004,7 +1005,7 @@ public class WebService {
 		}
 		String collectionurl=wfsconf.getString("baseurl") + "/collections/" + collectionid;
 		try {
-			return Response.ok(ResultMetadataFormatter.getFormatter(format).formatter(collectionid, collectioncall, collectionurl, workingobj)).type(MediaType.APPLICATION_XML).build();
+			return Response.ok(ResultMetadataFormatter.getFormatter(mdformat).formatter(collectionid, collectioncall, collectionurl, workingobj,format)).type(MediaType.APPLICATION_XML).build();
 		} catch (XMLStreamException e1) {
 			e1.printStackTrace();
 			return this.createExceptionResponse(e1, "");

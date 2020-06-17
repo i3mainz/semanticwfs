@@ -36,13 +36,26 @@ public class XSLTTransformer {
 	            	return false;
 	            }
 	}
-	
+
 	public static String gmdToGeoDCAT(String source) throws TransformerException  {
 		System.out.println("Source: " + source);
 		InputStreamReader input = new InputStreamReader(new ByteArrayInputStream(source.getBytes(StandardCharsets.UTF_8)));
 		TransformerFactory tFactory = new net.sf.saxon.TransformerFactoryImpl();
 		Source xmlSource = new StreamSource(input);
 		Source xslSource = new StreamSource(new File("gmd2geodcat.xsl"));
+		StringWriter outWriter = new StringWriter();
+		StreamResult fOutresult = new StreamResult( outWriter );
+		Transformer transformer = tFactory.newTransformer(xslSource);
+		transformer.transform(xmlSource, fOutresult);
+		return outWriter.toString();
+	}
+	
+	public static String GeoDCATToHTML(String source) throws TransformerException  {
+		System.out.println("Source: " + source);
+		InputStreamReader input = new InputStreamReader(new ByteArrayInputStream(source.getBytes(StandardCharsets.UTF_8)));
+		TransformerFactory tFactory = new net.sf.saxon.TransformerFactoryImpl();
+		Source xmlSource = new StreamSource(input);
+		Source xslSource = new StreamSource(new File("dcat-ap-rdf2rdfa.xsl"));
 		StringWriter outWriter = new StringWriter();
 		StreamResult fOutresult = new StreamResult( outWriter );
 		Transformer transformer = tFactory.newTransformer(xslSource);
