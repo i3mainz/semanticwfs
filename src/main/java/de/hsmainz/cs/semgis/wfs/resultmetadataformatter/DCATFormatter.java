@@ -45,12 +45,23 @@ public class DCATFormatter extends ResultMetadataFormatter  {
 		        return this.string.toString();
 		    }
 		};
+		if(format.contains("n3")) {
+			this.mimeType="text/n3";
+			model.write(output,"N3");
+			return output.toString();
+		}
+		if(format.contains("jsonld")) {
+			this.mimeType="application/ld+json";
+			model.write(output,"JSON-LD");
+			return output.toString();
+		}
 		if(format.contains("ttl")) {
 			this.mimeType="text/ttl";
 			model.write(output,"TTL");
 			return output.toString();
 		}
 		if(format.contains("ntriples")) {
+			this.mimeType="application/n-triples";
 			model.write(output,"NTRIPLES");
 			return output.toString();
 		}
