@@ -139,7 +139,7 @@
 <html>
   <head>
     <title><xsl:value-of select="$title"/></title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
     <xsl:value-of select="$head" disable-output-escaping="yes"/>
   </head>
   <body>
