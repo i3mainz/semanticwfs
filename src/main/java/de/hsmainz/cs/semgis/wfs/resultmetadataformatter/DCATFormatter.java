@@ -26,6 +26,7 @@ public class DCATFormatter extends ResultMetadataFormatter  {
 			gmdrdf = XSLTTransformer.gmdToGeoDCAT(gmd);
 
 		if(format.contains("html")) {
+			this.mimeType="text/html";
 			return XSLTTransformer.GeoDCATToHTML(gmdrdf);
 		}
 		OntModel model = ModelFactory.createOntologyModel();
@@ -44,6 +45,7 @@ public class DCATFormatter extends ResultMetadataFormatter  {
 		    }
 		};
 		if(format.contains("ttl")) {
+			this.mimeType="text/ttl";
 			model.write(output,"TTL");
 			return output.toString();
 		}
@@ -51,6 +53,7 @@ public class DCATFormatter extends ResultMetadataFormatter  {
 			model.write(output,"NTRIPLES");
 			return output.toString();
 		}
+		this.mimeType="text/rdf+xml";
 		return gmdrdf;
 		} catch (TransformerException | IOException e) {
 			// TODO Auto-generated catch block
