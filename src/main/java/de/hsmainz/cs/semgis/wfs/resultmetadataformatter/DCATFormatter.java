@@ -3,6 +3,7 @@ package de.hsmainz.cs.semgis.wfs.resultmetadataformatter;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import javax.ws.rs.core.MediaType;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.transform.TransformerException;
 
@@ -26,7 +27,7 @@ public class DCATFormatter extends ResultMetadataFormatter  {
 			gmdrdf = XSLTTransformer.gmdToGeoDCAT(gmd);
 
 		if(format.contains("html")) {
-			this.mimeType="text/html";
+			this.mimeType=MediaType.TEXT_HTML;
 			return XSLTTransformer.GeoDCATToHTML(gmdrdf);
 		}
 		OntModel model = ModelFactory.createOntologyModel();
@@ -53,7 +54,7 @@ public class DCATFormatter extends ResultMetadataFormatter  {
 			model.write(output,"NTRIPLES");
 			return output.toString();
 		}
-		this.mimeType="text/rdf+xml";
+		this.mimeType=MediaType.APPLICATION_XML;
 		return gmdrdf;
 		} catch (TransformerException | IOException e) {
 			// TODO Auto-generated catch block
