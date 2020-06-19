@@ -121,20 +121,44 @@ public class HTMLFormatter extends ResultFormatter {
 				String key=propToTableCol.get(col);
 				if(features.getJSONObject(i).getJSONObject("properties").has(key)) {
 				String value = features.getJSONObject(i).getJSONObject("properties").get(key).toString();
-				if (value.startsWith("http") || value.startsWith("www.")) {
-					if (value.contains("^^")) {
-						builder.append("<td align=\"center\"><a href=\"" + value + "\" target=\"_blank\">"
-								+ value.substring(value.lastIndexOf('/'), value.lastIndexOf('^') - 1) + "</a></td>");
-					} else if (value.contains("#")) {
-						builder.append("<td align=\"center\"><a href=\"" + value + "\" target=\"_blank\">"
-								+ value.substring(value.lastIndexOf('#') + 1) + "</a></td>");
-					} else {
-						builder.append("<td align=\"center\"><a href=\"" + value + "\" target=\"_blank\">" + value.substring(value.lastIndexOf('/')+1)
-								+ "</a></td>");
+				if(value.startsWith("[")) {
+					value=value.replace("[","").replace("]", "");
+					builder.append("<td align=\"center\">");
+					for(String val:value.split(",")) {
+						if (val.contains("http") || value.startsWith("www.")) {
+							if (val.contains("^^")) {
+								builder.append("<a href=\"" + val + "\" target=\"_blank\">"
+										+ val.substring(val.lastIndexOf('/'), val.lastIndexOf('^') - 1) + "</a></td>");
+							} else if (val.contains("#")) {
+								builder.append("<a href=\"" + val + "\" target=\"_blank\">"
+										+ val.substring(val.lastIndexOf('#') + 1) + "</a></td>");
+							} else {
+								builder.append("<a href=\"" + val + "\" target=\"_blank\">" + val.substring(val.lastIndexOf('/')+1)
+										+ "</a>");
+							}
+						} else {
+							builder.append(value);
+						}
+						builder.append("<br/>");
 					}
-				} else {
-					builder.append("<td align=\"center\">" + value + "</td>");
+					builder.append("</td>");
+				}else {
+					if (value.contains("http") || value.startsWith("www.")) {
+						if (value.contains("^^")) {
+							builder.append("<td align=\"center\"><a href=\"" + value + "\" target=\"_blank\">"
+									+ value.substring(value.lastIndexOf('/'), value.lastIndexOf('^') - 1) + "</a></td>");
+						} else if (value.contains("#")) {
+							builder.append("<td align=\"center\"><a href=\"" + value + "\" target=\"_blank\">"
+									+ value.substring(value.lastIndexOf('#') + 1) + "</a></td>");
+						} else {
+							builder.append("<td align=\"center\"><a href=\"" + value + "\" target=\"_blank\">" + value.substring(value.lastIndexOf('/')+1)
+									+ "</a></td>");
+						}
+					} else {
+						builder.append("<td align=\"center\">" + value + "</td>");
+					}	
 				}
+				
 				}else {
 					builder.append("<td></td>");
 				}
