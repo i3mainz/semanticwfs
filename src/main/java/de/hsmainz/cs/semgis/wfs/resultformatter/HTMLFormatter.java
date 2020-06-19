@@ -77,7 +77,7 @@ public class HTMLFormatter extends ResultFormatter {
 					int j=0;
 					for (String key : features.getJSONObject(0).getJSONObject("properties").keySet()) {
 						propToTableCol.put(j,key);
-						if (key.contains("http")) {
+						if (key.startsWith("http") || key.startsWith("www.")) {
 							if (key.contains("#")) {
 								builder.append("<th align=\"center\"><a href=\"" + key + "\" target=\"_blank\">"
 										+ key.substring(key.lastIndexOf('#') + 1) + "</a></td>");
@@ -93,7 +93,7 @@ public class HTMLFormatter extends ResultFormatter {
 					}
 
 				}else {
-					if (propertytype.contains("http")) {
+					if (propertytype.startsWith("http")) {
 						if (propertytype.contains("#")) {
 							builder.append("<th align=\"center\"><a href=\"" + propertytype + "\" target=\"_blank\">"
 									+ propertytype.substring(propertytype.lastIndexOf('#') + 1) + "</a></td>");
@@ -121,15 +121,15 @@ public class HTMLFormatter extends ResultFormatter {
 				String key=propToTableCol.get(col);
 				if(features.getJSONObject(i).getJSONObject("properties").has(key)) {
 				String value = features.getJSONObject(i).getJSONObject("properties").get(key).toString();
-				if (value.contains("http")) {
+				if (value.startsWith("http") || value.startsWith("www.")) {
 					if (value.contains("^^")) {
 						builder.append("<td align=\"center\"><a href=\"" + value + "\" target=\"_blank\">"
-								+ value.substring(0, value.lastIndexOf('^') - 1) + "</a></td>");
+								+ value.substring(value.lastIndexOf('/'), value.lastIndexOf('^') - 1) + "</a></td>");
 					} else if (value.contains("#")) {
 						builder.append("<td align=\"center\"><a href=\"" + value + "\" target=\"_blank\">"
 								+ value.substring(value.lastIndexOf('#') + 1) + "</a></td>");
 					} else {
-						builder.append("<td align=\"center\"><a href=\"" + value + "\" target=\"_blank\">" + value
+						builder.append("<td align=\"center\"><a href=\"" + value + "\" target=\"_blank\">" + value.substring(value.lastIndexOf('/')+1)
 								+ "</a></td>");
 					}
 				} else {
