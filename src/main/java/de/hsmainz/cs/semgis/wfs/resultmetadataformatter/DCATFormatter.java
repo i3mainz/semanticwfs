@@ -24,7 +24,6 @@ public class DCATFormatter extends ResultMetadataFormatter  {
 		String gmdrdf;
 		try {
 			gmdrdf = XSLTTransformer.gmdToGeoDCAT(gmd);
-
 		if(format.contains("html")) {
 			return XSLTTransformer.GeoDCATToHTML(gmdrdf);
 		}
