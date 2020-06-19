@@ -122,7 +122,7 @@ public class HTMLFormatter extends ResultFormatter {
 				if(features.getJSONObject(i).getJSONObject("properties").has(key)) {
 				String value = features.getJSONObject(i).getJSONObject("properties").get(key).toString();
 				if(value.startsWith("[")) {
-					value=value.replace("[","").replace("]", "");
+					value=value.replace("[","").replace("]", "").replace("\"", "");
 					builder.append("<td align=\"center\">");
 					for(String val:value.split(",")) {
 						if (val.contains("http") || value.startsWith("www.")) {
