@@ -146,7 +146,7 @@ public class HTMLFormatter extends ResultFormatter {
 					if (value.contains("http") || value.startsWith("www.")) {
 						if (value.contains("^^")) {
 							builder.append("<td align=\"center\"><a href=\"" + value + "\" target=\"_blank\">"
-									+ value.substring(value.lastIndexOf('/'), value.lastIndexOf('^') - 1) + "</a></td>");
+									+ value.substring(0, value.lastIndexOf('^') - 1) + "</a></td>");
 						} else if (value.contains("#")) {
 							builder.append("<td align=\"center\"><a href=\"" + value + "\" target=\"_blank\">"
 									+ value.substring(value.lastIndexOf('#') + 1) + "</a></td>");
