@@ -128,10 +128,10 @@ public class HTMLFormatter extends ResultFormatter {
 						if (val.contains("http") || value.startsWith("www.")) {
 							if (val.contains("^^")) {
 								builder.append("<a href=\"" + val + "\" target=\"_blank\">"
-										+ val.substring(0, val.lastIndexOf('^') - 1) + "</a></td>");
+										+ val.substring(0, val.lastIndexOf('^') - 1) + "</a>");
 							} else if (val.contains("#")) {
 								builder.append("<a href=\"" + val + "\" target=\"_blank\">"
-										+ val.substring(val.lastIndexOf('#') + 1) + "</a></td>");
+										+ val.substring(val.lastIndexOf('#') + 1) + "</a>");
 							} else {
 								builder.append("<a href=\"" + val + "\" target=\"_blank\">" + val.substring(val.lastIndexOf('/')+1)
 										+ "</a>");
