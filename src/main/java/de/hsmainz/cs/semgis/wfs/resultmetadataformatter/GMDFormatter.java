@@ -1,6 +1,8 @@
 package de.hsmainz.cs.semgis.wfs.resultmetadataformatter;
 
 import java.io.StringWriter;
+
+import javax.ws.rs.core.MediaType;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
@@ -11,6 +13,10 @@ import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
 
 public class GMDFormatter extends ResultMetadataFormatter {
 
+	public GMDFormatter() {
+		this.mimeType=MediaType.APPLICATION_XML;
+	}
+	
 	@Override
 	public String formatter(String collectionid, String collectioncall,String collectionurl,JSONObject workingobj,String format) throws XMLStreamException {
 		StringWriter strwriter = new StringWriter();
@@ -124,6 +130,23 @@ public class GMDFormatter extends ResultMetadataFormatter {
 			writer.writeStartElement("http://www.isotc211.org/2005/gmd", "distributor");
 			writer.writeEndElement();
 			writer.writeStartElement("http://www.isotc211.org/2005/gmd", "transferOptions");
+			writer.writeStartElement("http://www.isotc211.org/2005/gmd","MD_DigitalTransferOptions");
+			writer.writeStartElement("http://www.isotc211.org/2005/gmd","online");
+			writer.writeStartElement("http://www.isotc211.org/2005/gmd","CI_OnlineResource");
+			writer.writeStartElement("http://www.isotc211.org/2005/gmd","linkage");
+			writer.writeStartElement("http://www.isotc211.org/2005/gmd","URL");
+			writer.writeEndElement();
+			writer.writeEndElement();
+			writer.writeStartElement("http://www.isotc211.org/2005/gmd","function");
+			writer.writeStartElement("http://www.isotc211.org/2005/gmd","CI_OnLineFunctionCode");
+			writer.writeAttribute("codeList","CI_OnLineFunctionCode");
+			writer.writeAttribute("codeListValue","information");
+			writer.writeCharacters("information");
+			writer.writeEndElement();
+			writer.writeEndElement();
+			writer.writeEndElement();
+			writer.writeEndElement();
+			writer.writeEndElement();
 			writer.writeEndElement();
 			writer.writeEndElement();
 			writer.writeEndElement();

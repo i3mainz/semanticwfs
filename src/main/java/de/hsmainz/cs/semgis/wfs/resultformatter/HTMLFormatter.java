@@ -6,6 +6,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -67,12 +69,14 @@ public class HTMLFormatter extends ResultFormatter {
 		builder.append("</select><button id=\"applystyle\"/>Apply Style</button><table width=\"100%\" align=\"center\" id=\"queryres\" class=\"description\" border=\"1\">");
 		Boolean first = true;
 		JSONArray features = geojson.getJSONArray("features");
-
+		Map<Integer,String> propToTableCol=new TreeMap<Integer,String>();
 		for (int i = 0; i < features.length(); i++) {
 			if (first) {
 				builder.append("<thead><tr class=\"even\">");
-				if (!onlyproperty) {					
+				if (!onlyproperty) {	
+					int j=0;
 					for (String key : features.getJSONObject(0).getJSONObject("properties").keySet()) {
+						propToTableCol.put(j,key);
 						if (key.contains("http")) {
 							if (key.contains("#")) {
 								builder.append("<th align=\"center\"><a href=\"" + key + "\" target=\"_blank\">"
@@ -85,6 +89,7 @@ public class HTMLFormatter extends ResultFormatter {
 							builder.append("<th align=\"center\"><a href=\"" + key + "\" target=\"_blank\">" + key
 									+ "</a></td>");
 						}
+						j++;
 					}
 
 				}else {
@@ -110,8 +115,11 @@ public class HTMLFormatter extends ResultFormatter {
 			    builder.append("<tr class=\"odd\">");			    
 			}
 			// System.out.println(builder.toString());
-			for (String key : features.getJSONObject(i).getJSONObject("properties").keySet()) {
+			for(Integer col:propToTableCol.keySet()) {
+			//for (String key : features.getJSONObject(i).getJSONObject("properties").keySet()) {
 				// System.out.println(key);
+				String key=propToTableCol.get(col);
+				if(features.getJSONObject(i).getJSONObject("properties").has(key)) {
 				String value = features.getJSONObject(i).getJSONObject("properties").get(key).toString();
 				if (value.contains("http")) {
 					if (value.contains("^^")) {
@@ -126,6 +134,9 @@ public class HTMLFormatter extends ResultFormatter {
 					}
 				} else {
 					builder.append("<td align=\"center\">" + value + "</td>");
+				}
+				}else {
+					builder.append("<td></td>");
 				}
 			}
 			builder.append("</tr>");

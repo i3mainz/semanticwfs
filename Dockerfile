@@ -8,6 +8,8 @@ COPY *.json /usr/local/tomcat/
 
 COPY gmd2geodcat.xsl /usr/local/tomcat/
 
+COPY dcat-ap-rdf2rdfa.xsl /usr/local/tomcat/
+
 COPY users.xml /usr/local/tomcat/
 
 COPY prefixes.txt /usr/local/tomcat/
