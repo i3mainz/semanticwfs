@@ -89,6 +89,7 @@ public class HTMLFormatter extends ResultFormatter {
 							builder.append("<th align=\"center\"><a href=\"" + key + "\" target=\"_blank\">" + key
 									+ "</a></td>");
 						}
+						j++;
 					}
 
 				}else {
