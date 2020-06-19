@@ -127,7 +127,7 @@ public class HTMLFormatter extends ResultFormatter {
 					for(String val:value.split(",")) {
 						if (val.contains("http") || value.startsWith("www.")) {
 							if (val.contains("^^")) {
-								builder.append("<a href=\"" + val.substring(val.lastIndexOf('^') +2) + "\" target=\"_blank\">"
+								builder.append("<a href=\"" + val.substring(val.lastIndexOf('^') +1) + "\" target=\"_blank\">"
 										+ val.substring(0, val.lastIndexOf('^') - 1) + "</a>");
 							} else if (val.contains("#")) {
 								builder.append("<a href=\"" + val + "\" target=\"_blank\">"
@@ -145,7 +145,7 @@ public class HTMLFormatter extends ResultFormatter {
 				}else {
 					if (value.contains("http") || value.startsWith("www.")) {
 						if (value.contains("^^")) {
-							builder.append("<td align=\"center\"><a href=\"" + value.substring(value.lastIndexOf('^') +2) + "\" target=\"_blank\">"
+							builder.append("<td align=\"center\"><a href=\"" + value.substring(value.lastIndexOf('^') +1) + "\" target=\"_blank\">"
 									+ value.substring(0, value.lastIndexOf('^') - 1) + "</a></td>");
 						} else if (value.contains("#")) {
 							builder.append("<td align=\"center\"><a href=\"" + value + "\" target=\"_blank\">"
