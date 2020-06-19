@@ -25,7 +25,7 @@
 {"namespace":"http://inspire.ec.europa.eu/schemas/gn/4.0#",
 "class":"http://inspire.ec.europa.eu/schemas/gn/4.0#NamedPlace",
 "indvar":"item","description":"NamedPlaces in Germany","geometrytype":"Point","targetCRS":"EPSG:4326","useorderby":true, "typeColumn":"http://inspire.ec.europa.eu/schemas/gn/4.0#type",
-"query":"SELECT ?item ?rel ?val ?the_geom WHERE{ ?item rdf:type ign:NamedPlace . ?item ?rel ?val . OPTIONAL{?val geo:asWKT ?the_geom .} }",
+"query":"SELECT ?item ?rel ?val ?the_geom WHERE{ ?item rdf:type gn:NamedPlace . ?item ?rel ?val . OPTIONAL{?val geo:asWKT ?the_geom .} }",
 "triplestore":"https://ld.gdi-de.org/graphdb/repositories/gn_inspire",
 "type":"WFS", "typecolumn":"http://inspire.ec.europa.eu/schemas/gn/4.0#type", "name":"NamedPlace"},
 {"namespace":"http://pleiades.stoa.org/places/vocab#",
