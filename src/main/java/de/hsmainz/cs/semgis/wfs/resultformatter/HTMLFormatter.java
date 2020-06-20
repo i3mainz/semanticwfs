@@ -125,7 +125,10 @@ public class HTMLFormatter extends ResultFormatter {
 					value=value.replace("[","").replace("]", "").replace("\"", "");
 					builder.append("<td align=\"center\">");
 					for(String val:value.split(",")) {
-						if (val.contains("http") || value.startsWith("www.")) {
+						if(value.startsWith("www.")) {
+							value="http://"+value;
+						}
+						if (val.contains("http")) {
 							if (val.contains("^^")) {
 								builder.append("<a href=\"" + val.substring(val.lastIndexOf('^') +1) + "\" target=\"_blank\">"
 										+ val.substring(0, val.lastIndexOf('^') - 1) + "</a>");
@@ -143,7 +146,10 @@ public class HTMLFormatter extends ResultFormatter {
 					}
 					builder.append("</td>");
 				}else {
-					if (value.contains("http") || value.startsWith("www.")) {
+					if(value.startsWith("www.")) {
+						value="http://"+value;
+					}
+					if (value.contains("http")) {
 						if (value.contains("^^")) {
 							builder.append("<td align=\"center\"><a href=\"" + value.substring(value.lastIndexOf('^') +1) + "\" target=\"_blank\">"
 									+ value.substring(0, value.lastIndexOf('^') - 1) + "</a></td>");
