@@ -3,6 +3,8 @@ package de.hsmainz.cs.semgis.wfs.resultformatter;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
@@ -52,8 +54,8 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 		geojsonresults.put("features", features);
 		List<String> latlist=new LinkedList<String>();
 		List<String> lonlist=new LinkedList<String>();
-		List<String> rel = new LinkedList<String>();
-		List<String> val=new LinkedList<String>();
+		Map<String,String> rel = new TreeMap<String,String>();
+		Map<String,String> val=new TreeMap<String,String>();
 		String lastInd = "",lat="",lon="";
 		JSONObject jsonobj = new JSONObject();
 		JSONObject properties = new JSONObject();
@@ -207,11 +209,11 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 					
 					addKeyVal(properties, name, solu.get(name).toString());
 				}
-				if (name.endsWith("_rel") || name.equals("rel") || name.matches("rel[0-9]+")) {
+				if (name.endsWith("_rel") || name.equals("rel") || name.matches("rel[0-9]+$")) {
 					relationName = solu.get(name).toString();
-					rel.add(solu.get(name).toString());
-				}else if (name.endsWith("_val") || name.equals("val") || name.matches("val[0-9]+")) {
-					val.add(solu.get(name).toString());
+					rel.put(name,solu.get(name).toString());
+				}else if (name.endsWith("_val") || name.equals("val") || name.matches("val[0-9]+$")) {
+					val.put(name,solu.get(name).toString());
 				}else if (name.equals("lat")) {
 					lat = solu.get(name).toString();
 				}else if (name.equals("lon")) {
@@ -236,20 +238,27 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 				// }
 			}
 			if (!rel.isEmpty() && !val.isEmpty()) {
-				if(!rel.get(0).equals("http://www.opengis.net/ont/geosparql#hasGeometry")) {
-					addKeyVal(properties, rel.get(0), val.get(0));
+				System.out.println("Rel: "+rel.toString());
+				System.out.println("Val: "+val.toString());
+				if(!rel.values().iterator().next().equals("http://www.opengis.net/ont/geosparql#hasGeometry") && rel.size()==1) {
+					addKeyVal(properties, rel.values().iterator().next(), val.values().iterator().next());
 				}else if(rel.size()>1) {
 					String rlstr="";
-					Iterator<String> relit=rel.iterator();
+					Iterator<String> relit=rel.values().iterator();
 					while(relit.hasNext()) {
-						rlstr+=relit.next();
+						rlstr=relit.next();
 						if(relit.hasNext()) {
 							rlstr+=".";
 						}
 					}
-					addKeyVal(properties, rlstr, val.get(val.size()-1));
+					Iterator<String> valit=val.values().iterator();
+					String valstr="";
+					while(valit.hasNext()) {
+						valstr=valit.next();
+					}
+					addKeyVal(properties, rlstr, valstr);
 				}else {
-					addKeyVal(properties, rel.get(0), val.get(0));
+					addKeyVal(properties, rel.values().iterator().next(), val.values().iterator().next());
 				}
 
 				rel.clear();
