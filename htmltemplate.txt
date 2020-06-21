@@ -231,7 +231,7 @@ onEachFeature: function (feature, layer) {
 		$('#contentdesc').html(popup)
 	});
  }}).addTo(map);
-if(colormap!={}){
+if(colormap!={} && Object.keys(colormap).length>1){
     createLegend(geojsonlayer);
 }
 try {
