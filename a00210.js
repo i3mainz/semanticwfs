@@ -3,6 +3,7 @@ var a00210 =
     [ "GeoJSONFormatter", "a00210.html#a4ece13d1bcdcc55712e861c15f408635", null ],
     [ "[static initializer]", "a00210.html#a2e87c5ede6b7235170d287cd2e254454", null ],
     [ "addKeyVal", "a00210.html#a27be913e283c12148e2df87e2457d60f", null ],
+    [ "addKeyValList", "a00210.html#a435a38ca21054a0481ff78bc805145b5", null ],
     [ "formatFooter", "a00210.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00210.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
     [ "formatter", "a00210.html#a333158f85a81eddf46a6487337d5ba27", null ],
