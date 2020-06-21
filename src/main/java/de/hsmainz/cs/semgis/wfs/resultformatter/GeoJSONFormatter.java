@@ -52,7 +52,9 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 		geojsonresults.put("features", features);
 		List<String> latlist=new LinkedList<String>();
 		List<String> lonlist=new LinkedList<String>();
-		String rel = "", val = "", lastInd = "",lat="",lon="";
+		List<String> rel = new LinkedList<String>();
+		List<String> val=new LinkedList<String>();
+		String lastInd = "",lat="",lon="";
 		JSONObject jsonobj = new JSONObject();
 		JSONObject properties = new JSONObject();
 		JSONObject style = new JSONObject();
@@ -205,11 +207,11 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 					
 					addKeyVal(properties, name, solu.get(name).toString());
 				}
-				if (name.endsWith("_rel") || name.equals("rel")) {
+				if (name.endsWith("_rel") || name.equals("rel") || name.matches("rel[0-9]+")) {
 					relationName = solu.get(name).toString();
-					rel = solu.get(name).toString();
-				}else if (name.endsWith("_val") || name.equals("val")) {
-					val = solu.get(name).toString();
+					rel.add(solu.get(name).toString());
+				}else if (name.endsWith("_val") || name.equals("val") || name.matches("val[0-9]+")) {
+					val.add(solu.get(name).toString());
 				}else if (name.equals("lat")) {
 					lat = solu.get(name).toString();
 				}else if (name.equals("lon")) {
@@ -234,11 +236,24 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 				// }
 			}
 			if (!rel.isEmpty() && !val.isEmpty()) {
-				if(!rel.equals("http://www.opengis.net/ont/geosparql#hasGeometry")) {
-					addKeyVal(properties, rel, val);
+				if(!rel.get(0).equals("http://www.opengis.net/ont/geosparql#hasGeometry")) {
+					addKeyVal(properties, rel.get(0), val.get(0));
+				}else if(rel.size()>1) {
+					String rlstr="";
+					Iterator<String> relit=rel.iterator();
+					while(relit.hasNext()) {
+						rlstr+=relit.next();
+						if(relit.hasNext()) {
+							rlstr+=".";
+						}
+					}
+					addKeyVal(properties, rlstr, val.get(val.size()-1));
+				}else {
+					addKeyVal(properties, rel.get(0), val.get(0));
 				}
-				rel = "";
-				val = "";
+
+				rel.clear();
+				val.clear();
 			}
 			if(!lat.isEmpty() && !lon.isEmpty()) {
 				System.out.println("LatLon: "+lat+","+lon);
