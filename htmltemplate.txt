@@ -3,6 +3,22 @@
     <div class="left col-sm-3" id="contentdesc" style="height:500px;overflow-y: scroll;">
 	</div>
 <script>
+function createLegend(layer){
+	 htmlLegend1 =L.control.htmllegend({
+        position: 'bottomright',
+        legends: [{
+            name: 'Map Legend',
+            layer: layer,
+            elements: createColorLegendForLayer()}],
+			collapseSimple:true,
+			detectStretched:true
+    });
+	console.log("legend")
+	console.log(htmlLegend1)
+		console.log(map)
+	htmlLegend1.addTo(map);
+}
+
 function toggle_visibility(id) 
   {
       var e = document.getElementById(id);
@@ -56,6 +72,20 @@ function saveTextAsFile(tosave,fileext,filename)
         window.URL.revokeObjectURL(url);  
     }, 1000);
 }
+
+ function createColorLegendForLayer(){
+        elements=[]
+        for(color in colormap){
+            if(color.startsWith("http")){
+            	elements.push({"label":color.substring(color.lastIndexOf('/')+1),"html":"","style":{"background-color":colormap[color],"width":"10px","height":"10px"}})  
+            }else{
+            	elements.push({"label":color,"html":"","style":{"background-color":colormap[color],"width":"10px","height":"10px"}})  
+            }
+              
+        }
+		console.log("elements: "+elements)
+		return elements;
+  }
 
 function getRandomColor() {
   var letters = '0123456789ABCDEF';
@@ -201,6 +231,9 @@ onEachFeature: function (feature, layer) {
 		$('#contentdesc').html(popup)
 	});
  }}).addTo(map);
+if(colormap!={}){
+    createLegend(geojsonlayer);
+}
 try {
 	map.fitBounds(geojsonlayer.getBounds());
 }catch (e) {

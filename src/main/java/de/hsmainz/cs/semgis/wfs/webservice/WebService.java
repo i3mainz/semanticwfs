@@ -110,6 +110,7 @@ public class WebService {
 				+ "   crossorigin=\"\"/>\r\n" + "<script src=\"" + wfsconf.getString("baseurl")
 				+ "/config/js/proj4.js\"></script>" + "<script src=\"" + wfsconf.getString("baseurl")
 				+ "/config/js/prefixes.js\"></script>"
+				+ " <link rel=\"stylesheet\" href=\""+ wfsconf.getString("baseurl")+"/config/css/leaflet_legend.css\" />"
 				+ " <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css\" integrity=\"sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb\" crossorigin=\"anonymous\">"
 				+ " <link rel=\"stylesheet\" href=\""+wfsconf.getString("baseurl")+"/config/css/style.css\">"
 				+ "<script src=\"https://unpkg.com/leaflet@1.5.1/dist/leaflet.js\"\r\n"
@@ -118,6 +119,8 @@ public class WebService {
 				+ "<script src=\"" + wfsconf.getString("baseurl") + "/config/js/leaflet.pattern.js\"></script>\r\n"
 				+ "<script src=\"" + wfsconf.getString("baseurl")
 				+ "/config/js/Leaflet.geojsoncss.min.js\"></script>\r\n"
+								+ "<script src=\"" + wfsconf.getString("baseurl")
+				+ "/config/js/leaflet_legend.js\"></script>\r\n"
 				+ "<script src=\"https://code.jquery.com/jquery-3.4.1.min.js\"></script>\r\n"
 				+ "<script src=\"https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.bundled.js\"></script>\r\n"
 				+ "<script src=\"https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js\"></script>\r\n"
