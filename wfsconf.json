@@ -25,7 +25,7 @@
 {"namespace":"http://inspire.ec.europa.eu/schemas/gn/4.0#",
 "class":"http://inspire.ec.europa.eu/schemas/gn/4.0#NamedPlace",
 "indvar":"item","description":"NamedPlaces in Germany","geometrytype":"Point","targetCRS":"EPSG:4258","useorderby":true, "typeColumn":"http://inspire.ec.europa.eu/schemas/gn/4.0#type",
-"query":"SELECT ?item ?rel ?val ?rel1 ?rel2 ?rel2 ?val2 ?the_geom WHERE{ ?item rdf:type <http://inspire.ec.europa.eu/schemas/gn/4.0#NamedPlace> . ?item ?rel ?val . OPTIONAL{ ?val <http://www.opengis.net/ont/geosparql#asWKT> ?the_geom } OPTIONAL{?val ?rel1 ?val1 . FILTER(STRSTARTS(STR(?rel1), \"http://inspire.ec.europa.eu/schemas/gn/4.0#\")) OPTIONAL { ?val1 ?rel2 ?val2 . FILTER(STRSTARTS(STR(?rel2), \"http://inspire.ec.europa.eu/schemas/gn/4.0#\")) }}",
+"query":"SELECT ?item ?rel ?val ?rel1 ?rel2 ?rel2 ?val2 ?the_geom WHERE{ ?item rdf:type <http://inspire.ec.europa.eu/schemas/gn/4.0#NamedPlace> . ?item ?rel ?val . OPTIONAL{ ?val <http://www.opengis.net/ont/geosparql#asWKT> ?the_geom } OPTIONAL{?val ?rel1 ?val1 . FILTER(STRSTARTS(STR(?rel1), \"http://inspire.ec.europa.eu/schemas/gn/4.0#\")) OPTIONAL { ?val1 ?rel2 ?val2 . FILTER(STRSTARTS(STR(?rel2), \"http://inspire.ec.europa.eu/schemas/gn/4.0#\")) }} }",
 "triplestore":"https://ld.gdi-de.org/graphdb/repositories/gn_inspire",
 "type":"WFS", "typecolumn":"http://inspire.ec.europa.eu/schemas/gn/4.0#type", "name":"NamedPlace"},
 {"namespace":"http://pleiades.stoa.org/places/vocab#",
