@@ -1,5 +1,6 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -243,7 +244,7 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 				if(!rel.values().iterator().next().equals("http://www.opengis.net/ont/geosparql#hasGeometry") && rel.size()==1) {
 					addKeyVal(properties, rel.values().iterator().next(), val.values().iterator().next());
 				}else if(rel.size()>1) {
-					String rlstr="";
+					/*String rlstr="";
 					Iterator<String> relit=rel.values().iterator();
 					while(relit.hasNext()) {
 						rlstr=relit.next();
@@ -255,8 +256,8 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 					String valstr="";
 					while(valit.hasNext()) {
 						valstr=valit.next();
-					}
-					addKeyVal(properties, rlstr, valstr);
+					}*/
+					addKeyValList(properties, rel.values(), val.values());
 				}else {
 					addKeyVal(properties, rel.values().iterator().next(), val.values().iterator().next());
 				}
@@ -373,6 +374,47 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 		//System.out.println(geojsonresults.toString(2));
 		return geojsonresults.toString(2);
 	}
+	
+	public void addKeyValList(JSONObject properties,Collection<String> rell,Collection<String> vall) {
+		System.out.println("AddKeyValList");
+		System.out.println(rell.toString());
+		System.out.println(vall.toString());
+		Iterator<String> reliter=rell.iterator();
+		Iterator<String> valiter=vall.iterator();
+		String lastval="";
+		while(valiter.hasNext()) {
+			lastval=valiter.next();
+		}
+		System.out.println(properties);
+		while(reliter.hasNext()) {
+			String rel=reliter.next();
+			if(properties.has(rel)) {
+				if(reliter.hasNext()) {
+					properties=properties.getJSONObject(rel);
+					continue;
+				}
+				try {
+					properties.getJSONArray(rel).put(lastval);
+				}catch(JSONException e) {
+					String oldval=properties.getString(rel);
+					properties.put(rel,new JSONArray());
+					properties.getJSONArray(rel).put(oldval);
+					properties.getJSONArray(rel).put(lastval);
+				}
+			}else {
+				if(reliter.hasNext()) {
+					properties.put(rel, new JSONObject());
+					properties=properties.getJSONObject(rel);
+					continue;
+				}else {
+					properties.put(rel, lastval);	
+				}			
+			}
+			//properties=properties.getJSONObject(rel);
+		}
+
+	}	
+	
 	
 	public void addKeyVal(JSONObject properties,String rel,String val) {
 		if(properties.has(rel)) {

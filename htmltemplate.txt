@@ -155,7 +155,7 @@ onEachFeature: function (feature, layer) {
 	 }
 	 var popup="Item: <a href='"+feature.id+"' target='_blank'>"+
 	 (feature.id.includes('#')?feature.id.substring(feature.id.lastIndexOf('#')+1):feature.id)+"</a>"
-	 if("http://www.w3.org/1999/02/22-rdf-syntax-ns#type" in feature.properties){
+	if("http://www.w3.org/1999/02/22-rdf-syntax-ns#type" in feature.properties){
 	 	if(feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].includes("http") && feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].includes("#")){
  			ns=feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].substring(0,feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].indexOf('#'))
  			if(!(ns in colorcodes)){
@@ -175,11 +175,31 @@ onEachFeature: function (feature, layer) {
      }else {
 		layer.bindPopup(popup,{maxWidth : 560});
 	 }
+	 
 	 popup+="<br/>Properties:<ul>"
-   Object.keys(feature.properties).sort().forEach(function(prop) {
+	popup=popupHighlighter(popup,colormap,feature.properties,0) 	 
+	popup+="</ul>"
+	 console.log(feature)
+	layer.on('click', function (e) {
+		$('#contentdesc').html(popup)
+	});
+ }}).addTo(map);
+if(colormap!={} && Object.keys(colormap).length>1){
+    createLegend(geojsonlayer);
+}
+try {
+	map.fitBounds(geojsonlayer.getBounds());
+}catch (e) {
+}
+
+function popupHighlighter(popup,colormap,properties,depth){
+   console.log("PopupHighlighter "+depth)
+   console.log(properties)
+   Object.keys(properties).sort().forEach(function(prop) {
    	if(prop=="http://www.w3.org/1999/02/22-rdf-syntax-ns#type"){
    		return;
    	}
+   	console.log(prop)
  if(prop.includes("http") && prop.includes("#")){
  		ns=prop.substring(0,prop.indexOf('#'))
  		if(!(ns in colorcodes)){
@@ -195,12 +215,18 @@ onEachFeature: function (feature, layer) {
  }else{
 	 	popup+="<li>"+prop+" - "
 	 }
- if(!isArray(feature.properties[prop])){
- 	array=[feature.properties[prop]]
+if(typeof properties[prop] === "object"){
+    popup+="<ul>"
+ 	popup=popupHighlighter(popup,colormap,properties[prop],depth+1)
+ 	popup+="</ul>"
+ }else{
+ if(!isArray(properties[prop])){
+ 	array=[properties[prop]]
  }else{
  	array=feature.properties[prop]
     popup+="<a href=\"#\" onclick=\"toggle_visibility('"+prop+"')\">[x]</a><br/><span id=\""+prop+"\">"
  }
+ console.log(array)
  for(elem in array){
     if(array[elem].includes("http") && array[elem].includes("^^")){
      ns=array[elem].substring(0,array[elem].indexOf('^^'))
@@ -225,17 +251,9 @@ onEachFeature: function (feature, layer) {
     }
  }
  popup+="</li>"
-});popup+="</ul>"
-	 console.log(feature)
-	layer.on('click', function (e) {
-		$('#contentdesc').html(popup)
-	});
- }}).addTo(map);
-if(colormap!={} && Object.keys(colormap).length>1){
-    createLegend(geojsonlayer);
-}
-try {
-	map.fitBounds(geojsonlayer.getBounds());
-}catch (e) {
+ }
+ 
+ });
+ return popup
 }
 </script>
