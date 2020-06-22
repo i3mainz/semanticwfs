@@ -153,8 +153,15 @@ onEachFeature: function (feature, layer) {
 		stripes = new L.StripePattern(feature.style.hatch); 
 	    stripes.addTo(map);
 	 }
-	 var popup="Item: <a href='"+feature.id+"' target='_blank'>"+
-	 (feature.id.includes('#')?feature.id.substring(feature.id.lastIndexOf('#')+1):feature.id)+"</a>"
+	 var popup="Item: <a href='"+feature.id+"' target='_blank'>"
+	 if(feature.id.includes('#')){
+	 	popup+=feature.id.substring(feature.id.lastIndexOf('#')+1)
+	 }else if(feature.id.startsWith("http")){
+	 	popup+=feature.id.substring(feature.id.lastIndexOf('/')+1)
+	 }else{
+	 	popup+=feature.id
+	 }
+	 popup+="</a>"
 	if("http://www.w3.org/1999/02/22-rdf-syntax-ns#type" in feature.properties){
 	 	if(feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].includes("http") && feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].includes("#")){
  			ns=feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].substring(0,feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].indexOf('#'))
