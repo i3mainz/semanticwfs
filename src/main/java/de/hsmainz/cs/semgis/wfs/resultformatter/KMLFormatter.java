@@ -1,15 +1,16 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter;
 
 import java.io.StringWriter;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
-import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
 
@@ -24,19 +25,72 @@ public class KMLFormatter extends WFSResultFormatter {
 		this.styleformatter=new KMLStyleFormatter();
 	}
 	
+	public void addTagsFromJSONObject(JSONObject obj,XMLStreamWriter writer,String curfeatureid) throws XMLStreamException {
+		/*if(obj.has("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")) {
+			String uri="";
+			try {
+				JSONArray arr=obj.getJSONArray("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+			for(int i=0;i<arr.length();i++) {
+				if(arr.get(i).toString().startsWith("http")) {
+					uri=arr.getString(i).toString();
+					break;
+				}
+			}
+			}catch(JSONException e) {
+				uri=obj.get("http://www.w3.org/1999/02/22-rdf-syntax-ns#type").toString();
+			}	
+			if (uri.contains("#")) {
+				writer.writeStartElement(uri.substring(uri.lastIndexOf('#') + 1));
+			} else {
+				writer.writeStartElement(uri.substring(uri.lastIndexOf('/') + 1));
+			}
+			writer.writeAttribute("id", curfeatureid);
+		}*/
+		for(String key:obj.keySet()) {
+			if(!key.equals("http://www.opengis.net/ont/geosparql#hasGeometry") 
+					&& !key.equalsIgnoreCase("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")
+					&& !key.equalsIgnoreCase("the_geom")) {
+				if (key.contains("#")) {
+					writer.writeStartElement(key.substring(key.lastIndexOf('#') + 1));
+				} else {
+					writer.writeStartElement(key.substring(key.lastIndexOf('/') + 1));
+				}
+			try {
+				addTagsFromJSONObject(obj.getJSONObject(key),writer,curfeatureid);
+			}catch(Exception e) {
+				String val=obj.get(key).toString();
+				if(val.contains("^^")) {
+					writer.writeCharacters(val.substring(0,val.lastIndexOf("^^")));
+				}else if (val.contains("#")) {
+					writer.writeCharacters(val.substring(val.lastIndexOf('#') + 1));
+				} else if(val.startsWith("http")) {
+					writer.writeCharacters(val.substring(val.lastIndexOf('/') + 1));
+				}else {
+					writer.writeCharacters(val);
+				}
+			}
+			writer.writeEndElement();
+			}
+		}
+	}
+	
 	@Override
 	public String formatter(ResultSet results,String startingElement,
 			String featuretype,String propertytype,
 			String typeColumn,Boolean onlyproperty,Boolean onlyhits,
 			String srsName,String indvar,String epsg,List<String> eligiblenamespaces,
 			List<String> noteligiblenamespaces,StyleObject mapstyle) throws XMLStreamException {
+		ResultFormatter format = resultMap.get("geojson");
+		//try {
+		JSONObject geojson = new JSONObject(
+				format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,srsName,indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle));
+		lastQueriedElemCount=format.lastQueriedElemCount;
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();
 		StringWriter strwriter=new StringWriter();
 		XMLStreamWriter writer=new IndentingXMLStreamWriter(factory.createXMLStreamWriter(strwriter));
 		writer.writeStartDocument();
 		writer.writeStartElement("Document");
 		writer.writeDefaultNamespace("http://www.opengis.net/kml/2.2");
-		String rel="",val="",curfeaturetype="",lastInd="",lon="",lat="";
 		writer.writeStartElement("Style");
 		writer.writeCharacters("");
 		writer.flush();
@@ -44,6 +98,39 @@ public class KMLFormatter extends WFSResultFormatter {
 		strwriter.write(this.styleformatter.formatGeometry("Polygon", mapstyle));
 		strwriter.write(this.styleformatter.formatGeometry("Point", mapstyle));
 		writer.writeEndElement();
+		JSONArray features=geojson.getJSONArray("features");
+		for(int i=0;i<features.length();i++) {
+			writer.writeStartElement("Placemark");
+			writer.writeStartElement("ExtendedData");
+			JSONObject feature=features.getJSONObject(i);
+			String curfeaturetype=feature.getString("id");
+			if(curfeaturetype.contains("http") && curfeaturetype.contains("#")){
+				curfeaturetype=curfeaturetype.substring(curfeaturetype.lastIndexOf('#')+1);
+			}else if(curfeaturetype.startsWith("http")) {
+				curfeaturetype=curfeaturetype.substring(curfeaturetype.lastIndexOf('/')+1);
+			}
+
+			//writer.writeStartElement(featuretype);	
+			//writer.writeAttribute("gml:id", curfeaturetype);
+			addTagsFromJSONObject(feature.getJSONObject("properties"), writer,curfeaturetype);	
+			writer.writeEndElement();
+			writer.writeStartElement("the_geom");
+			writer.writeStartElement(feature.getJSONObject("geometry").getString("type"));
+			writer.writeStartElement("coordinates");
+			writer.writeCharacters(feature.getJSONObject("geometry").getJSONArray("coordinates").toString().replace("[", "").replace("]", "").replace(",", " "));
+			writer.writeEndElement();
+			writer.writeEndElement();
+			writer.writeEndElement();
+			writer.writeEndElement();
+		}
+		
+		/*writer.flush();	
+		System.out.println(strwriter.toString());
+		return strwriter.toString();
+		}catch(Exception e) {
+			e.printStackTrace();
+			return e.getMessage();
+		}
 	    while(results.hasNext()) {
 	    	this.lastQueriedElemCount++;
 	    	QuerySolution solu=results.next();
@@ -123,7 +210,7 @@ public class KMLFormatter extends WFSResultFormatter {
 				lon="";
 			}
 			lastInd=solu.get(indvar).toString();	
-	    }
+	    }*/
 		writer.writeEndElement();
 		writer.writeEndDocument();
 		writer.flush();	

@@ -141,7 +141,7 @@ public class HTMLFormatter extends ResultFormatter {
 		List<String> propToTableCol=new LinkedList<String>();
 		for (int i = 0; i < features.length(); i++) {
 			if (first) {
-				builder.append("<thead><tr class=\"even\">");
+				builder.append("<thead><tr class=\"even\"><th align=\"center\">FeatureID</th>");
 				if (!onlyproperty) {
 					collectColumns(builder, features.getJSONObject(0).getJSONObject("properties"), propToTableCol, "",0);
 					System.out.println(propToTableCol);
@@ -186,6 +186,23 @@ public class HTMLFormatter extends ResultFormatter {
 			}else{
 			    builder.append("<tr class=\"odd\">");			    
 			}
+			builder.append("<td align=\"center\"><a href=\"" + features.getJSONObject(i).get("id") + "\" target=\"_blank\">");
+			String vall=features.getJSONObject(i).get("id").toString();
+			if (vall.contains("http")) {
+				if (vall.contains("^^")) {
+					builder.append("<a href=\"" + vall.substring(vall.lastIndexOf('^') +1) + "\" target=\"_blank\">"
+							+ vall.substring(0, vall.lastIndexOf('^') - 1) + "</a>");
+				} else if (vall.contains("#")) {
+					builder.append("<a href=\"" + vall + "\" target=\"_blank\">"
+							+ vall.substring(vall.lastIndexOf('#') + 1) + "</a>");
+				} else {
+					builder.append("<a href=\"" + vall + "\" target=\"_blank\">" + vall.substring(vall.lastIndexOf('/')+1)
+							+ "</a>");
+				}
+			} else {
+				builder.append(vall);
+			}
+			builder.append("</td>");
 			// System.out.println(builder.toString());
 			for(String key:propToTableCol) {
 			//for (String key : features.getJSONObject(i).getJSONObject("properties").keySet()) {
