@@ -9,6 +9,7 @@ var a00238 =
     [ "getFormatter", "a00238.html#afce25d64087d96d66b6b5535660a8ddb", null ],
     [ "keyPathToLabel", "a00238.html#af1f611d193b028d4edb65fdb35867a9a", null ],
     [ "readFile", "a00238.html#ac70b9d10398ac107fa07bdbcee59fac9", null ],
+    [ "contextMapper", "a00238.html#ae7316c0c7550712f915cc3cd353cd981", null ],
     [ "exposedType", "a00238.html#aa6a844c9b01d97aca583be867a1c5413", null ],
     [ "htmlHeader", "a00238.html#a385b5e71821f5098a6ea37a2a2a62272", null ],
     [ "htmlHeader2", "a00238.html#a88331e2aef1a44a2e9dc92bcd51ba7b2", null ],

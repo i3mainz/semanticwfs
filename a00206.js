@@ -6,6 +6,7 @@ var a00206 =
     [ "formatHeader", "a00206.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
     [ "formatter", "a00206.html#a741a20805a3111be9c6fc89803b47451", null ],
     [ "getFormatter", "a00206.html#afce25d64087d96d66b6b5535660a8ddb", null ],
+    [ "contextMapper", "a00206.html#ae7316c0c7550712f915cc3cd353cd981", null ],
     [ "exposedType", "a00206.html#aa6a844c9b01d97aca583be867a1c5413", null ],
     [ "featureType", "a00206.html#aba4867b615c0892cdae42bc4fd982639", null ],
     [ "lastQueriedElemCount", "a00206.html#a1ce6ef499b64cec5981912a236baa199", null ],
