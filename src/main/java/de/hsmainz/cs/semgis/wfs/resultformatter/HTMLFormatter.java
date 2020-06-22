@@ -5,6 +5,8 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -16,8 +18,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
-import de.hsmainz.cs.semgis.wfs.triplestore.TripleStoreConnector;
-import de.hsmainz.cs.semgis.wfs.webservice.WebService;
 
 public class HTMLFormatter extends ResultFormatter {
 
@@ -45,6 +45,78 @@ public class HTMLFormatter extends ResultFormatter {
 		byte[] encoded = Files.readAllBytes(Paths.get(path));
 		return new String(encoded, encoding);
 	}
+	
+	
+	public String keyPathToLabel(String keyPath) {
+		if(!keyPath.contains(";")) {
+			if (keyPath.contains("#")) {
+				return keyPath.substring(keyPath.lastIndexOf('#') + 1);
+			} else {
+				return keyPath.substring(keyPath.lastIndexOf('/') + 1);
+			}
+		}
+		String result="";
+		String[] splitted=keyPath.split(";");
+		int i=0;
+		for(i=0;i<splitted.length;i++) {	
+			if (splitted[i].contains("#")) {
+				result+=splitted[i].substring(splitted[i].lastIndexOf('#') + 1);
+			} else {
+				result+=splitted[i].substring(splitted[i].lastIndexOf('/') + 1);
+			}
+			if(i<splitted.length-1) {
+				result+=".";
+			}
+		}
+		return result;
+	}
+	
+	public void collectColumns(StringBuilder builder,JSONObject properties,List<String> propToTableCol,String keyPath,Integer index) {
+		for (String key : properties.keySet()) {
+			Boolean subcols=false;
+			if(keyPath.isEmpty()) {
+				try {
+					collectColumns(builder,properties.getJSONObject(key),propToTableCol,key,index);
+					subcols=true;
+				}catch(Exception e) {
+					
+				}
+			}else {
+				try {
+					collectColumns(builder,properties.getJSONObject(key),propToTableCol,keyPath+";"+key,index);
+					subcols=true;
+				}catch(Exception e) {
+					
+				}
+			}
+			if(!subcols) {
+				String label="";
+			if(keyPath.isEmpty()) {
+				label=key;
+				propToTableCol.add(key);
+			}else {
+				propToTableCol.add(keyPath+";"+key);
+				label=keyPath+";"+key;
+			}	
+			index++;
+			if (key.startsWith("http") || key.startsWith("www.")) {
+				if (key.contains("#")) {
+					builder.append("<th align=\"center\"><a href=\"" + key + "\" target=\"_blank\">"+
+					keyPathToLabel(label) + "</a></td>");
+				} else {
+					builder.append("<th align=\"center\"><a href=\"" + key + "\" target=\"_blank\">"
+							+ keyPathToLabel(label) + "</a></td>");
+				}
+			} else {
+				builder.append("<th align=\"center\"><a href=\"" + key + "\" target=\"_blank\">" + keyPathToLabel(label)
+						+ "</a></td>");
+			}
+			}
+			
+			
+		}
+		
+	}
 
 	@Override
 	public String formatter(ResultSet results, String startingElement, String featuretype,
@@ -62,19 +134,20 @@ public class HTMLFormatter extends ResultFormatter {
 			builder.append("<script>var overlayMaps={}; var overlayControl; var typeColumn=\"" + typeColumn
 					+ "\"; var markercollection=[];var epsg=\""+epsg+"\"; var geojson=" + geojson.toString() + "</script>");
 			builder.append(htmlHeader);
-		}
-		
+		}	
 		builder.append("</div><div class=\"row\"><div class=\"left col-sm-12\"><select id=\"styles\">");
 		builder.append("<option value=\""+featuretype+"_DefaultStyle\">"+featuretype+"_DefaultStyle</option>");
 		builder.append("</select><button id=\"applystyle\"/>Apply Style</button><table width=\"100%\" align=\"center\" id=\"queryres\" class=\"description\" border=\"1\">");
 		Boolean first = true;
 		JSONArray features = geojson.getJSONArray("features");
-		Map<Integer,String> propToTableCol=new TreeMap<Integer,String>();
+		List<String> propToTableCol=new LinkedList<String>();
 		for (int i = 0; i < features.length(); i++) {
 			if (first) {
 				builder.append("<thead><tr class=\"even\">");
-				if (!onlyproperty) {	
-					int j=0;
+				if (!onlyproperty) {
+					collectColumns(builder, features.getJSONObject(0).getJSONObject("properties"), propToTableCol, "",0);
+					System.out.println(propToTableCol);
+					/*int j=0;
 					for (String key : features.getJSONObject(0).getJSONObject("properties").keySet()) {
 						propToTableCol.put(j,key);
 						if (key.startsWith("http") || key.startsWith("www.")) {
@@ -90,9 +163,10 @@ public class HTMLFormatter extends ResultFormatter {
 									+ "</a></td>");
 						}
 						j++;
-					}
+					}*/
 
 				}else {
+					
 					if (propertytype.startsWith("http")) {
 						if (propertytype.contains("#")) {
 							builder.append("<th align=\"center\"><a href=\"" + propertytype + "\" target=\"_blank\">"
@@ -115,12 +189,36 @@ public class HTMLFormatter extends ResultFormatter {
 			    builder.append("<tr class=\"odd\">");			    
 			}
 			// System.out.println(builder.toString());
-			for(Integer col:propToTableCol.keySet()) {
+			for(String key:propToTableCol) {
 			//for (String key : features.getJSONObject(i).getJSONObject("properties").keySet()) {
 				// System.out.println(key);
-				String key=propToTableCol.get(col);
-				if(features.getJSONObject(i).getJSONObject("properties").has(key)) {
-				String value = features.getJSONObject(i).getJSONObject("properties").get(key).toString();
+				//String key=propToTableCol.get(col);
+				String value=null;
+				String curvalue;
+				JSONObject curobj=features.getJSONObject(i).getJSONObject("properties");
+				System.out.println(key);
+				if(key.contains(";")) {
+					String[] splitted=key.split(";");
+					System.out.println("Splitted key: "+Arrays.toString(splitted));
+					for(String spl:splitted) {
+						if(!spl.isEmpty()) {
+							try {
+								curobj=curobj.getJSONObject(spl);
+								System.out.println(curobj.toString());
+							}catch(Exception e) {
+								value=curobj.get(spl).toString();
+								System.out.println("Got Value: "+value);
+							}
+						}
+					}
+				}else {
+					if(features.getJSONObject(i).getJSONObject("properties").has(key)) {
+						value = features.getJSONObject(i).getJSONObject("properties").get(key).toString();
+					}
+				}
+				//System.out.println(key+" - "+value);
+				if(value!=null) {
+				//String value = features.getJSONObject(i).getJSONObject("properties").get(key).toString();
 				if(value.startsWith("[")) {
 					value=value.replace("[","").replace("]", "").replace("\"", "");
 					builder.append("<td align=\"center\">");
