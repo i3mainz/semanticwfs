@@ -2,10 +2,12 @@ var a00238 =
 [
     [ "HTMLFormatter", "a00238.html#a5ed446c507749125a6acf04da18b134d", null ],
     [ "[static initializer]", "a00238.html#a2e87c5ede6b7235170d287cd2e254454", null ],
+    [ "collectColumns", "a00238.html#a6ebb26457226f1b2c4fe354444b96686", null ],
     [ "formatFooter", "a00238.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00238.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
     [ "formatter", "a00238.html#a333158f85a81eddf46a6487337d5ba27", null ],
     [ "getFormatter", "a00238.html#afce25d64087d96d66b6b5535660a8ddb", null ],
+    [ "keyPathToLabel", "a00238.html#af1f611d193b028d4edb65fdb35867a9a", null ],
     [ "readFile", "a00238.html#ac70b9d10398ac107fa07bdbcee59fac9", null ],
     [ "exposedType", "a00238.html#aa6a844c9b01d97aca583be867a1c5413", null ],
     [ "htmlHeader", "a00238.html#a385b5e71821f5098a6ea37a2a2a62272", null ],
