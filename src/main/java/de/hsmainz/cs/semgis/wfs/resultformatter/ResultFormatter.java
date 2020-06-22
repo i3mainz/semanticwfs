@@ -21,6 +21,8 @@ public abstract class ResultFormatter {
 	
 	public String exposedType="application/vnd.geo+json";
 	
+	public Map<String,String> contextMapper=new TreeMap<>();
+	
 	public ResultStyleFormatter styleformatter;
 	
 	public static ResultFormatter getFormatter(String formatString) {

@@ -27,6 +27,7 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 		this.styleformatter=new GeoJSONCSSFormatter();
 	}
 	
+	
 	private AsGeoJSON geojson = new AsGeoJSON();
 	
 	@Override
@@ -37,6 +38,7 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 			String indvar,String epsg,List<String> eligiblenamespaces,
 			List<String> noteligiblenamespaces,StyleObject mapstyle) {
 		lastQueriedElemCount=0;
+		this.contextMapper.clear();
 		JSONObject geojsonresults = new JSONObject();
 		List<JSONArray> allfeatures = new LinkedList<JSONArray>();
 		JSONObject result = new JSONObject();
@@ -375,6 +377,33 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 		return geojsonresults.toString(2);
 	}
 	
+	public void relToMap(String keyPath) {
+		if(keyPath.equalsIgnoreCase("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")) {
+			return;
+		}
+		if(!keyPath.contains(";")) {
+			if (keyPath.contains("#")) {
+				this.contextMapper.put(keyPath,keyPath.substring(keyPath.lastIndexOf('#') + 1));
+			} else {
+				this.contextMapper.put(keyPath,keyPath.substring(keyPath.lastIndexOf('/') + 1));
+			}
+		}
+		String result="";
+		String[] splitted=keyPath.split(";");
+		int i=0;
+		for(i=0;i<splitted.length;i++) {	
+			if (splitted[i].contains("#")) {
+				result+=splitted[i].substring(splitted[i].lastIndexOf('#') + 1);
+			} else {
+				result+=splitted[i].substring(splitted[i].lastIndexOf('/') + 1);
+			}
+			if(i<splitted.length-1) {
+				result+=".";
+			}
+		}
+		this.contextMapper.put(keyPath,result);
+	}
+	
 	public void addKeyValList(JSONObject properties,Collection<String> rell,Collection<String> vall) {
 		//System.out.println("AddKeyValList");
 		//System.out.println(rell.toString());
@@ -397,16 +426,25 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 					properties.getJSONArray(rel).put(lastval);
 				}catch(JSONException e) {
 					String oldval=properties.getString(rel);
+					if(!this.contextMapper.containsKey(rel)) {
+						this.relToMap(rel);
+					}
 					properties.put(rel,new JSONArray());
 					properties.getJSONArray(rel).put(oldval);
 					properties.getJSONArray(rel).put(lastval);
 				}
 			}else {
 				if(reliter.hasNext()) {
+					if(!this.contextMapper.containsKey(rel)) {
+						this.relToMap(rel);
+					}
 					properties.put(rel, new JSONObject());
 					properties=properties.getJSONObject(rel);
 					continue;
 				}else {
+					if(!this.contextMapper.containsKey(rel)) {
+						this.relToMap(rel);
+					}
 					properties.put(rel, lastval);	
 				}			
 			}
@@ -417,7 +455,10 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 	
 	
 	public void addKeyVal(JSONObject properties,String rel,String val) {
-		if(properties.has(rel)) {
+		if(!this.contextMapper.containsKey(rel)) {
+			this.relToMap(rel);
+		}
+		if(properties.has(rel)) {			
 			try {
 				properties.getJSONArray(rel).put(val);
 			}catch(JSONException e) {

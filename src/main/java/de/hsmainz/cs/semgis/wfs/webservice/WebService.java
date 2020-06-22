@@ -1009,7 +1009,8 @@ public class WebService {
 		String collectionurl=wfsconf.getString("baseurl") + "/collections/" + collectionid;
 		try {
 			return Response.ok(ResultMetadataFormatter.getFormatter(mdformat)
-					.formatter(collectionid, collectioncall, collectionurl, workingobj,format)).type(ResultMetadataFormatter.getFormatter(mdformat).mimeType).build();
+					.formatter(collectionid, collectioncall, collectionurl, workingobj,format))
+					.type(ResultMetadataFormatter.getFormatter(mdformat).mimeType).build();
 		} catch (XMLStreamException e1) {
 			e1.printStackTrace();
 			return this.createExceptionResponse(e1, "");
