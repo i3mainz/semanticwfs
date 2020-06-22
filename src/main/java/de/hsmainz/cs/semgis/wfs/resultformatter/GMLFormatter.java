@@ -100,9 +100,6 @@ public class GMLFormatter extends WFSResultFormatter {
 			writer.writeEndElement();
 			}
 		}
-		if(obj.has("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")) {
-			writer.writeEndElement();
-		}
 	}
 	
 	@Override
@@ -144,7 +141,7 @@ public class GMLFormatter extends WFSResultFormatter {
 			writer.writeAttribute("gml:id",curfeaturetype+"_GEOMETRY");
 			writer.writeStartElement("gml:pos");
 			writer.writeCharacters(feature.getJSONObject("geometry").getJSONArray("coordinates").toString().replace("[", "").replace("]", "").replace(",", " "));
-			//writer.writeEndElement();
+			writer.writeEndElement();
 			writer.writeEndElement();
 			writer.writeEndElement();
 			writer.writeEndElement();
