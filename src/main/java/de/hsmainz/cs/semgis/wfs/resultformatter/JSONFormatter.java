@@ -26,7 +26,9 @@ public class JSONFormatter extends WFSResultFormatter {
 			String typeColumn,Boolean onlyproperty,Boolean onlyhits,
 			String srsName,String indvar,String epsg,List<String> eligiblenamespaces,
 			List<String> noteligiblenamespaces,StyleObject mapstyle) throws XMLStreamException {
+		JSONObject result=new JSONObject();
 	    JSONArray obj=new JSONArray();
+	    result.put("features",obj);
 	    while(results.hasNext()) {
 	    	this.lastQueriedElemCount++;
 	    	QuerySolution solu=results.next();
@@ -43,7 +45,8 @@ public class JSONFormatter extends WFSResultFormatter {
 	    	}
     		obj.put(jsonobj);
 	    }	    	
-	    return obj.toString(2);
+	    result.put("amount",this.lastQueriedElemCount);
+	    return result.toString(2);
 	}
 
 }
