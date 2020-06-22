@@ -3,6 +3,22 @@
     <div class="left col-sm-3" id="contentdesc" style="height:500px;overflow-y: scroll;">
 	</div>
 <script>
+function createLegend(layer){
+	 htmlLegend1 =L.control.htmllegend({
+        position: 'bottomright',
+        legends: [{
+            name: 'Map Legend',
+            layer: layer,
+            elements: createColorLegendForLayer()}],
+			collapseSimple:true,
+			detectStretched:true
+    });
+	console.log("legend")
+	console.log(htmlLegend1)
+		console.log(map)
+	htmlLegend1.addTo(map);
+}
+
 function toggle_visibility(id) 
   {
       var e = document.getElementById(id);
@@ -56,6 +72,20 @@ function saveTextAsFile(tosave,fileext,filename)
         window.URL.revokeObjectURL(url);  
     }, 1000);
 }
+
+ function createColorLegendForLayer(){
+        elements=[]
+        for(color in colormap){
+            if(color.startsWith("http")){
+            	elements.push({"label":color.substring(color.lastIndexOf('/')+1),"html":"","style":{"background-color":colormap[color],"width":"10px","height":"10px"}})  
+            }else{
+            	elements.push({"label":color,"html":"","style":{"background-color":colormap[color],"width":"10px","height":"10px"}})  
+            }
+              
+        }
+		console.log("elements: "+elements)
+		return elements;
+  }
 
 function getRandomColor() {
   var letters = '0123456789ABCDEF';
@@ -125,7 +155,7 @@ onEachFeature: function (feature, layer) {
 	 }
 	 var popup="Item: <a href='"+feature.id+"' target='_blank'>"+
 	 (feature.id.includes('#')?feature.id.substring(feature.id.lastIndexOf('#')+1):feature.id)+"</a>"
-	 if("http://www.w3.org/1999/02/22-rdf-syntax-ns#type" in feature.properties){
+	if("http://www.w3.org/1999/02/22-rdf-syntax-ns#type" in feature.properties){
 	 	if(feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].includes("http") && feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].includes("#")){
  			ns=feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].substring(0,feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].indexOf('#'))
  			if(!(ns in colorcodes)){
@@ -145,11 +175,31 @@ onEachFeature: function (feature, layer) {
      }else {
 		layer.bindPopup(popup,{maxWidth : 560});
 	 }
+	 
 	 popup+="<br/>Properties:<ul>"
-   Object.keys(feature.properties).sort().forEach(function(prop) {
+	popup=popupHighlighter(popup,colormap,feature.properties,0) 	 
+	popup+="</ul>"
+	 console.log(feature)
+	layer.on('click', function (e) {
+		$('#contentdesc').html(popup)
+	});
+ }}).addTo(map);
+if(colormap!={} && Object.keys(colormap).length>1){
+    createLegend(geojsonlayer);
+}
+try {
+	map.fitBounds(geojsonlayer.getBounds());
+}catch (e) {
+}
+
+function popupHighlighter(popup,colormap,properties,depth){
+   console.log("PopupHighlighter "+depth)
+   console.log(properties)
+   Object.keys(properties).sort().forEach(function(prop) {
    	if(prop=="http://www.w3.org/1999/02/22-rdf-syntax-ns#type"){
    		return;
    	}
+   	console.log(prop)
  if(prop.includes("http") && prop.includes("#")){
  		ns=prop.substring(0,prop.indexOf('#'))
  		if(!(ns in colorcodes)){
@@ -165,12 +215,18 @@ onEachFeature: function (feature, layer) {
  }else{
 	 	popup+="<li>"+prop+" - "
 	 }
- if(!isArray(feature.properties[prop])){
- 	array=[feature.properties[prop]]
+if(typeof properties[prop] === "object"){
+    popup+="<ul>"
+ 	popup=popupHighlighter(popup,colormap,properties[prop],depth+1)
+ 	popup+="</ul>"
+ }else{
+ if(!isArray(properties[prop])){
+ 	array=[properties[prop]]
  }else{
  	array=feature.properties[prop]
     popup+="<a href=\"#\" onclick=\"toggle_visibility('"+prop+"')\">[x]</a><br/><span id=\""+prop+"\">"
  }
+ console.log(array)
  for(elem in array){
     if(array[elem].includes("http") && array[elem].includes("^^")){
      ns=array[elem].substring(0,array[elem].indexOf('^^'))
@@ -195,14 +251,9 @@ onEachFeature: function (feature, layer) {
     }
  }
  popup+="</li>"
-});popup+="</ul>"
-	 console.log(feature)
-	layer.on('click', function (e) {
-		$('#contentdesc').html(popup)
-	});
- }}).addTo(map);
-try {
-	map.fitBounds(geojsonlayer.getBounds());
-}catch (e) {
+ }
+ 
+ });
+ return popup
 }
 </script>
