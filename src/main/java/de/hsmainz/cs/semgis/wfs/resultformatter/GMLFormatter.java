@@ -118,7 +118,7 @@ public class GMLFormatter extends WFSResultFormatter {
 		StringWriter strwriter=new StringWriter();
 		XMLStreamWriter writer=new IndentingXMLStreamWriter(factory.createXMLStreamWriter(strwriter));
 		//writer.writeStartDocument();
-		writer.writeStartElement(startingElement);
+
 		System.out.println(WebService.nameSpaceCache);
 		System.out.println(featuretype.toLowerCase());
 		for(String ns:WebService.nameSpaceCache.get(featuretype.toLowerCase()).keySet()) {
@@ -126,6 +126,7 @@ public class GMLFormatter extends WFSResultFormatter {
 		}
 		JSONArray features=geojson.getJSONArray("features");
 		for(int i=0;i<features.length();i++) {
+			writer.writeStartElement(startingElement);
 			JSONObject feature=features.getJSONObject(i);
 			String curfeaturetype=feature.getString("id");
 			if(curfeaturetype.contains("http") && curfeaturetype.contains("#")){
@@ -145,8 +146,9 @@ public class GMLFormatter extends WFSResultFormatter {
 			writer.writeEndElement();
 			writer.writeEndElement();
 			writer.writeEndElement();
+			writer.writeEndElement();
 		}
-		writer.writeEndElement();
+		
 		writer.flush();	
 		System.out.println(strwriter.toString());
 		return strwriter.toString();
