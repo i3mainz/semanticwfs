@@ -376,16 +376,16 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 	}
 	
 	public void addKeyValList(JSONObject properties,Collection<String> rell,Collection<String> vall) {
-		System.out.println("AddKeyValList");
-		System.out.println(rell.toString());
-		System.out.println(vall.toString());
+		//System.out.println("AddKeyValList");
+		//System.out.println(rell.toString());
+		//System.out.println(vall.toString());
 		Iterator<String> reliter=rell.iterator();
 		Iterator<String> valiter=vall.iterator();
 		String lastval="";
 		while(valiter.hasNext()) {
 			lastval=valiter.next();
 		}
-		System.out.println(properties);
+		//System.out.println(properties);
 		while(reliter.hasNext()) {
 			String rel=reliter.next();
 			if(properties.has(rel)) {
