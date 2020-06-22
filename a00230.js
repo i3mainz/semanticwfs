@@ -2,6 +2,7 @@ var a00230 =
 [
     [ "GMLFormatter", "a00230.html#a838cb0e3eaafb657bd40a3e9c8bef8a8", null ],
     [ "[static initializer]", "a00230.html#a2e87c5ede6b7235170d287cd2e254454", null ],
+    [ "addTagsFromJSONObject", "a00230.html#a9c11f424a7fbe3f8c89a6b06c22f02f5", null ],
     [ "formatFooter", "a00230.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00230.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
     [ "formatter", "a00230.html#a333158f85a81eddf46a6487337d5ba27", null ],
