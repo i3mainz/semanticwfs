@@ -77,7 +77,7 @@ public abstract class ResultFormatter {
 		if(formatString.contains("polyshape")) {
 			return resultMap.get("polyshape");
 		}
-		return null;
+		return resultMap.get("html");
 	}
 	
 	static {

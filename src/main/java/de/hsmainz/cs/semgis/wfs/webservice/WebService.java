@@ -1330,6 +1330,7 @@ public class WebService {
 					"", workingobj, filter, "", "", bbox, style);
 			// System.out.println(res);
 			if (res == null || res.isEmpty()) {
+				System.out.println("RES: "+res);
 				throw new NotFoundException();
 			}
 			// System.out.println(res);
@@ -1368,6 +1369,7 @@ public class WebService {
 				StringWriter strwriter = new StringWriter();
 				XMLOutputFactory output = XMLOutputFactory.newInstance();
 				XMLStreamWriter writer;
+				System.out.println("GML RESULT!!!");
 				try {
 					writer = new IndentingXMLStreamWriter(output.createXMLStreamWriter(strwriter));
 					writer.writeStartDocument();
@@ -1410,6 +1412,7 @@ public class WebService {
 					writer.writeEndElement();
 					writer.writeEndDocument();
 					writer.flush();
+					System.out.println("GML RESULT!");
 					return Response.ok(strwriter.toString()).type(ResultFormatter.getFormatter(format).mimeType)
 							.build();
 				} catch (XMLStreamException e) {
