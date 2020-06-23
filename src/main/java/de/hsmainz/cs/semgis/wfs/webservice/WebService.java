@@ -100,9 +100,13 @@ public class WebService {
 		for (Integer i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
 			JSONObject featuretype = wfsconf.getJSONArray("datasets").getJSONObject(i);
 			if (!bboxCache.containsKey(featuretype.getString("name").toLowerCase())) {
+				try {
 				bboxCache.put(featuretype.getString("name").toLowerCase(),
 						TripleStoreConnector.getBoundingBoxFromTripleStoreData(featuretype.getString("triplestore"),
 								featuretype.getString("query")));
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		htmlHead = "<html><head><link rel=\"stylesheet\" href=\"https://unpkg.com/leaflet@1.5.1/dist/leaflet.css\"\r\n"
