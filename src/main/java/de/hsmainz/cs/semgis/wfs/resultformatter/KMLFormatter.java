@@ -50,14 +50,16 @@ public class KMLFormatter extends WFSResultFormatter {
 			if(!key.equals("http://www.opengis.net/ont/geosparql#hasGeometry") 
 					&& !key.equalsIgnoreCase("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")
 					&& !key.equalsIgnoreCase("the_geom")) {
+				writer.writeStartElement("Data");
 				if (key.contains("#")) {
-					writer.writeStartElement(key.substring(key.lastIndexOf('#') + 1));
+					writer.writeAttribute("name",key.substring(key.lastIndexOf('#') + 1));
 				} else {
-					writer.writeStartElement(key.substring(key.lastIndexOf('/') + 1));
+					writer.writeAttribute("name",key.substring(key.lastIndexOf('/') + 1));
 				}
 			try {
 				addTagsFromJSONObject(obj.getJSONObject(key),writer,curfeatureid);
 			}catch(Exception e) {
+				writer.writeStartElement("value");
 				String val=obj.get(key).toString();
 				if(val.contains("^^")) {
 					writer.writeCharacters(val.substring(0,val.lastIndexOf("^^")));
@@ -68,6 +70,7 @@ public class KMLFormatter extends WFSResultFormatter {
 				}else {
 					writer.writeCharacters(val);
 				}
+				writer.writeEndElement();
 			}
 			writer.writeEndElement();
 			}
@@ -89,8 +92,9 @@ public class KMLFormatter extends WFSResultFormatter {
 		StringWriter strwriter=new StringWriter();
 		XMLStreamWriter writer=new IndentingXMLStreamWriter(factory.createXMLStreamWriter(strwriter));
 		writer.writeStartDocument();
-		writer.writeStartElement("Document");
+		writer.writeStartElement("kml");
 		writer.writeDefaultNamespace("http://www.opengis.net/kml/2.2");
+		writer.writeStartElement("Document");
 		writer.writeStartElement("Style");
 		writer.writeCharacters("");
 		writer.flush();
@@ -101,7 +105,7 @@ public class KMLFormatter extends WFSResultFormatter {
 		JSONArray features=geojson.getJSONArray("features");
 		for(int i=0;i<features.length();i++) {
 			writer.writeStartElement("Placemark");
-			writer.writeStartElement("ExtendedData");
+			writer.writeStartElement("name");
 			JSONObject feature=features.getJSONObject(i);
 			String curfeaturetype=feature.getString("id");
 			if(curfeaturetype.contains("http") && curfeaturetype.contains("#")){
@@ -109,16 +113,16 @@ public class KMLFormatter extends WFSResultFormatter {
 			}else if(curfeaturetype.startsWith("http")) {
 				curfeaturetype=curfeaturetype.substring(curfeaturetype.lastIndexOf('/')+1);
 			}
-
+			writer.writeCharacters(curfeaturetype);
+			writer.writeEndElement();
+			writer.writeStartElement("ExtendedData");
 			//writer.writeStartElement(featuretype);	
 			//writer.writeAttribute("gml:id", curfeaturetype);
 			addTagsFromJSONObject(feature.getJSONObject("properties"), writer,curfeaturetype);	
 			writer.writeEndElement();
-			writer.writeStartElement("the_geom");
 			writer.writeStartElement(feature.getJSONObject("geometry").getString("type"));
 			writer.writeStartElement("coordinates");
 			writer.writeCharacters(feature.getJSONObject("geometry").getJSONArray("coordinates").toString().replace("[", "").replace("]", "").replace(",", " "));
-			writer.writeEndElement();
 			writer.writeEndElement();
 			writer.writeEndElement();
 			writer.writeEndElement();
@@ -211,6 +215,7 @@ public class KMLFormatter extends WFSResultFormatter {
 			}
 			lastInd=solu.get(indvar).toString();	
 	    }*/
+		writer.writeEndElement();
 		writer.writeEndElement();
 		writer.writeEndDocument();
 		writer.flush();	
