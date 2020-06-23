@@ -52,6 +52,9 @@ public abstract class ResultFormatter {
 		if(formatString.contains("ttl")) {
 			return resultMap.get("ttl");
 		}
+		if(formatString.contains("rdf")) {
+			return resultMap.get("rdf");
+		}
 		if(formatString.contains("geohash")) {
 			return resultMap.get("geohash");
 		}
@@ -94,7 +97,8 @@ public abstract class ResultFormatter {
 		resultMap.put("jsonld", new JSONLDFormatter());
 		resultMap.put("html", new HTMLFormatter());
 		resultMap.put("kml", new KMLFormatter());
-		resultMap.put("ttl", new RDFFormatter());
+		resultMap.put("ttl", new TTLFormatter());
+		resultMap.put("rdf", new RDFFormatter());
 		resultMap.put("gml", new GMLFormatter());
 		resultMap.put("gpx", new GPXFormatter());
 		resultMap.put("csv", new CSVFormatter());
