@@ -1,5 +1,6 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -7,6 +8,9 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
@@ -45,9 +49,9 @@ public class RDFFormatter extends ResultFormatter {
 					geomLiteral="\""+solu.get(name).toString().substring(0,solu.get(name).toString().indexOf("^^"))+"\"^^<"+solu.get(name).toString().substring(solu.get(name).toString().indexOf("^^")+2)+"> .";
 				}else if(name.equalsIgnoreCase(indvar)){
 					continue;
-				}else if("rel".equalsIgnoreCase(name) || name.contains("_rel")){
+				}else if("rel".equalsIgnoreCase(name) || name.contains("_rel") || name.matches("rel[0-9]+$")){
 					rel=solu.get(name).toString();
-				}else if("val".equalsIgnoreCase(name) || name.contains("_val")){
+				}else if("val".equalsIgnoreCase(name) || name.contains("_val") || name.matches("val[0-9]+$")){
 					val=solu.get(name).toString();
 				}else if("lat".equalsIgnoreCase(name)){
 					lat=solu.get(name).toString();
@@ -98,5 +102,6 @@ public class RDFFormatter extends ResultFormatter {
 		}
 		return builder.toString();
 	}
+	
 
 }
