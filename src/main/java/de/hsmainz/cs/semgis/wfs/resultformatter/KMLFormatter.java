@@ -50,15 +50,15 @@ public class KMLFormatter extends WFSResultFormatter {
 			if(!key.equals("http://www.opengis.net/ont/geosparql#hasGeometry") 
 					&& !key.equalsIgnoreCase("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")
 					&& !key.equalsIgnoreCase("the_geom")) {
+			try {
+				addTagsFromJSONObject(obj.getJSONObject(key),writer,curfeatureid);
+			}catch(Exception e) {
 				writer.writeStartElement("Data");
 				if (key.contains("#")) {
 					writer.writeAttribute("name",key.substring(key.lastIndexOf('#') + 1));
 				} else {
 					writer.writeAttribute("name",key.substring(key.lastIndexOf('/') + 1));
 				}
-			try {
-				addTagsFromJSONObject(obj.getJSONObject(key),writer,curfeatureid);
-			}catch(Exception e) {
 				writer.writeStartElement("value");
 				String val=obj.get(key).toString();
 				if(val.contains("^^")) {
@@ -71,8 +71,8 @@ public class KMLFormatter extends WFSResultFormatter {
 					writer.writeCharacters(val);
 				}
 				writer.writeEndElement();
+				writer.writeEndElement();
 			}
-			writer.writeEndElement();
 			}
 		}
 	}
