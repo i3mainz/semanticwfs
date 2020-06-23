@@ -1,4 +1,4 @@
-<map id="ResultMetadataFormatter" name="ResultMetadataFormatter">
-<area shape="rect" id="node2" href="$a00276.html" title="DCATFormatter" alt="" coords="5,80,120,107"/>
-<area shape="rect" id="node3" href="$a00280.html" title="GMDFormatter" alt="" coords="144,80,253,107"/>
+<map id="WFSResultFormatter" name="WFSResultFormatter">
+<area shape="rect" id="node2" href="$a00269.html" title="ResultFormatter" alt="" coords="1376,140,1492,167"/>
+<area shape="rect" id="node5" href="$a00313.html" title="ResultStyleFormatter" alt="" coords="1096,171,1243,197"/>
 </map>

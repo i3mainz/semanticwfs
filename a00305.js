@@ -1,16 +1,14 @@
 var a00305 =
 [
-    [ "toHTML", "a00305.html#add850f03e24411f6d9e46e4e07a02727", null ],
-    [ "toJSON", "a00305.html#a693608dec873ba750e1bf45f50d81817", null ],
-    [ "toString", "a00305.html#ad146fa8579a5f8a876c4688cc5a68520", null ],
-    [ "toXML", "a00305.html#a1123f91ca59c943e426493e42cb61108", null ],
-    [ "hatch", "a00305.html#ab280196b35e8fb195755480f7b6bba1c", null ],
-    [ "lineStringImage", "a00305.html#ac5ffd3d17c1fd4d95bdf3423d8d95102", null ],
-    [ "lineStringImageStyle", "a00305.html#a124c238dd7f1a8e8b30588868bf3f809", null ],
-    [ "lineStringStyle", "a00305.html#ae1748922a6f7b626b0c88fcd21f48392", null ],
-    [ "pointImage", "a00305.html#a5d0c401b8996e35a911e178227081b32", null ],
-    [ "pointStyle", "a00305.html#a87e7ed2ad089c7ba8db7857efa15befa", null ],
-    [ "polygonImage", "a00305.html#a3877196bb534272431a59e7ecb4d5338", null ],
-    [ "polygonStyle", "a00305.html#a27511b5779d69b4e26b4ed7737d5de2e", null ],
-    [ "styleName", "a00305.html#ac1612ef6d046b45bf698d7c2c284e0ca", null ]
+    [ "[static initializer]", "a00305.html#a2e87c5ede6b7235170d287cd2e254454", null ],
+    [ "cssLiteralToKML", "a00305.html#a28a6ec339812f1a4e8f7d640bbc452b5", null ],
+    [ "formatFooter", "a00305.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
+    [ "formatGeometry", "a00305.html#a399873993b7ab0c34a034702639a6cad", null ],
+    [ "formatHeader", "a00305.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
+    [ "formatter", "a00305.html#a6561dcf48f63c199d693d5ed6c739dc0", null ],
+    [ "getFormatter", "a00305.html#a91715aa5eef12ebcf3ea95d7493b9084", null ],
+    [ "exposedType", "a00305.html#aa6a844c9b01d97aca583be867a1c5413", null ],
+    [ "lastQueriedElemCount", "a00305.html#a1ce6ef499b64cec5981912a236baa199", null ],
+    [ "mimeType", "a00305.html#a09c78e464072ccab667894f0d179fbdf", null ],
+    [ "resultMap", "a00305.html#a54c9d791b2138017b960a7cf457b5fd2", null ]
 ];

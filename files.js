@@ -1,148 +1,151 @@
 var files =
 [
-    [ "AbstractTransformer.java", "a00125.html", [
-      [ "AbstractTransformer", "a00326.html", "a00326" ]
+    [ "AbstractTransformer.java", "a00128.html", [
+      [ "AbstractTransformer", "a00333.html", "a00333" ]
     ] ],
     [ "AsDXF.java", "a00002.html", [
-      [ "AsDXF", "a00162.html", "a00162" ]
+      [ "AsDXF", "a00165.html", "a00165" ]
     ] ],
     [ "AsGeoHash.java", "a00005.html", [
-      [ "AsGeoHash", "a00166.html", "a00166" ]
+      [ "AsGeoHash", "a00169.html", "a00169" ]
     ] ],
     [ "AsGeoJSON.java", "a00008.html", [
-      [ "AsGeoJSON", "a00170.html", "a00170" ]
+      [ "AsGeoJSON", "a00173.html", "a00173" ]
     ] ],
     [ "AsGeoURI.java", "a00011.html", [
-      [ "AsGeoURI", "a00174.html", "a00174" ]
+      [ "AsGeoURI", "a00177.html", "a00177" ]
     ] ],
     [ "AsGML.java", "a00014.html", [
-      [ "AsGML", "a00178.html", "a00178" ]
+      [ "AsGML", "a00181.html", "a00181" ]
     ] ],
     [ "AsGPX.java", "a00017.html", [
-      [ "AsGPX", "a00182.html", "a00182" ]
+      [ "AsGPX", "a00185.html", "a00185" ]
     ] ],
     [ "AsKML.java", "a00020.html", [
-      [ "AsKML", "a00186.html", "a00186" ]
+      [ "AsKML", "a00189.html", "a00189" ]
     ] ],
     [ "AsPolyshape.java", "a00023.html", [
-      [ "AsPolyshape", "a00190.html", "a00190" ]
+      [ "AsPolyshape", "a00193.html", "a00193" ]
     ] ],
     [ "AsX3D.java", "a00026.html", [
-      [ "AsX3D", "a00194.html", "a00194" ]
+      [ "AsX3D", "a00197.html", "a00197" ]
     ] ],
     [ "CovJSONFormatter.java", "a00029.html", [
-      [ "CovJSONFormatter", "a00198.html", "a00198" ]
+      [ "CovJSONFormatter", "a00201.html", "a00201" ]
     ] ],
     [ "CSVFormatter.java", "a00032.html", [
-      [ "CSVFormatter", "a00202.html", "a00202" ]
+      [ "CSVFormatter", "a00205.html", "a00205" ]
     ] ],
-    [ "DCATFormatter.java", "a00092.html", [
-      [ "DCATFormatter", "a00282.html", "a00282" ]
+    [ "DCATFormatter.java", "a00095.html", [
+      [ "DCATFormatter", "a00289.html", "a00289" ]
     ] ],
     [ "GeoHashFormatter.java", "a00035.html", [
-      [ "GeoHashFormatter", "a00206.html", "a00206" ]
+      [ "GeoHashFormatter", "a00209.html", "a00209" ]
     ] ],
-    [ "GeoJSONCSSFormatter.java", "a00101.html", [
-      [ "GeoJSONCSSFormatter", "a00294.html", "a00294" ]
+    [ "GeoJSONCSSFormatter.java", "a00104.html", [
+      [ "GeoJSONCSSFormatter", "a00301.html", "a00301" ]
     ] ],
     [ "GeoJSONFormatter.java", "a00038.html", [
-      [ "GeoJSONFormatter", "a00210.html", "a00210" ]
+      [ "GeoJSONFormatter", "a00213.html", "a00213" ]
     ] ],
     [ "GeoJSONLDFormatter.java", "a00041.html", [
-      [ "GeoJSONLDFormatter", "a00214.html", "a00214" ]
+      [ "GeoJSONLDFormatter", "a00217.html", "a00217" ]
     ] ],
     [ "GeoTIFFFormatter.java", "a00044.html", [
-      [ "GeoTIFFFormatter", "a00218.html", "a00218" ]
+      [ "GeoTIFFFormatter", "a00221.html", "a00221" ]
     ] ],
     [ "GeoURIFormatter.java", "a00047.html", [
-      [ "GeoURIFormatter", "a00222.html", "a00222" ]
+      [ "GeoURIFormatter", "a00225.html", "a00225" ]
     ] ],
-    [ "GMDFormatter.java", "a00095.html", [
-      [ "GMDFormatter", "a00286.html", "a00286" ]
+    [ "GMDFormatter.java", "a00098.html", [
+      [ "GMDFormatter", "a00293.html", "a00293" ]
     ] ],
     [ "GMLCOVFormatter.java", "a00050.html", [
-      [ "GMLCOVFormatter", "a00226.html", "a00226" ]
+      [ "GMLCOVFormatter", "a00229.html", "a00229" ]
     ] ],
     [ "GMLFormatter.java", "a00053.html", [
-      [ "GMLFormatter", "a00230.html", "a00230" ]
+      [ "GMLFormatter", "a00233.html", "a00233" ]
     ] ],
     [ "GPXFormatter.java", "a00056.html", [
-      [ "GPXFormatter", "a00234.html", "a00234" ]
+      [ "GPXFormatter", "a00237.html", "a00237" ]
     ] ],
     [ "HTMLFormatter.java", "a00059.html", [
-      [ "HTMLFormatter", "a00238.html", "a00238" ]
+      [ "HTMLFormatter", "a00241.html", "a00241" ]
     ] ],
     [ "JSONFormatter.java", "a00062.html", [
-      [ "JSONFormatter", "a00242.html", "a00242" ]
+      [ "JSONFormatter", "a00245.html", "a00245" ]
     ] ],
     [ "JSONLDFormatter.java", "a00065.html", [
-      [ "JSONLDFormatter", "a00246.html", "a00246" ]
+      [ "JSONLDFormatter", "a00249.html", "a00249" ]
     ] ],
     [ "KMLFormatter.java", "a00068.html", [
-      [ "KMLFormatter", "a00250.html", "a00250" ]
+      [ "KMLFormatter", "a00253.html", "a00253" ]
     ] ],
-    [ "KMLStyleFormatter.java", "a00104.html", [
-      [ "KMLStyleFormatter", "a00298.html", "a00298" ]
+    [ "KMLStyleFormatter.java", "a00107.html", [
+      [ "KMLStyleFormatter", "a00305.html", "a00305" ]
     ] ],
-    [ "MapCSSFormatter.java", "a00107.html", [
-      [ "MapCSSFormatter", "a00302.html", "a00302" ]
+    [ "MapCSSFormatter.java", "a00110.html", [
+      [ "MapCSSFormatter", "a00309.html", "a00309" ]
     ] ],
     [ "MVTFormatter.java", "a00071.html", [
-      [ "MVTFormatter", "a00254.html", "a00254" ]
+      [ "MVTFormatter", "a00257.html", "a00257" ]
     ] ],
     [ "PolyshapeFormatter.java", "a00074.html", [
-      [ "PolyshapeFormatter", "a00258.html", "a00258" ]
+      [ "PolyshapeFormatter", "a00261.html", "a00261" ]
     ] ],
     [ "RDFFormatter.java", "a00077.html", [
-      [ "RDFFormatter", "a00262.html", "a00262" ]
+      [ "RDFFormatter", "a00265.html", "a00265" ]
     ] ],
     [ "ResultFormatter.java", "a00080.html", [
-      [ "ResultFormatter", "a00266.html", "a00266" ]
+      [ "ResultFormatter", "a00269.html", "a00269" ]
     ] ],
-    [ "ResultMetadataFormatter.java", "a00098.html", [
-      [ "ResultMetadataFormatter", "a00290.html", "a00290" ]
+    [ "ResultMetadataFormatter.java", "a00101.html", [
+      [ "ResultMetadataFormatter", "a00297.html", "a00297" ]
     ] ],
-    [ "ResultStyleFormatter.java", "a00110.html", [
-      [ "ResultStyleFormatter", "a00306.html", "a00306" ]
+    [ "ResultStyleFormatter.java", "a00113.html", [
+      [ "ResultStyleFormatter", "a00313.html", "a00313" ]
     ] ],
-    [ "SimpleStyleFormatter.java", "a00113.html", [
-      [ "SimpleStyleFormatter", "a00310.html", "a00310" ]
+    [ "SimpleStyleFormatter.java", "a00116.html", [
+      [ "SimpleStyleFormatter", "a00317.html", "a00317" ]
     ] ],
-    [ "SLDFormatter.java", "a00116.html", [
-      [ "SLDFormatter", "a00314.html", "a00314" ]
+    [ "SLDFormatter.java", "a00119.html", [
+      [ "SLDFormatter", "a00321.html", "a00321" ]
     ] ],
-    [ "StyleObject.java", "a00119.html", [
-      [ "StyleObject", "a00318.html", "a00318" ]
+    [ "StyleObject.java", "a00122.html", [
+      [ "StyleObject", "a00325.html", "a00325" ]
     ] ],
     [ "TopoJSONFormatter.java", "a00083.html", [
-      [ "TopoJSONFormatter", "a00270.html", "a00270" ]
+      [ "TopoJSONFormatter", "a00273.html", "a00273" ]
     ] ],
-    [ "TripleStoreConnector.java", "a00122.html", [
-      [ "TripleStoreConnector", "a00322.html", "a00322" ]
+    [ "TripleStoreConnector.java", "a00125.html", [
+      [ "TripleStoreConnector", "a00329.html", "a00329" ]
     ] ],
-    [ "Tuple.java", "a00128.html", [
-      [ "Tuple", "a00330.html", "a00330" ]
+    [ "TTLFormatter.java", "a00086.html", [
+      [ "TTLFormatter", "a00277.html", "a00277" ]
     ] ],
-    [ "User.java", "a00131.html", [
-      [ "User", "a00334.html", "a00334" ]
+    [ "Tuple.java", "a00131.html", [
+      [ "Tuple", "a00337.html", "a00337" ]
     ] ],
-    [ "UserManagementConnection.java", "a00134.html", [
-      [ "UserManagementConnection", "a00338.html", "a00338" ],
-      [ "UserHandler", "a00342.html", "a00342" ]
+    [ "User.java", "a00134.html", [
+      [ "User", "a00341.html", "a00341" ]
     ] ],
-    [ "UserType.java", "a00137.html", [
-      [ "UserType", "a00346.html", "a00346" ]
+    [ "UserManagementConnection.java", "a00137.html", [
+      [ "UserManagementConnection", "a00345.html", "a00345" ],
+      [ "UserHandler", "a00349.html", "a00349" ]
     ] ],
-    [ "WCSResultFormatter.java", "a00086.html", [
-      [ "WCSResultFormatter", "a00274.html", "a00274" ]
+    [ "UserType.java", "a00140.html", [
+      [ "UserType", "a00353.html", "a00353" ]
     ] ],
-    [ "WebService.java", "a00143.html", [
-      [ "WebService", "a00354.html", "a00354" ]
+    [ "WCSResultFormatter.java", "a00089.html", [
+      [ "WCSResultFormatter", "a00281.html", "a00281" ]
     ] ],
-    [ "WFSResultFormatter.java", "a00089.html", [
-      [ "WFSResultFormatter", "a00278.html", "a00278" ]
+    [ "WebService.java", "a00146.html", [
+      [ "WebService", "a00361.html", "a00361" ]
     ] ],
-    [ "XSLTTransformer.java", "a00140.html", [
-      [ "XSLTTransformer", "a00350.html", "a00350" ]
+    [ "WFSResultFormatter.java", "a00092.html", [
+      [ "WFSResultFormatter", "a00285.html", "a00285" ]
+    ] ],
+    [ "XSLTTransformer.java", "a00143.html", [
+      [ "XSLTTransformer", "a00357.html", "a00357" ]
     ] ]
 ];

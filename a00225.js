@@ -1,11 +1,12 @@
 var a00225 =
 [
-    [ "GPXFormatter", "a00225.html#a1fce5d275978d7dad93b2457141bd42a", null ],
+    [ "GeoURIFormatter", "a00225.html#a5eb340b9f43f6ac50786dc48ef83c1df", null ],
     [ "[static initializer]", "a00225.html#a2e87c5ede6b7235170d287cd2e254454", null ],
     [ "formatFooter", "a00225.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00225.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
     [ "formatter", "a00225.html#a333158f85a81eddf46a6487337d5ba27", null ],
     [ "getFormatter", "a00225.html#afce25d64087d96d66b6b5535660a8ddb", null ],
+    [ "contextMapper", "a00225.html#ae7316c0c7550712f915cc3cd353cd981", null ],
     [ "exposedType", "a00225.html#aa6a844c9b01d97aca583be867a1c5413", null ],
     [ "featureType", "a00225.html#aba4867b615c0892cdae42bc4fd982639", null ],
     [ "lastQueriedElemCount", "a00225.html#a1ce6ef499b64cec5981912a236baa199", null ],
