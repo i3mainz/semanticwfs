@@ -1,3 +1,4 @@
-<map id="GeoJSONCSSFormatter" name="GeoJSONCSSFormatter">
-<area shape="rect" id="node2" href="$a00300.html" title="ResultStyleFormatter" alt="" coords="883,56,1029,83"/>
+<map id="TopoJSONFormatter" name="TopoJSONFormatter">
+<area shape="rect" id="node2" href="$a00299.html" title="WFSResultFormatter" alt="" coords="5,80,152,107"/>
+<area shape="rect" id="node3" href="$a00283.html" title="ResultFormatter" alt="" coords="21,5,137,32"/>
 </map>

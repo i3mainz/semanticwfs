@@ -1,4 +1,4 @@
-<map id="ResultMetadataFormatter" name="ResultMetadataFormatter">
-<area shape="rect" id="node2" href="$a00282.html" title="DCATFormatter" alt="" coords="5,80,120,107"/>
-<area shape="rect" id="node3" href="$a00286.html" title="GMDFormatter" alt="" coords="144,80,253,107"/>
+<map id="TTLFormatter" name="TTLFormatter">
+<area shape="rect" id="node2" href="$a00283.html" title="ResultFormatter" alt="" coords="1376,181,1492,208"/>
+<area shape="rect" id="node5" href="$a00327.html" title="ResultStyleFormatter" alt="" coords="1096,103,1243,129"/>
 </map>

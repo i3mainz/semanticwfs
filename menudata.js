@@ -46,6 +46,7 @@ var menudata={children:[
 {text:"k",url:"functions_func.html#index_k"},
 {text:"l",url:"functions_func.html#index_l"},
 {text:"m",url:"functions_func.html#index_m"},
+{text:"n",url:"functions_func.html#index_n"},
 {text:"p",url:"functions_func.html#index_p"},
 {text:"q",url:"functions_func.html#index_q"},
 {text:"r",url:"functions_func.html#index_r"},
