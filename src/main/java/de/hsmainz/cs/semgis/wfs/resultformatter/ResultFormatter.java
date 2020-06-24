@@ -55,6 +55,12 @@ public abstract class ResultFormatter {
 		if(formatString.contains("rdf")) {
 			return resultMap.get("rdf");
 		}
+		if(formatString.contains("n3")) {
+			return resultMap.get("n3");
+		}
+		if(formatString.contains("nt")) {
+			return resultMap.get("nt");
+		}
 		if(formatString.contains("geohash")) {
 			return resultMap.get("geohash");
 		}
@@ -98,6 +104,8 @@ public abstract class ResultFormatter {
 		resultMap.put("html", new HTMLFormatter());
 		resultMap.put("kml", new KMLFormatter());
 		resultMap.put("ttl", new TTLFormatter());
+		resultMap.put("n3", new N3Formatter());
+		resultMap.put("nt", new NTFormatter());
 		resultMap.put("rdf", new RDFFormatter());
 		resultMap.put("gml", new GMLFormatter());
 		resultMap.put("gpx", new GPXFormatter());
