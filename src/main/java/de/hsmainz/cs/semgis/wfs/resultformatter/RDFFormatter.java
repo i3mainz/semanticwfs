@@ -17,6 +17,11 @@ import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
 public class RDFFormatter extends ResultFormatter{
 
+	public RDFFormatter() {
+		this.mimeType="application/rdf+xml";
+		this.exposedType="application/rdf+xml";
+	}
+	
 	@Override
 	public String formatter(ResultSet results, String startingElement, String featuretype, String propertytype,
 			String typeColumn, Boolean onlyproperty, Boolean onlyhits, String srsName, String indvar, String epsg,
