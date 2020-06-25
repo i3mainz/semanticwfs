@@ -108,8 +108,8 @@ public abstract class ResultFormatter {
 		resultMap.put("json", new JSONFormatter());
 		resultMap.put("jsonld", new JSONLDFormatter());
 		resultMap.put("html", new HTMLFormatter());
-		resultMap.put("trig", new HTMLFormatter());
-		resultMap.put("trix", new HTMLFormatter());
+		resultMap.put("trig", new TrigFormatter());
+		resultMap.put("trix", new TrixFormatter());
 		resultMap.put("kml", new KMLFormatter());
 		resultMap.put("ttl", new TTLFormatter());
 		resultMap.put("n3", new N3Formatter());
