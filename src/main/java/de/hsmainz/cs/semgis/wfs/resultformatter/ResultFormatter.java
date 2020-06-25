@@ -61,6 +61,12 @@ public abstract class ResultFormatter {
 		if(formatString.contains("nt")) {
 			return resultMap.get("nt");
 		}
+		if(formatString.contains("trig")) {
+			return resultMap.get("trig");
+		}
+		if(formatString.contains("trix")) {
+			return resultMap.get("trix");
+		}
 		if(formatString.contains("geohash")) {
 			return resultMap.get("geohash");
 		}
@@ -102,6 +108,8 @@ public abstract class ResultFormatter {
 		resultMap.put("json", new JSONFormatter());
 		resultMap.put("jsonld", new JSONLDFormatter());
 		resultMap.put("html", new HTMLFormatter());
+		resultMap.put("trig", new HTMLFormatter());
+		resultMap.put("trix", new HTMLFormatter());
 		resultMap.put("kml", new KMLFormatter());
 		resultMap.put("ttl", new TTLFormatter());
 		resultMap.put("n3", new N3Formatter());
