@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>semanticwfs: SimpleStyleFormatter Class Reference</title>
+<title>semanticwfs: DCATFormatter Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -66,62 +66,69 @@ $(document).ready(function(){initNavTree('a00317.html','');});
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="#pac-static-methods">Static Package Functions</a> &#124;
+<a href="#pac-attribs">Package Attributes</a> &#124;
 <a href="a00314.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">SimpleStyleFormatter Class Reference</div>  </div>
+<div class="title">DCATFormatter Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="dynheader">
-Inheritance diagram for SimpleStyleFormatter:</div>
+Inheritance diagram for DCATFormatter:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00316.png" border="0" usemap="#SimpleStyleFormatter_inherit__map" alt="Inheritance graph"/></div>
-<map name="SimpleStyleFormatter_inherit__map" id="SimpleStyleFormatter_inherit__map">
-<area shape="rect" id="node2" href="a00313.html" title="ResultStyleFormatter" alt="" coords="6,5,153,32"/>
+<div class="center"><img src="a00316.png" border="0" usemap="#DCATFormatter_inherit__map" alt="Inheritance graph"/></div>
+<map name="DCATFormatter_inherit__map" id="DCATFormatter_inherit__map">
+<area shape="rect" id="node2" href="a00325.html" title="ResultMetadataFormatter" alt="" coords="5,5,176,32"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
-Collaboration diagram for SimpleStyleFormatter:</div>
+Collaboration diagram for DCATFormatter:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00315.png" border="0" usemap="#SimpleStyleFormatter_coll__map" alt="Collaboration graph"/></div>
-<map name="SimpleStyleFormatter_coll__map" id="SimpleStyleFormatter_coll__map">
-<area shape="rect" id="node2" href="a00313.html" title="ResultStyleFormatter" alt="" coords="883,56,1029,83"/>
+<div class="center"><img src="a00315.png" border="0" usemap="#DCATFormatter_coll__map" alt="Collaboration graph"/></div>
+<map name="DCATFormatter_coll__map" id="DCATFormatter_coll__map">
+<area shape="rect" id="node2" href="a00325.html" title="ResultMetadataFormatter" alt="" coords="935,81,1105,108"/>
+<area shape="rect" id="node8" href="a00321.html" title="GMDFormatter" alt="" coords="1155,107,1264,133"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a6561dcf48f63c199d693d5ed6c739dc0"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00317.html#a6561dcf48f63c199d693d5ed6c739dc0">formatter</a> (ResultSet results, String featuretype)  throws XMLStreamException </td></tr>
-<tr class="separator:a6561dcf48f63c199d693d5ed6c739dc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a399873993b7ab0c34a034702639a6cad"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00317.html#a399873993b7ab0c34a034702639a6cad">formatGeometry</a> (String geometrytype, <a class="el" href="a00325.html">StyleObject</a> styleobj)</td></tr>
-<tr class="separator:a399873993b7ab0c34a034702639a6cad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abaa077ed79fcfd5a2279597e3f324c64"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00313.html#abaa077ed79fcfd5a2279597e3f324c64">formatHeader</a> ()</td></tr>
+<tr class="memitem:a902b5f00480accd29598a6bf40dfdbf9"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00317.html#a902b5f00480accd29598a6bf40dfdbf9">formatter</a> (String collectionid, String collectioncall, String collectionurl, JSONObject workingobj, String format)  throws XMLStreamException </td></tr>
+<tr class="separator:a902b5f00480accd29598a6bf40dfdbf9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abaa077ed79fcfd5a2279597e3f324c64"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00325.html#abaa077ed79fcfd5a2279597e3f324c64">formatHeader</a> ()</td></tr>
 <tr class="separator:abaa077ed79fcfd5a2279597e3f324c64"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af149b280d2c9bcc76f05c6a1c291d30f"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00313.html#af149b280d2c9bcc76f05c6a1c291d30f">formatFooter</a> ()</td></tr>
+<tr class="memitem:af149b280d2c9bcc76f05c6a1c291d30f"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00325.html#af149b280d2c9bcc76f05c6a1c291d30f">formatFooter</a> ()</td></tr>
 <tr class="separator:af149b280d2c9bcc76f05c6a1c291d30f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a91715aa5eef12ebcf3ea95d7493b9084"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="a00313.html">ResultStyleFormatter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00313.html#a91715aa5eef12ebcf3ea95d7493b9084">getFormatter</a> (String formatString)</td></tr>
-<tr class="separator:a91715aa5eef12ebcf3ea95d7493b9084"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab42a39cb4384c1f14ad0bb6d0e27abd8"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="a00325.html">ResultMetadataFormatter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00325.html#ab42a39cb4384c1f14ad0bb6d0e27abd8">getFormatter</a> (String formatString)</td></tr>
+<tr class="separator:ab42a39cb4384c1f14ad0bb6d0e27abd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a1ce6ef499b64cec5981912a236baa199"><td class="memItemLeft" align="right" valign="top">Integer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00313.html#a1ce6ef499b64cec5981912a236baa199">lastQueriedElemCount</a> =0</td></tr>
+<tr class="memitem:a1ce6ef499b64cec5981912a236baa199"><td class="memItemLeft" align="right" valign="top">Integer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00325.html#a1ce6ef499b64cec5981912a236baa199">lastQueriedElemCount</a> =0</td></tr>
 <tr class="separator:a1ce6ef499b64cec5981912a236baa199"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a09c78e464072ccab667894f0d179fbdf"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00313.html#a09c78e464072ccab667894f0d179fbdf">mimeType</a> =&quot;text/plain&quot;</td></tr>
+<tr class="memitem:a09c78e464072ccab667894f0d179fbdf"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00325.html#a09c78e464072ccab667894f0d179fbdf">mimeType</a> =&quot;text/plain&quot;</td></tr>
 <tr class="separator:a09c78e464072ccab667894f0d179fbdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa6a844c9b01d97aca583be867a1c5413"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00313.html#aa6a844c9b01d97aca583be867a1c5413">exposedType</a> =&quot;application/vnd.geo+json&quot;</td></tr>
+<tr class="memitem:aa6a844c9b01d97aca583be867a1c5413"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00325.html#aa6a844c9b01d97aca583be867a1c5413">exposedType</a> =&quot;application/vnd.geo+json&quot;</td></tr>
 <tr class="separator:aa6a844c9b01d97aca583be867a1c5413"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afbd8bf7386c4d548993d0957bfd902bf"><td class="memItemLeft" align="right" valign="top">XMLStreamWriter&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00325.html#afbd8bf7386c4d548993d0957bfd902bf">xmlwriter</a></td></tr>
+<tr class="separator:afbd8bf7386c4d548993d0957bfd902bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
-<tr class="memitem:a54c9d791b2138017b960a7cf457b5fd2"><td class="memItemLeft" align="right" valign="top">static Map&lt; String, <a class="el" href="a00313.html">ResultStyleFormatter</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00313.html#a54c9d791b2138017b960a7cf457b5fd2">resultMap</a> =new TreeMap&lt;String, <a class="el" href="a00313.html">ResultStyleFormatter</a>&gt;()</td></tr>
-<tr class="separator:a54c9d791b2138017b960a7cf457b5fd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a596ca937904dbfbdf019f9114f611d37"><td class="memItemLeft" align="right" valign="top">static Map&lt; String, <a class="el" href="a00325.html">ResultMetadataFormatter</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00325.html#a596ca937904dbfbdf019f9114f611d37">resultMap</a> =new TreeMap&lt;String, <a class="el" href="a00325.html">ResultMetadataFormatter</a>&gt;()</td></tr>
+<tr class="separator:a596ca937904dbfbdf019f9114f611d37"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pac-static-methods"></a>
 Static Package Functions</h2></td></tr>
-<tr class="memitem:a2e87c5ede6b7235170d287cd2e254454"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00313.html#a2e87c5ede6b7235170d287cd2e254454">[static initializer]</a></td></tr>
+<tr class="memitem:a2e87c5ede6b7235170d287cd2e254454"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00325.html#a2e87c5ede6b7235170d287cd2e254454">[static initializer]</a></td></tr>
 <tr class="separator:a2e87c5ede6b7235170d287cd2e254454"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pac-attribs"></a>
+Package Attributes</h2></td></tr>
+<tr class="memitem:aa4924f78c5486e42b078f715301db642"><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00321.html">GMDFormatter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00317.html#aa4924f78c5486e42b078f715301db642">formatter</a> =new <a class="el" href="a00321.html">GMDFormatter</a>()</td></tr>
+<tr class="separator:aa4924f78c5486e42b078f715301db642"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="a2e87c5ede6b7235170d287cd2e254454"></a>
@@ -171,37 +178,7 @@ Static Package Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p class="reference">References <a class="el" href="a00313.html#a3770f80b7c98a8315479f697590303a3">ResultStyleFormatter.formatGeometry()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                                     {</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                <span class="keywordflow">return</span> <span class="stringliteral">&quot;&quot;</span>;</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        }</div></div><!-- fragment -->
-</div>
-</div>
-<a id="a399873993b7ab0c34a034702639a6cad"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a399873993b7ab0c34a034702639a6cad">&#9670;&nbsp;</a></span>formatGeometry()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">String formatGeometry </td>
-          <td>(</td>
-          <td class="paramtype">String&#160;</td>
-          <td class="paramname"><em>geometrytype</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a00325.html">StyleObject</a>&#160;</td>
-          <td class="paramname"><em>styleobj</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;                                                                                {</div><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;                <span class="comment">// TODO Auto-generated method stub</span></div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;                <span class="keywordflow">return</span> null;</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        }</div></div><!-- fragment -->
+<div class="fragment"><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                                     {</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                <span class="keywordflow">return</span> <span class="stringliteral">&quot;&quot;</span>;</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="abaa077ed79fcfd5a2279597e3f324c64"></a>
@@ -226,11 +203,11 @@ Static Package Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                                     {</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                <span class="keywordflow">return</span> <span class="stringliteral">&quot;&quot;</span>;</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        }</div></div><!-- fragment -->
+<div class="fragment"><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                                     {</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                <span class="keywordflow">return</span> <span class="stringliteral">&quot;&quot;</span>;</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
-<a id="a6561dcf48f63c199d693d5ed6c739dc0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6561dcf48f63c199d693d5ed6c739dc0">&#9670;&nbsp;</a></span>formatter()</h2>
+<a id="a902b5f00480accd29598a6bf40dfdbf9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a902b5f00480accd29598a6bf40dfdbf9">&#9670;&nbsp;</a></span>formatter()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -238,14 +215,32 @@ Static Package Functions</h2></td></tr>
         <tr>
           <td class="memname">String formatter </td>
           <td>(</td>
-          <td class="paramtype">ResultSet&#160;</td>
-          <td class="paramname"><em>results</em>, </td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>collectionid</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">String&#160;</td>
-          <td class="paramname"><em>featuretype</em>&#160;</td>
+          <td class="paramname"><em>collectioncall</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>collectionurl</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">JSONObject&#160;</td>
+          <td class="paramname"><em>workingobj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>format</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -254,11 +249,16 @@ Static Package Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;                                                                                                 {</div><div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;                <span class="comment">// TODO Auto-generated method stub</span></div><div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;                <span class="keywordflow">return</span> null;</div><div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        }</div></div><!-- fragment -->
+
+<p class="reference">References <a class="el" href="a00321.html#a902b5f00480accd29598a6bf40dfdbf9">GMDFormatter.formatter()</a>, <a class="el" href="a00385.html#a3787c7fe3a230990e34a04a224344a2a">XSLTTransformer.GeoDCATToHTML()</a>, <a class="el" href="a00385.html#a8fe768120ce2627e0c36fd48b36b74b8">XSLTTransformer.gmdToGeoDCAT()</a>, and <a class="el" href="a00325.html#a09c78e464072ccab667894f0d179fbdf">ResultMetadataFormatter.mimeType</a>.</p>
+<div class="fragment"><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                                                  {</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                String gmd=<a class="code" href="a00317.html#aa4924f78c5486e42b078f715301db642">formatter</a>.<a class="code" href="a00321.html#a902b5f00480accd29598a6bf40dfdbf9">formatter</a>(collectionid, collectioncall, collectionurl, workingobj,format);</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                String gmdrdf;</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                <span class="keywordflow">try</span> {</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                        gmdrdf = XSLTTransformer.gmdToGeoDCAT(gmd);</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                <span class="keywordflow">if</span>(format.contains(<span class="stringliteral">&quot;html&quot;</span>)) {</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                        this.<a class="code" href="a00325.html#a09c78e464072ccab667894f0d179fbdf">mimeType</a>=MediaType.TEXT_HTML;</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                        <span class="keywordflow">return</span> XSLTTransformer.GeoDCATToHTML(gmdrdf);</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                }</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                OntModel model = ModelFactory.createOntologyModel();</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                model.read(IOUtils.toInputStream(gmdrdf, <span class="stringliteral">&quot;UTF-8&quot;</span>), null, <span class="stringliteral">&quot;RDF/XML&quot;</span>);</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                OutputStream output = <span class="keyword">new</span> OutputStream() {</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                    <span class="keyword">private</span> StringBuilder <span class="keywordtype">string</span> = <span class="keyword">new</span> StringBuilder();</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                    @Override</div><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                    <span class="keyword">public</span> <span class="keywordtype">void</span> write(<span class="keywordtype">int</span> b) <span class="keywordflow">throws</span> IOException {</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                        this.<span class="keywordtype">string</span>.append((<span class="keywordtype">char</span>) b );</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                    }</div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                    <span class="comment">//Netbeans IDE automatically overrides this toString()</span></div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                    <span class="keyword">public</span> String toString() {</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                        <span class="keywordflow">return</span> this.<span class="keywordtype">string</span>.toString();</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                    }</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                };</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                <span class="keywordflow">if</span>(format.contains(<span class="stringliteral">&quot;n3&quot;</span>)) {</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                        this.<a class="code" href="a00325.html#a09c78e464072ccab667894f0d179fbdf">mimeType</a>=<span class="stringliteral">&quot;text/n3&quot;</span>;</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                        model.write(output,<span class="stringliteral">&quot;N3&quot;</span>);</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                        <span class="keywordflow">return</span> output.toString();</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                }</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                <span class="keywordflow">if</span>(format.contains(<span class="stringliteral">&quot;jsonld&quot;</span>)) {</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                        this.<a class="code" href="a00325.html#a09c78e464072ccab667894f0d179fbdf">mimeType</a>=<span class="stringliteral">&quot;application/ld+json&quot;</span>;</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                        model.write(output,<span class="stringliteral">&quot;JSON-LD&quot;</span>);</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                        <span class="keywordflow">return</span> output.toString();</div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                }</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                <span class="keywordflow">if</span>(format.contains(<span class="stringliteral">&quot;ttl&quot;</span>)) {</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                        this.<a class="code" href="a00325.html#a09c78e464072ccab667894f0d179fbdf">mimeType</a>=<span class="stringliteral">&quot;text/ttl&quot;</span>;</div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                        model.write(output,<span class="stringliteral">&quot;TTL&quot;</span>);</div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                        <span class="keywordflow">return</span> output.toString();</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                }</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                <span class="keywordflow">if</span>(format.contains(<span class="stringliteral">&quot;ntriples&quot;</span>)) {</div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                        this.<a class="code" href="a00325.html#a09c78e464072ccab667894f0d179fbdf">mimeType</a>=<span class="stringliteral">&quot;application/n-triples&quot;</span>;</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                        model.write(output,<span class="stringliteral">&quot;NTRIPLES&quot;</span>);</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                        <span class="keywordflow">return</span> output.toString();</div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                }</div><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                this.<a class="code" href="a00325.html#a09c78e464072ccab667894f0d179fbdf">mimeType</a>=MediaType.APPLICATION_XML;</div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                <span class="keywordflow">return</span> gmdrdf;</div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                } <span class="keywordflow">catch</span> (TransformerException | IOException e) {</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                        <span class="comment">// TODO Auto-generated catch block</span></div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                        e.printStackTrace();</div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                        <span class="keywordflow">return</span> <span class="stringliteral">&quot;&quot;</span>;</div><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                }</div><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        }</div><div class="ttc" id="a00321_html_a902b5f00480accd29598a6bf40dfdbf9"><div class="ttname"><a href="a00321.html#a902b5f00480accd29598a6bf40dfdbf9">de.hsmainz.cs.semgis.wfs.resultmetadataformatter.GMDFormatter.formatter</a></div><div class="ttdeci">String formatter(String collectionid, String collectioncall, String collectionurl, JSONObject workingobj, String format)</div><div class="ttdef"><b>Definition:</b> GMDFormatter.java:21</div></div>
+<div class="ttc" id="a00325_html_a09c78e464072ccab667894f0d179fbdf"><div class="ttname"><a href="a00325.html#a09c78e464072ccab667894f0d179fbdf">de.hsmainz.cs.semgis.wfs.resultmetadataformatter.ResultMetadataFormatter.mimeType</a></div><div class="ttdeci">String mimeType</div><div class="ttdef"><b>Definition:</b> ResultMetadataFormatter.java:17</div></div>
+<div class="ttc" id="a00317_html_aa4924f78c5486e42b078f715301db642"><div class="ttname"><a href="a00317.html#aa4924f78c5486e42b078f715301db642">de.hsmainz.cs.semgis.wfs.resultmetadataformatter.DCATFormatter.formatter</a></div><div class="ttdeci">GMDFormatter formatter</div><div class="ttdef"><b>Definition:</b> DCATFormatter.java:19</div></div>
+</div><!-- fragment -->
 </div>
 </div>
-<a id="a91715aa5eef12ebcf3ea95d7493b9084"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a91715aa5eef12ebcf3ea95d7493b9084">&#9670;&nbsp;</a></span>getFormatter()</h2>
+<a id="ab42a39cb4384c1f14ad0bb6d0e27abd8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab42a39cb4384c1f14ad0bb6d0e27abd8">&#9670;&nbsp;</a></span>getFormatter()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -267,7 +267,7 @@ Static Package Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="a00313.html">ResultStyleFormatter</a> getFormatter </td>
+          <td class="memname">static <a class="el" href="a00325.html">ResultMetadataFormatter</a> getFormatter </td>
           <td>(</td>
           <td class="paramtype">String&#160;</td>
           <td class="paramname"><em>formatString</em></td><td>)</td>
@@ -281,8 +281,10 @@ Static Package Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="reference">References <a class="el" href="a00313.html#aa231f1de0281037224372f0afb1f0fe1">ResultStyleFormatter.formatter()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                                                                             {</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;                formatString=formatString.toLowerCase();</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;                <span class="keywordflow">if</span>(<a class="code" href="a00313.html#a54c9d791b2138017b960a7cf457b5fd2">resultMap</a>.containsKey(formatString)) {</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                        <span class="keywordflow">return</span> <a class="code" href="a00313.html#a54c9d791b2138017b960a7cf457b5fd2">resultMap</a>.get(formatString);</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                }</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                formatString=formatString.replace(<span class="stringliteral">&quot;+&quot;</span>,<span class="stringliteral">&quot;&quot;</span>);</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                <span class="keywordflow">if</span>(formatString.contains(<span class="stringliteral">&quot;mapcss&quot;</span>)) {</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                        <span class="keywordflow">return</span> <a class="code" href="a00313.html#a54c9d791b2138017b960a7cf457b5fd2">resultMap</a>.get(<span class="stringliteral">&quot;mapcss&quot;</span>);</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                }</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                <span class="keywordflow">if</span>(formatString.contains(<span class="stringliteral">&quot;geojsoncss&quot;</span>)) {</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                        <span class="keywordflow">return</span> <a class="code" href="a00313.html#a54c9d791b2138017b960a7cf457b5fd2">resultMap</a>.get(<span class="stringliteral">&quot;geojsoncss&quot;</span>);</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                }</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                <span class="keywordflow">if</span>(formatString.contains(<span class="stringliteral">&quot;sld&quot;</span>)) {</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                        <span class="keywordflow">return</span> <a class="code" href="a00313.html#a54c9d791b2138017b960a7cf457b5fd2">resultMap</a>.get(<span class="stringliteral">&quot;sld&quot;</span>);</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                }</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                <span class="keywordflow">return</span> null;</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        }</div><div class="ttc" id="a00313_html_a54c9d791b2138017b960a7cf457b5fd2"><div class="ttname"><a href="a00313.html#a54c9d791b2138017b960a7cf457b5fd2">de.hsmainz.cs.semgis.wfs.resultstyleformatter.ResultStyleFormatter.resultMap</a></div><div class="ttdeci">static Map&lt; String, ResultStyleFormatter &gt; resultMap</div><div class="ttdef"><b>Definition:</b> ResultStyleFormatter.java:12</div></div>
+<p class="reference">References <a class="el" href="a00325.html#a7bbb52a0cd4f85be75403edbf9d7887c">ResultMetadataFormatter.formatter()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00389.html#a0d7c82140929edf4598696a7252a7401">WebService.getCollectionMetadata()</a>.</p>
+<div class="fragment"><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                                                                                {</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                formatString=formatString.toLowerCase();</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                <span class="keywordflow">if</span>(<a class="code" href="a00325.html#a596ca937904dbfbdf019f9114f611d37">resultMap</a>.containsKey(formatString)) {</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                        <span class="keywordflow">return</span> <a class="code" href="a00325.html#a596ca937904dbfbdf019f9114f611d37">resultMap</a>.get(formatString);</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                }</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                formatString=formatString.replace(<span class="stringliteral">&quot;+&quot;</span>,<span class="stringliteral">&quot;&quot;</span>);</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                <span class="keywordflow">if</span>(formatString.contains(<span class="stringliteral">&quot;dcat&quot;</span>)) {</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                        <span class="keywordflow">return</span> <a class="code" href="a00325.html#a596ca937904dbfbdf019f9114f611d37">resultMap</a>.get(<span class="stringliteral">&quot;geodcat&quot;</span>);</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                }</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                <span class="keywordflow">return</span> <a class="code" href="a00325.html#a596ca937904dbfbdf019f9114f611d37">resultMap</a>.get(<span class="stringliteral">&quot;gmd&quot;</span>);</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        }</div><div class="ttc" id="a00325_html_a596ca937904dbfbdf019f9114f611d37"><div class="ttname"><a href="a00325.html#a596ca937904dbfbdf019f9114f611d37">de.hsmainz.cs.semgis.wfs.resultmetadataformatter.ResultMetadataFormatter.resultMap</a></div><div class="ttdeci">static Map&lt; String, ResultMetadataFormatter &gt; resultMap</div><div class="ttdef"><b>Definition:</b> ResultMetadataFormatter.java:13</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -307,7 +309,27 @@ Static Package Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="a00321.html#a6561dcf48f63c199d693d5ed6c739dc0">SLDFormatter.formatter()</a>.</p>
+</div>
+</div>
+<a id="aa4924f78c5486e42b078f715301db642"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa4924f78c5486e42b078f715301db642">&#9670;&nbsp;</a></span>formatter</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a00321.html">GMDFormatter</a> formatter =new <a class="el" href="a00321.html">GMDFormatter</a>()</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">package</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -353,10 +375,12 @@ Static Package Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p class="reference">Referenced by <a class="el" href="a00317.html#a902b5f00480accd29598a6bf40dfdbf9">DCATFormatter.formatter()</a>, <a class="el" href="a00389.html#a0d7c82140929edf4598696a7252a7401">WebService.getCollectionMetadata()</a>, and <a class="el" href="a00321.html#a809a573ed723668fa44319523ff6d9be">GMDFormatter.GMDFormatter()</a>.</p>
+
 </div>
 </div>
-<a id="a54c9d791b2138017b960a7cf457b5fd2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a54c9d791b2138017b960a7cf457b5fd2">&#9670;&nbsp;</a></span>resultMap</h2>
+<a id="a596ca937904dbfbdf019f9114f611d37"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a596ca937904dbfbdf019f9114f611d37">&#9670;&nbsp;</a></span>resultMap</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -365,7 +389,7 @@ Static Package Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Map&lt;String,<a class="el" href="a00313.html">ResultStyleFormatter</a>&gt; resultMap =new TreeMap&lt;String, <a class="el" href="a00313.html">ResultStyleFormatter</a>&gt;()</td>
+          <td class="memname">Map&lt;String,<a class="el" href="a00325.html">ResultMetadataFormatter</a>&gt; resultMap =new TreeMap&lt;String, <a class="el" href="a00325.html">ResultMetadataFormatter</a>&gt;()</td>
         </tr>
       </table>
   </td>
@@ -377,13 +401,37 @@ Static Package Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="afbd8bf7386c4d548993d0957bfd902bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afbd8bf7386c4d548993d0957bfd902bf">&#9670;&nbsp;</a></span>xmlwriter</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">XMLStreamWriter xmlwriter</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="reference">Referenced by <a class="el" href="a00321.html#a902b5f00480accd29598a6bf40dfdbf9">GMDFormatter.formatter()</a>.</p>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.13-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00150.html">de</a></li><li class="navelem"><a class="el" href="a00151.html">hsmainz</a></li><li class="navelem"><a class="el" href="a00152.html">cs</a></li><li class="navelem"><a class="el" href="a00153.html">semgis</a></li><li class="navelem"><a class="el" href="a00154.html">wfs</a></li><li class="navelem"><a class="el" href="a00157.html">resultstyleformatter</a></li><li class="navelem"><a class="el" href="a00317.html">SimpleStyleFormatter</a></li>
+    <li class="navelem"><a class="el" href="a00162.html">de</a></li><li class="navelem"><a class="el" href="a00163.html">hsmainz</a></li><li class="navelem"><a class="el" href="a00164.html">cs</a></li><li class="navelem"><a class="el" href="a00165.html">semgis</a></li><li class="navelem"><a class="el" href="a00166.html">wfs</a></li><li class="navelem"><a class="el" href="a00168.html">resultmetadataformatter</a></li><li class="navelem"><a class="el" href="a00317.html">DCATFormatter</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>

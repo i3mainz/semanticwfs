@@ -1,4 +1,5 @@
-<map id="HTMLFormatter" name="HTMLFormatter">
-<area shape="rect" id="node2" href="$a00269.html" title="ResultFormatter" alt="" coords="1376,155,1492,181"/>
-<area shape="rect" id="node5" href="$a00313.html" title="ResultStyleFormatter" alt="" coords="1096,185,1243,212"/>
+<map id="GMLCOVFormatter" name="GMLCOVFormatter">
+<area shape="rect" id="node2" href="$a00309.html" title="WCSResultFormatter" alt="" coords="1541,181,1689,208"/>
+<area shape="rect" id="node3" href="$a00289.html" title="ResultFormatter" alt="" coords="1376,181,1492,208"/>
+<area shape="rect" id="node6" href="$a00341.html" title="ResultStyleFormatter" alt="" coords="1096,103,1243,129"/>
 </map>

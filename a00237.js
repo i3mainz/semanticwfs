@@ -1,6 +1,6 @@
 var a00237 =
 [
-    [ "GPXFormatter", "a00237.html#a1fce5d275978d7dad93b2457141bd42a", null ],
+    [ "GeoURIFormatter", "a00237.html#a5eb340b9f43f6ac50786dc48ef83c1df", null ],
     [ "[static initializer]", "a00237.html#a2e87c5ede6b7235170d287cd2e254454", null ],
     [ "formatFooter", "a00237.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00237.html#abaa077ed79fcfd5a2279597e3f324c64", null ],

@@ -1,10 +1,16 @@
 var a00353 =
 [
-    [ "UserType", "a00353.html#a1e256f14f75bae2c5a62bd1ee78cb280", null ],
-    [ "getUserTypeString", "a00353.html#ac22ddc199a53d555313dd9377e5c6bbf", null ],
+    [ "toHTML", "a00353.html#add850f03e24411f6d9e46e4e07a02727", null ],
+    [ "toJSON", "a00353.html#a693608dec873ba750e1bf45f50d81817", null ],
     [ "toString", "a00353.html#ad146fa8579a5f8a876c4688cc5a68520", null ],
-    [ "Administrator", "a00353.html#a4a7c3b31e0d412327723c6b8b6bb5ab4", null ],
-    [ "Configurer", "a00353.html#ad4e4d5c5df5781af134c912072f97add", null ],
-    [ "User", "a00353.html#a4ff7787bc8361fc5a29c1841967117fb", null ],
-    [ "userTypeString", "a00353.html#a758160bce1d36f1638b16e6fe5ad3763", null ]
+    [ "toXML", "a00353.html#a1123f91ca59c943e426493e42cb61108", null ],
+    [ "hatch", "a00353.html#ab280196b35e8fb195755480f7b6bba1c", null ],
+    [ "lineStringImage", "a00353.html#ac5ffd3d17c1fd4d95bdf3423d8d95102", null ],
+    [ "lineStringImageStyle", "a00353.html#a124c238dd7f1a8e8b30588868bf3f809", null ],
+    [ "lineStringStyle", "a00353.html#ae1748922a6f7b626b0c88fcd21f48392", null ],
+    [ "pointImage", "a00353.html#a5d0c401b8996e35a911e178227081b32", null ],
+    [ "pointStyle", "a00353.html#a87e7ed2ad089c7ba8db7857efa15befa", null ],
+    [ "polygonImage", "a00353.html#a3877196bb534272431a59e7ecb4d5338", null ],
+    [ "polygonStyle", "a00353.html#a27511b5779d69b4e26b4ed7737d5de2e", null ],
+    [ "styleName", "a00353.html#ac1612ef6d046b45bf698d7c2c284e0ca", null ]
 ];

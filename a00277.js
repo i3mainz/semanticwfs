@@ -1,8 +1,7 @@
 var a00277 =
 [
-    [ "TTLFormatter", "a00277.html#a5b3ec5d4833703906230d1967af27517", null ],
+    [ "NTFormatter", "a00277.html#a1c90e14ae5987c0847e486ed3c1fe95e", null ],
     [ "[static initializer]", "a00277.html#a2e87c5ede6b7235170d287cd2e254454", null ],
-    [ "addKeyValList", "a00277.html#a9d9180f34dd3cb76d915f829937fdda1", null ],
     [ "formatFooter", "a00277.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00277.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
     [ "formatter", "a00277.html#a333158f85a81eddf46a6487337d5ba27", null ],

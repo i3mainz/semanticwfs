@@ -1,7 +1,8 @@
 var a00249 =
 [
-    [ "JSONLDFormatter", "a00249.html#a1bc949e7a9e8b3b31ddbbe430beffb67", null ],
+    [ "GPXFormatter", "a00249.html#a1fce5d275978d7dad93b2457141bd42a", null ],
     [ "[static initializer]", "a00249.html#a2e87c5ede6b7235170d287cd2e254454", null ],
+    [ "collectColumns", "a00249.html#a29fa093ba1a2582bb6073a305555c49c", null ],
     [ "formatFooter", "a00249.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00249.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
     [ "formatter", "a00249.html#a333158f85a81eddf46a6487337d5ba27", null ],

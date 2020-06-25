@@ -1,3 +1,5 @@
-<map id="GMDFormatter" name="GMDFormatter">
-<area shape="rect" id="node2" href="$a00297.html" title="ResultMetadataFormatter" alt="" coords="935,81,1105,108"/>
+<map id="TopoJSONFormatter" name="TopoJSONFormatter">
+<area shape="rect" id="node2" href="$a00313.html" title="WFSResultFormatter" alt="" coords="1541,29,1688,56"/>
+<area shape="rect" id="node3" href="$a00289.html" title="ResultFormatter" alt="" coords="1376,140,1492,167"/>
+<area shape="rect" id="node6" href="$a00341.html" title="ResultStyleFormatter" alt="" coords="1096,171,1243,197"/>
 </map>

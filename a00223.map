@@ -1,5 +1,6 @@
-<map id="GeoURIFormatter" name="GeoURIFormatter">
-<area shape="rect" id="node2" href="$a00285.html" title="WFSResultFormatter" alt="" coords="1541,29,1688,56"/>
-<area shape="rect" id="node3" href="$a00269.html" title="ResultFormatter" alt="" coords="1376,140,1492,167"/>
-<area shape="rect" id="node6" href="$a00313.html" title="ResultStyleFormatter" alt="" coords="1096,171,1243,197"/>
+<map id="GeoJSONFormatter" name="GeoJSONFormatter">
+<area shape="rect" id="node2" href="$a00313.html" title="WFSResultFormatter" alt="" coords="1541,141,1688,168"/>
+<area shape="rect" id="node3" href="$a00289.html" title="ResultFormatter" alt="" coords="1376,141,1492,168"/>
+<area shape="rect" id="node6" href="$a00341.html" title="ResultStyleFormatter" alt="" coords="1096,179,1243,205"/>
+<area shape="rect" id="node11" href="$a00185.html" title="Return the geometry as a GeoJSON element. " alt="" coords="1565,192,1664,219"/>
 </map>

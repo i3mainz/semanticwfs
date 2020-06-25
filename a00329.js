@@ -1,21 +1,14 @@
 var a00329 =
 [
     [ "[static initializer]", "a00329.html#a2e87c5ede6b7235170d287cd2e254454", null ],
-    [ "CQLfilterStringToSPARQLQuery", "a00329.html#afd6ff0e4855627212cb2e26e7575255c", null ],
-    [ "executePropertyValueQuery", "a00329.html#ac83388db444ca8030dc7d1f21a6f93dd", null ],
-    [ "executeQuery", "a00329.html#a5df71c9c4e3fecf935a4646e04de11d5", null ],
-    [ "executeQuery", "a00329.html#a2215ba24d67cd2d08dc54c4bc042000b", null ],
-    [ "getBoundingBoxFromTripleStoreData", "a00329.html#a723f01dec66e801f28fd03351a36c0ad", null ],
-    [ "getFeatureTypeInformation", "a00329.html#a8591b6ad68c9bd6f4a03b48546b24d2c", null ],
-    [ "getMetaData", "a00329.html#a9bf75e954d3c1636676c3144d61f0fa1", null ],
-    [ "getPropertyFromMapping", "a00329.html#a4f1a6d9121adfeab3946427c75995e12", null ],
-    [ "getStyle", "a00329.html#aef725dfee0f51e6220a91217779f1b26", null ],
-    [ "getStyleNames", "a00329.html#a5d4d9167bb25799fda9197c3be4f30d4", null ],
-    [ "getTemporalExtentFromTripleStoreData", "a00329.html#aff053b6ba7ef89c25b3593a90e0635cd", null ],
-    [ "main", "a00329.html#a8b260eecbaabcef8473fd87ada040682", null ],
-    [ "binaryOperators", "a00329.html#a68992f1d27be6c66985df6cb7183800c", null ],
-    [ "featureTypes", "a00329.html#aa9472aff15c69cbcf8d5344814f33bed", null ],
-    [ "prefixCollection", "a00329.html#a9181599cfb112592f667d6161a33e4e8", null ],
-    [ "resultSetSize", "a00329.html#a05ea88578bcfbbeee7a9945d156c94d0", null ],
-    [ "spatialFunctions", "a00329.html#aa96e328cd8a62fc12bb0cee0a3820dad", null ]
+    [ "cssLiteralToJSON", "a00329.html#a67699ff82e77f0268956c5f37cc52c7b", null ],
+    [ "formatFooter", "a00329.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
+    [ "formatGeometry", "a00329.html#a399873993b7ab0c34a034702639a6cad", null ],
+    [ "formatHeader", "a00329.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
+    [ "formatter", "a00329.html#a6561dcf48f63c199d693d5ed6c739dc0", null ],
+    [ "getFormatter", "a00329.html#a91715aa5eef12ebcf3ea95d7493b9084", null ],
+    [ "exposedType", "a00329.html#aa6a844c9b01d97aca583be867a1c5413", null ],
+    [ "lastQueriedElemCount", "a00329.html#a1ce6ef499b64cec5981912a236baa199", null ],
+    [ "mimeType", "a00329.html#a09c78e464072ccab667894f0d179fbdf", null ],
+    [ "resultMap", "a00329.html#a54c9d791b2138017b960a7cf457b5fd2", null ]
 ];

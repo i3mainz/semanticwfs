@@ -1,4 +1,4 @@
-<map id="GeoJSONFormatter" name="GeoJSONFormatter">
-<area shape="rect" id="node2" href="$a00285.html" title="WFSResultFormatter" alt="" coords="5,80,152,107"/>
-<area shape="rect" id="node3" href="$a00269.html" title="ResultFormatter" alt="" coords="21,5,137,32"/>
+<map id="CovJSONFormatter" name="CovJSONFormatter">
+<area shape="rect" id="node2" href="$a00309.html" title="WCSResultFormatter" alt="" coords="5,80,153,107"/>
+<area shape="rect" id="node3" href="$a00289.html" title="ResultFormatter" alt="" coords="21,5,137,32"/>
 </map>
