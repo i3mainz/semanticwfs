@@ -101,16 +101,8 @@ public class TTLFormatter extends ResultFormatter {
 	
 	
 	public void addKeyValList(String item,Collection<String> rell,Collection<String> vall,StringBuilder builder) {
-		//System.out.println("AddKeyValList");
-		//System.out.println(rell.toString());
-		//System.out.println(vall.toString());
 		Iterator<String> reliter=rell.iterator();
 		Iterator<String> valiter=vall.iterator();
-		String lastval="";
-		/*while(valiter.hasNext()) {
-			lastval=valiter.next();
-		}*/
-		//System.out.println(properties);
 		while(reliter.hasNext()) {
 			String rel=reliter.next();
 			String val=valiter.next();

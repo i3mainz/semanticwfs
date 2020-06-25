@@ -9,7 +9,6 @@ import javax.xml.stream.XMLStreamWriter;
 
 import org.apache.jena.query.ResultSet;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
@@ -26,26 +25,6 @@ public class KMLFormatter extends WFSResultFormatter {
 	}
 	
 	public void addTagsFromJSONObject(JSONObject obj,XMLStreamWriter writer,String curfeatureid) throws XMLStreamException {
-		/*if(obj.has("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")) {
-			String uri="";
-			try {
-				JSONArray arr=obj.getJSONArray("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-			for(int i=0;i<arr.length();i++) {
-				if(arr.get(i).toString().startsWith("http")) {
-					uri=arr.getString(i).toString();
-					break;
-				}
-			}
-			}catch(JSONException e) {
-				uri=obj.get("http://www.w3.org/1999/02/22-rdf-syntax-ns#type").toString();
-			}	
-			if (uri.contains("#")) {
-				writer.writeStartElement(uri.substring(uri.lastIndexOf('#') + 1));
-			} else {
-				writer.writeStartElement(uri.substring(uri.lastIndexOf('/') + 1));
-			}
-			writer.writeAttribute("id", curfeatureid);
-		}*/
 		for(String key:obj.keySet()) {
 			if(!key.equals("http://www.opengis.net/ont/geosparql#hasGeometry") 
 					&& !key.equalsIgnoreCase("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")

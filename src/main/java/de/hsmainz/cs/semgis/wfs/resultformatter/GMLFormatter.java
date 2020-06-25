@@ -1,17 +1,12 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter;
 
 import java.io.StringWriter;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
-import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.json.JSONArray;
 import org.json.JSONException;

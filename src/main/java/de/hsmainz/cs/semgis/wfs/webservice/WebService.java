@@ -615,9 +615,11 @@ public class WebService {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections/{collectionid}/items/{featureid}")
-	public Response getFeatureById(@PathParam("collectionid") String collectionid,
-			@PathParam("featureid") String featureid, @DefaultValue("") @QueryParam("style") String style,
-			@DefaultValue("html") @QueryParam("f") String format) {
+	public Response getFeatureById(
+			@Parameter(description="The collection id") @PathParam("collectionid") String collectionid,
+			@Parameter(description="The feature id")@PathParam("featureid") String featureid, 
+			@Parameter(description="The style to be applied")  @DefaultValue("") @QueryParam("style") String style,
+			@Parameter(description="The format to be returned")  @DefaultValue("html") @QueryParam("f") String format) {
 		System.out.println(collectionid + " - " + featureid + " - " + style);
 		if (collectionid == null) {
 			throw new NotFoundException();
@@ -754,7 +756,7 @@ public class WebService {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/")
-	public Response landingPage(@DefaultValue("html") @QueryParam("f") String format) {
+	public Response landingPage(@Parameter(description="The format of the landingpage") @DefaultValue("html") @QueryParam("f") String format) {
 		if (format == null || format.contains("json")) {
 			JSONObject result = new JSONObject();
 			JSONArray links = new JSONArray();
@@ -948,7 +950,7 @@ public class WebService {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections/metadata")
-	public Response getCollectionsMetadata(@DefaultValue("html") @QueryParam("f") String format) {
+	public Response getCollectionsMetadata(@Parameter(description="The format of the collection page") @DefaultValue("html") @QueryParam("f") String format) {
 		StringWriter strwriter = new StringWriter();
 		XMLOutputFactory output = XMLOutputFactory.newInstance();
 		XMLStreamWriter writer;
@@ -988,8 +990,8 @@ public class WebService {
             summary = "Returns the metadata of a given collection",
             description = "Returns metadata of a given collection in a specified format")
 	public Response getCollectionMetadata(@PathParam("collectionid") String collectionid,
-			@DefaultValue("gmd") @QueryParam("metadataformat") String mdformat,
-			@DefaultValue("html") @QueryParam("f") String format,
+			@Parameter(description="The metadata schema to be used")  @DefaultValue("gmd") @QueryParam("metadataformat") String mdformat,
+			@Parameter(description="The format to downlift metadata")  @DefaultValue("html") @QueryParam("f") String format,
 			@DefaultValue("false") @QueryParam("collectioncall") String collectioncall) {
 		if (collectionid == null) {
 			throw new NotFoundException();
