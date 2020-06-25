@@ -2,7 +2,7 @@ var a00259 =
 [
     [ "KMLFormatter", "a00259.html#a71671269609c089275747e1c75d17afe", null ],
     [ "[static initializer]", "a00259.html#a2e87c5ede6b7235170d287cd2e254454", null ],
-    [ "addTagsFromJSONObject", "a00259.html#a9c11f424a7fbe3f8c89a6b06c22f02f5", null ],
+    [ "addTagsFromJSONObject", "a00259.html#ad2df52d63f2f157b044923ff7cf52cd1", null ],
     [ "formatFooter", "a00259.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00259.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
     [ "formatter", "a00259.html#a333158f85a81eddf46a6487337d5ba27", null ],
