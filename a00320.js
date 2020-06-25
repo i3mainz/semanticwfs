@@ -1,13 +1,15 @@
 var a00320 =
 [
-    [ "Tuple", "a00320.html#a2205a0a8d96aaf2da3bf4e86d94bff9c", null ],
-    [ "compareTo", "a00320.html#a8c836c92534fccf34aea4deff7887572", null ],
-    [ "equals", "a00320.html#ae3ce8ca5a04e8966a9d2158aeeecfc16", null ],
-    [ "getOne", "a00320.html#a91dcdf481c983152139551c19cab8439", null ],
-    [ "getTwo", "a00320.html#ac7b063829737d3e1858037d0182e7c86", null ],
-    [ "setOne", "a00320.html#aba2e1d54c2884223728d5a2ae3396bd2", null ],
-    [ "setTwo", "a00320.html#acfed43a97f7d5fc7b02b43f1b9523123", null ],
-    [ "toString", "a00320.html#ad146fa8579a5f8a876c4688cc5a68520", null ],
-    [ "one", "a00320.html#a4d21edec525eb08b9d469baa37aa2193", null ],
-    [ "two", "a00320.html#a801efe55e90affa4902d8a32f80067b8", null ]
+    [ "[static initializer]", "a00320.html#a2e87c5ede6b7235170d287cd2e254454", null ],
+    [ "formatFooter", "a00320.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
+    [ "formatHeader", "a00320.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
+    [ "formatter", "a00320.html#a98d867b2bab60e7e43a82e63e79688e9", null ],
+    [ "getFormatter", "a00320.html#afce25d64087d96d66b6b5535660a8ddb", null ],
+    [ "contextMapper", "a00320.html#ae7316c0c7550712f915cc3cd353cd981", null ],
+    [ "exposedType", "a00320.html#aa6a844c9b01d97aca583be867a1c5413", null ],
+    [ "featureType", "a00320.html#aba4867b615c0892cdae42bc4fd982639", null ],
+    [ "lastQueriedElemCount", "a00320.html#a1ce6ef499b64cec5981912a236baa199", null ],
+    [ "mimeType", "a00320.html#a09c78e464072ccab667894f0d179fbdf", null ],
+    [ "resultMap", "a00320.html#ad4dc7a6c041435f4beebcc9e95620641", null ],
+    [ "styleformatter", "a00320.html#a642e338a4dd781605dd3b0ca82fbd940", null ]
 ];

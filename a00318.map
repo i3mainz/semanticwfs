@@ -1,3 +1,4 @@
-<map id="KMLStyleFormatter" name="KMLStyleFormatter">
-<area shape="rect" id="node2" href="$a00327.html" title="ResultStyleFormatter" alt="" coords="5,5,152,32"/>
+<map id="WFSResultFormatter" name="WFSResultFormatter">
+<area shape="rect" id="node2" href="$a00296.html" title="ResultFormatter" alt="" coords="1376,140,1492,167"/>
+<area shape="rect" id="node5" href="$a00348.html" title="ResultStyleFormatter" alt="" coords="1096,171,1243,197"/>
 </map>
