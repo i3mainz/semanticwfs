@@ -30,11 +30,10 @@ public abstract class ResultFormatter {
 		if(resultMap.containsKey(formatString)) {
 			return resultMap.get(formatString);
 		}
-		formatString=formatString.replace("+","");
-		if(formatString.contains("geojsonld") || formatString.contains("geo+json+ld")) {
+		if(formatString.equals("application/vnd.geo+json+ld") || formatString.contains("geojsonld") || formatString.contains("geo+json+ld")) {
 			return resultMap.get("geojsonld");
 		}
-		if(formatString.contains("geojson") || formatString.contains("geo+json")) {
+		if(formatString.equals("application/geo+json") || formatString.contains("geojson") || formatString.contains("geo+json")) {
 			return resultMap.get("geojson");
 		}
 		if(formatString.contains("gml")) {
@@ -51,6 +50,9 @@ public abstract class ResultFormatter {
 		}
 		if(formatString.contains("ttl")) {
 			return resultMap.get("ttl");
+		}
+		if(formatString.contains("rdfjson")) {
+			return resultMap.get("rdfjson");
 		}
 		if(formatString.contains("rdf")) {
 			return resultMap.get("rdf");
@@ -115,6 +117,7 @@ public abstract class ResultFormatter {
 		resultMap.put("n3", new N3Formatter());
 		resultMap.put("nt", new NTFormatter());
 		resultMap.put("rdf", new RDFFormatter());
+		resultMap.put("rdfjson", new RDFJSONFormatter());
 		resultMap.put("gml", new GMLFormatter());
 		resultMap.put("gpx", new GPXFormatter());
 		resultMap.put("csv", new CSVFormatter());
