@@ -9,6 +9,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
 import org.apache.jena.query.ResultSet;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
@@ -22,6 +23,51 @@ public class GPXFormatter extends WFSResultFormatter {
 		this.mimeType="application/xml";
 		this.exposedType="application/gpx";
 	}
+	
+	public void collectColumns(XMLStreamWriter writer,JSONObject obj,String nameprefix) throws JSONException, XMLStreamException {
+		for(String key:obj.keySet()) {		
+			String namekey="";
+			String val="";
+			if(key.startsWith("http")) {
+				if(key.contains("#")) {
+					namekey=key.substring(key.lastIndexOf('#')+1);
+				}else {
+					namekey=key.substring(key.lastIndexOf('/')+1);
+				}
+			}
+			try {
+				if(nameprefix.isEmpty()) {
+					collectColumns(writer,obj.getJSONObject(key),namekey);	
+				}else {
+					collectColumns(writer,obj.getJSONObject(key),nameprefix+"."+namekey);
+				}
+				
+			}catch(Exception e) {
+				String tagname=key;
+				tagname=namekey;
+				if(!nameprefix.isEmpty()) {
+					tagname=nameprefix+"."+namekey;
+				}
+				if(!tagname.isEmpty() && !key.equals("http://www.opengis.net/ont/geosparql#hasGeometry") && !key.equals("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")) {
+				writer.writeStartElement(tagname);
+				if(obj.get(key).toString().contains("http")) {
+					if(obj.get(key).toString().contains("^^")) {
+						val=obj.get(key).toString().substring(1,obj.get(key).toString().lastIndexOf("^^"));
+					}else if(obj.get(key).toString().contains("#")) {
+						val=obj.get(key).toString().substring(obj.get(key).toString().lastIndexOf('#')+1);
+					}else {
+						val=obj.get(key).toString().substring(obj.get(key).toString().lastIndexOf('/')+1);
+					}
+				}else {
+					val=obj.get(key).toString();
+				}
+				writer.writeCharacters(val);
+				writer.writeEndElement();
+				}
+			}
+		}
+	}
+	
 	
 	@Override
 	public String formatter(ResultSet results,String startingElement,
@@ -44,27 +90,31 @@ public class GPXFormatter extends WFSResultFormatter {
 		writer.writeCharacters(featuretype);
 		writer.writeEndElement();
 		for(int i=0;i<geojson.getJSONArray("features").length();i++) {
-			writer.writeStartElement("trk");
-			writer.writeStartElement("name");
-			writer.writeCharacters(featuretype);
-			writer.writeEndElement();
-			for(String key:geojson.getJSONArray("features").getJSONObject(i).getJSONObject("properties").keySet()) {
-				String val=geojson.getJSONArray("features").getJSONObject(i).getJSONObject("properties").get(key).toString();
-				writer.writeStartElement(key);
-				writer.writeCharacters(val);
+			String[] coords=geojson.getJSONArray("features").getJSONObject(i).getJSONObject("geometry").getJSONArray("coordinates").toString().split(",");
+			if(geojson.getJSONArray("features").getJSONObject(i).getJSONObject("geometry").getString("type").equalsIgnoreCase("Point")) {
+				writer.writeStartElement("wpt");
+				writer.writeAttribute("lat", coords[0].replace("[", ""));
+				writer.writeAttribute("lon", coords[1].replace("]", ""));
+				collectColumns(writer, geojson.getJSONArray("features").getJSONObject(i).getJSONObject("properties"),"");
 				writer.writeEndElement();
-			}
-			writer.writeStartElement("trkseg");
-			String[] coords=geojson.getJSONArray("features").getJSONObject(i).getJSONObject("geometry").getJSONArray("coordinates").toString().split(",");			
-			for(int j=0;j<coords.length-1;j++) {
-				writer.writeStartElement("trkpt");
-				System.out.println(geojson.getJSONArray("features").getJSONObject(i).getJSONObject("geometry").getJSONArray("coordinates"));
-				writer.writeAttribute("lat", coords[j].toString());
-				writer.writeAttribute("lon", coords[j+1].toString());
+			}else {
+				writer.writeStartElement("trk");
+				writer.writeStartElement("name");
+				writer.writeCharacters(featuretype);
 				writer.writeEndElement();
+				collectColumns(writer, geojson.getJSONArray("features").getJSONObject(i).getJSONObject("properties"),"");
+				writer.writeStartElement("trkseg");					
+				for(int j=0;j<coords.length-1;j++) {
+					writer.writeStartElement("trkpt");
+					System.out.println(geojson.getJSONArray("features").getJSONObject(i).getJSONObject("geometry").getJSONArray("coordinates"));
+					writer.writeAttribute("lat", coords[j].toString().replace("[", ""));
+					writer.writeAttribute("lon", coords[j+1].toString().replace("]", ""));
+					writer.writeEndElement();
+				}
+				writer.writeEndElement();
+				writer.writeEndElement();				
 			}
-			writer.writeEndElement();
-			writer.writeEndElement();
+
 		}
 		writer.writeEndElement();
 		writer.writeEndDocument();

@@ -24,19 +24,29 @@ public class KMLFormatter extends WFSResultFormatter {
 		this.styleformatter=new KMLStyleFormatter();
 	}
 	
-	public void addTagsFromJSONObject(JSONObject obj,XMLStreamWriter writer,String curfeatureid) throws XMLStreamException {
+	public void addTagsFromJSONObject(JSONObject obj,XMLStreamWriter writer,String curfeatureid,String nameprefix) throws XMLStreamException {
 		for(String key:obj.keySet()) {
+			String namekey="";
+			if (key.contains("#")) {
+				namekey=key.substring(key.lastIndexOf('#') + 1);
+			} else {
+				namekey=key.substring(key.lastIndexOf('/') + 1);
+			}
 			if(!key.equals("http://www.opengis.net/ont/geosparql#hasGeometry") 
 					&& !key.equalsIgnoreCase("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")
 					&& !key.equalsIgnoreCase("the_geom")) {
 			try {
-				addTagsFromJSONObject(obj.getJSONObject(key),writer,curfeatureid);
+				if(nameprefix.isEmpty()) {
+					addTagsFromJSONObject(obj.getJSONObject(key),writer,curfeatureid,namekey);	
+				}else {
+					addTagsFromJSONObject(obj.getJSONObject(key),writer,curfeatureid,nameprefix+"."+namekey);
+				}
 			}catch(Exception e) {
 				writer.writeStartElement("Data");
-				if (key.contains("#")) {
-					writer.writeAttribute("name",key.substring(key.lastIndexOf('#') + 1));
-				} else {
-					writer.writeAttribute("name",key.substring(key.lastIndexOf('/') + 1));
+				if(nameprefix.isEmpty()) {
+					writer.writeAttribute("name",namekey);	
+				}else {
+					writer.writeAttribute("name",nameprefix+"."+namekey);
 				}
 				writer.writeStartElement("value");
 				String val=obj.get(key).toString();
@@ -97,7 +107,7 @@ public class KMLFormatter extends WFSResultFormatter {
 			writer.writeStartElement("ExtendedData");
 			//writer.writeStartElement(featuretype);	
 			//writer.writeAttribute("gml:id", curfeaturetype);
-			addTagsFromJSONObject(feature.getJSONObject("properties"), writer,curfeaturetype);	
+			addTagsFromJSONObject(feature.getJSONObject("properties"), writer,curfeaturetype,"");	
 			writer.writeEndElement();
 			writer.writeStartElement(feature.getJSONObject("geometry").getString("type"));
 			writer.writeStartElement("coordinates");
