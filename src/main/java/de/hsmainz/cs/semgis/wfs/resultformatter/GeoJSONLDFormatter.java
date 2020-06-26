@@ -30,8 +30,7 @@ public class GeoJSONLDFormatter extends WFSResultFormatter {
 		String res = 
 				format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,srsName,indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat);
 		this.lastQueriedElemCount = format.lastQueriedElemCount;
-		JSONObject context=new JSONObject();
-	  
+		JSONObject context=new JSONObject();	  
 	    context.put("geojson","https://purl.org/geojson/vocab#");
 	    context.put("Feature","geojson:Feature");
 	    context.put("FeatureCollection","geojson:FeatureCollection");
