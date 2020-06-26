@@ -1341,7 +1341,7 @@ public class WebService {
 				throw new NotFoundException();
 			}
 			// System.out.println(res);
-			if (format != null && format.contains("json")) {
+			if (format != null && format.contains("json") && !format.equalsIgnoreCase("rdfjson")) {
 				JSONObject result = new JSONObject();
 				JSONArray links = new JSONArray();
 				for (ResultFormatter formatter : ResultFormatter.resultMap.values()) {
