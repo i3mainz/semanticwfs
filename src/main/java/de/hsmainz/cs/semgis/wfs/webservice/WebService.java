@@ -808,6 +808,7 @@ public class WebService {
 				+ "\"; var markercollection=[]; var epsg=\""
 				+ (workingobj.has("targetCRS") ? workingobj.getString("targetCRS") : "") + "\";");
 		builder2.append(((HTMLFormatter) ResultFormatter.getFormatter("html")).htmlHeader2);
+		
 		builder2.append("</td><td>Contents:<table class=\"description\" border=\"1\"><tr><th>Value</th><th>Type</th>");
 		String lon = null, lat = null;
 		if (mapping != null) {
@@ -1614,13 +1615,6 @@ public class WebService {
 
 	}
 
-	@GET
-	@Produces(MediaType.TEXT_PLAIN)
-	@Path("/wfs/hello")
-	public String helloWorld() {
-		return "HelloWorld";
-	}
-
 	public String SERVICETYPEVERSION = "2.0.0";
 
 	public String SERVERURL = "http://localhost:8080/WFSGeoSPARQL/rest/wfs?";
@@ -1925,6 +1919,7 @@ public class WebService {
 		writer.setPrefix("wfs", "http://www.opengis.net/wfs" + versionnamespace);
 		writer.writeDefaultNamespace("http://www.opengis.net/wfs" + versionnamespace);
 		writer.writeAttribute("version", version);
+		writer.writeNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
 		writer.writeNamespace("wfs", "http://www.opengis.net/wfs" + versionnamespace);
 		writer.writeNamespace("ows", "http://www.opengis.net/ows/1.1");
 		writer.writeNamespace("sf", "http://www.opengis.net/ogcapi-features-1/1.0/sf");
@@ -1932,6 +1927,7 @@ public class WebService {
 		writer.writeNamespace("fes", "http://www.opengis.net/fes/" + versionnamespace);
 		writer.writeNamespace("gml", "http://www.opengis.net/gml");
 		writer.writeNamespace("xlink", "http://www.w3.org/1999/xlink");
+		writer.writeAttribute("xsi:schemaLocation", "http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd http://inspire.ec.europa.eu/schemas/inspire_dls/1.0 http://inspire.ec.europa.eu/schemas/inspire_dls/1.0/inspire_dls.xsd");
 		// ServiceInformation
 		writer.writeStartElement(owsns, "ServiceIdentification");
 		writer.writeStartElement(owsns, "ServiceType");
