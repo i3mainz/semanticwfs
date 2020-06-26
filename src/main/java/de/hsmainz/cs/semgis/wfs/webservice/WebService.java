@@ -1314,12 +1314,19 @@ public class WebService {
 			builder.append("<h3>Queryables</h3><ul><li>");
 			builder.append("<a href=\""+wfsconf.getString("baseurl") + "/collections/"
 					+ workingobj.getString("name") + "/queryables?f=html\">Queryables of "+workingobj.getString("name")+"</a></li></ul>");
-			builder.append("<h3>View</h3><ul><li><a href=\""+wfsconf.getString("baseurl") + "/collections/"
-					+ workingobj.getString("name") + "/items?f=html\">View items of "+workingobj.getString("name")+"</a></li>");
+			builder.append("<h3>View</h3><ul>");
 			builder.append("<li><a href=\"" + wfsconf.getString("baseurl")
 					+ "/collections/" + workingobj.getString("name") + "/items?f=html&limit=1&offset=" + (offset + 1)
-					+ "\">First item</a></li></ul>");
-			builder.append("<h3>Serializations</h3><ul>");
+					+ "\">First item</a></li>");
+			builder.append("<li><a href=\""+wfsconf.getString("baseurl") + "/collections/"
+					+ workingobj.getString("name") + "/items?f=html\">First 10 items</a></li>");
+			builder.append("<li><a href=\"" + wfsconf.getString("baseurl")
+			+ "/collections/" + workingobj.getString("name") + "/items?f=html&limit=100&offset=" + (offset + 1)
+			+ "\">First 100 items</a></li>");
+			builder.append("<li><a href=\"" + wfsconf.getString("baseurl")
+			+ "/collections/" + workingobj.getString("name") + "/items?f=html&limit=1000&offset=" + (offset + 1)
+			+ "\">First 1000 items</a></li>");
+			builder.append("</ul><h3>Serializations</h3><ul>");
 			for (ResultFormatter formatter : ResultFormatter.resultMap.values()) {
 				builder.append("<li><a href=\"" + wfsconf.getString("baseurl") + "/collections/"
 						+ workingobj.getString("name") + "/items?limit=5&f=" + formatter.exposedType + "\">["
@@ -1928,7 +1935,7 @@ public class WebService {
 		writer.writeNamespace("fes", "http://www.opengis.net/fes" + versionnamespace);
 		writer.writeNamespace("gml", "http://www.opengis.net/gml");
 		writer.writeNamespace("xlink", "http://www.w3.org/1999/xlink");
-		writer.writeAttribute("xsi:schemaLocation", "http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd http://inspire.ec.europa.eu/schemas/inspire_dls/1.0 http://inspire.ec.europa.eu/schemas/inspire_dls/1.0/inspire_dls.xsd");
+		writer.writeAttribute("xsi:schemaLocation", "http://www.opengis.net/wfs" + versionnamespace+" http://schemas.opengis.net/wfs/"+version+"/wfs.xsd http://inspire.ec.europa.eu/schemas/inspire_dls/1.0 http://inspire.ec.europa.eu/schemas/inspire_dls/1.0/inspire_dls.xsd");
 		// ServiceInformation
 		writer.writeStartElement(owsns, "ServiceIdentification");
 		writer.writeStartElement(owsns, "ServiceType");
