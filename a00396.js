@@ -11,6 +11,7 @@ var a00396 =
     [ "constructCapabilitiesCSW", "a00396.html#afc17958c87fe9fcc762b15b9e3f41d2b", null ],
     [ "constructCapabilitiesWFS10", "a00396.html#a02f1bd0586e5b2fc8811c6365800999d", null ],
     [ "createExceptionResponse", "a00396.html#a144f307441a7e2622ad74dd5ef58f017", null ],
+    [ "describeConformance", "a00396.html#a2b52dfa65c7ae2f6fef9f84a2675c18b", null ],
     [ "describeFeatureType", "a00396.html#a28bcff08fde95d77ffa6a502701688ce", null ],
     [ "describeFeatureType", "a00396.html#a10f067eba42289e586f350c48ddba20e", null ],
     [ "describeFeatureTypeJSON", "a00396.html#a89e02f1cb7ed74aa3acf20da27e92c1e", null ],
