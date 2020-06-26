@@ -1518,7 +1518,7 @@ public class WebService {
 							+ "/collections/" + workingobj.getString("name") + "/items?f=html&limit=1&offset="
 							+ (Integer.valueOf(offset) + 1) + "\">[Next]</a></td></tr></table></div></div></div>");
 				}
-				builder.append("<footer id=\"footer\"><table width=100%><tbody><tr><td><a href=\"" + wfsconf.getString("baseurl") + "/collections/"
+				builder.append("</div><footer id=\"footer\"><table width=100%><tbody><tr><td><a href=\"" + wfsconf.getString("baseurl") + "/collections/"
 						+ collectionid + "?f=html\">Back to " + collectionid
 						+ " Collection</a></td><td align=right>This page in <a href=\"" + wfsconf.getString("baseurl")
 						+ "/collections/" + workingobj.getString("name") + "/items?f=gml&limit=" + limit + "&offset="
