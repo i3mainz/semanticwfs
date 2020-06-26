@@ -2051,6 +2051,7 @@ public class WebService {
 		}
 		writer.writeEndElement();
 		writer.writeStartElement("http://www.opengis.net/fes/" + versionnamespace, "Filter_Capabilities");
+		describeConformance(writer,versionnamespace,"http://www.opengis.net/fes/"+versionnamespace);
 		describeSpatialCapabilities(writer, versionnamespace, "http://www.opengis.net/fes/" + versionnamespace);
 		describeScalarCapabilities(writer, versionnamespace, "http://www.opengis.net/fes/" + versionnamespace);
 		writer.writeEndElement();
@@ -2058,6 +2059,84 @@ public class WebService {
 		writer.writeEndElement();
 		writer.writeEndDocument();
 		return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
+	}
+
+	public void describeConformance(IndentingXMLStreamWriter writer,String versionnamespace, String namespace) throws XMLStreamException {
+		writer.writeStartElement(namespace,"Conformance");
+		writer.writeStartElement(namespace,"Constraint");
+		writer.writeAttribute("name","ImplementsQuery");
+		writer.writeStartElement("http://www.opengis.net/ows/1.1","DefaultValue");
+		writer.writeCharacters("TRUE");
+		writer.writeEndElement();
+		writer.writeEndElement();
+		writer.writeStartElement(namespace,"Constraint");
+		writer.writeAttribute("name","ImplementsAdHocQuery");
+		writer.writeStartElement("http://www.opengis.net/ows/1.1","DefaultValue");
+		writer.writeCharacters("TRUE");
+		writer.writeEndElement();
+		writer.writeStartElement(namespace,"Constraint");
+		writer.writeAttribute("name","ImplementsFunctions");
+		writer.writeStartElement("http://www.opengis.net/ows/1.1","DefaultValue");
+		writer.writeCharacters("TRUE");
+		writer.writeEndElement();
+		writer.writeEndElement();
+		writer.writeStartElement(namespace,"Constraint");
+		writer.writeAttribute("name","ImplementsMinStandardFilter");
+		writer.writeStartElement("http://www.opengis.net/ows/1.1","DefaultValue");
+		writer.writeCharacters("TRUE");
+		writer.writeEndElement();
+		writer.writeEndElement();
+		writer.writeStartElement(namespace,"Constraint");
+		writer.writeAttribute("name","ImplementsMinSpatialFilter");
+		writer.writeStartElement("http://www.opengis.net/ows/1.1","DefaultValue");
+		writer.writeCharacters("TRUE");
+		writer.writeEndElement();
+		writer.writeEndElement();
+		writer.writeStartElement(namespace,"Constraint");
+		writer.writeAttribute("name","ImplementsSpatialFilter");
+		writer.writeStartElement("http://www.opengis.net/ows/1.1","DefaultValue");
+		writer.writeCharacters("TRUE");
+		writer.writeEndElement();
+		writer.writeEndElement();
+		writer.writeStartElement(namespace,"Constraint");
+		writer.writeAttribute("name","ImplementsMinTemporalFilter");
+		writer.writeStartElement("http://www.opengis.net/ows/1.1","DefaultValue");
+		writer.writeCharacters("FALSE");
+		writer.writeEndElement();
+		writer.writeEndElement();
+		writer.writeStartElement(namespace,"Constraint");
+		writer.writeAttribute("name","ImplementsTemporalFilter");
+		writer.writeStartElement("http://www.opengis.net/ows/1.1","DefaultValue");
+		writer.writeCharacters("FALSE");
+		writer.writeEndElement();
+		writer.writeEndElement();
+		writer.writeStartElement(namespace,"Constraint");
+		writer.writeAttribute("name","ImplementsVersionNav");
+		writer.writeStartElement("http://www.opengis.net/ows/1.1","DefaultValue");
+		writer.writeCharacters("TRUE");
+		writer.writeEndElement();
+		writer.writeEndElement();
+		writer.writeStartElement(namespace,"Constraint");
+		writer.writeAttribute("name","ImplementsSorting");
+		writer.writeStartElement("http://www.opengis.net/ows/1.1","AllowedValues");
+		writer.writeStartElement("http://www.opengis.net/ows/1.1","Value");
+		writer.writeCharacters("ASC");
+		writer.writeEndElement();
+		writer.writeStartElement("http://www.opengis.net/ows/1.1","Value");
+		writer.writeCharacters("DESC");
+		writer.writeEndElement();
+		writer.writeEndElement();
+		writer.writeStartElement("http://www.opengis.net/ows/1.1","DefaultValue");
+		writer.writeCharacters("ASC");
+		writer.writeEndElement();
+		writer.writeEndElement();
+		writer.writeStartElement(namespace,"Constraint");
+		writer.writeAttribute("name","ImplementsExtendedOperators");
+		writer.writeStartElement("http://www.opengis.net/ows/1.1","DefaultValue");
+		writer.writeCharacters("FALSE");
+		writer.writeEndElement();
+		writer.writeEndElement();	
+		writer.writeEndElement();		
 	}
 
 	@GET
