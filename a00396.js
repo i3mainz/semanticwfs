@@ -33,7 +33,6 @@ var a00396 =
     [ "getGmlObject", "a00396.html#a41919f870e710f41155aa6da39757fc9", null ],
     [ "getPropertyValue", "a00396.html#ac7ca200a0e7247ec7f3c1917d330f65d", null ],
     [ "getSchema", "a00396.html#a5466512063c41595951b2768261f3522", null ],
-    [ "helloWorld", "a00396.html#ae310b4f88f65f8db789e31b8773c8965", null ],
     [ "landingPage", "a00396.html#aa26f0ca1951eb9f65acf5e2fa482ca42", null ],
     [ "lockFeature", "a00396.html#ab5eeb22a4edf8c2b8a9e26b0cf8f5304", null ],
     [ "login", "a00396.html#afcf1494f98149bfbcf6f6d7800b7daa2", null ],
