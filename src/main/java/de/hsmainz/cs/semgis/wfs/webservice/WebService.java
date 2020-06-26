@@ -2297,7 +2297,7 @@ public class WebService {
 
 	public void describeSpatialCapabilities(XMLStreamWriter writer, String versionnamespace, String namespace)
 			throws XMLStreamException {
-		writer.writeStartElement(namespace, "SpatialCapabilities");
+		writer.writeStartElement(namespace, "Spatial_Capabilities");
 		writer.writeStartElement(namespace, "GeometryOperands");
 		writer.writeStartElement(namespace, "GeometryOperand");
 		writer.writeAttribute("name", "gml:Box");
@@ -2348,6 +2348,7 @@ public class WebService {
 		writer.writeEndElement();
 		writer.writeStartElement(namespace, "SpatialOperator");
 		writer.writeAttribute("name", "DWithin");
+		writer.writeEndElement();
 		writer.writeEndElement();
 		writer.writeEndElement();
 	}
