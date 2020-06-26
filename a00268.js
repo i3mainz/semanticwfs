@@ -5,7 +5,7 @@ var a00268 =
     [ "addTagsFromJSONObject", "a00268.html#ad2df52d63f2f157b044923ff7cf52cd1", null ],
     [ "formatFooter", "a00268.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00268.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
-    [ "formatter", "a00268.html#a333158f85a81eddf46a6487337d5ba27", null ],
+    [ "formatter", "a00268.html#a8d07ac5192fab7d8db17142509f29d91", null ],
     [ "getFormatter", "a00268.html#afce25d64087d96d66b6b5535660a8ddb", null ],
     [ "contextMapper", "a00268.html#ae7316c0c7550712f915cc3cd353cd981", null ],
     [ "exposedType", "a00268.html#aa6a844c9b01d97aca583be867a1c5413", null ],

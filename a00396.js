@@ -38,6 +38,7 @@ var a00396 =
     [ "lockFeature", "a00396.html#ab5eeb22a4edf8c2b8a9e26b0cf8f5304", null ],
     [ "login", "a00396.html#afcf1494f98149bfbcf6f6d7800b7daa2", null ],
     [ "prefixes", "a00396.html#a88724b837ed6ce278eccca40f2f6f87b", null ],
+    [ "queryables", "a00396.html#ae52a932fac3aaf398d86fafc31269f30", null ],
     [ "queryConfigs", "a00396.html#a0db1e9331f9e64ddc4826cf215c25761", null ],
     [ "queryService", "a00396.html#aa42b5154ec2b2ed30598975610a291d0", null ],
     [ "queryService", "a00396.html#a0e7356902f2dc233c3c15178db43d691", null ],

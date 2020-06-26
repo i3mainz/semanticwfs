@@ -4,7 +4,7 @@ var a00224 =
     [ "[static initializer]", "a00224.html#a2e87c5ede6b7235170d287cd2e254454", null ],
     [ "formatFooter", "a00224.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00224.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
-    [ "formatter", "a00224.html#a741a20805a3111be9c6fc89803b47451", null ],
+    [ "formatter", "a00224.html#a03cea3686884ac3266e38442262962b0", null ],
     [ "getFormatter", "a00224.html#afce25d64087d96d66b6b5535660a8ddb", null ],
     [ "contextMapper", "a00224.html#ae7316c0c7550712f915cc3cd353cd981", null ],
     [ "exposedType", "a00224.html#aa6a844c9b01d97aca583be867a1c5413", null ],

@@ -4,7 +4,7 @@ var a00364 =
     [ "CQLfilterStringToSPARQLQuery", "a00364.html#afd6ff0e4855627212cb2e26e7575255c", null ],
     [ "executePropertyValueQuery", "a00364.html#ac83388db444ca8030dc7d1f21a6f93dd", null ],
     [ "executeQuery", "a00364.html#a5df71c9c4e3fecf935a4646e04de11d5", null ],
-    [ "executeQuery", "a00364.html#a2215ba24d67cd2d08dc54c4bc042000b", null ],
+    [ "executeQuery", "a00364.html#accee6a44987e777af18dd229a3e14263", null ],
     [ "getBoundingBoxFromTripleStoreData", "a00364.html#a723f01dec66e801f28fd03351a36c0ad", null ],
     [ "getFeatureTypeInformation", "a00364.html#a8591b6ad68c9bd6f4a03b48546b24d2c", null ],
     [ "getMetaData", "a00364.html#a9bf75e954d3c1636676c3144d61f0fa1", null ],

@@ -5,7 +5,7 @@ var a00312 =
     [ "addKeyValList", "a00312.html#a9d9180f34dd3cb76d915f829937fdda1", null ],
     [ "formatFooter", "a00312.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00312.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
-    [ "formatter", "a00312.html#a333158f85a81eddf46a6487337d5ba27", null ],
+    [ "formatter", "a00312.html#a8d07ac5192fab7d8db17142509f29d91", null ],
     [ "getFormatter", "a00312.html#afce25d64087d96d66b6b5535660a8ddb", null ],
     [ "contextMapper", "a00312.html#ae7316c0c7550712f915cc3cd353cd981", null ],
     [ "exposedType", "a00312.html#aa6a844c9b01d97aca583be867a1c5413", null ],
