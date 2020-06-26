@@ -1770,7 +1770,7 @@ public class WebService {
 		writer.writeNamespace("ows", "http://www.opengis.net/ows/1.1");
 		writer.writeNamespace("sf", "http://www.opengis.net/ogcapi-features-1/1.0/sf");
 		writer.writeNamespace("ogc", "http://www.opengis.net/ogc");
-		writer.writeNamespace("fes", "http://www.opengis.net/fes/" + versionnamespace);
+		writer.writeNamespace("fes", "http://www.opengis.net/fes" + versionnamespace);
 		writer.writeNamespace("gml", "http://www.opengis.net/gml");
 		writer.writeNamespace("xlink", "http://www.w3.org/1999/xlink");
 		writer.writeStartElement(owsns, "ServiceIdentification");
@@ -1892,9 +1892,10 @@ public class WebService {
 		writer.writeEndElement();
 		writer.writeEndElement();
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/fes/" + versionnamespace, "Filter_Capabilities");
-		describeSpatialCapabilities(writer, versionnamespace, "http://www.opengis.net/fes/" + versionnamespace);
-		describeScalarCapabilities(writer, versionnamespace, "http://www.opengis.net/fes/" + versionnamespace);
+		writer.writeStartElement("http://www.opengis.net/fes" + versionnamespace, "Filter_Capabilities");
+		describeConformance(writer, versionnamespace, "http://www.opengis.net/fes" + versionnamespace);
+		describeSpatialCapabilities(writer, versionnamespace, "http://www.opengis.net/fes" + versionnamespace);
+		describeScalarCapabilities(writer, versionnamespace, "http://www.opengis.net/fes" + versionnamespace);
 		writer.writeEndElement();
 		writer.writeEndDocument();
 		return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
@@ -1924,7 +1925,7 @@ public class WebService {
 		writer.writeNamespace("ows", "http://www.opengis.net/ows/1.1");
 		writer.writeNamespace("sf", "http://www.opengis.net/ogcapi-features-1/1.0/sf");
 		writer.writeNamespace("ogc", "http://www.opengis.net/ogc");
-		writer.writeNamespace("fes", "http://www.opengis.net/fes/" + versionnamespace);
+		writer.writeNamespace("fes", "http://www.opengis.net/fes" + versionnamespace);
 		writer.writeNamespace("gml", "http://www.opengis.net/gml");
 		writer.writeNamespace("xlink", "http://www.w3.org/1999/xlink");
 		writer.writeAttribute("xsi:schemaLocation", "http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd http://inspire.ec.europa.eu/schemas/inspire_dls/1.0 http://inspire.ec.europa.eu/schemas/inspire_dls/1.0/inspire_dls.xsd");
@@ -2104,10 +2105,10 @@ public class WebService {
 			describeFeatureType(writer, wfsconf.getJSONArray("datasets").getJSONObject(i), versionnamespace, version);
 		}
 		writer.writeEndElement();
-		writer.writeStartElement("http://www.opengis.net/fes/" + versionnamespace, "Filter_Capabilities");
-		describeConformance(writer,versionnamespace,"http://www.opengis.net/fes/"+versionnamespace);
-		describeSpatialCapabilities(writer, versionnamespace, "http://www.opengis.net/fes/" + versionnamespace);
-		describeScalarCapabilities(writer, versionnamespace, "http://www.opengis.net/fes/" + versionnamespace);
+		writer.writeStartElement("http://www.opengis.net/fes" + versionnamespace, "Filter_Capabilities");
+		describeConformance(writer,versionnamespace,"http://www.opengis.net/fes"+versionnamespace);
+		describeSpatialCapabilities(writer, versionnamespace, "http://www.opengis.net/fes" + versionnamespace);
+		describeScalarCapabilities(writer, versionnamespace, "http://www.opengis.net/fes" + versionnamespace);
 		writer.writeEndElement();
 		writer.writeEndElement();
 		writer.writeEndElement();
@@ -2116,6 +2117,7 @@ public class WebService {
 	}
 
 	public void describeConformance(IndentingXMLStreamWriter writer,String versionnamespace, String namespace) throws XMLStreamException {
+		System.out.println(namespace);
 		writer.writeStartElement(namespace,"Conformance");
 		writer.writeStartElement(namespace,"Constraint");
 		writer.writeAttribute("name","ImplementsQuery");
@@ -2455,7 +2457,7 @@ public class WebService {
 		writer.writeNamespace("ows", "http://www.opengis.net/ows/1.1");
 		writer.writeNamespace("sf", "http://www.opengis.net/ogcapi-features-1/1.0/sf");
 		writer.writeNamespace("ogc", "http://www.opengis.net/ogc");
-		writer.writeNamespace("fes", "http://www.opengis.net/fes/" + versionnamespace);
+		writer.writeNamespace("fes", "http://www.opengis.net/fes" + versionnamespace);
 		writer.writeNamespace("gml", "http://www.opengis.net/gml");
 		writer.writeNamespace("xlink", "http://www.w3.org/1999/xlink");
 		writer.writeStartElement("element");
