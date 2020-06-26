@@ -72,9 +72,9 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 @Path("/")
 public class WebService {
 
-	static JSONObject triplestoreconf = new JSONObject();
+	public static JSONObject triplestoreconf = new JSONObject();
 
-	static JSONObject wfsconf = null;
+	public static JSONObject wfsconf = null;
 
 	public static Map<String, Map<String, String>> featureTypeCache = new TreeMap<>();
 
@@ -562,6 +562,9 @@ public class WebService {
 			builder.append("<header id=\"header\"><div class=\"page-header\"><h1 align=center>");
 			builder.append("FeatureCollection View");
 			builder.append("</h1></div></header>");
+			builder.append("<div class=\"sticky row crumbs\"><div class=\"col-sm-12 col-md-10 col-md-offset-1\">");
+			builder.append("<a href=\""+this.wfsconf.getString("baseurl")+"\">Landingpage</a> / <a href=\""+this.wfsconf.getString("baseurl")+"/collections/\">Collections</a>");
+		    builder.append("</div></div>");
 			builder.append(
 					"<div class=\"container\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\"><table class=\"description\" id=\"collectiontable\" width=100% border=1><thead><tr><th>Collection</th><th>Description</th><th>Schema</th></tr></thead><tbody>");
 			for (int i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
@@ -647,7 +650,7 @@ public class WebService {
 		String res = "";
 		try {
 			res = TripleStoreConnector.executeQuery(query, workingobj.getString("triplestore"), format, "0", "0",
-					"sf:featureMember", collectionid, featureid, workingobj, "", "", "", "", style);
+					"sf:featureMember", collectionid, featureid, workingobj, "", "", "", "", style,false);
 			System.out.println(res);
 			if (res == null || res.isEmpty()) {
 				throw new NotFoundException();
@@ -738,7 +741,11 @@ public class WebService {
 			builder.append(htmlHead);
 			builder.append("<body><header id=\"header\"><h1 align=\"center\">");
 			builder.append(featureid);
-			builder.append("</h1></header><div class=\"container\" role=\"main\"><div class=\"row\">");
+			builder.append("</h1></header>");
+			builder.append("<div class=\"sticky row crumbs\"><div class=\"col-sm-12 col-md-10 col-md-offset-1\">");
+			builder.append("<a href=\""+this.wfsconf.getString("baseurl")+"\">Landingpage</a> / <a href=\""+this.wfsconf.getString("baseurl")+"/collections/\">Collections</a> / <a href=\""+this.wfsconf.getString("baseurl")+"/collections/"+collectionid+"\">"+workingobj.getString("name")+"</a> / <a href=\""+this.wfsconf.getString("baseurl")+"/collections/"+collectionid+"/items?f=html\">Items</a> / <a href=\""+this.wfsconf.getString("baseurl")+"/collections/"+collectionid+"/items/"+featureid+"?f=html\">"+featureid+"</a>");
+		    builder.append("</div></div>");
+			builder.append("<div class=\"container\" role=\"main\"><div class=\"row\">");
 			builder.append(res);
 			builder.append("</div></div></div></div><footer id=\"footer\"><table width=100%><tbody><tr><td><a href=\"" + wfsconf.getString("baseurl") + "/collections/"
 					+ collectionid + "?f=html\">Back to " + collectionid
@@ -751,6 +758,141 @@ public class WebService {
 		} else {
 			return Response.ok(res).type(MediaType.TEXT_PLAIN).build();
 		}
+	}
+	
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
+	@Path("/collections/{collectionid}/queryables")
+	public Response queryables(@Parameter(description="The id of the collection to be considered") @PathParam("collectionid") String collectionid,
+			@Parameter(description="The format in which the collection should be returned",example="geojson") @DefaultValue("html") @QueryParam("f") String format) {
+		if (collectionid == null) {
+			throw new NotFoundException();
+		}
+		JSONObject workingobj = null;
+		for (int i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
+			JSONObject curobj = wfsconf.getJSONArray("datasets").getJSONObject(i);
+			if (curobj.getString("name").equalsIgnoreCase(collectionid)) {
+				workingobj = curobj;
+				break;
+			}
+		}
+		if (workingobj == null) {
+			throw new NotFoundException();
+		}
+		if (!featureTypeCache.containsKey(collectionid.toLowerCase())) {
+			featureTypeCache.put(collectionid.toLowerCase(),
+					TripleStoreConnector.getFeatureTypeInformation(workingobj.getString("query"),
+							workingobj.getString("triplestore"), workingobj.getString("name"), workingobj));
+		}
+		Map<String, String> mapping = featureTypeCache.get(collectionid.toLowerCase());
+		StringBuilder builder = new StringBuilder();
+		StringBuilder builder2 = new StringBuilder();
+		JSONObject geojson = new JSONObject();
+		JSONObject geometry = new JSONObject();
+		JSONObject properties = new JSONObject();
+		geojson.put("type", "Feature");
+		geojson.put("id", collectionid);
+		geojson.put("geometry", geometry);
+		geojson.put("properties", properties);
+		builder.append(htmlHead);
+		builder.append("<body><header id=\"header\"><h1 align=\"center\">");
+		builder.append(collectionid+" Queryables");
+		builder.append("</h1></header>");
+		builder.append("<div class=\"sticky row crumbs\"><div class=\"col-sm-12 col-md-10 col-md-offset-1\">");
+		builder.append("<a href=\""+this.wfsconf.getString("baseurl")+"\">Landingpage</a> / <a href=\""+this.wfsconf.getString("baseurl")+"/collections/\">Collections</a> / <a href=\""+this.wfsconf.getString("baseurl")+"/collections/"+collectionid+"\">"+workingobj.getString("name")+"</a> / <a href=\""+this.wfsconf.getString("baseurl")+"/collections/"+collectionid+"/queryables?f=html\">Queryables</a>");
+	    builder.append("</div></div>");
+		builder.append("<div class=\"container\" role=\"main\"><div class=\"row\">");
+		builder.append("<table width=100%><tr><td width=\"100%\" rowspan=2>");
+		builder.append("<script>var overlayMaps={}; var overlayControl; var typeColumn=\""
+				+ (workingobj.has("typeColumn") ? workingobj.getString("typeColumn") : "")
+				+ "\"; var markercollection=[]; var epsg=\""
+				+ (workingobj.has("targetCRS") ? workingobj.getString("targetCRS") : "") + "\";");
+		builder2.append(((HTMLFormatter) ResultFormatter.getFormatter("html")).htmlHeader2);
+		builder2.append("</td><td>Contents:<table class=\"description\" border=\"1\"><tr><th>Value</th><th>Type</th>");
+		String lon = null, lat = null;
+		if (mapping != null) {
+			for (String elem : mapping.keySet()) {
+				if (!elem.equals("http://www.opengis.net/ont/geosparql#hasGeometry")
+						&& !elem.equals("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")) {
+					if (elem.contains("http")) {
+						if (elem.contains("#")) {
+							builder2.append("<tr><td align=center><a href=\"" + elem + "\">"
+									+ elem.substring(elem.lastIndexOf('#') + 1) + "</a> ");
+						} else {
+							builder2.append("<tr><td align=center><a href=\"" + elem + "\">"
+									+ elem.substring(elem.lastIndexOf('/') + 1) + "</a> ");
+						}
+					} else {
+						builder2.append("<tr><td align=center>" + elem);
+					}
+					if (mapping.get(elem).contains("^^")) {
+						String type = mapping.get(elem).substring(mapping.get(elem).lastIndexOf("^^") + 2);
+						builder2.append("</td><td align=center><a href=\"" + type + "\">"
+								+ type.substring(type.lastIndexOf('#') + 1) + "</a></td></tr>");
+					} else {
+						if ((mapping.get(elem).contains("http") || mapping.get(elem).contains("file:/"))
+								&& mapping.get(elem).contains("#")) {
+							builder2.append("</td><td align=center><a href=\"" + mapping.get(elem) + "\">"
+									+ mapping.get(elem).substring(mapping.get(elem).lastIndexOf('#') + 1)
+									+ "</a></td></tr>");
+						} else if ((mapping.get(elem).contains("http") || mapping.get(elem).contains("file:/"))
+								&& mapping.get(elem).contains("/")) {
+							builder2.append("</td><td align=center><a href=\"" + mapping.get(elem) + "\">"
+									+ mapping.get(elem).substring(mapping.get(elem).lastIndexOf('/') + 1)
+									+ "</a></td></tr>");
+						} else {
+							builder2.append("</td><td align=center><a href=\"" + mapping.get(elem) + "\">"
+									+ mapping.get(elem) + "</a></td></tr>");
+						}
+					}
+					if (elem.contains("http://www.opengis.net/ont/geosparql#asWKT")) {
+						geometry.put("type", mapping.get(elem).substring(0, mapping.get(elem).indexOf('(')));
+						String coords = mapping.get(elem).substring(mapping.get(elem).indexOf('(') + 1,
+								mapping.get(elem).indexOf(')'));
+						JSONArray arr = new JSONArray();
+						geometry.put("coordinates", arr);
+						if(!coords.contains(",")) {
+							String[] commasplit = coords.split(" ");
+							arr.put(Double.valueOf(commasplit[0]));
+							arr.put(Double.valueOf(commasplit[1]));
+						}else {								
+						for (String coord : coords.split(" ")) {
+							if (coord.contains(",")) {
+								String[] commasplit = coord.split(",");
+								arr.put(Double.valueOf(commasplit[0]));
+								arr.put(Double.valueOf(commasplit[1]));
+							}
+						}
+						}
+					}
+					if (elem.contains("lat")) {
+						lat = mapping.get(elem);
+					}
+					if (elem.contains("lon")) {
+						lon = mapping.get(elem);
+					}
+					if (lat != null && lon != null) {
+						geometry.put("type", "Point");
+						JSONArray arr = new JSONArray();
+						geometry.put("coordinates", arr);
+						arr.put(lon);
+						arr.put(lat);
+					}
+					properties.put(elem, mapping.get(elem));
+				}
+			}
+		}
+		builder2.append("</table><br/>Styles:"
+				+ TripleStoreConnector.getStyleNames(wfsconf.getString("baseurl"), workingobj, format));
+		builder.append("var geojson=" + geojson.toString() + "</script>");
+		builder.append(builder2.toString());
+		builder.append("</td></tr></table>");
+		builder.append("</div></div><footer id=\"footer\"><table width=100%><tbody><tr><td><a href=\"" + wfsconf.getString("baseurl")
+		+ "/collections/"+workingobj.getString("name")+"?f=html\">Back to Collections</a></td><td align=right>This page in <a href=\""
+		+ wfsconf.getString("baseurl") + "/collections/" + workingobj.getString("name")
+		+ "/queryables?f=gml\">[GML]</a> <a href=\"" + wfsconf.getString("baseurl") + "/collections/"
+		+ workingobj.getString("name") + "/queryables?f=geojson\">[JSON]</a></td></tr></tbody></table></footer></body></html>");
+		return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
 	}
 
 	@GET
@@ -906,8 +1048,11 @@ public class WebService {
 			StringBuilder builder = new StringBuilder();
 			builder.append(htmlHead);
 			builder.append("<body><header id=\"header\"><h1 align=\"center\">LandingPage: " + wfsconf.getString("servicetitle"));
-			builder.append(
-					"</h1></header><div class=\"container\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\"><p>"
+			builder.append("</h1></header>");
+			builder.append("<div class=\"sticky row crumbs\"><div class=\"col-sm-12 col-md-10 col-md-offset-1\">");
+			builder.append("<a href=\""+this.wfsconf.getString("baseurl")+"\">Landingpage</a>");
+		    builder.append("</div></div>");
+			builder.append("<div class=\"container\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\"><p>"
 							+ wfsconf.getString("servicedescription") + "</p><ul>");
 			builder.append("<li>API Documentation in <a href=\"" + wfsconf.getString("baseurl")
 					+ "/api/\">[HTML]</a>");
@@ -1158,104 +1303,28 @@ public class WebService {
 			builder.append("<script>var espg=\"" + (workingobj.has("targetCRS") ? workingobj.get("targetCRS") : "")
 					+ "\";</script><body><header id=\"header\"><h1 align=\"center\">");
 			builder.append(
-					(workingobj.getString("description") != null ? workingobj.getString("description") : collectionid));
-			builder.append("</h1></header><div class=\"container\" role=\"main\"><div class=\"row\">");
-			builder.append("</div><div class=\"row\"><table width=100%><tr><td width=\"100%\" rowspan=2>");
-			builder.append("<script>var overlayMaps={}; var overlayControl; var typeColumn=\""
-					+ (workingobj.has("typeColumn") ? workingobj.getString("typeColumn") : "")
-					+ "\"; var markercollection=[]; var epsg=\""
-					+ (workingobj.has("targetCRS") ? workingobj.getString("targetCRS") : "") + "\";");
-			builder2.append(((HTMLFormatter) ResultFormatter.getFormatter("html")).htmlHeader2);
-			builder2.append("</td><td>Contents:<table class=\"description\" border=\"1\"><tr><th>Value</th><th>Type</th>");
-			String lon = null, lat = null;
-			if (mapping != null) {
-				for (String elem : mapping.keySet()) {
-					if (!elem.equals("http://www.opengis.net/ont/geosparql#hasGeometry")
-							&& !elem.equals("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")) {
-						if (elem.contains("http")) {
-							if (elem.contains("#")) {
-								builder2.append("<tr><td align=center><a href=\"" + elem + "\">"
-										+ elem.substring(elem.lastIndexOf('#') + 1) + "</a> ");
-							} else {
-								builder2.append("<tr><td align=center><a href=\"" + elem + "\">"
-										+ elem.substring(elem.lastIndexOf('/') + 1) + "</a> ");
-							}
-						} else {
-							builder2.append("<tr><td align=center>" + elem);
-						}
-						if (mapping.get(elem).contains("^^")) {
-							String type = mapping.get(elem).substring(mapping.get(elem).lastIndexOf("^^") + 2);
-							builder2.append("</td><td align=center><a href=\"" + type + "\">"
-									+ type.substring(type.lastIndexOf('#') + 1) + "</a></td></tr>");
-						} else {
-							if ((mapping.get(elem).contains("http") || mapping.get(elem).contains("file:/"))
-									&& mapping.get(elem).contains("#")) {
-								builder2.append("</td><td align=center><a href=\"" + mapping.get(elem) + "\">"
-										+ mapping.get(elem).substring(mapping.get(elem).lastIndexOf('#') + 1)
-										+ "</a></td></tr>");
-							} else if ((mapping.get(elem).contains("http") || mapping.get(elem).contains("file:/"))
-									&& mapping.get(elem).contains("/")) {
-								builder2.append("</td><td align=center><a href=\"" + mapping.get(elem) + "\">"
-										+ mapping.get(elem).substring(mapping.get(elem).lastIndexOf('/') + 1)
-										+ "</a></td></tr>");
-							} else {
-								builder2.append("</td><td align=center><a href=\"" + mapping.get(elem) + "\">"
-										+ mapping.get(elem) + "</a></td></tr>");
-							}
-						}
-						if (elem.contains("http://www.opengis.net/ont/geosparql#asWKT")) {
-							geometry.put("type", mapping.get(elem).substring(0, mapping.get(elem).indexOf('(')));
-							String coords = mapping.get(elem).substring(mapping.get(elem).indexOf('(') + 1,
-									mapping.get(elem).indexOf(')'));
-							JSONArray arr = new JSONArray();
-							geometry.put("coordinates", arr);
-							if(!coords.contains(",")) {
-								String[] commasplit = coords.split(" ");
-								arr.put(Double.valueOf(commasplit[0]));
-								arr.put(Double.valueOf(commasplit[1]));
-							}else {								
-							for (String coord : coords.split(" ")) {
-								if (coord.contains(",")) {
-									String[] commasplit = coord.split(",");
-									arr.put(Double.valueOf(commasplit[0]));
-									arr.put(Double.valueOf(commasplit[1]));
-								}
-							}
-							}
-						}
-						if (elem.contains("lat")) {
-							lat = mapping.get(elem);
-						}
-						if (elem.contains("lon")) {
-							lon = mapping.get(elem);
-						}
-						if (lat != null && lon != null) {
-							geometry.put("type", "Point");
-							JSONArray arr = new JSONArray();
-							geometry.put("coordinates", arr);
-							arr.put(lon);
-							arr.put(lat);
-						}
-						properties.put(elem, mapping.get(elem));
-					}
-				}
-			}
-			builder2.append("</table><br/>Styles:"
-					+ TripleStoreConnector.getStyleNames(wfsconf.getString("baseurl"), workingobj, format));
-			builder.append("var geojson=" + geojson.toString() + "</script>");
-			builder.append(builder2.toString());
-			builder.append("</td></tr><tr><td>Serializations:<ul>");
+					(workingobj.getString("name") != null ? workingobj.getString("name") : collectionid));
+			builder.append("</h1></header>");
+			builder.append("<div class=\"sticky row crumbs\"><div class=\"col-sm-12 col-md-10 col-md-offset-1\">");
+			builder.append("<a href=\""+this.wfsconf.getString("baseurl")+"\">Landingpage</a> / <a href=\""+this.wfsconf.getString("baseurl")+"/collections/\">Collections</a> / <a href=\""+this.wfsconf.getString("baseurl")+"/collections/"+collectionid+"\">"+workingobj.getString("name")+"</a>");
+		    builder.append("</div></div>");
+			builder.append("<div class=\"container\" role=\"main\"><div class=\"row\"><section>");
+			builder.append(workingobj.getString("description"));
+			builder.append("<h3>Queryables</h3><ul><li>");
+			builder.append("<a href=\""+wfsconf.getString("baseurl") + "/collections/"
+					+ workingobj.getString("name") + "/queryables?f=html\">Queryables of "+workingobj.getString("name")+"</a></li></ul>");
+			builder.append("<h3>View</h3><ul><li><a href=\""+wfsconf.getString("baseurl") + "/collections/"
+					+ workingobj.getString("name") + "/items?f=html\">View items of "+workingobj.getString("name")+"</a></li>");
+			builder.append("<li><a href=\"" + wfsconf.getString("baseurl")
+					+ "/collections/" + workingobj.getString("name") + "/items?f=html&limit=1&offset=" + (offset + 1)
+					+ "\">First item</a></li></ul>");
+			builder.append("<h3>Serializations</h3><ul>");
 			for (ResultFormatter formatter : ResultFormatter.resultMap.values()) {
 				builder.append("<li><a href=\"" + wfsconf.getString("baseurl") + "/collections/"
 						+ workingobj.getString("name") + "/items?limit=5&f=" + formatter.exposedType + "\">["
 						+ formatter.exposedType.toUpperCase() + "]</a></li>");
 			}
-			builder.append("</td></tr></table>");
-			builder.append("<table width=100%><tbody><tr><td align=left><a href=\"" + wfsconf.getString("baseurl")
-					+ "/collections/" + workingobj.getString("name")
-					+ "/items?f=html\">[Sample]</a></td><td align=right><a href=\"" + wfsconf.getString("baseurl")
-					+ "/collections/" + workingobj.getString("name") + "/items?f=html&limit=1&offset=" + (offset + 1)
-					+ "\">[Next]</a></td></tr></tbody></table></div></div></div>");
+			builder.append("</section></div></div></div>");
 			builder.append("<footer id=\"footer\"><table width=100%><tbody><tr><td><a href=\"" + wfsconf.getString("baseurl")
 					+ "/collections?f=html\">Back to Collections</a></td><td align=right>This page in <a href=\""
 					+ wfsconf.getString("baseurl") + "/collections/" + workingobj.getString("name")
@@ -1334,7 +1403,7 @@ public class WebService {
 					workingobj.getString("triplestore"), format,
 					"" + (Integer.valueOf(limit) * workingobj.getInt("attcount")),
 					"" + (Integer.valueOf(offset) * workingobj.getInt("attcount")), "sf:featureMember", collectionid,
-					"", workingobj, filter, "", "", bbox, style);
+					"", workingobj, filter, "", "", bbox, style,true);
 			// System.out.println(res);
 			if (res == null || res.isEmpty()) {
 				System.out.println("RES: "+res);
@@ -1432,7 +1501,11 @@ public class WebService {
 				builder.append(htmlHead);
 				builder.append("<body><header id=\"header\"><h1 align=\"center\">");
 				builder.append(collectionid);
-				builder.append("</h1></header><div class=\"container\" role=\"main\"><div class=\"row\">");
+				builder.append("</h1></header>");
+				builder.append("<div class=\"sticky row crumbs\"><div class=\"col-sm-12 col-md-10 col-md-offset-1\">");
+				builder.append("<a href=\""+this.wfsconf.getString("baseurl")+"\">Landingpage</a> / <a href=\""+this.wfsconf.getString("baseurl")+"/collections/\">Collections</a> / <a href=\""+this.wfsconf.getString("baseurl")+"/collections/"+collectionid+"\">"+workingobj.getString("name")+"</a> / <a href=\""+this.wfsconf.getString("baseurl")+"/collections/"+collectionid+"/items?f=html\">Items</a>");
+			    builder.append("</div></div>");
+				builder.append("<div class=\"container\" role=\"main\"><div class=\"row\">");
 				builder.append(res);
 				// builder.append("<script>$( document ).ready(function()
 				// {$('#queryres').DataTable({\"scrollX\":\"100%\",\"scrollCollapse\":
@@ -2444,7 +2517,7 @@ public class WebService {
 						workingobj.getString("triplestore"), output,
 						"" + (Integer.valueOf(count) * workingobj.getInt("attcount")),
 						"" + (Integer.valueOf(startindex) * workingobj.getInt("attcount")), "gml:featureMember",
-						typename, resourceids, workingobj, filter, resultType, srsName, "", style);
+						typename, resourceids, workingobj, filter, resultType, srsName, "", style,false);
 				System.out.println(res);
 				if (res.isEmpty()) {
 					throw new NotFoundException();

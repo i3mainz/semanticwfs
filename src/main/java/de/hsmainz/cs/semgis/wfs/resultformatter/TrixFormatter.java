@@ -25,10 +25,10 @@ public class TrixFormatter extends ResultFormatter {
 	@Override
 	public String formatter(ResultSet results, String startingElement, String featuretype, String propertytype,
 			String typeColumn, Boolean onlyproperty, Boolean onlyhits, String srsName, String indvar, String epsg,
-			List<String> eligiblenamespaces, List<String> noteligiblenamespaces, StyleObject mapstyle)
+			List<String> eligiblenamespaces, List<String> noteligiblenamespaces, StyleObject mapstyle,Boolean alternativeFormat)
 			throws XMLStreamException {
 		ResultFormatter format = resultMap.get("ttl");
-		String ttl=format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,srsName,indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle);
+		String ttl=format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,srsName,indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat);
 		this.lastQueriedElemCount = format.lastQueriedElemCount;
 		OntModel model=ModelFactory.createOntologyModel();
 		InputStream result = new ByteArrayInputStream(ttl.getBytes(StandardCharsets.UTF_8));

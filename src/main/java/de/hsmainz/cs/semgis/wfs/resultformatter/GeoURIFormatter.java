@@ -23,7 +23,7 @@ public class GeoURIFormatter extends WFSResultFormatter {
 			String featuretype,String propertytype,
 			String typeColumn,Boolean onlyproperty,Boolean onlyhits,
 			String srsName,String indvar,String epsg,List<String> eligiblenamespaces,
-			List<String> noteligiblenamespaces,StyleObject mapstyle) {
+			List<String> noteligiblenamespaces,StyleObject mapstyle,Boolean alternativeFormat) {
 		List<QuerySolution> test=ResultSetFormatter.toList(results);
     	Boolean first=true;
     	StringBuilder resultCSV=new StringBuilder();

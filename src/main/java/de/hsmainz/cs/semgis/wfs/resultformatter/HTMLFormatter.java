@@ -16,6 +16,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
+import de.hsmainz.cs.semgis.wfs.webservice.WebService;
 
 public class HTMLFormatter extends ResultFormatter {
 
@@ -109,9 +110,7 @@ public class HTMLFormatter extends ResultFormatter {
 				builder.append("<th align=\"center\"><a href=\"" + key + "\" target=\"_blank\">" + keyPathToLabel(label)
 						+ "</a></td>");
 			}
-			}
-			
-			
+			}	
 		}
 		
 	}
@@ -121,10 +120,10 @@ public class HTMLFormatter extends ResultFormatter {
 			String propertytype, 
 			String typeColumn, Boolean onlyproperty,Boolean onlyhits,
 			String srsName,String indvar,String epsg,List<String> eligiblenamespaces,
-			List<String> noteligiblenamespaces,StyleObject mapstyle) throws XMLStreamException {
+			List<String> noteligiblenamespaces,StyleObject mapstyle,Boolean alternativeFormat) throws XMLStreamException {
 		ResultFormatter format = resultMap.get("geojson");
 		JSONObject geojson = new JSONObject(
-				format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,srsName,indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle));
+				format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,srsName,indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat));
 		this.lastQueriedElemCount = format.lastQueriedElemCount;
 		// System.out.println(geojson);
 		StringBuilder builder = new StringBuilder();
@@ -145,32 +144,13 @@ public class HTMLFormatter extends ResultFormatter {
 				if (!onlyproperty) {
 					collectColumns(builder, features.getJSONObject(0).getJSONObject("properties"), propToTableCol, "",0);
 					System.out.println(propToTableCol);
-					/*int j=0;
-					for (String key : features.getJSONObject(0).getJSONObject("properties").keySet()) {
-						propToTableCol.put(j,key);
-						if (key.startsWith("http") || key.startsWith("www.")) {
-							if (key.contains("#")) {
-								builder.append("<th align=\"center\"><a href=\"" + key + "\" target=\"_blank\">"
-										+ key.substring(key.lastIndexOf('#') + 1) + "</a></td>");
-							} else {
-								builder.append("<th align=\"center\"><a href=\"" + key + "\" target=\"_blank\">"
-										+ key.substring(key.lastIndexOf('/') + 1) + "</a></td>");
-							}
-						} else {
-							builder.append("<th align=\"center\"><a href=\"" + key + "\" target=\"_blank\">" + key
-									+ "</a></td>");
-						}
-						j++;
-					}*/
-
-				}else {
-					
+				}else {	
 					if (propertytype.startsWith("http")) {
 						if (propertytype.contains("#")) {
-							builder.append("<th align=\"center\"><a href=\"" + propertytype + "\" target=\"_blank\">"
-									+ propertytype.substring(propertytype.lastIndexOf('#') + 1) + "</a></td>");
+								builder.append("<th align=\"center\"><a href=\"" + propertytype + "\" target=\"_blank\">"
+										+ propertytype.substring(propertytype.lastIndexOf('#') + 1) + "</a></td>");								
 						} else {
-							builder.append("<th align=\"center\"><a href=\"" + propertytype + "\" target=\"_blank\">"
+								builder.append("<th align=\"center\"><a href=\"" + propertytype + "\" target=\"_blank\">"
 									+ propertytype.substring(propertytype.lastIndexOf('/') + 1) + "</a></td>");
 						}
 					} else {
@@ -193,11 +173,22 @@ public class HTMLFormatter extends ResultFormatter {
 					builder.append("<a href=\"" + vall.substring(vall.lastIndexOf('^') +1) + "\" target=\"_blank\">"
 							+ vall.substring(0, vall.lastIndexOf('^') - 1) + "</a>");
 				} else if (vall.contains("#")) {
-					builder.append("<a href=\"" + vall + "\" target=\"_blank\">"
-							+ vall.substring(vall.lastIndexOf('#') + 1) + "</a>");
+					if(alternativeFormat) {
+						builder.append("<a href=\"" +WebService.wfsconf.get("baseurl")+"/collections/"+featuretype+"/items/"+ vall.substring(vall.lastIndexOf('#')+1)+ "\">"
+								+  vall.substring(vall.lastIndexOf('#')+1) + "</a>");
+					}else {
+						builder.append("<a href=\"" + vall + "\" target=\"_blank\">"
+								+ vall.substring(vall.lastIndexOf('#') + 1) + "</a>");
+					}
+					
 				} else {
-					builder.append("<a href=\"" + vall + "\" target=\"_blank\">" + vall.substring(vall.lastIndexOf('/')+1)
+					if(alternativeFormat) {
+						builder.append("<a href=\"" +WebService.wfsconf.get("baseurl")+"/collections/"+featuretype+"/items/"+ vall.substring(vall.lastIndexOf('/')+1)+ "\">"
+								+  vall.substring(vall.lastIndexOf('/')+1) + "</a>");
+					}else {
+						builder.append("<a href=\"" + vall + "\" target=\"_blank\">" + vall.substring(vall.lastIndexOf('/')+1)
 							+ "</a>");
+					}
 				}
 			} else {
 				builder.append(vall);
