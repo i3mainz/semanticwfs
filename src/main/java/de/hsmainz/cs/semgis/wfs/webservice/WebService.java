@@ -2074,6 +2074,7 @@ public class WebService {
 		writer.writeStartElement("http://www.opengis.net/ows/1.1","DefaultValue");
 		writer.writeCharacters("TRUE");
 		writer.writeEndElement();
+		writer.writeEndElement();
 		writer.writeStartElement(namespace,"Constraint");
 		writer.writeAttribute("name","ImplementsFunctions");
 		writer.writeStartElement("http://www.opengis.net/ows/1.1","DefaultValue");
