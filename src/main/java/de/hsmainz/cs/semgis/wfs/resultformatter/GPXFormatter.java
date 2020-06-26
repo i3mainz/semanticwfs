@@ -93,8 +93,8 @@ public class GPXFormatter extends WFSResultFormatter {
 			String[] coords=geojson.getJSONArray("features").getJSONObject(i).getJSONObject("geometry").getJSONArray("coordinates").toString().split(",");
 			if(geojson.getJSONArray("features").getJSONObject(i).getJSONObject("geometry").getString("type").equalsIgnoreCase("Point")) {
 				writer.writeStartElement("wpt");
-				writer.writeAttribute("lat", coords[0].replace("[", ""));
-				writer.writeAttribute("lon", coords[1].replace("]", ""));
+				writer.writeAttribute("lat", coords[0].replace("[", "").replace("]",""));
+				writer.writeAttribute("lon", coords[1].replace("]", "").replace("[",""));
 				collectColumns(writer, geojson.getJSONArray("features").getJSONObject(i).getJSONObject("properties"),"");
 				writer.writeEndElement();
 			}else {
@@ -107,8 +107,8 @@ public class GPXFormatter extends WFSResultFormatter {
 				for(int j=0;j<coords.length-1;j++) {
 					writer.writeStartElement("trkpt");
 					System.out.println(geojson.getJSONArray("features").getJSONObject(i).getJSONObject("geometry").getJSONArray("coordinates"));
-					writer.writeAttribute("lat", coords[j].toString().replace("[", ""));
-					writer.writeAttribute("lon", coords[j+1].toString().replace("]", ""));
+					writer.writeAttribute("lat", coords[j].toString().replace("[", "").replace("]",""));
+					writer.writeAttribute("lon", coords[j+1].toString().replace("]", "").replace("[",""));
 					writer.writeEndElement();
 				}
 				writer.writeEndElement();
