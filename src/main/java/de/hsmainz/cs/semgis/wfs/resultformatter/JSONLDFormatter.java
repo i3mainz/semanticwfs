@@ -26,7 +26,7 @@ public class JSONLDFormatter extends WFSResultFormatter {
 			String featuretype,String propertytype,
 			String typeColumn,Boolean onlyproperty,Boolean onlyhits,
 			String srsName,String indvar,String epsg,List<String> eligiblenamespaces,
-			List<String> noteligiblenamespaces,StyleObject mapstyle) throws XMLStreamException {
+			List<String> noteligiblenamespaces,StyleObject mapstyle,Boolean alternativeFormat) throws XMLStreamException {
 	    JSONArray obj=new JSONArray();
 	    JSONObject context=new JSONObject();
 	    Boolean first=true;

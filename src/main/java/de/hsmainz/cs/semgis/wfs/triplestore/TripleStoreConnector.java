@@ -158,7 +158,7 @@ public abstract class TripleStoreConnector {
 		QueryExecution qe = QueryExecutionFactory.sparqlService(endpoint, queryjena);
 			ResultSet rs = qe.execSelect();
 		GeoJSONFormatter form=new GeoJSONFormatter();
-		String res=form.formatter(rs, "", "item", "", "", false, false, "","item","",null,null,null);
+		String res=form.formatter(rs, "", "item", "", "", false, false, "","item","",null,null,null,false);
 		qe.close();
 		return res;
 	}
@@ -311,7 +311,9 @@ public abstract class TripleStoreConnector {
 			qexec = QueryExecutionFactory.sparqlService(queryurl, query);
 			results = qexec.execSelect();
 		}
-		String rel="",val="",lat="",lon="",lastInd="";
+		Map<String,String> rel = new TreeMap<String,String>();
+		Map<String,String> val=new TreeMap<String,String>();
+		String lat="",lon="",lastInd="";
 		List<String> latlist=new LinkedList<String>();
 		List<String> lonlist=new LinkedList<String>();
 		Integer attcount=0,nscounter=0;
@@ -346,10 +348,10 @@ public abstract class TripleStoreConnector {
 			}
 			while(varnames.hasNext()) {
 				String varname=varnames.next();
-				if(varname.equals("rel")) {
-					rel=solu.get(varname).toString();
-				}else if(varname.equals("val")){
-					val=solu.get(varname).toString();
+				if(varname.endsWith("_rel") || varname.equals("rel") || varname.matches("rel[0-9]+$")) {
+					rel.put(varname,solu.get(varname).toString());
+				}else if(varname.endsWith("_val") || varname.equals("val") || varname.matches("val[0-9]+$")){
+					val.put(varname,solu.get(varname).toString());
 				}else if(varname.equals("lat")) {
 					lat=solu.get(varname).toString();
 				}else if(varname.equals("lon")){
@@ -401,17 +403,32 @@ public abstract class TripleStoreConnector {
 			}
 			if(!rel.isEmpty() && !val.isEmpty()) {
 				String ns=null;
-				if(rel.contains("http") && rel.contains("#")) {
-					ns=rel.substring(0,rel.lastIndexOf('#')+1);
-				}else if(rel.contains("http") && rel.contains("/")) {
-					ns=rel.substring(0,rel.lastIndexOf('/')+1);
+				int i=0;
+				String attname="",vall="",rell="";
+				Iterator<String> valit=val.values().iterator();
+				while(valit.hasNext()) {
+					vall=valit.next();
 				}
-				if(ns!=null && !ns.isEmpty() && !nscache.containsKey(ns)) {
-					nscache.put(ns,"ns"+nscounter++);
-				}
-				result.put(rel, val);
-				rel="";
-				val="";
+				for(String rl:rel.values()) {
+					if(rl.contains("http") && rl.contains("#")) {
+						ns=rl.substring(0,rl.lastIndexOf('#')+1);
+						attname+=rl.substring(rl.lastIndexOf('#')+1);
+					}else if(rl.contains("http") && rl.contains("/")) {
+						ns=rl.substring(0,rl.lastIndexOf('/')+1);
+						attname+=rl.substring(rl.lastIndexOf('/')+1);
+					}
+					rell=rl;
+					if(ns!=null && !ns.isEmpty() && !nscache.containsKey(ns)) {
+						nscache.put(ns,"ns"+nscounter++);
+					}
+					if(i<(rel.size()-1)) {
+						attname+=".";
+					}
+					i++;
+				}	
+				result.put(rell, vall);
+				rel.clear();
+				val.clear();
 			}
 			attcount++;
 		}
@@ -589,7 +606,7 @@ public abstract class TripleStoreConnector {
 		String res=resformat.formatter(results,startingElement,featuretype.toLowerCase(),propertyValue,
 				(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""),true,false,
 				srsName,(workingobj.has("indvar")?workingobj.getString("indvar"):"item"),
-				(workingobj.has("targetCRS")?workingobj.getString("targetCRS"):""),null,null,null);
+				(workingobj.has("targetCRS")?workingobj.getString("targetCRS"):""),null,null,null,false);
 		qexec.close();
 		if(resformat.lastQueriedElemCount==0) {
 			return "";
@@ -600,7 +617,7 @@ public abstract class TripleStoreConnector {
 	
 	public static String executeQuery(String queryString,String queryurl,String output,String count,
 			String offset,String startingElement,String featuretype,String resourceids,JSONObject workingobj,
-			String filter,String resultType,String srsName,String bbox,String mapstyle) throws XMLStreamException {
+			String filter,String resultType,String srsName,String bbox,String mapstyle,Boolean alternativeFormat) throws XMLStreamException {
 		System.out.println(resultType);
 		System.out.println(mapstyle);
 		StyleObject style=null;
@@ -666,7 +683,7 @@ public abstract class TripleStoreConnector {
 		String res=resformat.formatter(results,startingElement,featuretype.toLowerCase(),"",
 				(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""),false,false,
 				srsName,indvar,
-				(workingobj.has("targetCRS")?workingobj.getString("targetCRS"):""),null,null,style);
+				(workingobj.has("targetCRS")?workingobj.getString("targetCRS"):""),null,null,style,alternativeFormat);
 		qexec.close();
 		if(resformat.lastQueriedElemCount==0) {
 			return "";
