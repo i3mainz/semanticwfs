@@ -277,7 +277,7 @@
 "namespaces":["http://www.xplanung.de/xplangml/4/1","http://www.opengis.net/gml/"],
 "namespacesmetadata":["http://www.w3.org/ns/prov#","http://www.w3.org/ns/dcat#"],
 "query":"SELECT ?item ?rel ?val ?the_geom WHERE{ ?item rdf:type <http://www.opengis.net/ont/geosparql#Feature> . ?item ?rel ?val . OPTIONAL{?val geo:asWKT ?the_geom .} }",
-"triplestore":"https://sandbox.mainzed.org/squirrels/sparql",
+"triplestore":"https://digits2.mainzed.org/squirrels/sparql",
 "type":"WFS", 
 "name":"Limes"}
 ]
