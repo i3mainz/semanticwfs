@@ -1935,7 +1935,7 @@ public class WebService {
 		writer.writeNamespace("fes", "http://www.opengis.net/fes" + versionnamespace);
 		writer.writeNamespace("gml", "http://www.opengis.net/gml");
 		writer.writeNamespace("xlink", "http://www.w3.org/1999/xlink");
-		writer.writeAttribute("xsi:schemaLocation", "http://www.opengis.net/wfs" + versionnamespace+" http://schemas.opengis.net/wfs/"+version+"/wfs.xsd http://inspire.ec.europa.eu/schemas/inspire_dls/1.0 http://inspire.ec.europa.eu/schemas/inspire_dls/1.0/inspire_dls.xsd");
+		writer.writeAttribute("xsi:schemaLocation", "http://www.opengis.net/wfs" + versionnamespace+" http://schemas.opengis.net/wfs/"+versionnamespace+"/wfs.xsd http://inspire.ec.europa.eu/schemas/inspire_dls/1.0 http://inspire.ec.europa.eu/schemas/inspire_dls/1.0/inspire_dls.xsd");
 		// ServiceInformation
 		writer.writeStartElement(owsns, "ServiceIdentification");
 		writer.writeStartElement(owsns, "ServiceType");
@@ -2671,7 +2671,7 @@ public class WebService {
 						"" + (Integer.valueOf(startindex) * workingobj.getInt("attcount")), "gml:featureMember",
 						typename, resourceids, workingobj, filter, resultType, srsName, "", style,false);
 				System.out.println(res);
-				if (res.isEmpty()) {
+				if (res==null || res.isEmpty()) {
 					throw new NotFoundException();
 				}
 				if (resultType.equalsIgnoreCase("hits")) {
