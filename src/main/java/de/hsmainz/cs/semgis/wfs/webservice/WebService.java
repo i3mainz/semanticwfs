@@ -566,7 +566,7 @@ public class WebService {
 			builder.append("<a href=\""+this.wfsconf.getString("baseurl")+"\">Landingpage</a> / <a href=\""+this.wfsconf.getString("baseurl")+"/collections/\">Collections</a>");
 		    builder.append("</div></div>");
 			builder.append(
-					"<div class=\"container\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\"><table class=\"description\" id=\"collectiontable\" width=100% border=1><thead><tr><th>Collection</th><th>Description</th><th>Schema</th></tr></thead><tbody>");
+					"<div class=\"container-fluid\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\"><table class=\"description\" id=\"collectiontable\" width=100% border=1><thead><tr><th>Collection</th><th>Description</th><th>Schema</th></tr></thead><tbody>");
 			for (int i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
 				JSONObject curobj = wfsconf.getJSONArray("datasets").getJSONObject(i);
 				if(i%2==0){
@@ -745,7 +745,7 @@ public class WebService {
 			builder.append("<div class=\"sticky row crumbs\"><div class=\"col-sm-12 col-md-10 col-md-offset-1\">");
 			builder.append("<a href=\""+this.wfsconf.getString("baseurl")+"\">Landingpage</a> / <a href=\""+this.wfsconf.getString("baseurl")+"/collections/\">Collections</a> / <a href=\""+this.wfsconf.getString("baseurl")+"/collections/"+collectionid+"\">"+workingobj.getString("name")+"</a> / <a href=\""+this.wfsconf.getString("baseurl")+"/collections/"+collectionid+"/items?f=html\">Items</a> / <a href=\""+this.wfsconf.getString("baseurl")+"/collections/"+collectionid+"/items/"+featureid+"?f=html\">"+featureid+"</a>");
 		    builder.append("</div></div>");
-			builder.append("<div class=\"container\" role=\"main\"><div class=\"row\">");
+			builder.append("<div class=\"container-fluid\" role=\"main\"><div class=\"row\">");
 			builder.append(res);
 			builder.append("</div></div></div></div><footer id=\"footer\"><table width=100%><tbody><tr><td><a href=\"" + wfsconf.getString("baseurl") + "/collections/"
 					+ collectionid + "?f=html\">Back to " + collectionid
@@ -801,7 +801,7 @@ public class WebService {
 		builder.append("<div class=\"sticky row crumbs\"><div class=\"col-sm-12 col-md-10 col-md-offset-1\">");
 		builder.append("<a href=\""+this.wfsconf.getString("baseurl")+"\">Landingpage</a> / <a href=\""+this.wfsconf.getString("baseurl")+"/collections/\">Collections</a> / <a href=\""+this.wfsconf.getString("baseurl")+"/collections/"+collectionid+"\">"+workingobj.getString("name")+"</a> / <a href=\""+this.wfsconf.getString("baseurl")+"/collections/"+collectionid+"/queryables?f=html\">Queryables</a>");
 	    builder.append("</div></div>");
-		builder.append("<div class=\"container\" role=\"main\"><div class=\"row\">");
+		builder.append("<div class=\"container-fluid\" role=\"main\"><div class=\"row\">");
 		builder.append("<table width=100%><tr><td width=\"100%\" rowspan=2>");
 		builder.append("<script>var overlayMaps={}; var overlayControl; var typeColumn=\""
 				+ (workingobj.has("typeColumn") ? workingobj.getString("typeColumn") : "")
@@ -1053,7 +1053,7 @@ public class WebService {
 			builder.append("<div class=\"sticky row crumbs\"><div class=\"col-sm-12 col-md-10 col-md-offset-1\">");
 			builder.append("<a href=\""+this.wfsconf.getString("baseurl")+"\">Landingpage</a>");
 		    builder.append("</div></div>");
-			builder.append("<div class=\"container\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\"><p>"
+			builder.append("<div class=\"container-fluid\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\"><p>"
 							+ wfsconf.getString("servicedescription") + "</p><ul>");
 			builder.append("<li>API Documentation in <a href=\"" + wfsconf.getString("baseurl")
 					+ "/api/\">[HTML]</a>");
@@ -1309,7 +1309,7 @@ public class WebService {
 			builder.append("<div class=\"sticky row crumbs\"><div class=\"col-sm-12 col-md-10 col-md-offset-1\">");
 			builder.append("<a href=\""+this.wfsconf.getString("baseurl")+"\">Landingpage</a> / <a href=\""+this.wfsconf.getString("baseurl")+"/collections/\">Collections</a> / <a href=\""+this.wfsconf.getString("baseurl")+"/collections/"+collectionid+"\">"+workingobj.getString("name")+"</a>");
 		    builder.append("</div></div>");
-			builder.append("<div class=\"container\" role=\"main\"><div class=\"row\"><section>");
+			builder.append("<div class=\"container-fluid\" role=\"main\"><div class=\"row\"><section>");
 			builder.append(workingobj.getString("description"));
 			builder.append("<h3>Queryables</h3><ul><li>");
 			builder.append("<a href=\""+wfsconf.getString("baseurl") + "/collections/"
@@ -1513,7 +1513,7 @@ public class WebService {
 				builder.append("<div class=\"sticky row crumbs\"><div class=\"col-sm-12 col-md-10 col-md-offset-1\">");
 				builder.append("<a href=\""+this.wfsconf.getString("baseurl")+"\">Landingpage</a> / <a href=\""+this.wfsconf.getString("baseurl")+"/collections/\">Collections</a> / <a href=\""+this.wfsconf.getString("baseurl")+"/collections/"+collectionid+"\">"+workingobj.getString("name")+"</a> / <a href=\""+this.wfsconf.getString("baseurl")+"/collections/"+collectionid+"/items?f=html\">Items</a>");
 			    builder.append("</div></div>");
-				builder.append("<div class=\"container\" role=\"main\"><div class=\"row\">");
+				builder.append("<div class=\"container-fluid\" role=\"main\"><div class=\"row\">");
 				builder.append(res);
 				// builder.append("<script>$( document ).ready(function()
 				// {$('#queryres').DataTable({\"scrollX\":\"100%\",\"scrollCollapse\":
@@ -1600,7 +1600,7 @@ public class WebService {
 		} else if (format == null || format.contains("html")) {
 			StringBuilder builder = new StringBuilder();
 			builder.append("<html><head>" + htmlHead
-					+ "</head><body><header id=\"header\"><h1 align=\"center\">Conformance</h1></header><div class=\"container\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\"><ul>");
+					+ "</head><body><header id=\"header\"><h1 align=\"center\">Conformance</h1></header><div class=\"container-fluid\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\"><ul>");
 			builder.append(
 					"<li><a target=\"_blank\" href=\"http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/core\">Core</a></li>");
 			builder.append(
@@ -2746,7 +2746,7 @@ public class WebService {
 			builder.append(htmlHead);
 			builder.append("<body><header><h1 align=\"center\">");
 			builder.append(typename);
-			builder.append("</h1></header><div class=\"container\" role=\"main\"><div class=\"row\">");
+			builder.append("</h1></header><div class=\"container-fluid\" role=\"main\"><div class=\"row\">");
 			builder.append(res);
 			// builder.append("<script>$( document ).ready(function()
 			// {$('#queryres').DataTable({\"scrollX\":\"100%\",\"scrollCollapse\":
@@ -2851,7 +2851,7 @@ public class WebService {
 			StringBuilder builder = new StringBuilder();
 			builder.append("<html><head></head><body><header id=\"header\"><h1 align=center>PropertyRequest: " + typename + "["
 					+ propertyname
-					+ "]</h1></header><div class=\"container\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\">");
+					+ "]</h1></header><div class=\"container-fluid\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\">");
 			builder.append(res);
 			builder.append("</div></div></div><footer id=\"footer\"><a href=\"" + wfsconf.getString("baseurl")
 					+ "/?f=html\">Back to LandingPage</a></footer></body></html>");

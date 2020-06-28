@@ -168,13 +168,15 @@ onEachFeature: function (feature, layer) {
  			if(!(ns in colorcodes)){
 				colorcodes[ns]=getRandomColor();
 			}
-	 		popup+="(<a href='"+feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].substring(feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].lastIndexOf('#')+1)+"</a>)"
+			//popup+="(<a href='"+feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].substring(feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].lastIndexOf('#')+1)+"</a>)"
+	 		popup+="(<a href='"+feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"]+"' target='_blank' style='color:#BD1B1B'>"+feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].substring(feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].lastIndexOf('#')+1)+"</a>)"
  		}else if(feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].includes("http")){
   			ns=feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].substring(0,feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].indexOf('/'))
  			if(!(ns in colorcodes)){
 				colorcodes[ns]=getRandomColor();
 			}
-	 		popup+="(<a href='"+feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].substring(feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].lastIndexOf('/')+1)+"</a>)"
+			//popup+="(<a href='"+feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].substring(feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].lastIndexOf('/')+1)+"</a>)"
+	 		popup+="(<a href='"+feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"]+"' target='_blank' style='color:#BD1B1B'>"+feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].substring(feature.properties["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].lastIndexOf('/')+1)+"</a>)"
  		}
 	 }
 	 if(typeof stripes !== 'undefined'){
@@ -212,13 +214,15 @@ function popupHighlighter(popup,colormap,properties,depth){
  		if(!(ns in colorcodes)){
 			colorcodes[ns]=getRandomColor();
 		}
-	 	popup+="<li><a href='"+prop+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+prop.substring(prop.lastIndexOf('#')+1)+"</a> - "
+		//popup+="<li><a href='"+prop+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+prop.substring(prop.lastIndexOf('#')+1)+"</a> - "
+	 	popup+="<li><a href='"+prop+"' target='_blank' style='color:#BD1B1B'>"+prop.substring(prop.lastIndexOf('#')+1)+"</a> - "
  }else if(prop.includes("http")){
   		ns=prop.substring(0,prop.indexOf('/'))
  		if(!(ns in colorcodes)){
 			colorcodes[ns]=getRandomColor();
 		}
-	 	popup+="<li><a href='"+prop+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+prop.substring(prop.lastIndexOf('/')+1)+"</a> - "
+		//popup+="<li><a href='"+prop+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+prop.substring(prop.lastIndexOf('/')+1)+"</a> - "
+	 	popup+="<li><a href='"+prop+"' target='_blank' style='color:#BD1B1B'>"+prop.substring(prop.lastIndexOf('/')+1)+"</a> - "
  }else{
 	 	popup+="<li>"+prop+" - "
 	 }
@@ -240,19 +244,22 @@ if(typeof properties[prop] === "object"){
  	 if(!(ns in colorcodes)){
 		colorcodes[ns]=getRandomColor();
 	 }
-     popup+="<a href='"+array[elem]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+array[elem].substring(0,array[elem].lastIndexOf('^')-1)+"</a><br/>"
+     //popup+="<a href='"+array[elem]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+array[elem].substring(0,array[elem].lastIndexOf('^')-1)+"</a><br/>"
+     popup+="<a href='"+array[elem]+"' target='_blank' style='color:#BD1B1B'>"+array[elem].substring(0,array[elem].lastIndexOf('^')-1)+"</a><br/>"
     }else if(array[elem].includes("http") && array[elem].includes("#")){
  	ns=array[elem].substring(0,array[elem].indexOf('#'))
  	 if(!(ns in colorcodes)){
 		colorcodes[ns]=getRandomColor();
 	 }
-     popup+="<a href='"+array[elem]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+array[elem].substring(array[elem].lastIndexOf('#')+1)+"</a><br/>"
+	 //popup+="<a href='"+array[elem]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+array[elem].substring(array[elem].lastIndexOf('#')+1)+"</a><br/>"
+     popup+="<a href='"+array[elem]+"' target='_blank' style='color:#BD1B1B'>"+array[elem].substring(array[elem].lastIndexOf('#')+1)+"</a><br/>"
     }else if(array[elem].includes("http") || array[elem].includes("file:/")){
   	 ns=array[elem].substring(0,array[elem].indexOf('/'))
  	 if(!(ns in colorcodes)){
 		colorcodes[ns]=getRandomColor();
 	 }
-     popup+="<a href='"+array[elem]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+array[elem].substring(array[elem].lastIndexOf('/')+1)+"</a><br/>"
+	 //popup+="<a href='"+array[elem]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+array[elem].substring(array[elem].lastIndexOf('/')+1)+"</a><br/>"
+     popup+="<a href='"+array[elem]+"' target='_blank' style='color:#BD1B1B'>"+array[elem].substring(array[elem].lastIndexOf('/')+1)+"</a><br/>"
     }else{
       popup+=array[elem]+"<br/>"
     }
