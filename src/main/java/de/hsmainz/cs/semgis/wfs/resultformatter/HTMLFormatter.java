@@ -129,7 +129,7 @@ public class HTMLFormatter extends ResultFormatter {
 		StringBuilder builder = new StringBuilder();
 		if (!onlyproperty) {
 			builder.append("<script>var overlayMaps={}; var overlayControl; var typeColumn=\"" + typeColumn
-					+ "\"; var markercollection=[];var epsg=\""+epsg+"\"; var invertXY="+invertXY+" var geojson=" + geojson.toString());
+					+ "\"; var markercollection=[];var epsg=\""+epsg+"\"; var invertXY="+invertXY+"; var geojson=" + geojson.toString());
 			builder.append("</script>");
 			builder.append(htmlHeader);
 		}	
