@@ -120,16 +120,17 @@ public class HTMLFormatter extends ResultFormatter {
 			String propertytype, 
 			String typeColumn, Boolean onlyproperty,Boolean onlyhits,
 			String srsName,String indvar,String epsg,List<String> eligiblenamespaces,
-			List<String> noteligiblenamespaces,StyleObject mapstyle,Boolean alternativeFormat) throws XMLStreamException {
+			List<String> noteligiblenamespaces,StyleObject mapstyle,Boolean alternativeFormat,Boolean invertXY) throws XMLStreamException {
 		ResultFormatter format = resultMap.get("geojson");
 		JSONObject geojson = new JSONObject(
-				format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,srsName,indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat));
+				format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,srsName,indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat,invertXY));
 		this.lastQueriedElemCount = format.lastQueriedElemCount;
 		// System.out.println(geojson);
 		StringBuilder builder = new StringBuilder();
 		if (!onlyproperty) {
 			builder.append("<script>var overlayMaps={}; var overlayControl; var typeColumn=\"" + typeColumn
-					+ "\"; var markercollection=[];var epsg=\""+epsg+"\"; var geojson=" + geojson.toString() + "</script>");
+					+ "\"; var markercollection=[];var epsg=\""+epsg+"\"; var invertXY="+invertXY+" var geojson=" + geojson.toString());
+			builder.append("</script>");
 			builder.append(htmlHeader);
 		}	
 		builder.append("</div><div class=\"row\"><div class=\"left col-sm-12\"><select id=\"styles\">");

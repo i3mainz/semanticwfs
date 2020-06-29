@@ -158,7 +158,7 @@ public abstract class TripleStoreConnector {
 		QueryExecution qe = QueryExecutionFactory.sparqlService(endpoint, queryjena);
 			ResultSet rs = qe.execSelect();
 		GeoJSONFormatter form=new GeoJSONFormatter();
-		String res=form.formatter(rs, "", "item", "", "", false, false, "","item","",null,null,null,false);
+		String res=form.formatter(rs, "", "item", "", "", false, false, "","item","",null,null,null,false,false);
 		qe.close();
 		return res;
 	}
@@ -606,7 +606,7 @@ public abstract class TripleStoreConnector {
 		String res=resformat.formatter(results,startingElement,featuretype.toLowerCase(),propertyValue,
 				(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""),true,false,
 				srsName,(workingobj.has("indvar")?workingobj.getString("indvar"):"item"),
-				(workingobj.has("targetCRS")?workingobj.getString("targetCRS"):""),null,null,null,false);
+				(workingobj.has("targetCRS")?workingobj.getString("targetCRS"):""),null,null,null,false,false);
 		qexec.close();
 		if(resformat.lastQueriedElemCount==0) {
 			return "";
@@ -617,7 +617,10 @@ public abstract class TripleStoreConnector {
 	
 	public static String executeQuery(String queryString,String queryurl,String output,String count,
 			String offset,String startingElement,String featuretype,String resourceids,JSONObject workingobj,
-			String filter,String resultType,String srsName,String bbox,String mapstyle,Boolean alternativeFormat) throws XMLStreamException {
+			String filter,String resultType,String srsName,String bbox,String mapstyle,Boolean alternativeFormat,Boolean invertXY) throws XMLStreamException {
+		if(invertXY==null) {
+			invertXY=false;
+		}
 		System.out.println(resultType);
 		System.out.println(mapstyle);
 		StyleObject style=null;
@@ -683,7 +686,7 @@ public abstract class TripleStoreConnector {
 		String res=resformat.formatter(results,startingElement,featuretype.toLowerCase(),"",
 				(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""),false,false,
 				srsName,indvar,
-				(workingobj.has("targetCRS")?workingobj.getString("targetCRS"):""),null,null,style,alternativeFormat);
+				(workingobj.has("targetCRS")?workingobj.getString("targetCRS"):""),null,null,style,alternativeFormat,invertXY);
 		qexec.close();
 		if(resformat.lastQueriedElemCount==0) {
 			return "";

@@ -36,7 +36,7 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 			String typeColumn,Boolean onlyproperty,
 			Boolean onlyhits,String srsName,
 			String indvar,String epsg,List<String> eligiblenamespaces,
-			List<String> noteligiblenamespaces,StyleObject mapstyle,Boolean alternativeFormat) {
+			List<String> noteligiblenamespaces,StyleObject mapstyle,Boolean alternativeFormat,Boolean invertXY) {
 		lastQueriedElemCount=0;
 		this.contextMapper.clear();
 		JSONObject geojsonresults = new JSONObject();

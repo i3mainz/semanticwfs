@@ -22,7 +22,7 @@ public class GeoHashFormatter extends WFSResultFormatter {
 			String featuretype,String propertytype,String typeColumn,
 			Boolean onlyproperty,Boolean onlyhits,String srsName,String indvar,
 			String epsg,List<String> eligiblenamespaces,List<String> noteligiblenamespace
-			,StyleObject mapstyle,Boolean alternativeFormat) throws XMLStreamException {
+			,StyleObject mapstyle,Boolean alternativeFormat,Boolean invertXY) throws XMLStreamException {
     	Boolean first=true;
     	StringBuilder resultCSV=new StringBuilder();
     	StringBuilder resultCSVHeader=new StringBuilder();
