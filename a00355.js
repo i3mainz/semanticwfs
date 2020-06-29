@@ -1,19 +1,13 @@
 var a00355 =
 [
-    [ "User", "a00355.html#aa67031b663e39314207197d3b5dfd735", null ],
-    [ "User", "a00355.html#ab4942aaa4bb0a14e38c8ccbe19548331", null ],
-    [ "getName", "a00355.html#a78ee178b6a73658d65ca60da4d1e6683", null ],
-    [ "getPasswordHash", "a00355.html#a57fe8d0a853227af5c07e25d380b0103", null ],
-    [ "getUserlevel", "a00355.html#ae6a79b3f188e9ef5570a8e8ab18e1c5f", null ],
-    [ "getUuid", "a00355.html#a89019da203e4e7b100d1c6553b77b11d", null ],
-    [ "setName", "a00355.html#ad737b36b74be994e0d8420797ed72f78", null ],
-    [ "setPasswordHash", "a00355.html#ab42766057b552ea996700449134f9cbc", null ],
-    [ "setUserlevel", "a00355.html#a88905b6b42ce4b96ec3b566b0a0175b6", null ],
-    [ "setUuid", "a00355.html#ad350ca8c3bc925b553ffbd5905739440", null ],
-    [ "toString", "a00355.html#ad146fa8579a5f8a876c4688cc5a68520", null ],
-    [ "authToken", "a00355.html#ada63cb0da14a38d1f839443eb0670e20", null ],
-    [ "name", "a00355.html#a9a2326f35466e54c36c070829245c557", null ],
-    [ "passwordHash", "a00355.html#a42f8a350b213ced8514c27bb622e2bc8", null ],
-    [ "userlevel", "a00355.html#ac8effbf9cd1ae5bb4b79b0b6c823b11e", null ],
-    [ "uuid", "a00355.html#a7f2152dbf7b31e5c9c38ebe59059d1fe", null ]
+    [ "[static initializer]", "a00355.html#a2e87c5ede6b7235170d287cd2e254454", null ],
+    [ "formatFooter", "a00355.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
+    [ "formatGeometry", "a00355.html#a3770f80b7c98a8315479f697590303a3", null ],
+    [ "formatHeader", "a00355.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
+    [ "formatter", "a00355.html#aa231f1de0281037224372f0afb1f0fe1", null ],
+    [ "getFormatter", "a00355.html#a91715aa5eef12ebcf3ea95d7493b9084", null ],
+    [ "exposedType", "a00355.html#aa6a844c9b01d97aca583be867a1c5413", null ],
+    [ "lastQueriedElemCount", "a00355.html#a1ce6ef499b64cec5981912a236baa199", null ],
+    [ "mimeType", "a00355.html#a09c78e464072ccab667894f0d179fbdf", null ],
+    [ "resultMap", "a00355.html#a54c9d791b2138017b960a7cf457b5fd2", null ]
 ];

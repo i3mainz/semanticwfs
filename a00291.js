@@ -1,11 +1,10 @@
 var a00291 =
 [
-    [ "TTLFormatter", "a00291.html#a5b3ec5d4833703906230d1967af27517", null ],
+    [ "RDFFormatter", "a00291.html#ac079de96d5653d984bdf1c4b4ad920c3", null ],
     [ "[static initializer]", "a00291.html#a2e87c5ede6b7235170d287cd2e254454", null ],
-    [ "addKeyValList", "a00291.html#a9d9180f34dd3cb76d915f829937fdda1", null ],
     [ "formatFooter", "a00291.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00291.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
-    [ "formatter", "a00291.html#a333158f85a81eddf46a6487337d5ba27", null ],
+    [ "formatter", "a00291.html#a4d60ad97c2097d9323921b749f163e26", null ],
     [ "getFormatter", "a00291.html#afce25d64087d96d66b6b5535660a8ddb", null ],
     [ "contextMapper", "a00291.html#ae7316c0c7550712f915cc3cd353cd981", null ],
     [ "exposedType", "a00291.html#aa6a844c9b01d97aca583be867a1c5413", null ],

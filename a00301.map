@@ -1,4 +1,4 @@
-<map id="DCATFormatter" name="DCATFormatter">
-<area shape="rect" id="node2" href="$a00311.html" title="ResultMetadataFormatter" alt="" coords="935,81,1105,108"/>
-<area shape="rect" id="node8" href="$a00307.html" title="GMDFormatter" alt="" coords="1155,107,1264,133"/>
+<map id="SVGFormatter" name="SVGFormatter">
+<area shape="rect" id="node2" href="$a00299.html" title="ResultFormatter" alt="" coords="1376,181,1492,208"/>
+<area shape="rect" id="node5" href="$a00355.html" title="ResultStyleFormatter" alt="" coords="1096,103,1243,129"/>
 </map>
