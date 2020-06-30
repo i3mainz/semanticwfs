@@ -20,7 +20,7 @@ public class AsGeoJSON extends FunctionBase1 {
         try {
             GeometryWrapper geometry = GeometryWrapper.extract(arg0);
             GeoJSONWriter writer = new GeoJSONWriter();
-            GeoJSON json = writer.write(geometry.getXYGeometry());
+            GeoJSON json = writer.write(geometry.getParsingGeometry());
             String jsonstring = json.toString();
             return NodeValue.makeString(jsonstring);
         } catch (DatatypeFormatException ex) {
