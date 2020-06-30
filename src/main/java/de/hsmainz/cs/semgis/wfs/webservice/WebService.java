@@ -650,7 +650,7 @@ public class WebService {
 		String res = "";
 		try {
 			res = TripleStoreConnector.executeQuery(query, workingobj.getString("triplestore"), format, "0", "0",
-					"sf:featureMember", collectionid, featureid, workingobj, "", "", "", "", style,false,workingobj.getBoolean("invertXY"));
+					"sf:featureMember", collectionid, featureid, workingobj, "", "", "", "", style,false,(workingobj.has("invertXY")?workingobj.getBoolean("invertXY"):false));
 			System.out.println(res);
 			if (res == null || res.isEmpty()) {
 				throw new NotFoundException();
