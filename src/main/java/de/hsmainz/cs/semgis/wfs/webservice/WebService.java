@@ -1411,7 +1411,7 @@ public class WebService {
 					workingobj.getString("triplestore"), format,
 					"" + (Integer.valueOf(limit) * workingobj.getInt("attcount")),
 					"" + (Integer.valueOf(offset) * workingobj.getInt("attcount")), "sf:featureMember", collectionid,
-					"", workingobj, filter, "", "", bbox, style,true,workingobj.getBoolean("invertXY"));
+					"", workingobj, filter, "", "", bbox, style,true,(workingobj.has("invertXY")?workingobj.getBoolean("invertXY"):false));
 			// System.out.println(res);
 			if (res == null || res.isEmpty()) {
 				System.out.println("RES: "+res);
@@ -2669,7 +2669,7 @@ public class WebService {
 						workingobj.getString("triplestore"), output,
 						"" + (Integer.valueOf(count) * workingobj.getInt("attcount")),
 						"" + (Integer.valueOf(startindex) * workingobj.getInt("attcount")), "gml:featureMember",
-						typename, resourceids, workingobj, filter, resultType, srsName, "", style,false,workingobj.getBoolean("invertXY"));
+						typename, resourceids, workingobj, filter, resultType, srsName, "", style,false,(workingobj.has("invertXY")?workingobj.getBoolean("invertXY"):false));
 				System.out.println(res);
 				if (res==null || res.isEmpty()) {
 					throw new NotFoundException();
