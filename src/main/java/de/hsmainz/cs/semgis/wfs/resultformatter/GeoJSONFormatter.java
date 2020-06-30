@@ -78,8 +78,8 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 					if(latlist.size()==1 && lonlist.size()==1) {
 						JSONObject geomobj=new JSONObject("{\"type\":\"Point\",\"coordinates\":["+lonlist.get(0)+","+latlist.get(0)+"]}");
 						geoms.add(geomobj);
-						properties.put("lat", latlist.get(0));
 						properties.put("lon",lonlist.get(0));
+						properties.put("lat", latlist.get(0));
 						if(mapstyle!=null) {
 							JSONObject geojsonstyle=new JSONObject(this.styleformatter.formatGeometry("Point", mapstyle));
 							System.out.println("Got style? - "+geojsonstyle);
@@ -87,7 +87,8 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 								style.put(key,geojsonstyle.get(key));
 							}
 						}
-					}else if(latlist.get(latlist.size()-1).equals(latlist.get(0)) && lonlist.get(lonlist.size()-1).equals(lonlist.get(0))) {
+					}else if(latlist.get(latlist.size()-1).equals(latlist.get(0))
+							&& lonlist.get(lonlist.size()-1).equals(lonlist.get(0))) {
 						JSONObject geomobj=new JSONObject();
 						geomobj.put("type","Polygon");
 						JSONArray arr=new JSONArray();
@@ -288,8 +289,8 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 			if(latlist.size()==1 && lonlist.size()==1) {
 				JSONObject geomobj=new JSONObject("{\"type\":\"Point\",\"coordinates\":["+lonlist.get(0)+","+latlist.get(0)+"]}");
 				geoms.add(geomobj);
-				properties.put("lat", latlist.get(0));
 				properties.put("lon",lonlist.get(0));
+				properties.put("lat", latlist.get(0));
 				if(mapstyle!=null) {
 					JSONObject geojsonstyle=new JSONObject(this.styleformatter.formatGeometry("Point", mapstyle));
 					System.out.println("Got style? - "+geojsonstyle);

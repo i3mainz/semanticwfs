@@ -272,7 +272,7 @@
 "type":"WFS", 
 "name":"UNESCO"},
 {"namespace":"http://lod.squirrel.link/data/",
-"indvar":"item","description":"Squirrels walking along the limes","geometrytype":"Point","targetCRS":"EPSG:4326","useorderby":true,"invertXY":true,
+"indvar":"item","description":"Squirrels walking along the limes","geometrytype":"Point","targetCRS":"EPSG:4326","useorderby":true,
 "class":"http://www.opengis.net/ont/geosparql#Feature",
 "namespaces":["http://www.xplanung.de/xplangml/4/1","http://www.opengis.net/gml/"],
 "namespacesmetadata":["http://www.w3.org/ns/prov#","http://www.w3.org/ns/dcat#"],
