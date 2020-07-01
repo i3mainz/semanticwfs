@@ -1,8 +1,11 @@
-[
-{"endpoint":"https://query.wikidata.org", "name":"Wikidata","type":"http://www.wikidata.org/prop/direct/P31","geo":["http://www.wikidata.org/prop/direct/P625"]},
-{"endpoint":"https://dbpedia.org/sparql", "name":"DBPedia", "type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","geo":[]},
-{"endpoint":"http://linkedgeodata.org/sparql", "name":"LinkedGeoData", "type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","geo":[]},
-{"endpoint":"https://ld.gdi-de.org/graphdb/repositories/poi", "name":"GDI-DE POI", "type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","geo":["http://www.opengis.net/ont/geosparql#hasGeometry"]},
-{"endpoint":"https://ld.gdi-de.org/graphdb/repositories/gn_inspire", "name":"GDI-DE GN250", "type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","geo":["http://www.opengis.net/ont/geosparql#hasGeometry"]},
-{"endpoint":"https://digits2.mainzed.org/squirrels/sparql", "name":"Squirrels", "type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","geo":["http://www.opengis.net/ont/geosparql#hasGeometry"]}
-]
+{
+"name":"Triple Store Configuration",
+"endpoints":{
+"https://query.wikidata.org":{"endpoint":"https://query.wikidata.org", "name":"Wikidata","type":"http://www.wikidata.org/prop/direct/P31","geo":["http://www.wikidata.org/prop/direct/P625"]},
+"https://dbpedia.org/sparql":{"endpoint":"https://dbpedia.org/sparql", "name":"DBPedia", "type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","geo":[]},
+"http://linkedgeodata.org/sparql":{"endpoint":"http://linkedgeodata.org/sparql", "name":"LinkedGeoData", "type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","geo":[]},
+"https://ld.gdi-de.org/graphdb/repositories/poi":{"endpoint":"https://ld.gdi-de.org/graphdb/repositories/poi", "name":"GDI-DE POI", "type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","geo":["http://www.opengis.net/ont/geosparql#hasGeometry"]},
+"https://ld.gdi-de.org/graphdb/repositories/gn_inspire":{"endpoint":"https://ld.gdi-de.org/graphdb/repositories/gn_inspire", "name":"GDI-DE GN250", "type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","geo":["http://www.opengis.net/ont/geosparql#hasGeometry"]},
+"https://digits2.mainzed.org/squirrels/sparql":{"endpoint":"https://digits2.mainzed.org/squirrels/sparql", "name":"Squirrels", "type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","geo":["http://www.opengis.net/ont/geosparql#hasGeometry"]}
+}
+}

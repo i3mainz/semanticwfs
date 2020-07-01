@@ -73,7 +73,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 @Path("/")
 public class WebService {
 
-	public static JSONObject triplestoreconf = new JSONObject();
+	public static JSONObject triplestoreconf = null;
 
 	public static JSONObject wfsconf = null;
 
@@ -94,10 +94,22 @@ public class WebService {
 	String htmlHead;
 
 	public WebService() throws IOException {
-		if (wfsconf == null) {
-			String text2 = new String(Files.readAllBytes(Paths.get("wfsconf.json")), StandardCharsets.UTF_8);
-			wfsconf = new JSONObject(text2);
+		if (triplestoreconf == null) {
+			triplestoreconf = new JSONObject(new String(Files.readAllBytes(Paths.get("triplestoreconf.json")), StandardCharsets.UTF_8));
+			System.out.println(triplestoreconf);
 		}
+		if (wfsconf == null) {
+			try {
+				System.out.println(new String(Files.readAllBytes(Paths.get("wfsconf.json")), StandardCharsets.UTF_8));
+				System.out.println(new JSONObject(new String(Files.readAllBytes(Paths.get("wfsconf.json")), StandardCharsets.UTF_8)));
+			wfsconf = new JSONObject(new String(Files.readAllBytes(Paths.get("wfsconf.json")), StandardCharsets.UTF_8));
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			System.out.println(wfsconf);
+			System.out.println("in");
+		}
+		System.out.println("out");
 		for (Integer i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
 			JSONObject featuretype = wfsconf.getJSONArray("datasets").getJSONObject(i);
 			if (!bboxCache.containsKey(featuretype.getString("name").toLowerCase())) {
@@ -2619,23 +2631,28 @@ public class WebService {
 	@Path("/service/getGeoClassesFromEndpoint")
 	public Response getGeoClassesFromOntology(@QueryParam("endpoint") String endpoint) {
 		Map<String,String> classes=TripleStoreConnector.getClassesFromOntology(endpoint);
-		JSONArray result=new JSONArray();
+		JSONObject result=new JSONObject();
 		for(String cls:classes.keySet()) {
-			JSONObject obj=new JSONObject();
-			obj.put(cls, classes.get(cls));
-			result.put(obj);
+			result.put(cls, classes.get(cls));
 		}
 		return Response.ok(result.toString(2)).type(MediaType.APPLICATION_JSON).build();
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/service/getEndpoints")
+	public Response getEndpoints() {
+		return Response.ok(triplestoreconf.toString(2)).type(MediaType.APPLICATION_JSON).build();
 	}
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/service/getPropertiesByClass")
 	public Response getPropertiesByClass(@QueryParam("endpoint") String endpoint,@QueryParam("class") String classs) {
-		List<String> classes=TripleStoreConnector.getPropertiesByClass(endpoint, classs);
-		JSONArray result=new JSONArray();
-		for(String cls:classes) {
-			result.put(cls);
+		Map<String, String> classes=TripleStoreConnector.getPropertiesByClass(endpoint, classs);
+		JSONObject result=new JSONObject();
+		for(String cls:classes.keySet()) {
+			result.put(cls,classes.get(cls).toString());
 		}
 		return Response.ok(result.toString(2)).type(MediaType.APPLICATION_JSON).build();
 	}
@@ -2898,13 +2915,17 @@ public class WebService {
 			@QueryParam("username") String username, @QueryParam("password") String password,
 			@DefaultValue("") @QueryParam("authtoken") String authtoken) {
 		User user=UserManagementConnection.getInstance().loginAuthToken(authtoken);
-		if(user!=null && (user.getUserlevel()==UserType.Configurer || user.getUserlevel()==UserType.Administrator)) {
+		System.out.println("Add Feature Type");
+		if(true || name!=null && !name.isEmpty() && user!=null && (user.getUserlevel()==UserType.Configurer || user.getUserlevel()==UserType.Administrator)) {
 			JSONArray datasets = wfsconf.getJSONArray("datasets");
+			System.out.println(wfsconf);
+			System.out.println(datasets);
 			JSONObject toadd = new JSONObject();
 			toadd.put("name", name);
 			toadd.put("namespace", namespace);
 			toadd.put("triplestore", triplestore);
 			toadd.put("query", sparqlQuery);
+			System.out.println(toadd);
 			datasets.put(toadd);
 			return true;
 		}

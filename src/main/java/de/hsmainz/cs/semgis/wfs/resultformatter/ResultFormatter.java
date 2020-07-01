@@ -19,7 +19,7 @@ public abstract class ResultFormatter {
 	
 	public String mimeType="text/plain";
 	
-	public String exposedType="application/vnd.geo+json";
+	public String exposedType="application/vnd.geojson";
 	
 	public Map<String,String> contextMapper=new TreeMap<>();
 	
@@ -33,7 +33,7 @@ public abstract class ResultFormatter {
 		if(formatString.equals("application/vnd.geo+json+ld") || formatString.contains("geojsonld") || formatString.contains("geo+json+ld")) {
 			return resultMap.get("geojsonld");
 		}
-		if(formatString.equals("application/geo+json") || formatString.contains("geojson") || formatString.contains("geo+json")) {
+		if(formatString.equals("application/geojson") || formatString.contains("geojson") || formatString.contains("geo+json")) {
 			return resultMap.get("geojson");
 		}
 		if(formatString.contains("gml")) {

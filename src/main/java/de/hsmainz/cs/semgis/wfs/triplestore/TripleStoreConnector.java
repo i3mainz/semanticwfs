@@ -286,13 +286,19 @@ public abstract class TripleStoreConnector {
 		return result;
 	}
 
-	public static List<String> getPropertiesByClass(String triplestoreurl,String classs){
-		List<String> result=new LinkedList<String>();
-		Query query = QueryFactory.create(prefixCollection+" SELECT DISTINCT ?rel WHERE { <"+classs+"> ?rel ?val . } ");
+	public static Map<String,String> getPropertiesByClass(String triplestoreurl,String classs){
+		Map<String,String> result=new TreeMap<String,String>();
+		Query query = QueryFactory.create(prefixCollection+" SELECT DISTINCT ?rel ?label WHERE { <"+classs+"> ?rel ?val . OPTIONAL { ?rel rdfs:label ?label . } } ");
 		QueryExecution qexec = QueryExecutionFactory.sparqlService(triplestoreurl, query);
 		ResultSet resformat=qexec.execSelect();
 		while(resformat.hasNext()) {
-			result.add(resformat.next().get("rel").toString());
+			QuerySolution res = resformat.next();
+			if(res.get("label")!=null) {
+				result.put(res.get("rel").toString(),res.get("label").toString());
+			}else {
+				result.put(res.get("rel").toString(),res.get("rel").toString().substring(res.get("rel").toString().lastIndexOf('/')+1));
+			}
+			
 		}
 		qexec.close();
 		return result;

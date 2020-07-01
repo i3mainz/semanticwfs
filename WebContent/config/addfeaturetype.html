@@ -1,0 +1,144 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" />
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' />
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="css/style.css"/>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+<script>
+
+$.fn.sort_select_box = function(){
+    var my_options = $("#" + this.attr('id') + ' option');
+    my_options.sort(function(a,b) {
+        if (a.text > b.text) return 1;
+        else if (a.text < b.text) return -1;
+        else return 0
+    })
+   return my_options;
+}
+function getGeoClassesFromEndpoint(){
+	$.ajax({
+	       url: '../rest/service/getGeoClassesFromEndpoint?endpoint='+$('#endpoints').val(),
+	       type: 'Get',         // HTTP-Methode, hier: POST
+	       processData: false,
+	       contentType: false,
+	       // und wenn alles erfolgreich verlaufen ist, schreibe eine Meldung
+	       // in das Response-Div
+	       success: function(data) { 
+	    	   res=data
+	    	   options=""
+	    	   for(cls in data){
+	    		   options+="<option value=\""+cls+"\">"+data[cls]+"</option>"
+	    		   console.log(data[cls])
+	    	   }
+	    	   $('#classes').html(options);
+	    	   $('#classes').sort_select_box();
+	       }
+	    });
+}
+
+function getPropertiesForClass(){
+	$.ajax({
+	       url: '../rest/service/getPropertiesByClass?endpoint='+$('#endpoints').val()+'&class='+$('#classes').val(),
+	       type: 'Get',         // HTTP-Methode, hier: POST
+	       processData: false,
+	       contentType: false,
+	       // und wenn alles erfolgreich verlaufen ist, schreibe eine Meldung
+	       // in das Response-Div
+	       success: function(data) { 
+	    	   res=data
+	    	   options=""
+	    	   for(cls in data){
+	    		   options+="<option value=\""+cls+"\">"+data[cls]+"</option>"
+	    		   console.log(data[cls])
+	    	   }
+	    	   $('#properties').html(options);
+	    	   $('#properties').sort_select_box();
+	       }
+	    });
+}
+
+function getEndpoints(){
+	$.ajax({
+	       url: '../rest/service/getEndpoints',
+	       type: 'Get',         // HTTP-Methode, hier: POST
+	       processData: false,
+	       contentType: false,
+	       // und wenn alles erfolgreich verlaufen ist, schreibe eine Meldung
+	       // in das Response-Div
+	       success: function(data) { 
+	    	   console.log(data)
+	    	   res=data
+	    	   options=""
+	    	   for(cls in res["endpoints"]){
+	    		   console.log(res["endpoints"][cls])
+	    		   options+="<option value=\""+res["endpoints"][cls]["endpoint"]+"\">"+res["endpoints"][cls]["name"]+"</option>"
+	    	   }
+	    	   console.log(options)
+	    	   $('#endpoints').html(options)
+	    	   $('#endpoints').sort_select_box();
+	       }
+	    });
+}
+
+function addFeatureType(){
+	query="SELECT ?item ?rel ?val ?the_geom WHERE { ?item ?rel ?val . OPTIONAL { ?val <http://www.opengis.net/ont/geosparql#asWKT> ?the_geom . } }"
+	$.ajax({
+	       url: '../rest/service/addFeatureType?query='+query+"&typename="+$('#typename').val()+"&namespace=&triplestore="+$('#endpoints').val(),
+	       type: 'Get',         // HTTP-Methode, hier: POST
+	       processData: false,
+	       contentType: false,
+	       // und wenn alles erfolgreich verlaufen ist, schreibe eine Meldung
+	       // in das Response-Div
+	       success: function(data) { 
+	    	   console.log(data)
+	       }
+	    });
+}
+</script>
+</head>
+<body>
+	<span id="loginspan"></span>
+<div id="logindialog" title="Login">
+  <p class="validateTips">All form fields are required.</p>
+ 
+  <form>
+    <fieldset>
+      <label for="username">Username:</label>
+      <input type="text" name="username" id="username" value="" class="text ui-widget-content ui-corner-all"><br/>
+      <label for="password">Password:</label>
+      <input type="text" name="password" id="password" value="" class="text ui-widget-content ui-corner-all">
+      <!-- Allow form submission with keyboard without duplicating the dialog button -->
+      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+    </fieldset>
+  </form>
+</div>
+<div id="header">
+<header>
+<h1 id="servicetitle" align="center">FeatureType Selection</h1>
+</header>
+</div>
+<div class="sticky row crumbs"><div class="col-sm-12 col-md-10 col-md-offset-1"><a href="../">Landingpage</a> / <a href="#">Configuration</a></div></div>
+<div class="container-fluid" role="main">
+  <div class="row">
+  <div class="col-sm-6">
+Endpoints: <select id="endpoints" onChange="getGeoClassesFromEndpoint()"></select><br/>
+Classes: <select id="classes" onChange="getPropertiesForClass()"></select><br/>
+Properties: <select id="properties"></select><br/>
+Typename: <input type="text" id="typename"/><br/>
+<button id="addFeatureType" onClick="addFeatureType()">Add Feature Type</button>
+</div></div></div>
+<div id="footer">
+<a href="../">Back to LandingPage</a>
+</div>
+</body>
+<script>
+$(function() {
+	getEndpoints();
+});
+</script>
+</html>
