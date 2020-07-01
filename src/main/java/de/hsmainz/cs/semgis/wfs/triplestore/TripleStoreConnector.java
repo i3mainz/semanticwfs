@@ -267,13 +267,20 @@ public abstract class TripleStoreConnector {
 		return result;
 	}
 	
-	public static List<String> getClassesFromOntology(String triplestoreurl){
-		List<String> result=new LinkedList<String>();
-		Query query = QueryFactory.create(prefixCollection+" SELECT ?class WHERE { ?class rdf:type ?class . ?class geo:hasGeometry ?geom . } ");
+	public static Map<String,String> getClassesFromOntology(String triplestoreurl){
+		Map<String,String> result=new TreeMap<String,String>();
+		Query query = QueryFactory.create(prefixCollection+" SELECT DISTINCT ?class ?label WHERE { ?abc <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?class . OPTIONAL{ ?class rdfs:label ?label } ?abc <http://www.opengis.net/ont/geosparql#hasGeometry> ?geom . } ");
 		QueryExecution qexec = QueryExecutionFactory.sparqlService(triplestoreurl, query);
 		ResultSet resformat=qexec.execSelect();
 		while(resformat.hasNext()) {
-			result.add(resformat.next().get("class").toString());
+			QuerySolution cur = resformat.next();
+			if(cur!=null) {
+				if(cur.get("label")!=null) {
+					result.put(cur.get("class").toString(),cur.get("label").toString());	
+				}else {
+					result.put(cur.get("class").toString(),cur.get("class").toString().substring(cur.get("class").toString().lastIndexOf('/')+1));
+				}
+			}		
 		}
 		qexec.close();
 		return result;
@@ -281,7 +288,7 @@ public abstract class TripleStoreConnector {
 
 	public static List<String> getPropertiesByClass(String triplestoreurl,String classs){
 		List<String> result=new LinkedList<String>();
-		Query query = QueryFactory.create(prefixCollection+" SELECT ?rel WHERE { <"+classs+"> ?rel ?val . } ");
+		Query query = QueryFactory.create(prefixCollection+" SELECT DISTINCT ?rel WHERE { <"+classs+"> ?rel ?val . } ");
 		QueryExecution qexec = QueryExecutionFactory.sparqlService(triplestoreurl, query);
 		ResultSet resformat=qexec.execSelect();
 		while(resformat.hasNext()) {
