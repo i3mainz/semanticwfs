@@ -333,6 +333,25 @@ function addFeature(){
 	newrow="<tr><td>"+$('#featuretypename').val()+"</td><td>"+yasqe.getValue()+"</td><td></td><td>"+$('#indvariable').val()+"</td><td></td><td>"+$('#triplestore').val()+"</td><td></td></tr>"
 	$('#featuretypes').append(newrow)
 }
+
+function getGeoClassesFromEndpoint(endpoint){
+	$.ajax({
+	       url: '../rest/service/getGeoClassesFromEndpoint?endpoint='+endpoint,
+	       data: data,          // Das ist unser Datenobjekt.
+	       type: 'Get',         // HTTP-Methode, hier: POST
+	       processData: false,
+	       contentType: false,
+	       // und wenn alles erfolgreich verlaufen ist, schreibe eine Meldung
+	       // in das Response-Div
+	       success: function(data) { 
+	    	   res=JSON.parse(data)
+	    	   for(cls in data){
+	    		   console.log(data[cls])
+	    	   }
+	       }
+	    });
+}
+
 </script>
 </head>
 <body>

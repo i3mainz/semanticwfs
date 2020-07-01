@@ -6,6 +6,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -2613,6 +2614,33 @@ public class WebService {
 		return Response.ok(schema.toString(2)).type(MediaType.APPLICATION_JSON).build();
 	}
 
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/service/getGeoClassesFromEndpoint")
+	public Response getGeoClassesFromOntology(@QueryParam("endpoint") String endpoint) {
+		Map<String,String> classes=TripleStoreConnector.getClassesFromOntology(endpoint);
+		JSONArray result=new JSONArray();
+		for(String cls:classes.keySet()) {
+			JSONObject obj=new JSONObject();
+			obj.put(cls, classes.get(cls));
+			result.put(obj);
+		}
+		return Response.ok(result.toString(2)).type(MediaType.APPLICATION_JSON).build();
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/service/getPropertiesByClass")
+	public Response getPropertiesByClass(@QueryParam("endpoint") String endpoint,@QueryParam("class") String classs) {
+		List<String> classes=TripleStoreConnector.getPropertiesByClass(endpoint, classs);
+		JSONArray result=new JSONArray();
+		for(String cls:classes) {
+			result.put(cls);
+		}
+		return Response.ok(result.toString(2)).type(MediaType.APPLICATION_JSON).build();
+	}
+	
+	
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/wfs/getFeature")
