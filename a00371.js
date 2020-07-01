@@ -9,7 +9,7 @@ var a00371 =
     [ "getClassesFromOntology", "a00371.html#a1cff2a134188b94ed2c3e886f9199745", null ],
     [ "getFeatureTypeInformation", "a00371.html#a8591b6ad68c9bd6f4a03b48546b24d2c", null ],
     [ "getMetaData", "a00371.html#a9bf75e954d3c1636676c3144d61f0fa1", null ],
-    [ "getPropertiesByClass", "a00371.html#aecb064030c809d388476e22d3cc8d4e5", null ],
+    [ "getPropertiesByClass", "a00371.html#ac6c343e8a26797699dd7ea7bf50e34f6", null ],
     [ "getPropertyFromMapping", "a00371.html#a4f1a6d9121adfeab3946427c75995e12", null ],
     [ "getStyle", "a00371.html#aef725dfee0f51e6220a91217779f1b26", null ],
     [ "getStyleNames", "a00371.html#a5d4d9167bb25799fda9197c3be4f30d4", null ],

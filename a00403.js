@@ -28,6 +28,7 @@ var a00403 =
     [ "getCollectionsMetadata", "a00403.html#a62ff505fc85ee400f73633994090c5a4", null ],
     [ "getCollectionStyle", "a00403.html#a2c73b011030643910ee6e527d2144279", null ],
     [ "getCollectionStyles", "a00403.html#a98a8169189e3dc0061bc5f6338d8a6e0", null ],
+    [ "getEndpoints", "a00403.html#af314706cc5221dc615f250c0b9b8336f", null ],
     [ "getFeature", "a00403.html#a264995f2dc3f6ca554c0e03acbc37aec", null ],
     [ "getFeatureById", "a00403.html#a366a371862290189ff2c3cb166b21b9d", null ],
     [ "getFeatureTypes", "a00403.html#a6054667ee75eb4705f6af4db1ea52678", null ],
