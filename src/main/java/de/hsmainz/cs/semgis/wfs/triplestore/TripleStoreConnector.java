@@ -267,6 +267,31 @@ public abstract class TripleStoreConnector {
 		return result;
 	}
 	
+	public static List<String> getClassesFromOntology(String triplestoreurl){
+		List<String> result=new LinkedList<String>();
+		Query query = QueryFactory.create(prefixCollection+" SELECT ?class WHERE { ?class rdf:type ?class . ?class geo:hasGeometry ?geom . } ");
+		QueryExecution qexec = QueryExecutionFactory.sparqlService(triplestoreurl, query);
+		ResultSet resformat=qexec.execSelect();
+		while(resformat.hasNext()) {
+			result.add(resformat.next().get("class").toString());
+		}
+		qexec.close();
+		return result;
+	}
+
+	public static List<String> getPropertiesByClass(String triplestoreurl,String classs){
+		List<String> result=new LinkedList<String>();
+		Query query = QueryFactory.create(prefixCollection+" SELECT ?rel WHERE { <"+classs+"> ?rel ?val . } ");
+		QueryExecution qexec = QueryExecutionFactory.sparqlService(triplestoreurl, query);
+		ResultSet resformat=qexec.execSelect();
+		while(resformat.hasNext()) {
+			result.add(resformat.next().get("rel").toString());
+		}
+		qexec.close();
+		return result;
+	}
+	
+	
 	public static Map<String,String> getFeatureTypeInformation(String queryString,String queryurl,
 			String featuretype,JSONObject workingobj){
 		System.out.println("Getting FeatureType Information for "+featuretype+"...");
