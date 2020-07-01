@@ -88,7 +88,7 @@ function getEndpoints(){
 function addFeatureType(){
 	query="SELECT ?item ?rel ?val ?the_geom WHERE { ?item ?rel ?val . OPTIONAL { ?val <http://www.opengis.net/ont/geosparql#asWKT> ?the_geom . } }"
 	$.ajax({
-	       url: '../rest/service/addFeatureType?query='+query+"&typename="+$('#typename').val()+"&namespace=&triplestore="+$('#endpoints').val(),
+	       url: '../rest/service/addFeatureType?query='+encodeURI(query)+"&typename="+$('#typename').val()+"&namespace=&triplestore="+$('#endpoints').val(),
 	       type: 'Get',         // HTTP-Methode, hier: POST
 	       processData: false,
 	       contentType: false,
