@@ -86,9 +86,11 @@ function getEndpoints(){
 }
 
 function addFeatureType(){
-	query="SELECT ?item ?rel ?val ?the_geom WHERE { ?item ?rel ?val . OPTIONAL { ?val <http://www.opengis.net/ont/geosparql#asWKT> ?the_geom . } }"
+	query="SELECT ?item ?rel ?val ?the_geom WHERE { ?item rdf:type <"+$('#classes').val()+"> . ?item ?rel ?val . OPTIONAL { ?val <http://www.opengis.net/ont/geosparql#asWKT> ?the_geom . } }"
+	console.log("Query: "+query);
+	console.log("query="+encodeURIComponent(query)+"&typename="+encodeURIComponent($('#typename').val())+"&namespace=&triplestore="+encodeURIComponent($('#endpoints').val()))
 	$.ajax({
-	       url: '../rest/service/addFeatureType?query='+encodeURI(query)+"&typename="+$('#typename').val()+"&namespace=&triplestore="+$('#endpoints').val(),
+	       url: '../rest/service/addFeatureType?query='+encodeURIComponent(query)+"&typename="+encodeURIComponent($('#typename').val())+"&namespace=&triplestore="+encodeURIComponent($('#endpoints').val())+"&description="+encodeURIComponent($('#description').val()),
 	       type: 'Get',         // HTTP-Methode, hier: POST
 	       processData: false,
 	       contentType: false,
@@ -130,6 +132,7 @@ Endpoints: <select id="endpoints" onChange="getGeoClassesFromEndpoint()"></selec
 Classes: <select id="classes" onChange="getPropertiesForClass()"></select><br/>
 Properties: <select id="properties"></select><br/>
 Typename: <input type="text" id="typename"/><br/>
+Description: <input type="text" id="description"/><br/>
 <button id="addFeatureType" onClick="addFeatureType()">Add Feature Type</button>
 </div></div></div>
 <div id="footer">

@@ -267,10 +267,10 @@ public abstract class TripleStoreConnector {
 		return result;
 	}
 	
-	public static Map<String,String> getClassesFromOntology(String triplestoreurl){
+	public static Map<String,String> getClassesFromOntology(JSONObject triplestoreconf){
 		Map<String,String> result=new TreeMap<String,String>();
-		Query query = QueryFactory.create(prefixCollection+" SELECT DISTINCT ?class ?label WHERE { ?abc <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?class . OPTIONAL{ ?class rdfs:label ?label } ?abc <http://www.opengis.net/ont/geosparql#hasGeometry> ?geom . } ");
-		QueryExecution qexec = QueryExecutionFactory.sparqlService(triplestoreurl, query);
+		Query query = QueryFactory.create(prefixCollection+" SELECT DISTINCT ?class ?label WHERE { ?abc <"+triplestoreconf.getString("type")+"> ?class . OPTIONAL{ ?class rdfs:label ?label } ?abc <"+triplestoreconf.getJSONArray("geo").getString(0)+"> ?geom . } ");
+		QueryExecution qexec = QueryExecutionFactory.sparqlService(triplestoreconf.getString("endpoint"), query);
 		ResultSet resformat=qexec.execSelect();
 		while(resformat.hasNext()) {
 			QuerySolution cur = resformat.next();
@@ -288,7 +288,7 @@ public abstract class TripleStoreConnector {
 
 	public static Map<String,String> getPropertiesByClass(String triplestoreurl,String classs){
 		Map<String,String> result=new TreeMap<String,String>();
-		Query query = QueryFactory.create(prefixCollection+" SELECT DISTINCT ?rel ?label WHERE { <"+classs+"> ?rel ?val . OPTIONAL { ?rel rdfs:label ?label . } } ");
+		Query query = QueryFactory.create(prefixCollection+" SELECT DISTINCT ?rel ?label WHERE { ?item rdf:type <"+classs+"> . ?item ?rel ?val . OPTIONAL { ?rel rdfs:label ?label . } } ");
 		QueryExecution qexec = QueryExecutionFactory.sparqlService(triplestoreurl, query);
 		ResultSet resformat=qexec.execSelect();
 		while(resformat.hasNext()) {

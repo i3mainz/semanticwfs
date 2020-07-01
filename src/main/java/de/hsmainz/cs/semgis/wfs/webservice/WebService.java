@@ -112,6 +112,7 @@ public class WebService {
 		System.out.println("out");
 		for (Integer i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
 			JSONObject featuretype = wfsconf.getJSONArray("datasets").getJSONObject(i);
+			System.out.println("Featuretype: "+featuretype);
 			if (!bboxCache.containsKey(featuretype.getString("name").toLowerCase())) {
 				try {
 				bboxCache.put(featuretype.getString("name").toLowerCase(),
@@ -2630,12 +2631,16 @@ public class WebService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/service/getGeoClassesFromEndpoint")
 	public Response getGeoClassesFromOntology(@QueryParam("endpoint") String endpoint) {
-		Map<String,String> classes=TripleStoreConnector.getClassesFromOntology(endpoint);
-		JSONObject result=new JSONObject();
-		for(String cls:classes.keySet()) {
-			result.put(cls, classes.get(cls));
+		if(triplestoreconf.getJSONObject("endpoints").has(endpoint)) {
+			Map<String,String> classes=TripleStoreConnector.getClassesFromOntology(triplestoreconf.getJSONObject("endpoints").getJSONObject(endpoint));
+			JSONObject result=new JSONObject();
+			for(String cls:classes.keySet()) {
+				result.put(cls, classes.get(cls));
+			}
+			return Response.ok(result.toString(2)).type(MediaType.APPLICATION_JSON).build();			
+		}else {
+			return Response.ok("{}").type(MediaType.APPLICATION_JSON).build();	
 		}
-		return Response.ok(result.toString(2)).type(MediaType.APPLICATION_JSON).build();
 	}
 	
 	@GET
@@ -2920,12 +2925,13 @@ public class WebService {
 			JSONArray datasets = wfsconf.getJSONArray("datasets");
 			System.out.println(wfsconf);
 			System.out.println(datasets);
+			System.out.println("To add: "+name+" "+namespace+" "+triplestore+" "+sparqlQuery);
 			JSONObject toadd = new JSONObject();
 			toadd.put("name", name);
 			toadd.put("namespace", namespace);
 			toadd.put("triplestore", triplestore);
 			toadd.put("query", sparqlQuery);
-			System.out.println(toadd);
+			System.out.println("Adding feature type: "+toadd);
 			datasets.put(toadd);
 			return true;
 		}
