@@ -374,8 +374,8 @@ $( document ).ready(function() {
 <button id="sendQueryButton" onClick="sendQuery(false)">Test Query</button>
 <button id="sendQueryGeoJSONButton" onClick="sendQuery(true)">Test Query with GeoJSON result</button>
 <table width="100%" class="description">
-<tr><td>Featuretype Name:</td><td><input type="text" id="featuretypename"/></td></tr>
-<tr><td>TripleStore:</td><td><input type="text" id="triplestore"/></td></tr>
+<tr><td>Featuretype Name:</td><td><input type="text" id="featuretypename"/></td><td>Query Template:<select><option>All Values</option></select></tr>
+<tr><td>TripleStore:</td><td><input type="text" id="triplestore"/></td><td>Classes:<select id="classload"></select><button id="loadclasses">Load Classes</button></select></td></tr>
 <tr><td>IndVariable:</td><td><input type="text" id="indvariable"/></td></tr>
 <tr><td>CRS:</td><td><select id="crs"></select></td></tr>
 <tr><td colspan="2"><button id="addquery" onClick="addFeature()">Add FeatureType</button></td></tr>
