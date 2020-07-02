@@ -1,6 +1,7 @@
 var a00403 =
 [
     [ "WebService", "a00403.html#a7a8fdc0242859fa8c99102a9095b600f", null ],
+    [ "addEndpoint", "a00403.html#a1a31853c484b64b9599faa6843f106d8", null ],
     [ "addFeatureType", "a00403.html#a5c129b697f74aaea3a151e0c6f2d26ce", null ],
     [ "addPrefixes", "a00403.html#a286a860174a898905ecad89f5f037cf1", null ],
     [ "collectionInformation", "a00403.html#a16a865710dde3c76fa4ebb31e7d641c7", null ],
