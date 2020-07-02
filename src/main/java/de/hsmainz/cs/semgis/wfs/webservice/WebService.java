@@ -1423,8 +1423,8 @@ public class WebService {
 		try {
 			String res = TripleStoreConnector.executeQuery(workingobj.getString("query"),
 					workingobj.getString("triplestore"), format,
-					"" + (Integer.valueOf(limit) * workingobj.getInt("attcount")),
-					"" + (Integer.valueOf(offset) * workingobj.getInt("attcount")), "sf:featureMember", collectionid,
+					"" +limit,
+					"" + offset, "sf:featureMember", collectionid,
 					"", workingobj, filter, "", "", bbox, style,true,(workingobj.has("invertXY")?workingobj.getBoolean("invertXY"):false));
 			// System.out.println(res);
 			if (res == null || res.isEmpty()) {
@@ -2933,6 +2933,33 @@ public class WebService {
 			toadd.put("query", sparqlQuery);
 			System.out.println("Adding feature type: "+toadd);
 			datasets.put(toadd);
+			return true;
+		}
+		return false;
+	}
+	
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
+	@Path("/service/addEndpoint")
+	public Boolean addEndpoint(@QueryParam("name") String name, @QueryParam("endpoint") String endpoint,
+			@QueryParam("typerel") String typerel, @QueryParam("georel") String georel,
+			@QueryParam("username") String username, @QueryParam("password") String password,
+			@DefaultValue("") @QueryParam("authtoken") String authtoken) {
+		User user=UserManagementConnection.getInstance().loginAuthToken(authtoken);
+		System.out.println("Add Feature Type");
+		if(true || name!=null && !name.isEmpty() && user!=null && (user.getUserlevel()==UserType.Configurer || user.getUserlevel()==UserType.Administrator)) {
+			JSONArray datasets = wfsconf.getJSONArray("datasets");
+			System.out.println(wfsconf);
+			System.out.println(datasets);
+			System.out.println("To add: "+name+" "+endpoint+" "+typerel+" "+georel);
+			JSONObject toadd = new JSONObject();
+			toadd.put("name", name);
+			toadd.put("endpoint", endpoint);
+			toadd.put("type", typerel);
+			toadd.put("geo", new JSONArray());
+			toadd.getJSONArray("geo").put(georel);
+			System.out.println("Adding feature type: "+toadd);
+			triplestoreconf.getJSONObject("endpoints").put(endpoint,toadd);
 			return true;
 		}
 		return false;

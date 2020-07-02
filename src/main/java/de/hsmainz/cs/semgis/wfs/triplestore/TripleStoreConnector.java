@@ -676,7 +676,7 @@ public abstract class TripleStoreConnector {
 			queryString=" SELECT (COUNT(DISTINCT ?"+indvar+") AS ?count) "+queryString.substring(queryString.indexOf("WHERE"));
 			//queryString=" SELECT (COUNT(DISTINCT ?"+featuretype.toLowerCase()+") AS ?count) WHERE{ ?"+featuretype.toLowerCase()+" ?abc ?def .}"+System.lineSeparator();
 		}else {
-			queryString+=" SELECT ?"+indvar+" ?member WHERE{"+System.lineSeparator();
+			//queryString+=" SELECT ?"+indvar+" ?member WHERE{"+System.lineSeparator();
 		}
 		if(!resourceids.isEmpty() && !resourceids.contains(",")) {
 			queryString=queryString.replace("WHERE{","WHERE{"+System.lineSeparator()+" BIND( <"+workingobj.getString("namespace")+resourceids+"> AS ?"+indvar+") ");
@@ -691,21 +691,35 @@ public abstract class TripleStoreConnector {
 		}else {
 			queryString=queryString.replace("WHERE{","WHERE{"+System.lineSeparator());
 		}
+		System.out.println("Before Inner Select: "+queryString);
+		Integer limit=Integer.valueOf(count);
+		Integer offsetval=Integer.valueOf(offset);
+		if(limit>=1 || offsetval>0) {
+			StringBuilder toreplace=new StringBuilder();
+			toreplace.append("WHERE{ { SELECT ?"+indvar+" WHERE { ?"+indvar+" rdf:type <"+workingobj.getString("class")+"> . }"+System.lineSeparator());
+			if(limit>=1 && !resultType.equalsIgnoreCase("hits")) {
+				toreplace.append(" LIMIT "+count+System.lineSeparator());
+			}
+			if(offsetval>0) {
+				toreplace.append(" OFFSET "+offsetval+System.lineSeparator());
+			}
+			toreplace.append(" } "+System.lineSeparator());
+			queryString=queryString.replace("WHERE{", toreplace);
+		}	
 		System.out.println("PreCurQuery: "+queryString);
 		queryString=queryString.substring(0,queryString.lastIndexOf('}'));
 		queryString=CQLfilterStringToSPARQLQuery(filter,bbox,queryString,queryurl,featuretype,indvar)+"}";
 		if(!resultType.equalsIgnoreCase("hits") && workingobj.has("useorderby") && workingobj.getBoolean("useorderby"))
 			queryString+=System.lineSeparator()+"ORDER BY ?"+indvar+System.lineSeparator();
-		Integer limit=Integer.valueOf(count);
-		Integer offsetval=Integer.valueOf(offset);
-		System.out.println("Count: "+count);
+
+		/*System.out.println("Count: "+count);
 		if(limit>=1 && !resultType.equalsIgnoreCase("hits")) {
 			queryString+=" LIMIT "+count+System.lineSeparator();
 		}
 		if(offsetval>0) {
 			queryString+=" OFFSET "+offsetval+System.lineSeparator();
-		}
-		System.out.println(prefixCollection+queryString);
+		}*/
+		System.out.println("Final Query: "+prefixCollection+queryString);
 		System.out.println(resourceids);
 		Query query = QueryFactory.create(prefixCollection+queryString);
 		QueryExecution qexec = QueryExecutionFactory.sparqlService(queryurl, query);
