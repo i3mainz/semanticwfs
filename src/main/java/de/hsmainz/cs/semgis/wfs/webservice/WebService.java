@@ -2717,8 +2717,8 @@ public class WebService {
 			try {
 				res = TripleStoreConnector.executeQuery(workingobj.getString("query"),
 						workingobj.getString("triplestore"), output,
-						"" + (Integer.valueOf(count) * workingobj.getInt("attcount")),
-						"" + (Integer.valueOf(startindex) * workingobj.getInt("attcount")), "gml:featureMember",
+						"" + count,
+						"" + startindex, "gml:featureMember",
 						typename, resourceids, workingobj, filter, resultType, srsName, "", style,false,(workingobj.has("invertXY")?workingobj.getBoolean("invertXY"):false));
 				System.out.println(res);
 				if (res==null || res.isEmpty()) {
