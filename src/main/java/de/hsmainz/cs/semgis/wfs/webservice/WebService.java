@@ -2766,7 +2766,13 @@ public class WebService {
 				writer.writeEndElement();
 				writer.writeEndDocument();
 				writer.flush();
-				return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
+				String result=strwriter.toString();
+				String firstline=result.substring(0,result.indexOf(System.lineSeparator())).trim();
+				if(firstline.isEmpty()) {
+					return Response.ok(result.substring(result.indexOf(System.lineSeparator())+1)).type(MediaType.APPLICATION_XML).build();
+				}else {
+					return Response.ok(result).type(MediaType.APPLICATION_XML).build();
+				}			
 			} catch (Exception e) {
 				e.printStackTrace();
 				return this.createExceptionResponse(e, "");
