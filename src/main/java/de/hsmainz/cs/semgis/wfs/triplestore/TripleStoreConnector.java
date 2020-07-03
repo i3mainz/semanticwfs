@@ -697,7 +697,7 @@ public abstract class TripleStoreConnector {
 		Integer offsetval=Integer.valueOf(offset);
 		if(limit>=1 || offsetval>0) {
 			StringBuilder toreplace=new StringBuilder();
-			toreplace.append("WHERE{ { SELECT ?"+indvar+" WHERE { ?"+indvar+" rdf:type <"+workingobj.getString("class")+"> . }"+System.lineSeparator());
+			toreplace.append("WHERE{ { SELECT ?"+indvar+" WHERE { ?"+indvar+" <"+WebService.triplestoreconf.getJSONObject("endpoints").getJSONObject(workingobj.getString("triplestore")).getString("type")+"> <"+workingobj.getString("class")+"> . }"+System.lineSeparator());
 			if(limit>=1 && !resultType.equalsIgnoreCase("hits")) {
 				toreplace.append(" LIMIT "+count+System.lineSeparator());
 			}
