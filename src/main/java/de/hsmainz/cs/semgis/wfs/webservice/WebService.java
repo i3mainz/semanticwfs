@@ -2931,6 +2931,9 @@ public class WebService {
 			@DefaultValue("") @QueryParam("authtoken") String authtoken) {
 		User user=UserManagementConnection.getInstance().loginAuthToken(authtoken);
 		System.out.println("Add Feature Type");
+		if(name==null && classs!=null) {
+			name=classs;
+		}
 		if(true || name!=null && !name.isEmpty() && user!=null && (user.getUserlevel()==UserType.Configurer || user.getUserlevel()==UserType.Administrator)) {
 			JSONArray datasets = wfsconf.getJSONArray("datasets");
 			System.out.println(wfsconf);

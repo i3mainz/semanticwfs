@@ -98,7 +98,7 @@ function addFeatureType(){
 	console.log(endpoints)
 	query="SELECT DISTINCT ?item ?rel ?val ?the_geom WHERE { ?item <"+endpoints["endpoints"][$('#endpoints').val()]["type"]+"> <"+$('#classes').val()+"> . ?item ?rel ?val . OPTIONAL { ?val <"+endpoints["endpoints"][$('#endpoints').val()]["geo"][0]+"> ?the_geom . } }"
 	console.log("Query: "+query);
-	console.log("query="+encodeURIComponent(query)+"&typename="+encodeURIComponent($('#typename').val())+"&indvar=item&class="+$('#classes').val()+"&namespace=&triplestore="+encodeURIComponent($('#endpoints').val()))
+	console.log("query="+encodeURIComponent(query)+"&typename="+encodeURIComponent($('#typename').val())+"&indvar=item&class="+$('#classes').val()+"&bboxlimit=500&namespace=&triplestore="+encodeURIComponent($('#endpoints').val()))
 	$.ajax({
 	       url: '../rest/service/addFeatureType?query='+encodeURIComponent(query)+"&indvar=item&type=WFS&class="+$('#classes').val()+"&typename="+encodeURIComponent($('#typename').val())+"&namespace=&triplestore="+encodeURIComponent($('#endpoints').val())+"&description="+encodeURIComponent($('#description').val())+"&targetCRS="+encodeURIComponent($('#crs').val()),
 	       type: 'Get',         // HTTP-Methode, hier: POST
@@ -108,9 +108,13 @@ function addFeatureType(){
 	       // in das Response-Div
 	       success: function(data) { 
 	    	   console.log(data)
+	    	   setTimeout(function() { 
+	    		    window.location.href = "../rest/collections/"+$('#typename').val()+"/items/"
+	    		 }, 2000);
 	       }
-	    });
+	 });
 }
+
 </script>
 </head>
 <body>
