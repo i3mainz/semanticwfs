@@ -269,7 +269,8 @@ public abstract class TripleStoreConnector {
 	
 	public static Map<String,String> getClassesFromOntology(JSONObject triplestoreconf){
 		Map<String,String> result=new TreeMap<String,String>();
-		Query query = QueryFactory.create(prefixCollection+" SELECT DISTINCT ?class ?label WHERE { ?abc <"+triplestoreconf.getString("type")+"> ?class . OPTIONAL{ ?class rdfs:label ?label } ?abc <"+triplestoreconf.getJSONArray("geo").getString(0)+"> ?geom . } ");
+		System.out.println(prefixCollection+" SELECT DISTINCT ?class ?label WHERE { ?abc <"+triplestoreconf.getString("type")+"> ?class . OPTIONAL{ ?class rdfs:label ?label } ?abc <"+triplestoreconf.getJSONArray("geo").getString(0)+"> ?geom . } ");
+		Query query = QueryFactory.create(prefixCollection+" SELECT DISTINCT ?class ?label WHERE { ?abc <"+triplestoreconf.getString("type")+"> ?class . ?abc <"+triplestoreconf.getJSONArray("geo").getString(0)+"> ?geom . } LIMIT 500");
 		QueryExecution qexec = QueryExecutionFactory.sparqlService(triplestoreconf.getString("endpoint"), query);
 		ResultSet resformat=qexec.execSelect();
 		while(resformat.hasNext()) {
@@ -411,8 +412,8 @@ public abstract class TripleStoreConnector {
 						nscache.put(ns,"ns"+nscounter++);
 					}
 					try {
-						Literal lit=solu.getLiteral(varname);
-						result.put(varname, lit.getDatatypeURI());
+						String lit=solu.get(varname).toString();
+						result.put(varname, lit);
 					}catch(Exception e) {
 						e.printStackTrace();
 						result.put(varname, varval);	

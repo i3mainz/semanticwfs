@@ -1096,7 +1096,7 @@ public class WebService {
 							+ wfsconf.getString("baseurl")
 							+ "/snorql/\">Linked Data Browser (SNORQL)</a></li><li><a href=\""
 							+ wfsconf.getString("baseurl")
-							+ "/config/featuretypeconfig.html\">Semantic WFS Configuration</a></li><li><a href=\"https://www.i3mainz.de/projekte/semgis/gmlimporter/\">Semantic Uplift Tools</a></li></ul></div></div></div><footer id=\"footer\"><table width=100%><tbody><tr><td><a href=\"" + wfsconf.getString("baseurl")
+							+ "/config/configuration.html\">Semantic WFS Configuration</a></li><li><a href=\"https://www.i3mainz.de/projekte/semgis/gmlimporter/\">Semantic Uplift Tools</a></li></ul></div></div></div><footer id=\"footer\"><table width=100%><tbody><tr><td><a href=\"" + wfsconf.getString("baseurl")
 					+ "/?f=html\">Back to LandingPage</a></td><td align=right>This page in <a href=\""
 					+ wfsconf.getString("baseurl") + "/?f=gml\">[XML]</a> <a href=\""
 					+ wfsconf.getString("baseurl")
@@ -1305,6 +1305,7 @@ public class WebService {
 				return this.createExceptionResponse(e, "");
 			}
 		} else if (format == null || format.contains("html")) {
+			System.out.println("WorkingObject: "+workingobj);
 			StringBuilder builder = new StringBuilder();
 			StringBuilder builder2 = new StringBuilder();
 			JSONObject geojson = new JSONObject();
@@ -2717,8 +2718,8 @@ public class WebService {
 			try {
 				res = TripleStoreConnector.executeQuery(workingobj.getString("query"),
 						workingobj.getString("triplestore"), output,
-						"" + (Integer.valueOf(count) * workingobj.getInt("attcount")),
-						"" + (Integer.valueOf(startindex) * workingobj.getInt("attcount")), "gml:featureMember",
+						"" + count,
+						"" + startindex, "gml:featureMember",
 						typename, resourceids, workingobj, filter, resultType, srsName, "", style,false,(workingobj.has("invertXY")?workingobj.getBoolean("invertXY"):false));
 				System.out.println(res);
 				if (res==null || res.isEmpty()) {
@@ -2766,7 +2767,13 @@ public class WebService {
 				writer.writeEndElement();
 				writer.writeEndDocument();
 				writer.flush();
-				return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
+				String result=strwriter.toString();
+				String firstline=result.substring(0,result.indexOf(System.lineSeparator())).trim();
+				if(firstline.isEmpty()) {
+					return Response.ok(result.substring(result.indexOf(System.lineSeparator())+1)).type(MediaType.APPLICATION_XML).build();
+				}else {
+					return Response.ok(result).type(MediaType.APPLICATION_XML).build();
+				}			
 			} catch (Exception e) {
 				e.printStackTrace();
 				return this.createExceptionResponse(e, "");
@@ -2915,12 +2922,18 @@ public class WebService {
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/service/addFeatureType")
-	public Boolean addFeatureType(@QueryParam("query") String sparqlQuery, @QueryParam("typename") String name,
+	public Boolean addFeatureType(@QueryParam("query") String sparqlQuery, @QueryParam("typename") String name, 
+			@DefaultValue("item") @QueryParam("indvar") String indvar,@DefaultValue("500") @QueryParam("bboxlimit") String bboxlimit,
+			@QueryParam("class") String classs, @DefaultValue("WFS") @QueryParam("type") String type,
+			@DefaultValue("")  @QueryParam("description") String description, @DefaultValue("EPSG:4326") @QueryParam("targetCRS") String targetCRS,
 			@QueryParam("namespace") String namespace, @QueryParam("triplestore") String triplestore,
 			@QueryParam("username") String username, @QueryParam("password") String password,
 			@DefaultValue("") @QueryParam("authtoken") String authtoken) {
 		User user=UserManagementConnection.getInstance().loginAuthToken(authtoken);
 		System.out.println("Add Feature Type");
+		if(name==null && classs!=null) {
+			name=classs;
+		}
 		if(true || name!=null && !name.isEmpty() && user!=null && (user.getUserlevel()==UserType.Configurer || user.getUserlevel()==UserType.Administrator)) {
 			JSONArray datasets = wfsconf.getJSONArray("datasets");
 			System.out.println(wfsconf);
@@ -2928,6 +2941,12 @@ public class WebService {
 			System.out.println("To add: "+name+" "+namespace+" "+triplestore+" "+sparqlQuery);
 			JSONObject toadd = new JSONObject();
 			toadd.put("name", name);
+			toadd.put("indvar", indvar);
+			toadd.put("bboxlimit",bboxlimit);
+			toadd.put("class", classs);
+			toadd.put("type",type);
+			toadd.put("description",description);
+			toadd.put("targetCRS",targetCRS);
 			toadd.put("namespace", namespace);
 			toadd.put("triplestore", triplestore);
 			toadd.put("query", sparqlQuery);
