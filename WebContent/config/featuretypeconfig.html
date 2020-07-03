@@ -278,27 +278,55 @@ function sendQuery(geojsonres){
             	 }else{
             		 	popup+="<li>"+prop+" - "
             		 }
-            	 if(feature.properties[prop].includes("http") && feature.properties[prop].includes("^^")){
+            	 if(Array.isArray(feature.properties[prop])){
+            		 popup+="<ul>"
+            			 for(pr in feature.properties[prop]){
+                			 if(feature.properties[prop][pr].includes("http") && feature.properties[prop][pr].includes("^^")){
+                        	     ns=feature.properties[prop][pr].substring(0,feature.properties[prop][pr].indexOf('^^'))
+                        	 	 if(!(ns in colorcodes)){
+                        			colorcodes[ns]=getRandomColor();
+                        		 }
+                        	     popup+="<li><a href='"+feature.properties[prop][pr].substring(feature.properties[prop][pr].indexOf("^^")+2)+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+feature.properties[prop][pr].substring(0,feature.properties[prop][pr].lastIndexOf('^')-1)+"</a></li> "
+                        	 }else if(feature.properties[prop][pr].includes("http") && feature.properties[prop][pr].includes("#")){
+                        	 	ns=feature.properties[prop][pr].substring(0,feature.properties[prop][pr].indexOf('#'))
+                        	 	 if(!(ns in colorcodes)){
+                        			colorcodes[ns]=getRandomColor();
+                        		 }
+                        	     popup+="<li><a href='"+feature.properties[prop][pr]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+feature.properties[prop][pr].substring(feature.properties[prop][pr].lastIndexOf('#')+1)+"</a></li> "
+                        	 }else if(feature.properties[prop][pr].includes("http") || feature.properties[prop][pr].includes("file:/")){
+                        	  	 ns=feature.properties[prop][pr].substring(0,feature.properties[prop][pr].indexOf('/'))
+                        	 	 if(!(ns in colorcodes)){
+                        			colorcodes[ns]=getRandomColor();
+                        		 }
+                        	     popup+="<li><a href='"+feature.properties[prop][pr]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+feature.properties[prop][pr].substring(feature.properties[prop][pr].lastIndexOf('/')+1)+"</a></li> "
+                        	 }else{
+                        	  popup+="<li>"+feature.properties[prop][pr]+"</li>"
+                        	 }
+                		 }
+            		 popup+="</ul>"
+            	 }
+            	 else if(feature.properties[prop].includes("http") && feature.properties[prop].includes("^^")){
             	     ns=feature.properties[prop].substring(0,feature.properties[prop].indexOf('^^'))
             	 	 if(!(ns in colorcodes)){
             			colorcodes[ns]=getRandomColor();
             		 }
-            	     popup+="<a href='"+feature.properties[prop]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+feature.properties[prop].substring(0,feature.properties[prop].lastIndexOf('^')-1)+"</a></li>"
+            	     popup+="<a href='"+feature.properties[prop]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+feature.properties[prop].substring(0,feature.properties[prop].lastIndexOf('^')-1)+"</a>"
             	 }else if(feature.properties[prop].includes("http") && feature.properties[prop].includes("#")){
             	 	ns=feature.properties[prop].substring(0,feature.properties[prop].indexOf('#'))
             	 	 if(!(ns in colorcodes)){
             			colorcodes[ns]=getRandomColor();
             		 }
-            	     popup+="<a href='"+feature.properties[prop]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+feature.properties[prop].substring(feature.properties[prop].lastIndexOf('#')+1)+"</a></li>"
+            	     popup+="<a href='"+feature.properties[prop]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+feature.properties[prop].substring(feature.properties[prop].lastIndexOf('#')+1)+"</a>"
             	 }else if(feature.properties[prop].includes("http") || feature.properties[prop].includes("file:/")){
             	  	 ns=feature.properties[prop].substring(0,feature.properties[prop].indexOf('/'))
             	 	 if(!(ns in colorcodes)){
             			colorcodes[ns]=getRandomColor();
             		 }
-            	     popup+="<a href='"+feature.properties[prop]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+feature.properties[prop].substring(feature.properties[prop].lastIndexOf('/')+1)+"</a></li>"
+            	     popup+="<a href='"+feature.properties[prop]+"' target='_blank' style='color:"+colorcodes[ns]+"'>"+feature.properties[prop].substring(feature.properties[prop].lastIndexOf('/')+1)+"</a>"
             	 }else{
-            	  popup+=feature.properties[prop]+"</li>"
+            	  popup+=feature.properties[prop]
             	 }
+            	 popup+="</li>"
             	 });
             		 popup+="</ul>"
             	console.log(feature)
@@ -375,7 +403,7 @@ function getGeoClassesFromEndpoint(endpoint){
 <h1 id="servicetitle" align="center">Feature Type Configuration</h1>
 </header>
 </div>
-<div class="sticky row crumbs"><div class="col-sm-12 col-md-10 col-md-offset-1"><a href="../">Landingpage</a> / <a href="#">Configuration</a></div></div>
+<div class="sticky row crumbs"><div class="col-sm-12 col-md-10 col-md-offset-1"><a href="../">Landingpage</a> / <a href="configuration.html">Semantic WFS Configuration</a> / <a href="configuration.html">Feature Type Configuration</a></div></div>
 <div class="container-fluid" role="main">
   <div class="row">
   <div class="col-sm-6">
@@ -437,7 +465,7 @@ var layercontrol=L.control.layers(baseMaps,overlayMaps).addTo(mymap);
 
 </div></div></div>
 <div id="footer">
-<a href="../">Back to LandingPage</a>
+<a href="configuration.html">Back to Configurations</a>
 </div>
 <script src="js/utils.js"></script>
 </body>

@@ -19,6 +19,13 @@ $.fn.sortSelect = function() {
     return this.empty().append(op);
 }
 
+$.ajax({
+    url:'epsg.txt',
+    success: function (data){
+      $('#crs').html(data)
+    }
+  });
+
 function getGeoClassesFromEndpoint(){
 	$.ajax({
 	       url: '../rest/service/getGeoClassesFromEndpoint?endpoint='+$('#endpoints').val(),
@@ -123,19 +130,22 @@ function addFeatureType(){
 <h1 id="servicetitle" align="center">FeatureType Selection</h1>
 </header>
 </div>
-<div class="sticky row crumbs"><div class="col-sm-12 col-md-10 col-md-offset-1"><a href="../">Landingpage</a> / <a href="#">Configuration</a></div></div>
-<div class="container-fluid" role="main">
+<div class="sticky row crumbs"><div class="col-sm-12 col-md-10 col-md-offset-1"><a href="../">Landingpage</a> / <a href="configuration.html">SemanticWFS Configuration</a> / <a href="addfeaturetype.html">Add Feature Type</a></div></div>
+<div class="container" role="main">
   <div class="row">
-  <div class="col-sm-6">
-Endpoints: <select id="endpoints" onChange="getGeoClassesFromEndpoint()"></select><br/>
-Classes: <select id="classes" onChange="getPropertiesForClass()"></select><br/>
-Properties: <select id="properties"></select><br/>
-Typename: <input type="text" id="typename"/><br/>
-Description: <input type="text" id="description"/><br/>
-<button id="addFeatureType" onClick="addFeatureType()">Add Feature Type</button>
+  <div class="col-sm-12">
+<table width="100%">
+<tr><td>Endpoints:</td><td><select id="endpoints" onChange="getGeoClassesFromEndpoint()"></select></td></tr>
+<tr><td>Classes: </td><td><select id="classes" onChange="getPropertiesForClass()"></select></td></tr>
+<!-- Properties: <select id="properties"></select><br/>-->
+<tr><td>Typename: </td><td><input type="text" id="typename"/></td></tr>
+<tr><td>Description: </td><td><input type="text" id="description"/></td></tr>
+<tr><td>Target CRS:</td><td><select id="crs"></select></td></tr>
+<tr><td><button id="addFeatureType" onClick="addFeatureType()">Add Feature Type</button></td></td></tr>
+</table>
 </div></div></div>
 <div id="footer">
-<a href="../">Back to LandingPage</a>
+<a href="../">Back to Configurations</a>
 </div>
 </body>
 <script>
