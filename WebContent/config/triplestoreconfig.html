@@ -386,7 +386,7 @@ function getEndpoints(){
 }
 
 function addFeatureType(){
-	query="SELECT ?item ?rel ?val ?the_geom WHERE { ?item rdf:type <"+$('#classes').val()+"> . ?item ?rel ?val . OPTIONAL { ?val <http://www.opengis.net/ont/geosparql#asWKT> ?the_geom . } }"
+	query="SELECT DISTINCT ?item ?rel ?val ?the_geom WHERE { ?item rdf:type <"+$('#classes').val()+"> . ?item ?rel ?val . OPTIONAL { ?val <http://www.opengis.net/ont/geosparql#asWKT> ?the_geom . } }"
 	console.log("Query: "+query);
 	console.log("query="+encodeURIComponent(query)+"&typename="+encodeURIComponent($('#typename').val())+"&namespace=&triplestore="+encodeURIComponent($('#endpoints').val()))
 	$.ajax({

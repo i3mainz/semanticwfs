@@ -412,8 +412,8 @@ public abstract class TripleStoreConnector {
 						nscache.put(ns,"ns"+nscounter++);
 					}
 					try {
-						Literal lit=solu.getLiteral(varname);
-						result.put(varname, lit.getDatatypeURI());
+						String lit=solu.get(varname).toString();
+						result.put(varname, lit);
 					}catch(Exception e) {
 						e.printStackTrace();
 						result.put(varname, varval);	

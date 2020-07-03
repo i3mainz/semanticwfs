@@ -1305,6 +1305,7 @@ public class WebService {
 				return this.createExceptionResponse(e, "");
 			}
 		} else if (format == null || format.contains("html")) {
+			System.out.println("WorkingObject: "+workingobj);
 			StringBuilder builder = new StringBuilder();
 			StringBuilder builder2 = new StringBuilder();
 			JSONObject geojson = new JSONObject();
@@ -2921,7 +2922,10 @@ public class WebService {
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/service/addFeatureType")
-	public Boolean addFeatureType(@QueryParam("query") String sparqlQuery, @QueryParam("typename") String name,
+	public Boolean addFeatureType(@QueryParam("query") String sparqlQuery, @QueryParam("typename") String name, 
+			@DefaultValue("item") @QueryParam("indvar") String indvar,
+			@QueryParam("class") String classs, @DefaultValue("WFS") @QueryParam("type") String type,
+			@DefaultValue("")  @QueryParam("description") String description, @DefaultValue("EPSG:4326") @QueryParam("targetCRS") String targetCRS,
 			@QueryParam("namespace") String namespace, @QueryParam("triplestore") String triplestore,
 			@QueryParam("username") String username, @QueryParam("password") String password,
 			@DefaultValue("") @QueryParam("authtoken") String authtoken) {
@@ -2934,6 +2938,11 @@ public class WebService {
 			System.out.println("To add: "+name+" "+namespace+" "+triplestore+" "+sparqlQuery);
 			JSONObject toadd = new JSONObject();
 			toadd.put("name", name);
+			toadd.put("indvar", indvar);
+			toadd.put("class", classs);
+			toadd.put("type",type);
+			toadd.put("description",description);
+			toadd.put("targetCRS",targetCRS);
 			toadd.put("namespace", namespace);
 			toadd.put("triplestore", triplestore);
 			toadd.put("query", sparqlQuery);
