@@ -2923,7 +2923,7 @@ public class WebService {
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/service/addFeatureType")
 	public Boolean addFeatureType(@QueryParam("query") String sparqlQuery, @QueryParam("typename") String name, 
-			@DefaultValue("item") @QueryParam("indvar") String indvar,
+			@DefaultValue("item") @QueryParam("indvar") String indvar,@DefaultValue("500") @QueryParam("bboxlimit") String bboxlimit,
 			@QueryParam("class") String classs, @DefaultValue("WFS") @QueryParam("type") String type,
 			@DefaultValue("")  @QueryParam("description") String description, @DefaultValue("EPSG:4326") @QueryParam("targetCRS") String targetCRS,
 			@QueryParam("namespace") String namespace, @QueryParam("triplestore") String triplestore,
@@ -2939,6 +2939,7 @@ public class WebService {
 			JSONObject toadd = new JSONObject();
 			toadd.put("name", name);
 			toadd.put("indvar", indvar);
+			toadd.put("bboxlimit",bboxlimit);
 			toadd.put("class", classs);
 			toadd.put("type",type);
 			toadd.put("description",description);
