@@ -695,9 +695,10 @@ public abstract class TripleStoreConnector {
 		System.out.println("Before Inner Select: "+queryString);
 		Integer limit=Integer.valueOf(count);
 		Integer offsetval=Integer.valueOf(offset);
+		System.out.println("Limit: "+limit+" - Offset: "+offsetval);
 		if(limit>=1 || offsetval>0) {
 			StringBuilder toreplace=new StringBuilder();
-			toreplace.append("WHERE{ { SELECT ?"+indvar+" WHERE { ?"+indvar+" rdf:type <"+workingobj.getString("class")+"> . }"+System.lineSeparator());
+			toreplace.append("WHERE{ { SELECT DISTINCT ?"+indvar+" WHERE { ?"+indvar+" rdf:type <"+workingobj.getString("class")+"> . }"+System.lineSeparator());
 			if(limit>=1 && !resultType.equalsIgnoreCase("hits")) {
 				toreplace.append(" LIMIT "+count+System.lineSeparator());
 			}
