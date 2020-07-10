@@ -948,8 +948,8 @@ public class WebService {
 			link.put("title", "The API defnition (YAML)");
 			links.put(link);
 			link = new JSONObject();
-			link.put("href", wfsconf.getString("baseurl") + "/api");
-			link.put("rel", "service-desc");
+			link.put("href", wfsconf.getString("baseurl") + "/api/");
+			link.put("rel", "service-doc");
 			link.put("type", "text/html");
 			link.put("title", "The API defnition (HTML)");
 			links.put(link);
