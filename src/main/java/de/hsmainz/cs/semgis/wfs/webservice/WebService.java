@@ -145,6 +145,17 @@ public class WebService {
 				+ "<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>\r\n"
 				+ "<link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' /></head>";
 	}
+	
+	
+	public void generateOpenAPIDefinitions() {
+		JSONObject defs=new JSONObject();
+		for (Integer i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
+			JSONObject featuretype = wfsconf.getJSONArray("datasets").getJSONObject(i);
+			JSONObject curobj=new JSONObject();
+			defs.put("/collections/"+featuretype.getString("name"), curobj);
+			curobj.put("get", new JSONObject());
+		}
+	}
 
 	public Response createExceptionResponse(Exception e, String format) {
 		if (format == null || format.equals("gml")) {
@@ -946,13 +957,13 @@ public class WebService {
 			links.put(link);
 			link = new JSONObject();
 			link.put("href", wfsconf.getString("baseurl") + "/openapi.json");
-			link.put("rel", "service-desc");
+			link.put("rel", "service");
 			link.put("type", "application/openapi+json;version=3.0");
 			link.put("title", "The API definition (JSON)");
 			links.put(link);
 			link = new JSONObject();
 			link.put("href", wfsconf.getString("baseurl") + "/openapi.yaml");
-			link.put("rel", "service-desc");
+			link.put("rel", "service");
 			link.put("type", "application/openapi+yaml;version=3.0");
 			link.put("title", "The API definition (YAML)");
 			links.put(link);
