@@ -1259,9 +1259,33 @@ public class WebService {
 		Map<String, String> mapping = featureTypeCache.get(collectionid.toLowerCase());
 		if (format != null && format.contains("json")) {
 			JSONObject result = new JSONObject();
-			result.put("id", workingobj.getString("name"));
-			result.put("title", workingobj.getString("name"));
-			result.put("description", "");
+			JSONArray resultlinks=new JSONArray();
+			result.put("links",resultlinks);
+			JSONObject link = new JSONObject();
+			link.put("href", wfsconf.getString("baseurl") + "/collections/"+workingobj.getString("name")+"?f=json");
+			link.put("rel", "self");
+			link.put("type", "application/json");
+			link.put("title", "This document");
+			resultlinks.put(link);
+			link = new JSONObject();
+			link.put("href", wfsconf.getString("baseurl") + "/collections/"+workingobj.getString("name")+"?f=gml");
+			link.put("rel", "alternate");
+			link.put("type", "application/xml");
+			link.put("title", "This document as XML");
+			resultlinks.put(link);
+			link = new JSONObject();
+			link.put("href", wfsconf.getString("baseurl") + "/collections/"+workingobj.getString("name")+"?f=html");
+			link.put("rel", "alternate");
+			link.put("type", "text/html");
+			link.put("title", "This document as HTML");
+			resultlinks.put(link);
+			JSONArray collections=new JSONArray();
+			result.put("collections",collections);
+			JSONObject collectionentry=new JSONObject();
+			collections.put(collectionentry);
+			collectionentry.put("id", workingobj.getString("name"));
+			collectionentry.put("title", workingobj.getString("name"));
+			collectionentry.put("description", "");
 			/*JSONObject extent = new JSONObject();
 			result.put("extent", extent);
 			JSONObject spatial = new JSONObject();
@@ -1270,11 +1294,11 @@ public class WebService {
 			// extent.put("temporal",new JSONObject());
 			JSONArray links = new JSONArray();
 			for (ResultFormatter formatter : ResultFormatter.resultMap.values()) {
-				JSONObject link = new JSONObject();
+				link = new JSONObject();
 				if (formatter.exposedType.contains("geojson")) {
-					link.put("rel", "self");
+					link.put("rel", "item");
 				} else {
-					link.put("rel", "alternate");
+					link.put("rel", "item");
 				}
 				link.put("href", wfsconf.getString("baseurl") + "/collections/" + collectionid + "/items/" + "?f="
 						+ formatter.exposedType);
@@ -1282,13 +1306,13 @@ public class WebService {
 				link.put("title", collectionid);
 				links.put(link);
 			}
-			JSONObject link = new JSONObject();
+			link = new JSONObject();
 			link.put("rel", "describedBy");
 			link.put("href", wfsconf.getString("baseurl") + "/collections/" + collectionid + "/schema/");
 			link.put("type", "application/xml");
 			link.put("title", collectionid + " Schema");
 			links.put(link);
-			result.put("links", links);
+			collectionentry.put("links", links);
 			return Response.ok(result.toString(2)).type(MediaType.APPLICATION_JSON).build();
 		} else if (format != null && format.contains("gml")) {
 			StringWriter strwriter = new StringWriter();
