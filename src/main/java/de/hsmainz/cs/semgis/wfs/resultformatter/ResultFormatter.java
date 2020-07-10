@@ -82,7 +82,7 @@ public abstract class ResultFormatter {
 			return resultMap.get("jsonld");
 		}
 		if(formatString.contains("json")) {
-			return resultMap.get("json");
+			return resultMap.get("geojson");
 		}
 		if(formatString.contains("kml")) {
 			return resultMap.get("kml");
@@ -107,7 +107,7 @@ public abstract class ResultFormatter {
 		resultMap.put("geojsonld", new GeoJSONLDFormatter());
 		resultMap.put("geohash", new GeoHashFormatter());
 		resultMap.put("geouri", new GeoURIFormatter());
-		resultMap.put("json", new JSONFormatter());
+		resultMap.put("json", new GeoJSONFormatter());
 		resultMap.put("jsonld", new JSONLDFormatter());
 		resultMap.put("html", new HTMLFormatter());
 		resultMap.put("trig", new TrigFormatter());
