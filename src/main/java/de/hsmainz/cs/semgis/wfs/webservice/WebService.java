@@ -1049,19 +1049,13 @@ public class WebService {
 				writer.writeAttribute("href",  wfsconf.getString("baseurl") + "/api/");
 				writer.writeEndElement();
 				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
-				writer.writeAttribute("rel", "service-desc");
-				writer.writeAttribute("title", "The API definition (HTML)");
-				writer.writeAttribute("type", "text/html");
-				writer.writeAttribute("href",  wfsconf.getString("baseurl") + "/api/");
-				writer.writeEndElement();
-				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
-				writer.writeAttribute("rel", "service-desc");
+				writer.writeAttribute("rel", "service");
 				writer.writeAttribute("title", "The API definition (YAML)");
 				writer.writeAttribute("type", "application/openapi+yaml;version=3.0");
 				writer.writeAttribute("href",  wfsconf.getString("baseurl") + "/openapi.yaml");
 				writer.writeEndElement();
 				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
-				writer.writeAttribute("rel", "service-desc");
+				writer.writeAttribute("rel", "service");
 				writer.writeAttribute("title", "The API defnition (JSON)");
 				writer.writeAttribute("type", "application/openapi+json;version=3.0");
 				writer.writeAttribute("href",  wfsconf.getString("baseurl") + "/openapi.json");
@@ -1661,7 +1655,7 @@ public class WebService {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/conformance")
-	public Response conformance(@DefaultValue("html") @QueryParam("f") String format) {
+	public Response conformance(@Parameter(description="The format of the conformance page") @DefaultValue("html") @QueryParam("f") String format) {
 		if (format != null && format.contains("json")) {
 			JSONObject result = new JSONObject();
 			JSONArray conforms = new JSONArray();
