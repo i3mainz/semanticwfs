@@ -466,11 +466,11 @@ public class WebService {
 				JSONObject curobj = wfsconf.getJSONArray("datasets").getJSONObject(i);
 				coll.put("id", curobj.getString("name"));
 				coll.put("title", curobj.getString("name"));
-				JSONObject extent = new JSONObject();
+				/*JSONObject extent = new JSONObject();
 				JSONObject spatial = new JSONObject();
 				spatial.put("crs", "http://www.opengis.net/def/crs/OGC/1.3/CRS84");
 				coll.put("extent", extent);
-				extent.put("spatial", spatial);
+				extent.put("spatial", spatial);*/
 				JSONArray colinks = new JSONArray();
 				for (ResultFormatter formatter : ResultFormatter.resultMap.values()) {
 					link = new JSONObject();
@@ -555,11 +555,11 @@ public class WebService {
 						writer.writeEndElement();
 					}
 					writer.writeEndElement();
-					writer.writeStartElement("Extent");
+					/*writer.writeStartElement("Extent");
 					writer.writeStartElement("Spatial");
 					writer.writeAttribute("crs", "http://www.opengis.net/def/crs/OGC/1.3/CRS84");
 					writer.writeEndElement();
-					writer.writeEndElement();
+					writer.writeEndElement();*/
 				}
 				writer.writeEndElement();
 				writer.writeEndDocument();
@@ -1333,11 +1333,11 @@ public class WebService {
 				writer.writeAttribute("href",
 						wfsconf.getString("baseurl") + "/collections/" + workingobj.getString("name") + "/schema/");
 				writer.writeEndElement();
-				writer.writeStartElement("Extent");
+				/*writer.writeStartElement("Extent");
 				writer.writeStartElement("Spatial");
 				writer.writeAttribute("crs", "http://www.opengis.net/def/crs/OGC/1.3/CRS84");
 				writer.writeEndElement();
-				writer.writeEndElement();
+				writer.writeEndElement();*/
 				writer.writeEndElement();
 				writer.writeEndDocument();
 				writer.flush();
