@@ -483,6 +483,8 @@ public class WebService {
 							+ "/items/" + "?f=" + formatter.exposedType);
 					link.put("type", formatter.exposedType);
 					link.put("title", curobj.getString("name"));
+					if(curobj.has("description"))
+						link.put("description", curobj.getString("description"));
 					colinks.put(link);
 				}
 				coll.put("links", colinks);
@@ -510,7 +512,7 @@ public class WebService {
 				writer.writeCharacters(wfsconf.getString("servicetitle"));
 				writer.writeEndElement();
 				writer.writeStartElement("Description");
-				writer.writeCharacters("");
+				writer.writeCharacters(" ");
 				writer.writeEndElement();
 				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
 				writer.writeAttribute("rel", "self");
@@ -544,6 +546,13 @@ public class WebService {
 					writer.writeEndElement();
 					writer.writeStartElement("Title");
 					writer.writeCharacters(curobj.getString("name"));
+					writer.writeEndElement();
+					writer.writeStartElement("Description");
+					if(curobj.has("description"))
+						writer.writeCharacters(curobj.getString("description"));
+					else {
+						writer.writeCharacters("");	
+					}
 					writer.writeEndElement();
 					for (ResultFormatter formatter : ResultFormatter.resultMap.values()) {
 						writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
@@ -1262,19 +1271,19 @@ public class WebService {
 			JSONArray resultlinks=new JSONArray();
 			result.put("links",resultlinks);
 			JSONObject link = new JSONObject();
-			link.put("href", wfsconf.getString("baseurl") + "/collections/"+workingobj.getString("name")+"?f=json");
+			link.put("href", wfsconf.getString("baseurl") + "/collections/"+collectionid+"?f=json");
 			link.put("rel", "self");
 			link.put("type", "application/json");
 			link.put("title", "This document");
 			resultlinks.put(link);
 			link = new JSONObject();
-			link.put("href", wfsconf.getString("baseurl") + "/collections/"+workingobj.getString("name")+"?f=gml");
+			link.put("href", wfsconf.getString("baseurl") + "/collections/"+collectionid+"?f=gml");
 			link.put("rel", "alternate");
 			link.put("type", "application/xml");
 			link.put("title", "This document as XML");
 			resultlinks.put(link);
 			link = new JSONObject();
-			link.put("href", wfsconf.getString("baseurl") + "/collections/"+workingobj.getString("name")+"?f=html");
+			link.put("href", wfsconf.getString("baseurl") + "/collections/"+collectionid+"?f=html");
 			link.put("rel", "alternate");
 			link.put("type", "text/html");
 			link.put("title", "This document as HTML");
@@ -1331,6 +1340,28 @@ public class WebService {
 				writer.writeAttribute("xmlns:gml", "http://www.opengis.net/gml/3.2");
 				writer.writeAttribute("service", "OGCAPI-FEATURES");
 				writer.writeAttribute("version", "1.0.0");
+				writer.writeStartElement("links");
+				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
+				writer.writeAttribute("rel", "self");
+				writer.writeAttribute("title", "This document");
+				writer.writeAttribute("type", "application/xml");
+				writer.writeAttribute("href", wfsconf.getString("baseurl") + "/collections/"+collectionid+"/?f=gml");
+				writer.writeEndElement();
+				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
+				writer.writeAttribute("rel", "alternate");
+				writer.writeAttribute("title", "This document as JSON");
+				writer.writeAttribute("type", "application/json");
+				writer.writeAttribute("href", wfsconf.getString("baseurl") + "/collections/"+collectionid+ "/?f=json");
+				writer.writeEndElement();
+				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
+				writer.writeAttribute("rel", "alternate");
+				writer.writeAttribute("title", "This document as HTML");
+				writer.writeAttribute("type", "text/html");
+				writer.writeAttribute("href", wfsconf.getString("baseurl") + "/collections/"+collectionid+ "/?f=html");
+				writer.writeEndElement();
+				writer.writeEndElement();
+				writer.writeStartElement("collections");
+				writer.writeStartElement(collectionid);
 				writer.writeStartElement("Id");
 				writer.writeCharacters(collectionid);
 				writer.writeEndElement();
@@ -1340,9 +1371,9 @@ public class WebService {
 				for (ResultFormatter formatter : ResultFormatter.resultMap.values()) {
 					writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
 					if (formatter.exposedType.contains("geojson")) {
-						writer.writeAttribute("rel", "self");
+						writer.writeAttribute("rel", "item");
 					} else {
-						writer.writeAttribute("rel", "alternate");
+						writer.writeAttribute("rel", "item");
 					}
 					writer.writeAttribute("title", workingobj.getString("name"));
 					writer.writeAttribute("type", formatter.exposedType);
@@ -1362,6 +1393,8 @@ public class WebService {
 				writer.writeAttribute("crs", "http://www.opengis.net/def/crs/OGC/1.3/CRS84");
 				writer.writeEndElement();
 				writer.writeEndElement();*/
+				writer.writeEndElement();
+				writer.writeEndElement();			
 				writer.writeEndElement();
 				writer.writeEndDocument();
 				writer.flush();
