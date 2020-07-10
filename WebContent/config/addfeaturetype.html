@@ -96,7 +96,7 @@ function getEndpoints(){
 
 function addFeatureType(){
 	console.log(endpoints)
-	query="SELECT DISTINCT ?item ?rel ?val ?the_geom WHERE { ?item <"+endpoints["endpoints"][$('#endpoints').val()]["type"]+"> <"+$('#classes').val()+"> . ?item ?rel ?val . OPTIONAL { ?val <"+endpoints["endpoints"][$('#endpoints').val()]["geo"][0]+"> ?the_geom . } }"
+	query="SELECT DISTINCT ?item ?rel ?val ?the_geom WHERE{ ?item <"+endpoints["endpoints"][$('#endpoints').val()]["type"]+"> <"+$('#classes').val()+"> . ?item ?rel ?val . OPTIONAL { ?val <"+endpoints["endpoints"][$('#endpoints').val()]["geo"][0]+"> ?the_geom . } }"
 	console.log("Query: "+query);
 	console.log("query="+encodeURIComponent(query)+"&typename="+encodeURIComponent($('#typename').val())+"&indvar=item&class="+$('#classes').val()+"&bboxlimit=500&namespace=&triplestore="+encodeURIComponent($('#endpoints').val()))
 	$.ajax({
