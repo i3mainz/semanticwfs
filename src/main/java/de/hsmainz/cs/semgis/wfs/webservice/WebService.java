@@ -191,16 +191,17 @@ public class WebService {
 	@POST
 	@Produces(MediaType.TEXT_XML)
 	@Path("/post/wfs")
-	public Response entryPointPOST(@DefaultValue("WFS") @QueryParam("SERVICE") String service,
-			@DefaultValue("GetCapabilities") @QueryParam("REQUEST") String request,
-			@DefaultValue("2.0.0") @QueryParam("VERSION") String version,
-			@DefaultValue("") @QueryParam("TYPENAME") String typename,
-			@DefaultValue("") @QueryParam("TYPENAMES") String typenames,
-			@DefaultValue("") @QueryParam("SRSNAME") String srsName,
+	public Response entryPointPOST(
+			@Parameter(description="Service type definition") @DefaultValue("WFS") @QueryParam("SERVICE") String service,
+			@Parameter(description="Request definition") @DefaultValue("GetCapabilities") @QueryParam("REQUEST") String request,
+			@Parameter(description="Version of the web service") @DefaultValue("2.0.0") @QueryParam("VERSION") String version,
+			@Parameter(description="The feature type name to be queried") @DefaultValue("") @QueryParam("TYPENAME") String typename,
+			@Parameter(description="The feature type(s) name(s) to be queried") @DefaultValue("") @QueryParam("TYPENAMES") String typenames,
+			@Parameter(description="The name of the CRS to be returned") @DefaultValue("") @QueryParam("SRSNAME") String srsName,
 			@DefaultValue("gml") @QueryParam("EXCEPTIONS") String exceptions,
-			@DefaultValue("") @QueryParam("BBOX") String bbox,
+			@Parameter(description="A bounding box used for filtering results") @DefaultValue("") @QueryParam("BBOX") String bbox,
 			@DefaultValue("") @QueryParam("VALUEREFERENCE") String propertyname,
-			@DefaultValue("ASC") @QueryParam("SORTBY") String sortBy,
+			@Parameter(description="Sorting order definition") @DefaultValue("ASC") @QueryParam("SORTBY") String sortBy,
 			@DefaultValue("") @QueryParam("STYLES") String style,
 			@DefaultValue("results") @QueryParam("RESULTTYPE") String resultType,
 			@DefaultValue("") @QueryParam("RESOURCEID") String resourceids,
@@ -1487,14 +1488,14 @@ public class WebService {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections/{collectionid}/items")
-	public Response collectionItems(@PathParam("collectionid") String collectionid,
-			@DefaultValue("html") @QueryParam("f") String format, @DefaultValue("10") @QueryParam("limit") String limit,
-			@DefaultValue("0") @QueryParam("offset") String offset, @DefaultValue("") @QueryParam("bbox") String bbox,
-			@DefaultValue("") @QueryParam("style") String style,
-			@DefaultValue("") @QueryParam("bbox-crs") String bboxcrs,
-			@DefaultValue("") @QueryParam("filter") String filter,
-			@DefaultValue("") @QueryParam("filter-lang") String filterlang,
-			@DefaultValue("") @QueryParam("datetime") String datetime) {
+	public Response collectionItems(@Parameter(description="The id of the collection") @PathParam("collectionid") String collectionid,
+			@Parameter(description="The format of the result") @DefaultValue("html") @QueryParam("f") String format, @DefaultValue("10") @QueryParam("limit") String limit,
+			@Parameter(description="The offset to consider when fetching items") @DefaultValue("0") @QueryParam("offset") String offset, @DefaultValue("") @QueryParam("bbox") String bbox,
+			@Parameter(description="The styling of the item when returned")  @DefaultValue("") @QueryParam("style") String style,
+			@Parameter(description="The crs of a given bounding box") @DefaultValue("") @QueryParam("bbox-crs") String bboxcrs,
+			@Parameter(description="A filter expression") @DefaultValue("") @QueryParam("filter") String filter,
+			@Parameter(description="The language in which the filter expression is formulated") @DefaultValue("") @QueryParam("filter-lang") String filterlang,
+			@Parameter(description="A temporal filter expression") @DefaultValue("") @QueryParam("datetime") String datetime) {
 		System.out.println("Limit: " + limit);
 		if (collectionid == null) {
 			throw new NotFoundException();
@@ -2337,7 +2338,7 @@ public class WebService {
 	@GET
 	@Produces(MediaType.TEXT_XML)
 	@Path("/wfs/getCapabilities")
-	public Response getCapabilities(@DefaultValue("2.0.0") @QueryParam("version") String version)
+	public Response getCapabilities(@Parameter(description="The version of the WFS service to target") @DefaultValue("2.0.0") @QueryParam("version") String version)
 			throws XMLStreamException {
 		if (!version.equals("2.0.0") && !version.equals("1.1.0"))
 			version = "2.0.0";
@@ -2558,8 +2559,9 @@ public class WebService {
 	@GET
 	@Produces(MediaType.TEXT_XML)
 	@Path("/wfs/describeFeatureType")
-	public Response describeFeatureType(@QueryParam("typename") String typename,
-			@DefaultValue("version") @QueryParam("version") String version) throws XMLStreamException {
+	public Response describeFeatureType(
+			@Parameter(description="The feature type name to describe") @QueryParam("typename") String typename,
+			@Parameter(description="The version of the WFS service") @DefaultValue("version") @QueryParam("version") String version) throws XMLStreamException {
 		if (typename == null)
 			throw new NotFoundException();
 		JSONObject workingobj = null;
@@ -2657,8 +2659,9 @@ public class WebService {
 	@GET
 	@Produces(MediaType.TEXT_XML)
 	@Path("/wfs/describeFeatureTypeJSON")
-	public Response describeFeatureTypeJSON(@QueryParam("typename") String typename,
-			@DefaultValue("version") @QueryParam("version") String version) {
+	public Response describeFeatureTypeJSON(
+			@Parameter(description="The feature type to describe") @QueryParam("typename") String typename,
+			@Parameter(description="The version of the WFS service") @DefaultValue("version") @QueryParam("version") String version) {
 		if (typename == null)
 			throw new NotFoundException();
 		JSONObject workingobj = null;
@@ -2735,7 +2738,7 @@ public class WebService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/service/getGeoClassesFromEndpoint")
-	public Response getGeoClassesFromOntology(@QueryParam("endpoint") String endpoint) {
+	public Response getGeoClassesFromOntology(@Parameter(description="The SPARQL endpoint to load classes from") @QueryParam("endpoint") String endpoint) {
 		if(triplestoreconf.getJSONObject("endpoints").has(endpoint)) {
 			Map<String,String> classes=TripleStoreConnector.getClassesFromOntology(triplestoreconf.getJSONObject("endpoints").getJSONObject(endpoint));
 			JSONObject result=new JSONObject();
@@ -2758,7 +2761,9 @@ public class WebService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/service/getPropertiesByClass")
-	public Response getPropertiesByClass(@QueryParam("endpoint") String endpoint,@QueryParam("class") String classs) {
+	public Response getPropertiesByClass(
+			@Parameter(description="The SPARQL endpoint to load properties from") @QueryParam("endpoint") String endpoint,
+			@Parameter(description="The class from which properties should be loaded") @QueryParam("class") String classs) {
 		Map<String, String> classes=TripleStoreConnector.getPropertiesByClass(endpoint, classs);
 		JSONObject result=new JSONObject();
 		for(String cls:classes.keySet()) {
@@ -2772,17 +2777,17 @@ public class WebService {
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/wfs/getFeature")
 	public Response getFeature(@QueryParam("typename") String typename,
-			@DefaultValue("json") @QueryParam("outputFormat") String output,
+			@Parameter(description="The output format of the WFS service request") @DefaultValue("json") @QueryParam("outputFormat") String output,
 			@Parameter(description="The amount of features to be returned",example="10") @DefaultValue("10") @QueryParam("count") String count,
-			@DefaultValue("0") @QueryParam("startindex") String startindex,
-			@DefaultValue("") @QueryParam("srsName") String srsName,
-			@DefaultValue("ASC") @QueryParam("sortBy") String sortBy,
+			@Parameter(description="The starting index of the WFS request") @DefaultValue("0") @QueryParam("startindex") String startindex,
+			@Parameter(description="The name of the CRS to be used") @DefaultValue("") @QueryParam("srsName") String srsName,
+			@Parameter(description="Indicates the sorting order") @DefaultValue("ASC") @QueryParam("sortBy") String sortBy,
 			@Parameter(description="The style to apply to the returned collection if any") @DefaultValue("") @QueryParam("styles") String style,
 			@Parameter(description="The version of the WFS",example="2.0.0") @DefaultValue("2.0.0") @QueryParam("version") String version,
-			@DefaultValue("") @QueryParam("resourceid") String resourceids,
-			@DefaultValue("") @QueryParam("filter") String filter,
-			@DefaultValue("CQL") @QueryParam("filterLanguage") String filterLanguage,
-			@DefaultValue("results") @QueryParam("resultType") String resultType)
+			@Parameter(description="Indicates a specific resource id to be queried") @DefaultValue("") @QueryParam("resourceid") String resourceids,
+			@Parameter(description="A WFS filter expression") @DefaultValue("") @QueryParam("filter") String filter,
+			@Parameter(description="The filter language to be used in the filterExpression parameter") @DefaultValue("CQL") @QueryParam("filterLanguage") String filterLanguage,
+			@Parameter(description="The result type to return") @DefaultValue("results") @QueryParam("resultType") String resultType)
 			throws JSONException, XMLStreamException {
 		System.out.println(typename);
 		if (typename == null) {
@@ -2939,7 +2944,8 @@ public class WebService {
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/wfs/getPropertyValue")
-	public Response getPropertyValue(@QueryParam("typename") String typename,
+	public Response getPropertyValue(
+			@Parameter(description="Feature type to query") @QueryParam("typename") String typename,
 			@QueryParam("valuereference") String propertyname,
 			@DefaultValue("json") @QueryParam("outputFormat") String output,
 			@DefaultValue("") @QueryParam("resourceids") String resourceids,
@@ -3026,7 +3032,8 @@ public class WebService {
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/service/addFeatureType")
-	public Boolean addFeatureType(@QueryParam("query") String sparqlQuery, @QueryParam("typename") String name, 
+	public Boolean addFeatureType(
+			@QueryParam("query") String sparqlQuery, @QueryParam("typename") String name, 
 			@DefaultValue("item") @QueryParam("indvar") String indvar,@DefaultValue("500") @QueryParam("bboxlimit") String bboxlimit,
 			@QueryParam("class") String classs, @DefaultValue("WFS") @QueryParam("type") String type,
 			@DefaultValue("")  @QueryParam("description") String description, @DefaultValue("EPSG:4326") @QueryParam("targetCRS") String targetCRS,
@@ -3064,10 +3071,13 @@ public class WebService {
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/service/addEndpoint")
-	public Boolean addEndpoint(@QueryParam("name") String name, @QueryParam("endpoint") String endpoint,
-			@QueryParam("typerel") String typerel, @QueryParam("georel") String georel,
-			@QueryParam("username") String username, @QueryParam("password") String password,
-			@DefaultValue("") @QueryParam("authtoken") String authtoken) {
+	public Boolean addEndpoint(@Parameter(description="The name of the SPARQL endpoint to add") @QueryParam("name") String name,
+			@Parameter(description="The address of the SPARQL endpoint") @QueryParam("endpoint") String endpoint,
+			@Parameter(description="The type property used in this SPARQL endpoint") @QueryParam("typerel") String typerel,
+			@Parameter(description="The geometry property used by this SPARQL endpoint") @QueryParam("georel") String georel,
+			@Parameter(description="Username for authorization") @QueryParam("username") String username, 
+			@Parameter(description="Password for authorization") @QueryParam("password") String password,
+			@Parameter(description="Authtoken if the user is already logged in") @DefaultValue("") @QueryParam("authtoken") String authtoken) {
 		User user=UserManagementConnection.getInstance().loginAuthToken(authtoken);
 		System.out.println("Add Feature Type");
 		if(true || name!=null && !name.isEmpty() && user!=null && (user.getUserlevel()==UserType.Configurer || user.getUserlevel()==UserType.Administrator)) {
@@ -3091,8 +3101,9 @@ public class WebService {
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/service/saveFeatureTypes")
-	public Boolean saveFeatureTypes(@QueryParam("featjson") String featureTypesJSON,
-			@DefaultValue("") @QueryParam("authtoken") String authtoken) {
+	public Boolean saveFeatureTypes(
+			@Parameter(description="JSON object containing feature types to be saved") @QueryParam("featjson") String featureTypesJSON,
+			@Parameter(description="Authtoken for authorization") @DefaultValue("") @QueryParam("authtoken") String authtoken) {
 		User user=UserManagementConnection.getInstance().loginAuthToken(authtoken);
 		if(user!=null && (user.getUserlevel()==UserType.Configurer || user.getUserlevel()==UserType.Administrator)) {
 			JSONArray datasets = wfsconf.getJSONArray("featjson");
@@ -3106,7 +3117,8 @@ public class WebService {
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/login")
-    public Response login(@QueryParam("username") String username,@QueryParam("password") String password) { 
+    public Response login(@Parameter(description="Username for authorization") @QueryParam("username") String username,
+    		@Parameter(description="Password for authorization") @QueryParam("password") String password) { 
 		final String dir = System.getProperty("user.dir");
         System.out.println("current dir = " + dir); 
         User user=UserManagementConnection.getInstance().login(username, password);
@@ -3160,7 +3172,9 @@ public class WebService {
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/service/queryservice")
-	public String queryService(@QueryParam("query") String query, @QueryParam("endpoint") String endpoint) {
+	public String queryService(
+			@Parameter(description="SPARQL query to be resolved") @QueryParam("query") String query,
+			@Parameter(description="SPARQL endpoint to query") @QueryParam("endpoint") String endpoint) {
 		final String dir = System.getProperty("user.dir");
 		System.out.println("current dir = " + dir);
 		return TripleStoreConnector.executeQuery(query, endpoint, false);
@@ -3169,8 +3183,10 @@ public class WebService {
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/service/queryservicegeojson")
-	public String queryService(@QueryParam("query") String query, @QueryParam("endpoint") String endpoint,
-			@QueryParam("geojson") String geojson) {
+	public String queryService(
+			@Parameter(description="SPARQL query to be resolved") @QueryParam("query") String query,
+			@Parameter(description="SPARQL endpoint to be queried") @QueryParam("endpoint") String endpoint,
+			@Parameter(description="Indicates whether geojson should be returned to be shown in a map view") @QueryParam("geojson") String geojson) {
 		final String dir = System.getProperty("user.dir");
 		System.out.println("current dir = " + dir);
 		return TripleStoreConnector.executeQuery(query, endpoint, true);
