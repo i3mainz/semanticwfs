@@ -85,7 +85,6 @@ public class OSMFormatter extends ResultFormatter {
 					writer.writeAttribute("v",val);
 				}
 				writer.writeEndElement();
-				writer.writeEndElement();
 			}
 			}
 		}
