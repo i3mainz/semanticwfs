@@ -1,10 +1,13 @@
 var a00346 =
 [
-    [ "UserType", "a00346.html#a1e256f14f75bae2c5a62bd1ee78cb280", null ],
-    [ "getUserTypeString", "a00346.html#ac22ddc199a53d555313dd9377e5c6bbf", null ],
-    [ "toString", "a00346.html#ad146fa8579a5f8a876c4688cc5a68520", null ],
-    [ "Administrator", "a00346.html#a4a7c3b31e0d412327723c6b8b6bb5ab4", null ],
-    [ "Configurer", "a00346.html#ad4e4d5c5df5781af134c912072f97add", null ],
-    [ "User", "a00346.html#a4ff7787bc8361fc5a29c1841967117fb", null ],
-    [ "userTypeString", "a00346.html#a758160bce1d36f1638b16e6fe5ad3763", null ]
+    [ "[static initializer]", "a00346.html#a2e87c5ede6b7235170d287cd2e254454", null ],
+    [ "formatFooter", "a00346.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
+    [ "formatHeader", "a00346.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
+    [ "formatter", "a00346.html#a7bbb52a0cd4f85be75403edbf9d7887c", null ],
+    [ "getFormatter", "a00346.html#ab42a39cb4384c1f14ad0bb6d0e27abd8", null ],
+    [ "exposedType", "a00346.html#aa6a844c9b01d97aca583be867a1c5413", null ],
+    [ "lastQueriedElemCount", "a00346.html#a1ce6ef499b64cec5981912a236baa199", null ],
+    [ "mimeType", "a00346.html#a09c78e464072ccab667894f0d179fbdf", null ],
+    [ "resultMap", "a00346.html#a596ca937904dbfbdf019f9114f611d37", null ],
+    [ "xmlwriter", "a00346.html#afbd8bf7386c4d548993d0957bfd902bf", null ]
 ];

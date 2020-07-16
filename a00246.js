@@ -1,10 +1,10 @@
 var a00246 =
 [
-    [ "JSONLDFormatter", "a00246.html#a1bc949e7a9e8b3b31ddbbe430beffb67", null ],
+    [ "GeoURIFormatter", "a00246.html#a5eb340b9f43f6ac50786dc48ef83c1df", null ],
     [ "[static initializer]", "a00246.html#a2e87c5ede6b7235170d287cd2e254454", null ],
     [ "formatFooter", "a00246.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00246.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
-    [ "formatter", "a00246.html#a333158f85a81eddf46a6487337d5ba27", null ],
+    [ "formatter", "a00246.html#a4d60ad97c2097d9323921b749f163e26", null ],
     [ "getFormatter", "a00246.html#afce25d64087d96d66b6b5535660a8ddb", null ],
     [ "contextMapper", "a00246.html#ae7316c0c7550712f915cc3cd353cd981", null ],
     [ "exposedType", "a00246.html#aa6a844c9b01d97aca583be867a1c5413", null ],

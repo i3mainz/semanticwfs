@@ -1,5 +1,30 @@
-<map id="TopoJSONFormatter" name="TopoJSONFormatter">
-<area shape="rect" id="node2" href="$a00327.html" title="WFSResultFormatter" alt="" coords="1541,29,1688,56"/>
-<area shape="rect" id="node3" href="$a00299.html" title="ResultFormatter" alt="" coords="1376,140,1492,167"/>
-<area shape="rect" id="node6" href="$a00355.html" title="ResultStyleFormatter" alt="" coords="1096,171,1243,197"/>
+<map id="ResultFormatter" name="ResultFormatter">
+<area shape="rect" id="node2" href="$a00262.html" title="HTMLFormatter" alt="" coords="186,5,301,32"/>
+<area shape="rect" id="node3" href="$a00278.html" title="MVTFormatter" alt="" coords="190,56,297,83"/>
+<area shape="rect" id="node4" href="$a00282.html" title="Formats a query result to N3. " alt="" coords="196,107,291,133"/>
+<area shape="rect" id="node5" href="$a00286.html" title="Formats a query result to NT. " alt="" coords="195,157,291,184"/>
+<area shape="rect" id="node6" href="$a00290.html" title="Formats a query result in OpenStreetMap XML. " alt="" coords="189,208,297,235"/>
+<area shape="rect" id="node7" href="$a00298.html" title="Formats a query result to RDF/XML. " alt="" coords="190,259,297,285"/>
+<area shape="rect" id="node8" href="$a00302.html" title="Formats a query result to RDF/JSON. " alt="" coords="172,309,315,336"/>
+<area shape="rect" id="node9" href="$a00310.html" title="SVGFormatter" alt="" coords="190,360,297,387"/>
+<area shape="rect" id="node10" href="$a00318.html" title="Formats a query result to Trig. " alt="" coords="193,411,293,437"/>
+<area shape="rect" id="node11" href="$a00322.html" title="Formats a query result to Trix. " alt="" coords="193,461,293,488"/>
+<area shape="rect" id="node12" href="$a00326.html" title="Formats a query result to TTL. " alt="" coords="193,512,294,539"/>
+<area shape="rect" id="node13" href="$a00330.html" title="WCSResultFormatter" alt="" coords="169,563,317,589"/>
+<area shape="rect" id="node17" href="$a00334.html" title="WFSResultFormatter" alt="" coords="170,892,317,919"/>
+<area shape="rect" id="node14" href="$a00222.html" title="CovJSONFormatter" alt="" coords="373,487,512,513"/>
+<area shape="rect" id="node15" href="$a00242.html" title="GeoTIFFFormatter" alt="" coords="377,537,508,564"/>
+<area shape="rect" id="node16" href="$a00250.html" title="GMLCOVFormatter" alt="" coords="375,588,510,615"/>
+<area shape="rect" id="node18" href="$a00226.html" title="Formats a query result to CSV. " alt="" coords="389,639,496,665"/>
+<area shape="rect" id="node19" href="$a00230.html" title="GeoHashFormatter" alt="" coords="376,689,509,716"/>
+<area shape="rect" id="node20" href="$a00234.html" title="Formats a query result to GeoJSON. " alt="" coords="373,740,512,767"/>
+<area shape="rect" id="node21" href="$a00238.html" title="Formats a query result to GeoJSON&#45;LD. " alt="" coords="365,791,520,817"/>
+<area shape="rect" id="node22" href="$a00246.html" title="Formats a query result to GeoURI. " alt="" coords="379,841,506,868"/>
+<area shape="rect" id="node23" href="$a00254.html" title="Formats a query result to GML. " alt="" coords="389,892,496,919"/>
+<area shape="rect" id="node24" href="$a00258.html" title="Formats a query result to GPX. " alt="" coords="389,943,496,969"/>
+<area shape="rect" id="node25" href="$a00266.html" title="JSONFormatter" alt="" coords="385,993,500,1020"/>
+<area shape="rect" id="node26" href="$a00270.html" title="Formats a query result to JSON&#45;LD. " alt="" coords="377,1044,508,1071"/>
+<area shape="rect" id="node27" href="$a00274.html" title="Formats a query result to KML. " alt="" coords="390,1095,495,1121"/>
+<area shape="rect" id="node28" href="$a00294.html" title="PolyshapeFormatter" alt="" coords="373,1145,512,1172"/>
+<area shape="rect" id="node29" href="$a00314.html" title="Formats a query result to TopoJSON. " alt="" coords="371,1196,514,1223"/>
 </map>

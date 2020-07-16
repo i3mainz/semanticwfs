@@ -1,9 +1,9 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node2" href="$a00183.html" title="AsDXF" alt="" coords="179,5,245,32"/>
-<area shape="rect" id="node3" href="$a00191.html" title="Return the geometry as a GeoJSON element. " alt="" coords="163,56,261,83"/>
-<area shape="rect" id="node4" href="$a00195.html" title="Return a geoURI either of a point geometry or of the centroid of the given geometry. " alt="" coords="169,107,255,133"/>
-<area shape="rect" id="node5" href="$a00199.html" title="Return the geometry as a GML version 2 or 3 element. " alt="" coords="179,157,245,184"/>
-<area shape="rect" id="node6" href="$a00203.html" title="AsGPX" alt="" coords="179,208,245,235"/>
-<area shape="rect" id="node7" href="$a00207.html" title="Return the geometry as a KML element. " alt="" coords="179,259,245,285"/>
-<area shape="rect" id="node8" href="$a00211.html" title="AsPolyshape" alt="" coords="163,309,261,336"/>
+<area shape="rect" id="node2" href="$a00186.html" title="AsDXF" alt="" coords="179,5,245,32"/>
+<area shape="rect" id="node3" href="$a00194.html" title="Return the geometry as a GeoJSON element. " alt="" coords="163,56,261,83"/>
+<area shape="rect" id="node4" href="$a00198.html" title="Return a geoURI either of a point geometry or of the centroid of the given geometry. " alt="" coords="169,107,255,133"/>
+<area shape="rect" id="node5" href="$a00202.html" title="Return the geometry as a GML version 2 or 3 element. " alt="" coords="179,157,245,184"/>
+<area shape="rect" id="node6" href="$a00206.html" title="AsGPX" alt="" coords="179,208,245,235"/>
+<area shape="rect" id="node7" href="$a00210.html" title="Return the geometry as a KML element. " alt="" coords="179,259,245,285"/>
+<area shape="rect" id="node8" href="$a00214.html" title="AsPolyshape" alt="" coords="163,309,261,336"/>
 </map>

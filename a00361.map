@@ -1,3 +1,7 @@
-<map id="SLDFormatter" name="SLDFormatter">
-<area shape="rect" id="node2" href="$a00355.html" title="ResultStyleFormatter" alt="" coords="883,56,1029,83"/>
+<map id="ResultStyleFormatter" name="ResultStyleFormatter">
+<area shape="rect" id="node2" href="$a00350.html" title="Reads an ontological style description and formats it to GeoJSONCSS. " alt="" coords="200,5,367,32"/>
+<area shape="rect" id="node3" href="$a00354.html" title="Reads an ontological style description and formats it to KML Styles. " alt="" coords="216,56,351,83"/>
+<area shape="rect" id="node4" href="$a00358.html" title="MapCSSFormatter" alt="" coords="218,107,349,133"/>
+<area shape="rect" id="node5" href="$a00366.html" title="Reads an ontological style description and formats it according to the mapbox simple style specificat..." alt="" coords="209,157,357,184"/>
+<area shape="rect" id="node6" href="$a00370.html" title="SLDFormatter" alt="" coords="231,208,335,235"/>
 </map>

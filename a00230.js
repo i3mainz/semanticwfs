@@ -1,13 +1,11 @@
 var a00230 =
 [
-    [ "GMLFormatter", "a00230.html#a838cb0e3eaafb657bd40a3e9c8bef8a8", null ],
+    [ "GeoHashFormatter", "a00230.html#ad6ed20299336efd0e93d2f25cb59aa98", null ],
     [ "[static initializer]", "a00230.html#a2e87c5ede6b7235170d287cd2e254454", null ],
-    [ "addTagsFromJSONObject", "a00230.html#a9c11f424a7fbe3f8c89a6b06c22f02f5", null ],
     [ "formatFooter", "a00230.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00230.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
-    [ "formatter", "a00230.html#a333158f85a81eddf46a6487337d5ba27", null ],
+    [ "formatter", "a00230.html#a80b99178376ce1679ae8af1ba155a09d", null ],
     [ "getFormatter", "a00230.html#afce25d64087d96d66b6b5535660a8ddb", null ],
-    [ "splitURL", "a00230.html#a5656e00eb3d76d57f0ba0df27fc2d658", null ],
     [ "contextMapper", "a00230.html#ae7316c0c7550712f915cc3cd353cd981", null ],
     [ "exposedType", "a00230.html#aa6a844c9b01d97aca583be867a1c5413", null ],
     [ "featureType", "a00230.html#aba4867b615c0892cdae42bc4fd982639", null ],

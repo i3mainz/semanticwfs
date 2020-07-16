@@ -1,5 +1,4 @@
-<map id="GeoTIFFFormatter" name="GeoTIFFFormatter">
-<area shape="rect" id="node2" href="$a00323.html" title="WCSResultFormatter" alt="" coords="1541,181,1689,208"/>
-<area shape="rect" id="node3" href="$a00299.html" title="ResultFormatter" alt="" coords="1376,181,1492,208"/>
-<area shape="rect" id="node6" href="$a00355.html" title="ResultStyleFormatter" alt="" coords="1096,103,1243,129"/>
+<map id="GeoJSONLDFormatter" name="GeoJSONLDFormatter">
+<area shape="rect" id="node2" href="$a00334.html" title="WFSResultFormatter" alt="" coords="9,80,156,107"/>
+<area shape="rect" id="node3" href="$a00306.html" title="Abstract class to downlift query results. " alt="" coords="25,5,141,32"/>
 </map>

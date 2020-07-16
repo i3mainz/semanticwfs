@@ -1,6 +1,4 @@
-<map id="GeoJSONFormatter" name="GeoJSONFormatter">
-<area shape="rect" id="node2" href="$a00327.html" title="WFSResultFormatter" alt="" coords="1541,141,1688,168"/>
-<area shape="rect" id="node3" href="$a00299.html" title="ResultFormatter" alt="" coords="1376,141,1492,168"/>
-<area shape="rect" id="node6" href="$a00355.html" title="ResultStyleFormatter" alt="" coords="1096,179,1243,205"/>
-<area shape="rect" id="node11" href="$a00191.html" title="Return the geometry as a GeoJSON element. " alt="" coords="1565,192,1664,219"/>
+<map id="GeoHashFormatter" name="GeoHashFormatter">
+<area shape="rect" id="node2" href="$a00334.html" title="WFSResultFormatter" alt="" coords="5,80,152,107"/>
+<area shape="rect" id="node3" href="$a00306.html" title="Abstract class to downlift query results. " alt="" coords="21,5,137,32"/>
 </map>
