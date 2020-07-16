@@ -79,9 +79,11 @@ public class OSMFormatter extends ResultFormatter {
 				System.out.println(WebService.nameSpaceCache);
 				//writer.setPrefix(splitted[0].substring(splitted[0].length()-4,splitted[0].length()-1), splitted[0]);
 				System.out.println(splitted[0]);
-				writer.writeStartElement(splitted[0],splitted[1]);
+				writer.writeStartElement("tag");
+				writer.writeStartElement("k",splitted[0]+splitted[1]);
 			}else {
-				writer.writeStartElement(key);
+				writer.writeStartElement("tag");
+				writer.writeStartElement("k",key);
 			}
 			try {
 				addTagsFromJSONObject(obj.getJSONObject(key),writer,curfeatureid);
