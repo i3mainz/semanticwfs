@@ -1424,8 +1424,8 @@ public class WebService {
 		try {
 			String res = TripleStoreConnector.executeQuery(workingobj.getString("query"),
 					workingobj.getString("triplestore"), format,
-					"" +limit,
-					"" + offset, "sf:featureMember", collectionid,
+					limit,
+					offset, "sf:featureMember", collectionid,
 					"", workingobj, filter, "", "", bbox, style,true,(workingobj.has("invertXY")?workingobj.getBoolean("invertXY"):false));
 			// System.out.println(res);
 			if (res == null || res.isEmpty()) {
