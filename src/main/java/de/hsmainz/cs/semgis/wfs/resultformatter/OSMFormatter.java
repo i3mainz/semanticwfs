@@ -116,7 +116,7 @@ public class OSMFormatter extends ResultFormatter {
 			JSONObject feature=geojson.getJSONArray("features").getJSONObject(i);
 			if(feature.getJSONObject("geometry").getString("type").equalsIgnoreCase("Point")) {
 				writer.writeStartElement("node");
-				writer.writeAttribute("id","-"+i);
+				writer.writeAttribute("id","-"+(i+1));
 				writer.writeAttribute("lat", feature.getJSONObject("geometry").getJSONArray("coordinates").getDouble(1)+"");
 				writer.writeAttribute("lon", feature.getJSONObject("geometry").getJSONArray("coordinates").getDouble(0)+"");
 			}else if(feature.getJSONObject("geometry").getString("type").contains("Multi")) {
