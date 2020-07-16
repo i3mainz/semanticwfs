@@ -8,8 +8,6 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
 import org.apache.jena.query.ResultSet;
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
@@ -44,67 +42,56 @@ public class OSMFormatter extends ResultFormatter {
 		return null;
 	}
 	
-	public void addTagsFromJSONObject(JSONObject obj,XMLStreamWriter writer,String curfeatureid) throws XMLStreamException {
-		if(obj.has("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")) {
-			String uri="";
-			try {
-				JSONArray arr=obj.getJSONArray("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-			for(int i=0;i<arr.length();i++) {
-				if(arr.get(i).toString().startsWith("http")) {
-					uri=arr.getString(i).toString();
-					break;
-				}
-			}
-			}catch(JSONException e) {
-				uri=obj.get("http://www.w3.org/1999/02/22-rdf-syntax-ns#type").toString();
-			}		
-			String[] splitted=splitURL(uri);
-			if(splitted!=null) {	
-				System.out.println(WebService.nameSpaceCache);
-				//writer.setPrefix(splitted[0].substring(splitted[0].length()-4,splitted[0].length()-1), splitted[0]);
-				System.out.println(splitted[0]);
-				writer.writeStartElement("tag");
-				writer.writeAttribute("k", splitted[0]+splitted[1]);
-			}else {
-				writer.writeStartElement("tag");
-				writer.writeAttribute("k", uri);
-			}
-		}
+	/**
+	 * Adds tags from a GeoJSON object from which the KML result is created.
+	 * @param obj the JSONObject to process
+	 * @param writer the XMLWriter to write out KML
+	 * @param curfeatureid the current feature id to process
+	 * @param nameprefix a nameprefix to store for recursive calls
+	 * @throws XMLStreamException if there was an error writing XML
+	 */
+	public void addTagsFromJSONObject(JSONObject obj,XMLStreamWriter writer,String curfeatureid,String nameprefix) throws XMLStreamException {
 		for(String key:obj.keySet()) {
+			String namekey="";
+			if (key.contains("#")) {
+				namekey=key.substring(key.lastIndexOf('#') + 1);
+			} else {
+				namekey=key.substring(key.lastIndexOf('/') + 1);
+			}
 			if(!key.equals("http://www.opengis.net/ont/geosparql#hasGeometry") 
 					&& !key.equalsIgnoreCase("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")
 					&& !key.equalsIgnoreCase("the_geom")) {
-			String[] splitted=splitURL(key);
-			if(splitted!=null) {	
-				System.out.println(WebService.nameSpaceCache);
-				//writer.setPrefix(splitted[0].substring(splitted[0].length()-4,splitted[0].length()-1), splitted[0]);
-				System.out.println(splitted[0]);
-				writer.writeStartElement("tag");
-				writer.writeStartElement("k",splitted[0]+splitted[1]);
-			}else {
-				writer.writeStartElement("tag");
-				writer.writeStartElement("k",key);
-			}
 			try {
-				addTagsFromJSONObject(obj.getJSONObject(key),writer,curfeatureid);
+				if(nameprefix.isEmpty()) {
+					addTagsFromJSONObject(obj.getJSONObject(key),writer,curfeatureid,namekey);	
+				}else {
+					addTagsFromJSONObject(obj.getJSONObject(key),writer,curfeatureid,nameprefix+"."+namekey);
+				}
 			}catch(Exception e) {
+				writer.writeStartElement("tag");
+				if(nameprefix.isEmpty()) {
+					writer.writeAttribute("k",namekey);	
+				}else {
+					writer.writeAttribute("k",nameprefix+"."+namekey);
+				}
+				writer.writeStartElement("v");
 				String val=obj.get(key).toString();
 				if(val.contains("^^")) {
-					writer.writeAttribute("v",val.substring(0,val.lastIndexOf("^^")));
+					writer.writeCharacters(val.substring(0,val.lastIndexOf("^^")));
+				}else if (val.contains("#")) {
+					writer.writeCharacters(val.substring(val.lastIndexOf('#') + 1));
+				} else if(val.startsWith("http")) {
+					writer.writeCharacters(val.substring(val.lastIndexOf('/') + 1));
 				}else {
-					splitted=splitURL(val);
-					if(splitted!=null) {		
-						//writer.setPrefix(splitted[0].substring(splitted[0].length()-4,splitted[0].length()-1), splitted[0]);
-						writer.writeAttribute("v",splitted[1]);
-					}else {
-						writer.writeAttribute("v",val);
-					}
+					writer.writeCharacters(val);
 				}
+				writer.writeEndElement();
+				writer.writeEndElement();
 			}
-			writer.writeEndElement();
 			}
 		}
 	}
+	
 
 	@Override
 	public String formatter(ResultSet results, String startingElement, String featuretype, String propertytype,
@@ -141,7 +128,7 @@ public class OSMFormatter extends ResultFormatter {
 				writer.writeStartElement("way");
 				writer.writeAttribute("id","-"+i);
 			}
-			addTagsFromJSONObject(feature.getJSONObject("properties"), writer, feature.get("id").toString());
+			addTagsFromJSONObject(feature.getJSONObject("properties"), writer,feature.get("id").toString(),"");
 			/*for(String key:feature.getJSONObject("properties").keySet()) {
 				
 				writer.writeStartElement("tag");
