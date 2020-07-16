@@ -695,6 +695,7 @@ public abstract class TripleStoreConnector {
 		System.out.println("Before Inner Select: "+queryString);
 		Integer limit=Integer.valueOf(count);
 		Integer offsetval=Integer.valueOf(offset);
+		System.out.println("Limit: "+limit+" - Offset: "+offsetval);
 		if(limit>=1 || offsetval>0) {
 			StringBuilder toreplace=new StringBuilder();
 			toreplace.append("WHERE{ { SELECT ?"+indvar+" WHERE { ?"+indvar+" <"+WebService.triplestoreconf.getJSONObject("endpoints").getJSONObject(workingobj.getString("triplestore")).getString("type")+"> <"+workingobj.getString("class")+"> . }"+System.lineSeparator());

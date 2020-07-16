@@ -15,8 +15,15 @@ import org.apache.jena.rdf.model.ModelFactory;
 
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
+/**
+ * Formats a query result to RDF/XML.
+ *
+ */
 public class RDFFormatter extends ResultFormatter{
 
+	/**
+	 * Constructor for this class.
+	 */
 	public RDFFormatter() {
 		this.mimeType="application/rdf+xml";
 		this.exposedType="application/rdf+xml";

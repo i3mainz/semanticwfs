@@ -1,7 +1,6 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter;
 
 import java.io.StringWriter;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.stream.XMLOutputFactory;
@@ -17,8 +16,15 @@ import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
 
+/**
+ * Formats a query result to GPX.
+ *
+ */
 public class GPXFormatter extends WFSResultFormatter {
 
+	/**
+	 * Constructor for this class.
+	 */
 	public GPXFormatter() {
 		this.mimeType="application/xml";
 		this.exposedType="application/gpx";

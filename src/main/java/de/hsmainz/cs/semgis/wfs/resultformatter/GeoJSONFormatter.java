@@ -17,14 +17,30 @@ import org.json.JSONObject;
 
 import de.hsmainz.cs.semgis.wfs.converters.AsGeoJSON;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.GeoJSONCSSFormatter;
+import de.hsmainz.cs.semgis.wfs.resultstyleformatter.ResultStyleFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
+/**
+ * Formats a query result to GeoJSON.
+ */
 public class GeoJSONFormatter extends WFSResultFormatter {
 
+	/**
+	 * Constructor for this class.
+	 */
 	public GeoJSONFormatter() {
 		this.mimeType="application/json";
 		this.exposedType="application/geojson";
 		this.styleformatter=new GeoJSONCSSFormatter();
+	}
+	
+	/**
+	 * Constructor for this class receiving a customized style formatter.
+	 */
+	public GeoJSONFormatter(ResultStyleFormatter styleformatter) {
+		this.mimeType="application/json";
+		this.exposedType="application/geojson";
+		this.styleformatter=styleformatter;
 	}
 	
 	
@@ -71,9 +87,9 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 			int geomvars = 0;
 			//System.out.println(solu.get(featuretype.toLowerCase()).toString() + " - " + lastInd);
 			if (!solu.get(indvar).toString().equals(lastInd) || lastInd.isEmpty()) {
-				System.out.println("NEW OBJECT!");
-				System.out.println("HasStyle??? - "+mapstyle);
-				System.out.println(latlist+" - "+lonlist);
+				//System.out.println("NEW OBJECT!");
+				//System.out.println("HasStyle??? - "+mapstyle);
+				//System.out.println(latlist+" - "+lonlist);
 				if(!latlist.isEmpty() && !lonlist.isEmpty()) {
 					if(latlist.size()==1 && lonlist.size()==1) {
 						JSONObject geomobj=new JSONObject("{\"type\":\"Point\",\"coordinates\":["+lonlist.get(0)+","+latlist.get(0)+"]}");
@@ -166,8 +182,18 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 						JSONObject geojsonobj = new JSONObject();
 						geojsonobj.put("type", "Feature");
 						geojsonobj.put("properties", properties);
-						if(!style.isEmpty())
-							geojsonobj.put("style", style);
+						if(!style.isEmpty()) {
+							if(this.styleformatter.styleAttribute.equalsIgnoreCase("properties")) {
+								for(String key:style.keySet()) {
+									properties.put(key, style.get(key));
+								}
+							}else if(this.styleformatter.styleAttribute.isEmpty()){
+								geojsonobj.put("style", style);
+							}else {
+								geojsonobj.put(this.styleformatter.styleAttribute, style);
+							}
+						}
+							
 						geojsonobj.put("id",lastInd);
 						if(!geoms.isEmpty())
 							geojsonobj.put("geometry",geoms.get(0));

@@ -11,6 +11,10 @@ import org.apache.jena.query.ResultSet;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.ResultStyleFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
+/**
+ * Abstract class to downlift query results.
+ *
+ */
 public abstract class ResultFormatter {
 
 	public static Map<String,ResultFormatter> resultMap=new TreeMap<String, ResultFormatter>();
@@ -48,6 +52,9 @@ public abstract class ResultFormatter {
 		if(formatString.contains("gpx")) {
 			return resultMap.get("gpx");
 		}
+		if(formatString.contains("osm")) {
+			return resultMap.get("osm");
+		}
 		if(formatString.contains("ttl")) {
 			return resultMap.get("ttl");
 		}
@@ -82,7 +89,7 @@ public abstract class ResultFormatter {
 			return resultMap.get("jsonld");
 		}
 		if(formatString.contains("json")) {
-			return resultMap.get("json");
+			return resultMap.get("geojson");
 		}
 		if(formatString.contains("kml")) {
 			return resultMap.get("kml");
@@ -107,7 +114,7 @@ public abstract class ResultFormatter {
 		resultMap.put("geojsonld", new GeoJSONLDFormatter());
 		resultMap.put("geohash", new GeoHashFormatter());
 		resultMap.put("geouri", new GeoURIFormatter());
-		resultMap.put("json", new JSONFormatter());
+		resultMap.put("json", new GeoJSONFormatter());
 		resultMap.put("jsonld", new JSONLDFormatter());
 		resultMap.put("html", new HTMLFormatter());
 		resultMap.put("trig", new TrigFormatter());
@@ -116,6 +123,7 @@ public abstract class ResultFormatter {
 		resultMap.put("ttl", new TTLFormatter());
 		resultMap.put("n3", new N3Formatter());
 		resultMap.put("nt", new NTFormatter());
+		resultMap.put("osm", new OSMFormatter());
 		resultMap.put("rdf", new RDFFormatter());
 		resultMap.put("rdfjson", new RDFJSONFormatter());
 		resultMap.put("gml", new GMLFormatter());

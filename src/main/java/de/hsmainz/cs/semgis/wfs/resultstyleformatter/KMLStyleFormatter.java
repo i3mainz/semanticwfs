@@ -13,10 +13,17 @@ import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * Reads an ontological style description and formats it to KML Styles.
+ *
+ */
 public class KMLStyleFormatter extends ResultStyleFormatter {
 
 	public Map<String,Map<String,String>> tagMap;
 	
+	/**
+	 * Constructor for this class.
+	 */
 	public KMLStyleFormatter() {
 		this.tagMap=new TreeMap<>();
 		this.tagMap.put("Point",new TreeMap<String,String>());

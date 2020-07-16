@@ -15,8 +15,15 @@ import org.apache.jena.rdf.model.ModelFactory;
 
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
+/**
+ * Formats a query result to NT.
+ *
+ */
 public class NTFormatter extends ResultFormatter{
 
+	/**
+	 * Constructor for this class.
+	 */
 	public NTFormatter() {
 		this.mimeType="text/nt";
 		this.exposedType="text/nt";

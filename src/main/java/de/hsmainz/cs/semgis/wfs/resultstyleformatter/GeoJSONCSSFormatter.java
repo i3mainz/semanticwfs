@@ -6,18 +6,29 @@ import org.apache.jena.query.ResultSet;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+/**
+ * Reads an ontological style description and formats it to GeoJSONCSS.
+ *
+ */
 public class GeoJSONCSSFormatter extends ResultStyleFormatter {
 
+	/**
+	 * Constructor for this class.
+	 */
+	public GeoJSONCSSFormatter() {
+		this.styleAttribute="style";
+	}
+	
 	@Override
 	public String formatter(ResultSet results,String featuretype) throws XMLStreamException {
-		JSONObject styleproperties=new JSONObject();
-		while(results.hasNext()) {
-			
-		}
-		// TODO Auto-generated method stub
 		return null;
 	}
 	
+	/**
+	 * Converts a CSS literal given in the ontology to a JSON representation.
+	 * @param cssString the literal value
+	 * @return the JSON object to contain the style information
+	 */
 	public JSONObject cssLiteralToJSON(String cssString) {
 		JSONObject styleproperties=new JSONObject();
 		if(cssString==null)

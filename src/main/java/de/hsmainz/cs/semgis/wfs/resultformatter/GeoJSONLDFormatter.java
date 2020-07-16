@@ -2,9 +2,7 @@ package de.hsmainz.cs.semgis.wfs.resultformatter;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
-import java.util.TreeSet;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -13,8 +11,15 @@ import org.json.JSONObject;
 
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
+/**
+ * Formats a query result to GeoJSON-LD.
+ *
+ */
 public class GeoJSONLDFormatter extends WFSResultFormatter {
 	
+	/**
+	 * Constructor for this class.
+	 */
 	public GeoJSONLDFormatter() {
 		this.mimeType="application/json";
 		this.exposedType="application/vnd.geo+json+ld";
