@@ -74,16 +74,15 @@ public class OSMFormatter extends ResultFormatter {
 				}else {
 					writer.writeAttribute("k",nameprefix+"."+namekey);
 				}
-				writer.writeStartElement("v");
 				String val=obj.get(key).toString();
 				if(val.contains("^^")) {
-					writer.writeCharacters(val.substring(0,val.lastIndexOf("^^")));
+					writer.writeAttribute("v",val.substring(0,val.lastIndexOf("^^")));
 				}else if (val.contains("#")) {
-					writer.writeCharacters(val.substring(val.lastIndexOf('#') + 1));
+					writer.writeAttribute("v",val.substring(val.lastIndexOf('#') + 1));
 				} else if(val.startsWith("http")) {
-					writer.writeCharacters(val.substring(val.lastIndexOf('/') + 1));
+					writer.writeAttribute("v",val.substring(val.lastIndexOf('/') + 1));
 				}else {
-					writer.writeCharacters(val);
+					writer.writeAttribute("v",val);
 				}
 				writer.writeEndElement();
 				writer.writeEndElement();
@@ -129,13 +128,6 @@ public class OSMFormatter extends ResultFormatter {
 				writer.writeAttribute("id","-"+i);
 			}
 			addTagsFromJSONObject(feature.getJSONObject("properties"), writer,feature.get("id").toString(),"");
-			/*for(String key:feature.getJSONObject("properties").keySet()) {
-				
-				writer.writeStartElement("tag");
-				writer.writeAttribute("k", key);
-				writer.writeAttribute("v", feature.getJSONObject("properties").get(key).toString());
-				writer.writeEndElement();
-			}*/
 			writer.writeEndElement();
 		}
 		writer.writeEndElement();
