@@ -17,6 +17,8 @@ public abstract class ResultStyleFormatter {
 	
 	public String exposedType="application/vnd.geo+json";
 	
+	public String styleAttribute="";
+	
 	public static ResultStyleFormatter getFormatter(String formatString) {
 		formatString=formatString.toLowerCase();
 		if(resultMap.containsKey(formatString)) {

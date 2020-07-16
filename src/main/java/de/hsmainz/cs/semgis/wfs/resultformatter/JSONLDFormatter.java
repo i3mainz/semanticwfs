@@ -14,8 +14,15 @@ import org.json.JSONObject;
 
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
+/**
+ * Formats a query result to JSON-LD.
+ *
+ */
 public class JSONLDFormatter extends WFSResultFormatter {
 
+	/**
+	 * Constructor for this class.
+	 */
 	public JSONLDFormatter() {
 		this.mimeType="application/jsonld";
 		this.exposedType="application/jsonld";

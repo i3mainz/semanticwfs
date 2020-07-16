@@ -8,8 +8,15 @@ import org.apache.jena.query.ResultSet;
 
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
+/**
+ * Formats a query result to TopoJSON.
+ *
+ */
 public class TopoJSONFormatter extends WFSResultFormatter {
 
+	/**
+	 * Constructor for this class.
+	 */
 	public TopoJSONFormatter() {
 		this.mimeType="application/json";
 		this.exposedType="application/topojson";

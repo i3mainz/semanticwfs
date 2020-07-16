@@ -12,8 +12,14 @@ import org.apache.jena.query.ResultSet;
 
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
+/**
+ * Formats a query result to TTL.
+ */
 public class TTLFormatter extends ResultFormatter {
 
+	/**
+	 * Constructor for this class.
+	 */
 	public TTLFormatter() {
 		this.mimeType="text/ttl";
 		this.exposedType="text/ttl";

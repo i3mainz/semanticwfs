@@ -9,6 +9,9 @@ import org.apache.jena.rdf.model.Literal;
 
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
+/**
+ * Formats a query result to CSV.
+ */
 public class CSVFormatter extends WFSResultFormatter {
 
 	public CSVFormatter() {

@@ -11,6 +11,11 @@ import org.apache.jena.sparql.expr.NodeValue;
 import de.hsmainz.cs.semgis.wfs.converters.AsGeoURI;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
+/**
+ * Formats a query result to GeoURI.
+ * Only geometries will be serialized, attributes will be ignored.
+ *
+ */
 public class GeoURIFormatter extends WFSResultFormatter {
 
 	public GeoURIFormatter() {

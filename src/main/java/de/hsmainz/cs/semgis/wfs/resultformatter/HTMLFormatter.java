@@ -5,7 +5,6 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -144,7 +143,7 @@ public class HTMLFormatter extends ResultFormatter {
 				builder.append("<thead><tr class=\"even\"><th align=\"center\">FeatureID</th>");
 				if (!onlyproperty) {
 					collectColumns(builder, features.getJSONObject(0).getJSONObject("properties"), propToTableCol, "",0);
-					System.out.println(propToTableCol);
+					//System.out.println(propToTableCol);
 				}else {	
 					if (propertytype.startsWith("http")) {
 						if (propertytype.contains("#")) {
@@ -203,18 +202,18 @@ public class HTMLFormatter extends ResultFormatter {
 				String value=null;
 				String curvalue;
 				JSONObject curobj=features.getJSONObject(i).getJSONObject("properties");
-				System.out.println(key);
+				//System.out.println(key);
 				if(key.contains(";")) {
 					String[] splitted=key.split(";");
-					System.out.println("Splitted key: "+Arrays.toString(splitted));
+					//System.out.println("Splitted key: "+Arrays.toString(splitted));
 					for(String spl:splitted) {
 						if(!spl.isEmpty()) {
 							try {
 								curobj=curobj.getJSONObject(spl);
-								System.out.println(curobj.toString());
+								//System.out.println(curobj.toString());
 							}catch(Exception e) {
 								value=curobj.get(spl).toString();
-								System.out.println("Got Value: "+value);
+								//System.out.println("Got Value: "+value);
 							}
 						}
 					}

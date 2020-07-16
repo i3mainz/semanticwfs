@@ -17,8 +17,15 @@ import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 import de.hsmainz.cs.semgis.wfs.webservice.WebService;
 
+/**
+ * Formats a query result to GML.
+ * At first a GeoJSON representation is created which is then converted to GML.
+ */
 public class GMLFormatter extends WFSResultFormatter {
 
+	/**
+	 * Constructor for this class.
+	 */
 	public GMLFormatter() {
 		this.mimeType="application/xml";
 		this.exposedType="application/gml";
@@ -113,7 +120,6 @@ public class GMLFormatter extends WFSResultFormatter {
 		StringWriter strwriter=new StringWriter();
 		XMLStreamWriter writer=new IndentingXMLStreamWriter(factory.createXMLStreamWriter(strwriter));
 		//writer.writeStartDocument();
-
 		System.out.println(WebService.nameSpaceCache);
 		System.out.println(featuretype.toLowerCase());
 		for(String ns:WebService.nameSpaceCache.get(featuretype.toLowerCase()).keySet()) {

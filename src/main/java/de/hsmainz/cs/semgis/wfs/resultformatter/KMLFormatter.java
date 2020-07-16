@@ -16,14 +16,32 @@ import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.KMLStyleFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
+/**
+ * Formats a query result to KML.
+ * Attributes will be stored as KML ExtendedData.
+ * Hierarchies of XML data will be stored as KML attribute names.
+ * KML requires that styles are formatted within the dataset, therefore this class has to utilize the KMLStyleFormatter implementation.
+ *
+ */
 public class KMLFormatter extends WFSResultFormatter {
 
+	/**
+	 * Constructor for this class.
+	 */
 	public KMLFormatter() {
 		this.mimeType="application/xml";
 		this.exposedType="application/inkml+xml";
 		this.styleformatter=new KMLStyleFormatter();
 	}
 	
+	/**
+	 * Adds tags from a GeoJSON object from which the KML result is created.
+	 * @param obj the JSONObject to process
+	 * @param writer the XMLWriter to write out KML
+	 * @param curfeatureid the current feature id to process
+	 * @param nameprefix a nameprefix to store for recursive calls
+	 * @throws XMLStreamException if there was an error writing XML
+	 */
 	public void addTagsFromJSONObject(JSONObject obj,XMLStreamWriter writer,String curfeatureid,String nameprefix) throws XMLStreamException {
 		for(String key:obj.keySet()) {
 			String namekey="";

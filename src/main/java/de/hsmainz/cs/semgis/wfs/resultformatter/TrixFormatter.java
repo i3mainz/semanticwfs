@@ -15,8 +15,14 @@ import org.apache.jena.rdf.model.ModelFactory;
 
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
+/**
+ * Formats a query result to Trix.
+ */
 public class TrixFormatter extends ResultFormatter {
 
+	/**
+	 * Constructor for this class.
+	 */
 	public TrixFormatter() {
 		this.mimeType="text/trix";
 		this.exposedType="text/trix";

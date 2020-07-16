@@ -11,6 +11,10 @@ import org.apache.jena.query.ResultSet;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.ResultStyleFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
+/**
+ * Abstract class to downlift query results.
+ *
+ */
 public abstract class ResultFormatter {
 
 	public static Map<String,ResultFormatter> resultMap=new TreeMap<String, ResultFormatter>();
@@ -116,6 +120,7 @@ public abstract class ResultFormatter {
 		resultMap.put("ttl", new TTLFormatter());
 		resultMap.put("n3", new N3Formatter());
 		resultMap.put("nt", new NTFormatter());
+		resultMap.put("osm", new OSMFormatter());
 		resultMap.put("rdf", new RDFFormatter());
 		resultMap.put("rdfjson", new RDFJSONFormatter());
 		resultMap.put("gml", new GMLFormatter());

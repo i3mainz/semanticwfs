@@ -15,8 +15,15 @@ import org.apache.jena.rdf.model.ModelFactory;
 
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
+/**
+ * Formats a query result to Trig.
+ *
+ */
 public class TrigFormatter extends ResultFormatter {
 
+	/**
+	 * Constructor for this class.
+	 */
 	public TrigFormatter() {
 		this.mimeType="text/trig";
 		this.exposedType="text/trig";
