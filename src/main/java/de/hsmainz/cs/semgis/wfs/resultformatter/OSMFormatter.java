@@ -120,6 +120,11 @@ public class OSMFormatter extends ResultFormatter {
 		writer.writeStartElement("osm");
 		writer.writeAttribute("version", "0.6");
 		writer.writeAttribute("generator","semanticwfs");
+		System.out.println(WebService.nameSpaceCache);
+		System.out.println(featuretype.toLowerCase());
+		for(String ns:WebService.nameSpaceCache.get(featuretype.toLowerCase()).keySet()) {
+			writer.setPrefix(WebService.nameSpaceCache.get(featuretype.toLowerCase()).get(ns),ns);
+		}
 		for(int i=0;i<geojson.getJSONArray("features").length();i++) {
 			JSONObject feature=geojson.getJSONArray("features").getJSONObject(i);
 			if(feature.getJSONObject("geometry").getString("type").equalsIgnoreCase("Point")) {
