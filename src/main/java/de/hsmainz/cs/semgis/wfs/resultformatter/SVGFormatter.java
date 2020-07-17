@@ -50,6 +50,7 @@ public class SVGFormatter extends ResultFormatter {
 				writer.writeStartElement("circle");
 				writer.writeAttribute("stroke", "black");
 				writer.writeAttribute("stroke-width","3");
+				writer.writeAttribute("r", "10");
 				writer.writeAttribute("cy", geometry.getJSONArray("coordinates").getDouble(1)+"");
 				writer.writeAttribute("cx", geometry.getJSONArray("coordinates").getDouble(0)+"");
 				writer.writeEndElement();
