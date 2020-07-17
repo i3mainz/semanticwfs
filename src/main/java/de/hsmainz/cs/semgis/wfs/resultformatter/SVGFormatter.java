@@ -20,8 +20,8 @@ public class SVGFormatter extends ResultFormatter {
 	 * Constructor for this class.
 	 */
 	public SVGFormatter() {
-		this.mimeType="application/svg";
-		this.exposedType="application/svg";
+		this.mimeType="image/svg+xml";
+		this.exposedType="image/svg+xml";
 	}
 	
 	@Override
