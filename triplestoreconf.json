@@ -9,7 +9,7 @@
 "https://digits2.mainzed.org/squirrels/sparql":{"endpoint":"https://digits2.mainzed.org/squirrels/sparql", "name":"Squirrels", "type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","geo":["http://www.opengis.net/ont/geosparql#hasGeometry"],"bboxlimit":500},
 "https://digits2.mainzed.org/pleiades/sparql":{"endpoint":"https://digits2.mainzed.org/pleiades/sparql", "name":"Pleiades", "type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","geo":["http://www.opengis.net/ont/geosparql#hasGeometry"],"bboxlimit":500},
 "https://digits2.mainzed.org/atlantgis/sparql":{"endpoint":"https://digits2.mainzed.org/atlantgis/sparql", "name":"AtlantGIS", "type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","geo":["http://www.opengis.net/ont/geosparql#hasGeometry"],"bboxlimit":500},
-"https://digits2.mainzed.org/osi/sparql":{"endpoint":"https://digits2.mainzed.org/osi/sparql", "name":"AtlantGIS", "type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","geo":["http://www.opengis.net/ont/geosparql#hasGeometry"],"bboxlimit":500}
+"https://digits2.mainzed.org/osi/sparql":{"endpoint":"https://digits2.mainzed.org/osi/sparql", "name":"OSI", "type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","geo":["http://www.opengis.net/ont/geosparql#hasGeometry"],"bboxlimit":500}
 
 }
 }
