@@ -1,5 +1,6 @@
 var a00310 =
 [
+    [ "SVGFormatter", "a00310.html#a43d3cfa6010e0a04d76d8dcf68161ca2", null ],
     [ "[static initializer]", "a00310.html#a2e87c5ede6b7235170d287cd2e254454", null ],
     [ "formatFooter", "a00310.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00310.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
