@@ -46,13 +46,25 @@ public class SVGFormatter extends ResultFormatter {
 		for(int i=0;i<geojson.getJSONArray("features").length();i++) {
 			JSONObject feature=geojson.getJSONArray("features").getJSONObject(i);
 			JSONObject geometry=feature.getJSONObject("geometry");
-			writer.writeStartElement("polyline");
-			String points="";
-			for(int j=0;j<geometry.getJSONArray("coordinates").length()-1;j+=2) {
-				points+=geometry.getJSONArray("coordinates").getDouble(j)+","+geometry.getJSONArray("coordinates").getDouble(j+1);
+			if(geometry.getString("type").equalsIgnoreCase("Point")) {
+				writer.writeStartElement("circle");
+				writer.writeAttribute("stroke", "black");
+				writer.writeAttribute("stroke-width","3");
+				writer.writeAttribute("cy", geometry.getJSONArray("coordinates").getDouble(1)+"");
+				writer.writeAttribute("cx", geometry.getJSONArray("coordinates").getDouble(0)+"");
+				writer.writeEndElement();
+			}else {
+				writer.writeStartElement("polyline");
+				writer.writeAttribute("stroke", "black");
+				writer.writeAttribute("stroke-width","3");
+				String points="";
+				for(int j=0;j<geometry.getJSONArray("coordinates").length()-1;j+=2) {
+					points+=geometry.getJSONArray("coordinates").getDouble(j)+","+geometry.getJSONArray("coordinates").getDouble(j+1);
+				}
+				writer.writeAttribute("points", points);
+				writer.writeEndElement();
 			}
-			writer.writeAttribute("points", points);
-			writer.writeEndElement();
+
 		}
 		/*<svg xmlns="http://www.w3.org/2000/svg"
 			    xmlns:xlink="http://www.w3.org/1999/xlink"
