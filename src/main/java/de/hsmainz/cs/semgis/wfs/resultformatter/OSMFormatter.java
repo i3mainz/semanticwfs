@@ -1,6 +1,7 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter;
 
 import java.io.StringWriter;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.xml.stream.XMLOutputFactory;
@@ -8,6 +9,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
 import org.apache.jena.query.ResultSet;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
@@ -112,6 +114,7 @@ public class OSMFormatter extends ResultFormatter {
 		for(String ns:WebService.nameSpaceCache.get(featuretype.toLowerCase()).keySet()) {
 			writer.setPrefix(WebService.nameSpaceCache.get(featuretype.toLowerCase()).get(ns),ns);
 		}
+		Integer nodecounter=0;
 		for(int i=0;i<geojson.getJSONArray("features").length();i++) {
 			JSONObject feature=geojson.getJSONArray("features").getJSONObject(i);
 			if(feature.getJSONObject("geometry").getString("type").equalsIgnoreCase("Point")) {
@@ -120,11 +123,50 @@ public class OSMFormatter extends ResultFormatter {
 				writer.writeAttribute("lat", feature.getJSONObject("geometry").getJSONArray("coordinates").getDouble(1)+"");
 				writer.writeAttribute("lon", feature.getJSONObject("geometry").getJSONArray("coordinates").getDouble(0)+"");
 			}else if(feature.getJSONObject("geometry").getString("type").contains("Multi")) {
+				JSONArray ways=feature.getJSONObject("geometry").getJSONArray("coordinates");		
+				int j=0;
+				List<Integer> wayids=new LinkedList<Integer>();
+				for(j=0;j<ways.length();j++) {			
+					for(int l=0;l<feature.getJSONObject("geometry").getJSONArray("coordinates").length();l++) {
+						writer.writeStartElement("node");
+						writer.writeAttribute("id","-"+nodecounter++);
+						writer.writeAttribute("lat", feature.getJSONObject("geometry").getJSONArray("coordinates").getDouble(1)+"");
+						writer.writeAttribute("lon", feature.getJSONObject("geometry").getJSONArray("coordinates").getDouble(0)+"");
+						writer.writeEndElement();
+						i++;
+					}
+					writer.writeStartElement("way");
+					writer.writeAttribute("id","-"+nodecounter++);
+					wayids.add(nodecounter-1);
+					for(int k=1;k<i;k++) {
+						writer.writeStartElement("nd");
+						writer.writeAttribute("ref", "-"+k);
+						writer.writeEndElement();
+					}
+				}				
 				writer.writeStartElement("relation");
-				writer.writeAttribute("id","-"+i);
+				writer.writeAttribute("id","-"+nodecounter++);
+				for(Integer wayid:wayids) {
+					writer.writeStartElement("member");
+					writer.writeAttribute("type", "way");
+					writer.writeAttribute("id", "-"+wayid);
+					writer.writeEndElement();
+				}
 			}else {
+				for(int j=0;j<feature.getJSONObject("geometry").getJSONArray("coordinates").length();j++) {
+					writer.writeStartElement("node");
+					writer.writeAttribute("id","-"+nodecounter++);
+					writer.writeAttribute("lat", feature.getJSONObject("geometry").getJSONArray("coordinates").getDouble(1)+"");
+					writer.writeAttribute("lon", feature.getJSONObject("geometry").getJSONArray("coordinates").getDouble(0)+"");
+					writer.writeEndElement();
+				}
 				writer.writeStartElement("way");
-				writer.writeAttribute("id","-"+i);
+				writer.writeAttribute("id","-"+nodecounter++);
+				for(int k=1;k<nodecounter-1;k++) {
+					writer.writeStartElement("nd");
+					writer.writeAttribute("ref", "-"+k);
+					writer.writeEndElement();
+				}
 			}
 			addTagsFromJSONObject(feature.getJSONObject("properties"), writer,feature.get("id").toString(),"");
 			writer.writeEndElement();
