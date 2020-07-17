@@ -1,7 +1,2 @@
-<map id="ResultStyleFormatter" name="ResultStyleFormatter">
-<area shape="rect" id="node2" href="$a00336.html" title="GeoJSONCSSFormatter" alt="" coords="200,5,367,32"/>
-<area shape="rect" id="node3" href="$a00340.html" title="KMLStyleFormatter" alt="" coords="216,56,351,83"/>
-<area shape="rect" id="node4" href="$a00344.html" title="MapCSSFormatter" alt="" coords="218,107,349,133"/>
-<area shape="rect" id="node5" href="$a00352.html" title="SimpleStyleFormatter" alt="" coords="209,157,357,184"/>
-<area shape="rect" id="node6" href="$a00356.html" title="SLDFormatter" alt="" coords="231,208,335,235"/>
+<map id="ResultMetadataFormatter" name="ResultMetadataFormatter">
 </map>

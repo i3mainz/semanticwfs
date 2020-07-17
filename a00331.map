@@ -1,4 +1,4 @@
-<map id="ResultMetadataFormatter" name="ResultMetadataFormatter">
-<area shape="rect" id="node2" href="$a00324.html" title="DCATFormatter" alt="" coords="5,80,120,107"/>
-<area shape="rect" id="node3" href="$a00328.html" title="GMDFormatter" alt="" coords="144,80,253,107"/>
+<map id="WCSResultFormatter" name="WCSResultFormatter">
+<area shape="rect" id="node2" href="$a00309.html" title="Abstract class to downlift query results. " alt="" coords="1376,196,1492,223"/>
+<area shape="rect" id="node5" href="$a00369.html" title="ResultStyleFormatter" alt="" coords="1096,117,1243,144"/>
 </map>
