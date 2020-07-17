@@ -1,13 +1,16 @@
 {
 "name":"Triple Store Configuration",
 "endpoints":{
-"https://query.wikidata.org/sparql":{"endpoint":"https://query.wikidata.org/sparql", "name":"Wikidata","type":"http://www.wikidata.org/prop/direct/P31","geo":["http://www.wikidata.org/prop/direct/P625"],"bboxlimit":500},
-"https://dbpedia.org/sparql":{"endpoint":"https://dbpedia.org/sparql", "name":"DBPedia", "type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","geo":["http://www.w3.org/2003/01/geo/wgs84_pos#lat","http://www.w3.org/2003/01/geo/wgs84_pos#lon"],"bboxlimit":500},
-"http://linkedgeodata.org/sparql":{"endpoint":"http://linkedgeodata.org/sparql", "name":"LinkedGeoData", "type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","geo":["http://www.opengis.net/ont/geosparql#hasGeometry"],"bboxlimit":500},
-"https://ld.gdi-de.org/graphdb/repositories/poi":{"endpoint":"https://ld.gdi-de.org/graphdb/repositories/poi", "name":"GDI-DE POI", "type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","geo":["http://www.opengis.net/ont/geosparql#hasGeometry"],"bboxlimit":500},
-"https://ld.gdi-de.org/graphdb/repositories/gn_inspire":{"endpoint":"https://ld.gdi-de.org/graphdb/repositories/gn_inspire", "name":"GDI-DE GN250", "type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","geo":["http://www.opengis.net/ont/geosparql#hasGeometry"],"bboxlimit":500},
-"https://digits2.mainzed.org/squirrels/sparql":{"endpoint":"https://digits2.mainzed.org/squirrels/sparql", "name":"Squirrels", "type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","geo":["http://www.opengis.net/ont/geosparql#hasGeometry"],"bboxlimit":500},
-"https://digits2.mainzed.org/pleiades/sparql":{"endpoint":"https://digits2.mainzed.org/pleiades/sparql", "name":"Pleiades", "type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","geo":["http://www.opengis.net/ont/geosparql#hasGeometry"],"bboxlimit":500}
+"https://query.wikidata.org/sparql":{"endpoint":"https://query.wikidata.org/sparql", "name":"Wikidata","epsg":4326,"type":"http://www.wikidata.org/prop/direct/P31","geo":["http://www.wikidata.org/prop/direct/P625"],"bboxlimit":500},
+"https://dbpedia.org/sparql":{"endpoint":"https://dbpedia.org/sparql", "name":"DBPedia","epsg":4326, "type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","geo":["http://www.w3.org/2003/01/geo/wgs84_pos#lat","http://www.w3.org/2003/01/geo/wgs84_pos#lon"],"bboxlimit":500},
+"http://linkedgeodata.org/sparql":{"endpoint":"http://linkedgeodata.org/sparql","epsg":4326, "name":"LinkedGeoData", "type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","geo":["http://www.opengis.net/ont/geosparql#hasGeometry"],"bboxlimit":500},
+"https://ld.gdi-de.org/graphdb/repositories/poi":{"endpoint":"https://ld.gdi-de.org/graphdb/repositories/poi","epsg":25832, "name":"GDI-DE POI", "type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","geo":["http://www.opengis.net/ont/geosparql#hasGeometry"],"bboxlimit":500},
+"https://ld.gdi-de.org/graphdb/repositories/gn_inspire":{"endpoint":"https://ld.gdi-de.org/graphdb/repositories/gn_inspire","epsg":25832, "name":"GDI-DE GN250", "type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","geo":["http://www.opengis.net/ont/geosparql#hasGeometry"],"bboxlimit":500},
+"https://digits2.mainzed.org/squirrels/sparql":{"endpoint":"https://digits2.mainzed.org/squirrels/sparql","epsg":4326, "name":"Squirrels", "type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","geo":["http://www.opengis.net/ont/geosparql#hasGeometry"],"bboxlimit":500},
+"https://digits2.mainzed.org/pleiades/sparql":{"endpoint":"https://digits2.mainzed.org/pleiades/sparql","epsg":4326, "name":"Pleiades", "type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","geo":["http://www.opengis.net/ont/geosparql#hasGeometry"],"bboxlimit":500},
+"https://digits2.mainzed.org/atlantgis/sparql":{"endpoint":"https://digits2.mainzed.org/atlantgis/sparql","epsg":4326, "name":"AtlantGIS", "type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","geo":["http://www.opengis.net/ont/geosparql#hasGeometry"],"bboxlimit":500},
+"https://digits2.mainzed.org/osi/sparql":{"endpoint":"https://digits2.mainzed.org/osi/sparql", "name":"OSI","epsg":27700, "type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","geo":["http://www.opengis.net/ont/geosparql#hasGeometry"],"bboxlimit":500}
+
 
 }
 }
