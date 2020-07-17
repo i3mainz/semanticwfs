@@ -16,6 +16,14 @@ import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
 public class SVGFormatter extends ResultFormatter {
 
+	/**
+	 * Constructor for this class.
+	 */
+	public SVGFormatter() {
+		this.mimeType="application/svg";
+		this.exposedType="application/svg";
+	}
+	
 	@Override
 	public String formatter(ResultSet results, String startingElement, String featuretype, String propertytype,
 			String typeColumn, Boolean onlyproperty, Boolean onlyhits, String srsName, String indvar, String epsg,

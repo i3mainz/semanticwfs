@@ -52,6 +52,9 @@ public abstract class ResultFormatter {
 		if(formatString.contains("gpx")) {
 			return resultMap.get("gpx");
 		}
+		if(formatString.contains("svg")) {
+			return resultMap.get("svg");
+		}
 		if(formatString.contains("osm")) {
 			return resultMap.get("osm");
 		}
