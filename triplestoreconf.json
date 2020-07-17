@@ -7,8 +7,8 @@
 "https://ld.gdi-de.org/graphdb/repositories/poi":{"endpoint":"https://ld.gdi-de.org/graphdb/repositories/poi", "name":"GDI-DE POI", "type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","geo":["http://www.opengis.net/ont/geosparql#hasGeometry"],"bboxlimit":500},
 "https://ld.gdi-de.org/graphdb/repositories/gn_inspire":{"endpoint":"https://ld.gdi-de.org/graphdb/repositories/gn_inspire", "name":"GDI-DE GN250", "type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","geo":["http://www.opengis.net/ont/geosparql#hasGeometry"],"bboxlimit":500},
 "https://digits2.mainzed.org/squirrels/sparql":{"endpoint":"https://digits2.mainzed.org/squirrels/sparql", "name":"Squirrels", "type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","geo":["http://www.opengis.net/ont/geosparql#hasGeometry"],"bboxlimit":500},
-"https://digits2.mainzed.org/pleiades/sparql":{"endpoint":"https://digits2.mainzed.org/pleiades/sparql", "name":"Pleiades", "type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","geo":["http://www.opengis.net/ont/geosparql#hasGeometry"],"bboxlimit":500}
-"https://digits2.mainzed.org/atlantgis/sparql":{"endpoint":"https://digits2.mainzed.org/atlantgis/sparql", "name":"AtlantGIS", "type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","geo":["http://www.opengis.net/ont/geosparql#hasGeometry"],"bboxlimit":500}
+"https://digits2.mainzed.org/pleiades/sparql":{"endpoint":"https://digits2.mainzed.org/pleiades/sparql", "name":"Pleiades", "type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","geo":["http://www.opengis.net/ont/geosparql#hasGeometry"],"bboxlimit":500},
+"https://digits2.mainzed.org/atlantgis/sparql":{"endpoint":"https://digits2.mainzed.org/atlantgis/sparql", "name":"AtlantGIS", "type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","geo":["http://www.opengis.net/ont/geosparql#hasGeometry"],"bboxlimit":500},
 "https://digits2.mainzed.org/osi/sparql":{"endpoint":"https://digits2.mainzed.org/osi/sparql", "name":"AtlantGIS", "type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","geo":["http://www.opengis.net/ont/geosparql#hasGeometry"],"bboxlimit":500}
 
 }
