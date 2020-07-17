@@ -8,11 +8,11 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
 import org.apache.jena.query.ResultSet;
+import org.json.JSONObject;
 
 import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
 
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
-import de.hsmainz.cs.semgis.wfs.webservice.WebService;
 
 public class SVGFormatter extends ResultFormatter {
 
@@ -21,7 +21,10 @@ public class SVGFormatter extends ResultFormatter {
 			String typeColumn, Boolean onlyproperty, Boolean onlyhits, String srsName, String indvar, String epsg,
 			List<String> eligiblenamespaces, List<String> noteligiblenamespaces, StyleObject mapstyle,Boolean alternativeRepresentation,Boolean invertXY)
 			throws XMLStreamException {
-		
+		ResultFormatter format = resultMap.get("geojson");
+		JSONObject geojson = new JSONObject(
+				format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,srsName,indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeRepresentation,invertXY));
+		lastQueriedElemCount=format.lastQueriedElemCount;
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();
 		StringWriter strwriter=new StringWriter();
 		XMLStreamWriter writer=new IndentingXMLStreamWriter(factory.createXMLStreamWriter(strwriter));
@@ -32,20 +35,26 @@ public class SVGFormatter extends ResultFormatter {
 		writer.writeAttribute("width", "800mm");
 		writer.writeAttribute("height", "600mm");
 		writer.writeAttribute("viewBox", "-400 -300 800 600");
-		
+		for(int i=0;i<geojson.getJSONArray("features").length();i++) {
+			JSONObject feature=geojson.getJSONArray("features").getJSONObject(i);
+			JSONObject geometry=feature.getJSONObject("geometry");
+			writer.writeStartElement("polyline");
+			String points="";
+			for(int j=0;j<geometry.getJSONArray("coordinates").length()-1;j+=2) {
+				points+=geometry.getJSONArray("coordinates").getDouble(j)+","+geometry.getJSONArray("coordinates").getDouble(j+1);
+			}
+			writer.writeAttribute("points", points);
+			writer.writeEndElement();
+		}
 		/*<svg xmlns="http://www.w3.org/2000/svg"
 			    xmlns:xlink="http://www.w3.org/1999/xlink"
 			    version="1.1" baseProfile="full"
 			    width="800mm" height="600mm"
 			    viewBox="-400 -300 800 600">*/
-		System.out.println(WebService.nameSpaceCache);
-		System.out.println(featuretype.toLowerCase());
-		for(String ns:WebService.nameSpaceCache.get(featuretype.toLowerCase()).keySet()) {
-			writer.setPrefix(WebService.nameSpaceCache.get(featuretype.toLowerCase()).get(ns),ns);
-		}
-		
-		// TODO Auto-generated method stub
-		return null;
+		writer.writeEndElement();
+		writer.writeEndDocument();
+		writer.flush();
+		return strwriter.toString();
 	}
 
 }

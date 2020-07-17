@@ -127,6 +127,7 @@ public abstract class ResultFormatter {
 		resultMap.put("rdf", new RDFFormatter());
 		resultMap.put("rdfjson", new RDFJSONFormatter());
 		resultMap.put("gml", new GMLFormatter());
+		resultMap.put("svg", new SVGFormatter());
 		resultMap.put("gpx", new GPXFormatter());
 		resultMap.put("csv", new CSVFormatter());
 		//resultMap.put("topojson", new TopoJSONFormatter());
