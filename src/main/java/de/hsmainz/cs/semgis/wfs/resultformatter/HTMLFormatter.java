@@ -134,8 +134,7 @@ public class HTMLFormatter extends ResultFormatter {
 		}	
 		builder.append("</div><div class=\"row\"><div class=\"left col-sm-12\"><select id=\"styles\">");
 		builder.append("<option value=\""+featuretype+"_DefaultStyle\">"+featuretype+"_DefaultStyle</option>");
-		builder.append("</select><button id=\"applystyle\"/>Apply Style</button><table width=\"100%\" align=\"center\" id=\"queryres\" class=\"description\" border=\"1\"></table>");
-		/*
+		builder.append("</select><button id=\"applystyle\"/>Apply Style</button><table width=\"100%\" align=\"center\" id=\"queryres\" class=\"description\" border=\"1\">");
 		Boolean first = true;
 		JSONArray features = geojson.getJSONArray("features");
 		List<String> propToTableCol=new LinkedList<String>();
@@ -277,7 +276,6 @@ public class HTMLFormatter extends ResultFormatter {
 			builder.append("</tr>");
 		}
 		builder.append("</tbody></table></div></div>");
-		*/
 		// System.out.println(builder.toString());
 		return builder.toString();
 	}
