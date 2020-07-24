@@ -58,8 +58,10 @@ function geometryToGeoJSON(geomtype,coordinates){
 			i+=2;
 		}
         res["geometry"]["coordinates"]=res["geometry"]["coordinates"].substring(0,res["geometry"]["coordinates"].length-2)
-        if(geomtype=="linearring" || geomtype=="polygon"){
+    if(geomtype=="linearring" || geomtype=="polygon"){
 		res["geometry"]["coordinates"]+="]]"
+	}else if(geomtype=="linestring"){
+		res["geometry"]["coordinates"]+="]"
 	}else{
 		res["geometry"]["coordinates"]+=""
 	}
