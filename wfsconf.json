@@ -224,10 +224,10 @@
 ,
 {"namespace":"http://ld.gdi-de.org/id/de.bund.bkg.poi/",
 "indvar":"item","description":"POI Schulen Beruf","geometrytype":"Point","targetCRS":"EPSG:25832","useorderby":true,
-"class":"https://www.wikidata.org/entity/Q322563",
+"class":"http://www.wikidata.org/entity/Q322563",
 "namespaces":["http://www.xplanung.de/xplangml/4/1","http://www.opengis.net/gml/"],
 "namespacesmetadata":["http://www.w3.org/ns/prov#","http://www.w3.org/ns/dcat#"],
-"query":"SELECT ?item ?rel ?val ?the_geom WHERE{ ?item rdf:type <https://www.wikidata.org/entity/Q322563> . ?item ?rel ?val . OPTIONAL{?val geo:asWKT ?the_geom .} }",
+"query":"SELECT ?item ?rel ?val ?the_geom WHERE{ ?item rdf:type <http://www.wikidata.org/entity/Q322563> . ?item ?rel ?val . OPTIONAL{?val geo:asWKT ?the_geom .} }",
 "triplestore":"https://ld.gdi-de.org/graphdb/repositories/poi",
 "type":"WFS", 
 "name":"POI_Schulen_Beruf"}
