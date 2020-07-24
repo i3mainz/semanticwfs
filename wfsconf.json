@@ -213,6 +213,16 @@
 "name":"POI_RHV"}
 ,
 {"namespace":"http://ld.gdi-de.org/id/de.bund.bkg.poi/",
+"indvar":"item","description":"POI Schulen Allgemein","geometrytype":"Point","targetCRS":"EPSG:25832","useorderby":true,
+"class":"http://www.wikidata.org/entity/Q3914",
+"namespaces":["http://www.xplanung.de/xplangml/4/1","http://www.opengis.net/gml/"],
+"namespacesmetadata":["http://www.w3.org/ns/prov#","http://www.w3.org/ns/dcat#"],
+"query":"SELECT ?item ?rel ?val ?the_geom WHERE{ ?item rdf:type <http://www.wikidata.org/entity/Q3914> . ?item ?rel ?val . OPTIONAL{?val geo:asWKT ?the_geom .} }",
+"triplestore":"https://ld.gdi-de.org/graphdb/repositories/poi",
+"type":"WFS", 
+"name":"POI_Schulen_Allgemein"}
+,
+{"namespace":"http://ld.gdi-de.org/id/de.bund.bkg.poi/",
 "indvar":"item","description":"POI Staatsanwaltschaften","geometrytype":"Point","targetCRS":"EPSG:25832","useorderby":true,
 "class":"http://www.wikidata.org/entity/Q1415080",
 "namespaces":["http://www.xplanung.de/xplangml/4/1","http://www.opengis.net/gml/"],
