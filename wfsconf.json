@@ -277,7 +277,7 @@
 "class":"http://www.adv-online.de/namespaces/adv/gid/6.0#AX_Gebaeude",
 "namespaces":["http://www.xplanung.de/xplangml/4/1","http://www.opengis.net/gml/"],
 "namespacesmetadata":["http://www.w3.org/ns/prov#","http://www.w3.org/ns/dcat#"],
-"query":"SELECT ?item ?rel ?val ?the_geom WHERE{ ?item rdf:type <http://www.adv-online.de/namespaces/adv/gid/6.0#AX_Gebaeude> . ?item ?rel ?val . OPTIONAL{?val geo:asWKT ?the_geom .} }",
+"query":"SELECT ?item ?rel ?val ?rel1 ?val1 ?rel2 ?val2 ?the_geom WHERE{ ?item rdf:type <http://www.adv-online.de/namespaces/adv/gid/6.0#AX_Gebaeude> . ?item ?rel ?val . OPTIONAL{ ?val <http://www.opengis.net/ont/geosparql#asWKT> ?the_geom } OPTIONAL{?val ?rel1 ?val1 . FILTER(STRSTARTS(STR(?rel1), \"http://www.adv-online.de/namespaces/adv/gid/6.0#\")) OPTIONAL { ?val1 ?rel2 ?val2 . FILTER(STRSTARTS(STR(?rel2), \"http://www.adv-online.de/namespaces/adv/gid/6.0#\")) }} }",
 "triplestore":"https://ld.gdi-de.org/graphdb/repositories/aaa6test",
 "type":"WFS", 
 "name":"AX_Gebäude"}
@@ -297,7 +297,7 @@
 "class":"http://www.adv-online.de/namespaces/adv/gid/6.0#AX_Flurstueck",
 "namespaces":["http://www.xplanung.de/xplangml/4/1","http://www.opengis.net/gml/"],
 "namespacesmetadata":["http://www.w3.org/ns/prov#","http://www.w3.org/ns/dcat#"],
-"query":"SELECT ?item ?rel ?val ?the_geom WHERE{ ?item rdf:type <http://www.adv-online.de/namespaces/adv/gid/6.0#AX_Flurstueck> . ?item ?rel ?val . OPTIONAL{?val geo:asWKT ?the_geom .} }",
+"query":"SELECT ?item ?rel ?val ?rel1 ?val1 ?rel2 ?val2 ?the_geom WHERE{ ?item rdf:type <http://www.adv-online.de/namespaces/adv/gid/6.0#AX_Flurstueck> . ?item ?rel ?val . OPTIONAL{ ?val <http://www.opengis.net/ont/geosparql#asWKT> ?the_geom } OPTIONAL{?val ?rel1 ?val1 . FILTER(STRSTARTS(STR(?rel1), \"http://www.adv-online.de/namespaces/adv/gid/6.0#\")) OPTIONAL { ?val1 ?rel2 ?val2 . FILTER(STRSTARTS(STR(?rel2), \"http://www.adv-online.de/namespaces/adv/gid/6.0#\")) }} }",
 "triplestore":"https://ld.gdi-de.org/graphdb/repositories/aaa6test",
 "type":"WFS", 
 "name":"AX_Flurstück"}
