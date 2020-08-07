@@ -17,12 +17,20 @@ import org.json.JSONObject;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 import de.hsmainz.cs.semgis.wfs.webservice.WebService;
 
+/**
+ * Formats a query result to HTML.
+ */
 public class HTMLFormatter extends ResultFormatter {
 
+	/** HTMLHeader for export 1.*/
 	public String htmlHeader = "";
-	
+	/** HTMLHeader for export 2.*/
 	public String htmlHeader2 ="";
 
+	/**
+	 * Constructor for this class.
+	 * Reads HTML header from given HTML template files
+	 */
 	public HTMLFormatter() {
 		super();
 		try {
@@ -39,12 +47,23 @@ public class HTMLFormatter extends ResultFormatter {
 		this.exposedType = "text/html";
 	}
 
+	/**
+	 * Utility method to read a file.
+	 * @param path The file path 
+	 * @param encoding the file encoding
+	 * @return A string which includes the contents of the file
+	 * @throws IOException on error
+	 */
 	static String readFile(String path, Charset encoding) throws IOException {
 		byte[] encoded = Files.readAllBytes(Paths.get(path));
 		return new String(encoded, encoding);
 	}
 	
-	
+	/**
+	 * Shortens a given URI or a list of URIs to a label or a list of labels.
+	 * @param keyPath The String to shorten
+	 * @return The label
+	 */
 	public String keyPathToLabel(String keyPath) {
 		if(!keyPath.contains(";")) {
 			if (keyPath.contains("#")) {
@@ -69,6 +88,14 @@ public class HTMLFormatter extends ResultFormatter {
 		return result;
 	}
 	
+	/**
+	 * Reads columns recursively and prints the results in a given format.
+	 * @param builder The StringBuilder for collecting the result
+	 * @param properties Properties as given by the GeoJSON input
+	 * @param propToTableCol List of properties which are mapped to the result table
+	 * @param keyPath The property path to reconstruct the property chain in case of recursion
+	 * @param index The index in the table list
+	 */
 	public void collectColumns(StringBuilder builder,JSONObject properties,List<String> propToTableCol,String keyPath,Integer index) {
 		for (String key : properties.keySet()) {
 			Boolean subcols=false;

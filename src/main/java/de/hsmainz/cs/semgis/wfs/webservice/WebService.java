@@ -6,7 +6,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -50,6 +49,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 
+/**
+ * Implements OGC API Features and WFS webservice functionality.
+ *
+ */
 @OpenAPIDefinition(
 		 info = @Info(
 				    title = "SemanticWFS API",
@@ -321,6 +324,13 @@ public class WebService {
 		return null;
 	}
 
+	/**
+	 * Gets a style for a given featuretype with a given style identifier.
+	 * @param collectionid the featuretype name
+	 * @param styleid the styleid
+	 * @param format the format in which the style is returned
+	 * @return The style as String
+	 */
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections/{collectionid}/style/{styleid}")
@@ -357,6 +367,12 @@ public class WebService {
 		return Response.ok(obj.toString()).type(MediaType.TEXT_PLAIN).build();
 	}
 
+	/**
+	 * Gets a list of all styles for a given featuretype.
+	 * @param collectionid the featuretype name
+	 * @param f the format in which the style is returned
+	 * @return The style as String
+	 */
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections/{collectionid}/styles")
@@ -388,6 +404,17 @@ public class WebService {
 				.type(MediaType.APPLICATION_XML).build();
 	}
 
+	
+	/**
+	 * CSW endpoint implementation.
+	 * @param service The service identifier
+	 * @param request The request identifier
+	 * @param version The service version
+	 * @param typename The feature type name to request
+	 * @param typenames The feature type name to request
+	 * @param output The requested return format 
+	 * @return The CSW service description as XML
+	 */
 	@GET
 	@Produces(MediaType.TEXT_XML)
 	@Path("/csw")
@@ -424,6 +451,16 @@ public class WebService {
 		return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 	}
 
+	/**
+	 * CSW endpoint implementation (POST version).
+	 * @param service The service identifier
+	 * @param request The request identifier
+	 * @param version The service version
+	 * @param typename The feature type name to request
+	 * @param typenames The feature type name to request
+	 * @param output The requested return format 
+	 * @return The CSW service description as XML
+	 */
 	@POST
 	@Produces(MediaType.TEXT_XML)
 	@Path("/post/csw")
@@ -436,6 +473,29 @@ public class WebService {
 		return this.entryPointCSW(service, request, version, typename, typenames, output);
 	}
 
+	/**
+	 * WFS endpoint implementation. 
+	 * @param service The service identifier
+	 * @param request The request identifier
+	 * @param version The service version
+	 * @param typename The feature type name to request
+	 * @param typenames The feature type name to request
+	 * @param srsName
+	 * @param exceptions
+	 * @param bbox
+	 * @param propertyname
+	 * @param sortBy
+	 * @param style
+	 * @param resultType
+	 * @param resourceids
+	 * @param gmlobjectid
+	 * @param startindex
+	 * @param filter
+	 * @param filterLanguage
+	 * @param output
+	 * @param count
+	 * @return
+	 */
 	@GET
 	@Produces(MediaType.TEXT_XML)
 	@Path("/wfs")
@@ -500,6 +560,11 @@ public class WebService {
 		return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 	}
 
+	/**
+	 * Returns a list of feature types/collections. 
+	 * @param format The format in which the result is returned
+	 * @return The result as String
+	 */
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections")
@@ -858,6 +923,12 @@ public class WebService {
 		}
 	}
 	
+	/**
+	 * Returns information about the queryables of ths given feature type.
+	 * @param collectionid The feature type to retrieve information about
+	 * @param format The format in which to retrieve the information
+	 * @return The queryables as String
+	 */
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections/{collectionid}/queryables")
@@ -994,6 +1065,11 @@ public class WebService {
 		return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
 	}
 
+	/**
+	 * Returns the landing page of the OGC API Features service.
+	 * @param format The format in which the page is to be returned
+	 * @return The landing page as String
+	 */
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/")
@@ -1227,6 +1303,12 @@ public class WebService {
 		}
 	}
 
+	
+	/**
+	 * Returns the metadata of collections registered in the SemanticWFS. 
+	 * @param format The metadataformat in which to return the results
+	 * @return The results as String
+	 */
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections/metadata")
@@ -1263,6 +1345,14 @@ public class WebService {
 		}
 	}
 
+	/**
+	 * Gets metadata of a given collection.
+	 * @param collectionid The feture type of the collection
+	 * @param mdformat The metadata format to use
+	 * @param format The downlift format in which to return the metadata
+	 * @param collectioncall indicates whether this method has been called from a higher level method
+	 * @return The metadata as String
+	 */
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections/{collectionid}/metadata")
@@ -1303,6 +1393,15 @@ public class WebService {
 		}
 	}
 
+	/**
+	 * Returns a given collection description or parts of it.
+	 * @param collectionid The id of the collection to be considered
+	 * @param format The format in which to return the collection
+	 * @param limit The maximum amount of features to return
+	 * @param offset The offset from which to start returning features
+	 * @param bbox The boundingbox in which the returned features should fit
+	 * @return The collection description as String
+	 */
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections/{collectionid}")
@@ -1527,6 +1626,12 @@ public class WebService {
 		}
 	}
 
+	/**
+	 * Returns a schema of a given collection. 
+	 * @param collectionid The feature collection id
+	 * @param format The format in which to return the collection
+	 * @return The returned collection as String
+	 */
 	@GET
 	@Produces({ MediaType.APPLICATION_XML })
 	@Path("/collections/{collectionid}/schema")
@@ -1548,6 +1653,21 @@ public class WebService {
 
 	}
 
+	
+	/**
+	 * Returns a number of features from a given featuretype.
+	 * @param collectionid The featuretype to return from
+	 * @param format The format of the result
+	 * @param limit The maximum amount of features to return
+	 * @param offset The offset from which to return features
+	 * @param bbox The bounding box in which features which should be returned are contained
+	 * @param style The style to apply
+	 * @param bboxcrs The CRS of the boundingbox to apply
+	 * @param filter A filter expression
+	 * @param filterlang The filter expression language
+	 * @param datetime A time constraint
+	 * @return The query result as String
+	 */
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections/{collectionid}/items")
@@ -1727,6 +1847,12 @@ public class WebService {
 		}
 	}
 
+	
+	/**
+	 * Gets conformance information about the OGC API Features service.
+	 * @param format The return format for the conformance declaration
+	 * @return The conformance declaration as String 
+	 */
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/conformance")
@@ -1809,6 +1935,13 @@ public class WebService {
 
 	public String SERVERURL = "http://localhost:8080/WFSGeoSPARQL/rest/wfs?";
 
+	/**
+	 * Constructs a capabilities document for a WFS in version 1.0 .
+	 * @param version The version of the WFS service
+	 * @param versionnamespace The namespace to use
+	 * @return The capabilities document as String
+	 * @throws XMLStreamException on error
+	 */
 	public Response constructCapabilitiesWFS10(String version, String versionnamespace) throws XMLStreamException {
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();
 		StringWriter strwriter = new StringWriter();
@@ -1942,6 +2075,14 @@ public class WebService {
 		return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
 	}
 
+	
+	/**
+	 * Constructs a capabilities document for a CSW service .
+	 * @param version The version of the WFS service
+	 * @param versionnamespace The namespace to use
+	 * @return The capabilities document as String
+	 * @throws XMLStreamException on error
+	 */
 	public Response constructCapabilitiesCSW(String version, String versionnamespace) throws XMLStreamException {
 		String serviceType = "CSW";
 		String owsns = "http://www.opengis.net/ows/1.1";
@@ -2091,6 +2232,13 @@ public class WebService {
 		return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
 	}
 
+	/**
+	 * Constructs a capabilities document for a WFS in version 1.1 .
+	 * @param version The version of the WFS service
+	 * @param versionnamespace The namespace to use
+	 * @return The capabilities document as String
+	 * @throws XMLStreamException on error
+	 */
 	public Response constructCapabilities(String version, String versionnamespace) throws XMLStreamException {
 		String serviceType = "WFS";
 		String owsns = "http://www.opengis.net/ows/1.1";
@@ -2405,6 +2553,12 @@ public class WebService {
 		writer.writeEndElement();		
 	}
 
+	/**
+	 * Returns the capabilities document for a WFS service.
+	 * @param version The version of the WFS service to target
+	 * @return The capabilities document as String
+	 * @throws XMLStreamException on error
+	 */
 	@GET
 	@Produces(MediaType.TEXT_XML)
 	@Path("/wfs/getCapabilities")
@@ -2418,11 +2572,11 @@ public class WebService {
 	/**
 	 * Describes a feature type according to the WFS1.0 specification.
 	 * 
-	 * @param writer
-	 * @param featuretype
-	 * @param versionnamespace
-	 * @param version
-	 * @throws XMLStreamException
+	 * @param writer XMLWriter to write the specification
+	 * @param featuretype the feature type to consider
+	 * @param versionnamespace the versionnamespace to write
+	 * @param version the version to use
+	 * @throws XMLStreamException on error
 	 */
 	public void describeFeatureTypeWFS10(XMLStreamWriter writer, JSONObject featuretype, String versionnamespace,
 			String version) throws XMLStreamException {
@@ -2461,6 +2615,14 @@ public class WebService {
 		writer.writeEndElement();
 	}
 
+	/**
+	 * Creates a feature type description.
+	 * @param writer the XMLWriter for writing the feature type description
+	 * @param featuretype the feature type to describe
+	 * @param versionnamespace the versionnamespace to use
+	 * @param version the version to write
+	 * @throws XMLStreamException on error
+	 */
 	public void describeFeatureType(XMLStreamWriter writer, JSONObject featuretype, String versionnamespace,
 			String version) throws XMLStreamException {
 		if ("1.0.0".equals(version) || "1.1.0".equals(version)) {
@@ -2506,6 +2668,13 @@ public class WebService {
 		writer.writeEndElement();
 	}
 
+	/**
+	 * Writes the spatial capabilities part of the WFS document.
+	 * @param writer The XMLWriter to write the document part
+	 * @param versionnamespace The versionnamespace to write
+	 * @param namespace The namespace to use
+	 * @throws XMLStreamException on error
+	 */
 	public void describeSpatialCapabilities(XMLStreamWriter writer, String versionnamespace, String namespace)
 			throws XMLStreamException {
 		writer.writeStartElement(namespace, "Spatial_Capabilities");
@@ -2564,6 +2733,13 @@ public class WebService {
 		writer.writeEndElement();
 	}
 
+	/**
+	 * Creates the spatial capabilities document for a WFS in version 1.0.
+	 * @param writer The XMLWriter to write the documentation with
+	 * @param versionnamespace The versionnamespace to use for writing
+	 * @param namespace The namespace to use
+	 * @throws XMLStreamException on error
+	 */
 	public void describeSpatialCapabilitiesWFS10(XMLStreamWriter writer, String versionnamespace, String namespace)
 			throws XMLStreamException {
 		writer.writeStartElement(namespace, "Spatial_Capabilities");
@@ -2591,6 +2767,13 @@ public class WebService {
 		writer.writeEndElement();
 	}
 
+	/**
+	 * Writes the scalar capabilities document for a WFS.
+	 * @param writer The XMLStreamWriter to write the capabilities document with
+	 * @param versionnamespace The versionnamespace to use
+	 * @param namespace The namespace to use for writing
+	 * @throws XMLStreamException on error
+	 */
 	public void describeScalarCapabilities(XMLStreamWriter writer, String versionnamespace, String namespace)
 			throws XMLStreamException {
 		writer.writeStartElement(namespace, "Scalar_Capabilities");
@@ -2626,6 +2809,13 @@ public class WebService {
 		writer.writeEndElement();
 	}
 
+	/**
+	 * Describes a feature type as an answer to a WFS request.
+	 * @param typename The feature type to describe
+	 * @param version The version of the WFS
+	 * @return The feature type description document
+	 * @throws XMLStreamException on error
+	 */
 	@GET
 	@Produces(MediaType.TEXT_XML)
 	@Path("/wfs/describeFeatureType")
@@ -2726,8 +2916,14 @@ public class WebService {
 		return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
 	}
 
+	/**
+	 * Describes a feature type in JSON.
+	 * @param typename The type name to describe
+	 * @param version The version of the WFS
+	 * @return The JSON document to return
+	 */
 	@GET
-	@Produces(MediaType.TEXT_XML)
+	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/wfs/describeFeatureTypeJSON")
 	public Response describeFeatureTypeJSON(
 			@Parameter(description="The feature type to describe") @QueryParam("typename") String typename,
@@ -2805,10 +3001,17 @@ public class WebService {
 		return Response.ok(schema.toString(2)).type(MediaType.APPLICATION_JSON).build();
 	}
 
+	
+	/**
+	 * Gets geospatial classes from a SPARQL endpoint.
+	 * @param endpoint The SPARQL endpoint
+	 * @return A JSON document containing class descriptions
+	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/service/getGeoClassesFromEndpoint")
-	public Response getGeoClassesFromOntology(@Parameter(description="The SPARQL endpoint to load classes from") @QueryParam("endpoint") String endpoint) {
+	public Response getGeoClassesFromOntology(
+			@Parameter(description="The SPARQL endpoint to load classes from") @QueryParam("endpoint") String endpoint) {
 		if(triplestoreconf.getJSONObject("endpoints").has(endpoint)) {
 			Map<String,String> classes=TripleStoreConnector.getClassesFromOntology(triplestoreconf.getJSONObject("endpoints").getJSONObject(endpoint));
 			JSONObject result=new JSONObject();
@@ -2821,6 +3024,10 @@ public class WebService {
 		}
 	}
 	
+	/**
+	 * Gets available SPARQL endpoitns from the triplestore configuration.
+	 * @return A JSON document containing SPARQL endpoint descriptions
+	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/service/getEndpoints")
@@ -2828,6 +3035,12 @@ public class WebService {
 		return Response.ok(triplestoreconf.toString(2)).type(MediaType.APPLICATION_JSON).build();
 	}
 
+	/**
+	 * Gets available properties associated with a certain class.
+	 * @param endpoint The SPARQL endpoint to query
+	 * @param classs The class to use in the query
+	 * @return A JSON document containing the queried properties
+	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/service/getPropertiesByClass")
@@ -3099,6 +3312,24 @@ public class WebService {
 		return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 	}
 
+	
+	/**
+	 * Adds a feature type to the SemanticWFS.
+	 * @param sparqlQuery The SPARQL query to be used by this feature type.
+	 * @param name The feature type name
+	 * @param indvar The individual variable
+	 * @param bboxlimit 
+	 * @param classs
+	 * @param type
+	 * @param description
+	 * @param targetCRS
+	 * @param namespace
+	 * @param triplestore
+	 * @param username
+	 * @param password
+	 * @param authtoken
+	 * @return
+	 */
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/service/addFeatureType")
@@ -3144,6 +3375,17 @@ public class WebService {
 		return false;
 	}
 	
+	/**
+	 * Adds a SPARQL endpoint to the triplestoreconf configuration.
+	 * @param name The name of the SPARQL endpoint
+	 * @param endpoint The SPARQL endpoint address
+	 * @param typerel The type relation of the SPARQL endpoint
+	 * @param georel The geometrical relation of the SPARQL endpoint
+	 * @param username A username required to save the configuration
+	 * @param password A password required to save the configuration
+	 * @param authtoken An authtoken authorizing the configuration
+	 * @return True if the endpoint has been successfully added, false otherwise
+	 */
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/service/addEndpoint")
@@ -3174,6 +3416,13 @@ public class WebService {
 		return false;
 	}
 
+	
+	/**
+	 * Saves feature types in the SemanticWFS Service.
+	 * @param featureTypesJSON The featuretype JSON to save
+	 * @param authtoken The authtoken authorizing the save operation
+	 * @return True if successful, false otherwise
+	 */
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/service/saveFeatureTypes")
@@ -3189,6 +3438,12 @@ public class WebService {
 		return false;
 	}
 	
+	/**
+	 * Performs a login returning an authtoken if successful.
+	 * @param username The username
+	 * @param password The password
+	 * @return An authtoken if successful, an emptry String if not
+	 */
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -3204,6 +3459,10 @@ public class WebService {
         return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 	}
 
+	/**
+	 * Returns featuretypes known by the SemanticWFS service.
+	 * @return The feature type document as JSON.
+	 */
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/service/featureTypes")
@@ -3211,6 +3470,10 @@ public class WebService {
 		return wfsconf.toString(2);
 	}
 
+	/**
+	 * Returns prefixes known by the SemanticWFS service.
+	 * @return The prefix document as JSON.
+	 */
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/service/prefixes")
@@ -3226,6 +3489,10 @@ public class WebService {
 		return wfsconf.toString(2);
 	}
 
+	/**
+	 * Returns the query configuration document.
+	 * @return The query configuration document as JSON.
+	 */
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/service/queryConfigs")
@@ -3245,6 +3512,12 @@ public class WebService {
 		return Response.ok(res.toString(2)).type(MediaType.APPLICATION_JSON).build();
 	}
 
+	/**
+	 * Exposes a query service which returns a SPARQL query result as REST.
+	 * @param query The query to send
+	 * @param endpoint The endpoint to query
+	 * @return The query result
+	 */
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/service/queryservice")
@@ -3256,6 +3529,13 @@ public class WebService {
 		return TripleStoreConnector.executeQuery(query, endpoint, false);
 	}
 
+	/**
+	 * Exposes a query service which returns a SPARQL query result as REST.
+	 * @param query The query to send
+	 * @param endpoint The endpoint to query
+	 * @param geojson indicates whether to return an additional representation as GeoJSON for a map view
+	 * @return The query result
+	 */
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/service/queryservicegeojson")

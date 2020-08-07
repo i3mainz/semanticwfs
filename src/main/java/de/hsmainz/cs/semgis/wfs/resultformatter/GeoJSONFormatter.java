@@ -431,6 +431,12 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 		this.contextMapper.put(keyPath,result);
 	}
 	
+	/**
+	 * Adds a list of key and values to a JSONObject
+	 * @param properties the JSONObject
+	 * @param rell the list of relations
+	 * @param vall the list of values
+	 */
 	public void addKeyValList(JSONObject properties,Collection<String> rell,Collection<String> vall) {
 		//System.out.println("AddKeyValList");
 		//System.out.println(rell.toString());
@@ -480,7 +486,12 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 
 	}	
 	
-	
+	/**
+	 * Adds a key/value pair to a JSONObject, creates a JSONArray if neccessary.
+	 * @param properties the JSONObject
+	 * @param rel Relation to add
+	 * @param val Value to add
+	 */
 	public void addKeyVal(JSONObject properties,String rel,String val) {
 		if(!this.contextMapper.containsKey(rel)) {
 			this.relToMap(rel);
