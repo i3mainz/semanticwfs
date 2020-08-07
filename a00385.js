@@ -14,7 +14,6 @@ var a00385 =
     [ "getStyle", "a00385.html#aef725dfee0f51e6220a91217779f1b26", null ],
     [ "getStyleNames", "a00385.html#a5d4d9167bb25799fda9197c3be4f30d4", null ],
     [ "getTemporalExtentFromTripleStoreData", "a00385.html#aff053b6ba7ef89c25b3593a90e0635cd", null ],
-    [ "main", "a00385.html#a8b260eecbaabcef8473fd87ada040682", null ],
     [ "binaryOperators", "a00385.html#a68992f1d27be6c66985df6cb7183800c", null ],
     [ "featureTypes", "a00385.html#aa9472aff15c69cbcf8d5344814f33bed", null ],
     [ "prefixCollection", "a00385.html#a9181599cfb112592f667d6161a33e4e8", null ],

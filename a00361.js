@@ -3,7 +3,7 @@ var a00361 =
     [ "KMLStyleFormatter", "a00361.html#a0e77f5c737a42f12e9c287a6d15525a5", null ],
     [ "[static initializer]", "a00361.html#a2e87c5ede6b7235170d287cd2e254454", null ],
     [ "cssLiteralToKML", "a00361.html#a273722a20aed6e29536313c889f75565", null ],
-    [ "cssLiteralToMap", "a00361.html#a2804d46f6cb09d1c5089b5a866f8850d", null ],
+    [ "cssLiteralToMap", "a00361.html#a44e42d03097087117af696f8605686e7", null ],
     [ "formatFooter", "a00361.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatGeometry", "a00361.html#a399873993b7ab0c34a034702639a6cad", null ],
     [ "formatHeader", "a00361.html#abaa077ed79fcfd5a2279597e3f324c64", null ],

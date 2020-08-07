@@ -1,5 +1,5 @@
 <map id="GeoHashFormatter" name="GeoHashFormatter">
 <area shape="rect" id="node2" href="$a00337.html" title="WFSResultFormatter" alt="" coords="1541,35,1688,61"/>
 <area shape="rect" id="node3" href="$a00309.html" title="Abstract class to downlift query results. " alt="" coords="1376,152,1492,179"/>
-<area shape="rect" id="node6" href="$a00369.html" title="ResultStyleFormatter" alt="" coords="1096,183,1243,209"/>
+<area shape="rect" id="node6" href="$a00369.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="1096,183,1243,209"/>
 </map>

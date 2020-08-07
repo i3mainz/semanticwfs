@@ -8,7 +8,6 @@ var a00401 =
     [ "getInstance", "a00401.html#a29f011858897cabca687f8d2cbda84a0", null ],
     [ "login", "a00401.html#a9cb69ac69e7e5bc9dfac62f5c5bc3f47", null ],
     [ "loginAuthToken", "a00401.html#ae5015f2f9cd9f87ec58aa580e1af9870", null ],
-    [ "main", "a00401.html#a8b260eecbaabcef8473fd87ada040682", null ],
     [ "readUsers", "a00401.html#a4deb787e0caea958b10db0439fdc3cd1", null ],
     [ "toXML", "a00401.html#aa205888d8017375a3eb7076cf544e9c4", null ],
     [ "updateUser", "a00401.html#a20aa9b3c231bfbab838c2c7867fd2891", null ],
