@@ -34,7 +34,7 @@ var a00417 =
     [ "getFeature", "a00417.html#a1e4498da627586b71176a9f60def3b75", null ],
     [ "getFeatureById", "a00417.html#a366a371862290189ff2c3cb166b21b9d", null ],
     [ "getFeatureTypes", "a00417.html#a6054667ee75eb4705f6af4db1ea52678", null ],
-    [ "getGeoClassesFromOntology", "a00417.html#a3353a82e790b10901825784fcf811cff", null ],
+    [ "getGeoClassesFromOntology", "a00417.html#a240cfa9e666a9b8e1e04d1e0b0caf025", null ],
     [ "getGmlObject", "a00417.html#a41919f870e710f41155aa6da39757fc9", null ],
     [ "getPropertiesByClass", "a00417.html#a74df4cd0ec75149ccde088d5597b093e", null ],
     [ "getPropertyValue", "a00417.html#a8821ed26f9efb274155fb0cb9684293f", null ],
