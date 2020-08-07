@@ -93,6 +93,11 @@ public class WebService {
 
 	String htmlHead;
 
+	/**
+	 * Constructor for this class.
+	 * Loads configuration files and performs initializations.
+	 * @throws IOException on error
+	 */
 	public WebService() throws IOException {
 		if (triplestoreconf == null) {
 			triplestoreconf = new JSONObject(new String(Files.readAllBytes(Paths.get("triplestoreconf.json")), StandardCharsets.UTF_8));
@@ -146,7 +151,9 @@ public class WebService {
 				+ "<link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' /></head>";
 	}
 	
-	
+	/**
+	 * Generates OpenAPI definitions of the SemanticWFS services for the use with OGC API Features.
+	 */
 	public void generateOpenAPIDefinitions() {
 		JSONObject defs=new JSONObject();
 		for (Integer i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
@@ -157,6 +164,13 @@ public class WebService {
 		}
 	}
 
+	
+	/**
+	 * Generates an exception response. 
+	 * @param e The exception to get the message from
+	 * @param format The return format
+	 * @return The exception response
+	 */
 	public Response createExceptionResponse(Exception e, String format) {
 		if (format == null || format.equals("gml")) {
 			StringWriter strwriter = new StringWriter();
@@ -188,6 +202,29 @@ public class WebService {
 		return Response.ok("").type(MediaType.APPLICATION_XML).build();
 	}
 
+	/**
+	 * Entrypoint implementation for OGC API Features for POST requests.
+	 * @param service
+	 * @param request
+	 * @param version
+	 * @param typename
+	 * @param typenames
+	 * @param srsName
+	 * @param exceptions
+	 * @param bbox
+	 * @param propertyname
+	 * @param sortBy
+	 * @param style
+	 * @param resultType
+	 * @param resourceids
+	 * @param gmlobjectid
+	 * @param startindex
+	 * @param filter
+	 * @param filterLanguage
+	 * @param output
+	 * @param count
+	 * @return
+	 */
 	@POST
 	@Produces(MediaType.TEXT_XML)
 	@Path("/post/wfs")
@@ -215,6 +252,16 @@ public class WebService {
 				sortBy, style, resultType, resourceids, gmlobjectid, startindex, filter, filterLanguage, output, count);
 	}
 
+	/**
+	 * 
+	 * @param service
+	 * @param request
+	 * @param version
+	 * @param typename
+	 * @param typenames
+	 * @param output
+	 * @return
+	 */
 	@GET
 	@Produces(MediaType.TEXT_XML)
 	@Path("/vectortiles")
@@ -227,14 +274,24 @@ public class WebService {
 		return null;
 	}
 
+	/**
+	 * Returns a style information in a given format for a given featuretype and styleid. 
+	 * @param service The service descriptor
+	 * @param request The requset parameter
+	 * @param typename 
+	 * @param typenames
+	 * @param output
+	 * @return
+	 */
 	@GET
 	@Produces(MediaType.TEXT_XML)
 	@Path("/collections/{collectionid}/style/{styleid}")
-	public Response style(@DefaultValue("WFS") @QueryParam("SERVICE") String service,
-			@DefaultValue("GetStyle") @QueryParam("REQUEST") String request,
-			@DefaultValue("") @QueryParam("TYPENAME") String typename,
-			@DefaultValue("") @QueryParam("TYPENAMES") String typenames,
-			@DefaultValue("gml") @QueryParam("OUTPUTFORMAT") String output) {
+	public Response style(
+			@Parameter(description="The service type which is addressed") @DefaultValue("WFS") @QueryParam("SERVICE") String service,
+			@Parameter(description="Request type of this query") @DefaultValue("GetStyle") @QueryParam("REQUEST") String request,
+			@Parameter(description="Feature type names") @DefaultValue("") @QueryParam("TYPENAME") String typename,
+			@Parameter(description="Feature type names") @DefaultValue("") @QueryParam("TYPENAMES") String typenames,
+			@Parameter(description="Outputformat of the style which is returned")@DefaultValue("gml") @QueryParam("OUTPUTFORMAT") String output) {
 		if (output.contains("gml")) {
 			StringWriter strwriter = new StringWriter();
 			XMLOutputFactory outputt = XMLOutputFactory.newInstance();
@@ -267,8 +324,10 @@ public class WebService {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections/{collectionid}/style/{styleid}")
-	public Response getCollectionStyle(@PathParam("collectionid") String collectionid,
-			@PathParam("styleid") String styleid, @DefaultValue("html") @QueryParam("f") String format) {
+	public Response getCollectionStyle(
+			@Parameter(description="Feature type name")  @PathParam("collectionid") String collectionid,
+			@Parameter(description="Style id") @PathParam("styleid") String styleid, 
+			@Parameter(description="Return format")  @DefaultValue("html") @QueryParam("f") String format) {
 		if (collectionid == null) {
 			throw new NotFoundException();
 		}
@@ -301,8 +360,9 @@ public class WebService {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections/{collectionid}/styles")
-	public Response getCollectionStyles(@PathParam("collectionid") String collectionid,
-			@DefaultValue("html") @QueryParam("f") String format) {
+	public Response getCollectionStyles(
+			@Parameter(description="Feature type name") @PathParam("collectionid") String collectionid,
+			@Parameter(description="Return type") @DefaultValue("html") @QueryParam("f") String format) {
 		if (collectionid == null) {
 			throw new NotFoundException();
 		}
@@ -331,12 +391,13 @@ public class WebService {
 	@GET
 	@Produces(MediaType.TEXT_XML)
 	@Path("/csw")
-	public Response entryPointCSW(@DefaultValue("CSW") @QueryParam("SERVICE") String service,
-			@DefaultValue("GetCapabilities") @QueryParam("REQUEST") String request,
-			@DefaultValue("2.0.2") @QueryParam("VERSION") String version,
-			@DefaultValue("") @QueryParam("TYPENAME") String typename,
-			@DefaultValue("") @QueryParam("TYPENAMES") String typenames,
-			@DefaultValue("gml") @QueryParam("OUTPUTFORMAT") String output) {
+	public Response entryPointCSW(
+			@Parameter(description="Service type") @DefaultValue("CSW") @QueryParam("SERVICE") String service,
+			@Parameter(description="Request type") @DefaultValue("GetCapabilities") @QueryParam("REQUEST") String request,
+			@Parameter(description="Version of the webservice")  @DefaultValue("2.0.2") @QueryParam("VERSION") String version,
+			@Parameter(description="Feature type names") @DefaultValue("") @QueryParam("TYPENAME") String typename,
+			@Parameter(description="Feature type names") @DefaultValue("") @QueryParam("TYPENAMES") String typenames,
+			@Parameter(description="Return type")  @DefaultValue("gml") @QueryParam("OUTPUTFORMAT") String output) {
 		if (service.equalsIgnoreCase("CSW")) {
 			if ("getCapabilities".equalsIgnoreCase(request)) {
 				try {
@@ -378,25 +439,26 @@ public class WebService {
 	@GET
 	@Produces(MediaType.TEXT_XML)
 	@Path("/wfs")
-	public Response entryPoint(@DefaultValue("WFS") @QueryParam("SERVICE") String service,
-			@DefaultValue("GetCapabilities") @QueryParam("REQUEST") String request,
-			@DefaultValue("2.0.0") @QueryParam("VERSION") String version,
-			@DefaultValue("") @QueryParam("TYPENAME") String typename,
-			@DefaultValue("") @QueryParam("TYPENAMES") String typenames,
-			@DefaultValue("") @QueryParam("SRSNAME") String srsName,
+	public Response entryPoint(
+			@Parameter(description="Service type") @DefaultValue("WFS") @QueryParam("SERVICE") String service,
+			@Parameter(description="Request type") @DefaultValue("GetCapabilities") @QueryParam("REQUEST") String request,
+			@Parameter(description="Service version")  @DefaultValue("2.0.0") @QueryParam("VERSION") String version,
+			@Parameter(description="Feature type names") @DefaultValue("") @QueryParam("TYPENAME") String typename,
+			@Parameter(description="Feature type names") @DefaultValue("") @QueryParam("TYPENAMES") String typenames,
+			@Parameter(description="CRS type") @DefaultValue("") @QueryParam("SRSNAME") String srsName,
 			@DefaultValue("gml") @QueryParam("EXCEPTIONS") String exceptions,
-			@DefaultValue("") @QueryParam("BBOX") String bbox,
+			@Parameter(description="Bounding box for filtering the results") @DefaultValue("") @QueryParam("BBOX") String bbox,
 			@DefaultValue("") @QueryParam("VALUEREFERENCE") String propertyname,
-			@DefaultValue("ASC") @QueryParam("SORTBY") String sortBy,
+			@Parameter(description="Sorting order")  @DefaultValue("ASC") @QueryParam("SORTBY") String sortBy,
 			@DefaultValue("") @QueryParam("STYLES") String style,
 			@DefaultValue("results") @QueryParam("RESULTTYPE") String resultType,
 			@DefaultValue("") @QueryParam("RESOURCEID") String resourceids,
 			@DefaultValue("") @QueryParam("GMLOBJECTID") String gmlobjectid,
 			@DefaultValue("0") @QueryParam("STARTINDEX") String startindex,
-			@DefaultValue("") @QueryParam("FILTER") String filter,
-			@DefaultValue("") @QueryParam("FILTERLANGUAGE") String filterLanguage,
-			@DefaultValue("gml") @QueryParam("OUTPUTFORMAT") String output,
-			@DefaultValue("5") @QueryParam("COUNT") String count) {
+			@Parameter(description="Filter expression") @DefaultValue("") @QueryParam("FILTER") String filter,
+			@Parameter(description="Filter query language") @DefaultValue("") @QueryParam("FILTERLANGUAGE") String filterLanguage,
+			@Parameter(description="Return format") @DefaultValue("gml") @QueryParam("OUTPUTFORMAT") String output,
+			@Parameter(description="Maximum amount of results to return") @DefaultValue("5") @QueryParam("COUNT") String count) {
 		System.out.println("Request: " + request);
 		System.out.println("ResultType: " + resultType);
 		if (typename.isEmpty() && !typenames.isEmpty()) {
@@ -441,7 +503,8 @@ public class WebService {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections")
-	public Response collections(@DefaultValue("html") @QueryParam("f") String format) {
+	public Response collections(
+			@Parameter(description="Return format") @DefaultValue("html") @QueryParam("f") String format) {
 		System.out.println(format);
 		if (format != null && format.contains("json")) {
 			JSONObject result = new JSONObject();
@@ -2243,6 +2306,13 @@ public class WebService {
 		return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
 	}
 
+	/**
+	 * Describes the conformance part of a WFS webservices.
+	 * @param writer The XML writer
+	 * @param versionnamespace The versionnamespace
+	 * @param namespace The namespace to follow
+	 * @throws XMLStreamException on error
+	 */
 	public void describeConformance(IndentingXMLStreamWriter writer,String versionnamespace, String namespace) throws XMLStreamException {
 		System.out.println(namespace);
 		writer.writeStartElement(namespace,"Conformance");
@@ -3033,13 +3103,19 @@ public class WebService {
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/service/addFeatureType")
 	public Boolean addFeatureType(
-			@QueryParam("query") String sparqlQuery, @QueryParam("typename") String name, 
-			@DefaultValue("item") @QueryParam("indvar") String indvar,@DefaultValue("500") @QueryParam("bboxlimit") String bboxlimit,
-			@QueryParam("class") String classs, @DefaultValue("WFS") @QueryParam("type") String type,
-			@DefaultValue("")  @QueryParam("description") String description, @DefaultValue("EPSG:4326") @QueryParam("targetCRS") String targetCRS,
-			@QueryParam("namespace") String namespace, @QueryParam("triplestore") String triplestore,
-			@QueryParam("username") String username, @QueryParam("password") String password,
-			@DefaultValue("") @QueryParam("authtoken") String authtoken) {
+			@Parameter(description="The SPARQL query used to retrive the feature type") @QueryParam("query") String sparqlQuery, 
+			@Parameter(description="The featuretype name") @QueryParam("typename") String name, 
+			@Parameter(description="The variable indicating the individual in the query") @DefaultValue("item") @QueryParam("indvar") String indvar,
+			@Parameter(description="The limit of the initial sample to retrieve") @DefaultValue("500") @QueryParam("bboxlimit") String bboxlimit,
+			@Parameter(description="The class to query") @QueryParam("class") String classs, 
+			@Parameter(description="The service type which is queried") @DefaultValue("WFS") @QueryParam("type") String type,
+			@Parameter(description="The feature type description") @DefaultValue("")  @QueryParam("description") String description, 
+			@Parameter(description="The EPSG of the feature type to be added") @DefaultValue("EPSG:4326") @QueryParam("targetCRS") String targetCRS,
+			@Parameter(description="The namespace used for the feature type") @QueryParam("namespace") String namespace, 
+			@Parameter(description="The triple store to query when loading the feature type")  @QueryParam("triplestore") String triplestore,
+			@Parameter(description="The username needed for authentication") @DefaultValue("") @QueryParam("username") String username, 
+			@Parameter(description="The password needed for authentication") @DefaultValue("") @QueryParam("password") String password,
+			@Parameter(description="The authtoken for authentication") @DefaultValue("") @QueryParam("authtoken") String authtoken) {
 		User user=UserManagementConnection.getInstance().loginAuthToken(authtoken);
 		System.out.println("Add Feature Type");
 		if(name==null && classs!=null) {

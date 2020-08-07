@@ -19,6 +19,9 @@ import java.util.TreeMap;
  */
 public class KMLStyleFormatter extends ResultStyleFormatter {
 
+	/**
+	 * A map which includes tags which are relevant for specific geometry types
+	 */
 	public Map<String,Map<String,String>> tagMap;
 	
 	/**
@@ -33,7 +36,6 @@ public class KMLStyleFormatter extends ResultStyleFormatter {
 		this.tagMap.put("Polygon",new TreeMap<String,String>());
 		this.tagMap.get("Polygon").put("stroke","");
 		this.tagMap.get("Polygon").put("stroke-width","width");
-		
 	}
 	
 	@Override
@@ -42,7 +44,12 @@ public class KMLStyleFormatter extends ResultStyleFormatter {
 		return null;
 	}
 	
-	public Map<String,String> cssLiteralToMap(String cssString,XMLStreamWriter writer) throws XMLStreamException {
+	/**
+	 * Converts a CSS literal to a KML representation to include in a KML document.
+	 * @param cssString the css String contained in the literal
+	 * @return A map of style attributes to include into the KML representation. 
+	 */
+	public Map<String,String> cssLiteralToMap(String cssString) {
 		Map<String,String> result=new TreeMap<String,String>();
 		if(cssString.contains(";")) {
 			for(String statement:cssString.split(";")) {
@@ -70,6 +77,13 @@ public class KMLStyleFormatter extends ResultStyleFormatter {
 		return result;
 	}
 
+	/**
+	 * Converts a CSS literal which has been converted to a map to KML and appends it to the XML produced by the writer.
+	 * @param cssMap the map of css statements
+	 * @param geomtype the geometry type to which the CSS style is applied
+	 * @param writer the XMLStreamWriter to write the results with
+	 * @throws XMLStreamException when a XML writing error occurs
+	 */
 	public void cssLiteralToKML(Map<String,String> cssMap,String geomtype,XMLStreamWriter writer) throws XMLStreamException {
 		if(geomtype.equals("Polygon")) {
 			writer.writeStartElement("PolyStyle");
@@ -140,7 +154,7 @@ public class KMLStyleFormatter extends ResultStyleFormatter {
 			if(geometrytype.contains("Point") && styleobj.pointStyle!=null && !styleobj.pointStyle.trim().isEmpty()) {
 				writer.writeStartElement("IconStyle");
 				writer.writeCharacters("");		
-				cssLiteralToKML(cssLiteralToMap(styleobj.pointStyle, writer),"Point",writer);
+				cssLiteralToKML(cssLiteralToMap(styleobj.pointStyle),"Point",writer);
 				writer.writeStartElement("Icon");
 				writer.writeStartElement("href");
 				writer.writeCharacters(styleobj.pointImage);
@@ -149,10 +163,10 @@ public class KMLStyleFormatter extends ResultStyleFormatter {
 				writer.writeEndElement();
 			}
 			if(geometrytype.contains("LineString") && styleobj.lineStringStyle!=null && !styleobj.lineStringStyle.trim().isEmpty()) {
-				cssLiteralToKML(cssLiteralToMap(styleobj.lineStringStyle, writer),"Point",writer);
+				cssLiteralToKML(cssLiteralToMap(styleobj.lineStringStyle),"Point",writer);
 			}
 			if(geometrytype.contains("Polygon")  && styleobj.polygonStyle!=null && !styleobj.polygonStyle.trim().isEmpty()) {
-				cssLiteralToKML(cssLiteralToMap(styleobj.polygonStyle, writer),"Point",writer);
+				cssLiteralToKML(cssLiteralToMap(styleobj.polygonStyle),"Point",writer);
 			}			
 		} catch (XMLStreamException e) {
 			// TODO Auto-generated catch block

@@ -10,24 +10,55 @@ import org.json.JSONObject;
 
 import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
 
+/**
+ * An object containing style definitions to apply on geospatial objects.
+ *
+ */
 public class StyleObject {
 
+	/**
+	 * A point style definition in CSS.
+	 */
 	public String pointStyle;
 	
+	/**
+	 * An SVG definition oder an image path to indicate an icon for a point.
+	 */
 	public String pointImage;
 	
+	/**
+	 * A hatch definition in CSS.
+	 */
 	public String lineStringStyle;
 
+	/**
+	 * An SVG definition oder an image path to indicate an icon for a LineString.
+	 */
 	public String lineStringImage;
 	
+	/**
+	 * A Polygon style definition in CSS.
+	 */
 	public String polygonStyle;
-
+	
+	/**
+	 * An SVG definition oder an image path to indicate an icon for a Polygon.
+	 */
 	public String polygonImage;
 
+	/**
+	 * A hatch definition in CSS.
+	 */
 	public String hatch;
 
+	/**
+	 * A style definition of an image which is enclosed in a LineString.
+	 */
 	public String lineStringImageStyle;
 	
+	/**
+	 * An identifier of a given style.
+	 */
 	public String styleName;
 
 	@Override
@@ -37,6 +68,10 @@ public class StyleObject {
 				+ ", polygonImage=" + polygonImage + ", hatch=" + hatch + "]";
 	}
 	
+	/**
+	 * Exports the StyleObject to JSON. 
+	 * @return The JSONObject containing the style information
+	 */
 	public String toJSON() {
 		JSONObject result=new JSONObject();
 		result.put("pointStyle",(pointStyle!=null?pointStyle.replace("\"","").replace("\\",""):null));
@@ -51,6 +86,10 @@ public class StyleObject {
 		return result.toString(2);
 	}
 	
+	/**
+	 * Exports the StyleObject to HTML.
+	 * @return A HTML table containing the StyleObject information
+	 */
 	public String toHTML() {
 		StringBuilder result=new StringBuilder();
 		result.append("<table border=1><tr><th>Styleaspect</th><th>CSS</th></tr>");
@@ -66,6 +105,10 @@ public class StyleObject {
 		return result.toString();
 	}
 	
+	/**
+	 * Exports the StyleObject to XML.
+	 * @return A String representation of the XML serialization
+	 */
 	public String toXML() {
 		StringWriter strwriter = new StringWriter();
 		XMLOutputFactory output = XMLOutputFactory.newInstance();

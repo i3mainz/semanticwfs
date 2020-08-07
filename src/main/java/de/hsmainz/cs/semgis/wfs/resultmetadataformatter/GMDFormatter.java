@@ -11,8 +11,15 @@ import org.json.JSONObject;
 
 import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
 
+/**
+ * Formats metadata to the GMD XML format.
+ *
+ */
 public class GMDFormatter extends ResultMetadataFormatter {
 
+	/**
+	 * Constructor for this class.
+	 */
 	public GMDFormatter() {
 		this.mimeType=MediaType.APPLICATION_XML;
 	}
