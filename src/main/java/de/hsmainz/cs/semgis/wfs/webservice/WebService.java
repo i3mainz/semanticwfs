@@ -231,6 +231,9 @@ public class WebService {
 	@POST
 	@Produces(MediaType.TEXT_XML)
 	@Path("/post/wfs")
+	@Operation(
+            summary = "Entrypoint implementation for OGC API Features for POST requests",
+            description = "Entrypoint implementation for OGC API Features for POST requests")
 	public Response entryPointPOST(
 			@Parameter(description="Service type definition") @DefaultValue("WFS") @QueryParam("SERVICE") String service,
 			@Parameter(description="Request definition") @DefaultValue("GetCapabilities") @QueryParam("REQUEST") String request,
@@ -256,7 +259,7 @@ public class WebService {
 	}
 
 	/**
-	 * 
+	 * Returns a vector tile representation of a given feature type.
 	 * @param service
 	 * @param request
 	 * @param version
@@ -289,6 +292,9 @@ public class WebService {
 	@GET
 	@Produces(MediaType.TEXT_XML)
 	@Path("/collections/{collectionid}/style/{styleid}")
+	@Operation(
+            summary = "Returns a style information in a given format for a given featuretype and styleid",
+            description = "Returns a style information in a given format for a given featuretype and styleid")
 	public Response style(
 			@Parameter(description="The service type which is addressed") @DefaultValue("WFS") @QueryParam("SERVICE") String service,
 			@Parameter(description="Request type of this query") @DefaultValue("GetStyle") @QueryParam("REQUEST") String request,
@@ -334,6 +340,9 @@ public class WebService {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections/{collectionid}/style/{styleid}")
+	@Operation(
+            summary = "Gets a style for a given featuretype with a given style identifier",
+            description = "Gets a style for a given featuretype with a given style identifier")
 	public Response getCollectionStyle(
 			@Parameter(description="Feature type name")  @PathParam("collectionid") String collectionid,
 			@Parameter(description="Style id") @PathParam("styleid") String styleid, 
@@ -376,6 +385,9 @@ public class WebService {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections/{collectionid}/styles")
+	@Operation(
+            summary = "Gets a list of all styles for a given featuretype",
+            description = "Gets a list of all styles for a given featuretype")
 	public Response getCollectionStyles(
 			@Parameter(description="Feature type name") @PathParam("collectionid") String collectionid,
 			@Parameter(description="Return type") @DefaultValue("html") @QueryParam("f") String format) {
@@ -418,6 +430,9 @@ public class WebService {
 	@GET
 	@Produces(MediaType.TEXT_XML)
 	@Path("/csw")
+	@Operation(
+            summary = "CSW endpoint implementation",
+            description = "CSW endpoint implementation")
 	public Response entryPointCSW(
 			@Parameter(description="Service type") @DefaultValue("CSW") @QueryParam("SERVICE") String service,
 			@Parameter(description="Request type") @DefaultValue("GetCapabilities") @QueryParam("REQUEST") String request,
@@ -464,6 +479,9 @@ public class WebService {
 	@POST
 	@Produces(MediaType.TEXT_XML)
 	@Path("/post/csw")
+	@Operation(
+            summary = "CSW endpoint implementation (POST version)",
+            description = "CSW endpoint implementation (POST version)")
 	public Response entryPointCSWPost(@DefaultValue("CSW") @QueryParam("SERVICE") String service,
 			@DefaultValue("GetCapabilities") @QueryParam("REQUEST") String request,
 			@DefaultValue("2.0.2") @QueryParam("VERSION") String version,
@@ -499,6 +517,9 @@ public class WebService {
 	@GET
 	@Produces(MediaType.TEXT_XML)
 	@Path("/wfs")
+	@Operation(
+            summary = "WFS endpoint implementation",
+            description = "WFS endpoint implementation")
 	public Response entryPoint(
 			@Parameter(description="Service type") @DefaultValue("WFS") @QueryParam("SERVICE") String service,
 			@Parameter(description="Request type") @DefaultValue("GetCapabilities") @QueryParam("REQUEST") String request,
@@ -568,6 +589,9 @@ public class WebService {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections")
+	@Operation(
+            summary = "Returns a list of feature types/collections",
+            description = "Returns a list of feature types/collections")
 	public Response collections(
 			@Parameter(description="Return format") @DefaultValue("html") @QueryParam("f") String format) {
 		System.out.println(format);
@@ -778,9 +802,20 @@ public class WebService {
 		}
 	}
 
+	/**
+	 * Returns a feature given its feature id.
+	 * @param collectionid The feature type
+	 * @param featureid The feature id to return
+	 * @param style The style in which to style the feature
+	 * @param format The format in which to return the feature
+	 * @return The feature as String in the given format
+	 */
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections/{collectionid}/items/{featureid}")
+	@Operation(
+            summary = "Returns a feature given its feature id",
+            description = "Returns a feature given its feature id with certain constraints")
 	public Response getFeatureById(
 			@Parameter(description="The collection id") @PathParam("collectionid") String collectionid,
 			@Parameter(description="The feature id")@PathParam("featureid") String featureid, 
@@ -932,6 +967,9 @@ public class WebService {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections/{collectionid}/queryables")
+	@Operation(
+            summary = "Returns information about the queryables of ths given feature type",
+            description = "Returns information about the queryables of ths given feature type")
 	public Response queryables(@Parameter(description="The id of the collection to be considered") @PathParam("collectionid") String collectionid,
 			@Parameter(description="The format in which the collection should be returned",example="geojson") @DefaultValue("html") @QueryParam("f") String format) {
 		if (collectionid == null) {
@@ -1073,6 +1111,9 @@ public class WebService {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/")
+	@Operation(
+            summary = "Returns the landing page of the OGC API Features service",
+            description = "Returns the landing page of the OGC API Features service")
 	public Response landingPage(@Parameter(description="The format of the landingpage") @DefaultValue("html") @QueryParam("f") String format) {
 		if (format == null || format.contains("json")) {
 			JSONObject result = new JSONObject();
@@ -1312,6 +1353,9 @@ public class WebService {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections/metadata")
+	@Operation(
+            summary = "Returns the metadata of collections registered in the SemanticWFS",
+            description = "Returns the metadata of collections registered in the SemanticWFS")
 	public Response getCollectionsMetadata(@Parameter(description="The format of the collection page") @DefaultValue("html") @QueryParam("f") String format) {
 		StringWriter strwriter = new StringWriter();
 		XMLOutputFactory output = XMLOutputFactory.newInstance();
@@ -1635,10 +1679,12 @@ public class WebService {
 	@GET
 	@Produces({ MediaType.APPLICATION_XML })
 	@Path("/collections/{collectionid}/schema")
+	@Operation(
+            summary = "Returns a schema of a given collection",
+            description = "Returns a schema of a given collection")
 	public Response getSchema(
 			@Parameter(description="The collection id for which to return the schema") @PathParam("collectionid") String collectionid,
-			@Parameter(description="The format in which the schema should be returned",example="json") @DefaultValue("gml") @QueryParam("f") String format) {
-		
+			@Parameter(description="The format in which the schema should be returned",example="json") @DefaultValue("gml") @QueryParam("f") String format) {	
 		if (format.contains("json")) {
 			return this.describeFeatureTypeJSON(collectionid, "1.0.0");
 		} else {
@@ -1671,6 +1717,9 @@ public class WebService {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections/{collectionid}/items")
+	@Operation(
+            summary = "Returns items of a given collection",
+            description = "Returns items of a given collection which conform to certain criteria")
 	public Response collectionItems(@Parameter(description="The id of the collection") @PathParam("collectionid") String collectionid,
 			@Parameter(description="The format of the result") @DefaultValue("html") @QueryParam("f") String format, @DefaultValue("10") @QueryParam("limit") String limit,
 			@Parameter(description="The offset to consider when fetching items") @DefaultValue("0") @QueryParam("offset") String offset, @DefaultValue("") @QueryParam("bbox") String bbox,
@@ -1856,6 +1905,9 @@ public class WebService {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/conformance")
+	@Operation(
+            summary = "Returns a conformance description",
+            description = "Returns a conformance description in a given dataformat")
 	public Response conformance(@Parameter(description="The format of the conformance page") @DefaultValue("html") @QueryParam("f") String format) {
 		if (format != null && format.contains("json")) {
 			JSONObject result = new JSONObject();
@@ -2819,6 +2871,9 @@ public class WebService {
 	@GET
 	@Produces(MediaType.TEXT_XML)
 	@Path("/wfs/describeFeatureType")
+	@Operation(
+            summary = "Describes a feature type as an answer to a WFS request",
+            description = "Describes a feature type as an answer to a WFS request")
 	public Response describeFeatureType(
 			@Parameter(description="The feature type name to describe") @QueryParam("typename") String typename,
 			@Parameter(description="The version of the WFS service") @DefaultValue("version") @QueryParam("version") String version) throws XMLStreamException {
@@ -2925,6 +2980,9 @@ public class WebService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/wfs/describeFeatureTypeJSON")
+	@Operation(
+            summary = "Describes a feature type in JSON",
+            description = "Describes a feature type in JSON")
 	public Response describeFeatureTypeJSON(
 			@Parameter(description="The feature type to describe") @QueryParam("typename") String typename,
 			@Parameter(description="The version of the WFS service") @DefaultValue("version") @QueryParam("version") String version) {
@@ -3010,6 +3068,9 @@ public class WebService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/service/getGeoClassesFromEndpoint")
+	@Operation(
+            summary = "Gets geospatial classes from a SPARQL endpoint",
+            description = "Gets geospatial classes from a SPARQL endpoint")
 	public Response getGeoClassesFromOntology(
 			@Parameter(description="The SPARQL endpoint to load classes from") @QueryParam("endpoint") String endpoint) {
 		if(triplestoreconf.getJSONObject("endpoints").has(endpoint)) {
@@ -3031,6 +3092,9 @@ public class WebService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/service/getEndpoints")
+	@Operation(
+            summary = "Gets available SPARQL endpoitns from the triplestore configuration",
+            description = "Gets available SPARQL endpoitns from the triplestore configuration")
 	public Response getEndpoints() {
 		return Response.ok(triplestoreconf.toString(2)).type(MediaType.APPLICATION_JSON).build();
 	}
@@ -3044,6 +3108,9 @@ public class WebService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/service/getPropertiesByClass")
+	@Operation(
+            summary = "Gets available properties associated with a certain class",
+            description = "Gets available properties associated with a certain class")
 	public Response getPropertiesByClass(
 			@Parameter(description="The SPARQL endpoint to load properties from") @QueryParam("endpoint") String endpoint,
 			@Parameter(description="The class from which properties should be loaded") @QueryParam("class") String classs) {
@@ -3426,6 +3493,9 @@ public class WebService {
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/service/saveFeatureTypes")
+	@Operation(
+            summary = "Saves feature types in the SemanticWFS Service",
+            description = "Saves feature types in the SemanticWFS Service")
 	public Boolean saveFeatureTypes(
 			@Parameter(description="JSON object containing feature types to be saved") @QueryParam("featjson") String featureTypesJSON,
 			@Parameter(description="Authtoken for authorization") @DefaultValue("") @QueryParam("authtoken") String authtoken) {
@@ -3448,6 +3518,9 @@ public class WebService {
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/login")
+	@Operation(
+            summary = "Performs a login returning an authtoken if successful",
+            description = "Performs a login returning an authtoken if successful")
     public Response login(@Parameter(description="Username for authorization") @QueryParam("username") String username,
     		@Parameter(description="Password for authorization") @QueryParam("password") String password) { 
 		final String dir = System.getProperty("user.dir");
@@ -3477,10 +3550,14 @@ public class WebService {
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/service/prefixes")
+	@Operation(
+            summary = "Returns prefixes known by the SemanticWFS service",
+            description = "Returns prefixes known by the SemanticWFS service")
 	public String prefixes() {
 		return TripleStoreConnector.prefixCollection;
 	}
 
+	
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/service/addPrefixes")
@@ -3496,6 +3573,9 @@ public class WebService {
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/service/queryConfigs")
+	@Operation(
+            summary = "Returns the query configuration document",
+            description = "Returns the query configuration document")
 	public Response queryConfigs() {
 		JSONObject res = new JSONObject();
 		for (int i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
@@ -3521,6 +3601,9 @@ public class WebService {
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/service/queryservice")
+	@Operation(
+            summary = "Exposes a query service which returns a SPARQL query result as REST",
+            description = "Exposes a query service which returns a SPARQL query result as REST")
 	public String queryService(
 			@Parameter(description="SPARQL query to be resolved") @QueryParam("query") String query,
 			@Parameter(description="SPARQL endpoint to query") @QueryParam("endpoint") String endpoint) {
@@ -3539,6 +3622,9 @@ public class WebService {
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/service/queryservicegeojson")
+	@Operation(
+            summary = "Exposes a query service which returns a SPARQL query result as REST",
+            description = "Exposes a query service which returns a SPARQL query result as REST with the option of returning an additional GeoJSON")
 	public String queryService(
 			@Parameter(description="SPARQL query to be resolved") @QueryParam("query") String query,
 			@Parameter(description="SPARQL endpoint to be queried") @QueryParam("endpoint") String endpoint,
@@ -3548,6 +3634,10 @@ public class WebService {
 		return TripleStoreConnector.executeQuery(query, endpoint, true);
 	}
 
+	/**
+	 * Transaction method of the WFS specification.
+	 * @return
+	 */
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/transaction")
@@ -3555,6 +3645,10 @@ public class WebService {
 		return null;
 	}
 
+	/**
+	 * Lock Feature method of the WFS specification.
+	 * @return
+	 */
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/lockFeature")
