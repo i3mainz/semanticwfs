@@ -304,10 +304,10 @@
 ,
 {"namespace":"http://www.xplanung.de/xplangml/4/1#",
 "indvar":"item","description":"Schulen","geometrytype":"Point","targetCRS":"EPSG:25832","useorderby":true,
-"class":"http://www.wikidata.org/entity/Q3914",
+"class":"http://inspire.ec.europa.eu/schemas/us-govserv/4.0#GovernmentalService",
 "namespaces":["http://www.xplanung.de/xplangml/4/1","http://www.opengis.net/gml/"],
 "namespacesmetadata":["http://www.w3.org/ns/prov#","http://www.w3.org/ns/dcat#"],
-"query":"SELECT ?item ?rel ?val ?the_geom WHERE{ ?item rdf:type <http://www.wikidata.org/entity/Q3914> . ?item ?rel ?val . OPTIONAL{?val geo:asWKT ?the_geom .} }",
+"query":"SELECT ?item ?rel ?val ?the_geom WHERE{ ?item rdf:type <http://inspire.ec.europa.eu/schemas/us-govserv/4.0#GovernmentalService> . ?item ?rel ?val . OPTIONAL{?val geo:asWKT ?the_geom .} }",
 "triplestore":"https://ld.gdi-de.org/graphdb/repositories/gdischools",
 "type":"WFS", 
 "name":"Schulen"}
