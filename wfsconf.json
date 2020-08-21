@@ -308,7 +308,7 @@
 "namespaces":["http://www.xplanung.de/xplangml/4/1","http://www.opengis.net/gml/"],
 "namespacesmetadata":["http://www.w3.org/ns/prov#","http://www.w3.org/ns/dcat#"],
 "query":"SELECT ?item ?rel ?val ?the_geom WHERE{ ?item rdf:type <http://www.wikidata.org/entity/Q3914> . ?item ?rel ?val . OPTIONAL{?val geo:asWKT ?the_geom .} }",
-"triplestore":"https://www.i3mainz.de/projekte/bkg/school/sparql",
+"triplestore":"https://ld.gdi-de.org/graphdb/repositories/gdischools",
 "type":"WFS", 
 "name":"Schulen"}
 ,
@@ -318,7 +318,7 @@
 "namespaces":["http://www.xplanung.de/xplangml/4/1","http://www.opengis.net/gml/"],
 "namespacesmetadata":["http://www.w3.org/ns/prov#","http://www.w3.org/ns/dcat#"],
 "query":"SELECT ?item ?rel ?val ?the_geom WHERE{ ?item rdf:type <http://inspire.ec.europa.eu/schemas/ps/4.0#ProtectedSite> . ?item ?rel ?val . OPTIONAL{?val geo:asWKT ?the_geom .} }",
-"triplestore":"https://www.i3mainz.de/projekte/bkg/unesco/sparql",
+"triplestore":"https://ld.gdi-de.org/graphdb/repositories/gdiunesco",
 "type":"WFS", 
 "name":"UNESCO"},
 {"namespace":"http://lod.squirrel.link/data/limes/",
