@@ -303,7 +303,7 @@
 "name":"AX_Flurstück"}
 ,
 {"namespace":"http://www.xplanung.de/xplangml/4/1#",
-"indvar":"item","description":"Schulen","geometrytype":"Point","targetCRS":"EPSG:25832","useorderby":true,
+"indvar":"item","description":"Schulen","geometrytype":"Point","targetCRS":"EPSG:4326","useorderby":true,
 "class":"http://inspire.ec.europa.eu/schemas/us-govserv/4.0#GovernmentalService",
 "namespaces":["http://www.xplanung.de/xplangml/4/1","http://www.opengis.net/gml/"],
 "namespacesmetadata":["http://www.w3.org/ns/prov#","http://www.w3.org/ns/dcat#"],
