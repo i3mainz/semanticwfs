@@ -633,11 +633,11 @@ public class WebService {
 				coll.put("title", curobj.getString("name"));
 				if(curobj.has("description"))
 					coll.put("description", curobj.getString("description"));
-				/*JSONObject extent = new JSONObject();
+				JSONObject extent = new JSONObject();
 				JSONObject spatial = new JSONObject();
 				spatial.put("crs", "http://www.opengis.net/def/crs/OGC/1.3/CRS84");
 				coll.put("extent", extent);
-				extent.put("spatial", spatial);*/
+				extent.put("spatial", spatial);
 				JSONArray colinks = new JSONArray();
 				for (ResultFormatter formatter : ResultFormatter.resultMap.values()) {
 					link = new JSONObject();
@@ -1223,11 +1223,11 @@ public class WebService {
 				coll.put("title", curobj.getString("name"));
 				if(curobj.has("description"))
 					coll.put("description", curobj.getString("description"));
-				/*JSONObject extent = new JSONObject();
+				JSONObject extent = new JSONObject();
 				JSONObject spatial = new JSONObject();
 				spatial.put("crs", "http://www.opengis.net/def/crs/OGC/1.3/CRS84");
 				coll.put("extent", extent);
-				extent.put("spatial", spatial);*/
+				extent.put("spatial", spatial);
 				JSONArray colinks = new JSONArray();
 				for (ResultFormatter formatter : ResultFormatter.resultMap.values()) {
 					link = new JSONObject();
