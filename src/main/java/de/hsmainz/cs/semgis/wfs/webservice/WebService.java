@@ -1854,7 +1854,7 @@ public class WebService {
 						nextlink.put("href", wfsconf.getString("baseurl") + "/collections/" + collectionid + "/items?offset="+(offset+limit)+"&limit="+limit+"&f="
 								+ formatter.urlformat);
 						nextlink.put("type", formatter.exposedType);
-						nextlink.put("title", collectionid);
+						nextlink.put("title", "next page");
 						links.put(nextlink);
 					} else {
 						link.put("rel", "alternate");
