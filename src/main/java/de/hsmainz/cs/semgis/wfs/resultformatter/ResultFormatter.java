@@ -25,6 +25,8 @@ public abstract class ResultFormatter {
 	
 	public String exposedType="application/vnd.geojson";
 	
+	public String urlformat="json";
+	
 	public Map<String,String> contextMapper=new TreeMap<>();
 	
 	public ResultStyleFormatter styleformatter;
@@ -99,6 +101,9 @@ public abstract class ResultFormatter {
 		}
 		if(formatString.contains("geouri")) {
 			return resultMap.get("geouri");
+		}
+		if(formatString.contains("geohash")) {
+			return resultMap.get("geohash");
 		}
 		if(formatString.contains("geotiff")) {
 			return resultMap.get("geotiff");

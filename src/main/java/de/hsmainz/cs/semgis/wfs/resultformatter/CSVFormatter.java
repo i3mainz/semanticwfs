@@ -17,6 +17,7 @@ public class CSVFormatter extends WFSResultFormatter {
 	public CSVFormatter() {
 		this.mimeType="text/csv";
 		this.exposedType="text/csv";
+		this.urlformat="csv";
 	}
 	
 	@Override

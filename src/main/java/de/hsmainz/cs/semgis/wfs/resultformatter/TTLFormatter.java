@@ -23,6 +23,7 @@ public class TTLFormatter extends ResultFormatter {
 	public TTLFormatter() {
 		this.mimeType="text/ttl";
 		this.exposedType="text/ttl";
+		this.urlformat="ttl";
 	}
 	
 	@Override

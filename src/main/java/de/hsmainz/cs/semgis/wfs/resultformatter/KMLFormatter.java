@@ -31,6 +31,7 @@ public class KMLFormatter extends WFSResultFormatter {
 	public KMLFormatter() {
 		this.mimeType="application/xml";
 		this.exposedType="application/inkml+xml";
+		this.urlformat="kml";
 		this.styleformatter=new KMLStyleFormatter();
 	}
 	

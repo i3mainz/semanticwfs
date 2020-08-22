@@ -26,6 +26,7 @@ public class TrixFormatter extends ResultFormatter {
 	public TrixFormatter() {
 		this.mimeType="text/trix";
 		this.exposedType="text/trix";
+		this.urlformat="trix";
 	}
 	
 	@Override

@@ -25,6 +25,7 @@ public class SVGFormatter extends ResultFormatter {
 	public SVGFormatter() {
 		this.mimeType="image/svg+xml";
 		this.exposedType="image/svg+xml";
+		this.urlformat="svg";
 	}
 	
 	@Override

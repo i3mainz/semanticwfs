@@ -31,6 +31,7 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 	public GeoJSONFormatter() {
 		this.mimeType="application/json";
 		this.exposedType="application/geojson";
+		this.urlformat="json";
 		this.styleformatter=new GeoJSONCSSFormatter();
 	}
 	

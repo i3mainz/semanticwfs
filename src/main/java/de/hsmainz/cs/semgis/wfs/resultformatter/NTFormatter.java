@@ -27,6 +27,7 @@ public class NTFormatter extends ResultFormatter{
 	public NTFormatter() {
 		this.mimeType="text/nt";
 		this.exposedType="text/nt";
+		this.urlformat="nt";
 	}
 	
 	@Override

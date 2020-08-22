@@ -13,6 +13,7 @@ public class GMLCOVFormatter extends WCSResultFormatter {
 	public GMLCOVFormatter() {
 		this.mimeType="application/xml";
 		this.exposedType="application/gmlcov";
+		this.urlformat="gmlcov";
 	}
 	
 	@Override

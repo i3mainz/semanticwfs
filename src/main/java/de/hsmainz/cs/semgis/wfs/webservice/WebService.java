@@ -643,7 +643,7 @@ public class WebService {
 					link = new JSONObject();
 					link.put("rel", "item");
 					link.put("href", wfsconf.getString("baseurl") + "/collections/" + curobj.getString("name")
-							+ "/items/" + "?f=" + formatter.exposedType);
+							+ "/items" + "?f=" + formatter.urlformat);
 					link.put("type", formatter.exposedType);
 					link.put("title", curobj.getString("name"));
 					colinks.put(link);
@@ -657,7 +657,7 @@ public class WebService {
 				link.put("rel", "alternate");
 				link.put("title", "This document as XML");
 				link.put("type", "text/xml");
-				link.put("href", wfsconf.get("baseurl") + "/collections/"+curobj.getString("name")+"?f=gml");
+				link.put("href", wfsconf.get("baseurl") + "/collections/"+curobj.getString("name")+"?f=xml");
 				colinks.put(link);
 				link = new JSONObject();
 				link.put("rel", "alternate");
@@ -1213,7 +1213,7 @@ public class WebService {
 			result.put("title", wfsconf.getString("servicetitle"));
 			result.put("description", wfsconf.getString("servicedescription"));
 			result.put("links", links);
-			JSONArray collections=new JSONArray();
+			/*JSONArray collections=new JSONArray();
 			result.put("collections", collections);
 			for (int i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
 				JSONObject coll = new JSONObject();
@@ -1263,7 +1263,7 @@ public class WebService {
 				colinks.put(link);
 				coll.put("links", colinks);
 				collections.put(coll);
-			}
+			}*/
 			return Response.ok(result.toString(2)).type(MediaType.APPLICATION_JSON).build();
 		} else if (format.contains("gml")) {
 			StringWriter strwriter = new StringWriter();

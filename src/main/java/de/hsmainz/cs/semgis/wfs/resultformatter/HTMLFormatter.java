@@ -45,6 +45,7 @@ public class HTMLFormatter extends ResultFormatter {
 		}
 		this.mimeType = "text/html";
 		this.exposedType = "text/html";
+		this.urlformat="html";
 	}
 
 	/**
@@ -227,7 +228,6 @@ public class HTMLFormatter extends ResultFormatter {
 				// System.out.println(key);
 				//String key=propToTableCol.get(col);
 				String value=null;
-				String curvalue;
 				JSONObject curobj=features.getJSONObject(i).getJSONObject("properties");
 				//System.out.println(key);
 				if(key.contains(";")) {
