@@ -631,6 +631,8 @@ public class WebService {
 				coll.put("id", curobj.getString("name"));
 				coll.put("name", curobj.getString("name"));
 				coll.put("title", curobj.getString("name"));
+				if(curobj.has("description"))
+					coll.put("description", curobj.getString("description"));
 				/*JSONObject extent = new JSONObject();
 				JSONObject spatial = new JSONObject();
 				spatial.put("crs", "http://www.opengis.net/def/crs/OGC/1.3/CRS84");
@@ -644,8 +646,6 @@ public class WebService {
 							+ "/items/" + "?f=" + formatter.exposedType);
 					link.put("type", formatter.exposedType);
 					link.put("title", curobj.getString("name"));
-					if(curobj.has("description"))
-						link.put("description", curobj.getString("description"));
 					colinks.put(link);
 				}
 				link.put("rel", "self");
@@ -1221,6 +1221,8 @@ public class WebService {
 				coll.put("id", curobj.getString("name"));
 				coll.put("name", curobj.getString("name"));
 				coll.put("title", curobj.getString("name"));
+				if(curobj.has("description"))
+					coll.put("description", curobj.getString("description"));
 				/*JSONObject extent = new JSONObject();
 				JSONObject spatial = new JSONObject();
 				spatial.put("crs", "http://www.opengis.net/def/crs/OGC/1.3/CRS84");
@@ -1234,8 +1236,6 @@ public class WebService {
 							+ "/items/" + "?f=" + formatter.exposedType);
 					link.put("type", formatter.exposedType);
 					link.put("title", curobj.getString("name"));
-					if(curobj.has("description"))
-						link.put("description", curobj.getString("description"));
 					colinks.put(link);
 				}
 				link.put("rel", "self");
