@@ -1224,8 +1224,10 @@ public class WebService {
 				if(curobj.has("description"))
 					coll.put("description", curobj.getString("description"));
 				JSONObject extent = new JSONObject();
-				JSONObject spatial = new JSONObject();
-				spatial.put("crs", "http://www.opengis.net/def/crs/OGC/1.3/CRS84");
+				JSONArray spatial = new JSONArray();
+				JSONArray crs = new JSONArray();
+				crs.put("http://www.opengis.net/def/crs/OGC/1.3/CRS84");
+				coll.put("crs", crs);
 				coll.put("extent", extent);
 				extent.put("spatial", spatial);
 				JSONArray colinks = new JSONArray();
@@ -1563,10 +1565,12 @@ public class WebService {
 			result.put("links",resultlinks);
 			JSONObject extent = new JSONObject();
 			result.put("extent", extent);
-			JSONObject spatial = new JSONObject();
+			JSONArray spatial = new JSONArray();
 			extent.put("spatial", spatial);
-			spatial.put("crs", "http://www.opengis.net/def/crs/OGC/1.3/CRS84");
-			extent.put("temporal",new JSONObject());
+			extent.put("temporal",new JSONArray());
+			JSONArray crs = new JSONArray();
+			crs.put("http://www.opengis.net/def/crs/OGC/1.3/CRS84");
+			result.put("crs", crs);
 			JSONObject link = new JSONObject();
 			link.put("href", wfsconf.getString("baseurl") + "/collections/"+collectionid+"?f=json");
 			link.put("rel", "self");
