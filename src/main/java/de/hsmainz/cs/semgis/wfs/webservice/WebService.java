@@ -634,10 +634,16 @@ public class WebService {
 				if(curobj.has("description"))
 					coll.put("description", curobj.getString("description"));
 				JSONObject extent = new JSONObject();
-				JSONObject spatial = new JSONObject();
-				spatial.put("crs", "http://www.opengis.net/def/crs/OGC/1.3/CRS84");
+				JSONArray spatial = new JSONArray();
+				JSONArray temporal=new JSONArray();
+				temporal.put("1970-01-01T00:00:00Z");
+				temporal.put("2020-08-22T22:10:44Z");
+				JSONArray crs=new JSONArray();
+				crs.put("http://www.opengis.net/def/crs/OGC/1.3/CRS84");
+				coll.put("crs",crs);
 				coll.put("extent", extent);
 				extent.put("spatial", spatial);
+				extent.put("temporal", temporal);
 				JSONArray colinks = new JSONArray();
 				for (ResultFormatter formatter : ResultFormatter.resultMap.values()) {
 					link = new JSONObject();
@@ -702,7 +708,7 @@ public class WebService {
 				writer.writeAttribute("rel", "self");
 				writer.writeAttribute("title", "This document");
 				writer.writeAttribute("type", "text/xml");
-				writer.writeAttribute("href", wfsconf.get("baseurl") + "/collections?f=gml");
+				writer.writeAttribute("href", wfsconf.get("baseurl") + "/collections?f=xml");
 				writer.writeEndElement();
 				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
 				writer.writeAttribute("rel", "alternate");
@@ -1225,11 +1231,15 @@ public class WebService {
 					coll.put("description", curobj.getString("description"));
 				JSONObject extent = new JSONObject();
 				JSONArray spatial = new JSONArray();
+				JSONArray temporal=new JSONArray();
+				temporal.put("1970-01-01T00:00:00Z");
+				temporal.put("2020-08-22T22:10:44Z");
 				JSONArray crs = new JSONArray();
 				crs.put("http://www.opengis.net/def/crs/OGC/1.3/CRS84");
 				coll.put("crs", crs);
 				coll.put("extent", extent);
 				extent.put("spatial", spatial);
+				extent.put("temporal", temporal);
 				JSONArray colinks = new JSONArray();
 				for (ResultFormatter formatter : ResultFormatter.resultMap.values()) {
 					link = new JSONObject();
@@ -1566,8 +1576,11 @@ public class WebService {
 			JSONObject extent = new JSONObject();
 			result.put("extent", extent);
 			JSONArray spatial = new JSONArray();
+			JSONArray temporal=new JSONArray();
+			temporal.put("1970-01-01T00:00:00Z");
+			temporal.put("2020-08-22T22:10:44Z");
 			extent.put("spatial", spatial);
-			extent.put("temporal",new JSONArray());
+			extent.put("temporal",temporal);
 			JSONArray crs = new JSONArray();
 			crs.put("http://www.opengis.net/def/crs/OGC/1.3/CRS84");
 			result.put("crs", crs);
