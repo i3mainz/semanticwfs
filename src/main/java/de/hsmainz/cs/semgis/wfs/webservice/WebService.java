@@ -1792,7 +1792,8 @@ public class WebService {
             summary = "Returns items of a given collection",
             description = "Returns items of a given collection which conform to certain criteria")
 	public Response collectionItems(@Parameter(description="The id of the collection") @PathParam("collectionid") String collectionid,
-			@Parameter(description="The format of the result") @DefaultValue("html") @QueryParam("f") String format, @DefaultValue("10") @QueryParam("limit") String limit,
+			@Parameter(description="The format of the result") @DefaultValue("html") @QueryParam("f") String format, 
+			@DefaultValue("10") @QueryParam("limit") String limit,
 			@Parameter(description="The offset to consider when fetching items") @DefaultValue("0") @QueryParam("offset") String offset, @DefaultValue("") @QueryParam("bbox") String bbox,
 			@Parameter(description="The styling of the item when returned")  @DefaultValue("") @QueryParam("style") String style,
 			@Parameter(description="The crs of a given bounding box") @DefaultValue("") @QueryParam("bbox-crs") String bboxcrs,
@@ -1848,11 +1849,18 @@ public class WebService {
 					JSONObject link = new JSONObject();
 					if (formatter.exposedType.contains("geojson")) {
 						link.put("rel", "self");
+						JSONObject nextlink = new JSONObject();
+						nextlink.put("rel", "next");
+						nextlink.put("href", wfsconf.getString("baseurl") + "/collections/" + collectionid + "/items?offset="+(offset+limit)+"&limit="+limit+"&f="
+								+ formatter.urlformat);
+						nextlink.put("type", formatter.exposedType);
+						nextlink.put("title", collectionid);
+						links.put(nextlink);
 					} else {
 						link.put("rel", "alternate");
 					}
 					link.put("href", wfsconf.getString("baseurl") + "/collections/" + collectionid + "/items?f="
-							+ formatter.exposedType);
+							+ formatter.urlformat);
 					link.put("type", formatter.exposedType);
 					link.put("title", collectionid);
 					links.put(link);
