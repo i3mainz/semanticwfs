@@ -1235,7 +1235,7 @@ public class WebService {
 					link = new JSONObject();
 					link.put("rel", "item");
 					link.put("href", wfsconf.getString("baseurl") + "/collections/" + curobj.getString("name")
-							+ "/items/" + "?f=" + formatter.exposedType);
+							+ "/items" + "?f=" + formatter.urlformat);
 					link.put("type", formatter.exposedType);
 					link.put("title", curobj.getString("name"));
 					colinks.put(link);
