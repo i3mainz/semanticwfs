@@ -1552,7 +1552,21 @@ public class WebService {
 		if (format != null && format.contains("json")) {
 			JSONObject result = new JSONObject();
 			JSONArray resultlinks=new JSONArray();
+			result.put("id", workingobj.getString("name"));
+			result.put("name", workingobj.getString("name"));
+			result.put("title", workingobj.getString("name"));
+			if(workingobj.has("description")) {
+				result.put("description", workingobj.getString("description"));
+			}else {
+				result.put("description", "");
+			}
 			result.put("links",resultlinks);
+			JSONObject extent = new JSONObject();
+			result.put("extent", extent);
+			JSONObject spatial = new JSONObject();
+			extent.put("spatial", spatial);
+			spatial.put("crs", "http://www.opengis.net/def/crs/OGC/1.3/CRS84");
+			extent.put("temporal",new JSONObject());
 			JSONObject link = new JSONObject();
 			link.put("href", wfsconf.getString("baseurl") + "/collections/"+collectionid+"?f=json");
 			link.put("rel", "self");
@@ -1571,20 +1585,15 @@ public class WebService {
 			link.put("type", "text/html");
 			link.put("title", "This document as HTML");
 			resultlinks.put(link);
-			JSONArray collections=new JSONArray();
+			/*JSONArray collections=new JSONArray();
 			result.put("collections",collections);
 			JSONObject collectionentry=new JSONObject();
 			collections.put(collectionentry);
 			collectionentry.put("id", workingobj.getString("name"));
 			collectionentry.put("title", workingobj.getString("name"));
 			collectionentry.put("description", "");
-			/*JSONObject extent = new JSONObject();
-			result.put("extent", extent);
-			JSONObject spatial = new JSONObject();
-			extent.put("spatial", spatial);
-			spatial.put("crs", "http://www.opengis.net/def/crs/OGC/1.3/CRS84");*/
-			// extent.put("temporal",new JSONObject());
-			JSONArray links = new JSONArray();
+*/
+			JSONArray links = resultlinks;
 			for (ResultFormatter formatter : ResultFormatter.resultMap.values()) {
 				link = new JSONObject();
 				if (formatter.exposedType.contains("geojson")) {
@@ -1593,7 +1602,7 @@ public class WebService {
 					link.put("rel", "item");
 				}
 				link.put("href", wfsconf.getString("baseurl") + "/collections/" + collectionid + "/items/" + "?f="
-						+ formatter.exposedType);
+						+ formatter.urlformat);
 				link.put("type", formatter.exposedType);
 				link.put("title", collectionid);
 				links.put(link);
@@ -1604,7 +1613,6 @@ public class WebService {
 			link.put("type", "application/xml");
 			link.put("title", collectionid + " Schema");
 			links.put(link);
-			collectionentry.put("links", links);
 			return Response.ok(result.toString(2)).type(MediaType.APPLICATION_JSON).build();
 		} else if (format != null && format.contains("gml")) {
 			StringWriter strwriter = new StringWriter();
