@@ -629,6 +629,7 @@ public class WebService {
 				JSONObject coll = new JSONObject();
 				JSONObject curobj = wfsconf.getJSONArray("datasets").getJSONObject(i);
 				coll.put("id", curobj.getString("name"));
+				coll.put("name", curobj.getString("name"));
 				coll.put("title", curobj.getString("name"));
 				/*JSONObject extent = new JSONObject();
 				JSONObject spatial = new JSONObject();
@@ -1193,6 +1194,38 @@ public class WebService {
 			result.put("title", wfsconf.getString("servicetitle"));
 			result.put("description", wfsconf.getString("servicedescription"));
 			result.put("links", links);
+			JSONArray collections=new JSONArray();
+			result.put("collections", collections);
+			for (int i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
+				JSONObject coll = new JSONObject();
+				JSONObject curobj = wfsconf.getJSONArray("datasets").getJSONObject(i);
+				coll.put("id", curobj.getString("name"));
+				coll.put("name", curobj.getString("name"));
+				coll.put("title", curobj.getString("name"));
+				/*JSONObject extent = new JSONObject();
+				JSONObject spatial = new JSONObject();
+				spatial.put("crs", "http://www.opengis.net/def/crs/OGC/1.3/CRS84");
+				coll.put("extent", extent);
+				extent.put("spatial", spatial);*/
+				JSONArray colinks = new JSONArray();
+				for (ResultFormatter formatter : ResultFormatter.resultMap.values()) {
+					link = new JSONObject();
+					if (formatter.exposedType.contains("geo+json")) {
+						link.put("rel", "self");
+					} else {
+						link.put("rel", "alternate");
+					}
+					link.put("href", wfsconf.getString("baseurl") + "/collections/" + curobj.getString("name")
+							+ "/items/" + "?f=" + formatter.exposedType);
+					link.put("type", formatter.exposedType);
+					link.put("title", curobj.getString("name"));
+					if(curobj.has("description"))
+						link.put("description", curobj.getString("description"));
+					colinks.put(link);
+				}
+				coll.put("links", colinks);
+				collections.put(coll);
+			}
 			return Response.ok(result.toString(2)).type(MediaType.APPLICATION_JSON).build();
 		} else if (format.contains("gml")) {
 			StringWriter strwriter = new StringWriter();
@@ -2614,7 +2647,11 @@ public class WebService {
 	@GET
 	@Produces(MediaType.TEXT_XML)
 	@Path("/wfs/getCapabilities")
-	public Response getCapabilities(@Parameter(description="The version of the WFS service to target") @DefaultValue("2.0.0") @QueryParam("version") String version)
+	@Operation(
+            summary = "Returns the capabilities document for a WFS service",
+            description = "Returns the capabilities document for a WFS service")
+	public Response getCapabilities(
+			@Parameter(description="The version of the WFS service to target") @DefaultValue("2.0.0") @QueryParam("version") String version)
 			throws XMLStreamException {
 		if (!version.equals("2.0.0") && !version.equals("1.1.0"))
 			version = "2.0.0";
@@ -3126,6 +3163,9 @@ public class WebService {
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/wfs/getFeature")
+	@Operation(
+            summary = "Gets a feature with a given feature id",
+            description = "Gets a feature with a given feature id")
 	public Response getFeature(@QueryParam("typename") String typename,
 			@Parameter(description="The output format of the WFS service request") @DefaultValue("json") @QueryParam("outputFormat") String output,
 			@Parameter(description="The amount of features to be returned",example="10") @DefaultValue("10") @QueryParam("count") String count,
@@ -3400,6 +3440,9 @@ public class WebService {
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/service/addFeatureType")
+	@Operation(
+            summary = "Adds a feature type to the SemanticWFS",
+            description = "Adds a feature type to the SemanticWFS")
 	public Boolean addFeatureType(
 			@Parameter(description="The SPARQL query used to retrive the feature type") @QueryParam("query") String sparqlQuery, 
 			@Parameter(description="The featuretype name") @QueryParam("typename") String name, 
@@ -3456,6 +3499,9 @@ public class WebService {
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/service/addEndpoint")
+	@Operation(
+            summary = "Adds a SPARQL endpoint to the triplestoreconf configuration",
+            description = "Adds a SPARQL endpoint to the triplestoreconf configuration")
 	public Boolean addEndpoint(@Parameter(description="The name of the SPARQL endpoint to add") @QueryParam("name") String name,
 			@Parameter(description="The address of the SPARQL endpoint") @QueryParam("endpoint") String endpoint,
 			@Parameter(description="The type property used in this SPARQL endpoint") @QueryParam("typerel") String typerel,
