@@ -1145,7 +1145,7 @@ public class WebService {
 			link.put("title", "This document");
 			links.put(link);
 			link = new JSONObject();
-			link.put("href", wfsconf.getString("baseurl") + "?f=gml");
+			link.put("href", wfsconf.getString("baseurl") + "?f=xml");
 			link.put("rel", "alternate");
 			link.put("type", "application/xml");
 			link.put("title", "This document as XML");
@@ -1181,7 +1181,7 @@ public class WebService {
 			link.put("title", "Conformance Declaration as HTML");
 			links.put(link);
 			link = new JSONObject();
-			link.put("href", wfsconf.getString("baseurl") + "/conformance?f=gml");
+			link.put("href", wfsconf.getString("baseurl") + "/conformance?f=xml");
 			link.put("rel", "conformance");
 			link.put("type", "application/xml");
 			link.put("title", "Conformance Declaration as XML");
@@ -1199,7 +1199,7 @@ public class WebService {
 			link.put("title", "Collections Metadata as JSON");
 			links.put(link);
 			link = new JSONObject();
-			link.put("href", wfsconf.getString("baseurl") + "/collections?f=gml");
+			link.put("href", wfsconf.getString("baseurl") + "/collections?f=xml");
 			link.put("rel", "data");
 			link.put("type", "application/xml");
 			link.put("title", "Collections Metadata as XML");
@@ -1213,7 +1213,7 @@ public class WebService {
 			result.put("title", wfsconf.getString("servicetitle"));
 			result.put("description", wfsconf.getString("servicedescription"));
 			result.put("links", links);
-			/*JSONArray collections=new JSONArray();
+			JSONArray collections=new JSONArray();
 			result.put("collections", collections);
 			for (int i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
 				JSONObject coll = new JSONObject();
@@ -1263,7 +1263,7 @@ public class WebService {
 				colinks.put(link);
 				coll.put("links", colinks);
 				collections.put(coll);
-			}*/
+			}
 			return Response.ok(result.toString(2)).type(MediaType.APPLICATION_JSON).build();
 		} else if (format.contains("gml")) {
 			StringWriter strwriter = new StringWriter();
@@ -1574,7 +1574,7 @@ public class WebService {
 			link.put("title", "This document");
 			resultlinks.put(link);
 			link = new JSONObject();
-			link.put("href", wfsconf.getString("baseurl") + "/collections/"+collectionid+"?f=gml");
+			link.put("href", wfsconf.getString("baseurl") + "/collections/"+collectionid+"?f=xml");
 			link.put("rel", "alternate");
 			link.put("type", "application/xml");
 			link.put("title", "This document as XML");
@@ -1601,7 +1601,7 @@ public class WebService {
 				} else {
 					link.put("rel", "item");
 				}
-				link.put("href", wfsconf.getString("baseurl") + "/collections/" + collectionid + "/items/" + "?f="
+				link.put("href", wfsconf.getString("baseurl") + "/collections/" + collectionid + "/items" + "?f="
 						+ formatter.urlformat);
 				link.put("type", formatter.exposedType);
 				link.put("title", collectionid);
@@ -1669,7 +1669,7 @@ public class WebService {
 					writer.writeAttribute("title", workingobj.getString("name"));
 					writer.writeAttribute("type", formatter.exposedType);
 					writer.writeAttribute("href", wfsconf.getString("baseurl") + "/collections/"
-							+ workingobj.getString("name") + "/items?f=" + formatter.exposedType);
+							+ workingobj.getString("name") + "/items?f=" + formatter.urlformat);
 					writer.writeEndElement();
 				}
 				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
