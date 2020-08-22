@@ -14,5 +14,6 @@ var a00257 =
     [ "lastQueriedElemCount", "a00257.html#a1ce6ef499b64cec5981912a236baa199", null ],
     [ "mimeType", "a00257.html#a09c78e464072ccab667894f0d179fbdf", null ],
     [ "resultMap", "a00257.html#ad4dc7a6c041435f4beebcc9e95620641", null ],
-    [ "styleformatter", "a00257.html#a642e338a4dd781605dd3b0ca82fbd940", null ]
+    [ "styleformatter", "a00257.html#a642e338a4dd781605dd3b0ca82fbd940", null ],
+    [ "urlformat", "a00257.html#ab8f021a6bbeb42028cef0a3a7cc1872d", null ]
 ];
