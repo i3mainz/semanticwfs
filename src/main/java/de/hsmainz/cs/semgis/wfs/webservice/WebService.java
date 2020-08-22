@@ -639,9 +639,7 @@ public class WebService {
 				JSONArray colinks = new JSONArray();
 				for (ResultFormatter formatter : ResultFormatter.resultMap.values()) {
 					link = new JSONObject();
-					if (formatter.exposedType.contains("geo+json")) {
-						link.put("rel", "item");
-					}
+					link.put("rel", "item");
 					link.put("href", wfsconf.getString("baseurl") + "/collections/" + curobj.getString("name")
 							+ "/items/" + "?f=" + formatter.exposedType);
 					link.put("type", formatter.exposedType);
@@ -1231,9 +1229,7 @@ public class WebService {
 				JSONArray colinks = new JSONArray();
 				for (ResultFormatter formatter : ResultFormatter.resultMap.values()) {
 					link = new JSONObject();
-					if (formatter.exposedType.contains("geo+json")) {
-						link.put("rel", "item");
-					}
+					link.put("rel", "item");
 					link.put("href", wfsconf.getString("baseurl") + "/collections/" + curobj.getString("name")
 							+ "/items/" + "?f=" + formatter.exposedType);
 					link.put("type", formatter.exposedType);
