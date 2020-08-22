@@ -640,9 +640,7 @@ public class WebService {
 				for (ResultFormatter formatter : ResultFormatter.resultMap.values()) {
 					link = new JSONObject();
 					if (formatter.exposedType.contains("geo+json")) {
-						link.put("rel", "self");
-					} else {
-						link.put("rel", "alternate");
+						link.put("rel", "item");
 					}
 					link.put("href", wfsconf.getString("baseurl") + "/collections/" + curobj.getString("name")
 							+ "/items/" + "?f=" + formatter.exposedType);
@@ -652,6 +650,29 @@ public class WebService {
 						link.put("description", curobj.getString("description"));
 					colinks.put(link);
 				}
+				link.put("rel", "self");
+				link.put("title", "This document");
+				link.put("type", "application/json");
+				link.put("href", wfsconf.get("baseurl") + "/collections/"+curobj.getString("name")+"?f=json");
+				colinks.put(link);
+				link = new JSONObject();
+				link.put("rel", "alternate");
+				link.put("title", "This document as XML");
+				link.put("type", "text/xml");
+				link.put("href", wfsconf.get("baseurl") + "/collections/"+curobj.getString("name")+"?f=gml");
+				colinks.put(link);
+				link = new JSONObject();
+				link.put("rel", "alternate");
+				link.put("title", "This document as HTML");
+				link.put("type", "text/html");
+				link.put("href", wfsconf.get("baseurl") + "/collections/"+curobj.getString("name")+"?f=html");
+				colinks.put(link);
+				link = new JSONObject();
+				link.put("rel", "describedBy");
+				link.put("title", "XML Schema for this dataset");
+				link.put("type", "application/xml");
+				link.put("href", "http://www.acme.com/3.0/wfs/collections/"+curobj.getString("name")+"/schema");
+				colinks.put(link);
 				coll.put("links", colinks);
 				collections.put(coll);
 			}
