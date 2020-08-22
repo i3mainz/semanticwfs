@@ -25,7 +25,7 @@ var a00417 =
     [ "entryPointCSWPost", "a00417.html#ab730c29537669b89f96dce42a61e7a0e", null ],
     [ "entryPointPOST", "a00417.html#a819b72c37d3049b5036fb5faa1756a71", null ],
     [ "generateOpenAPIDefinitions", "a00417.html#ac096bce96d8d7edfa35c79060ad1fcb5", null ],
-    [ "getCapabilities", "a00417.html#a9d4c4455470a88099b22e5c7f97af732", null ],
+    [ "getCapabilities", "a00417.html#a79c4c5a305ce2823e97b26d2f676174b", null ],
     [ "getCollectionMetadata", "a00417.html#a0d7c82140929edf4598696a7252a7401", null ],
     [ "getCollectionsMetadata", "a00417.html#a62ff505fc85ee400f73633994090c5a4", null ],
     [ "getCollectionStyle", "a00417.html#aa6cd9ce33426c383d9fdebad6066567e", null ],
