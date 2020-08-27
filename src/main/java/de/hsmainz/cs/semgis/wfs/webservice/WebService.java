@@ -1750,8 +1750,7 @@ public class WebService {
 			+ "\">First 1000 items</a></li>");
 			builder.append("</ul><h3>Serializations</h3>Number of features:&nbsp;<input type=\"number\" min=\"1\" id=\"limit\" value=\"10\"/>&nbsp;Offset:&nbsp;<input type=\"number\" min=\"1\" id=\"offset\" value=\"0\"/>Format:<select id=\"format\">");
 			for (ResultFormatter formatter : ResultFormatter.resultMap.values()) {
-				builder.append("<option value=\""+wfsconf.getString("baseurl") + "/collections/"
-						+ workingobj.getString("name") + "/items\">"+formatter.exposedType.toUpperCase()+"</option>");
+				builder.append("<option value=\""+formatter.urlformat+"\">"+formatter.exposedType.toUpperCase()+"</option>");
 			}
 			builder.append("</select>&nbsp;<button id=\"showfeaturebutton\" onclick=\"showCollections('"+wfsconf.getString("baseurl")+"/collections/" + workingobj.getString("name") + "/items')\"/>Show</button></section></div></div></div>");
 			builder.append("<footer id=\"footer\"><table width=100%><tbody><tr><td><a href=\"" + wfsconf.getString("baseurl")
