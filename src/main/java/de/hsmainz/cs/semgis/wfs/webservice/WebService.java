@@ -1723,7 +1723,7 @@ public class WebService {
 			geojson.put("geometry", geometry);
 			geojson.put("properties", properties);
 			builder.append(htmlHead);
-			builder.append("<script>function showCollections(link){window.location.href=link+\"?limit=\"+$('#limit').val()+\"f=\"+$('#format').val()} var espg=\"" + (workingobj.has("targetCRS") ? workingobj.get("targetCRS") : "")
+			builder.append("<script>function showCollections(link){window.open(link+\"?limit=\"+$('#limit').val()+\"f=\"+$('#format').val(),'_blank');} var espg=\"" + (workingobj.has("targetCRS") ? workingobj.get("targetCRS") : "")
 					+ "\";</script><body><header id=\"header\"><h1 align=\"center\">");
 			builder.append(
 					(workingobj.getString("name") != null ? workingobj.getString("name") : collectionid));
@@ -1748,15 +1748,12 @@ public class WebService {
 			builder.append("<li><a href=\"" + wfsconf.getString("baseurl")
 			+ "/collections/" + workingobj.getString("name") + "/items?f=html&limit=1000&offset=" + (offset + 1)
 			+ "\">First 1000 items</a></li>");
-			builder.append("</ul><h3>Serializations</h3>Number of features:<input type=\"number\" min=\"1\" id=\"limit\" value=\"10\"/><select id=\"format\">");
+			builder.append("</ul><h3>Serializations</h3>Number of features:&nbsp;<input type=\"number\" min=\"1\" id=\"limit\" value=\"10\"/>&nbsp;Format:<select id=\"format\">");
 			for (ResultFormatter formatter : ResultFormatter.resultMap.values()) {
 				builder.append("<option value=\""+wfsconf.getString("baseurl") + "/collections/"
 						+ workingobj.getString("name") + "/items\">"+formatter.exposedType.toUpperCase()+"</option>");
-						/*+ "<a href=\"" + wfsconf.getString("baseurl") + "/collections/"
-						+ workingobj.getString("name") + "/items?limit=5&f=" + formatter.exposedType + "\">["
-						+ formatter.exposedType.toUpperCase() + "]</a></li>");*/
 			}
-			builder.append("</select><button id=\"showfeaturebutton\" onclick=\"showCollections('"+wfsconf.getString("baseurl")+"/collections/" + workingobj.getString("name") + "/items')\"/>Show</button></section></div></div></div>");
+			builder.append("</select>&nbsp;<button id=\"showfeaturebutton\" onclick=\"showCollections('"+wfsconf.getString("baseurl")+"/collections/" + workingobj.getString("name") + "/items')\"/>Show</button></section></div></div></div>");
 			builder.append("<footer id=\"footer\"><table width=100%><tbody><tr><td><a href=\"" + wfsconf.getString("baseurl")
 					+ "/collections?f=html\">Back to Collections</a></td><td align=right>This page in <a href=\""
 					+ wfsconf.getString("baseurl") + "/collections/" + workingobj.getString("name")
