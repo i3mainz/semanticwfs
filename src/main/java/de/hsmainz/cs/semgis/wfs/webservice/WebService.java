@@ -1756,7 +1756,7 @@ public class WebService {
 						+ workingobj.getString("name") + "/items?limit=5&f=" + formatter.exposedType + "\">["
 						+ formatter.exposedType.toUpperCase() + "]</a></li>");*/
 			}
-			builder.append("</select><button id=\"showfeaturebutton\" onclick=\"\"/></section></div></div></div>");
+			builder.append("</select><button id=\"showfeaturebutton\" onclick=\"showCollections('"+wfsconf.getString("baseurl")+"/collections/" + workingobj.getString("name") + "/items')\"/>Show</button></section></div></div></div>");
 			builder.append("<footer id=\"footer\"><table width=100%><tbody><tr><td><a href=\"" + wfsconf.getString("baseurl")
 					+ "/collections?f=html\">Back to Collections</a></td><td align=right>This page in <a href=\""
 					+ wfsconf.getString("baseurl") + "/collections/" + workingobj.getString("name")
