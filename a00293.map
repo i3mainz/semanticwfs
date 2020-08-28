@@ -1,4 +1,4 @@
-<map id="PolyshapeFormatter" name="PolyshapeFormatter">
-<area shape="rect" id="node2" href="$a00334.html" title="WFSResultFormatter" alt="" coords="5,80,152,107"/>
-<area shape="rect" id="node3" href="$a00306.html" title="Abstract class to downlift query results. " alt="" coords="21,5,137,32"/>
+<map id="NQuadsFormatter" name="NQuadsFormatter">
+<area shape="rect" id="node2" href="$a00323.html" title="Abstract class to downlift query results. " alt="" coords="1376,211,1492,237"/>
+<area shape="rect" id="node5" href="$a00383.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="1096,132,1243,159"/>
 </map>

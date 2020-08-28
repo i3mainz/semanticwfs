@@ -1,6 +1,6 @@
 var a00295 =
 [
-    [ "RDFJSONFormatter", "a00295.html#ad1b3a32f8e06089a79011561ed1052ac", null ],
+    [ "NQuadsFormatter", "a00295.html#a6fcceab6ee9b98cef6602dcbbfa8dcf7", null ],
     [ "[static initializer]", "a00295.html#a2e87c5ede6b7235170d287cd2e254454", null ],
     [ "formatFooter", "a00295.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00295.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
@@ -11,5 +11,6 @@ var a00295 =
     [ "lastQueriedElemCount", "a00295.html#a1ce6ef499b64cec5981912a236baa199", null ],
     [ "mimeType", "a00295.html#a09c78e464072ccab667894f0d179fbdf", null ],
     [ "resultMap", "a00295.html#ad4dc7a6c041435f4beebcc9e95620641", null ],
-    [ "styleformatter", "a00295.html#a642e338a4dd781605dd3b0ca82fbd940", null ]
+    [ "styleformatter", "a00295.html#a642e338a4dd781605dd3b0ca82fbd940", null ],
+    [ "urlformat", "a00295.html#ab8f021a6bbeb42028cef0a3a7cc1872d", null ]
 ];

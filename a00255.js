@@ -1,8 +1,7 @@
 var a00255 =
 [
-    [ "GPXFormatter", "a00255.html#a1fce5d275978d7dad93b2457141bd42a", null ],
+    [ "GeoURIFormatter", "a00255.html#a5eb340b9f43f6ac50786dc48ef83c1df", null ],
     [ "[static initializer]", "a00255.html#a2e87c5ede6b7235170d287cd2e254454", null ],
-    [ "collectColumns", "a00255.html#a29fa093ba1a2582bb6073a305555c49c", null ],
     [ "formatFooter", "a00255.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00255.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
     [ "formatter", "a00255.html#a4d60ad97c2097d9323921b749f163e26", null ],
@@ -13,5 +12,6 @@ var a00255 =
     [ "lastQueriedElemCount", "a00255.html#a1ce6ef499b64cec5981912a236baa199", null ],
     [ "mimeType", "a00255.html#a09c78e464072ccab667894f0d179fbdf", null ],
     [ "resultMap", "a00255.html#ad4dc7a6c041435f4beebcc9e95620641", null ],
-    [ "styleformatter", "a00255.html#a642e338a4dd781605dd3b0ca82fbd940", null ]
+    [ "styleformatter", "a00255.html#a642e338a4dd781605dd3b0ca82fbd940", null ],
+    [ "urlformat", "a00255.html#ab8f021a6bbeb42028cef0a3a7cc1872d", null ]
 ];

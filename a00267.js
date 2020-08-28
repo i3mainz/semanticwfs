@@ -1,7 +1,8 @@
 var a00267 =
 [
-    [ "JSONLDFormatter", "a00267.html#a1bc949e7a9e8b3b31ddbbe430beffb67", null ],
+    [ "GPXFormatter", "a00267.html#a1fce5d275978d7dad93b2457141bd42a", null ],
     [ "[static initializer]", "a00267.html#a2e87c5ede6b7235170d287cd2e254454", null ],
+    [ "collectColumns", "a00267.html#a29fa093ba1a2582bb6073a305555c49c", null ],
     [ "formatFooter", "a00267.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00267.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
     [ "formatter", "a00267.html#a4d60ad97c2097d9323921b749f163e26", null ],
@@ -12,5 +13,6 @@ var a00267 =
     [ "lastQueriedElemCount", "a00267.html#a1ce6ef499b64cec5981912a236baa199", null ],
     [ "mimeType", "a00267.html#a09c78e464072ccab667894f0d179fbdf", null ],
     [ "resultMap", "a00267.html#ad4dc7a6c041435f4beebcc9e95620641", null ],
-    [ "styleformatter", "a00267.html#a642e338a4dd781605dd3b0ca82fbd940", null ]
+    [ "styleformatter", "a00267.html#a642e338a4dd781605dd3b0ca82fbd940", null ],
+    [ "urlformat", "a00267.html#ab8f021a6bbeb42028cef0a3a7cc1872d", null ]
 ];

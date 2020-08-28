@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>semanticwfs: Member List</title>
+<title>semanticwfs: Tuple&lt; T, T2 &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -56,86 +56,331 @@ $(function() {
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('a00410.html','');});
+$(document).ready(function(){initNavTree('a00407.html','');});
 </script>
 <div id="doc-content">
 <div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pac-attribs">Package Attributes</a> &#124;
+<a href="a00404.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">WebService Member List</div>  </div>
+<div class="title">Tuple&lt; T, T2 &gt; Class Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a00410.html">WebService</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a00410.html#a1eac1cee9d2427a515f268a0b5b6bbd7">addEndpoint</a>(@Parameter(description=&quot;The name of the SPARQL endpoint to add&quot;) @QueryParam(&quot;name&quot;) String name, @Parameter(description=&quot;The address of the SPARQL endpoint&quot;) @QueryParam(&quot;endpoint&quot;) String endpoint, @Parameter(description=&quot;The type property used in this SPARQL endpoint&quot;) @QueryParam(&quot;typerel&quot;) String typerel, @Parameter(description=&quot;The geometry property used by this SPARQL endpoint&quot;) @QueryParam(&quot;georel&quot;) String georel, @Parameter(description=&quot;Username for authorization&quot;) @QueryParam(&quot;username&quot;) String username, @Parameter(description=&quot;Password for authorization&quot;) @QueryParam(&quot;password&quot;) String password, @Parameter(description=&quot;Authtoken if the user is already logged in&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;authtoken&quot;) String authtoken)</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00410.html#a694372f382c6c4acb8c57c89af1cca7a">addFeatureType</a>( @QueryParam(&quot;query&quot;) String sparqlQuery, @QueryParam(&quot;typename&quot;) String name, @DefaultValue(&quot;item&quot;) @QueryParam(&quot;indvar&quot;) String indvar, @DefaultValue(&quot;500&quot;) @QueryParam(&quot;bboxlimit&quot;) String bboxlimit, @QueryParam(&quot;class&quot;) String classs, @DefaultValue(&quot;WFS&quot;) @QueryParam(&quot;type&quot;) String type, @DefaultValue(&quot;&quot;) @QueryParam(&quot;description&quot;) String description, @DefaultValue(&quot;EPSG:4326&quot;) @QueryParam(&quot;targetCRS&quot;) String targetCRS, @QueryParam(&quot;namespace&quot;) String namespace, @QueryParam(&quot;triplestore&quot;) String triplestore, @QueryParam(&quot;username&quot;) String username, @QueryParam(&quot;password&quot;) String password, @DefaultValue(&quot;&quot;) @QueryParam(&quot;authtoken&quot;) String authtoken)</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00410.html#a286a860174a898905ecad89f5f037cf1">addPrefixes</a>(@QueryParam(&quot;query&quot;) String sparqlQuery, @QueryParam(&quot;typename&quot;) String name, @QueryParam(&quot;namespace&quot;) String namespace, @QueryParam(&quot;triplestore&quot;) String triplestore)</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00410.html#a2fcea3e979c877ff708f03f836e27722">bboxCache</a></td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00410.html#a16a865710dde3c76fa4ebb31e7d641c7">collectionInformation</a>( @Parameter(description=&quot;The id of the collection to be considered&quot;) @PathParam(&quot;collectionid&quot;) String collectionid, @Parameter(description=&quot;The format in which the collection should be returned&quot;, example=&quot;geojson&quot;) @DefaultValue(&quot;html&quot;) @QueryParam(&quot;f&quot;) String format, @Parameter(description=&quot;The maximum amount of features to be returned&quot;, example=&quot;10&quot;) @DefaultValue(&quot;10&quot;) @QueryParam(&quot;limit&quot;) String limit, @Parameter(description=&quot;An offset to be considered when returning features&quot;, example=&quot;10&quot;) @DefaultValue(&quot;0&quot;) @QueryParam(&quot;offset&quot;) String offset, @Parameter(description=&quot;Defines a bounding box from which to return the given features&quot;) @QueryParam(&quot;bbox&quot;) String bbox)</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00410.html#aa3aaf973b9ec921df3dc5f49ddab7fcc">collectionItems</a>(@Parameter(description=&quot;The id of the collection&quot;) @PathParam(&quot;collectionid&quot;) String collectionid, @Parameter(description=&quot;The format of the result&quot;) @DefaultValue(&quot;html&quot;) @QueryParam(&quot;f&quot;) String format, @DefaultValue(&quot;10&quot;) @QueryParam(&quot;limit&quot;) String limit, @Parameter(description=&quot;The offset to consider when fetching items&quot;) @DefaultValue(&quot;0&quot;) @QueryParam(&quot;offset&quot;) String offset, @DefaultValue(&quot;&quot;) @QueryParam(&quot;bbox&quot;) String bbox, @Parameter(description=&quot;The styling of the item when returned&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;style&quot;) String style, @Parameter(description=&quot;The crs of a given bounding box&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;bbox-crs&quot;) String bboxcrs, @Parameter(description=&quot;A filter expression&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;filter&quot;) String filter, @Parameter(description=&quot;The language in which the filter expression is formulated&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;filter-lang&quot;) String filterlang, @Parameter(description=&quot;A temporal filter expression&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;datetime&quot;) String datetime)</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00410.html#a6d9cc9ae4430488ec6439c42ad5be8a2">collections</a>(@DefaultValue(&quot;html&quot;) @QueryParam(&quot;f&quot;) String format)</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00410.html#a31e48fd1ece1f1467a0654748163c1c4">conformance</a>(@Parameter(description=&quot;The format of the conformance page&quot;) @DefaultValue(&quot;html&quot;) @QueryParam(&quot;f&quot;) String format)</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00410.html#a0d0a2b65e2cd5792977c400c82ba0676">constructCapabilities</a>(String version, String versionnamespace)</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00410.html#afc17958c87fe9fcc762b15b9e3f41d2b">constructCapabilitiesCSW</a>(String version, String versionnamespace)</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00410.html#a02f1bd0586e5b2fc8811c6365800999d">constructCapabilitiesWFS10</a>(String version, String versionnamespace)</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00410.html#a144f307441a7e2622ad74dd5ef58f017">createExceptionResponse</a>(Exception e, String format)</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00410.html#a2b52dfa65c7ae2f6fef9f84a2675c18b">describeConformance</a>(IndentingXMLStreamWriter writer, String versionnamespace, String namespace)</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00410.html#a28bcff08fde95d77ffa6a502701688ce">describeFeatureType</a>(XMLStreamWriter writer, JSONObject featuretype, String versionnamespace, String version)</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00410.html#a818e38edc96438ef69a081e9c67e3ead">describeFeatureType</a>( @Parameter(description=&quot;The feature type name to describe&quot;) @QueryParam(&quot;typename&quot;) String typename, @Parameter(description=&quot;The version of the WFS service&quot;) @DefaultValue(&quot;version&quot;) @QueryParam(&quot;version&quot;) String version)</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00410.html#a8ec840c0797ecf2a38266bce2b9f40b1">describeFeatureTypeJSON</a>( @Parameter(description=&quot;The feature type to describe&quot;) @QueryParam(&quot;typename&quot;) String typename, @Parameter(description=&quot;The version of the WFS service&quot;) @DefaultValue(&quot;version&quot;) @QueryParam(&quot;version&quot;) String version)</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00410.html#af4323d0e010d3b5f05244c917a43eb59">describeFeatureTypeWFS10</a>(XMLStreamWriter writer, JSONObject featuretype, String versionnamespace, String version)</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00410.html#a861ccbf29e313388b7b887f247644c2e">describeScalarCapabilities</a>(XMLStreamWriter writer, String versionnamespace, String namespace)</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00410.html#ad165877472c415f9bfdbad811c99f754">describeSpatialCapabilities</a>(XMLStreamWriter writer, String versionnamespace, String namespace)</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00410.html#a6196d8576a3809e04288c34d85b3c6bf">describeSpatialCapabilitiesWFS10</a>(XMLStreamWriter writer, String versionnamespace, String namespace)</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00410.html#ac45dc69febc3ddcf7bea508f57a96691">entryPoint</a>(@DefaultValue(&quot;WFS&quot;) @QueryParam(&quot;SERVICE&quot;) String service, @DefaultValue(&quot;GetCapabilities&quot;) @QueryParam(&quot;REQUEST&quot;) String request, @DefaultValue(&quot;2.0.0&quot;) @QueryParam(&quot;VERSION&quot;) String version, @DefaultValue(&quot;&quot;) @QueryParam(&quot;TYPENAME&quot;) String typename, @DefaultValue(&quot;&quot;) @QueryParam(&quot;TYPENAMES&quot;) String typenames, @DefaultValue(&quot;&quot;) @QueryParam(&quot;SRSNAME&quot;) String srsName, @DefaultValue(&quot;gml&quot;) @QueryParam(&quot;EXCEPTIONS&quot;) String exceptions, @DefaultValue(&quot;&quot;) @QueryParam(&quot;BBOX&quot;) String bbox, @DefaultValue(&quot;&quot;) @QueryParam(&quot;VALUEREFERENCE&quot;) String propertyname, @DefaultValue(&quot;ASC&quot;) @QueryParam(&quot;SORTBY&quot;) String sortBy, @DefaultValue(&quot;&quot;) @QueryParam(&quot;STYLES&quot;) String style, @DefaultValue(&quot;results&quot;) @QueryParam(&quot;RESULTTYPE&quot;) String resultType, @DefaultValue(&quot;&quot;) @QueryParam(&quot;RESOURCEID&quot;) String resourceids, @DefaultValue(&quot;&quot;) @QueryParam(&quot;GMLOBJECTID&quot;) String gmlobjectid, @DefaultValue(&quot;0&quot;) @QueryParam(&quot;STARTINDEX&quot;) String startindex, @DefaultValue(&quot;&quot;) @QueryParam(&quot;FILTER&quot;) String filter, @DefaultValue(&quot;&quot;) @QueryParam(&quot;FILTERLANGUAGE&quot;) String filterLanguage, @DefaultValue(&quot;gml&quot;) @QueryParam(&quot;OUTPUTFORMAT&quot;) String output, @DefaultValue(&quot;5&quot;) @QueryParam(&quot;COUNT&quot;) String count)</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00410.html#a04fbdb7417dcf59eac247435168004cd">entryPointCSW</a>(@DefaultValue(&quot;CSW&quot;) @QueryParam(&quot;SERVICE&quot;) String service, @DefaultValue(&quot;GetCapabilities&quot;) @QueryParam(&quot;REQUEST&quot;) String request, @DefaultValue(&quot;2.0.2&quot;) @QueryParam(&quot;VERSION&quot;) String version, @DefaultValue(&quot;&quot;) @QueryParam(&quot;TYPENAME&quot;) String typename, @DefaultValue(&quot;&quot;) @QueryParam(&quot;TYPENAMES&quot;) String typenames, @DefaultValue(&quot;gml&quot;) @QueryParam(&quot;OUTPUTFORMAT&quot;) String output)</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00410.html#ab730c29537669b89f96dce42a61e7a0e">entryPointCSWPost</a>(@DefaultValue(&quot;CSW&quot;) @QueryParam(&quot;SERVICE&quot;) String service, @DefaultValue(&quot;GetCapabilities&quot;) @QueryParam(&quot;REQUEST&quot;) String request, @DefaultValue(&quot;2.0.2&quot;) @QueryParam(&quot;VERSION&quot;) String version, @DefaultValue(&quot;&quot;) @QueryParam(&quot;TYPENAME&quot;) String typename, @DefaultValue(&quot;&quot;) @QueryParam(&quot;TYPENAMES&quot;) String typenames, @DefaultValue(&quot;gml&quot;) @QueryParam(&quot;OUTPUTFORMAT&quot;) String output)</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00410.html#a819b72c37d3049b5036fb5faa1756a71">entryPointPOST</a>( @Parameter(description=&quot;Service type definition&quot;) @DefaultValue(&quot;WFS&quot;) @QueryParam(&quot;SERVICE&quot;) String service, @Parameter(description=&quot;Request definition&quot;) @DefaultValue(&quot;GetCapabilities&quot;) @QueryParam(&quot;REQUEST&quot;) String request, @Parameter(description=&quot;Version of the web service&quot;) @DefaultValue(&quot;2.0.0&quot;) @QueryParam(&quot;VERSION&quot;) String version, @Parameter(description=&quot;The feature type name to be queried&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;TYPENAME&quot;) String typename, @Parameter(description=&quot;The feature type(s) name(s) to be queried&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;TYPENAMES&quot;) String typenames, @Parameter(description=&quot;The name of the CRS to be returned&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;SRSNAME&quot;) String srsName, @DefaultValue(&quot;gml&quot;) @QueryParam(&quot;EXCEPTIONS&quot;) String exceptions, @Parameter(description=&quot;A bounding box used for filtering results&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;BBOX&quot;) String bbox, @DefaultValue(&quot;&quot;) @QueryParam(&quot;VALUEREFERENCE&quot;) String propertyname, @Parameter(description=&quot;Sorting order definition&quot;) @DefaultValue(&quot;ASC&quot;) @QueryParam(&quot;SORTBY&quot;) String sortBy, @DefaultValue(&quot;&quot;) @QueryParam(&quot;STYLES&quot;) String style, @DefaultValue(&quot;results&quot;) @QueryParam(&quot;RESULTTYPE&quot;) String resultType, @DefaultValue(&quot;&quot;) @QueryParam(&quot;RESOURCEID&quot;) String resourceids, @DefaultValue(&quot;&quot;) @QueryParam(&quot;GMLOBJECTID&quot;) String gmlobjectid, @DefaultValue(&quot;0&quot;) @QueryParam(&quot;STARTINDEX&quot;) String startindex, @DefaultValue(&quot;&quot;) @QueryParam(&quot;FILTER&quot;) String filter, @DefaultValue(&quot;&quot;) @QueryParam(&quot;FILTERLANGUAGE&quot;) String filterLanguage, @DefaultValue(&quot;gml&quot;) @QueryParam(&quot;OUTPUTFORMAT&quot;) String output, @DefaultValue(&quot;5&quot;) @QueryParam(&quot;COUNT&quot;) String count)</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00410.html#aac6cc225f89d757e0034110b178ac276">featureTypeCache</a></td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00410.html#ac096bce96d8d7edfa35c79060ad1fcb5">generateOpenAPIDefinitions</a>()</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00410.html#a9d4c4455470a88099b22e5c7f97af732">getCapabilities</a>(@Parameter(description=&quot;The version of the WFS service to target&quot;) @DefaultValue(&quot;2.0.0&quot;) @QueryParam(&quot;version&quot;) String version)</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00410.html#a0d7c82140929edf4598696a7252a7401">getCollectionMetadata</a>(@PathParam(&quot;collectionid&quot;) String collectionid, @Parameter(description=&quot;The metadata schema to be used&quot;) @DefaultValue(&quot;gmd&quot;) @QueryParam(&quot;metadataformat&quot;) String mdformat, @Parameter(description=&quot;The format to downlift metadata&quot;) @DefaultValue(&quot;html&quot;) @QueryParam(&quot;f&quot;) String format, @DefaultValue(&quot;false&quot;) @QueryParam(&quot;collectioncall&quot;) String collectioncall)</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00410.html#a62ff505fc85ee400f73633994090c5a4">getCollectionsMetadata</a>(@Parameter(description=&quot;The format of the collection page&quot;) @DefaultValue(&quot;html&quot;) @QueryParam(&quot;f&quot;) String format)</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00410.html#a2c73b011030643910ee6e527d2144279">getCollectionStyle</a>(@PathParam(&quot;collectionid&quot;) String collectionid, @PathParam(&quot;styleid&quot;) String styleid, @DefaultValue(&quot;html&quot;) @QueryParam(&quot;f&quot;) String format)</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00410.html#a98a8169189e3dc0061bc5f6338d8a6e0">getCollectionStyles</a>(@PathParam(&quot;collectionid&quot;) String collectionid, @DefaultValue(&quot;html&quot;) @QueryParam(&quot;f&quot;) String format)</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00410.html#af314706cc5221dc615f250c0b9b8336f">getEndpoints</a>()</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00410.html#a1e4498da627586b71176a9f60def3b75">getFeature</a>(@QueryParam(&quot;typename&quot;) String typename, @Parameter(description=&quot;The output format of the WFS service request&quot;) @DefaultValue(&quot;json&quot;) @QueryParam(&quot;outputFormat&quot;) String output, @Parameter(description=&quot;The amount of features to be returned&quot;, example=&quot;10&quot;) @DefaultValue(&quot;10&quot;) @QueryParam(&quot;count&quot;) String count, @Parameter(description=&quot;The starting index of the WFS request&quot;) @DefaultValue(&quot;0&quot;) @QueryParam(&quot;startindex&quot;) String startindex, @Parameter(description=&quot;The name of the CRS to be used&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;srsName&quot;) String srsName, @Parameter(description=&quot;Indicates the sorting order&quot;) @DefaultValue(&quot;ASC&quot;) @QueryParam(&quot;sortBy&quot;) String sortBy, @Parameter(description=&quot;The style to apply to the returned collection if any&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;styles&quot;) String style, @Parameter(description=&quot;The version of the WFS&quot;, example=&quot;2.0.0&quot;) @DefaultValue(&quot;2.0.0&quot;) @QueryParam(&quot;version&quot;) String version, @Parameter(description=&quot;Indicates a specific resource id to be queried&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;resourceid&quot;) String resourceids, @Parameter(description=&quot;A WFS filter expression&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;filter&quot;) String filter, @Parameter(description=&quot;The filter language to be used in the filterExpression parameter&quot;) @DefaultValue(&quot;CQL&quot;) @QueryParam(&quot;filterLanguage&quot;) String filterLanguage, @Parameter(description=&quot;The result type to return&quot;) @DefaultValue(&quot;results&quot;) @QueryParam(&quot;resultType&quot;) String resultType)</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00410.html#a366a371862290189ff2c3cb166b21b9d">getFeatureById</a>( @Parameter(description=&quot;The collection id&quot;) @PathParam(&quot;collectionid&quot;) String collectionid, @Parameter(description=&quot;The feature id&quot;) @PathParam(&quot;featureid&quot;) String featureid, @Parameter(description=&quot;The style to be applied&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;style&quot;) String style, @Parameter(description=&quot;The format to be returned&quot;) @DefaultValue(&quot;html&quot;) @QueryParam(&quot;f&quot;) String format)</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00410.html#a6054667ee75eb4705f6af4db1ea52678">getFeatureTypes</a>()</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00410.html#a3353a82e790b10901825784fcf811cff">getGeoClassesFromOntology</a>(@Parameter(description=&quot;The SPARQL endpoint to load classes from&quot;) @QueryParam(&quot;endpoint&quot;) String endpoint)</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00410.html#a41919f870e710f41155aa6da39757fc9">getGmlObject</a>(@QueryParam(&quot;typename&quot;) String typename, @QueryParam(&quot;GmlObjectId&quot;) String gmlobjectid, @DefaultValue(&quot;4&quot;) @QueryParam(&quot;traverseXlinkDepth&quot;) String traverseXlinkDepth, @DefaultValue(&quot;gml&quot;) @QueryParam(&quot;outputFormat&quot;) String output)</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00410.html#a74df4cd0ec75149ccde088d5597b093e">getPropertiesByClass</a>( @Parameter(description=&quot;The SPARQL endpoint to load properties from&quot;) @QueryParam(&quot;endpoint&quot;) String endpoint, @Parameter(description=&quot;The class from which properties should be loaded&quot;) @QueryParam(&quot;class&quot;) String classs)</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00410.html#a8821ed26f9efb274155fb0cb9684293f">getPropertyValue</a>( @Parameter(description=&quot;Feature type to query&quot;) @QueryParam(&quot;typename&quot;) String typename, @QueryParam(&quot;valuereference&quot;) String propertyname, @DefaultValue(&quot;json&quot;) @QueryParam(&quot;outputFormat&quot;) String output, @DefaultValue(&quot;&quot;) @QueryParam(&quot;resourceids&quot;) String resourceids, @DefaultValue(&quot;&quot;) @QueryParam(&quot;filter&quot;) String filter, @DefaultValue(&quot;0&quot;) @QueryParam(&quot;count&quot;) String count, @DefaultValue(&quot;results&quot;) @QueryParam(&quot;resultType&quot;) String resultType)</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00410.html#a5466512063c41595951b2768261f3522">getSchema</a>( @Parameter(description=&quot;The collection id for which to return the schema&quot;) @PathParam(&quot;collectionid&quot;) String collectionid, @Parameter(description=&quot;The format in which the schema should be returned&quot;, example=&quot;json&quot;) @DefaultValue(&quot;gml&quot;) @QueryParam(&quot;f&quot;) String format)</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00410.html#a9ebf090c22190f689427fc0956812833">hitCache</a></td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00410.html#abadb2017cd034105cf534f764aee53eb">htmlHead</a></td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"><span class="mlabel">package</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00410.html#aa26f0ca1951eb9f65acf5e2fa482ca42">landingPage</a>(@Parameter(description=&quot;The format of the landingpage&quot;) @DefaultValue(&quot;html&quot;) @QueryParam(&quot;f&quot;) String format)</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00410.html#ab5eeb22a4edf8c2b8a9e26b0cf8f5304">lockFeature</a>()</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00410.html#a7debf0ca9a3c2582b49ee8abc95f58d2">login</a>(@Parameter(description=&quot;Username for authorization&quot;) @QueryParam(&quot;username&quot;) String username, @Parameter(description=&quot;Password for authorization&quot;) @QueryParam(&quot;password&quot;) String password)</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00410.html#a103fe877959c559c3efe72dc9db98f5e">milliesInDays</a></td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00410.html#a37319c767ff2ca750a3ab110aa78ac7a">nameSpaceCache</a></td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00410.html#a88724b837ed6ce278eccca40f2f6f87b">prefixes</a>()</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00410.html#ae52a932fac3aaf398d86fafc31269f30">queryables</a>(@Parameter(description=&quot;The id of the collection to be considered&quot;) @PathParam(&quot;collectionid&quot;) String collectionid, @Parameter(description=&quot;The format in which the collection should be returned&quot;, example=&quot;geojson&quot;) @DefaultValue(&quot;html&quot;) @QueryParam(&quot;f&quot;) String format)</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00410.html#a0db1e9331f9e64ddc4826cf215c25761">queryConfigs</a>()</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00410.html#a0490144595adfdce9fd7a496b44ccb4c">queryService</a>( @Parameter(description=&quot;SPARQL query to be resolved&quot;) @QueryParam(&quot;query&quot;) String query, @Parameter(description=&quot;SPARQL endpoint to query&quot;) @QueryParam(&quot;endpoint&quot;) String endpoint)</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00410.html#a0dca993464d6e57f6ad5e6ea4cc578fd">queryService</a>( @Parameter(description=&quot;SPARQL query to be resolved&quot;) @QueryParam(&quot;query&quot;) String query, @Parameter(description=&quot;SPARQL endpoint to be queried&quot;) @QueryParam(&quot;endpoint&quot;) String endpoint, @Parameter(description=&quot;Indicates whether geojson should be returned to be shown in a map view&quot;) @QueryParam(&quot;geojson&quot;) String geojson)</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00410.html#a0abf23c36f2a6a426186234b31db36a4">saveFeatureTypes</a>( @Parameter(description=&quot;JSON object containing feature types to be saved&quot;) @QueryParam(&quot;featjson&quot;) String featureTypesJSON, @Parameter(description=&quot;Authtoken for authorization&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;authtoken&quot;) String authtoken)</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00410.html#a503eb82f8096e9d01d04b51d598aefcd">SERVERURL</a></td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00410.html#a5d430a6faf3d545dd008cdc89376ba6b">SERVICETYPEVERSION</a></td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00410.html#a17829698dc41b256a7d7b5cc89dc01b2">style</a>(@DefaultValue(&quot;WFS&quot;) @QueryParam(&quot;SERVICE&quot;) String service, @DefaultValue(&quot;GetStyle&quot;) @QueryParam(&quot;REQUEST&quot;) String request, @DefaultValue(&quot;&quot;) @QueryParam(&quot;TYPENAME&quot;) String typename, @DefaultValue(&quot;&quot;) @QueryParam(&quot;TYPENAMES&quot;) String typenames, @DefaultValue(&quot;gml&quot;) @QueryParam(&quot;OUTPUTFORMAT&quot;) String output)</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00410.html#adae526bd90688be0803d1ae1e6b9c1d1">styleCache</a></td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00410.html#a56810f82731fd18b8c6ef24a436ec3a1">transaction</a>()</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00410.html#ace30f38fba60924b394de3127fb8dec8">triplestoreconf</a></td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00410.html#aebca3743bf6bb6a049732727cdf3e41e">vectorTiles</a>(@DefaultValue(&quot;CSW&quot;) @QueryParam(&quot;SERVICE&quot;) String service, @DefaultValue(&quot;GetCapabilities&quot;) @QueryParam(&quot;REQUEST&quot;) String request, @DefaultValue(&quot;2.0.2&quot;) @QueryParam(&quot;VERSION&quot;) String version, @DefaultValue(&quot;&quot;) @QueryParam(&quot;TYPENAME&quot;) String typename, @DefaultValue(&quot;&quot;) @QueryParam(&quot;TYPENAMES&quot;) String typenames, @DefaultValue(&quot;gml&quot;) @QueryParam(&quot;OUTPUTFORMAT&quot;) String output)</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00410.html#a7a8fdc0242859fa8c99102a9095b600f">WebService</a>()</td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00410.html#a9bc418f5f79bbc27b865eb32dfaaf298">wfsconf</a></td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00410.html#afbd8bf7386c4d548993d0957bfd902bf">xmlwriter</a></td><td class="entry"><a class="el" href="a00410.html">WebService</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<p>Utility class modelling a tuple.  
+ <a href="a00407.html#details">More...</a></p>
+<div class="dynheader">
+Inheritance diagram for Tuple&lt; T, T2 &gt;:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00406.png" border="0" usemap="#Tuple_3_01T_00_01T2_01_4_inherit__map" alt="Inheritance graph"/></div>
+<map name="Tuple_3_01T_00_01T2_01_4_inherit__map" id="Tuple_3_01T_00_01T2_01_4_inherit__map">
+<area shape="rect" id="node2" href="a00887.html" title="Comparable" alt="" coords="14,5,106,32"/>
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
+Collaboration diagram for Tuple&lt; T, T2 &gt;:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00405.png" border="0" usemap="#Tuple_3_01T_00_01T2_01_4_coll__map" alt="Collaboration graph"/></div>
+<map name="Tuple_3_01T_00_01T2_01_4_coll__map" id="Tuple_3_01T_00_01T2_01_4_coll__map">
+<area shape="rect" id="node2" href="a00887.html" title="Comparable" alt="" coords="5,5,97,32"/>
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a2205a0a8d96aaf2da3bf4e86d94bff9c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00407.html#a2205a0a8d96aaf2da3bf4e86d94bff9c">Tuple</a> (T <a class="el" href="a00407.html#a4d21edec525eb08b9d469baa37aa2193">one</a>, T2 <a class="el" href="a00407.html#a801efe55e90affa4902d8a32f80067b8">two</a>)</td></tr>
+<tr class="memdesc:a2205a0a8d96aaf2da3bf4e86d94bff9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for this class.  <a href="#a2205a0a8d96aaf2da3bf4e86d94bff9c">More...</a><br /></td></tr>
+<tr class="separator:a2205a0a8d96aaf2da3bf4e86d94bff9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c836c92534fccf34aea4deff7887572"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00407.html#a8c836c92534fccf34aea4deff7887572">compareTo</a> (Object o)</td></tr>
+<tr class="separator:a8c836c92534fccf34aea4deff7887572"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3ce8ca5a04e8966a9d2158aeeecfc16"><td class="memItemLeft" align="right" valign="top">boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00407.html#ae3ce8ca5a04e8966a9d2158aeeecfc16">equals</a> (Object obj)</td></tr>
+<tr class="separator:ae3ce8ca5a04e8966a9d2158aeeecfc16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a91dcdf481c983152139551c19cab8439"><td class="memItemLeft" align="right" valign="top">T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00407.html#a91dcdf481c983152139551c19cab8439">getOne</a> ()</td></tr>
+<tr class="memdesc:a91dcdf481c983152139551c19cab8439"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the first value.  <a href="#a91dcdf481c983152139551c19cab8439">More...</a><br /></td></tr>
+<tr class="separator:a91dcdf481c983152139551c19cab8439"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba2e1d54c2884223728d5a2ae3396bd2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00407.html#aba2e1d54c2884223728d5a2ae3396bd2">setOne</a> (final T <a class="el" href="a00407.html#a4d21edec525eb08b9d469baa37aa2193">one</a>)</td></tr>
+<tr class="memdesc:aba2e1d54c2884223728d5a2ae3396bd2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the first value.  <a href="#aba2e1d54c2884223728d5a2ae3396bd2">More...</a><br /></td></tr>
+<tr class="separator:aba2e1d54c2884223728d5a2ae3396bd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7b063829737d3e1858037d0182e7c86"><td class="memItemLeft" align="right" valign="top">T2&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00407.html#ac7b063829737d3e1858037d0182e7c86">getTwo</a> ()</td></tr>
+<tr class="memdesc:ac7b063829737d3e1858037d0182e7c86"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the second value.  <a href="#ac7b063829737d3e1858037d0182e7c86">More...</a><br /></td></tr>
+<tr class="separator:ac7b063829737d3e1858037d0182e7c86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acfed43a97f7d5fc7b02b43f1b9523123"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00407.html#acfed43a97f7d5fc7b02b43f1b9523123">setTwo</a> (final T2 <a class="el" href="a00407.html#a801efe55e90affa4902d8a32f80067b8">two</a>)</td></tr>
+<tr class="memdesc:acfed43a97f7d5fc7b02b43f1b9523123"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the second value.  <a href="#acfed43a97f7d5fc7b02b43f1b9523123">More...</a><br /></td></tr>
+<tr class="separator:acfed43a97f7d5fc7b02b43f1b9523123"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad146fa8579a5f8a876c4688cc5a68520"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00407.html#ad146fa8579a5f8a876c4688cc5a68520">toString</a> ()</td></tr>
+<tr class="separator:ad146fa8579a5f8a876c4688cc5a68520"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pac-attribs"></a>
+Package Attributes</h2></td></tr>
+<tr class="memitem:a4d21edec525eb08b9d469baa37aa2193"><td class="memItemLeft" align="right" valign="top">T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00407.html#a4d21edec525eb08b9d469baa37aa2193">one</a></td></tr>
+<tr class="memdesc:a4d21edec525eb08b9d469baa37aa2193"><td class="mdescLeft">&#160;</td><td class="mdescRight">The first value.  <a href="#a4d21edec525eb08b9d469baa37aa2193">More...</a><br /></td></tr>
+<tr class="separator:a4d21edec525eb08b9d469baa37aa2193"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a801efe55e90affa4902d8a32f80067b8"><td class="memItemLeft" align="right" valign="top">T2&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00407.html#a801efe55e90affa4902d8a32f80067b8">two</a></td></tr>
+<tr class="memdesc:a801efe55e90affa4902d8a32f80067b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">The second value.  <a href="#a801efe55e90affa4902d8a32f80067b8">More...</a><br /></td></tr>
+<tr class="separator:a801efe55e90affa4902d8a32f80067b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Utility class modelling a tuple. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a2205a0a8d96aaf2da3bf4e86d94bff9c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2205a0a8d96aaf2da3bf4e86d94bff9c">&#9670;&nbsp;</a></span>Tuple()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="a00407.html">Tuple</a> </td>
+          <td>(</td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>one</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">T2&#160;</td>
+          <td class="paramname"><em>two</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constructor for this class. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">one</td><td>the first value </td></tr>
+    <tr><td class="paramname">two</td><td>the second value </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="reference">References <a class="el" href="a00407.html#a4d21edec525eb08b9d469baa37aa2193">Tuple&lt; T, T2 &gt;.one</a>, and <a class="el" href="a00407.html#a801efe55e90affa4902d8a32f80067b8">Tuple&lt; T, T2 &gt;.two</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="a00407.html#a8c836c92534fccf34aea4deff7887572">Tuple&lt; T, T2 &gt;.compareTo()</a>.</p>
+<div class="fragment"><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;                               {</div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        this.<a class="code" href="a00407.html#a4d21edec525eb08b9d469baa37aa2193">one</a>=<a class="code" href="a00407.html#a4d21edec525eb08b9d469baa37aa2193">one</a>;</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        this.<a class="code" href="a00407.html#a801efe55e90affa4902d8a32f80067b8">two</a>=<a class="code" href="a00407.html#a801efe55e90affa4902d8a32f80067b8">two</a>;</div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    }</div><div class="ttc" id="a00407_html_a4d21edec525eb08b9d469baa37aa2193"><div class="ttname"><a href="a00407.html#a4d21edec525eb08b9d469baa37aa2193">de.hsmainz.cs.semgis.wfs.util.Tuple.one</a></div><div class="ttdeci">T one</div><div class="ttdoc">The first value. </div><div class="ttdef"><b>Definition:</b> Tuple.java:8</div></div>
+<div class="ttc" id="a00407_html_a801efe55e90affa4902d8a32f80067b8"><div class="ttname"><a href="a00407.html#a801efe55e90affa4902d8a32f80067b8">de.hsmainz.cs.semgis.wfs.util.Tuple.two</a></div><div class="ttdeci">T2 two</div><div class="ttdoc">The second value. </div><div class="ttdef"><b>Definition:</b> Tuple.java:10</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a8c836c92534fccf34aea4deff7887572"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c836c92534fccf34aea4deff7887572">&#9670;&nbsp;</a></span>compareTo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int compareTo </td>
+          <td>(</td>
+          <td class="paramtype">Object&#160;</td>
+          <td class="paramname"><em>o</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="reference">References <a class="el" href="a00407.html#a4d21edec525eb08b9d469baa37aa2193">Tuple&lt; T, T2 &gt;.one</a>, <a class="el" href="a00407.html#a2205a0a8d96aaf2da3bf4e86d94bff9c">Tuple&lt; T, T2 &gt;.Tuple()</a>, and <a class="el" href="a00407.html#a801efe55e90affa4902d8a32f80067b8">Tuple&lt; T, T2 &gt;.two</a>.</p>
+<div class="fragment"><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                                   {</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <a class="code" href="a00407.html#a2205a0a8d96aaf2da3bf4e86d94bff9c">Tuple</a> t=(<a class="code" href="a00407.html#a2205a0a8d96aaf2da3bf4e86d94bff9c">Tuple</a>) o;</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keywordflow">if</span>(t.two== <span class="keyword">this</span>.two &amp;&amp; <span class="keyword">this</span>.one==t.one)</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            <span class="keywordflow">return</span> 0;</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="keywordflow">return</span> 1;</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    }</div><div class="ttc" id="a00407_html_a2205a0a8d96aaf2da3bf4e86d94bff9c"><div class="ttname"><a href="a00407.html#a2205a0a8d96aaf2da3bf4e86d94bff9c">de.hsmainz.cs.semgis.wfs.util.Tuple.Tuple</a></div><div class="ttdeci">Tuple(T one, T2 two)</div><div class="ttdoc">Constructor for this class. </div><div class="ttdef"><b>Definition:</b> Tuple.java:17</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="ae3ce8ca5a04e8966a9d2158aeeecfc16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae3ce8ca5a04e8966a9d2158aeeecfc16">&#9670;&nbsp;</a></span>equals()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">boolean equals </td>
+          <td>(</td>
+          <td class="paramtype">Object&#160;</td>
+          <td class="paramname"><em>obj</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="fragment"><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                                      {</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="keywordflow">if</span>(obj instanceof <a class="code" href="a00407.html#a2205a0a8d96aaf2da3bf4e86d94bff9c">Tuple</a>)</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            <span class="keywordflow">return</span> this.<a class="code" href="a00407.html#a4d21edec525eb08b9d469baa37aa2193">one</a>.equals(((Tuple)obj).<a class="code" href="a00407.html#a4d21edec525eb08b9d469baa37aa2193">one</a>) &amp;&amp; this.<a class="code" href="a00407.html#a801efe55e90affa4902d8a32f80067b8">two</a>.equals(((Tuple)obj).<a class="code" href="a00407.html#a801efe55e90affa4902d8a32f80067b8">two</a>);</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    }</div><div class="ttc" id="a00407_html_a2205a0a8d96aaf2da3bf4e86d94bff9c"><div class="ttname"><a href="a00407.html#a2205a0a8d96aaf2da3bf4e86d94bff9c">de.hsmainz.cs.semgis.wfs.util.Tuple.Tuple</a></div><div class="ttdeci">Tuple(T one, T2 two)</div><div class="ttdoc">Constructor for this class. </div><div class="ttdef"><b>Definition:</b> Tuple.java:17</div></div>
+<div class="ttc" id="a00407_html_a4d21edec525eb08b9d469baa37aa2193"><div class="ttname"><a href="a00407.html#a4d21edec525eb08b9d469baa37aa2193">de.hsmainz.cs.semgis.wfs.util.Tuple.one</a></div><div class="ttdeci">T one</div><div class="ttdoc">The first value. </div><div class="ttdef"><b>Definition:</b> Tuple.java:8</div></div>
+<div class="ttc" id="a00407_html_a801efe55e90affa4902d8a32f80067b8"><div class="ttname"><a href="a00407.html#a801efe55e90affa4902d8a32f80067b8">de.hsmainz.cs.semgis.wfs.util.Tuple.two</a></div><div class="ttdeci">T2 two</div><div class="ttdoc">The second value. </div><div class="ttdef"><b>Definition:</b> Tuple.java:10</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a91dcdf481c983152139551c19cab8439"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a91dcdf481c983152139551c19cab8439">&#9670;&nbsp;</a></span>getOne()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">T getOne </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the first value. </p>
+<dl class="section return"><dt>Returns</dt><dd>The first value </dd></dl>
+
+<p class="reference">References <a class="el" href="a00407.html#a4d21edec525eb08b9d469baa37aa2193">Tuple&lt; T, T2 &gt;.one</a>.</p>
+<div class="fragment"><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                     {</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="a00407.html#a4d21edec525eb08b9d469baa37aa2193">one</a>;</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    }</div><div class="ttc" id="a00407_html_a4d21edec525eb08b9d469baa37aa2193"><div class="ttname"><a href="a00407.html#a4d21edec525eb08b9d469baa37aa2193">de.hsmainz.cs.semgis.wfs.util.Tuple.one</a></div><div class="ttdeci">T one</div><div class="ttdoc">The first value. </div><div class="ttdef"><b>Definition:</b> Tuple.java:8</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="ac7b063829737d3e1858037d0182e7c86"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7b063829737d3e1858037d0182e7c86">&#9670;&nbsp;</a></span>getTwo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">T2 getTwo </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the second value. </p>
+<dl class="section return"><dt>Returns</dt><dd>The second value </dd></dl>
+
+<p class="reference">References <a class="el" href="a00407.html#a801efe55e90affa4902d8a32f80067b8">Tuple&lt; T, T2 &gt;.two</a>.</p>
+<div class="fragment"><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                      {</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="a00407.html#a801efe55e90affa4902d8a32f80067b8">two</a>;</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    }</div><div class="ttc" id="a00407_html_a801efe55e90affa4902d8a32f80067b8"><div class="ttname"><a href="a00407.html#a801efe55e90affa4902d8a32f80067b8">de.hsmainz.cs.semgis.wfs.util.Tuple.two</a></div><div class="ttdeci">T2 two</div><div class="ttdoc">The second value. </div><div class="ttdef"><b>Definition:</b> Tuple.java:10</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="aba2e1d54c2884223728d5a2ae3396bd2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba2e1d54c2884223728d5a2ae3396bd2">&#9670;&nbsp;</a></span>setOne()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void setOne </td>
+          <td>(</td>
+          <td class="paramtype">final T&#160;</td>
+          <td class="paramname"><em>one</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the first value. </p>
+
+<p class="reference">References <a class="el" href="a00407.html#a4d21edec525eb08b9d469baa37aa2193">Tuple&lt; T, T2 &gt;.one</a>.</p>
+<div class="fragment"><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                                    {</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        this.<a class="code" href="a00407.html#a4d21edec525eb08b9d469baa37aa2193">one</a> = <a class="code" href="a00407.html#a4d21edec525eb08b9d469baa37aa2193">one</a>;</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    }</div><div class="ttc" id="a00407_html_a4d21edec525eb08b9d469baa37aa2193"><div class="ttname"><a href="a00407.html#a4d21edec525eb08b9d469baa37aa2193">de.hsmainz.cs.semgis.wfs.util.Tuple.one</a></div><div class="ttdeci">T one</div><div class="ttdoc">The first value. </div><div class="ttdef"><b>Definition:</b> Tuple.java:8</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="acfed43a97f7d5fc7b02b43f1b9523123"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acfed43a97f7d5fc7b02b43f1b9523123">&#9670;&nbsp;</a></span>setTwo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void setTwo </td>
+          <td>(</td>
+          <td class="paramtype">final T2&#160;</td>
+          <td class="paramname"><em>two</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the second value. </p>
+
+<p class="reference">References <a class="el" href="a00407.html#a801efe55e90affa4902d8a32f80067b8">Tuple&lt; T, T2 &gt;.two</a>.</p>
+<div class="fragment"><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                                     {</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        this.<a class="code" href="a00407.html#a801efe55e90affa4902d8a32f80067b8">two</a> = <a class="code" href="a00407.html#a801efe55e90affa4902d8a32f80067b8">two</a>;</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    }</div><div class="ttc" id="a00407_html_a801efe55e90affa4902d8a32f80067b8"><div class="ttname"><a href="a00407.html#a801efe55e90affa4902d8a32f80067b8">de.hsmainz.cs.semgis.wfs.util.Tuple.two</a></div><div class="ttdeci">T2 two</div><div class="ttdoc">The second value. </div><div class="ttdef"><b>Definition:</b> Tuple.java:10</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="ad146fa8579a5f8a876c4688cc5a68520"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad146fa8579a5f8a876c4688cc5a68520">&#9670;&nbsp;</a></span>toString()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">String toString </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="fragment"><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                             {</div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keywordflow">return</span> <span class="stringliteral">&quot;[&quot;</span>+this.<a class="code" href="a00407.html#a4d21edec525eb08b9d469baa37aa2193">one</a>+<span class="stringliteral">&quot;,&quot;</span>+this.<a class="code" href="a00407.html#a801efe55e90affa4902d8a32f80067b8">two</a>+<span class="stringliteral">&quot;]&quot;</span>;</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    }</div><div class="ttc" id="a00407_html_a4d21edec525eb08b9d469baa37aa2193"><div class="ttname"><a href="a00407.html#a4d21edec525eb08b9d469baa37aa2193">de.hsmainz.cs.semgis.wfs.util.Tuple.one</a></div><div class="ttdeci">T one</div><div class="ttdoc">The first value. </div><div class="ttdef"><b>Definition:</b> Tuple.java:8</div></div>
+<div class="ttc" id="a00407_html_a801efe55e90affa4902d8a32f80067b8"><div class="ttname"><a href="a00407.html#a801efe55e90affa4902d8a32f80067b8">de.hsmainz.cs.semgis.wfs.util.Tuple.two</a></div><div class="ttdeci">T2 two</div><div class="ttdoc">The second value. </div><div class="ttdef"><b>Definition:</b> Tuple.java:10</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a4d21edec525eb08b9d469baa37aa2193"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d21edec525eb08b9d469baa37aa2193">&#9670;&nbsp;</a></span>one</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">T one</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">package</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The first value. </p>
+
+<p class="reference">Referenced by <a class="el" href="a00407.html#a8c836c92534fccf34aea4deff7887572">Tuple&lt; T, T2 &gt;.compareTo()</a>, <a class="el" href="a00407.html#a91dcdf481c983152139551c19cab8439">Tuple&lt; T, T2 &gt;.getOne()</a>, <a class="el" href="a00407.html#aba2e1d54c2884223728d5a2ae3396bd2">Tuple&lt; T, T2 &gt;.setOne()</a>, and <a class="el" href="a00407.html#a2205a0a8d96aaf2da3bf4e86d94bff9c">Tuple&lt; T, T2 &gt;.Tuple()</a>.</p>
+
+</div>
+</div>
+<a id="a801efe55e90affa4902d8a32f80067b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a801efe55e90affa4902d8a32f80067b8">&#9670;&nbsp;</a></span>two</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">T2 two</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">package</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The second value. </p>
+
+<p class="reference">Referenced by <a class="el" href="a00407.html#a8c836c92534fccf34aea4deff7887572">Tuple&lt; T, T2 &gt;.compareTo()</a>, <a class="el" href="a00407.html#ac7b063829737d3e1858037d0182e7c86">Tuple&lt; T, T2 &gt;.getTwo()</a>, <a class="el" href="a00407.html#acfed43a97f7d5fc7b02b43f1b9523123">Tuple&lt; T, T2 &gt;.setTwo()</a>, and <a class="el" href="a00407.html#a2205a0a8d96aaf2da3bf4e86d94bff9c">Tuple&lt; T, T2 &gt;.Tuple()</a>.</p>
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.13-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a00180.html">de</a></li><li class="navelem"><a class="el" href="a00181.html">hsmainz</a></li><li class="navelem"><a class="el" href="a00182.html">cs</a></li><li class="navelem"><a class="el" href="a00183.html">semgis</a></li><li class="navelem"><a class="el" href="a00184.html">wfs</a></li><li class="navelem"><a class="el" href="a00189.html">util</a></li><li class="navelem"><a class="el" href="a00407.html">Tuple</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>

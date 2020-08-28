@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>semanticwfs: Member List</title>
+<title>semanticwfs: AbstractTransformer Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -56,26 +56,102 @@ $(function() {
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('a00406.html','');});
+$(document).ready(function(){initNavTree('a00403.html','');});
 </script>
 <div id="doc-content">
 <div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="a00400.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">XSLTTransformer Member List</div>  </div>
+<div class="title">AbstractTransformer Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a00406.html">XSLTTransformer</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a00406.html#a3787c7fe3a230990e34a04a224344a2a">GeoDCATToHTML</a>(String source)</td><td class="entry"><a class="el" href="a00406.html">XSLTTransformer</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00406.html#a8fe768120ce2627e0c36fd48b36b74b8">gmdToGeoDCAT</a>(String source)</td><td class="entry"><a class="el" href="a00406.html">XSLTTransformer</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00406.html#aaa7f4840f78e250a0cedfba324c8c52c">validateAgainstXSDSchema</a>(String inputStr, String schemapath)</td><td class="entry"><a class="el" href="a00406.html">XSLTTransformer</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-</table></div><!-- contents -->
+<p>An abstract class which describes a transformation process from a XSD schema to an OWL representation.  
+ <a href="a00403.html#details">More...</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a87cd817e2130de1b10c16012517a9c43"><td class="memItemLeft" align="right" valign="top">abstract void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00403.html#a87cd817e2130de1b10c16012517a9c43">transform</a> (String source, String destination, String xsldoc, String baseURI, String superClass, String superClass2, String commentlang)  throws FileNotFoundException, TransformerConfigurationException, TransformerFactoryConfigurationError, TransformerException</td></tr>
+<tr class="separator:a87cd817e2130de1b10c16012517a9c43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>An abstract class which describes a transformation process from a XSD schema to an OWL representation. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a87cd817e2130de1b10c16012517a9c43"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a87cd817e2130de1b10c16012517a9c43">&#9670;&nbsp;</a></span>transform()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">abstract void transform </td>
+          <td>(</td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>source</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>destination</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>xsldoc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>baseURI</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>superClass</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>superClass2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>commentlang</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> throws FileNotFoundException, TransformerConfigurationException, TransformerFactoryConfigurationError, TransformerException</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">abstract</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.13-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a00180.html">de</a></li><li class="navelem"><a class="el" href="a00181.html">hsmainz</a></li><li class="navelem"><a class="el" href="a00182.html">cs</a></li><li class="navelem"><a class="el" href="a00183.html">semgis</a></li><li class="navelem"><a class="el" href="a00184.html">wfs</a></li><li class="navelem"><a class="el" href="a00189.html">util</a></li><li class="navelem"><a class="el" href="a00403.html">AbstractTransformer</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
