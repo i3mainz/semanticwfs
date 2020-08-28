@@ -1420,7 +1420,6 @@ public class WebService {
 			builder.append(
 					"</li></ul>Local Options:<ul><li><a href=\""+ wfsconf.getString("baseurl")+"/config/geotreeview.html\">Ontology Browser</a></li>"
 							+ "<li><a href=\""+wfsconf.getString("baseurl")+"/config/queryinterface.html\">SPARQL Query Interface</a></li>"
-							+ "<li><a href=\""+wfsconf.getString("baseurl")+"/config/geotreeview.html\">GeoPubby</a></li>"
 							+ "<li><a href=\""+ wfsconf.getString("baseurl")
 							+ "/config/configuration.html\">Semantic WFS Configuration</a></li><li><a href=\"https://www.i3mainz.de/projekte/semgis/gmlimporter/\">Semantic Uplift Tools</a></li></ul></div></div></div><footer id=\"footer\"><table width=100%><tbody><tr><td><a href=\"" + wfsconf.getString("baseurl")
 					+ "/?f=html\">Back to LandingPage</a></td><td align=right>This page in <a href=\""
