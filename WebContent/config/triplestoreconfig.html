@@ -54,13 +54,14 @@ $(document).ready( function () {
     
 	$.getJSON("../rest/service/getEndpoints", function(result){
 		 	options=""
-		   var tablecontent="<thead><tr><th>Name</th><th>Endpoint</th><th>Type Relation</th><th>Geometry Relation</th><th>Options</th></tr></thead><tbody>"
+		   var tablecontent="<thead><tr><th>Name</th><th>Endpoint</th><th>Type Relation</th><th>Label Relation</th><th>Geometry Relation</th><th>Options</th></tr></thead><tbody>"
 		   for(featuretype in result["endpoints"]){
 			   options+="<option value=\""+result["endpoints"][featuretype]["endpoint"]+"\">"+result["endpoints"][featuretype]["name"]+"</option>"
 			   tablecontent+="<tr><td>"
 			   +result["endpoints"][featuretype]["name"]+"</td><td><a href=\""+result["endpoints"][featuretype]["endpoint"]+"\">"
 			   +result["endpoints"][featuretype]["endpoint"]+"</a></td><td><a href=\""+result["endpoints"][featuretype]["type"]+"\">"
-			   +result["endpoints"][featuretype]["type"]+"</a></td><td><a href=\""+result["endpoints"][featuretype]["geo"][0]+"\">"
+			   +result["endpoints"][featuretype]["type"]+"</a></td><td><a href=\""+result["endpoints"][featuretype]["label"]+"\">"
+			   +result["endpoints"][featuretype]["label"]+"</a></td><td><a href=\""+result["endpoints"][featuretype]["geo"][0]+"\">"
 			   +result["endpoints"][featuretype]["geo"][0]+"</a></td>"
 			   +"<td><i class=\"fa fa-pencil-square\" aria-hidden=\"true\"></i><i class=\"fa fa-minus-square\" aria-hidden=\"true\"></i> </td>"
 			   +"</tr>"
