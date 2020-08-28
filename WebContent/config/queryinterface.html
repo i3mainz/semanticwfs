@@ -23,6 +23,7 @@
   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
   crossorigin="anonymous"></script>
   <script src="js/yasqe.js"></script>
+  <script src="js/proj4.js"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.1/js/jquery.tablesorter.min.js"></script>
    <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
 <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' />
@@ -101,7 +102,7 @@ function clearMap() {
 	if(!(endpoint.includes("http"))){
 	    endpoint=url+$('#dataset').val()
 	}
-    $.get(url+"rest/service/queryservice?query="+encodeURIComponent(yasqe.getValue())+"&endpoint="+encodeURIComponent(endpoint), function(data, status){
+    $.get("../rest/service/queryservice?query="+encodeURIComponent(yasqe.getValue())+"&endpoint="+encodeURIComponent(endpoint), function(data, status){
         //alert("Data: " + data + "\nStatus: " + status);
         var json=JSON.parse(data)
                 $('#number').text(json["size"]+" Results");
