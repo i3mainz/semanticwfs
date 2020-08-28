@@ -199,6 +199,18 @@ function clearMap() {
         yasqe.setValue(queryString+" LIMIT 10")
         $('#queryinput').val(queryString+" LIMIT 10");
   }
+	  	
+  $(document).ready( function () {
+	    
+		$.getJSON("../rest/service/getEndpoints", function(result){
+	        options=""
+			   for(featuretype in result["endpoints"]){
+				   options+="<option value=\""+result["endpoints"][featuretype]["endpoint"]+"\">"+result["endpoints"][featuretype]["name"]+"</option>"
+			   }
+	        endpoints=result["endpoints"]
+	        $('#endpointselect').html(options);
+			});
+	});
         
   function refreshQueries(){
       $('#samplequeries').html(tripleStoreToQueries[$('#dataset').val()]);
@@ -220,7 +232,7 @@ function clearMap() {
 </head>
 <body>
 <header>
-<div class="page-header">
+<div id="header">
 <h1 align="center">BKG WFS Triple Stores</h1>
 </div>
 </header>
@@ -232,24 +244,14 @@ Query Input:<br/>
 <script>
 var tripleStoreToQueries={}
 $( document ).ready(function() {
-	$.getJSON( "rest/service/queryConfigs", function( data ) {
-		  var triplestores=""
-		  for (triplestore in data) {
-		  	triplestores+="<option value=\""+triplestore+"\">"+triplestore+"</option>"
-		  	tripleStoreToQueries[triplestore]=""
-		  	var first=true;
-		  	for(obj in data[triplestore]){
-		  		if(first){
-		  			tripleStoreToQueries[triplestore]+="<option selected=\"selected\" value=\""+data[triplestore][obj]["query"]+"\">"+data[triplestore][obj]["name"]+"</option>"
-		  			first=false;
-		  		}else{
-		  			tripleStoreToQueries[triplestore]+="<option value=\""+data[triplestore][obj]["query"]+"\">"+data[triplestore][obj]["name"]+"</option>"
-		  		}		
-		  	}
-		  }
-		  $('#dataset').html(triplestores);
-		});
-	chooseSampleQuery();
+	$.getJSON("../rest/service/getEndpoints", function(result){
+        options=""
+		   for(featuretype in result["endpoints"]){
+			   options+="<option value=\""+result["endpoints"][featuretype]["endpoint"]+"\">"+result["endpoints"][featuretype]["name"]+"</option>"
+		   }
+        endpoints=result["endpoints"]
+        $('#dataset').html(options);
+	});
 });
 </script>
 <br/>
@@ -259,7 +261,7 @@ $( document ).ready(function() {
 <br/>
 <textarea id="queryinput" rows=16 cols=45>
 </textarea><br/>
-<select id="dataset" onChange="refreshQueries()">
+<select id="dataset">
 </select>
 <br/>
 <b>Note: </b> Query variables ending in "_geom" are rendered in the map view.
@@ -307,6 +309,9 @@ QueryResult:
   <div class="col-sm-12" id="queryresult" class="table-wrapper-scroll-y">
 <table align="center" id="queryres" class="tablesorter" border="1">
 </table>
-</div></div></div>
+</div></div></div><div id="footer">
+<a href="../">Back to Landingpage</a>
+</div>
+<script src="js/utils.js"></script>
 </body>
 </html>
