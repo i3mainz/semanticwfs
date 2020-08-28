@@ -6,7 +6,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.1.1/jstree.min.js"></script>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
 <link rel="stylesheet" href="css/leaflet_legend.css" />
-
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' />
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="css/style.css"/>
 <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
 <script src="js/d3sparql.js"></script>
 <script src="js/Leaflet.geojsoncss.min.js"></script>
@@ -133,36 +136,100 @@ function closeWaitingDialog() {
 
 
 
+function getGeoClasses(){
+    query= "PREFIX owl: <http://www.w3.org/2002/07/owl#>\n"
++"PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
++"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
++"SELECT DISTINCT ?subject ?label ?supertype \n"
++"WHERE {\n"
++"    ?subject <"+endpoints[$('#endpointselect').val()]["type"]+"> owl:Class . \n"
++"    ?ind <"+endpoints[$('#endpointselect').val()]["type"]+"> ?subject .\n"
++"   	OPTIONAL { ?subject rdfs:subClassOf ?supertype } .\n"
++"      OPTIONAL { ?subject <"+endpoints[$('#endpointselect').val()]["label"]+"> ?label "+"} .\n"
++"      ?ind <"+endpoints[$('#endpointselect').val()]["geo"][0]+"> ?geo . \n"
++"} ORDER BY ?subject"
+console.log(query)
+const formData = new FormData();
+formData.append('query', query);
+d3.sparql($('#endpointselect').val(), query,{method: 'POST',body:formData}).then((results) => {
+     ress={}
+        var tree={ "plugins": ["search", "types","sort"],"search": {}, "core": { "data" :[]}}
+        tree["core"]["data"].push({ "id" : "http://www.w3.org/2002/07/owl#Thing", "icon" : "https://raw.githubusercontent.com/protegeproject/protege/master/protege-editor-owl/src/main/resources/Classes.gif","parent" : "#", "text" : "owl:Thing" })
+        var seen={}
+		for(res in results){
+			if(!(results[res]["subject"] in seen)){
+				if("label" in results[res]){
+					tree["core"]["data"].push({ "id" : results[res]["subject"], "icon" : "https://raw.githubusercontent.com/protegeproject/protege/master/protege-editor-owl/src/main/resources/Classes.gif","parent" :"#" , "text" : results[res]["label"] })
+				}else{
+					tree["core"]["data"].push({ "id" : results[res]["subject"], "icon" : "https://raw.githubusercontent.com/protegeproject/protege/master/protege-editor-owl/src/main/resources/Classes.gif","parent" : "#", "text" : results[res]["subject"].substring(results[res]["subject"].lastIndexOf('/')+1) })            
+				}
+			}
+			seen[results[res]["subject"]]=true
+        }
+        tree["plugins"]=["checkbox","search","sort","state","types","contextmenu"]
+        tree["checkbox"]={"cascade":"","three_state":false}
+		tree["contextmenu"]={}
+		tree["contextmenu"]["items"]=function (node) {
+                        return {
+                            "addfeaturetype": {
+                                "separator_before": false,
+                                "separator_after": false,
+                                "label": "Add as feature type",
+                                "action": function (obj) {
+                                    console.log(node)
+									if (confirm('Add "'+node.id+' as a feature type "?'))
+										console.log("Adding feature type to the SemanticWFS")
+                                    console.log("Add Feature Type")                                    
+                                }
+                            },
+							"lookupdefinition": {
+                                "separator_before": false,
+                                "separator_after": false,
+                                "label": "Lookup definition",
+                                "action": function (obj) {
+									var win = window.open(node.id, '_blank');
+									win.focus();                                 
+                                }
+                            }
+                        };
+		}
+		console.log(JSON.stringify(tree))
+       try{
+            $('#jstree').jstree("destroy");
+        }catch(err){}
+        $('#jstree').jstree(tree);
+		var to = false;
+    });
+}
 
 function getClassHierarchy(classeswithinstances){
 console.log(JSON.stringify(classeswithinstances))
 // ?subject a owl:Class . NOT{ ?subject rdfs:subClassOf <http://www.xplanung.de/xplangml/5/0#> } .
 //?subject a owl:Class . } UNION 
 // (COUNT(?individual) AS ?individualc )
-query= `PREFIX owl: <http://www.w3.org/2002/07/owl#>
-PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-SELECT DISTINCT ?subject ?label ?supertype 
-WHERE {
-    { ?subject a owl:Class . } UNION { ?individual a ?subject . } .
-    OPTIONAL { ?subject rdfs:subClassOf ?supertype } .
-    OPTIONAL { ?subject rdfs:label ?label }.
-    FILTER (
-        (
-        ?subject != owl:Class &&
-        ?subject != rdf:List &&
-        ?subject != rdf:Property &&
-        ?subject != rdfs:Class &&
-        ?subject != rdfs:Datatype &&
-        ?subject != rdfs:ContainerMembershipProperty &&
-        ?subject != owl:DatatypeProperty &&
-        ?subject != owl:AnnotationProperty &&
-        ?subject != owl:Restriction &&
-        ?subject != owl:ObjectProperty &&
-        ?subject != owl:NamedIndividual &&
-        ?subject != owl:Ontology) )
-}
-`
+query= "PREFIX owl: <http://www.w3.org/2002/07/owl#>\n"
++"PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
++"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
++"SELECT DISTINCT ?subject ?label ?supertype\n"
++"WHERE {\n"
++"   { ?subject <"+endpoints[$('#endpointselect').val()]["type"]+"> owl:Class . } UNION { ?individual <"+endpoints[$('#endpointselect').val()]["type"]+"> ?subject . } .\n"
++"   OPTIONAL { ?subject rdfs:subClassOf ?supertype } .\n"
++"   OPTIONAL { ?subject <"+endpoints[$('#endpointselect').val()]["label"]+"> ?label }.\n"
++"    FILTER (\n"
++"        (\n"
++"        ?subject != owl:Class &&\n"
++"        ?subject != rdf:List &&\n"
++"        ?subject != rdf:Property &&\n"
++"        ?subject != rdfs:Class &&\n"
++"        ?subject != rdfs:Datatype &&\n"
++"        ?subject != rdfs:ContainerMembershipProperty &&\n"
++"        ?subject != owl:DatatypeProperty &&\n"
++"        ?subject != owl:AnnotationProperty &&\n"
++"        ?subject != owl:Restriction &&\n"
++"        ?subject != owl:ObjectProperty &&\n"
++"        ?subject != owl:NamedIndividual &&\n"
++"        ?subject != owl:Ontology) )\n"
++"}\n"
 console.log(query)
 d3.sparql($('#endpointselect').val(), query,{method: 'POST'}).then((results) => {
        console.log(results)
@@ -174,9 +241,9 @@ d3.sparql($('#endpointselect').val(), query,{method: 'POST'}).then((results) => 
 			//console.log(res)
             //if("value" in results[res]["subject"])
              //   console.log(results[res]["subject"])
-            if(!(results[res]["subject"].includes("_:")) && results[res]["subject"].startsWith("http")){
+            if(!(results[res]["subject"].includes("_:")) && results[res]["subject"].startsWith("http") && (typeof results[res]["subject"]["individual"] ==='undefined')){
                         ress[results[res]["subject"]]={"super":(("supertype" in results[res] &&  results[res]["supertype"]!=null && !(results[res]["supertype"].includes("_:")) && results[res]["supertype"].startsWith("http"))?results[res]["supertype"]:"http://www.w3.org/2002/07/owl#Thing"),"count":"","label":(results[res]["label"]!=null?results[res]["label"]:"")}//results[res]["indidivualc"]}
-						if(results[res]["supertype"]!=null && !(results[res]["supertype"] in classeswithinstances) && !(results[res]["supertype"].includes("_:")) && results[res]["supertype"].startsWith("http") ){
+			if(results[res]["supertype"]!=null && !(results[res]["supertype"] in classeswithinstances) && !(results[res]["supertype"].includes("_:")) && results[res]["supertype"].startsWith("http") ){
                                 classeswithinstances[results[res]["supertype"]]=true
                         }
            }
@@ -191,7 +258,7 @@ d3.sparql($('#endpointselect').val(), query,{method: 'POST'}).then((results) => 
 			if(cls.includes("_:") || !(cls.startsWith("http"))){
 				continue;
 			}
-            if(Object.keys(classeswithinstances).length==0 || (Object.keys(classeswithinstances).length>0 && cls in classeswithinstances)){
+            //if(Object.keys(classeswithinstances).length==0 || (Object.keys(classeswithinstances).length>0 && cls in classeswithinstances)){
 					prefix=cls.substring(0,cls.lastIndexOf('#')+1);
 					console.log("PREFIX: "+prefix)
 					addpref=""
@@ -233,7 +300,7 @@ d3.sparql($('#endpointselect').val(), query,{method: 'POST'}).then((results) => 
 					"text" : textcut })
 					}
 					
-            }
+            //}
         }
         /*for(cls in superMap){
                 if(!(cls in clsMap)){
@@ -371,7 +438,7 @@ function importGeoJSON(geojson,crs,switchlatlong){
 	data=JSON.parse(geojson)
 	namespace="http://semgis.de/geodata#"
 	var wkt = new Wkt.Wkt();
-	for(feat in data["features"]){
+	for(feat in data["featu`res"]){
 		indid="<http://semgis.de/geodata#"
 		if("id" in data["features"][feat]){
 			indid+=data["features"][feat]["id"]
@@ -881,6 +948,34 @@ function readRDFFile(e){
 	text=reader.readAsText(file);    
 }
 
+function getQueryVariablesForDepth(depth){
+	var result="?rel ?relLabel ?val ?valLabel "
+	for(i=1;i<depth;i++){
+		result+="?rel"+i+" ?relLabel"+i+" ?val"+i+" ?valLabel"+i+" "
+	}
+	return result
+}
+
+function getQueryContentForDepth(depth,targetnamespace){ 
+	var result=""
+	for(i=1;i<depth;i++){
+		if(i==1){
+			result+="OPTIONAL{?val ?rel"+i+" ?val"+i+" . "
+			if(targetnamespace!=""){
+				result+="FILTER(STRSTARTS(STR(?rel"+i+"), \""+targetnamespace+"\"))"
+			}
+			result+="}\n"			
+		}else{
+			result+="OPTIONAL{?val"+(i-1)+" ?rel"+i+" ?val"+i+" . "
+			if(targetnamespace!=""){
+				result+="FILTER(STRSTARTS(STR(?rel"+i+"), \""+targetnamespace+"\"))"
+			}		
+			result+="}\n"
+		}
+	}
+	return result
+}
+
 function uiQuery(start){
     curQueryResultTTL=""
 	/*if(start){
@@ -916,38 +1011,26 @@ function uiQuery(start){
 		alert("No classes to query!")
 		return
 	}
-	queryString=prefixList+" SELECT DISTINCT ?person ?rel ?relLabel ?pointstyle ?linestyle ?polygonstyle ?hatch ?img ?linestringImageStyle ?linestringImage ?val ?valLabel ?wkt ?wkt2 ?gml ?kml ?geojson ?standard ?abstractClass ?proporder WHERE { "
+	queryString=prefixList+" SELECT DISTINCT ?person  ?pointstyle ?linestyle ?polygonstyle ?hatch ?img ?linestringImageStyle ?linestringImage ?wkt ?wkt2 ?gml ?kml ?geojson ?standard ?abstractClass ?proporder "
+	queryString+=getQueryVariablesForDepth($('#maxdepth').val())
+	queryString+=" WHERE { "
 	for(cls in classesToQuery){
 		console.log(cls)
-		if($('#whichactive').is(':checked')){
-						queryString+="{{ SELECT ?person WHERE { ?person rdf:type <"+classesToQuery[cls]+"> .} LIMIT "+$('#limit').val()+" } ?person ?rel ?val .  OPTIONAL{?rel rdfs:label ?relLabel .} OPTIONAL{?val geo:asWKT ?wkt .} OPTIONAL{?val ?abc ?val2. ?val2 geo:asWKT ?wkt2 .}  OPTIONAL{?val geo:asGML ?gml .} OPTIONAL{?val geo:asKML ?kml .} OPTIONAL{?val geo:asGeoJSON ?geojson .}  OPTIONAL{?val rdfs:label ?valLabel .} OPTIONAL{<"+classesToQuery[cls]+"> semgis:pointStyle ?pointstyle .} OPTIONAL{?val semgis:standard ?standard .} OPTIONAL{?val semgis:abstractClass ?abstractClass .} OPTIONAL{?val semgis:propOrder ?proporder .} OPTIONAL{<"+classesToQuery[cls]+"> semgis:lineStyle ?linestringStyle .} OPTIONAL{<"+classesToQuery[cls]+"> semgis:polygonStyle ?polygonstyle .}   OPTIONAL{<"+classesToQuery[cls]+"> semgis:image ?img .} OPTIONAL{<"+classesToQuery[cls]+"> semgis:linestringImageStyle  ?linestringImageStyle .}  OPTIONAL{<"+classesToQuery[cls]+"> semgis:linestringImage  ?linestringImage .} OPTIONAL{<"+classesToQuery[cls]+"> semgis:hatch  ?hatch .}  "
-						if(classesToQuery[cls] in constraints){
-                                                        if("NOT" in constraints[classesToQuery[cls]]){
-                                                                queryString+="MINUS {"+constraints[classesToQuery[cls]].replace("NOT ","")+"} ."
-                                                        }else{
-                                                                queryString+=constraints[classesToQuery[cls]]
-                                                        }
-						}
-						if("?" in constraints){
-							for(cons in constraints["?"]){
-								queryString+=constraints["?"][cons]
-							}
-						}
-						queryString+="} UNION"
-		}else{
 			queryString+="{ { SELECT ?person WHERE { ?person rdf:type <"+classesToQuery[cls]+"> .} LIMIT "+$('#limit').val()+" } ?person ?rel ?val . OPTIONAL{?rel rdfs:label ?relLabel .} OPTIONAL{?val geo:asWKT ?wkt .} OPTIONAL{?val ?abc ?val2. ?val2 geo:asWKT ?wkt2 .}  OPTIONAL{?val geo:asGML ?gml .} OPTIONAL{?val geo:asKML ?kml .} OPTIONAL{?val geo:asGeoJSON ?geojson .}   OPTIONAL{?val rdfs:label ?valLabel .} OPTIONAL{<"+classesToQuery[cls]+"> semgis:pointStyle ?pointstyle .} OPTIONAL{?val semgis:standard ?standard .} OPTIONAL{?val semgis:abstractClass ?abstractClass .} OPTIONAL{?val semgis:propOrder ?proporder .} OPTIONAL{<"+classesToQuery[cls]+"> semgis:linestringStyle ?linestyle .} OPTIONAL{<"+classesToQuery[cls]+"> semgis:polygonStyle ?polygonstyle .}  OPTIONAL{<"+classesToQuery[cls]+"> semgis:image ?img .} OPTIONAL{<"+classesToQuery[cls]+"> semgis:linestringImageStyle ?linestringImageStyle.} OPTIONAL{<"+classesToQuery[cls]+"> semgis:linestringImage  ?linestringImage .} OPTIONAL{<"+classesToQuery[cls]+"> semgis:hatch  ?hatch .} } UNION "
-		}
 	}
 	queryString=queryString.substring(0,queryString.length-6)
 	}else{
-		queryString=prefixList+" SELECT DISTINCT ?person ?rel ?pointstyle ?polygonstyle ?linestyle ?linestringImage ?linestringImageStyle ?hatch ?img ?val ?valLabel ?wkt ?wkt2 ?gml ?kml ?geojson ?standard ?abstractClass ?proporder  WHERE { ?percls rdf:type owl:Class .  OPTIONAL{?percls semgis:polygonStyle ?polygonstyle .} OPTIONAL{?percls semgis:linestringStyle ?linestyle .} OPTIONAL{?percls semgis:pointStyle ?pointstyle .} OPTIONAL{?percls semgis:standard ?standard .} OPTIONAL{?percls semgis:abstractClass ?abstractClass .} OPTIONAL{?percls semgis:propOrder ?proporder .}  OPTIONAL{?percls semgis:image ?img .} OPTIONAL{?percls semgis:linestringImageStyle ?linestringImageStyle .} OPTIONAL{?percls semgis:linestringImage ?linestringImage .} OPTIONAL{ ?percls semgis:hatch  ?hatch .} ?person rdf:type ?percls . ?person ?rel ?val . OPTIONAL{?val geo:asWKT ?wkt .} OPTIONAL{?val ?abc ?val2. ?val2 geo:asWKT ?wkt2 .}  OPTIONAL{?val geo:asGML ?gml .} OPTIONAL{?val geo:asKML ?kml .} OPTIONAL{?val geo:asGeoJSON ?geojson .}  OPTIONAL {?val rdfs:label ?valLabel . } "
+		queryString=prefixList+" SELECT DISTINCT ?person ?pointstyle ?polygonstyle ?linestyle ?linestringImage ?linestringImageStyle ?hatch ?img ?wkt ?wkt2 ?gml ?kml ?geojson ?standard ?abstractClass ?proporder "
+		queryString+=getQueryVariablesForDepth($('#maxdepth').val())
+		queryString+=" WHERE { ?percls rdf:type owl:Class . OPTIONAL{?percls semgis:polygonStyle ?polygonstyle .} OPTIONAL{?percls semgis:linestringStyle ?linestyle .} OPTIONAL{?percls semgis:pointStyle ?pointstyle .} OPTIONAL{?percls semgis:standard ?standard .} OPTIONAL{?percls semgis:abstractClass ?abstractClass .} OPTIONAL{?percls semgis:propOrder ?proporder .}  OPTIONAL{?percls semgis:image ?img .} OPTIONAL{?percls semgis:linestringImageStyle ?linestringImageStyle .} OPTIONAL{?percls semgis:linestringImage ?linestringImage .} OPTIONAL{ ?percls semgis:hatch  ?hatch .} ?person rdf:type ?percls . ?person ?rel ?val . OPTIONAL{?val geo:asWKT ?wkt .} OPTIONAL{?val ?abc ?val2. ?val2 geo:asWKT ?wkt2 .}  OPTIONAL{?val geo:asGML ?gml .} OPTIONAL{?val geo:asKML ?kml .} OPTIONAL{?val geo:asGeoJSON ?geojson .}  OPTIONAL {?val rdfs:label ?valLabel . } "
 	}
-	queryString+="} ORDER BY ?person ?rel "
+	queryString+=getQueryContentForDepth($('#maxdepth').val(),"")
+	queryString+="} ORDER BY ?person ?rel  "
 	console.log(queryString)
 	resultss={}
 	if($('#choosedatabase').val()=="remote"){
-                console.log("REMOTE SPARQL Query: "+queryString)
-                remoteSPARQLQuery($('#sparqlendpointurl').val(),queryString)
+        console.log("REMOTE SPARQL Query: "+queryString)
+        remoteSPARQLQuery($('#sparqlendpointurl').val(),queryString)
 	}else{
         waitingDialog({title: "Querying...", message: "Querying..."});
 	d3.sparql($('#endpointselect').val(),queryString,{method: 'POST'}).then((results) => {
@@ -1065,8 +1148,8 @@ function handleResults(results,start){
                 console.log(results[res]["gml"])
                 curQueryResultTTL+="<"+results[res]["person"]+"> geo:asGML \""+results[res]["gml"]+"\"^^geo:gmlLiteral \n ";
                 persons[results[res]["person"]]["asGML"]=results[res]["gml"]
-                console.log("Added to curQueryResultTTL!!!")
-                console.log(curQueryResultTTL)                
+                //console.log("Added to curQueryResultTTL!!!")
+                //console.log(curQueryResultTTL)                
 			}
 			if(results[res]["kml"]!=null && !results[res]["kml"].includes("Envelope")){
                 persons[results[res]["person"]]["asKML"]=results[res]["kml"]
@@ -3069,8 +3152,7 @@ WHERE {
         !(REGEX(STR(?subject), "^http://www.w3.org/2000/01/rdf-schema#")) && 
 		!(REGEX(STR(?subject), "^_:"))  ))
 } `
-currdfstore.execute(query, function(success,results){ 
-        console.log(success,results)
+d3.sparql($('#endpointselect').val(), query,{method: 'POST'}).then((results) => {
         namespaces={}
 		for(res in results){
 			namespace=results[res]["subject"].substring(0,results[res]["subject"].indexOf('#')+1).trim()
@@ -3087,7 +3169,7 @@ currdfstore.execute(query, function(success,results){
 			reshtml+="<option value=\""+ns+"\">"+ns+"</option>"
 		}
 		$('#namespaceexport').html(reshtml);
-	});
+});
 
 }
 
@@ -3150,7 +3232,14 @@ function originQuery(){
 <body>
 <dialog id="loadingScreen"></dialog>
 <!--<h3 align="center">XPlanung Mapview based on LinkedData</h3>-->
-<header id="header"><h1 align="center">Ontology Browser</h1></header>
+<header>
+<div class="page-header">
+<h1 align="center">SemanticWFS Ontology Browser</h1>
+</div>
+</header>
+<div class="container-fluid" role="main">
+  <div class="row">
+  <div class="col-sm-12">
 <!--
 <div class="sticky row crumbs">
 <div class="container-fluid" role="main"><div class="row">
@@ -3183,7 +3272,7 @@ layercontrol=L.control.layers(baseMaps,overlayMaps).addTo(mymap);
 $(document).ready( function () {
     
 	$.getJSON("https://www.i3mainz.de/projekte/bkg/semanticwfs/rest/service/getEndpoints", function(result){
-		 	options=""
+        options=""
 		   for(featuretype in result["endpoints"]){
 			   options+="<option value=\""+result["endpoints"][featuretype]["endpoint"]+"\">"+result["endpoints"][featuretype]["name"]+"</option>"
 		   }
@@ -3204,8 +3293,8 @@ $(document).ready( function () {
 <select id="endpointselect">
 
 </select>
-<button id="explore" onclick="getClassHierarchy([])">Explore</button><br/>
-Instances Limit: <input type="number" min="1" step="1" id="limit" value="100"/>
+<button id="explore" onclick="getClassHierarchy([])">Explore</button><button id="explore" onclick="getGeoClasses()">GeoExplore</button><br/>
+Instances Limit: <input type="number" min="1" step="1" id="limit" value="100"/><br/>Maximum Depth: <input type="depth" min="1" step="1" id="maxdepth" value="1"/>
 <br/>
 Export as Format: <select id="queryimportformat">
 <option value="ttl" selected="selected">TTL</option>
@@ -3215,6 +3304,10 @@ Export as Format: <select id="queryimportformat">
 <option value="shp">Shapefile</option>
 <option value="shpzip">Shapefile (zipped)</option>
 </select><button id="export">Export</button>
-</div></div></div></div>
+</div></div></div>
+<div id="footer">
+<a href="../">Back to Landingpage</a>
+</div>
+<script src="js/utils.js"></script>
 </body>
 </html>
