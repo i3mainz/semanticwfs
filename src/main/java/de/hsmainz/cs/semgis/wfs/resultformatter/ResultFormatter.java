@@ -75,6 +75,12 @@ public abstract class ResultFormatter {
 		if(formatString.contains("nt")) {
 			return resultMap.get("nt");
 		}
+		if(formatString.contains("rt")) {
+			return resultMap.get("rt");
+		}
+		if(formatString.contains("nq")) {
+			return resultMap.get("nq");
+		}
 		if(formatString.contains("trig")) {
 			return resultMap.get("trig");
 		}
@@ -131,6 +137,8 @@ public abstract class ResultFormatter {
 		resultMap.put("ttl", new TTLFormatter());
 		resultMap.put("n3", new N3Formatter());
 		resultMap.put("nt", new NTFormatter());
+		resultMap.put("nq", new NQuadsFormatter());
+		resultMap.put("rt", new RDFThriftFormatter());
 		resultMap.put("osm", new OSMFormatter());
 		resultMap.put("rdf", new RDFFormatter());
 		resultMap.put("rdfjson", new RDFJSONFormatter());

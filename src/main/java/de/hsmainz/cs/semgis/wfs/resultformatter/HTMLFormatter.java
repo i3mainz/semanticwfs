@@ -266,6 +266,9 @@ public class HTMLFormatter extends ResultFormatter {
 							} else if (val.contains("#")) {
 								builder.append("<a href=\"" + val + "\" target=\"_blank\">"
 										+ val.substring(val.lastIndexOf('#') + 1) + "</a>");
+							} else if (val.contains("@")) {
+								builder.append("<a href=\"mailto:" + val + "\" target=\"_blank\">"
+										+ val + "</a>");
 							} else {
 								builder.append("<a href=\"" + val + "\" target=\"_blank\">" + val.substring(val.lastIndexOf('/')+1)
 										+ "</a>");
@@ -287,6 +290,9 @@ public class HTMLFormatter extends ResultFormatter {
 						} else if (value.contains("#")) {
 							builder.append("<td align=\"center\"><a href=\"" + value + "\" target=\"_blank\">"
 									+ value.substring(value.lastIndexOf('#') + 1) + "</a></td>");
+						} else if (value.contains("@")) {
+							builder.append("<a href=\"mailto:" + value + "\" target=\"_blank\">"
+									+ value + "</a>");
 						} else {
 							builder.append("<td align=\"center\"><a href=\"" + value + "\" target=\"_blank\">" + value.substring(value.lastIndexOf('/')+1)
 									+ "</a></td>");

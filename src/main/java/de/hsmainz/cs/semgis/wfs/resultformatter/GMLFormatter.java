@@ -29,7 +29,7 @@ public class GMLFormatter extends WFSResultFormatter {
 	public GMLFormatter() {
 		this.mimeType="application/xml";
 		this.exposedType="application/gml";
-		this.urlformat="xml";
+		this.urlformat="gml";
 	}
 	
 	public String[] splitURL(String url) {
