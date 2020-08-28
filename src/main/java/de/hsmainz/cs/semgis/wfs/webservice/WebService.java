@@ -6,7 +6,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -50,6 +49,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 
+/**
+ * Implements OGC API Features and WFS webservice functionality.
+ *
+ */
 @OpenAPIDefinition(
 		 info = @Info(
 				    title = "SemanticWFS API",
@@ -93,6 +96,11 @@ public class WebService {
 
 	String htmlHead;
 
+	/**
+	 * Constructor for this class.
+	 * Loads configuration files and performs initializations.
+	 * @throws IOException on error
+	 */
 	public WebService() throws IOException {
 		if (triplestoreconf == null) {
 			triplestoreconf = new JSONObject(new String(Files.readAllBytes(Paths.get("triplestoreconf.json")), StandardCharsets.UTF_8));
@@ -146,17 +154,32 @@ public class WebService {
 				+ "<link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' /></head>";
 	}
 	
-	
+	/**
+	 * Generates OpenAPI definitions of the SemanticWFS services for the use with OGC API Features.
+	 */
 	public void generateOpenAPIDefinitions() {
 		JSONObject defs=new JSONObject();
 		for (Integer i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
 			JSONObject featuretype = wfsconf.getJSONArray("datasets").getJSONObject(i);
 			JSONObject curobj=new JSONObject();
 			defs.put("/collections/"+featuretype.getString("name"), curobj);
-			curobj.put("get", new JSONObject());
+			JSONObject get=new JSONObject();
+			curobj.put("get", get);
+			get.put("summary", featuretype.getString("description"));
+			get.put("description", featuretype.getString("description"));
+			get.put("operationId", featuretype.getString("name"));
+			JSONObject parameters=new JSONObject();
+			get.put("parameters", parameters);
 		}
 	}
 
+	
+	/**
+	 * Generates an exception response. 
+	 * @param e The exception to get the message from
+	 * @param format The return format
+	 * @return The exception response
+	 */
 	public Response createExceptionResponse(Exception e, String format) {
 		if (format == null || format.equals("gml")) {
 			StringWriter strwriter = new StringWriter();
@@ -188,9 +211,35 @@ public class WebService {
 		return Response.ok("").type(MediaType.APPLICATION_XML).build();
 	}
 
+	/**
+	 * Entrypoint implementation for OGC API Features for POST requests.
+	 * @param service
+	 * @param request
+	 * @param version
+	 * @param typename
+	 * @param typenames
+	 * @param srsName
+	 * @param exceptions
+	 * @param bbox
+	 * @param propertyname
+	 * @param sortBy
+	 * @param style
+	 * @param resultType
+	 * @param resourceids
+	 * @param gmlobjectid
+	 * @param startindex
+	 * @param filter
+	 * @param filterLanguage
+	 * @param output
+	 * @param count
+	 * @return
+	 */
 	@POST
 	@Produces(MediaType.TEXT_XML)
 	@Path("/post/wfs")
+	@Operation(
+            summary = "Entrypoint implementation for OGC API Features for POST requests",
+            description = "Entrypoint implementation for OGC API Features for POST requests")
 	public Response entryPointPOST(
 			@Parameter(description="Service type definition") @DefaultValue("WFS") @QueryParam("SERVICE") String service,
 			@Parameter(description="Request definition") @DefaultValue("GetCapabilities") @QueryParam("REQUEST") String request,
@@ -215,6 +264,16 @@ public class WebService {
 				sortBy, style, resultType, resourceids, gmlobjectid, startindex, filter, filterLanguage, output, count);
 	}
 
+	/**
+	 * Returns a vector tile representation of a given feature type.
+	 * @param service
+	 * @param request
+	 * @param version
+	 * @param typename
+	 * @param typenames
+	 * @param output
+	 * @return
+	 */
 	@GET
 	@Produces(MediaType.TEXT_XML)
 	@Path("/vectortiles")
@@ -227,14 +286,27 @@ public class WebService {
 		return null;
 	}
 
+	/**
+	 * Returns a style information in a given format for a given featuretype and styleid. 
+	 * @param service The service descriptor
+	 * @param request The requset parameter
+	 * @param typename 
+	 * @param typenames
+	 * @param output
+	 * @return
+	 */
 	@GET
 	@Produces(MediaType.TEXT_XML)
 	@Path("/collections/{collectionid}/style/{styleid}")
-	public Response style(@DefaultValue("WFS") @QueryParam("SERVICE") String service,
-			@DefaultValue("GetStyle") @QueryParam("REQUEST") String request,
-			@DefaultValue("") @QueryParam("TYPENAME") String typename,
-			@DefaultValue("") @QueryParam("TYPENAMES") String typenames,
-			@DefaultValue("gml") @QueryParam("OUTPUTFORMAT") String output) {
+	@Operation(
+            summary = "Returns a style information in a given format for a given featuretype and styleid",
+            description = "Returns a style information in a given format for a given featuretype and styleid")
+	public Response style(
+			@Parameter(description="The service type which is addressed") @DefaultValue("WFS") @QueryParam("SERVICE") String service,
+			@Parameter(description="Request type of this query") @DefaultValue("GetStyle") @QueryParam("REQUEST") String request,
+			@Parameter(description="Feature type names") @DefaultValue("") @QueryParam("TYPENAME") String typename,
+			@Parameter(description="Feature type names") @DefaultValue("") @QueryParam("TYPENAMES") String typenames,
+			@Parameter(description="Outputformat of the style which is returned")@DefaultValue("gml") @QueryParam("OUTPUTFORMAT") String output) {
 		if (output.contains("gml")) {
 			StringWriter strwriter = new StringWriter();
 			XMLOutputFactory outputt = XMLOutputFactory.newInstance();
@@ -264,11 +336,23 @@ public class WebService {
 		return null;
 	}
 
+	/**
+	 * Gets a style for a given featuretype with a given style identifier.
+	 * @param collectionid the featuretype name
+	 * @param styleid the styleid
+	 * @param format the format in which the style is returned
+	 * @return The style as String
+	 */
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections/{collectionid}/style/{styleid}")
-	public Response getCollectionStyle(@PathParam("collectionid") String collectionid,
-			@PathParam("styleid") String styleid, @DefaultValue("html") @QueryParam("f") String format) {
+	@Operation(
+            summary = "Gets a style for a given featuretype with a given style identifier",
+            description = "Gets a style for a given featuretype with a given style identifier")
+	public Response getCollectionStyle(
+			@Parameter(description="Feature type name")  @PathParam("collectionid") String collectionid,
+			@Parameter(description="Style id") @PathParam("styleid") String styleid, 
+			@Parameter(description="Return format")  @DefaultValue("html") @QueryParam("f") String format) {
 		if (collectionid == null) {
 			throw new NotFoundException();
 		}
@@ -298,11 +382,21 @@ public class WebService {
 		return Response.ok(obj.toString()).type(MediaType.TEXT_PLAIN).build();
 	}
 
+	/**
+	 * Gets a list of all styles for a given featuretype.
+	 * @param collectionid the featuretype name
+	 * @param f the format in which the style is returned
+	 * @return The style as String
+	 */
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections/{collectionid}/styles")
-	public Response getCollectionStyles(@PathParam("collectionid") String collectionid,
-			@DefaultValue("html") @QueryParam("f") String format) {
+	@Operation(
+            summary = "Gets a list of all styles for a given featuretype",
+            description = "Gets a list of all styles for a given featuretype")
+	public Response getCollectionStyles(
+			@Parameter(description="Feature type name") @PathParam("collectionid") String collectionid,
+			@Parameter(description="Return type") @DefaultValue("html") @QueryParam("f") String format) {
 		if (collectionid == null) {
 			throw new NotFoundException();
 		}
@@ -328,15 +422,30 @@ public class WebService {
 				.type(MediaType.APPLICATION_XML).build();
 	}
 
+	
+	/**
+	 * CSW endpoint implementation.
+	 * @param service The service identifier
+	 * @param request The request identifier
+	 * @param version The service version
+	 * @param typename The feature type name to request
+	 * @param typenames The feature type name to request
+	 * @param output The requested return format 
+	 * @return The CSW service description as XML
+	 */
 	@GET
 	@Produces(MediaType.TEXT_XML)
 	@Path("/csw")
-	public Response entryPointCSW(@DefaultValue("CSW") @QueryParam("SERVICE") String service,
-			@DefaultValue("GetCapabilities") @QueryParam("REQUEST") String request,
-			@DefaultValue("2.0.2") @QueryParam("VERSION") String version,
-			@DefaultValue("") @QueryParam("TYPENAME") String typename,
-			@DefaultValue("") @QueryParam("TYPENAMES") String typenames,
-			@DefaultValue("gml") @QueryParam("OUTPUTFORMAT") String output) {
+	@Operation(
+            summary = "CSW endpoint implementation",
+            description = "CSW endpoint implementation")
+	public Response entryPointCSW(
+			@Parameter(description="Service type") @DefaultValue("CSW") @QueryParam("SERVICE") String service,
+			@Parameter(description="Request type") @DefaultValue("GetCapabilities") @QueryParam("REQUEST") String request,
+			@Parameter(description="Version of the webservice")  @DefaultValue("2.0.2") @QueryParam("VERSION") String version,
+			@Parameter(description="Feature type names") @DefaultValue("") @QueryParam("TYPENAME") String typename,
+			@Parameter(description="Feature type names") @DefaultValue("") @QueryParam("TYPENAMES") String typenames,
+			@Parameter(description="Return type")  @DefaultValue("gml") @QueryParam("OUTPUTFORMAT") String output) {
 		if (service.equalsIgnoreCase("CSW")) {
 			if ("getCapabilities".equalsIgnoreCase(request)) {
 				try {
@@ -363,9 +472,22 @@ public class WebService {
 		return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 	}
 
+	/**
+	 * CSW endpoint implementation (POST version).
+	 * @param service The service identifier
+	 * @param request The request identifier
+	 * @param version The service version
+	 * @param typename The feature type name to request
+	 * @param typenames The feature type name to request
+	 * @param output The requested return format 
+	 * @return The CSW service description as XML
+	 */
 	@POST
 	@Produces(MediaType.TEXT_XML)
 	@Path("/post/csw")
+	@Operation(
+            summary = "CSW endpoint implementation (POST version)",
+            description = "CSW endpoint implementation (POST version)")
 	public Response entryPointCSWPost(@DefaultValue("CSW") @QueryParam("SERVICE") String service,
 			@DefaultValue("GetCapabilities") @QueryParam("REQUEST") String request,
 			@DefaultValue("2.0.2") @QueryParam("VERSION") String version,
@@ -375,28 +497,55 @@ public class WebService {
 		return this.entryPointCSW(service, request, version, typename, typenames, output);
 	}
 
+	/**
+	 * WFS endpoint implementation. 
+	 * @param service The service identifier
+	 * @param request The request identifier
+	 * @param version The service version
+	 * @param typename The feature type name to request
+	 * @param typenames The feature type name to request
+	 * @param srsName
+	 * @param exceptions
+	 * @param bbox
+	 * @param propertyname
+	 * @param sortBy
+	 * @param style
+	 * @param resultType
+	 * @param resourceids
+	 * @param gmlobjectid
+	 * @param startindex
+	 * @param filter
+	 * @param filterLanguage
+	 * @param output
+	 * @param count
+	 * @return
+	 */
 	@GET
 	@Produces(MediaType.TEXT_XML)
 	@Path("/wfs")
-	public Response entryPoint(@DefaultValue("WFS") @QueryParam("SERVICE") String service,
-			@DefaultValue("GetCapabilities") @QueryParam("REQUEST") String request,
-			@DefaultValue("2.0.0") @QueryParam("VERSION") String version,
-			@DefaultValue("") @QueryParam("TYPENAME") String typename,
-			@DefaultValue("") @QueryParam("TYPENAMES") String typenames,
-			@DefaultValue("") @QueryParam("SRSNAME") String srsName,
+	@Operation(
+            summary = "WFS endpoint implementation",
+            description = "WFS endpoint implementation")
+	public Response entryPoint(
+			@Parameter(description="Service type") @DefaultValue("WFS") @QueryParam("SERVICE") String service,
+			@Parameter(description="Request type") @DefaultValue("GetCapabilities") @QueryParam("REQUEST") String request,
+			@Parameter(description="Service version")  @DefaultValue("2.0.0") @QueryParam("VERSION") String version,
+			@Parameter(description="Feature type names") @DefaultValue("") @QueryParam("TYPENAME") String typename,
+			@Parameter(description="Feature type names") @DefaultValue("") @QueryParam("TYPENAMES") String typenames,
+			@Parameter(description="CRS type") @DefaultValue("") @QueryParam("SRSNAME") String srsName,
 			@DefaultValue("gml") @QueryParam("EXCEPTIONS") String exceptions,
-			@DefaultValue("") @QueryParam("BBOX") String bbox,
+			@Parameter(description="Bounding box for filtering the results") @DefaultValue("") @QueryParam("BBOX") String bbox,
 			@DefaultValue("") @QueryParam("VALUEREFERENCE") String propertyname,
-			@DefaultValue("ASC") @QueryParam("SORTBY") String sortBy,
+			@Parameter(description="Sorting order")  @DefaultValue("ASC") @QueryParam("SORTBY") String sortBy,
 			@DefaultValue("") @QueryParam("STYLES") String style,
 			@DefaultValue("results") @QueryParam("RESULTTYPE") String resultType,
 			@DefaultValue("") @QueryParam("RESOURCEID") String resourceids,
 			@DefaultValue("") @QueryParam("GMLOBJECTID") String gmlobjectid,
 			@DefaultValue("0") @QueryParam("STARTINDEX") String startindex,
-			@DefaultValue("") @QueryParam("FILTER") String filter,
-			@DefaultValue("") @QueryParam("FILTERLANGUAGE") String filterLanguage,
-			@DefaultValue("gml") @QueryParam("OUTPUTFORMAT") String output,
-			@DefaultValue("5") @QueryParam("COUNT") String count) {
+			@Parameter(description="Filter expression") @DefaultValue("") @QueryParam("FILTER") String filter,
+			@Parameter(description="Filter query language") @DefaultValue("") @QueryParam("FILTERLANGUAGE") String filterLanguage,
+			@Parameter(description="Return format") @DefaultValue("gml") @QueryParam("OUTPUTFORMAT") String output,
+			@Parameter(description="Maximum amount of results to return") @DefaultValue("5") @QueryParam("COUNT") String count) {
 		System.out.println("Request: " + request);
 		System.out.println("ResultType: " + resultType);
 		if (typename.isEmpty() && !typenames.isEmpty()) {
@@ -438,10 +587,19 @@ public class WebService {
 		return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 	}
 
+	/**
+	 * Returns a list of feature types/collections. 
+	 * @param format The format in which the result is returned
+	 * @return The result as String
+	 */
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections")
-	public Response collections(@DefaultValue("html") @QueryParam("f") String format) {
+	@Operation(
+            summary = "Returns a list of feature types/collections",
+            description = "Returns a list of feature types/collections")
+	public Response collections(
+			@Parameter(description="Return format") @DefaultValue("html") @QueryParam("f") String format) {
 		System.out.println(format);
 		if (format != null && format.contains("json")) {
 			JSONObject result = new JSONObject();
@@ -477,28 +635,54 @@ public class WebService {
 				JSONObject coll = new JSONObject();
 				JSONObject curobj = wfsconf.getJSONArray("datasets").getJSONObject(i);
 				coll.put("id", curobj.getString("name"));
+				coll.put("name", curobj.getString("name"));
 				coll.put("title", curobj.getString("name"));
-				/*JSONObject extent = new JSONObject();
-				JSONObject spatial = new JSONObject();
-				spatial.put("crs", "http://www.opengis.net/def/crs/OGC/1.3/CRS84");
+				if(curobj.has("description"))
+					coll.put("description", curobj.getString("description"));
+				JSONObject extent = new JSONObject();
+				JSONArray spatial = new JSONArray();
+				JSONArray temporal=new JSONArray();
+				temporal.put("1970-01-01T00:00:00Z");
+				temporal.put("2020-08-22T22:10:44Z");
+				JSONArray crs=new JSONArray();
+				crs.put("http://www.opengis.net/def/crs/OGC/1.3/CRS84");
+				coll.put("crs",crs);
 				coll.put("extent", extent);
-				extent.put("spatial", spatial);*/
+				extent.put("spatial", spatial);
+				extent.put("temporal", temporal);
 				JSONArray colinks = new JSONArray();
 				for (ResultFormatter formatter : ResultFormatter.resultMap.values()) {
 					link = new JSONObject();
-					if (formatter.exposedType.contains("geo+json")) {
-						link.put("rel", "self");
-					} else {
-						link.put("rel", "alternate");
-					}
+					link.put("rel", "item");
 					link.put("href", wfsconf.getString("baseurl") + "/collections/" + curobj.getString("name")
-							+ "/items/" + "?f=" + formatter.exposedType);
+							+ "/items" + "?f=" + formatter.urlformat);
 					link.put("type", formatter.exposedType);
 					link.put("title", curobj.getString("name"));
-					if(curobj.has("description"))
-						link.put("description", curobj.getString("description"));
 					colinks.put(link);
 				}
+				link.put("rel", "self");
+				link.put("title", "This document");
+				link.put("type", "application/json");
+				link.put("href", wfsconf.get("baseurl") + "/collections/"+curobj.getString("name")+"?f=json");
+				colinks.put(link);
+				link = new JSONObject();
+				link.put("rel", "alternate");
+				link.put("title", "This document as XML");
+				link.put("type", "text/xml");
+				link.put("href", wfsconf.get("baseurl") + "/collections/"+curobj.getString("name")+"?f=xml");
+				colinks.put(link);
+				link = new JSONObject();
+				link.put("rel", "alternate");
+				link.put("title", "This document as HTML");
+				link.put("type", "text/html");
+				link.put("href", wfsconf.get("baseurl") + "/collections/"+curobj.getString("name")+"?f=html");
+				colinks.put(link);
+				link = new JSONObject();
+				link.put("rel", "describedBy");
+				link.put("title", "XML Schema for this dataset");
+				link.put("type", "application/xml");
+				link.put("href", "http://www.acme.com/3.0/wfs/collections/"+curobj.getString("name")+"/schema");
+				colinks.put(link);
 				coll.put("links", colinks);
 				collections.put(coll);
 			}
@@ -530,7 +714,7 @@ public class WebService {
 				writer.writeAttribute("rel", "self");
 				writer.writeAttribute("title", "This document");
 				writer.writeAttribute("type", "text/xml");
-				writer.writeAttribute("href", wfsconf.get("baseurl") + "/collections?f=gml");
+				writer.writeAttribute("href", wfsconf.get("baseurl") + "/collections?f=xml");
 				writer.writeEndElement();
 				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
 				writer.writeAttribute("rel", "alternate");
@@ -650,9 +834,20 @@ public class WebService {
 		}
 	}
 
+	/**
+	 * Returns a feature given its feature id.
+	 * @param collectionid The feature type
+	 * @param featureid The feature id to return
+	 * @param style The style in which to style the feature
+	 * @param format The format in which to return the feature
+	 * @return The feature as String in the given format
+	 */
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections/{collectionid}/items/{featureid}")
+	@Operation(
+            summary = "Returns a feature given its feature id",
+            description = "Returns a feature given its feature id with certain constraints")
 	public Response getFeatureById(
 			@Parameter(description="The collection id") @PathParam("collectionid") String collectionid,
 			@Parameter(description="The feature id")@PathParam("featureid") String featureid, 
@@ -795,9 +990,18 @@ public class WebService {
 		}
 	}
 	
+	/**
+	 * Returns information about the queryables of ths given feature type.
+	 * @param collectionid The feature type to retrieve information about
+	 * @param format The format in which to retrieve the information
+	 * @return The queryables as String
+	 */
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections/{collectionid}/queryables")
+	@Operation(
+            summary = "Returns information about the queryables of ths given feature type",
+            description = "Returns information about the queryables of ths given feature type")
 	public Response queryables(@Parameter(description="The id of the collection to be considered") @PathParam("collectionid") String collectionid,
 			@Parameter(description="The format in which the collection should be returned",example="geojson") @DefaultValue("html") @QueryParam("f") String format) {
 		if (collectionid == null) {
@@ -931,9 +1135,17 @@ public class WebService {
 		return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
 	}
 
+	/**
+	 * Returns the landing page of the OGC API Features service.
+	 * @param format The format in which the page is to be returned
+	 * @return The landing page as String
+	 */
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/")
+	@Operation(
+            summary = "Returns the landing page of the OGC API Features service",
+            description = "Returns the landing page of the OGC API Features service")
 	public Response landingPage(@Parameter(description="The format of the landingpage") @DefaultValue("html") @QueryParam("f") String format) {
 		if (format == null || format.contains("json")) {
 			JSONObject result = new JSONObject();
@@ -945,7 +1157,7 @@ public class WebService {
 			link.put("title", "This document");
 			links.put(link);
 			link = new JSONObject();
-			link.put("href", wfsconf.getString("baseurl") + "?f=gml");
+			link.put("href", wfsconf.getString("baseurl") + "?f=xml");
 			link.put("rel", "alternate");
 			link.put("type", "application/xml");
 			link.put("title", "This document as XML");
@@ -981,7 +1193,7 @@ public class WebService {
 			link.put("title", "Conformance Declaration as HTML");
 			links.put(link);
 			link = new JSONObject();
-			link.put("href", wfsconf.getString("baseurl") + "/conformance?f=gml");
+			link.put("href", wfsconf.getString("baseurl") + "/conformance?f=xml");
 			link.put("rel", "conformance");
 			link.put("type", "application/xml");
 			link.put("title", "Conformance Declaration as XML");
@@ -999,7 +1211,7 @@ public class WebService {
 			link.put("title", "Collections Metadata as JSON");
 			links.put(link);
 			link = new JSONObject();
-			link.put("href", wfsconf.getString("baseurl") + "/collections?f=gml");
+			link.put("href", wfsconf.getString("baseurl") + "/collections?f=xml");
 			link.put("rel", "data");
 			link.put("type", "application/xml");
 			link.put("title", "Collections Metadata as XML");
@@ -1013,6 +1225,63 @@ public class WebService {
 			result.put("title", wfsconf.getString("servicetitle"));
 			result.put("description", wfsconf.getString("servicedescription"));
 			result.put("links", links);
+			JSONArray collections=new JSONArray();
+			result.put("collections", collections);
+			for (int i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
+				JSONObject coll = new JSONObject();
+				JSONObject curobj = wfsconf.getJSONArray("datasets").getJSONObject(i);
+				coll.put("id", curobj.getString("name"));
+				coll.put("name", curobj.getString("name"));
+				coll.put("title", curobj.getString("name"));
+				if(curobj.has("description"))
+					coll.put("description", curobj.getString("description"));
+				JSONObject extent = new JSONObject();
+				JSONArray spatial = new JSONArray();
+				JSONArray temporal=new JSONArray();
+				temporal.put("1970-01-01T00:00:00Z");
+				temporal.put("2020-08-22T22:10:44Z");
+				JSONArray crs = new JSONArray();
+				crs.put("http://www.opengis.net/def/crs/OGC/1.3/CRS84");
+				coll.put("crs", crs);
+				coll.put("extent", extent);
+				extent.put("spatial", spatial);
+				extent.put("temporal", temporal);
+				JSONArray colinks = new JSONArray();
+				for (ResultFormatter formatter : ResultFormatter.resultMap.values()) {
+					link = new JSONObject();
+					link.put("rel", "item");
+					link.put("href", wfsconf.getString("baseurl") + "/collections/" + curobj.getString("name")
+							+ "/items" + "?f=" + formatter.urlformat);
+					link.put("type", formatter.exposedType);
+					link.put("title", curobj.getString("name"));
+					colinks.put(link);
+				}
+				link.put("rel", "self");
+				link.put("title", "This document");
+				link.put("type", "application/json");
+				link.put("href", wfsconf.get("baseurl") + "/collections/"+curobj.getString("name")+"?f=json");
+				colinks.put(link);
+				link = new JSONObject();
+				link.put("rel", "alternate");
+				link.put("title", "This document as XML");
+				link.put("type", "application/xml");
+				link.put("href", wfsconf.get("baseurl") + "/collections/"+curobj.getString("name")+"?f=gml");
+				colinks.put(link);
+				link = new JSONObject();
+				link.put("rel", "alternate");
+				link.put("title", "This document as HTML");
+				link.put("type", "text/html");
+				link.put("href", wfsconf.get("baseurl") + "/collections/"+curobj.getString("name")+"?f=html");
+				colinks.put(link);
+				link = new JSONObject();
+				link.put("rel", "describedBy");
+				link.put("title", "XML Schema for this dataset");
+				link.put("type", "application/xml");
+				link.put("href", "http://www.acme.com/3.0/wfs/collections/"+curobj.getString("name")+"/schema");
+				colinks.put(link);
+				coll.put("links", colinks);
+				collections.put(coll);
+			}
 			return Response.ok(result.toString(2)).type(MediaType.APPLICATION_JSON).build();
 		} else if (format.contains("gml")) {
 			StringWriter strwriter = new StringWriter();
@@ -1149,10 +1418,9 @@ public class WebService {
 			builder.append("<a href=\"" + wfsconf.getString("baseurl")
 					+ "/wfs?REQUEST=getCapabilities&VERSION=2.0.0\">[XML]</a>");
 			builder.append(
-					"</li></ul>Local Options:<ul><li><a href=\"https://www.i3mainz.de/projekte/bkg/integrationtest/\">Local Triple Store</a></li><li><a href=\""
-							+ wfsconf.getString("baseurl")
-							+ "/snorql/\">Linked Data Browser (SNORQL)</a></li><li><a href=\""
-							+ wfsconf.getString("baseurl")
+					"</li></ul>Local Options:<ul><li><a href=\""+ wfsconf.getString("baseurl")+"/config/geotreeview.html\">Ontology Browser</a></li>"
+							+ "<li><a href=\""+wfsconf.getString("baseurl")+"/config/queryinterface.html\">SPARQL Query Interface</a></li>"
+							+ "<li><a href=\""+ wfsconf.getString("baseurl")
 							+ "/config/configuration.html\">Semantic WFS Configuration</a></li><li><a href=\"https://www.i3mainz.de/projekte/semgis/gmlimporter/\">Semantic Uplift Tools</a></li></ul></div></div></div><footer id=\"footer\"><table width=100%><tbody><tr><td><a href=\"" + wfsconf.getString("baseurl")
 					+ "/?f=html\">Back to LandingPage</a></td><td align=right>This page in <a href=\""
 					+ wfsconf.getString("baseurl") + "/?f=gml\">[XML]</a> <a href=\""
@@ -1164,9 +1432,18 @@ public class WebService {
 		}
 	}
 
+	
+	/**
+	 * Returns the metadata of collections registered in the SemanticWFS. 
+	 * @param format The metadataformat in which to return the results
+	 * @return The results as String
+	 */
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections/metadata")
+	@Operation(
+            summary = "Returns the metadata of collections registered in the SemanticWFS",
+            description = "Returns the metadata of collections registered in the SemanticWFS")
 	public Response getCollectionsMetadata(@Parameter(description="The format of the collection page") @DefaultValue("html") @QueryParam("f") String format) {
 		StringWriter strwriter = new StringWriter();
 		XMLOutputFactory output = XMLOutputFactory.newInstance();
@@ -1200,6 +1477,14 @@ public class WebService {
 		}
 	}
 
+	/**
+	 * Gets metadata of a given collection.
+	 * @param collectionid The feture type of the collection
+	 * @param mdformat The metadata format to use
+	 * @param format The downlift format in which to return the metadata
+	 * @param collectioncall indicates whether this method has been called from a higher level method
+	 * @return The metadata as String
+	 */
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections/{collectionid}/metadata")
@@ -1240,6 +1525,15 @@ public class WebService {
 		}
 	}
 
+	/**
+	 * Returns a given collection description or parts of it.
+	 * @param collectionid The id of the collection to be considered
+	 * @param format The format in which to return the collection
+	 * @param limit The maximum amount of features to return
+	 * @param offset The offset from which to start returning features
+	 * @param bbox The boundingbox in which the returned features should fit
+	 * @return The collection description as String
+	 */
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections/{collectionid}")
@@ -1275,7 +1569,26 @@ public class WebService {
 		if (format != null && format.contains("json")) {
 			JSONObject result = new JSONObject();
 			JSONArray resultlinks=new JSONArray();
+			result.put("id", workingobj.getString("name"));
+			result.put("name", workingobj.getString("name"));
+			result.put("title", workingobj.getString("name"));
+			if(workingobj.has("description")) {
+				result.put("description", workingobj.getString("description"));
+			}else {
+				result.put("description", "");
+			}
 			result.put("links",resultlinks);
+			JSONObject extent = new JSONObject();
+			result.put("extent", extent);
+			JSONArray spatial = new JSONArray();
+			JSONArray temporal=new JSONArray();
+			temporal.put("1970-01-01T00:00:00Z");
+			temporal.put("2020-08-22T22:10:44Z");
+			extent.put("spatial", spatial);
+			extent.put("temporal",temporal);
+			JSONArray crs = new JSONArray();
+			crs.put("http://www.opengis.net/def/crs/OGC/1.3/CRS84");
+			result.put("crs", crs);
 			JSONObject link = new JSONObject();
 			link.put("href", wfsconf.getString("baseurl") + "/collections/"+collectionid+"?f=json");
 			link.put("rel", "self");
@@ -1283,7 +1596,7 @@ public class WebService {
 			link.put("title", "This document");
 			resultlinks.put(link);
 			link = new JSONObject();
-			link.put("href", wfsconf.getString("baseurl") + "/collections/"+collectionid+"?f=gml");
+			link.put("href", wfsconf.getString("baseurl") + "/collections/"+collectionid+"?f=xml");
 			link.put("rel", "alternate");
 			link.put("type", "application/xml");
 			link.put("title", "This document as XML");
@@ -1294,20 +1607,15 @@ public class WebService {
 			link.put("type", "text/html");
 			link.put("title", "This document as HTML");
 			resultlinks.put(link);
-			JSONArray collections=new JSONArray();
+			/*JSONArray collections=new JSONArray();
 			result.put("collections",collections);
 			JSONObject collectionentry=new JSONObject();
 			collections.put(collectionentry);
 			collectionentry.put("id", workingobj.getString("name"));
 			collectionentry.put("title", workingobj.getString("name"));
 			collectionentry.put("description", "");
-			/*JSONObject extent = new JSONObject();
-			result.put("extent", extent);
-			JSONObject spatial = new JSONObject();
-			extent.put("spatial", spatial);
-			spatial.put("crs", "http://www.opengis.net/def/crs/OGC/1.3/CRS84");*/
-			// extent.put("temporal",new JSONObject());
-			JSONArray links = new JSONArray();
+*/
+			JSONArray links = resultlinks;
 			for (ResultFormatter formatter : ResultFormatter.resultMap.values()) {
 				link = new JSONObject();
 				if (formatter.exposedType.contains("geojson")) {
@@ -1315,8 +1623,8 @@ public class WebService {
 				} else {
 					link.put("rel", "item");
 				}
-				link.put("href", wfsconf.getString("baseurl") + "/collections/" + collectionid + "/items/" + "?f="
-						+ formatter.exposedType);
+				link.put("href", wfsconf.getString("baseurl") + "/collections/" + collectionid + "/items" + "?f="
+						+ formatter.urlformat);
 				link.put("type", formatter.exposedType);
 				link.put("title", collectionid);
 				links.put(link);
@@ -1327,7 +1635,6 @@ public class WebService {
 			link.put("type", "application/xml");
 			link.put("title", collectionid + " Schema");
 			links.put(link);
-			collectionentry.put("links", links);
 			return Response.ok(result.toString(2)).type(MediaType.APPLICATION_JSON).build();
 		} else if (format != null && format.contains("gml")) {
 			StringWriter strwriter = new StringWriter();
@@ -1384,7 +1691,7 @@ public class WebService {
 					writer.writeAttribute("title", workingobj.getString("name"));
 					writer.writeAttribute("type", formatter.exposedType);
 					writer.writeAttribute("href", wfsconf.getString("baseurl") + "/collections/"
-							+ workingobj.getString("name") + "/items?f=" + formatter.exposedType);
+							+ workingobj.getString("name") + "/items?f=" + formatter.urlformat);
 					writer.writeEndElement();
 				}
 				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
@@ -1421,7 +1728,7 @@ public class WebService {
 			geojson.put("geometry", geometry);
 			geojson.put("properties", properties);
 			builder.append(htmlHead);
-			builder.append("<script>var espg=\"" + (workingobj.has("targetCRS") ? workingobj.get("targetCRS") : "")
+			builder.append("<script>function showCollections(link){window.open(link+\"?offset=\"+$('#offset').val()+\"&limit=\"+$('#limit').val()+\"&f=\"+$('#format').val(),'_blank');} var espg=\"" + (workingobj.has("targetCRS") ? workingobj.get("targetCRS") : "")
 					+ "\";</script><body><header id=\"header\"><h1 align=\"center\">");
 			builder.append(
 					(workingobj.getString("name") != null ? workingobj.getString("name") : collectionid));
@@ -1446,13 +1753,11 @@ public class WebService {
 			builder.append("<li><a href=\"" + wfsconf.getString("baseurl")
 			+ "/collections/" + workingobj.getString("name") + "/items?f=html&limit=1000&offset=" + (offset + 1)
 			+ "\">First 1000 items</a></li>");
-			builder.append("</ul><h3>Serializations</h3><ul>");
+			builder.append("</ul><h3>Serializations</h3>Number of features:&nbsp;<input type=\"number\" min=\"1\" id=\"limit\" value=\"10\"/>&nbsp;Offset:&nbsp;<input type=\"number\" min=\"1\" id=\"offset\" value=\"0\"/>Format:<select id=\"format\">");
 			for (ResultFormatter formatter : ResultFormatter.resultMap.values()) {
-				builder.append("<li><a href=\"" + wfsconf.getString("baseurl") + "/collections/"
-						+ workingobj.getString("name") + "/items?limit=5&f=" + formatter.exposedType + "\">["
-						+ formatter.exposedType.toUpperCase() + "]</a></li>");
+				builder.append("<option value=\""+formatter.urlformat+"\">"+formatter.exposedType.toUpperCase()+"</option>");
 			}
-			builder.append("</section></div></div></div>");
+			builder.append("</select>&nbsp;<button id=\"showfeaturebutton\" onclick=\"showCollections('"+wfsconf.getString("baseurl")+"/collections/" + workingobj.getString("name") + "/items')\"/>Show</button></section></div></div></div>");
 			builder.append("<footer id=\"footer\"><table width=100%><tbody><tr><td><a href=\"" + wfsconf.getString("baseurl")
 					+ "/collections?f=html\">Back to Collections</a></td><td align=right>This page in <a href=\""
 					+ wfsconf.getString("baseurl") + "/collections/" + workingobj.getString("name")
@@ -1464,13 +1769,21 @@ public class WebService {
 		}
 	}
 
+	/**
+	 * Returns a schema of a given collection. 
+	 * @param collectionid The feature collection id
+	 * @param format The format in which to return the collection
+	 * @return The returned collection as String
+	 */
 	@GET
 	@Produces({ MediaType.APPLICATION_XML })
 	@Path("/collections/{collectionid}/schema")
+	@Operation(
+            summary = "Returns a schema of a given collection",
+            description = "Returns a schema of a given collection")
 	public Response getSchema(
 			@Parameter(description="The collection id for which to return the schema") @PathParam("collectionid") String collectionid,
-			@Parameter(description="The format in which the schema should be returned",example="json") @DefaultValue("gml") @QueryParam("f") String format) {
-		
+			@Parameter(description="The format in which the schema should be returned",example="json") @DefaultValue("gml") @QueryParam("f") String format) {	
 		if (format.contains("json")) {
 			return this.describeFeatureTypeJSON(collectionid, "1.0.0");
 		} else {
@@ -1485,11 +1798,30 @@ public class WebService {
 
 	}
 
+	
+	/**
+	 * Returns a number of features from a given featuretype.
+	 * @param collectionid The featuretype to return from
+	 * @param format The format of the result
+	 * @param limit The maximum amount of features to return
+	 * @param offset The offset from which to return features
+	 * @param bbox The bounding box in which features which should be returned are contained
+	 * @param style The style to apply
+	 * @param bboxcrs The CRS of the boundingbox to apply
+	 * @param filter A filter expression
+	 * @param filterlang The filter expression language
+	 * @param datetime A time constraint
+	 * @return The query result as String
+	 */
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/collections/{collectionid}/items")
+	@Operation(
+            summary = "Returns items of a given collection",
+            description = "Returns items of a given collection which conform to certain criteria")
 	public Response collectionItems(@Parameter(description="The id of the collection") @PathParam("collectionid") String collectionid,
-			@Parameter(description="The format of the result") @DefaultValue("html") @QueryParam("f") String format, @DefaultValue("10") @QueryParam("limit") String limit,
+			@Parameter(description="The format of the result") @DefaultValue("html") @QueryParam("f") String format, 
+			@DefaultValue("10") @QueryParam("limit") String limit,
 			@Parameter(description="The offset to consider when fetching items") @DefaultValue("0") @QueryParam("offset") String offset, @DefaultValue("") @QueryParam("bbox") String bbox,
 			@Parameter(description="The styling of the item when returned")  @DefaultValue("") @QueryParam("style") String style,
 			@Parameter(description="The crs of a given bounding box") @DefaultValue("") @QueryParam("bbox-crs") String bboxcrs,
@@ -1545,11 +1877,18 @@ public class WebService {
 					JSONObject link = new JSONObject();
 					if (formatter.exposedType.contains("geojson")) {
 						link.put("rel", "self");
+						JSONObject nextlink = new JSONObject();
+						nextlink.put("rel", "next");
+						nextlink.put("href", wfsconf.getString("baseurl") + "/collections/" + collectionid + "/items?offset="+(offset+limit)+"&limit="+limit+"&f="
+								+ formatter.urlformat);
+						nextlink.put("type", formatter.exposedType);
+						nextlink.put("title", "next page");
+						links.put(nextlink);
 					} else {
 						link.put("rel", "alternate");
 					}
 					link.put("href", wfsconf.getString("baseurl") + "/collections/" + collectionid + "/items?f="
-							+ formatter.exposedType);
+							+ formatter.urlformat);
 					link.put("type", formatter.exposedType);
 					link.put("title", collectionid);
 					links.put(link);
@@ -1664,9 +2003,18 @@ public class WebService {
 		}
 	}
 
+	
+	/**
+	 * Gets conformance information about the OGC API Features service.
+	 * @param format The return format for the conformance declaration
+	 * @return The conformance declaration as String 
+	 */
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
 	@Path("/conformance")
+	@Operation(
+            summary = "Returns a conformance description",
+            description = "Returns a conformance description in a given dataformat")
 	public Response conformance(@Parameter(description="The format of the conformance page") @DefaultValue("html") @QueryParam("f") String format) {
 		if (format != null && format.contains("json")) {
 			JSONObject result = new JSONObject();
@@ -1746,6 +2094,13 @@ public class WebService {
 
 	public String SERVERURL = "http://localhost:8080/WFSGeoSPARQL/rest/wfs?";
 
+	/**
+	 * Constructs a capabilities document for a WFS in version 1.0 .
+	 * @param version The version of the WFS service
+	 * @param versionnamespace The namespace to use
+	 * @return The capabilities document as String
+	 * @throws XMLStreamException on error
+	 */
 	public Response constructCapabilitiesWFS10(String version, String versionnamespace) throws XMLStreamException {
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();
 		StringWriter strwriter = new StringWriter();
@@ -1879,6 +2234,14 @@ public class WebService {
 		return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
 	}
 
+	
+	/**
+	 * Constructs a capabilities document for a CSW service .
+	 * @param version The version of the WFS service
+	 * @param versionnamespace The namespace to use
+	 * @return The capabilities document as String
+	 * @throws XMLStreamException on error
+	 */
 	public Response constructCapabilitiesCSW(String version, String versionnamespace) throws XMLStreamException {
 		String serviceType = "CSW";
 		String owsns = "http://www.opengis.net/ows/1.1";
@@ -2028,6 +2391,13 @@ public class WebService {
 		return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
 	}
 
+	/**
+	 * Constructs a capabilities document for a WFS in version 1.1 .
+	 * @param version The version of the WFS service
+	 * @param versionnamespace The namespace to use
+	 * @return The capabilities document as String
+	 * @throws XMLStreamException on error
+	 */
 	public Response constructCapabilities(String version, String versionnamespace) throws XMLStreamException {
 		String serviceType = "WFS";
 		String owsns = "http://www.opengis.net/ows/1.1";
@@ -2243,6 +2613,13 @@ public class WebService {
 		return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
 	}
 
+	/**
+	 * Describes the conformance part of a WFS webservices.
+	 * @param writer The XML writer
+	 * @param versionnamespace The versionnamespace
+	 * @param namespace The namespace to follow
+	 * @throws XMLStreamException on error
+	 */
 	public void describeConformance(IndentingXMLStreamWriter writer,String versionnamespace, String namespace) throws XMLStreamException {
 		System.out.println(namespace);
 		writer.writeStartElement(namespace,"Conformance");
@@ -2335,10 +2712,20 @@ public class WebService {
 		writer.writeEndElement();		
 	}
 
+	/**
+	 * Returns the capabilities document for a WFS service.
+	 * @param version The version of the WFS service to target
+	 * @return The capabilities document as String
+	 * @throws XMLStreamException on error
+	 */
 	@GET
 	@Produces(MediaType.TEXT_XML)
 	@Path("/wfs/getCapabilities")
-	public Response getCapabilities(@Parameter(description="The version of the WFS service to target") @DefaultValue("2.0.0") @QueryParam("version") String version)
+	@Operation(
+            summary = "Returns the capabilities document for a WFS service",
+            description = "Returns the capabilities document for a WFS service")
+	public Response getCapabilities(
+			@Parameter(description="The version of the WFS service to target") @DefaultValue("2.0.0") @QueryParam("version") String version)
 			throws XMLStreamException {
 		if (!version.equals("2.0.0") && !version.equals("1.1.0"))
 			version = "2.0.0";
@@ -2348,11 +2735,11 @@ public class WebService {
 	/**
 	 * Describes a feature type according to the WFS1.0 specification.
 	 * 
-	 * @param writer
-	 * @param featuretype
-	 * @param versionnamespace
-	 * @param version
-	 * @throws XMLStreamException
+	 * @param writer XMLWriter to write the specification
+	 * @param featuretype the feature type to consider
+	 * @param versionnamespace the versionnamespace to write
+	 * @param version the version to use
+	 * @throws XMLStreamException on error
 	 */
 	public void describeFeatureTypeWFS10(XMLStreamWriter writer, JSONObject featuretype, String versionnamespace,
 			String version) throws XMLStreamException {
@@ -2391,6 +2778,14 @@ public class WebService {
 		writer.writeEndElement();
 	}
 
+	/**
+	 * Creates a feature type description.
+	 * @param writer the XMLWriter for writing the feature type description
+	 * @param featuretype the feature type to describe
+	 * @param versionnamespace the versionnamespace to use
+	 * @param version the version to write
+	 * @throws XMLStreamException on error
+	 */
 	public void describeFeatureType(XMLStreamWriter writer, JSONObject featuretype, String versionnamespace,
 			String version) throws XMLStreamException {
 		if ("1.0.0".equals(version) || "1.1.0".equals(version)) {
@@ -2436,6 +2831,13 @@ public class WebService {
 		writer.writeEndElement();
 	}
 
+	/**
+	 * Writes the spatial capabilities part of the WFS document.
+	 * @param writer The XMLWriter to write the document part
+	 * @param versionnamespace The versionnamespace to write
+	 * @param namespace The namespace to use
+	 * @throws XMLStreamException on error
+	 */
 	public void describeSpatialCapabilities(XMLStreamWriter writer, String versionnamespace, String namespace)
 			throws XMLStreamException {
 		writer.writeStartElement(namespace, "Spatial_Capabilities");
@@ -2494,6 +2896,13 @@ public class WebService {
 		writer.writeEndElement();
 	}
 
+	/**
+	 * Creates the spatial capabilities document for a WFS in version 1.0.
+	 * @param writer The XMLWriter to write the documentation with
+	 * @param versionnamespace The versionnamespace to use for writing
+	 * @param namespace The namespace to use
+	 * @throws XMLStreamException on error
+	 */
 	public void describeSpatialCapabilitiesWFS10(XMLStreamWriter writer, String versionnamespace, String namespace)
 			throws XMLStreamException {
 		writer.writeStartElement(namespace, "Spatial_Capabilities");
@@ -2521,6 +2930,13 @@ public class WebService {
 		writer.writeEndElement();
 	}
 
+	/**
+	 * Writes the scalar capabilities document for a WFS.
+	 * @param writer The XMLStreamWriter to write the capabilities document with
+	 * @param versionnamespace The versionnamespace to use
+	 * @param namespace The namespace to use for writing
+	 * @throws XMLStreamException on error
+	 */
 	public void describeScalarCapabilities(XMLStreamWriter writer, String versionnamespace, String namespace)
 			throws XMLStreamException {
 		writer.writeStartElement(namespace, "Scalar_Capabilities");
@@ -2556,9 +2972,19 @@ public class WebService {
 		writer.writeEndElement();
 	}
 
+	/**
+	 * Describes a feature type as an answer to a WFS request.
+	 * @param typename The feature type to describe
+	 * @param version The version of the WFS
+	 * @return The feature type description document
+	 * @throws XMLStreamException on error
+	 */
 	@GET
 	@Produces(MediaType.TEXT_XML)
 	@Path("/wfs/describeFeatureType")
+	@Operation(
+            summary = "Describes a feature type as an answer to a WFS request",
+            description = "Describes a feature type as an answer to a WFS request")
 	public Response describeFeatureType(
 			@Parameter(description="The feature type name to describe") @QueryParam("typename") String typename,
 			@Parameter(description="The version of the WFS service") @DefaultValue("version") @QueryParam("version") String version) throws XMLStreamException {
@@ -2656,9 +3082,18 @@ public class WebService {
 		return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
 	}
 
+	/**
+	 * Describes a feature type in JSON.
+	 * @param typename The type name to describe
+	 * @param version The version of the WFS
+	 * @return The JSON document to return
+	 */
 	@GET
-	@Produces(MediaType.TEXT_XML)
+	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/wfs/describeFeatureTypeJSON")
+	@Operation(
+            summary = "Describes a feature type in JSON",
+            description = "Describes a feature type in JSON")
 	public Response describeFeatureTypeJSON(
 			@Parameter(description="The feature type to describe") @QueryParam("typename") String typename,
 			@Parameter(description="The version of the WFS service") @DefaultValue("version") @QueryParam("version") String version) {
@@ -2735,10 +3170,20 @@ public class WebService {
 		return Response.ok(schema.toString(2)).type(MediaType.APPLICATION_JSON).build();
 	}
 
+	
+	/**
+	 * Gets geospatial classes from a SPARQL endpoint.
+	 * @param endpoint The SPARQL endpoint
+	 * @return A JSON document containing class descriptions
+	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/service/getGeoClassesFromEndpoint")
-	public Response getGeoClassesFromOntology(@Parameter(description="The SPARQL endpoint to load classes from") @QueryParam("endpoint") String endpoint) {
+	@Operation(
+            summary = "Gets geospatial classes from a SPARQL endpoint",
+            description = "Gets geospatial classes from a SPARQL endpoint")
+	public Response getGeoClassesFromOntology(
+			@Parameter(description="The SPARQL endpoint to load classes from") @QueryParam("endpoint") String endpoint) {
 		if(triplestoreconf.getJSONObject("endpoints").has(endpoint)) {
 			Map<String,String> classes=TripleStoreConnector.getClassesFromOntology(triplestoreconf.getJSONObject("endpoints").getJSONObject(endpoint));
 			JSONObject result=new JSONObject();
@@ -2751,16 +3196,32 @@ public class WebService {
 		}
 	}
 	
+	/**
+	 * Gets available SPARQL endpoitns from the triplestore configuration.
+	 * @return A JSON document containing SPARQL endpoint descriptions
+	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/service/getEndpoints")
+	@Operation(
+            summary = "Gets available SPARQL endpoitns from the triplestore configuration",
+            description = "Gets available SPARQL endpoitns from the triplestore configuration")
 	public Response getEndpoints() {
 		return Response.ok(triplestoreconf.toString(2)).type(MediaType.APPLICATION_JSON).build();
 	}
 
+	/**
+	 * Gets available properties associated with a certain class.
+	 * @param endpoint The SPARQL endpoint to query
+	 * @param classs The class to use in the query
+	 * @return A JSON document containing the queried properties
+	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/service/getPropertiesByClass")
+	@Operation(
+            summary = "Gets available properties associated with a certain class",
+            description = "Gets available properties associated with a certain class")
 	public Response getPropertiesByClass(
 			@Parameter(description="The SPARQL endpoint to load properties from") @QueryParam("endpoint") String endpoint,
 			@Parameter(description="The class from which properties should be loaded") @QueryParam("class") String classs) {
@@ -2776,6 +3237,9 @@ public class WebService {
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/wfs/getFeature")
+	@Operation(
+            summary = "Gets a feature with a given feature id",
+            description = "Gets a feature with a given feature id")
 	public Response getFeature(@QueryParam("typename") String typename,
 			@Parameter(description="The output format of the WFS service request") @DefaultValue("json") @QueryParam("outputFormat") String output,
 			@Parameter(description="The amount of features to be returned",example="10") @DefaultValue("10") @QueryParam("count") String count,
@@ -3029,17 +3493,44 @@ public class WebService {
 		return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 	}
 
+	
+	/**
+	 * Adds a feature type to the SemanticWFS.
+	 * @param sparqlQuery The SPARQL query to be used by this feature type.
+	 * @param name The feature type name
+	 * @param indvar The individual variable
+	 * @param bboxlimit 
+	 * @param classs
+	 * @param type
+	 * @param description
+	 * @param targetCRS
+	 * @param namespace
+	 * @param triplestore
+	 * @param username
+	 * @param password
+	 * @param authtoken
+	 * @return
+	 */
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/service/addFeatureType")
+	@Operation(
+            summary = "Adds a feature type to the SemanticWFS",
+            description = "Adds a feature type to the SemanticWFS")
 	public Boolean addFeatureType(
-			@QueryParam("query") String sparqlQuery, @QueryParam("typename") String name, 
-			@DefaultValue("item") @QueryParam("indvar") String indvar,@DefaultValue("500") @QueryParam("bboxlimit") String bboxlimit,
-			@QueryParam("class") String classs, @DefaultValue("WFS") @QueryParam("type") String type,
-			@DefaultValue("")  @QueryParam("description") String description, @DefaultValue("EPSG:4326") @QueryParam("targetCRS") String targetCRS,
-			@QueryParam("namespace") String namespace, @QueryParam("triplestore") String triplestore,
-			@QueryParam("username") String username, @QueryParam("password") String password,
-			@DefaultValue("") @QueryParam("authtoken") String authtoken) {
+			@Parameter(description="The SPARQL query used to retrive the feature type") @QueryParam("query") String sparqlQuery, 
+			@Parameter(description="The featuretype name") @QueryParam("typename") String name, 
+			@Parameter(description="The variable indicating the individual in the query") @DefaultValue("item") @QueryParam("indvar") String indvar,
+			@Parameter(description="The limit of the initial sample to retrieve") @DefaultValue("500") @QueryParam("bboxlimit") String bboxlimit,
+			@Parameter(description="The class to query") @QueryParam("class") String classs, 
+			@Parameter(description="The service type which is queried") @DefaultValue("WFS") @QueryParam("type") String type,
+			@Parameter(description="The feature type description") @DefaultValue("")  @QueryParam("description") String description, 
+			@Parameter(description="The EPSG of the feature type to be added") @DefaultValue("EPSG:4326") @QueryParam("targetCRS") String targetCRS,
+			@Parameter(description="The namespace used for the feature type") @QueryParam("namespace") String namespace, 
+			@Parameter(description="The triple store to query when loading the feature type")  @QueryParam("triplestore") String triplestore,
+			@Parameter(description="The username needed for authentication") @DefaultValue("") @QueryParam("username") String username, 
+			@Parameter(description="The password needed for authentication") @DefaultValue("") @QueryParam("password") String password,
+			@Parameter(description="The authtoken for authentication") @DefaultValue("") @QueryParam("authtoken") String authtoken) {
 		User user=UserManagementConnection.getInstance().loginAuthToken(authtoken);
 		System.out.println("Add Feature Type");
 		if(name==null && classs!=null) {
@@ -3068,9 +3559,23 @@ public class WebService {
 		return false;
 	}
 	
+	/**
+	 * Adds a SPARQL endpoint to the triplestoreconf configuration.
+	 * @param name The name of the SPARQL endpoint
+	 * @param endpoint The SPARQL endpoint address
+	 * @param typerel The type relation of the SPARQL endpoint
+	 * @param georel The geometrical relation of the SPARQL endpoint
+	 * @param username A username required to save the configuration
+	 * @param password A password required to save the configuration
+	 * @param authtoken An authtoken authorizing the configuration
+	 * @return True if the endpoint has been successfully added, false otherwise
+	 */
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/service/addEndpoint")
+	@Operation(
+            summary = "Adds a SPARQL endpoint to the triplestoreconf configuration",
+            description = "Adds a SPARQL endpoint to the triplestoreconf configuration")
 	public Boolean addEndpoint(@Parameter(description="The name of the SPARQL endpoint to add") @QueryParam("name") String name,
 			@Parameter(description="The address of the SPARQL endpoint") @QueryParam("endpoint") String endpoint,
 			@Parameter(description="The type property used in this SPARQL endpoint") @QueryParam("typerel") String typerel,
@@ -3098,9 +3603,19 @@ public class WebService {
 		return false;
 	}
 
+	
+	/**
+	 * Saves feature types in the SemanticWFS Service.
+	 * @param featureTypesJSON The featuretype JSON to save
+	 * @param authtoken The authtoken authorizing the save operation
+	 * @return True if successful, false otherwise
+	 */
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/service/saveFeatureTypes")
+	@Operation(
+            summary = "Saves feature types in the SemanticWFS Service",
+            description = "Saves feature types in the SemanticWFS Service")
 	public Boolean saveFeatureTypes(
 			@Parameter(description="JSON object containing feature types to be saved") @QueryParam("featjson") String featureTypesJSON,
 			@Parameter(description="Authtoken for authorization") @DefaultValue("") @QueryParam("authtoken") String authtoken) {
@@ -3113,10 +3628,19 @@ public class WebService {
 		return false;
 	}
 	
+	/**
+	 * Performs a login returning an authtoken if successful.
+	 * @param username The username
+	 * @param password The password
+	 * @return An authtoken if successful, an emptry String if not
+	 */
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/login")
+	@Operation(
+            summary = "Performs a login returning an authtoken if successful",
+            description = "Performs a login returning an authtoken if successful")
     public Response login(@Parameter(description="Username for authorization") @QueryParam("username") String username,
     		@Parameter(description="Password for authorization") @QueryParam("password") String password) { 
 		final String dir = System.getProperty("user.dir");
@@ -3128,6 +3652,10 @@ public class WebService {
         return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 	}
 
+	/**
+	 * Returns featuretypes known by the SemanticWFS service.
+	 * @return The feature type document as JSON.
+	 */
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/service/featureTypes")
@@ -3135,13 +3663,21 @@ public class WebService {
 		return wfsconf.toString(2);
 	}
 
+	/**
+	 * Returns prefixes known by the SemanticWFS service.
+	 * @return The prefix document as JSON.
+	 */
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/service/prefixes")
+	@Operation(
+            summary = "Returns prefixes known by the SemanticWFS service",
+            description = "Returns prefixes known by the SemanticWFS service")
 	public String prefixes() {
 		return TripleStoreConnector.prefixCollection;
 	}
 
+	
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/service/addPrefixes")
@@ -3150,9 +3686,16 @@ public class WebService {
 		return wfsconf.toString(2);
 	}
 
+	/**
+	 * Returns the query configuration document.
+	 * @return The query configuration document as JSON.
+	 */
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/service/queryConfigs")
+	@Operation(
+            summary = "Returns the query configuration document",
+            description = "Returns the query configuration document")
 	public Response queryConfigs() {
 		JSONObject res = new JSONObject();
 		for (int i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
@@ -3169,9 +3712,18 @@ public class WebService {
 		return Response.ok(res.toString(2)).type(MediaType.APPLICATION_JSON).build();
 	}
 
+	/**
+	 * Exposes a query service which returns a SPARQL query result as REST.
+	 * @param query The query to send
+	 * @param endpoint The endpoint to query
+	 * @return The query result
+	 */
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/service/queryservice")
+	@Operation(
+            summary = "Exposes a query service which returns a SPARQL query result as REST",
+            description = "Exposes a query service which returns a SPARQL query result as REST")
 	public String queryService(
 			@Parameter(description="SPARQL query to be resolved") @QueryParam("query") String query,
 			@Parameter(description="SPARQL endpoint to query") @QueryParam("endpoint") String endpoint) {
@@ -3180,9 +3732,19 @@ public class WebService {
 		return TripleStoreConnector.executeQuery(query, endpoint, false);
 	}
 
+	/**
+	 * Exposes a query service which returns a SPARQL query result as REST.
+	 * @param query The query to send
+	 * @param endpoint The endpoint to query
+	 * @param geojson indicates whether to return an additional representation as GeoJSON for a map view
+	 * @return The query result
+	 */
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/service/queryservicegeojson")
+	@Operation(
+            summary = "Exposes a query service which returns a SPARQL query result as REST",
+            description = "Exposes a query service which returns a SPARQL query result as REST with the option of returning an additional GeoJSON")
 	public String queryService(
 			@Parameter(description="SPARQL query to be resolved") @QueryParam("query") String query,
 			@Parameter(description="SPARQL endpoint to be queried") @QueryParam("endpoint") String endpoint,
@@ -3192,6 +3754,10 @@ public class WebService {
 		return TripleStoreConnector.executeQuery(query, endpoint, true);
 	}
 
+	/**
+	 * Transaction method of the WFS specification.
+	 * @return
+	 */
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/transaction")
@@ -3199,6 +3765,10 @@ public class WebService {
 		return null;
 	}
 
+	/**
+	 * Lock Feature method of the WFS specification.
+	 * @return
+	 */
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/lockFeature")

@@ -14,6 +14,9 @@ import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
 
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
+/**
+ * Formats a query result to SVG.
+ */
 public class SVGFormatter extends ResultFormatter {
 
 	/**
@@ -22,6 +25,7 @@ public class SVGFormatter extends ResultFormatter {
 	public SVGFormatter() {
 		this.mimeType="image/svg+xml";
 		this.exposedType="image/svg+xml";
+		this.urlformat="svg";
 	}
 	
 	@Override

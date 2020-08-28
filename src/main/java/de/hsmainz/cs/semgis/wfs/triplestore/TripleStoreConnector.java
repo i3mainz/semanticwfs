@@ -20,17 +20,18 @@ import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.query.QueryFactory;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
-import org.apache.jena.rdf.model.Literal;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import de.hsmainz.cs.semgis.wfs.resultformatter.GeoJSONFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
-import de.hsmainz.cs.semgis.wfs.resultstyleformatter.ResultStyleFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 import de.hsmainz.cs.semgis.wfs.webservice.WebService;
 
-
+/**
+ * Abstract class to connect to triple stores and executing queries for the SemanticWFS implementation.
+ *
+ */
 public abstract class TripleStoreConnector {
 
 	public static String prefixCollection="";
@@ -49,12 +50,27 @@ public abstract class TripleStoreConnector {
 		}
 	}
 	
+	/**
+	 * Supported spatial filter functions by the SemanticWFS.
+	 */
 	static Pattern spatialFunctions=Pattern.compile(".*(equals|disjoint|intersects|touches|crosses|within|contains|overlaps|dwithin).*",Pattern.CASE_INSENSITIVE);
 	
+	/**
+	 * Supported binary filter operators by the SemanticWFS.
+	 */
 	static Pattern binaryOperators=Pattern.compile(".*(<|>|=|<=|>=|<>).*",Pattern.CASE_INSENSITIVE);
 	
+	/**
+	 * Map of feature types which have been loaded in the SemanticWFS.
+	 */
 	protected static Map<String,Map<String,String>> featureTypes=new TreeMap<>();
 	
+	/**
+	 * Retrieves a bounding box for a specific feature type which can be used in the SemanticWFS description.
+	 * @param triplestore the triplestore to query
+	 * @param queryString the initial query string
+	 * @return An array of Double indicating the bounding box corner coordinates
+	 */
 	public static Double[] getBoundingBoxFromTripleStoreData(String triplestore,String queryString) {
 		Double minx=Double.MAX_VALUE,maxx=Double.MIN_VALUE,miny=Double.MAX_VALUE,maxy=Double.MIN_VALUE;
 		if(queryString.contains("the_geom")) {
@@ -143,13 +159,20 @@ public abstract class TripleStoreConnector {
 		return new Double[] {minx,miny,maxx,maxy};
 	}
 	
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		//System.out.println(CQLfilterStringToSPARQLQuery("abc=4 AND DISJOINT(the_geom, POLYGON((-90 40, -90 45, -60 45, -60 40, -90 40)))","namedplace"));
 		System.out.println(getBoundingBoxFromTripleStoreData("https://query.wikidata.org/sparql", "SELECT ?wikidatacity ?wikidatacityLabel ?the_geom WHERE{ ?wikidatacity wdt:P31 wd:Q515 . ?wikidatacity wdt:P625 ?the_geom . SERVICE wikibase:label { bd:serviceParam wikibase:language '[AUTO_LANGUAGE],en'. } }"));
-	}
+	}*/
 	
 	static Integer resultSetSize=0;
 	
+	/**
+	 * Executes a SPARQL query to a specific endpoint with the option to retrieve an additional GeoJSON result.
+	 * @param query the query to execute
+	 * @param endpoint the endpoint to issue the query against
+	 * @param geojsonout indicates if an additional GeoJSON representation should be created
+	 * @return The result of the query execution as String according to a GeoJSON formatter
+	 */
 	public static String executeQuery(String query, String endpoint, Boolean geojsonout) {
 		query = prefixCollection + query;
 		System.out.println(query);
@@ -163,6 +186,13 @@ public abstract class TripleStoreConnector {
 		return res;
 	}
 	
+	/**
+	 * May execute a SPARQL query to indicate a temporal extent of the given dataset.
+	 * This feature is currently not yet implemented and would need to be configured on a feature by feature basis as no standard to represent times is available.
+	 * @param triplestore the triplestore to issue the query against
+	 * @param queryString the queryString
+	 * @return The query result as String
+	 */
 	public static String getTemporalExtentFromTripleStoreData(String triplestore,String queryString) {
 		Query query = QueryFactory.create(prefixCollection+queryString);
 		QueryExecution qexec = QueryExecutionFactory.sparqlService(triplestore, query);
@@ -176,6 +206,14 @@ public abstract class TripleStoreConnector {
 		return "";
 	}
 	
+	/**
+	 * Retrieves metadata about the current object.
+	 * @param queryString The queryString
+	 * @param queryurl the query url
+	 * @param featuretype the featuretype to get metadata about
+	 * @param workingobject the current configuration to work with
+	 * @return
+	 */
 	public static String getMetaData(String queryString,String queryurl,String featuretype,JSONObject workingobject) {
 		queryString="SELECT ?pointstyle ?linestringstyle ?polygonstyle WHERE { <"+featuretype+"> semgis:hasStyle ?style . ?style semgis:hasPointStyle ?pointstyle . ?style semgis:hasPointStyle ?linestringstyle . ?style semgis:hasPointStyle ?polygonstyle . }";
 		Query query = QueryFactory.create(prefixCollection+queryString+" LIMIT 1");
@@ -185,6 +223,13 @@ public abstract class TripleStoreConnector {
 		return "";
 	}
 	
+	/**
+	 * Retrieves a list of style names either in JSON, XML or HTML.
+	 * @param baseurl The baseurl for retrieving the styles
+	 * @param workingobject the current configuration
+	 * @param format the format in which to return the style
+	 * @return The style description in the defined format as a String
+	 */
 	public static String getStyleNames(String baseurl,JSONObject workingobject,String format) {
 		String queryString="SELECT ?style ?styleLabel ?pointstyle ?linestringstyle ?polygonstyle WHERE { <"+workingobject.getString("class")+"> owl:equivalentClass ?equivclass ."+System.lineSeparator()+" ?equivclass owl:intersectionOf ?intersect ."+System.lineSeparator()+" ?intersect rdf:rest ?rest."+System.lineSeparator()+" ?rest rdf:first ?first ."+System.lineSeparator()+" ?first owl:allValuesFrom ?styleclass ."+System.lineSeparator()+" ?style rdf:type ?styleclass."+System.lineSeparator()+" OPTIONAL{?style rdfs:label ?styleLabel .} }";
 		Query query = QueryFactory.create(prefixCollection+queryString+" LIMIT 1");
@@ -226,6 +271,14 @@ public abstract class TripleStoreConnector {
 		return result;
 	}
 	
+	/**
+	 * Retrieves a style for a given featuretype given its name and caches it if it has not been cached before.
+	 * @param featuretype the featuretype for which styles should be queried
+	 * @param stylename A stylename which should be queried
+	 * @param triplestore The triplestore URL
+	 * @param namespace The style namespace
+	 * @return A styleobject indicating the style contents
+	 */
 	public static StyleObject getStyle(String featuretype,String stylename,String triplestore,String namespace) {
 		if(WebService.styleCache.containsKey(triplestore) && WebService.styleCache.get(triplestore).containsKey(stylename)) {
 			return WebService.styleCache.get(triplestore).get(stylename);
@@ -267,6 +320,12 @@ public abstract class TripleStoreConnector {
 		return result;
 	}
 	
+	
+	/**
+	 * Gets classes from a given triplestore.
+	 * @param triplestoreconf The triplestoreconfiguration for the given triplestore
+	 * @return A map of class URIs and their labels
+	 */
 	public static Map<String,String> getClassesFromOntology(JSONObject triplestoreconf){
 		Map<String,String> result=new TreeMap<String,String>();
 		System.out.println(prefixCollection+" SELECT DISTINCT ?class ?label WHERE { ?abc <"+triplestoreconf.getString("type")+"> ?class . OPTIONAL{ ?class rdfs:label ?label } ?abc <"+triplestoreconf.getJSONArray("geo").getString(0)+"> ?geom . } ");
@@ -287,6 +346,12 @@ public abstract class TripleStoreConnector {
 		return result;
 	}
 
+	/**
+	 * Gets properties by class from a given triplestore.
+	 * @param triplestoreurl the URL of the triple store
+	 * @param classs The class for which properties should be retrieved
+	 * @return A map of property URIs and their labels
+	 */
 	public static Map<String,String> getPropertiesByClass(String triplestoreurl,String classs){
 		Map<String,String> result=new TreeMap<String,String>();
 		Query query = QueryFactory.create(prefixCollection+" SELECT DISTINCT ?rel ?label WHERE { ?item rdf:type <"+classs+"> . ?item ?rel ?val . OPTIONAL { ?rel rdfs:label ?label . } } ");
@@ -305,7 +370,15 @@ public abstract class TripleStoreConnector {
 		return result;
 	}
 	
-	
+	/**
+	 * Retrieves feature type information about a configured feature type.
+	 * This information is needed to indicate the amount of features and common properties associated with those features.
+	 * @param queryString The query string as configured in wfsconf.json
+	 * @param queryurl The URL of the triple store
+	 * @param featuretype The feature type which is queried
+	 * @param workingobj 
+	 * @return A map of feature type information
+	 */
 	public static Map<String,String> getFeatureTypeInformation(String queryString,String queryurl,
 			String featuretype,JSONObject workingobj){
 		System.out.println("Getting FeatureType Information for "+featuretype+"...");
@@ -510,6 +583,16 @@ public abstract class TripleStoreConnector {
 		return null;
 	}
 	
+	/**
+	 * Converts a CQL filter String to a SPARQL query expression.
+	 * @param filter the filter expression to convert
+	 * @param bbox a boundingbox to consider
+	 * @param curquery the current SPARQL query to modify
+	 * @param queryurl the URL of the triple store
+	 * @param featuretype the featuretype which is queried
+	 * @param indvar the variable indicating the individual queried
+	 * @return A String containing the modified SPARQL query
+	 */
 	public static String CQLfilterStringToSPARQLQuery(String filter,String bbox,String curquery,String queryurl,String featuretype,String indvar) {
 		if(filter.isEmpty() && bbox.isEmpty())
 			return curquery;
@@ -593,6 +676,22 @@ public abstract class TripleStoreConnector {
 		return curquery+builder.toString();
 	}
 	
+	/**
+	 * Executes a Property/Value Query against a triple store.
+	 * @param queryurl
+	 * @param output
+	 * @param propertyValue
+	 * @param startingElement
+	 * @param featuretype
+	 * @param resourceids
+	 * @param workingobj
+	 * @param filter
+	 * @param count
+	 * @param resultType
+	 * @param srsName
+	 * @return
+	 * @throws XMLStreamException
+	 */
 	public static String executePropertyValueQuery(String queryurl,String output,String propertyValue,
 			String startingElement,String featuretype,
 			String resourceids,JSONObject workingobj,String filter,String count,String resultType,String srsName) throws XMLStreamException {
@@ -653,7 +752,27 @@ public abstract class TripleStoreConnector {
 		return res;
 	}
 	
-	
+	/**
+	 * Executes a SPARQL query which is issued because of a request to the WFS or OGC API features API.
+	 * @param queryString The queryString as configured in wfsconf.json
+	 * @param queryurl the url of the triple store
+	 * @param output the downlift format
+	 * @param count the maximum amount of results to retrieve
+	 * @param offset the offset of the query, i.e. from which element the results should be retrieved
+	 * @param startingElement 
+	 * @param featuretype the featuretype which is queried
+	 * @param resourceids an array of resource ids to consider for the query
+	 * @param workingobj 
+	 * @param filter a filter expression in CQL which is converted to SPARQL
+	 * @param resultType the result type
+	 * @param srsName
+	 * @param bbox the boundingbox to apply for the SPARQL query
+	 * @param mapstyle the mapstyle to apply to the feature type
+	 * @param alternativeFormat
+	 * @param invertXY indicates whether to invert the XY axis on query
+	 * @return A string containing the query result. This String is empty if no result has been retrieved.
+	 * @throws XMLStreamException
+	 */
 	public static String executeQuery(String queryString,String queryurl,String output,String count,
 			String offset,String startingElement,String featuretype,String resourceids,JSONObject workingobj,
 			String filter,String resultType,String srsName,String bbox,String mapstyle,Boolean alternativeFormat,Boolean invertXY) throws XMLStreamException {

@@ -22,6 +22,10 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.ext.DefaultHandler2;
 
+/**
+ * Management class for user connections.
+ *
+ */
 public class UserManagementConnection {
 	
 	private Map<String,User> userNameToPasswordHash;
@@ -32,6 +36,9 @@ public class UserManagementConnection {
 	
 	private static String USERS="users.xml";
 	
+	/**
+	 * Constructor for this Singleton class.
+	 */
 	private UserManagementConnection(){
 		this.userNameToPasswordHash=new TreeMap<String,User>();
 		this.uuidToUser=new TreeMap<String,User>();
@@ -42,6 +49,12 @@ public class UserManagementConnection {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Generates a hashed password from a String for comparison.
+	 * @param password the password as plaintext
+	 * @return The hashed password as String
+	 */
 	private String getHashedPassword(String password){
 		try {
 	        MessageDigest md = MessageDigest.getInstance("SHA-512");
@@ -58,10 +71,19 @@ public class UserManagementConnection {
 	    }
 	}
 	
-	public static void main(String[] args){
+	/*public static void main(String[] args){
 		System.out.println(UserManagementConnection.getInstance().getHashedPassword("123"));
-	}
+	}*/
 	
+	/**
+	 * Adds a user to the set of users.
+	 * @param userToAdd The username of the new user
+	 * @param userToAddPasswordHash The password hash of the new user
+	 * @param userlevel The user level assigned to this user
+	 * @return A String confirming the user creation
+	 * @throws XMLStreamException on error
+	 * @throws IOException on error
+	 */
 	public String addUser(String userToAdd,String userToAddPasswordHash,String userlevel) throws XMLStreamException, IOException{
 		if(this.userNameToPasswordHash.containsKey(userToAdd)){
 			return "User already exists";
@@ -110,6 +132,11 @@ public class UserManagementConnection {
 		return null;//"loginfailed_false";
 	}
 	
+	/**
+	 * Performs a loging using an authentification token.
+	 * @param authToken The authentification token
+	 * @return 
+	 */
 	public User loginAuthToken(String authToken){
 		System.out.println("UserNameToPasswordHash: "+userNameToPasswordHash.toString());
 		if(!this.uuidToUser.containsKey(authToken)){
@@ -118,7 +145,11 @@ public class UserManagementConnection {
 		}
 		return null;
 	}
-		
+	
+	/**
+	 * Gets the current instance of the UserManagementConnection.
+	 * @return The instance 
+	 */
 	public static UserManagementConnection getInstance(){
 		if(instance==null){
 			instance=new UserManagementConnection();
@@ -150,6 +181,11 @@ public class UserManagementConnection {
 		return result.substring(0,result.length()-1).toString();
 	}
 	
+	/**
+	 * Exports a user description to XML.
+	 * @throws XMLStreamException on streaming errors
+	 * @throws IOException on writing errors
+	 */
 	public void toXML() throws XMLStreamException, IOException{
 		StringWriter sw = new StringWriter();
 	    XMLOutputFactory xmlOutputFactory = XMLOutputFactory.newInstance();
@@ -172,7 +208,9 @@ public class UserManagementConnection {
 	    writer.close();
 	}
 	
-	
+	/**
+	 * SAXParser DefaultHandler für das Parsen von einem XML File mit den Benutzerdaten.
+	 */
 	public class UserHandler extends DefaultHandler2{
 		
 		private Map<String,User> usermap;	

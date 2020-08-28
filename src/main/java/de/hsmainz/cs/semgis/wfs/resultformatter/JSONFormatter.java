@@ -13,11 +13,18 @@ import org.json.JSONObject;
 
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
+/**
+ * Formats a query result to JSON.
+ */
 public class JSONFormatter extends WFSResultFormatter {
 
+	/**
+	 * Constructor for this class.
+	 */
 	public JSONFormatter() {
 		this.mimeType="application/json";
 		this.exposedType="application/json";
+		this.urlformat="jsonn";
 	}
 	
 	@Override

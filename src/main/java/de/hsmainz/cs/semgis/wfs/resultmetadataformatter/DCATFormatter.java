@@ -14,8 +14,16 @@ import org.json.JSONObject;
 
 import de.hsmainz.cs.semgis.wfs.util.XSLTTransformer;
 
+/**
+ * Formats metadata according to the GeoDCAT format.
+ * This class takes metadata formatted in the GMD standard and uses a XSLT stylesheet to convert the results to GeoDCAT.
+ *
+ */
 public class DCATFormatter extends ResultMetadataFormatter  {
 
+	/**
+	 * GMDFormatter to produce the initial GMD XML.
+	 */
 	GMDFormatter formatter=new GMDFormatter();
 	
 	@Override

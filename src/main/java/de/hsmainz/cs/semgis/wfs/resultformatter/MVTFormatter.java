@@ -10,6 +10,10 @@ import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
 public class MVTFormatter extends ResultFormatter {
 
+	public MVTFormatter() {
+		this.urlformat="mvt";
+	}
+	
 	@Override
 	public String formatter(ResultSet results, String startingElement, String featuretype, String propertytype,
 			String typeColumn, Boolean onlyproperty, Boolean onlyhits, String srsName, String indvar, String epsg,

@@ -28,6 +28,7 @@ public class GPXFormatter extends WFSResultFormatter {
 	public GPXFormatter() {
 		this.mimeType="application/xml";
 		this.exposedType="application/gpx";
+		this.urlformat="gpx";
 	}
 	
 	public void collectColumns(XMLStreamWriter writer,JSONObject obj,String nameprefix) throws JSONException, XMLStreamException {

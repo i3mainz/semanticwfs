@@ -12,6 +12,10 @@ import org.apache.jena.query.ResultSet;
 
 import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
 
+/**
+ * Formats styles according to the styled layer description definition.
+ *
+ */
 public class SLDFormatter extends ResultStyleFormatter {
 
 	@Override
@@ -63,6 +67,11 @@ public class SLDFormatter extends ResultStyleFormatter {
 			return exposedType;
 	}
 	
+	/**
+	 * Formats a cssliteral to an XML representation as needed by SLD.
+	 * @param writer the XMLWriter to use
+	 * @param cssString a String containing CSS definitions
+	 */
 	public void cssLiteralToXML(XMLStreamWriter writer,String cssString) {
 		Map<String,Map<String,String>> treemap=new TreeMap<>();
 		treemap.put("Fill",new TreeMap<>());

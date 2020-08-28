@@ -15,26 +15,22 @@ import org.apache.jena.rdf.model.ModelFactory;
 
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
-/**
- * Formats a query result to RDF/XML.
- *
- */
-public class RDFFormatter extends ResultFormatter{
+public class NQuadsFormatter extends ResultFormatter {
 
 	/**
 	 * Constructor for this class.
 	 */
-	public RDFFormatter() {
-		this.mimeType="application/rdf+xml";
-		this.exposedType="application/rdf+xml";
-		this.urlformat="rdfxml";
+	public NQuadsFormatter() {
+		this.mimeType="text/nq";
+		this.exposedType="text/nq";
+		this.urlformat="nq";
 	}
 	
 	@Override
 	public String formatter(ResultSet results, String startingElement, String featuretype, String propertytype,
 			String typeColumn, Boolean onlyproperty, Boolean onlyhits, String srsName, String indvar, String epsg,
-			List<String> eligiblenamespaces, List<String> noteligiblenamespaces, StyleObject mapstyle,Boolean alternativeFormat,Boolean invertXY)
-			throws XMLStreamException {
+			List<String> eligiblenamespaces, List<String> noteligiblenamespaces, StyleObject mapstyle,
+			Boolean alternativeFormat, Boolean invertXY) throws XMLStreamException {
 		ResultFormatter format = resultMap.get("ttl");
 		String ttl=format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,srsName,indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat,invertXY);
 		this.lastQueriedElemCount = format.lastQueriedElemCount;
@@ -43,7 +39,7 @@ public class RDFFormatter extends ResultFormatter{
 		model.read(result, null, "TTL");
 		System.out.println("RDF Formatter!!!!");
 		ByteArrayOutputStream bOutput = new ByteArrayOutputStream(12);
-		model.write(bOutput,"RDF/XML");
+		model.write(bOutput,"NQUADS");
 		try {
 			return new String(bOutput.toByteArray(), "UTF-8");
 		} catch (UnsupportedEncodingException e) {

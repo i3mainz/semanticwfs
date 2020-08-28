@@ -15,6 +15,7 @@ public class GeoHashFormatter extends WFSResultFormatter {
 	public GeoHashFormatter() {
 		this.mimeType="text/plain";
 		this.exposedType="application/geohash";
+		this.urlformat="geohash";
 	}
 	
 	@Override

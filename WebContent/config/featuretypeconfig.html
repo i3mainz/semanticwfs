@@ -53,12 +53,12 @@ $(document).ready( function () {
 			   featuretypeToEndPoint[result["datasets"][featuretype]["name"]]=result["datasets"][featuretype]["triplestore"]
 			   tablecontent+="<tr><td>"
 			   +result["datasets"][featuretype]["name"]+"</td><td>"
-			   +result["datasets"][featuretype]["query"]+"</td><td>"
-			   +result["datasets"][featuretype]["namespace"]+"</td><td>"
-			   +result["datasets"][featuretype]["namespacesmetadata"]+"</td><td>"
+			   +result["datasets"][featuretype]["query"]+"</td><td><a href=\""+result["datasets"][featuretype]["namespace"]+"\">"
+			   +result["datasets"][featuretype]["namespace"]+"</a></td><td><a href=\""+result["datasets"][featuretype]["namespacesmetadata"]+"\">"
+			   +result["datasets"][featuretype]["namespacesmetadata"]+"</a></td><td>"
 			   +result["datasets"][featuretype]["indvar"]+"</td><td>"
-			   +result["datasets"][featuretype]["targetCRS"]+"</td><td>"
-			   +result["datasets"][featuretype]["triplestore"]+"</td>"
+			   +result["datasets"][featuretype]["targetCRS"]+"</td><td><a href=\""+result["datasets"][featuretype]["triplestore"]+"\">"
+			   +result["datasets"][featuretype]["triplestore"]+"</a></td>"
 			   +"<td><i class=\"fa fa-pencil-square\" aria-hidden=\"true\"></i><i class=\"fa fa-minus-square\" aria-hidden=\"true\"></i> </td>"
 			   +"</tr>"
 		   }
