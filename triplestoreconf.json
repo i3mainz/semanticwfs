@@ -1,5 +1,10 @@
 {
 "name":"Triple Store Configuration",
+"prefixes":{
+"http://www.adv-online.de/namespaces/adv/gid/6.0#":"aaa6",
+"http://www.opengis.net/gml/3.2#":"gml",
+"http://www.wikidata.org/entity/":"wd"
+},
 "endpoints":{
 "https://query.wikidata.org/sparql":{"endpoint":"https://query.wikidata.org/sparql","epsg":4326, "name":"Wikidata","type":"http://www.wikidata.org/prop/direct/P31","geo":["http://www.wikidata.org/prop/direct/P625"],"bboxlimit":500},
 "https://dbpedia.org/sparql":{"endpoint":"https://dbpedia.org/sparql", "name":"DBPedia","epsg":4326, "type":"http://www.w3.org/1999/02/22-rdf-syntax-ns#type","geo":["http://www.w3.org/2003/01/geo/wgs84_pos#lat","http://www.w3.org/2003/01/geo/wgs84_pos#lon"],"bboxlimit":500},
