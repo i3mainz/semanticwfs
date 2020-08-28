@@ -163,7 +163,13 @@ public class WebService {
 			JSONObject featuretype = wfsconf.getJSONArray("datasets").getJSONObject(i);
 			JSONObject curobj=new JSONObject();
 			defs.put("/collections/"+featuretype.getString("name"), curobj);
-			curobj.put("get", new JSONObject());
+			JSONObject get=new JSONObject();
+			curobj.put("get", get);
+			get.put("summary", featuretype.getString("description"));
+			get.put("description", featuretype.getString("description"));
+			get.put("operationId", featuretype.getString("name"));
+			JSONObject parameters=new JSONObject();
+			get.put("parameters", parameters);
 		}
 	}
 
@@ -1258,7 +1264,7 @@ public class WebService {
 				link = new JSONObject();
 				link.put("rel", "alternate");
 				link.put("title", "This document as XML");
-				link.put("type", "text/xml");
+				link.put("type", "application/xml");
 				link.put("href", wfsconf.get("baseurl") + "/collections/"+curobj.getString("name")+"?f=gml");
 				colinks.put(link);
 				link = new JSONObject();
