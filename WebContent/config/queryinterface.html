@@ -206,7 +206,8 @@ function clearMap() {
 		$.getJSON("../rest/service/queryConfigs", function(result){
 	        options=""
 			for(featuretype in result){
-				   options+="<option value=\""+result[featuretype][0]["endpoint"]+"\">"+result[featuretype][0]["name"]+"</option>"
+				if(featuretype==$('#endpoints').val())
+					options+="<option value=\""+result[featuretype][0]["endpoint"]+"\">"+result[featuretype][0]["name"]+"</option>"
 			}
 	        $('#samplequeries').html(options);
 		});
