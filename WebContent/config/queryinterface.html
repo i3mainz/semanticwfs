@@ -206,7 +206,7 @@ function clearMap() {
 		$.getJSON("../rest/service/queryConfigs", function(result){
 	        options=""
 			for(featuretype in result){
-				if(featuretype==$('#endpoints').val())
+				if(featuretype==$('#dataset').val())
 					options+="<option value=\""+result[featuretype][0]["endpoint"]+"\">"+result[featuretype][0]["name"]+"</option>"
 			}
 	        $('#samplequeries').html(options);
