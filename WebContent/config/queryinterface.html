@@ -206,8 +206,11 @@ function clearMap() {
 		$.getJSON("../rest/service/queryConfigs", function(result){
 	        options=""
 			for(featuretype in result){
-				if(featuretype==$('#dataset').val())
-					options+="<option value=\""+result[featuretype][0]["endpoint"]+"\">"+result[featuretype][0]["name"]+"</option>"
+				if(featuretype==$('#dataset').val()){
+					for(query in result[featuretype]){
+						options+="<option value=\""+result[featuretype][query]["endpoint"]+" LIMIT 100\">"+result[featuretype][query]["name"]+"</option>"
+					}
+				}
 			}
 	        $('#samplequeries').html(options);
 		});
