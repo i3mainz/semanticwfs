@@ -202,17 +202,15 @@ function clearMap() {
         $('#queryinput').val(queryString+" LIMIT 10");
   }
 	  	
-  $(document).ready( function () {
-	    
-		$.getJSON("../rest/service/getEndpoints", function(result){
+  function loadSampleQueries(){
+		$.getJSON("../rest/service/queryConfigs", function(result){
 	        options=""
-			   for(featuretype in result["endpoints"]){
-				   options+="<option value=\""+result["endpoints"][featuretype]["endpoint"]+"\">"+result["endpoints"][featuretype]["name"]+"</option>"
-			   }
-	        endpoints=result["endpoints"]
-	        $('#endpointselect').html(options);
-			});
-	});
+			for(featuretype in result){
+				   options+="<option value=\""+result[featuretype]["endpoint"]+"\">"+result[featuretype]["name"]+"</option>"
+			}
+	        $('#samplequeries').html(options);
+		});
+  }
         
   function refreshQueries(){
       $('#samplequeries').html(tripleStoreToQueries[$('#dataset').val()]);
@@ -264,7 +262,7 @@ $( document ).ready(function() {
 <br/>
 <textarea id="queryinput" rows=16 cols=45>
 </textarea><br/>
-<select id="dataset">
+<select id="dataset" onChange="loadSampleQueries()">
 </select>
 <br/>
 <b>Note: </b> Query variables ending in "_geom" are rendered in the map view.
