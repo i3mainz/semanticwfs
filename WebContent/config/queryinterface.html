@@ -208,7 +208,7 @@ function clearMap() {
 			for(featuretype in result){
 				if(featuretype==$('#dataset').val()){
 					for(query in result[featuretype]){
-						options+="<option value=\""+result[featuretype][query]["endpoint"]+" LIMIT 100\">"+result[featuretype][query]["name"]+"</option>"
+						options+="<option value=\""+result[featuretype][query]["query"]+" LIMIT 100\">"+result[featuretype][query]["name"]+"</option>"
 					}
 				}
 			}
