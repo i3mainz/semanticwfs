@@ -115,10 +115,10 @@ function clearMap() {
         for(obj in json["features"]){
         	table+="<tr><td>"+i+++"</td>"
         	for(variable in json["features"][obj]){
-        		if(json[["features"][obj][variable].startsWith("http") || json[["features"][obj][variable].startsWith("https")){
-            		table+="<td><a href=\""+json[["features"][obj][variable]+"\" target=\"_blank\">"+json[["features"][obj][variable]+"</a></td>"
+        		if(json["features"][obj][variable].startsWith("http") || json["features"][obj][variable].startsWith("https")){
+            		table+="<td><a href=\""+json["features"][obj][variable]+"\" target=\"_blank\">"+json["features"][obj][variable]+"</a></td>"
         		}else{
-            		table+="<td>"+json[["features"][obj][variable]+"</td>"        			
+            		table+="<td>"+json["features"][obj][variable]+"</td>"        			
         		}
         	}
         	table+="</tr>"
