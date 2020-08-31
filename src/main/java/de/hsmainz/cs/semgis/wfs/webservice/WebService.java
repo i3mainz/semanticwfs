@@ -586,14 +586,47 @@ public class WebService {
 		}
 		return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 	}
+	
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON})
+	@Path("/collections")
+	@Operation(
+            summary = "Returns a list of feature types/collections",
+            description = "Returns a list of feature types/collections")
+	public Response collectionsJSON(
+			@Parameter(description="Return format") @DefaultValue("json") @QueryParam("f") String format) {
+		return collections(format);
+	}
 
+	@GET
+	@Produces({ MediaType.APPLICATION_XML})
+	@Path("/collections")
+	@Operation(
+            summary = "Returns a list of feature types/collections",
+            description = "Returns a list of feature types/collections")
+	public Response collectionsXML(
+			@Parameter(description="Return format") @DefaultValue("xml") @QueryParam("f") String format) {
+		return collections(format);
+	}
+
+	@GET
+	@Produces({ MediaType.TEXT_HTML})
+	@Path("/collections")
+	@Operation(
+            summary = "Returns a list of feature types/collections",
+            description = "Returns a list of feature types/collections")
+	public Response collectionsHTML(
+			@Parameter(description="Return format") @DefaultValue("html") @QueryParam("f") String format) {
+		return collections(format);
+	}
+	
 	/**
 	 * Returns a list of feature types/collections. 
 	 * @param format The format in which the result is returned
 	 * @return The result as String
 	 */
 	@GET
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
+	@Produces({ MediaType.TEXT_PLAIN })
 	@Path("/collections")
 	@Operation(
             summary = "Returns a list of feature types/collections",
@@ -1558,6 +1591,51 @@ public class WebService {
 		}
 	}
 
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON })
+	@Path("/collections/{collectionid}")
+	@Operation(
+            summary = "Returns a given collection description or parts of it",
+            description = "Returns a given collection in a specified format which conform to certain criteria")
+	public Response collectionInformationJSON(
+			@Parameter(description="The id of the collection to be considered") @PathParam("collectionid") String collectionid,
+			@Parameter(description="The format in which the collection should be returned",example="geojson") @DefaultValue("json") @QueryParam("f") String format,  
+			@Parameter(description="The maximum amount of features to be returned", example="10") @DefaultValue("10") @QueryParam("limit") String limit,
+			@Parameter(description="An offset to be considered when returning features",example="10") @DefaultValue("0") @QueryParam("offset") String offset,
+			@Parameter(description="Defines a bounding box from which to return the given features") @QueryParam("bbox") String bbox) {
+		return collectionInformation(collectionid, format, limit, offset, bbox);
+	}
+
+	@GET
+	@Produces({ MediaType.APPLICATION_XML })
+	@Path("/collections/{collectionid}")
+	@Operation(
+            summary = "Returns a given collection description or parts of it",
+            description = "Returns a given collection in a specified format which conform to certain criteria")
+	public Response collectionInformationXML(
+			@Parameter(description="The id of the collection to be considered") @PathParam("collectionid") String collectionid,
+			@Parameter(description="The format in which the collection should be returned",example="geojson") @DefaultValue("xml") @QueryParam("f") String format,  
+			@Parameter(description="The maximum amount of features to be returned", example="10") @DefaultValue("10") @QueryParam("limit") String limit,
+			@Parameter(description="An offset to be considered when returning features",example="10") @DefaultValue("0") @QueryParam("offset") String offset,
+			@Parameter(description="Defines a bounding box from which to return the given features") @QueryParam("bbox") String bbox) {
+		return collectionInformation(collectionid, format, limit, offset, bbox);
+	}
+
+	@GET
+	@Produces({ MediaType.TEXT_HTML })
+	@Path("/collections/{collectionid}")
+	@Operation(
+            summary = "Returns a given collection description or parts of it",
+            description = "Returns a given collection in a specified format which conform to certain criteria")
+	public Response collectionInformationHTML(
+			@Parameter(description="The id of the collection to be considered") @PathParam("collectionid") String collectionid,
+			@Parameter(description="The format in which the collection should be returned",example="geojson") @DefaultValue("html") @QueryParam("f") String format,  
+			@Parameter(description="The maximum amount of features to be returned", example="10") @DefaultValue("10") @QueryParam("limit") String limit,
+			@Parameter(description="An offset to be considered when returning features",example="10") @DefaultValue("0") @QueryParam("offset") String offset,
+			@Parameter(description="Defines a bounding box from which to return the given features") @QueryParam("bbox") String bbox) {
+		return collectionInformation(collectionid, format, limit, offset, bbox);
+	}
+	
 	/**
 	 * Returns a given collection description or parts of it.
 	 * @param collectionid The id of the collection to be considered
@@ -1568,7 +1646,7 @@ public class WebService {
 	 * @return The collection description as String
 	 */
 	@GET
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
+	@Produces({MediaType.TEXT_PLAIN })
 	@Path("/collections/{collectionid}")
 	@Operation(
             summary = "Returns a given collection description or parts of it",
@@ -2037,13 +2115,43 @@ public class WebService {
 	}
 
 	
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON })
+	@Path("/conformance")
+	@Operation(
+            summary = "Returns a conformance description",
+            description = "Returns a conformance description in a given dataformat")
+	public Response conformanceJSON(@Parameter(description="The format of the conformance page") @DefaultValue("json") @QueryParam("f") String format) {
+		return conformance(format);
+	}
+
+	@GET
+	@Produces({ MediaType.APPLICATION_XML })
+	@Path("/conformance")
+	@Operation(
+            summary = "Returns a conformance description",
+            description = "Returns a conformance description in a given dataformat")
+	public Response conformanceXML(@Parameter(description="The format of the conformance page") @DefaultValue("xml") @QueryParam("f") String format) {
+		return conformance(format);
+	}
+	
+	@GET
+	@Produces({ MediaType.TEXT_HTML })
+	@Path("/conformance")
+	@Operation(
+            summary = "Returns a conformance description",
+            description = "Returns a conformance description in a given dataformat")
+	public Response conformanceHTML(@Parameter(description="The format of the conformance page") @DefaultValue("html") @QueryParam("f") String format) {
+		return conformance(format);
+	}
+	
 	/**
 	 * Gets conformance information about the OGC API Features service.
 	 * @param format The return format for the conformance declaration
 	 * @return The conformance declaration as String 
 	 */
 	@GET
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
+	@Produces({ MediaType.TEXT_PLAIN })
 	@Path("/conformance")
 	@Operation(
             summary = "Returns a conformance description",
