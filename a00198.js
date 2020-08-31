@@ -1,7 +1,6 @@
 var a00198 =
 [
-    [ "user", "a00199.html", "a00199" ],
-    [ "AbstractTransformer", "a00424.html", "a00424" ],
-    [ "Tuple", "a00428.html", "a00428" ],
-    [ "XSLTTransformer", "a00448.html", "a00448" ]
+    [ "DCATFormatter", "a00383.html", "a00383" ],
+    [ "GMDFormatter", "a00387.html", "a00387" ],
+    [ "ResultMetadataFormatter", "a00391.html", "a00391" ]
 ];

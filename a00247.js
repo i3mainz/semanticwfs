@@ -1,6 +1,6 @@
 var a00247 =
 [
-    [ "GeoJSONLDFormatter", "a00247.html#a6e6ac0b7e7f5c301c4f4be738e37d065", null ],
+    [ "CSVFormatter", "a00247.html#ad05667ae15b908cbd8951b3cdd299d23", null ],
     [ "[static initializer]", "a00247.html#a2e87c5ede6b7235170d287cd2e254454", null ],
     [ "formatFooter", "a00247.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00247.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
@@ -9,6 +9,7 @@ var a00247 =
     [ "contextMapper", "a00247.html#ae7316c0c7550712f915cc3cd353cd981", null ],
     [ "exposedType", "a00247.html#aa6a844c9b01d97aca583be867a1c5413", null ],
     [ "featureType", "a00247.html#aba4867b615c0892cdae42bc4fd982639", null ],
+    [ "label", "a00247.html#aec69fbfab86b7473c3e6ccea79368f0f", null ],
     [ "lastQueriedElemCount", "a00247.html#a1ce6ef499b64cec5981912a236baa199", null ],
     [ "mimeType", "a00247.html#a09c78e464072ccab667894f0d179fbdf", null ],
     [ "resultMap", "a00247.html#ad4dc7a6c041435f4beebcc9e95620641", null ],

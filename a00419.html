@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>semanticwfs: UserManagementConnection.UserHandler Class Reference</title>
+<title>semanticwfs: SLDFormatter Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,64 +62,121 @@ $(document).ready(function(){initNavTree('a00419.html','');});
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pri-attribs">Private Attributes</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
+<a href="#pac-static-methods">Static Package Functions</a> &#124;
 <a href="a00416.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">UserManagementConnection.UserHandler Class Reference</div>  </div>
+<div class="title">SLDFormatter Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>SAXParser DefaultHandler für das Parsen von einem XML File mit den Benutzerdaten.  
+<p>Formats styles according to the styled layer description definition.  
  <a href="a00419.html#details">More...</a></p>
 <div class="dynheader">
-Inheritance diagram for UserManagementConnection.UserHandler:</div>
+Inheritance diagram for SLDFormatter:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00418.png" border="0" usemap="#UserManagementConnection_8UserHandler_inherit__map" alt="Inheritance graph"/></div>
-<map name="UserManagementConnection_8UserHandler_inherit__map" id="UserManagementConnection_8UserHandler_inherit__map">
+<div class="center"><img src="a00418.png" border="0" usemap="#SLDFormatter_inherit__map" alt="Inheritance graph"/></div>
+<map name="SLDFormatter_inherit__map" id="SLDFormatter_inherit__map">
+<area shape="rect" id="node2" href="a00411.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="5,5,152,32"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
-Collaboration diagram for UserManagementConnection.UserHandler:</div>
+Collaboration diagram for SLDFormatter:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00417.png" border="0" usemap="#UserManagementConnection_8UserHandler_coll__map" alt="Collaboration graph"/></div>
-<map name="UserManagementConnection_8UserHandler_coll__map" id="UserManagementConnection_8UserHandler_coll__map">
+<div class="center"><img src="a00417.png" border="0" usemap="#SLDFormatter_coll__map" alt="Collaboration graph"/></div>
+<map name="SLDFormatter_coll__map" id="SLDFormatter_coll__map">
+<area shape="rect" id="node2" href="a00411.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="883,71,1029,97"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ace4093c99bfc2335d3f62e8462c5f617"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00419.html#ace4093c99bfc2335d3f62e8462c5f617">UserHandler</a> (Map&lt; String, <a class="el" href="a00411.html">User</a> &gt; <a class="el" href="a00419.html#aa9a8e665b15de301f51452a7cbf9e1a2">usermap</a>, Map&lt; String, <a class="el" href="a00411.html">User</a> &gt; <a class="el" href="a00419.html#aede1517d7d9e17e872007b2eadb1e2bc">uuidToUser</a>)</td></tr>
-<tr class="separator:ace4093c99bfc2335d3f62e8462c5f617"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a52aa6a4a46b095e76667923bcbb5e19a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00419.html#a52aa6a4a46b095e76667923bcbb5e19a">startElement</a> (String arg0, String arg1, String arg2, Attributes arg3)  throws SAXException </td></tr>
-<tr class="separator:a52aa6a4a46b095e76667923bcbb5e19a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6561dcf48f63c199d693d5ed6c739dc0"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00419.html#a6561dcf48f63c199d693d5ed6c739dc0">formatter</a> (ResultSet results, String featuretype)  throws XMLStreamException </td></tr>
+<tr class="separator:a6561dcf48f63c199d693d5ed6c739dc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55fcfd9f7a5a77f5f73f89e01db155b7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00419.html#a55fcfd9f7a5a77f5f73f89e01db155b7">cssLiteralToXML</a> (XMLStreamWriter writer, String cssString)</td></tr>
+<tr class="memdesc:a55fcfd9f7a5a77f5f73f89e01db155b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Formats a cssliteral to an XML representation as needed by SLD.  <a href="#a55fcfd9f7a5a77f5f73f89e01db155b7">More...</a><br /></td></tr>
+<tr class="separator:a55fcfd9f7a5a77f5f73f89e01db155b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa353aab5dee656d3508d8aa8f520edbb"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00419.html#aa353aab5dee656d3508d8aa8f520edbb">formatGeometry</a> (String geometrytype, <a class="el" href="a00423.html">StyleObject</a> style)</td></tr>
+<tr class="separator:aa353aab5dee656d3508d8aa8f520edbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abaa077ed79fcfd5a2279597e3f324c64"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00411.html#abaa077ed79fcfd5a2279597e3f324c64">formatHeader</a> ()</td></tr>
+<tr class="separator:abaa077ed79fcfd5a2279597e3f324c64"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af149b280d2c9bcc76f05c6a1c291d30f"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00411.html#af149b280d2c9bcc76f05c6a1c291d30f">formatFooter</a> ()</td></tr>
+<tr class="separator:af149b280d2c9bcc76f05c6a1c291d30f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
-Private Attributes</h2></td></tr>
-<tr class="memitem:aa9a8e665b15de301f51452a7cbf9e1a2"><td class="memItemLeft" align="right" valign="top">Map&lt; String, <a class="el" href="a00411.html">User</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00419.html#aa9a8e665b15de301f51452a7cbf9e1a2">usermap</a></td></tr>
-<tr class="separator:aa9a8e665b15de301f51452a7cbf9e1a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aede1517d7d9e17e872007b2eadb1e2bc"><td class="memItemLeft" align="right" valign="top">Map&lt; String, <a class="el" href="a00411.html">User</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00419.html#aede1517d7d9e17e872007b2eadb1e2bc">uuidToUser</a></td></tr>
-<tr class="separator:aede1517d7d9e17e872007b2eadb1e2bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a91715aa5eef12ebcf3ea95d7493b9084"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="a00411.html">ResultStyleFormatter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00411.html#a91715aa5eef12ebcf3ea95d7493b9084">getFormatter</a> (String formatString)</td></tr>
+<tr class="memdesc:a91715aa5eef12ebcf3ea95d7493b9084"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a style formatter for a chosen style type.  <a href="#a91715aa5eef12ebcf3ea95d7493b9084">More...</a><br /></td></tr>
+<tr class="separator:a91715aa5eef12ebcf3ea95d7493b9084"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:a1ce6ef499b64cec5981912a236baa199"><td class="memItemLeft" align="right" valign="top">Integer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00411.html#a1ce6ef499b64cec5981912a236baa199">lastQueriedElemCount</a> =0</td></tr>
+<tr class="separator:a1ce6ef499b64cec5981912a236baa199"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09c78e464072ccab667894f0d179fbdf"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00411.html#a09c78e464072ccab667894f0d179fbdf">mimeType</a> =&quot;text/plain&quot;</td></tr>
+<tr class="separator:a09c78e464072ccab667894f0d179fbdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6a844c9b01d97aca583be867a1c5413"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00411.html#aa6a844c9b01d97aca583be867a1c5413">exposedType</a> =&quot;application/vnd.geo+json&quot;</td></tr>
+<tr class="separator:aa6a844c9b01d97aca583be867a1c5413"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e9232fc24a04d17c4a31141d78cb0ca"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00411.html#a8e9232fc24a04d17c4a31141d78cb0ca">styleAttribute</a> =&quot;&quot;</td></tr>
+<tr class="separator:a8e9232fc24a04d17c4a31141d78cb0ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
+Static Public Attributes</h2></td></tr>
+<tr class="memitem:a54c9d791b2138017b960a7cf457b5fd2"><td class="memItemLeft" align="right" valign="top">static Map&lt; String, <a class="el" href="a00411.html">ResultStyleFormatter</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00411.html#a54c9d791b2138017b960a7cf457b5fd2">resultMap</a> =new TreeMap&lt;String, <a class="el" href="a00411.html">ResultStyleFormatter</a>&gt;()</td></tr>
+<tr class="separator:a54c9d791b2138017b960a7cf457b5fd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pac-static-methods"></a>
+Static Package Functions</h2></td></tr>
+<tr class="memitem:a2e87c5ede6b7235170d287cd2e254454"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00411.html#a2e87c5ede6b7235170d287cd2e254454">[static initializer]</a></td></tr>
+<tr class="separator:a2e87c5ede6b7235170d287cd2e254454"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>SAXParser DefaultHandler für das Parsen von einem XML File mit den Benutzerdaten. </p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ace4093c99bfc2335d3f62e8462c5f617"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ace4093c99bfc2335d3f62e8462c5f617">&#9670;&nbsp;</a></span>UserHandler()</h2>
+<div class="textblock"><p>Formats styles according to the styled layer description definition. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a2e87c5ede6b7235170d287cd2e254454"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e87c5ede6b7235170d287cd2e254454">&#9670;&nbsp;</a></span>[static initializer]()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">[static initializer] </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">package</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a55fcfd9f7a5a77f5f73f89e01db155b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a55fcfd9f7a5a77f5f73f89e01db155b7">&#9670;&nbsp;</a></span>cssLiteralToXML()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="a00419.html">UserHandler</a> </td>
+          <td class="memname">void cssLiteralToXML </td>
           <td>(</td>
-          <td class="paramtype">Map&lt; String, <a class="el" href="a00411.html">User</a> &gt;&#160;</td>
-          <td class="paramname"><em>usermap</em>, </td>
+          <td class="paramtype">XMLStreamWriter&#160;</td>
+          <td class="paramname"><em>writer</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Map&lt; String, <a class="el" href="a00411.html">User</a> &gt;&#160;</td>
-          <td class="paramname"><em>uuidToUser</em>&#160;</td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>cssString</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -129,60 +186,172 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="reference">References <a class="el" href="a00419.html#aa9a8e665b15de301f51452a7cbf9e1a2">UserManagementConnection.UserHandler.usermap</a>, and <a class="el" href="a00419.html#aede1517d7d9e17e872007b2eadb1e2bc">UserManagementConnection.UserHandler.uuidToUser</a>.</p>
-<div class="fragment"><div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;                                                                                        {</div><div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;                        this.<a class="code" href="a00419.html#aa9a8e665b15de301f51452a7cbf9e1a2">usermap</a>=<a class="code" href="a00419.html#aa9a8e665b15de301f51452a7cbf9e1a2">usermap</a>;</div><div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;                        this.<a class="code" href="a00419.html#aede1517d7d9e17e872007b2eadb1e2bc">uuidToUser</a>=<a class="code" href="a00419.html#aede1517d7d9e17e872007b2eadb1e2bc">uuidToUser</a>;</div><div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;                }</div><div class="ttc" id="a00419_html_aa9a8e665b15de301f51452a7cbf9e1a2"><div class="ttname"><a href="a00419.html#aa9a8e665b15de301f51452a7cbf9e1a2">de.hsmainz.cs.semgis.wfs.util.user.UserManagementConnection.UserHandler.usermap</a></div><div class="ttdeci">Map&lt; String, User &gt; usermap</div><div class="ttdef"><b>Definition:</b> UserManagementConnection.java:216</div></div>
-<div class="ttc" id="a00419_html_aede1517d7d9e17e872007b2eadb1e2bc"><div class="ttname"><a href="a00419.html#aede1517d7d9e17e872007b2eadb1e2bc">de.hsmainz.cs.semgis.wfs.util.user.UserManagementConnection.UserHandler.uuidToUser</a></div><div class="ttdeci">Map&lt; String, User &gt; uuidToUser</div><div class="ttdef"><b>Definition:</b> UserManagementConnection.java:218</div></div>
-</div><!-- fragment -->
+<p>Formats a cssliteral to an XML representation as needed by SLD. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">writer</td><td>the XMLWriter to use </td></tr>
+    <tr><td class="paramname">cssString</td><td>a String containing CSS definitions </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="reference">Referenced by <a class="el" href="a00419.html#a6561dcf48f63c199d693d5ed6c739dc0">SLDFormatter.formatter()</a>.</p>
+<div class="fragment"><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                                                                             {</div><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                Map&lt;String,Map&lt;String,String&gt;&gt; treemap=<span class="keyword">new</span> TreeMap&lt;&gt;();</div><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                treemap.put(<span class="stringliteral">&quot;Fill&quot;</span>,<span class="keyword">new</span> TreeMap&lt;&gt;());</div><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                treemap.put(<span class="stringliteral">&quot;Stroke&quot;</span>,<span class="keyword">new</span> TreeMap&lt;&gt;());</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                <span class="keywordflow">if</span>(cssString.contains(<span class="stringliteral">&quot;;&quot;</span>)) {</div><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                        <span class="keywordflow">for</span>(String statement:cssString.split(<span class="stringliteral">&quot;;&quot;</span>)) {</div><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                                String[] split=statement.split(<span class="stringliteral">&quot;:&quot;</span>);</div><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                                <span class="keywordflow">if</span>(split[0].contains(<span class="stringliteral">&quot;stroke&quot;</span>)) {</div><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                                        treemap.get(<span class="stringliteral">&quot;Stroke&quot;</span>).put(split[0],split[1]);</div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                                }<span class="keywordflow">else</span> <span class="keywordflow">if</span>(split[0].contains(<span class="stringliteral">&quot;fill&quot;</span>)) {</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                                        treemap.get(<span class="stringliteral">&quot;Fill&quot;</span>).put(split[0],split[1]);</div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                                }</div><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                        }</div><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                        <span class="keywordflow">for</span>(String key:treemap.keySet()) {</div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                                <span class="keywordflow">try</span> {</div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                                        writer.writeStartElement(<span class="stringliteral">&quot;sld:&quot;</span>+key);</div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                                        <span class="keywordflow">for</span>(String keyy:treemap.get(key).keySet()) {</div><div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                                                writer.writeStartElement(<span class="stringliteral">&quot;sld:CssParameter&quot;</span>);</div><div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                                                writer.writeAttribute(<span class="stringliteral">&quot;name&quot;</span>, keyy);</div><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                                                writer.writeStartElement(<span class="stringliteral">&quot;ogc:Literal&quot;</span>);</div><div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                                                writer.writeCharacters(treemap.get(key).get(keyy));</div><div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                                                writer.writeEndElement();</div><div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                                                writer.writeEndElement();</div><div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                                        }</div><div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                                        writer.writeEndElement();</div><div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                                } <span class="keywordflow">catch</span> (XMLStreamException e) {</div><div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                                        <span class="comment">// TODO Auto-generated catch block</span></div><div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                                        e.printStackTrace();</div><div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                                }</div><div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                                </div><div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                        }</div><div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                }</div><div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a id="a52aa6a4a46b095e76667923bcbb5e19a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a52aa6a4a46b095e76667923bcbb5e19a">&#9670;&nbsp;</a></span>startElement()</h2>
+<a id="af149b280d2c9bcc76f05c6a1c291d30f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af149b280d2c9bcc76f05c6a1c291d30f">&#9670;&nbsp;</a></span>formatFooter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">String formatFooter </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="reference">References <a class="el" href="a00411.html#a3770f80b7c98a8315479f697590303a3">ResultStyleFormatter.formatGeometry()</a>.</p>
+<div class="fragment"><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                                     {</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                <span class="keywordflow">return</span> <span class="stringliteral">&quot;&quot;</span>;</div><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        }</div></div><!-- fragment -->
+</div>
+</div>
+<a id="aa353aab5dee656d3508d8aa8f520edbb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa353aab5dee656d3508d8aa8f520edbb">&#9670;&nbsp;</a></span>formatGeometry()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void startElement </td>
+          <td class="memname">String formatGeometry </td>
           <td>(</td>
           <td class="paramtype">String&#160;</td>
-          <td class="paramname"><em>arg0</em>, </td>
+          <td class="paramname"><em>geometrytype</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">String&#160;</td>
-          <td class="paramname"><em>arg1</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">String&#160;</td>
-          <td class="paramname"><em>arg2</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Attributes&#160;</td>
-          <td class="paramname"><em>arg3</em>&#160;</td>
+          <td class="paramtype"><a class="el" href="a00423.html">StyleObject</a>&#160;</td>
+          <td class="paramname"><em>style</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td> throws SAXException</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="fragment"><div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;                                                                            {</div><div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                <span class="comment">// TODO Auto-generated method stub</span></div><div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                <span class="keywordflow">return</span> null;</div><div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        }</div></div><!-- fragment -->
+</div>
+</div>
+<a id="abaa077ed79fcfd5a2279597e3f324c64"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abaa077ed79fcfd5a2279597e3f324c64">&#9670;&nbsp;</a></span>formatHeader()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">String formatHeader </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="fragment"><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                                     {</div><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                <span class="keywordflow">return</span> <span class="stringliteral">&quot;&quot;</span>;</div><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        }</div></div><!-- fragment -->
+</div>
+</div>
+<a id="a6561dcf48f63c199d693d5ed6c739dc0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6561dcf48f63c199d693d5ed6c739dc0">&#9670;&nbsp;</a></span>formatter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">String formatter </td>
+          <td>(</td>
+          <td class="paramtype">ResultSet&#160;</td>
+          <td class="paramname"><em>results</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>featuretype</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> throws XMLStreamException</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="reference">References <a class="el" href="a00411.html#a78ee178b6a73658d65ca60da4d1e6683">User.getName()</a>, <a class="el" href="a00411.html#ad737b36b74be994e0d8420797ed72f78">User.setName()</a>, <a class="el" href="a00411.html#ab42766057b552ea996700449134f9cbc">User.setPasswordHash()</a>, <a class="el" href="a00411.html#a88905b6b42ce4b96ec3b566b0a0175b6">User.setUserlevel()</a>, and <a class="el" href="a00411.html#ad350ca8c3bc925b553ffbd5905739440">User.setUuid()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;                                                                                                                     {</div><div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;                        super.startElement(arg0, arg1, arg2, arg3);</div><div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;                        <span class="keywordflow">if</span>(arg2.equals(<span class="stringliteral">&quot;user&quot;</span>)){</div><div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;                                User user=<span class="keyword">new</span> User();</div><div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;                                user.setName(arg3.getValue(<span class="stringliteral">&quot;name&quot;</span>));</div><div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;                                user.setPasswordHash(arg3.getValue(<span class="stringliteral">&quot;password&quot;</span>));</div><div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;                                user.setUserlevel(UserType.valueOf(arg3.getValue(<span class="stringliteral">&quot;level&quot;</span>)));</div><div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;                                user.setUuid(arg3.getValue(<span class="stringliteral">&quot;uuid&quot;</span>));</div><div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;                                this.<a class="code" href="a00419.html#aa9a8e665b15de301f51452a7cbf9e1a2">usermap</a>.put(user.getName(),user);</div><div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;                                this.<a class="code" href="a00419.html#aede1517d7d9e17e872007b2eadb1e2bc">uuidToUser</a>.put(arg3.getValue(<span class="stringliteral">&quot;uuid&quot;</span>),user);</div><div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;                        }</div><div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;                }</div><div class="ttc" id="a00419_html_aa9a8e665b15de301f51452a7cbf9e1a2"><div class="ttname"><a href="a00419.html#aa9a8e665b15de301f51452a7cbf9e1a2">de.hsmainz.cs.semgis.wfs.util.user.UserManagementConnection.UserHandler.usermap</a></div><div class="ttdeci">Map&lt; String, User &gt; usermap</div><div class="ttdef"><b>Definition:</b> UserManagementConnection.java:216</div></div>
-<div class="ttc" id="a00419_html_aede1517d7d9e17e872007b2eadb1e2bc"><div class="ttname"><a href="a00419.html#aede1517d7d9e17e872007b2eadb1e2bc">de.hsmainz.cs.semgis.wfs.util.user.UserManagementConnection.UserHandler.uuidToUser</a></div><div class="ttdeci">Map&lt; String, User &gt; uuidToUser</div><div class="ttdef"><b>Definition:</b> UserManagementConnection.java:218</div></div>
+<p class="reference">References <a class="el" href="a00419.html#a55fcfd9f7a5a77f5f73f89e01db155b7">SLDFormatter.cssLiteralToXML()</a>, and <a class="el" href="a00411.html#aa6a844c9b01d97aca583be867a1c5413">ResultStyleFormatter.exposedType</a>.</p>
+<div class="fragment"><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;                                                                                                {</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                StringWriter strwriter = <span class="keyword">new</span> StringWriter();</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                XMLOutputFactory output = XMLOutputFactory.newInstance();</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                XMLStreamWriter writer;</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                        writer = <span class="keyword">new</span> IndentingXMLStreamWriter(output.createXMLStreamWriter(strwriter));</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                        writer.writeStartDocument();</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                        writer.writeAttribute(<span class="stringliteral">&quot;xmlns&quot;</span>, <span class="stringliteral">&quot;http://www.opengis.net/ogcapi-features-1/1.0&quot;</span>);</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                        writer.writeAttribute(<span class="stringliteral">&quot;xmlns:sld&quot;</span>, <span class="stringliteral">&quot;http://www.opengis.net/sld&quot;</span>);</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                        writer.writeAttribute(<span class="stringliteral">&quot;xmlns:ogc&quot;</span>, <span class="stringliteral">&quot;http://www.opengis.net/ogc&quot;</span>);</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                        writer.writeAttribute(<span class="stringliteral">&quot;xmlns:xlink&quot;</span>, <span class="stringliteral">&quot;http://www.w3.org/1999/xlink&quot;</span>);</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                        writer.writeAttribute(<span class="stringliteral">&quot;xmlns:gml&quot;</span>, <span class="stringliteral">&quot;http://www.opengis.net/gml&quot;</span>);</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                        writer.writeAttribute(<span class="stringliteral">&quot;xmlns:xsi&quot;</span>,<span class="stringliteral">&quot;http://www.w3.org/1999/xlink&quot;</span>);</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                        writer.writeAttribute(<span class="stringliteral">&quot;version&quot;</span>,<span class="stringliteral">&quot;1.0.0&quot;</span>);</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                        writer.writeStartElement(<span class="stringliteral">&quot;sld:UserStyle&quot;</span>);</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                        writer.writeStartElement(<span class="stringliteral">&quot;sld:Name&quot;</span>);</div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                        writer.writeCharacters(featuretype+<span class="stringliteral">&quot; Style&quot;</span>);</div><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                        writer.writeEndElement();</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                        writer.writeStartElement(<span class="stringliteral">&quot;sld:Title&quot;</span>);</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                        writer.writeCharacters(featuretype+<span class="stringliteral">&quot; Style&quot;</span>);</div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                        writer.writeEndElement();</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                        writer.writeStartElement(<span class="stringliteral">&quot;sld:Abstract&quot;</span>);</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                        writer.writeCharacters(<span class="stringliteral">&quot;&quot;</span>);</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                        writer.writeEndElement();</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                        writer.writeStartElement(<span class="stringliteral">&quot;sld:IsDefault&quot;</span>);</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                        writer.writeCharacters(<span class="stringliteral">&quot;1&quot;</span>);</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                        writer.writeEndElement();</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                        writer.writeStartElement(<span class="stringliteral">&quot;sld:FeatureTypeStyle&quot;</span>);</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                        writer.writeStartElement(<span class="stringliteral">&quot;sld:Name&quot;</span>);</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                        writer.writeEndElement();</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                        writer.writeStartElement(<span class="stringliteral">&quot;sld:Title&quot;</span>);</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                        writer.writeEndElement();</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                        writer.writeStartElement(<span class="stringliteral">&quot;sld:Abstract&quot;</span>);</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                        writer.writeEndElement();</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                        writer.writeStartElement(<span class="stringliteral">&quot;sld:FeatureTypeName&quot;</span>);</div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                        writer.writeCharacters(featuretype);</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                        writer.writeEndElement();</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                        writer.writeStartElement(<span class="stringliteral">&quot;sld:SemanticTypeIdentifier&quot;</span>);</div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                        writer.writeCharacters(<span class="stringliteral">&quot;generic:geometry&quot;</span>);</div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                        writer.writeEndElement();</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                        writer.writeStartElement(<span class="stringliteral">&quot;sld:Rule&quot;</span>);</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                        writer.writeStartElement(<span class="stringliteral">&quot;sld:PolygonSymbolizer&quot;</span>);</div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                        <a class="code" href="a00419.html#a55fcfd9f7a5a77f5f73f89e01db155b7">cssLiteralToXML</a>(writer, <span class="stringliteral">&quot;&quot;</span>);</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                        writer.writeEndElement();</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                        writer.writeEndElement();</div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                        writer.writeEndElement();</div><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                        <span class="keywordflow">return</span> <a class="code" href="a00411.html#aa6a844c9b01d97aca583be867a1c5413">exposedType</a>;</div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        }</div><div class="ttc" id="a00419_html_a55fcfd9f7a5a77f5f73f89e01db155b7"><div class="ttname"><a href="a00419.html#a55fcfd9f7a5a77f5f73f89e01db155b7">de.hsmainz.cs.semgis.wfs.resultstyleformatter.SLDFormatter.cssLiteralToXML</a></div><div class="ttdeci">void cssLiteralToXML(XMLStreamWriter writer, String cssString)</div><div class="ttdoc">Formats a cssliteral to an XML representation as needed by SLD. </div><div class="ttdef"><b>Definition:</b> SLDFormatter.java:75</div></div>
+<div class="ttc" id="a00411_html_aa6a844c9b01d97aca583be867a1c5413"><div class="ttname"><a href="a00411.html#aa6a844c9b01d97aca583be867a1c5413">de.hsmainz.cs.semgis.wfs.resultstyleformatter.ResultStyleFormatter.exposedType</a></div><div class="ttdeci">String exposedType</div><div class="ttdef"><b>Definition:</b> ResultStyleFormatter.java:22</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a91715aa5eef12ebcf3ea95d7493b9084"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a91715aa5eef12ebcf3ea95d7493b9084">&#9670;&nbsp;</a></span>getFormatter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="a00411.html">ResultStyleFormatter</a> getFormatter </td>
+          <td>(</td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>formatString</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets a style formatter for a chosen style type. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">formatString</td><td>the formatString indicating a given style type </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a <a class="el" href="a00411.html" title="Abstract class to describe a class applying a style to a downlifted dataset. ">ResultStyleFormatter</a> generating the chosen style type </dd></dl>
+
+<p class="reference">References <a class="el" href="a00411.html#aa231f1de0281037224372f0afb1f0fe1">ResultStyleFormatter.formatter()</a>.</p>
+<div class="fragment"><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                                                                             {</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                formatString=formatString.toLowerCase();</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                <span class="keywordflow">if</span>(<a class="code" href="a00411.html#a54c9d791b2138017b960a7cf457b5fd2">resultMap</a>.containsKey(formatString)) {</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                        <span class="keywordflow">return</span> <a class="code" href="a00411.html#a54c9d791b2138017b960a7cf457b5fd2">resultMap</a>.get(formatString);</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                }</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                formatString=formatString.replace(<span class="stringliteral">&quot;+&quot;</span>,<span class="stringliteral">&quot;&quot;</span>);</div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                <span class="keywordflow">if</span>(formatString.contains(<span class="stringliteral">&quot;mapcss&quot;</span>)) {</div><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                        <span class="keywordflow">return</span> <a class="code" href="a00411.html#a54c9d791b2138017b960a7cf457b5fd2">resultMap</a>.get(<span class="stringliteral">&quot;mapcss&quot;</span>);</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                }</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                <span class="keywordflow">if</span>(formatString.contains(<span class="stringliteral">&quot;geojsoncss&quot;</span>)) {</div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                        <span class="keywordflow">return</span> <a class="code" href="a00411.html#a54c9d791b2138017b960a7cf457b5fd2">resultMap</a>.get(<span class="stringliteral">&quot;geojsoncss&quot;</span>);</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                }</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                <span class="keywordflow">if</span>(formatString.contains(<span class="stringliteral">&quot;sld&quot;</span>)) {</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                        <span class="keywordflow">return</span> <a class="code" href="a00411.html#a54c9d791b2138017b960a7cf457b5fd2">resultMap</a>.get(<span class="stringliteral">&quot;sld&quot;</span>);</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                }</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                <span class="keywordflow">return</span> null;</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        }</div><div class="ttc" id="a00411_html_a54c9d791b2138017b960a7cf457b5fd2"><div class="ttname"><a href="a00411.html#a54c9d791b2138017b960a7cf457b5fd2">de.hsmainz.cs.semgis.wfs.resultstyleformatter.ResultStyleFormatter.resultMap</a></div><div class="ttdeci">static Map&lt; String, ResultStyleFormatter &gt; resultMap</div><div class="ttdef"><b>Definition:</b> ResultStyleFormatter.java:16</div></div>
 </div><!-- fragment -->
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="aa9a8e665b15de301f51452a7cbf9e1a2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa9a8e665b15de301f51452a7cbf9e1a2">&#9670;&nbsp;</a></span>usermap</h2>
+<a id="aa6a844c9b01d97aca583be867a1c5413"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6a844c9b01d97aca583be867a1c5413">&#9670;&nbsp;</a></span>exposedType</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -191,22 +360,22 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Map&lt;String,<a class="el" href="a00411.html">User</a>&gt; usermap</td>
+          <td class="memname">String exposedType =&quot;application/vnd.geo+json&quot;</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="a00419.html#ace4093c99bfc2335d3f62e8462c5f617">UserManagementConnection.UserHandler.UserHandler()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="a00419.html#a6561dcf48f63c199d693d5ed6c739dc0">SLDFormatter.formatter()</a>.</p>
 
 </div>
 </div>
-<a id="aede1517d7d9e17e872007b2eadb1e2bc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aede1517d7d9e17e872007b2eadb1e2bc">&#9670;&nbsp;</a></span>uuidToUser</h2>
+<a id="a1ce6ef499b64cec5981912a236baa199"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ce6ef499b64cec5981912a236baa199">&#9670;&nbsp;</a></span>lastQueriedElemCount</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -215,17 +384,83 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Map&lt;String,<a class="el" href="a00411.html">User</a>&gt; uuidToUser</td>
+          <td class="memname">Integer lastQueriedElemCount =0</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="a00419.html#ace4093c99bfc2335d3f62e8462c5f617">UserManagementConnection.UserHandler.UserHandler()</a>.</p>
+</div>
+</div>
+<a id="a09c78e464072ccab667894f0d179fbdf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a09c78e464072ccab667894f0d179fbdf">&#9670;&nbsp;</a></span>mimeType</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">String mimeType =&quot;text/plain&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a54c9d791b2138017b960a7cf457b5fd2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a54c9d791b2138017b960a7cf457b5fd2">&#9670;&nbsp;</a></span>resultMap</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Map&lt;String,<a class="el" href="a00411.html">ResultStyleFormatter</a>&gt; resultMap =new TreeMap&lt;String, <a class="el" href="a00411.html">ResultStyleFormatter</a>&gt;()</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8e9232fc24a04d17c4a31141d78cb0ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e9232fc24a04d17c4a31141d78cb0ca">&#9670;&nbsp;</a></span>styleAttribute</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">String styleAttribute =&quot;&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="reference">Referenced by <a class="el" href="a00255.html#a4d60ad97c2097d9323921b749f163e26">GeoJSONFormatter.formatter()</a>, <a class="el" href="a00399.html#a260286963b4c3e8010ecc3d97c9712a6">GeoJSONCSSFormatter.GeoJSONCSSFormatter()</a>, and <a class="el" href="a00415.html#a922d460a9ab0aa5a7a7b70ad8bd3868a">SimpleStyleFormatter.SimpleStyleFormatter()</a>.</p>
 
 </div>
 </div>
@@ -235,7 +470,7 @@ Private Attributes</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00180.html">de</a></li><li class="navelem"><a class="el" href="a00181.html">hsmainz</a></li><li class="navelem"><a class="el" href="a00182.html">cs</a></li><li class="navelem"><a class="el" href="a00183.html">semgis</a></li><li class="navelem"><a class="el" href="a00184.html">wfs</a></li><li class="navelem"><a class="el" href="a00189.html">util</a></li><li class="navelem"><a class="el" href="a00190.html">user</a></li><li class="navelem"><a class="el" href="a00415.html">UserManagementConnection</a></li><li class="navelem"><a class="el" href="a00419.html">UserHandler</a></li>
+    <li class="navelem"><a class="el" href="a00192.html">de</a></li><li class="navelem"><a class="el" href="a00193.html">hsmainz</a></li><li class="navelem"><a class="el" href="a00194.html">cs</a></li><li class="navelem"><a class="el" href="a00195.html">semgis</a></li><li class="navelem"><a class="el" href="a00196.html">wfs</a></li><li class="navelem"><a class="el" href="a00199.html">resultstyleformatter</a></li><li class="navelem"><a class="el" href="a00419.html">SLDFormatter</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>

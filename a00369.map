@@ -1,3 +1,4 @@
-<map id="GeoJSONCSSFormatter" name="GeoJSONCSSFormatter">
-<area shape="rect" id="node2" href="$a00383.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="883,71,1029,97"/>
+<map id="WFSResultFormatter" name="WFSResultFormatter">
+<area shape="rect" id="node2" href="$a00343.html" title="Abstract class to downlift query results. " alt="" coords="1376,181,1492,208"/>
+<area shape="rect" id="node5" href="$a00411.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="1096,212,1243,239"/>
 </map>
