@@ -14,8 +14,8 @@ public class JSONPFormatter extends ResultFormatter {
 	 * Constructor for this class.
 	 */
 	public JSONPFormatter() {
-		this.mimeType="application/json";
-		this.exposedType="application/json";
+		this.mimeType="text/javascript";
+		this.exposedType="text/javascript";
 		this.urlformat="jsonp";
 		this.label="JSONP";
 	}
@@ -29,7 +29,7 @@ public class JSONPFormatter extends ResultFormatter {
 		String res = 
 				format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,srsName,indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat,invertXY);
 		this.lastQueriedElemCount = format.lastQueriedElemCount;
-		return "callbackJS("+res+")";
+		return "parseResponse("+res+")";
 	}
 	
 }

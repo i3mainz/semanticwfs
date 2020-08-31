@@ -59,6 +59,9 @@ public abstract class ResultFormatter {
 		if(formatString.contains("svg")) {
 			return resultMap.get("svg");
 		}
+		if(formatString.contains("osmlink")) {
+			return resultMap.get("osmlink");
+		}
 		if(formatString.contains("osm")) {
 			return resultMap.get("osm");
 		}
@@ -73,6 +76,9 @@ public abstract class ResultFormatter {
 		}
 		if(formatString.contains("n3")) {
 			return resultMap.get("n3");
+		}
+		if(formatString.contains("jsonp")) {
+			return resultMap.get("jsonp");
 		}
 		if(formatString.contains("jsonn")) {
 			return resultMap.get("jsonn");
@@ -106,9 +112,6 @@ public abstract class ResultFormatter {
 		}
 		if(formatString.contains("json")) {
 			return resultMap.get("geojson");
-		}
-		if(formatString.contains("jsonp")) {
-			return resultMap.get("jsonp");
 		}
 		if(formatString.contains("kml")) {
 			return resultMap.get("kml");
@@ -162,6 +165,7 @@ public abstract class ResultFormatter {
 		resultMap.put("nq", new NQuadsFormatter());
 		resultMap.put("rt", new RDFThriftFormatter());
 		resultMap.put("osm", new OSMFormatter());
+		resultMap.put("osmlink", new OSMLinkFormatter());
 		resultMap.put("rdf", new RDFFormatter());
 		resultMap.put("rdfjson", new RDFJSONFormatter());
 		resultMap.put("gml", new GMLFormatter());
