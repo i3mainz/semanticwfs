@@ -1,78 +1,81 @@
 var hierarchy =
 [
-    [ "AbstractTransformer", "a00403.html", null ],
-    [ "Comparable", "a00887.html", [
-      [ "Tuple< T, T2 >", "a00407.html", null ]
+    [ "AbstractTransformer", "a00424.html", null ],
+    [ "Comparable", "a00920.html", [
+      [ "Tuple< T, T2 >", "a00428.html", null ]
     ] ],
-    [ "ResultFormatter", "a00323.html", [
-      [ "HTMLFormatter", "a00271.html", null ],
-      [ "MVTFormatter", "a00287.html", null ],
-      [ "N3Formatter", "a00291.html", null ],
-      [ "NQuadsFormatter", "a00295.html", null ],
-      [ "NTFormatter", "a00299.html", null ],
-      [ "OSMFormatter", "a00303.html", null ],
-      [ "RDFFormatter", "a00311.html", null ],
-      [ "RDFJSONFormatter", "a00315.html", null ],
-      [ "RDFThriftFormatter", "a00319.html", null ],
-      [ "SVGFormatter", "a00327.html", null ],
-      [ "TrigFormatter", "a00335.html", null ],
-      [ "TrixFormatter", "a00339.html", null ],
-      [ "TTLFormatter", "a00343.html", null ],
-      [ "WCSResultFormatter", "a00347.html", [
-        [ "CovJSONFormatter", "a00231.html", null ],
-        [ "GeoTIFFFormatter", "a00251.html", null ],
-        [ "GMLCOVFormatter", "a00259.html", null ]
+    [ "ResultFormatter", "a00336.html", [
+      [ "HTMLFormatter", "a00280.html", null ],
+      [ "LatLonTextFormatter", "a00296.html", null ],
+      [ "MVTFormatter", "a00300.html", null ],
+      [ "N3Formatter", "a00304.html", null ],
+      [ "NQuadsFormatter", "a00308.html", null ],
+      [ "NTFormatter", "a00312.html", null ],
+      [ "OSMFormatter", "a00316.html", null ],
+      [ "RDFFormatter", "a00324.html", null ],
+      [ "RDFJSONFormatter", "a00328.html", null ],
+      [ "RDFThriftFormatter", "a00332.html", null ],
+      [ "SVGFormatter", "a00340.html", null ],
+      [ "TrigFormatter", "a00348.html", null ],
+      [ "TrixFormatter", "a00352.html", null ],
+      [ "TTLFormatter", "a00356.html", null ],
+      [ "WCSResultFormatter", "a00360.html", [
+        [ "CovJSONFormatter", "a00240.html", null ],
+        [ "GeoTIFFFormatter", "a00260.html", null ],
+        [ "GMLCOVFormatter", "a00268.html", null ]
       ] ],
-      [ "WFSResultFormatter", "a00351.html", [
-        [ "CSVFormatter", "a00235.html", null ],
-        [ "GeoHashFormatter", "a00239.html", null ],
-        [ "GeoJSONFormatter", "a00243.html", null ],
-        [ "GeoJSONLDFormatter", "a00247.html", null ],
-        [ "GeoURIFormatter", "a00255.html", null ],
-        [ "GMLFormatter", "a00263.html", null ],
-        [ "GPXFormatter", "a00267.html", null ],
-        [ "JSONFormatter", "a00275.html", null ],
-        [ "JSONLDFormatter", "a00279.html", null ],
-        [ "KMLFormatter", "a00283.html", null ],
-        [ "PolyshapeFormatter", "a00307.html", null ],
-        [ "TopoJSONFormatter", "a00331.html", null ]
-      ] ]
+      [ "WFSResultFormatter", "a00364.html", [
+        [ "CSVFormatter", "a00244.html", null ],
+        [ "GeoHashFormatter", "a00248.html", null ],
+        [ "GeoJSONFormatter", "a00252.html", null ],
+        [ "GeoJSONLDFormatter", "a00256.html", null ],
+        [ "GeoURIFormatter", "a00264.html", null ],
+        [ "GMLFormatter", "a00272.html", null ],
+        [ "GPXFormatter", "a00276.html", null ],
+        [ "JSONFormatter", "a00284.html", null ],
+        [ "JSONLDFormatter", "a00288.html", null ],
+        [ "KMLFormatter", "a00292.html", null ],
+        [ "PolyshapeFormatter", "a00320.html", null ],
+        [ "TopoJSONFormatter", "a00344.html", null ]
+      ] ],
+      [ "WKBFormatter", "a00368.html", null ],
+      [ "WKTFormatter", "a00372.html", null ]
     ] ],
-    [ "ResultMetadataFormatter", "a00363.html", [
-      [ "DCATFormatter", "a00355.html", null ],
-      [ "GMDFormatter", "a00359.html", null ]
+    [ "ResultMetadataFormatter", "a00384.html", [
+      [ "DCATFormatter", "a00376.html", null ],
+      [ "GMDFormatter", "a00380.html", null ]
     ] ],
-    [ "ResultStyleFormatter", "a00383.html", [
-      [ "CartoCSSFormatter", "a00367.html", null ],
-      [ "GeoJSONCSSFormatter", "a00371.html", null ],
-      [ "KMLStyleFormatter", "a00375.html", null ],
-      [ "MapCSSFormatter", "a00379.html", null ],
-      [ "SimpleStyleFormatter", "a00387.html", null ],
-      [ "SLDFormatter", "a00391.html", null ]
+    [ "ResultStyleFormatter", "a00404.html", [
+      [ "CartoCSSFormatter", "a00388.html", null ],
+      [ "GeoJSONCSSFormatter", "a00392.html", null ],
+      [ "KMLStyleFormatter", "a00396.html", null ],
+      [ "MapCSSFormatter", "a00400.html", null ],
+      [ "SimpleStyleFormatter", "a00408.html", null ],
+      [ "SLDFormatter", "a00412.html", null ]
     ] ],
-    [ "StyleObject", "a00395.html", null ],
-    [ "TripleStoreConnector", "a00399.html", null ],
-    [ "User", "a00411.html", null ],
-    [ "UserManagementConnection", "a00415.html", null ],
-    [ "UserType", "a00423.html", null ],
-    [ "WebService", "a00431.html", null ],
-    [ "XSLTTransformer", "a00427.html", null ],
+    [ "StyleObject", "a00416.html", null ],
+    [ "TripleStoreConnector", "a00420.html", null ],
+    [ "User", "a00432.html", null ],
+    [ "UserManagementConnection", "a00436.html", null ],
+    [ "UserType", "a00444.html", null ],
+    [ "WebService", "a00452.html", null ],
+    [ "XSLTTransformer", "a00448.html", null ],
     [ "DefaultHandler2", null, [
-      [ "UserManagementConnection.UserHandler", "a00419.html", null ]
+      [ "UserManagementConnection.UserHandler", "a00440.html", null ]
     ] ],
     [ "FunctionBase1", null, [
-      [ "AsDXF", "a00195.html", null ],
-      [ "AsGeoJSON", "a00203.html", null ],
-      [ "AsGeoURI", "a00207.html", null ],
-      [ "AsGML", "a00211.html", null ],
-      [ "AsGPX", "a00215.html", null ],
-      [ "AsKML", "a00219.html", null ],
-      [ "AsPolyshape", "a00223.html", null ]
+      [ "AsDXF", "a00204.html", null ],
+      [ "AsGeoJSON", "a00212.html", null ],
+      [ "AsGeoURI", "a00216.html", null ],
+      [ "AsGML", "a00220.html", null ],
+      [ "AsGPX", "a00224.html", null ],
+      [ "AsKML", "a00228.html", null ],
+      [ "AsPolyshape", "a00232.html", null ]
     ] ],
     [ "FunctionBase2", null, [
-      [ "AsGeoHash", "a00199.html", null ]
+      [ "AsGeoHash", "a00208.html", null ]
     ] ],
     [ "FunctionBase3", null, [
-      [ "AsX3D", "a00227.html", null ]
+      [ "AsX3D", "a00236.html", null ]
     ] ]
 ];

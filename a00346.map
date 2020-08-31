@@ -1,6 +1,4 @@
-<map id="WCSResultFormatter" name="WCSResultFormatter">
-<area shape="rect" id="node3" href="$a00231.html" title="CovJSONFormatter" alt="" coords="5,155,144,181"/>
-<area shape="rect" id="node4" href="$a00251.html" title="GeoTIFFFormatter" alt="" coords="168,155,299,181"/>
-<area shape="rect" id="node5" href="$a00259.html" title="GMLCOVFormatter" alt="" coords="323,155,458,181"/>
-<area shape="rect" id="node2" href="$a00323.html" title="Abstract class to downlift query results. " alt="" coords="175,5,291,32"/>
+<map id="TrigFormatter" name="TrigFormatter">
+<area shape="rect" id="node2" href="$a00336.html" title="Abstract class to downlift query results. " alt="" coords="1376,225,1492,252"/>
+<area shape="rect" id="node5" href="$a00404.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="1096,147,1243,173"/>
 </map>

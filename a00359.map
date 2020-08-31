@@ -1,3 +1,6 @@
-<map id="KMLStyleFormatter" name="KMLStyleFormatter">
-<area shape="rect" id="node2" href="$a00369.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="923,81,1069,108"/>
+<map id="WCSResultFormatter" name="WCSResultFormatter">
+<area shape="rect" id="node3" href="$a00240.html" title="CovJSONFormatter" alt="" coords="5,155,144,181"/>
+<area shape="rect" id="node4" href="$a00260.html" title="GeoTIFFFormatter" alt="" coords="168,155,299,181"/>
+<area shape="rect" id="node5" href="$a00268.html" title="GMLCOVFormatter" alt="" coords="323,155,458,181"/>
+<area shape="rect" id="node2" href="$a00336.html" title="Abstract class to downlift query results. " alt="" coords="175,5,291,32"/>
 </map>

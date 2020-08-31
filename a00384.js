@@ -1,7 +1,13 @@
 var a00384 =
 [
-    [ "UserHandler", "a00384.html#ace4093c99bfc2335d3f62e8462c5f617", null ],
-    [ "startElement", "a00384.html#a52aa6a4a46b095e76667923bcbb5e19a", null ],
-    [ "usermap", "a00384.html#aa9a8e665b15de301f51452a7cbf9e1a2", null ],
-    [ "uuidToUser", "a00384.html#aede1517d7d9e17e872007b2eadb1e2bc", null ]
+    [ "[static initializer]", "a00384.html#a2e87c5ede6b7235170d287cd2e254454", null ],
+    [ "formatFooter", "a00384.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
+    [ "formatHeader", "a00384.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
+    [ "formatter", "a00384.html#a7bbb52a0cd4f85be75403edbf9d7887c", null ],
+    [ "getFormatter", "a00384.html#ab42a39cb4384c1f14ad0bb6d0e27abd8", null ],
+    [ "exposedType", "a00384.html#aa6a844c9b01d97aca583be867a1c5413", null ],
+    [ "lastQueriedElemCount", "a00384.html#a1ce6ef499b64cec5981912a236baa199", null ],
+    [ "mimeType", "a00384.html#a09c78e464072ccab667894f0d179fbdf", null ],
+    [ "resultMap", "a00384.html#a596ca937904dbfbdf019f9114f611d37", null ],
+    [ "xmlwriter", "a00384.html#afbd8bf7386c4d548993d0957bfd902bf", null ]
 ];
