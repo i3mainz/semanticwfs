@@ -1,5 +1,5 @@
 var annotated_dup =
 [
-    [ "de", "a00192.html", "a00192" ],
-    [ "Comparable", "a00927.html", null ]
+    [ "de", "a00195.html", "a00195" ],
+    [ "Comparable", "a00938.html", null ]
 ];

@@ -1,11 +1,10 @@
 var a00199 =
 [
-    [ "CartoCSSFormatter", "a00395.html", "a00395" ],
-    [ "GeoJSONCSSFormatter", "a00399.html", "a00399" ],
-    [ "KMLStyleFormatter", "a00403.html", "a00403" ],
-    [ "MapCSSFormatter", "a00407.html", "a00407" ],
-    [ "ResultStyleFormatter", "a00411.html", "a00411" ],
-    [ "SimpleStyleFormatter", "a00415.html", "a00415" ],
-    [ "SLDFormatter", "a00419.html", "a00419" ],
-    [ "StyleObject", "a00423.html", "a00423" ]
+    [ "converters", "a00194.html", "a00194" ],
+    [ "resultformatter", "a00200.html", "a00200" ],
+    [ "resultmetadataformatter", "a00201.html", "a00201" ],
+    [ "resultstyleformatter", "a00202.html", "a00202" ],
+    [ "triplestore", "a00203.html", "a00203" ],
+    [ "util", "a00204.html", "a00204" ],
+    [ "webservice", "a00206.html", "a00206" ]
 ];

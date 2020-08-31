@@ -1,4 +1,5 @@
-<map id="GMLCOVFormatter" name="GMLCOVFormatter">
-<area shape="rect" id="node2" href="$a00333.html" title="WCSResultFormatter" alt="" coords="5,80,153,107"/>
-<area shape="rect" id="node3" href="$a00309.html" title="Abstract class to downlift query results. " alt="" coords="21,5,137,32"/>
+<map id="GeoHashFormatter" name="GeoHashFormatter">
+<area shape="rect" id="node2" href="$a00378.html" title="WFSResultFormatter" alt="" coords="1541,49,1688,76"/>
+<area shape="rect" id="node3" href="$a00350.html" title="Abstract class to downlift query results. " alt="" coords="1376,181,1492,208"/>
+<area shape="rect" id="node6" href="$a00418.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="1096,212,1243,239"/>
 </map>
