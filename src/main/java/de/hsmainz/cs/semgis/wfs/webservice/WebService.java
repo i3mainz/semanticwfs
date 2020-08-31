@@ -1204,13 +1204,13 @@ public class WebService {
 			link = new JSONObject();
 			link.put("href", wfsconf.getString("baseurl") + "/openapi.json");
 			link.put("rel", "service-desc");
-			link.put("type", "application/openapi+json;version=3.0");
+			link.put("type", "application/vnd.oai.openapi+json;version=3.0");
 			link.put("title", "The API definition (JSON)");
 			links.put(link);
 			link = new JSONObject();
 			link.put("href", wfsconf.getString("baseurl") + "/openapi.yaml");
 			link.put("rel", "service-desc");
-			link.put("type", "application/openapi+yaml;version=3.0");
+			link.put("type", "application/vnd.oai.openapi+yaml;version=3.0");
 			link.put("title", "The API definition (YAML)");
 			links.put(link);
 			link = new JSONObject();
