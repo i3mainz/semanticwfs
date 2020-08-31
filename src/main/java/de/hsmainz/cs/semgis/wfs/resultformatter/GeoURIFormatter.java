@@ -22,6 +22,7 @@ public class GeoURIFormatter extends WFSResultFormatter {
 		this.mimeType="text/plain";
 		this.exposedType="text/geouri";
 		this.urlformat="geouri";
+		this.label="GeoURI";
 	}
 	
 	@Override

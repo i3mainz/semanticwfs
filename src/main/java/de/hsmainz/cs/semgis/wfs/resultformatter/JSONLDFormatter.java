@@ -27,6 +27,7 @@ public class JSONLDFormatter extends WFSResultFormatter {
 		this.mimeType="application/jsonld";
 		this.exposedType="application/jsonld";
 		this.urlformat="jsonld";
+		this.label="JSON-LD";
 	}
 	
 	@Override

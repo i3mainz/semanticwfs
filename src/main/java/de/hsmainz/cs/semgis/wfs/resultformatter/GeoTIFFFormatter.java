@@ -14,6 +14,7 @@ public class GeoTIFFFormatter extends WCSResultFormatter {
 		this.mimeType="image/tiff";
 		this.exposedType="image/tiff";
 		this.urlformat="geotiff";
+		this.label="GeoTIFF";
 	}
 	
 	@Override

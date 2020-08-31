@@ -28,6 +28,7 @@ public class RDFJSONFormatter extends ResultFormatter {
 		this.mimeType="text/rdf+json";
 		this.exposedType="text/rdf+json";
 		this.urlformat="rdfjson";
+		this.label="RDF/JSON";
 	}
 	
 	@Override

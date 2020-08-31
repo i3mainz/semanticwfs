@@ -14,6 +14,7 @@ public class CovJSONFormatter extends WCSResultFormatter {
 		this.mimeType="application/json";
 		this.exposedType="application/covjson";
 		this.urlformat="covjson";
+		this.label="CoverageJSON";
 	}
 	
 	@Override

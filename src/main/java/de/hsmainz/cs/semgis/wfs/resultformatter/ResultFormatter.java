@@ -27,6 +27,8 @@ public abstract class ResultFormatter {
 	
 	public String urlformat="json";
 	
+	public String label="JSON";
+	
 	public Map<String,String> contextMapper=new TreeMap<>();
 	
 	public ResultStyleFormatter styleformatter;
@@ -72,6 +74,9 @@ public abstract class ResultFormatter {
 		if(formatString.contains("n3")) {
 			return resultMap.get("n3");
 		}
+		if(formatString.contains("jsonn")) {
+			return resultMap.get("jsonn");
+		}
 		if(formatString.contains("nt")) {
 			return resultMap.get("nt");
 		}
@@ -105,6 +110,12 @@ public abstract class ResultFormatter {
 		if(formatString.contains("kml")) {
 			return resultMap.get("kml");
 		}
+		if(formatString.contains("wkt")) {
+			return resultMap.get("wkt");
+		}
+		if(formatString.contains("wkb")) {
+			return resultMap.get("wkb");
+		}
 		if(formatString.contains("geouri")) {
 			return resultMap.get("geouri");
 		}
@@ -129,11 +140,14 @@ public abstract class ResultFormatter {
 		resultMap.put("geohash", new GeoHashFormatter());
 		resultMap.put("geouri", new GeoURIFormatter());
 		resultMap.put("json", new GeoJSONFormatter());
+		resultMap.put("jsonn", new JSONFormatter());
 		resultMap.put("jsonld", new JSONLDFormatter());
 		resultMap.put("html", new HTMLFormatter());
 		resultMap.put("trig", new TrigFormatter());
 		resultMap.put("trix", new TrixFormatter());
 		resultMap.put("kml", new KMLFormatter());
+		resultMap.put("wkt", new WKTFormatter());
+		resultMap.put("wkb", new WKBFormatter());
 		resultMap.put("ttl", new TTLFormatter());
 		resultMap.put("n3", new N3Formatter());
 		resultMap.put("nt", new NTFormatter());

@@ -28,6 +28,7 @@ public class TrigFormatter extends ResultFormatter {
 		this.mimeType="text/trig";
 		this.exposedType="text/trig";
 		this.urlformat="trig";
+		this.label="Trig";
 	}
 	
 	@Override

@@ -20,6 +20,7 @@ public class PolyshapeFormatter extends WFSResultFormatter {
 		this.mimeType="text/plain";
 		this.exposedType="text/polyshape";
 		this.urlformat="polyshape";
+		this.label="Polyshape";
 	}
 	
 	@Override

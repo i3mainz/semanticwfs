@@ -12,6 +12,7 @@ public class MVTFormatter extends ResultFormatter {
 
 	public MVTFormatter() {
 		this.urlformat="mvt";
+		this.label="MVT";
 	}
 	
 	@Override

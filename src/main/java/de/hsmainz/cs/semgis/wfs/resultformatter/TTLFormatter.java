@@ -24,6 +24,7 @@ public class TTLFormatter extends ResultFormatter {
 		this.mimeType="text/ttl";
 		this.exposedType="text/ttl";
 		this.urlformat="ttl";
+		this.label="Turtle";
 	}
 	
 	@Override

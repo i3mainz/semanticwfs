@@ -46,6 +46,7 @@ public class HTMLFormatter extends ResultFormatter {
 		this.mimeType = "text/html";
 		this.exposedType = "text/html";
 		this.urlformat="html";
+		this.label="HTML";
 	}
 
 	/**
