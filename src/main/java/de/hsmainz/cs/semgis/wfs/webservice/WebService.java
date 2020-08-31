@@ -1365,13 +1365,13 @@ public class WebService {
 				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
 				writer.writeAttribute("rel", "service-desc");
 				writer.writeAttribute("title", "The API definition (YAML)");
-				writer.writeAttribute("type", "application/openapi+yaml;version=3.0");
+				writer.writeAttribute("type", "application/vnd.oai.openapi+yaml;version=3.0");
 				writer.writeAttribute("href",  wfsconf.getString("baseurl") + "/openapi.yaml");
 				writer.writeEndElement();
 				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
 				writer.writeAttribute("rel", "service-desc");
 				writer.writeAttribute("title", "The API defnition (JSON)");
-				writer.writeAttribute("type", "application/openapi+json;version=3.0");
+				writer.writeAttribute("type", "application/vnd.oai.openapi+json;version=3.0");
 				writer.writeAttribute("href",  wfsconf.getString("baseurl") + "/openapi.json");
 				writer.writeEndElement();			
 				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
