@@ -1143,7 +1143,7 @@ public class WebService {
 	@Operation(
             summary = "Returns the landing page of the OGC API Features service",
             description = "Returns the landing page of the OGC API Features service")	
-	public Response landingPageHTML(@Parameter(description="The format of the landingpage") @DefaultValue("json") @QueryParam("f") String format) {
+	public Response landingPageHTML(@Parameter(description="The format of the landingpage") @DefaultValue("html") @QueryParam("f") String format) {
 		return landingPage(format);
 	}
 
@@ -1154,7 +1154,7 @@ public class WebService {
             summary = "Returns the landing page of the OGC API Features service",
             description = "Returns the landing page of the OGC API Features service")	
 	public Response landingPageJSON(@Parameter(description="The format of the landingpage") @DefaultValue("json") @QueryParam("f") String format) {
-		return landingPage("json");
+		return landingPage(format);
 	}
 
 	@GET
@@ -1163,8 +1163,8 @@ public class WebService {
 	@Operation(
             summary = "Returns the landing page of the OGC API Features service",
             description = "Returns the landing page of the OGC API Features service")	
-	public Response landingPageXML(@Parameter(description="The format of the landingpage") @DefaultValue("json") @QueryParam("f") String format) {
-		return landingPage("xml");
+	public Response landingPageXML(@Parameter(description="The format of the landingpage") @DefaultValue("xml") @QueryParam("f") String format) {
+		return landingPage(format);
 	}
 	
 	
@@ -1179,7 +1179,7 @@ public class WebService {
 	@Operation(
             summary = "Returns the landing page of the OGC API Features service",
             description = "Returns the landing page of the OGC API Features service")
-	public Response landingPage(@Parameter(description="The format of the landingpage") @DefaultValue("json") @QueryParam("f") String format) {
+	public Response landingPage(@Parameter(description="The format of the landingpage") @DefaultValue("html") @QueryParam("f") String format) {
 		if (format == null || format.contains("json")) {
 			JSONObject result = new JSONObject();
 			JSONArray links = new JSONArray();
