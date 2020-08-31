@@ -1135,18 +1135,51 @@ public class WebService {
 		return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
 	}
 
+	
+	
+	@GET
+	@Produces({MediaType.TEXT_HTML })
+	@Path("/")
+	@Operation(
+            summary = "Returns the landing page of the OGC API Features service",
+            description = "Returns the landing page of the OGC API Features service")	
+	public Response landingPageHTML(@Parameter(description="The format of the landingpage") @DefaultValue("json") @QueryParam("f") String format) {
+		return landingPage(format);
+	}
+
+	@GET
+	@Produces({MediaType.APPLICATION_JSON })
+	@Path("/")
+	@Operation(
+            summary = "Returns the landing page of the OGC API Features service",
+            description = "Returns the landing page of the OGC API Features service")	
+	public Response landingPageJSON(@Parameter(description="The format of the landingpage") @DefaultValue("json") @QueryParam("f") String format) {
+		return landingPage("json");
+	}
+
+	@GET
+	@Produces({MediaType.APPLICATION_XML })
+	@Path("/")
+	@Operation(
+            summary = "Returns the landing page of the OGC API Features service",
+            description = "Returns the landing page of the OGC API Features service")	
+	public Response landingPageXML(@Parameter(description="The format of the landingpage") @DefaultValue("json") @QueryParam("f") String format) {
+		return landingPage("xml");
+	}
+	
+	
 	/**
 	 * Returns the landing page of the OGC API Features service.
 	 * @param format The format in which the page is to be returned
 	 * @return The landing page as String
 	 */
 	@GET
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
+	@Produces({ MediaType.TEXT_PLAIN })
 	@Path("/")
 	@Operation(
             summary = "Returns the landing page of the OGC API Features service",
             description = "Returns the landing page of the OGC API Features service")
-	public Response landingPage(@Parameter(description="The format of the landingpage") @DefaultValue("html") @QueryParam("f") String format) {
+	public Response landingPage(@Parameter(description="The format of the landingpage") @DefaultValue("json") @QueryParam("f") String format) {
 		if (format == null || format.contains("json")) {
 			JSONObject result = new JSONObject();
 			JSONArray links = new JSONArray();
@@ -1283,7 +1316,7 @@ public class WebService {
 				collections.put(coll);
 			}
 			return Response.ok(result.toString(2)).type(MediaType.APPLICATION_JSON).build();
-		} else if (format.contains("gml")) {
+		} else if (format.contains("xml")) {
 			StringWriter strwriter = new StringWriter();
 			XMLOutputFactory output = XMLOutputFactory.newInstance();
 			XMLStreamWriter writer;
