@@ -108,17 +108,17 @@ function clearMap() {
                 $('#number').text(json["size"]+" Results");
         var i=1;
         var table="<thead><tr><th>Counter</th>"
-        for(variable in json["data"][0]){
+        for(variable in json["features"][0]){
         	table+="<th>"+variable+"</th>"
         }
         table+="</tr></thead><tbody>"
-        for(obj in json["data"]){
+        for(obj in json["features"]){
         	table+="<tr><td>"+i+++"</td>"
-        	for(variable in json["data"][obj]){
-        		if(json["data"][obj][variable].startsWith("http") || json["data"][obj][variable].startsWith("https")){
-            		table+="<td><a href=\""+json["data"][obj][variable]+"\" target=\"_blank\">"+json["data"][obj][variable]+"</a></td>"
+        	for(variable in json["features"][obj]){
+        		if(json[["features"][obj][variable].startsWith("http") || json[["features"][obj][variable].startsWith("https")){
+            		table+="<td><a href=\""+json[["features"][obj][variable]+"\" target=\"_blank\">"+json[["features"][obj][variable]+"</a></td>"
         		}else{
-            		table+="<td>"+json["data"][obj][variable]+"</td>"        			
+            		table+="<td>"+json[["features"][obj][variable]+"</td>"        			
         		}
         	}
         	table+="</tr>"
