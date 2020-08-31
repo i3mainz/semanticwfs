@@ -113,6 +113,9 @@ public abstract class ResultFormatter {
 		if(formatString.contains("wkt")) {
 			return resultMap.get("wkt");
 		}
+		if(formatString.contains("latlon")) {
+			return resultMap.get("latlon");
+		}
 		if(formatString.contains("wkb")) {
 			return resultMap.get("wkb");
 		}
@@ -146,6 +149,7 @@ public abstract class ResultFormatter {
 		resultMap.put("trig", new TrigFormatter());
 		resultMap.put("trix", new TrixFormatter());
 		resultMap.put("kml", new KMLFormatter());
+		resultMap.put("latlon", new LatLonTextFormatter());
 		resultMap.put("wkt", new WKTFormatter());
 		resultMap.put("wkb", new WKBFormatter());
 		resultMap.put("ttl", new TTLFormatter());
