@@ -1,3 +1,4 @@
-<map id="NQuadsFormatter" name="NQuadsFormatter">
-<area shape="rect" id="node2" href="$a00336.html" title="Abstract class to downlift query results. " alt="" coords="11,5,127,32"/>
+<map id="LatLonTextFormatter" name="LatLonTextFormatter">
+<area shape="rect" id="node2" href="$a00353.html" title="Abstract class to downlift query results. " alt="" coords="1376,225,1492,252"/>
+<area shape="rect" id="node5" href="$a00421.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="1096,147,1243,173"/>
 </map>

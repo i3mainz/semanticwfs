@@ -1,3 +1,5 @@
-<map id="HTMLFormatter" name="HTMLFormatter">
-<area shape="rect" id="node2" href="$a00336.html" title="Abstract class to downlift query results. " alt="" coords="5,5,121,32"/>
+<map id="GMLFormatter" name="GMLFormatter">
+<area shape="rect" id="node2" href="$a00381.html" title="WFSResultFormatter" alt="" coords="1541,49,1688,76"/>
+<area shape="rect" id="node3" href="$a00353.html" title="Abstract class to downlift query results. " alt="" coords="1376,181,1492,208"/>
+<area shape="rect" id="node6" href="$a00421.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="1096,212,1243,239"/>
 </map>

@@ -1,4 +1,3 @@
-<map id="DCATFormatter" name="DCATFormatter">
-<area shape="rect" id="node2" href="$a00398.html" title="ResultMetadataFormatter" alt="" coords="935,81,1105,108"/>
-<area shape="rect" id="node8" href="$a00394.html" title="Formats metadata to the GMD XML format. " alt="" coords="1155,107,1264,133"/>
+<map id="WKTFormatter" name="WKTFormatter">
+<area shape="rect" id="node2" href="$a00353.html" title="Abstract class to downlift query results. " alt="" coords="5,5,121,32"/>
 </map>
