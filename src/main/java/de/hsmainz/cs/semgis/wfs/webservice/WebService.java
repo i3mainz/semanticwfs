@@ -709,17 +709,17 @@ public class WebService {
 				coll.put("title", curobj.getString("name"));
 				if(curobj.has("description"))
 					coll.put("description", curobj.getString("description"));
-				JSONObject extent = new JSONObject();
+				/*JSONObject extent = new JSONObject();
 				JSONArray spatial = new JSONArray();
 				JSONArray temporal=new JSONArray();
 				temporal.put("1970-01-01T00:00:00Z");
-				temporal.put("2020-08-22T22:10:44Z");
-				JSONArray crs=new JSONArray();
-				crs.put("http://www.opengis.net/def/crs/OGC/1.3/CRS84");
+				temporal.put("2020-08-22T22:10:44Z");*/
+				JSONArray crs=new JSONArray();	
+				crs.put("http://www.opengis.net/def/crs/EPSG/0/"+curobj.getString("epsg").substring(curobj.getString("epsg").indexOf(":")+1));
 				coll.put("crs",crs);
-				coll.put("extent", extent);
+				/*coll.put("extent", extent);
 				extent.put("spatial", spatial);
-				extent.put("temporal", temporal);
+				extent.put("temporal", temporal);*/
 				JSONArray colinks = new JSONArray();
 				for (ResultFormatter formatter : ResultFormatter.resultMap.values()) {
 					link = new JSONObject();
@@ -1726,16 +1726,16 @@ public class WebService {
 				result.put("description", "");
 			}
 			result.put("links",resultlinks);
-			JSONObject extent = new JSONObject();
+			/*JSONObject extent = new JSONObject();
 			result.put("extent", extent);
 			JSONArray spatial = new JSONArray();
 			JSONArray temporal=new JSONArray();
 			temporal.put("1970-01-01T00:00:00Z");
 			temporal.put("2020-08-22T22:10:44Z");
 			extent.put("spatial", spatial);
-			extent.put("temporal",temporal);
-			JSONArray crs = new JSONArray();
-			crs.put("http://www.opengis.net/def/crs/OGC/1.3/CRS84");
+			extent.put("temporal",temporal);*/
+			JSONArray crs = new JSONArray();		
+			crs.put("http://www.opengis.net/def/crs/EPSG/0/"+workingobj.getString("epsg").substring(workingobj.getString("epsg").indexOf(":")+1));
 			result.put("crs", crs);
 			JSONObject link = new JSONObject();
 			link.put("href", wfsconf.getString("baseurl") + "/collections/"+collectionid+"?f=json");
