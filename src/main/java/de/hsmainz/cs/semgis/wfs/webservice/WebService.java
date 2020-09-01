@@ -169,6 +169,30 @@ public class WebService {
 				+ "<link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' /></head>";
 	}
 	
+	
+	
+
+			@GET
+			@Produces("application/vnd.oai.openapi+json;version=3.0")
+			@Path("/openapi")
+			public Response openapiOAJSON() {
+				CloseableHttpClient httpClient = HttpClients.createDefault();
+				HttpGet request = new HttpGet(wfsconf.get("baseurl")+"/openapi.json");
+				CloseableHttpResponse response;
+				try {
+					response = httpClient.execute(request);
+					HttpEntity entity = response.getEntity();
+					String result = EntityUtils.toString(entity);
+					response.close();
+					httpClient.close();
+					return Response.ok(result).type("application/vnd.oai.openapi+json;version=3.0").build();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					return Response.ok(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
+				}
+			}
+			
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/openapi")
