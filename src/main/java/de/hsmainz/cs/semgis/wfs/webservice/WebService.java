@@ -2,9 +2,14 @@ package de.hsmainz.cs.semgis.wfs.webservice;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.lang.ProcessBuilder.Redirect;
+import java.net.Authenticator;
+import java.net.InetSocketAddress;
+import java.net.ProxySelector;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.Duration;
 import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
@@ -26,6 +31,14 @@ import javax.xml.stream.XMLStreamWriter;
 
 import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -79,6 +92,8 @@ public class WebService {
 	public static JSONObject triplestoreconf = null;
 
 	public static JSONObject wfsconf = null;
+	
+	public static JSONObject openapi=null;
 
 	public static Map<String, Map<String, String>> featureTypeCache = new TreeMap<>();
 
@@ -152,6 +167,48 @@ public class WebService {
 				+ "<script src=\"https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js\"></script>\r\n"
 				+ "<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>\r\n"
 				+ "<link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' /></head>";
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/openapi")
+	public Response openapiJSON() {
+		CloseableHttpClient httpClient = HttpClients.createDefault();
+		HttpGet request = new HttpGet(wfsconf.get("baseurl")+"/openapi.json");
+		CloseableHttpResponse response;
+		try {
+			response = httpClient.execute(request);
+			HttpEntity entity = response.getEntity();
+			String result = EntityUtils.toString(entity);
+			response.close();
+			httpClient.close();
+			return Response.ok(result).type(MediaType.APPLICATION_JSON).build();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return Response.ok(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
+		}
+	}
+	
+	@POST
+	@Produces("application/yaml")
+	@Path("/openapi")
+	public Response openapiYAML() {
+		CloseableHttpClient httpClient = HttpClients.createDefault();
+		HttpGet request = new HttpGet(wfsconf.get("baseurl")+"/openapi.yaml");
+		CloseableHttpResponse response;
+		try {
+			response = httpClient.execute(request);
+			HttpEntity entity = response.getEntity();
+			String result = EntityUtils.toString(entity);
+			response.close();
+			httpClient.close();
+			return Response.ok(result).type("application/yaml").build();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return Response.ok(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
+		}
 	}
 	
 	/**
@@ -1235,13 +1292,13 @@ public class WebService {
 			link.put("title", "This document as HTML");
 			links.put(link);
 			link = new JSONObject();
-			link.put("href", wfsconf.getString("baseurl") + "/openapi.json");
+			link.put("href", wfsconf.getString("baseurl") + "/openapi");
 			link.put("rel", "service-desc");
 			link.put("type", "application/vnd.oai.openapi+json;version=3.0");
 			link.put("title", "The API definition (JSON)");
 			links.put(link);
 			link = new JSONObject();
-			link.put("href", wfsconf.getString("baseurl") + "/openapi.yaml");
+			link.put("href", wfsconf.getString("baseurl") + "/openapi");
 			link.put("rel", "service-desc");
 			link.put("type", "application/vnd.oai.openapi+yaml;version=3.0");
 			link.put("title", "The API definition (YAML)");
