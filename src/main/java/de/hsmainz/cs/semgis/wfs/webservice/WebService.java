@@ -757,7 +757,7 @@ public class WebService {
 				collections.put(coll);
 			}
 			return Response.ok(result.toString(2)).type(ResultFormatter.getFormatter(format).mimeType).build();
-		} else if (format != null && format.contains("gml")) {
+		} else if (format != null && format.contains("xml")) {
 			StringWriter strwriter = new StringWriter();
 			XMLOutputFactory output = XMLOutputFactory.newInstance();
 			XMLStreamWriter writer;
@@ -1950,6 +1950,62 @@ public class WebService {
 	}
 
 	
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON })
+	@Path("/collections/{collectionid}/items")
+	@Operation(
+            summary = "Returns items of a given collection",
+            description = "Returns items of a given collection which conform to certain criteria")
+	public Response collectionItemsJSON(@Parameter(description="The id of the collection") @PathParam("collectionid") String collectionid,
+			@Parameter(description="The format of the result") @DefaultValue("json") @QueryParam("f") String format, 
+			@DefaultValue("10") @QueryParam("limit") String limit,
+			@Parameter(description="The offset to consider when fetching items") @DefaultValue("0") @QueryParam("offset") String offset, @DefaultValue("") @QueryParam("bbox") String bbox,
+			@Parameter(description="The styling of the item when returned")  @DefaultValue("") @QueryParam("style") String style,
+			@Parameter(description="The crs of a given bounding box") @DefaultValue("") @QueryParam("bbox-crs") String bboxcrs,
+			@Parameter(description="A filter expression") @DefaultValue("") @QueryParam("filter") String filter,
+			@Parameter(description="The language in which the filter expression is formulated") @DefaultValue("") @QueryParam("filter-lang") String filterlang,
+			@Parameter(description="A temporal filter expression") @DefaultValue("") @QueryParam("datetime") String datetime) {
+		return collectionItems(collectionid, format, limit, offset, bbox, style, bboxcrs, filter, filterlang, datetime);
+	}
+	
+	
+	@GET
+	@Produces({ MediaType.APPLICATION_XML })
+	@Path("/collections/{collectionid}/items")
+	@Operation(
+            summary = "Returns items of a given collection",
+            description = "Returns items of a given collection which conform to certain criteria")
+	public Response collectionItemsXML(@Parameter(description="The id of the collection") @PathParam("collectionid") String collectionid,
+			@Parameter(description="The format of the result") @DefaultValue("gml") @QueryParam("f") String format, 
+			@DefaultValue("10") @QueryParam("limit") String limit,
+			@Parameter(description="The offset to consider when fetching items") @DefaultValue("0") @QueryParam("offset") String offset, @DefaultValue("") @QueryParam("bbox") String bbox,
+			@Parameter(description="The styling of the item when returned")  @DefaultValue("") @QueryParam("style") String style,
+			@Parameter(description="The crs of a given bounding box") @DefaultValue("") @QueryParam("bbox-crs") String bboxcrs,
+			@Parameter(description="A filter expression") @DefaultValue("") @QueryParam("filter") String filter,
+			@Parameter(description="The language in which the filter expression is formulated") @DefaultValue("") @QueryParam("filter-lang") String filterlang,
+			@Parameter(description="A temporal filter expression") @DefaultValue("") @QueryParam("datetime") String datetime) {
+		return collectionItems(collectionid, format, limit, offset, bbox, style, bboxcrs, filter, filterlang, datetime);
+	}
+	
+	@GET
+	@Produces({ MediaType.TEXT_HTML })
+	@Path("/collections/{collectionid}/items")
+	@Operation(
+            summary = "Returns items of a given collection",
+            description = "Returns items of a given collection which conform to certain criteria")
+	public Response collectionItemsHTML(@Parameter(description="The id of the collection") @PathParam("collectionid") String collectionid,
+			@Parameter(description="The format of the result") @DefaultValue("html") @QueryParam("f") String format, 
+			@DefaultValue("10") @QueryParam("limit") String limit,
+			@Parameter(description="The offset to consider when fetching items") @DefaultValue("0") @QueryParam("offset") String offset, @DefaultValue("") @QueryParam("bbox") String bbox,
+			@Parameter(description="The styling of the item when returned")  @DefaultValue("") @QueryParam("style") String style,
+			@Parameter(description="The crs of a given bounding box") @DefaultValue("") @QueryParam("bbox-crs") String bboxcrs,
+			@Parameter(description="A filter expression") @DefaultValue("") @QueryParam("filter") String filter,
+			@Parameter(description="The language in which the filter expression is formulated") @DefaultValue("") @QueryParam("filter-lang") String filterlang,
+			@Parameter(description="A temporal filter expression") @DefaultValue("") @QueryParam("datetime") String datetime) {
+		return collectionItems(collectionid, format, limit, offset, bbox, style, bboxcrs, filter, filterlang, datetime);
+	}
+	
+	
 	/**
 	 * Returns a number of features from a given featuretype.
 	 * @param collectionid The featuretype to return from
@@ -1965,7 +2021,7 @@ public class WebService {
 	 * @return The query result as String
 	 */
 	@GET
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
+	@Produces({MediaType.TEXT_PLAIN })
 	@Path("/collections/{collectionid}/items")
 	@Operation(
             summary = "Returns items of a given collection",
