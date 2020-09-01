@@ -913,7 +913,73 @@ public class WebService {
 	 * @return The feature as String in the given format
 	 */
 	@GET
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
+	@Produces({ MediaType.APPLICATION_JSON })
+	@Path("/collections/{collectionid}/items/{featureid}")
+	@Operation(
+            summary = "Returns a feature given its feature id",
+            description = "Returns a feature given its feature id with certain constraints")
+	public Response getFeatureByIdJSON(
+			@Parameter(description="The collection id") @PathParam("collectionid") String collectionid,
+			@Parameter(description="The feature id")@PathParam("featureid") String featureid, 
+			@Parameter(description="The style to be applied")  @DefaultValue("") @QueryParam("style") String style,
+			@Parameter(description="The format to be returned")  @DefaultValue("json") @QueryParam("f") String format) {
+		return getFeatureById(collectionid, featureid, style, format);
+	}
+	
+	/**
+	 * Returns a feature given its feature id.
+	 * @param collectionid The feature type
+	 * @param featureid The feature id to return
+	 * @param style The style in which to style the feature
+	 * @param format The format in which to return the feature
+	 * @return The feature as String in the given format
+	 */
+	@GET
+	@Produces({ MediaType.APPLICATION_XML })
+	@Path("/collections/{collectionid}/items/{featureid}")
+	@Operation(
+            summary = "Returns a feature given its feature id",
+            description = "Returns a feature given its feature id with certain constraints")
+	public Response getFeatureByIdXML(
+			@Parameter(description="The collection id") @PathParam("collectionid") String collectionid,
+			@Parameter(description="The feature id")@PathParam("featureid") String featureid, 
+			@Parameter(description="The style to be applied")  @DefaultValue("") @QueryParam("style") String style,
+			@Parameter(description="The format to be returned")  @DefaultValue("gml") @QueryParam("f") String format) {
+		return getFeatureById(collectionid, featureid, style, format);
+	}
+	
+	/**
+	 * Returns a feature given its feature id.
+	 * @param collectionid The feature type
+	 * @param featureid The feature id to return
+	 * @param style The style in which to style the feature
+	 * @param format The format in which to return the feature
+	 * @return The feature as String in the given format
+	 */
+	@GET
+	@Produces({ MediaType.TEXT_HTML })
+	@Path("/collections/{collectionid}/items/{featureid}")
+	@Operation(
+            summary = "Returns a feature given its feature id",
+            description = "Returns a feature given its feature id with certain constraints")
+	public Response getFeatureByIdHTML(
+			@Parameter(description="The collection id") @PathParam("collectionid") String collectionid,
+			@Parameter(description="The feature id")@PathParam("featureid") String featureid, 
+			@Parameter(description="The style to be applied")  @DefaultValue("") @QueryParam("style") String style,
+			@Parameter(description="The format to be returned")  @DefaultValue("html") @QueryParam("f") String format) {
+		return getFeatureById(collectionid, featureid, style, format);
+	}
+	
+	/**
+	 * Returns a feature given its feature id.
+	 * @param collectionid The feature type
+	 * @param featureid The feature id to return
+	 * @param style The style in which to style the feature
+	 * @param format The format in which to return the feature
+	 * @return The feature as String in the given format
+	 */
+	@GET
+	@Produces({MediaType.TEXT_PLAIN })
 	@Path("/collections/{collectionid}/items/{featureid}")
 	@Operation(
             summary = "Returns a feature given its feature id",
