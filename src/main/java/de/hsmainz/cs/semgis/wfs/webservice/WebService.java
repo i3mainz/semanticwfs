@@ -191,27 +191,6 @@ public class WebService {
 		}
 	}
 	
-	@POST
-	@Produces("application/yaml")
-	@Path("/openapi")
-	public Response openapiYAML() {
-		CloseableHttpClient httpClient = HttpClients.createDefault();
-		HttpGet request = new HttpGet(wfsconf.get("baseurl")+"/openapi.yaml");
-		CloseableHttpResponse response;
-		try {
-			response = httpClient.execute(request);
-			HttpEntity entity = response.getEntity();
-			String result = EntityUtils.toString(entity);
-			response.close();
-			httpClient.close();
-			return Response.ok(result).type("application/yaml").build();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return Response.ok(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
-		}
-	}
-	
 	/**
 	 * Generates OpenAPI definitions of the SemanticWFS services for the use with OGC API Features.
 	 */
