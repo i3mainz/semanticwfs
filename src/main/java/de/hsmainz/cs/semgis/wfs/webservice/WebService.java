@@ -48,6 +48,7 @@ import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultmetadataformatter.ResultMetadataFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 import de.hsmainz.cs.semgis.wfs.triplestore.TripleStoreConnector;
+import de.hsmainz.cs.semgis.wfs.util.OpenAPIMediaType;
 import de.hsmainz.cs.semgis.wfs.util.Tuple;
 import de.hsmainz.cs.semgis.wfs.util.user.User;
 import de.hsmainz.cs.semgis.wfs.util.user.UserManagementConnection;
@@ -93,7 +94,7 @@ public class WebService {
 
 	public static JSONObject wfsconf = null;
 	
-	public static JSONObject openapi=null;
+	public static final MediaType openapijson=new MediaType("application", "vnd.oai.openapi+json;version=3.0");
 
 	public static Map<String, Map<String, String>> featureTypeCache = new TreeMap<>();
 
@@ -170,7 +171,7 @@ public class WebService {
 	}
 				
 	@GET
-	@Produces({MediaType.APPLICATION_JSON,"application/vnd.oai.openapi+json;version=3.0"})
+	@Produces({OpenAPIMediaType.OA3,MediaType.APPLICATION_JSON})
 	@Path("/openapi")
 	public Response openapiJSON() {
 		CloseableHttpClient httpClient = HttpClients.createDefault();
