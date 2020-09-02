@@ -163,7 +163,7 @@ public class WebService {
 	}
 				
 	@GET
-	@Produces({OpenAPIMediaType.OA3,MediaType.APPLICATION_JSON})
+	@Produces({OpenAPIMediaType.OA3})
 	@Path("/openapi")
 	public Response openapiJSON() {
 		CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -175,7 +175,7 @@ public class WebService {
 			String result = EntityUtils.toString(entity);
 			response.close();
 			httpClient.close();
-			return Response.ok(result).type(MediaType.APPLICATION_JSON).build();
+			return Response.ok(result).type(OpenAPIMediaType.OA3).build();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
