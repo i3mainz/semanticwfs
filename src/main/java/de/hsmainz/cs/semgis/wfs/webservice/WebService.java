@@ -2,14 +2,9 @@ package de.hsmainz.cs.semgis.wfs.webservice;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import java.lang.ProcessBuilder.Redirect;
-import java.net.Authenticator;
-import java.net.InetSocketAddress;
-import java.net.ProxySelector;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.time.Duration;
 import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
@@ -32,8 +27,6 @@ import javax.xml.stream.XMLStreamWriter;
 import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
 
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -59,7 +52,6 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 
@@ -852,7 +844,7 @@ public class WebService {
 			builder.append("FeatureCollection View");
 			builder.append("</h1></div></header>");
 			builder.append("<div class=\"sticky row crumbs\"><div class=\"col-sm-12 col-md-10 col-md-offset-1\">");
-			builder.append("<a href=\""+this.wfsconf.getString("baseurl")+"\">Landingpage</a> / <a href=\""+this.wfsconf.getString("baseurl")+"/collections/\">Collections</a>");
+			builder.append("<a href=\""+wfsconf.getString("baseurl")+"\">Landingpage</a> / <a href=\""+wfsconf.getString("baseurl")+"/collections/\">Collections</a>");
 		    builder.append("</div></div>");
 			builder.append(
 					"<div class=\"container-fluid\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\"><table class=\"description\" id=\"collectiontable\" width=100% border=1><thead><tr><th>Collection</th><th>Description</th><th>Schema</th></tr></thead><tbody>");
@@ -1109,7 +1101,7 @@ public class WebService {
 			builder.append(featureid);
 			builder.append("</h1></header>");
 			builder.append("<div class=\"sticky row crumbs\"><div class=\"col-sm-12 col-md-10 col-md-offset-1\">");
-			builder.append("<a href=\""+this.wfsconf.getString("baseurl")+"\">Landingpage</a> / <a href=\""+this.wfsconf.getString("baseurl")+"/collections/\">Collections</a> / <a href=\""+this.wfsconf.getString("baseurl")+"/collections/"+collectionid+"\">"+workingobj.getString("name")+"</a> / <a href=\""+this.wfsconf.getString("baseurl")+"/collections/"+collectionid+"/items?f=html\">Items</a> / <a href=\""+this.wfsconf.getString("baseurl")+"/collections/"+collectionid+"/items/"+featureid+"?f=html\">"+featureid+"</a>");
+			builder.append("<a href=\""+wfsconf.getString("baseurl")+"\">Landingpage</a> / <a href=\""+wfsconf.getString("baseurl")+"/collections/\">Collections</a> / <a href=\""+wfsconf.getString("baseurl")+"/collections/"+collectionid+"\">"+workingobj.getString("name")+"</a> / <a href=\""+wfsconf.getString("baseurl")+"/collections/"+collectionid+"/items?f=html\">Items</a> / <a href=\""+wfsconf.getString("baseurl")+"/collections/"+collectionid+"/items/"+featureid+"?f=html\">"+featureid+"</a>");
 		    builder.append("</div></div>");
 			builder.append("<div class=\"container-fluid\" role=\"main\"><div class=\"row\">");
 			builder.append(res);
@@ -1174,7 +1166,7 @@ public class WebService {
 		builder.append(collectionid+" Queryables");
 		builder.append("</h1></header>");
 		builder.append("<div class=\"sticky row crumbs\"><div class=\"col-sm-12 col-md-10 col-md-offset-1\">");
-		builder.append("<a href=\""+this.wfsconf.getString("baseurl")+"\">Landingpage</a> / <a href=\""+this.wfsconf.getString("baseurl")+"/collections/\">Collections</a> / <a href=\""+this.wfsconf.getString("baseurl")+"/collections/"+collectionid+"\">"+workingobj.getString("name")+"</a> / <a href=\""+this.wfsconf.getString("baseurl")+"/collections/"+collectionid+"/queryables?f=html\">Queryables</a>");
+		builder.append("<a href=\""+wfsconf.getString("baseurl")+"\">Landingpage</a> / <a href=\""+wfsconf.getString("baseurl")+"/collections/\">Collections</a> / <a href=\""+wfsconf.getString("baseurl")+"/collections/"+collectionid+"\">"+workingobj.getString("name")+"</a> / <a href=\""+wfsconf.getString("baseurl")+"/collections/"+collectionid+"/queryables?f=html\">Queryables</a>");
 	    builder.append("</div></div>");
 		builder.append("<div class=\"container-fluid\" role=\"main\"><div class=\"row\">");
 		builder.append("<table width=100%><tr><td width=\"100%\" rowspan=2>");
@@ -1563,7 +1555,7 @@ public class WebService {
 			builder.append("<body><header id=\"header\"><h1 align=\"center\">LandingPage: " + wfsconf.getString("servicetitle"));
 			builder.append("</h1></header>");
 			builder.append("<div class=\"sticky row crumbs\"><div class=\"col-sm-12 col-md-10 col-md-offset-1\">");
-			builder.append("<a href=\""+this.wfsconf.getString("baseurl")+"\">Landingpage</a>");
+			builder.append("<a href=\""+wfsconf.getString("baseurl")+"\">Landingpage</a>");
 		    builder.append("</div></div>");
 			builder.append("<div class=\"container-fluid\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\"><p>"
 							+ wfsconf.getString("servicedescription") + "</p><ul>");
@@ -1637,7 +1629,7 @@ public class WebService {
 			this.xmlwriter = writer;
 			for (int i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
 				JSONObject curobj = wfsconf.getJSONArray("datasets").getJSONObject(i);
-				getCollectionMetadata(wfsconf.getJSONArray("datasets").getJSONObject(i).getString("name"), "gmd", "true","");
+				getCollectionMetadata(curobj.getString("name"), "gmd", "true","");
 			}
 			writer.writeEndElement();
 			writer.writeEndDocument();
@@ -1936,7 +1928,6 @@ public class WebService {
 		} else if (format == null || format.contains("html")) {
 			System.out.println("WorkingObject: "+workingobj);
 			StringBuilder builder = new StringBuilder();
-			StringBuilder builder2 = new StringBuilder();
 			JSONObject geojson = new JSONObject();
 			JSONObject geometry = new JSONObject();
 			JSONObject properties = new JSONObject();
@@ -1951,7 +1942,7 @@ public class WebService {
 					(workingobj.getString("name") != null ? workingobj.getString("name") : collectionid));
 			builder.append("</h1></header>");
 			builder.append("<div class=\"sticky row crumbs\"><div class=\"col-sm-12 col-md-10 col-md-offset-1\">");
-			builder.append("<a href=\""+this.wfsconf.getString("baseurl")+"\">Landingpage</a> / <a href=\""+this.wfsconf.getString("baseurl")+"/collections/\">Collections</a> / <a href=\""+this.wfsconf.getString("baseurl")+"/collections/"+collectionid+"\">"+workingobj.getString("name")+"</a>");
+			builder.append("<a href=\""+wfsconf.getString("baseurl")+"\">Landingpage</a> / <a href=\""+wfsconf.getString("baseurl")+"/collections/\">Collections</a> / <a href=\""+wfsconf.getString("baseurl")+"/collections/"+collectionid+"\">"+workingobj.getString("name")+"</a>");
 		    builder.append("</div></div>");
 			builder.append("<div class=\"container-fluid\" role=\"main\"><div class=\"row\"><section>");
 			builder.append(workingobj.getString("description"));
@@ -2152,7 +2143,7 @@ public class WebService {
 						link.put("rel", "self");
 						JSONObject nextlink = new JSONObject();
 						nextlink.put("rel", "next");
-						nextlink.put("href", wfsconf.getString("baseurl") + "/collections/" + collectionid + "/items?offset="+(offset+limit)+"&limit="+limit+"&f="
+						nextlink.put("href", wfsconf.getString("baseurl") + "/collections/" + collectionid + "/items?offset="+(Integer.valueOf(offset)+Integer.valueOf(limit))+"&limit="+limit+"&f="
 								+ formatter.urlformat);
 						nextlink.put("type", formatter.exposedType);
 						nextlink.put("title", "next page");
@@ -2243,7 +2234,7 @@ public class WebService {
 				builder.append(collectionid);
 				builder.append("</h1></header>");
 				builder.append("<div class=\"sticky row crumbs\"><div class=\"col-sm-12 col-md-10 col-md-offset-1\">");
-				builder.append("<a href=\""+this.wfsconf.getString("baseurl")+"\">Landingpage</a> / <a href=\""+this.wfsconf.getString("baseurl")+"/collections/\">Collections</a> / <a href=\""+this.wfsconf.getString("baseurl")+"/collections/"+collectionid+"\">"+workingobj.getString("name")+"</a> / <a href=\""+this.wfsconf.getString("baseurl")+"/collections/"+collectionid+"/items?f=html\">Items</a>");
+				builder.append("<a href=\""+wfsconf.getString("baseurl")+"\">Landingpage</a> / <a href=\""+wfsconf.getString("baseurl")+"/collections/\">Collections</a> / <a href=\""+wfsconf.getString("baseurl")+"/collections/"+collectionid+"\">"+workingobj.getString("name")+"</a> / <a href=\""+wfsconf.getString("baseurl")+"/collections/"+collectionid+"/items?f=html\">Items</a>");
 			    builder.append("</div></div>");
 				builder.append("<div class=\"container-fluid\" role=\"main\"><div class=\"row\">");
 				builder.append(res);

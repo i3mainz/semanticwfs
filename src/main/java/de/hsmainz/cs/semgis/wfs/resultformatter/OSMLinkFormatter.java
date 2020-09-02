@@ -7,15 +7,12 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
-import org.apache.jena.query.ResultSetFormatter;
-import org.apache.jena.sparql.expr.NodeValue;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Envelope;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.io.ParseException;
 import org.locationtech.jts.io.WKTReader;
 
-import de.hsmainz.cs.semgis.wfs.converters.AsGeoURI;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
 public class OSMLinkFormatter extends ResultFormatter {
