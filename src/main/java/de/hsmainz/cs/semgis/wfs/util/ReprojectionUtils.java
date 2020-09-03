@@ -35,6 +35,8 @@ public class ReprojectionUtils {
 	}
 	
 	public static Geometry reproject(Geometry geom,String sourceCRS,String targetCRS) {
+		if(sourceCRS==null || sourceCRS.isEmpty() || targetCRS==null || targetCRS.isEmpty())
+			return geom;
 		String src=crsURIToEPSG(sourceCRS);
 		String target=crsURIToEPSG(targetCRS);
 		if(src.equals(target)) {
