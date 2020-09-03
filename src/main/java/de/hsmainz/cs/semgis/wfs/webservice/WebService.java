@@ -1008,7 +1008,7 @@ public class WebService {
 		String res = "";
 		try {
 			res = TripleStoreConnector.executeQuery(query, workingobj.getString("triplestore"), format, "0", "0",
-					"sf:featureMember", collectionid, featureid, workingobj, "", "", "", "", style,false,(workingobj.has("invertXY")?workingobj.getBoolean("invertXY"):false));
+					"sf:featureMember", collectionid, featureid, workingobj, "", "", "","", "", style,false,(workingobj.has("invertXY")?workingobj.getBoolean("invertXY"):false));
 			System.out.println(res);
 			if (res == null || res.isEmpty()) {
 				throw new NotFoundException();
@@ -2132,7 +2132,7 @@ public class WebService {
 					workingobj.getString("triplestore"), format,
 					limit,
 					offset, "sf:featureMember", collectionid,
-					"", workingobj, filter, "", crs, bbox, style,true,(workingobj.has("invertXY")?workingobj.getBoolean("invertXY"):false));
+					"", workingobj, filter, "", crs,bboxcrs, bbox, style,true,(workingobj.has("invertXY")?workingobj.getBoolean("invertXY"):false));
 			// System.out.println(res);
 			if (res == null || res.isEmpty()) {
 				System.out.println("RES: "+res);
@@ -3592,7 +3592,7 @@ public class WebService {
 						workingobj.getString("triplestore"), output,
 						"" + count,
 						"" + startindex, "gml:featureMember",
-						typename, resourceids, workingobj, filter, resultType, srsName, "", style,false,(workingobj.has("invertXY")?workingobj.getBoolean("invertXY"):false));
+						typename, resourceids, workingobj, filter, resultType, srsName,"", "", style,false,(workingobj.has("invertXY")?workingobj.getBoolean("invertXY"):false));
 				System.out.println(res);
 				if (res==null || res.isEmpty()) {
 					throw new NotFoundException();

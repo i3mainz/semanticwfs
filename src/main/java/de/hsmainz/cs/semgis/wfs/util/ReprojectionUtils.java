@@ -26,9 +26,22 @@ public class ReprojectionUtils {
 	
 	static GeometryFactory fac=new GeometryFactory();
 	
+	public static String crsURIToEPSG(String uri) {
+		if(uri.startsWith("http")) {
+			uri=uri.replace(">","");
+			return "EPSG:"+uri.substring(uri.lastIndexOf('/')+1);
+		}
+		return uri;
+	}
+	
 	public static Geometry reproject(Geometry geom,String sourceCRS,String targetCRS) {
-		CoordinateReferenceSystem crs1 = csFactory.createFromName(sourceCRS);
-        CoordinateReferenceSystem crs2 = csFactory.createFromName(targetCRS);
+		String src=crsURIToEPSG(sourceCRS);
+		String target=crsURIToEPSG(targetCRS);
+		if(src.equals(target)) {
+			return geom;
+		}
+		CoordinateReferenceSystem crs1 = csFactory.createFromName(src);
+        CoordinateReferenceSystem crs2 = csFactory.createFromName(target);
         CoordinateTransform trans = ctFactory.createTransform(crs1, crs2);
         Coordinate[] oldcoords=geom.getCoordinates();
         Coordinate[] newcoords=new Coordinate[oldcoords.length];

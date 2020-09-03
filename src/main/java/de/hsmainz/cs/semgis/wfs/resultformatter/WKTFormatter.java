@@ -12,6 +12,7 @@ import org.locationtech.jts.io.ParseException;
 import org.locationtech.jts.io.WKTReader;
 
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
+import de.hsmainz.cs.semgis.wfs.util.ReprojectionUtils;
 
 public class WKTFormatter extends ResultFormatter {
 
@@ -42,6 +43,7 @@ public class WKTFormatter extends ResultFormatter {
 				if(name.endsWith("_geom")) {
 					try {
 						Geometry geom=reader.read(solu.get(name).toString().substring(0,solu.get(name).toString().indexOf("^^")));
+						geom=ReprojectionUtils.reproject(geom, epsg, srsName);
 						builder.append(geom.toText()+System.lineSeparator());
 					} catch (ParseException e) {
 						// TODO Auto-generated catch block
@@ -63,7 +65,15 @@ public class WKTFormatter extends ResultFormatter {
 				if(lon.contains("^^")) {
 					lon=lon.substring(0,lon.indexOf("^^"));
 				}
-				builder.append("Point("+lon+" "+lat+")"+System.lineSeparator());
+				Geometry geom;
+				try {
+					geom = reader.read("Point("+lon+" "+lat+")");
+					geom=ReprojectionUtils.reproject(geom, epsg, srsName);
+					builder.append(geom.toText()+System.lineSeparator());
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				lat="";
 				lon="";
 			}

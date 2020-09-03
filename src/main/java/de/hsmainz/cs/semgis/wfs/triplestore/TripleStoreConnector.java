@@ -775,7 +775,7 @@ public abstract class TripleStoreConnector {
 	 */
 	public static String executeQuery(String queryString,String queryurl,String output,String count,
 			String offset,String startingElement,String featuretype,String resourceids,JSONObject workingobj,
-			String filter,String resultType,String srsName,String bbox,String mapstyle,Boolean alternativeFormat,Boolean invertXY) throws XMLStreamException {
+			String filter,String resultType,String srsName,String bboxcrs,String bbox,String mapstyle,Boolean alternativeFormat,Boolean invertXY) throws XMLStreamException {
 		if(invertXY==null) {
 			invertXY=false;
 		}
