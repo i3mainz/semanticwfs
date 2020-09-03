@@ -4,7 +4,7 @@ var a00440 =
     [ "CQLfilterStringToSPARQLQuery", "a00440.html#afd6ff0e4855627212cb2e26e7575255c", null ],
     [ "executePropertyValueQuery", "a00440.html#ac83388db444ca8030dc7d1f21a6f93dd", null ],
     [ "executeQuery", "a00440.html#a5df71c9c4e3fecf935a4646e04de11d5", null ],
-    [ "executeQuery", "a00440.html#af7e48b08433ea6820366dfcd55fec444", null ],
+    [ "executeQuery", "a00440.html#a7a537e1d053927709b4f7c166853912a", null ],
     [ "getBoundingBoxFromTripleStoreData", "a00440.html#a723f01dec66e801f28fd03351a36c0ad", null ],
     [ "getClassesFromOntology", "a00440.html#a2125a589edc2a288e72f1a67ad9f78b3", null ],
     [ "getFeatureTypeInformation", "a00440.html#a8591b6ad68c9bd6f4a03b48546b24d2c", null ],

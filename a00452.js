@@ -4,6 +4,7 @@ var a00452 =
     [ "createGeometry", "a00452.html#a9e565b4d0520b1fc30ab5fe2118abb5f", null ],
     [ "createGeometryCollection", "a00452.html#a3475604f80ee636cca3d07baa336def7", null ],
     [ "createGeometryCollection", "a00452.html#a7530a3b20b256d3096c63b5556adba6c", null ],
+    [ "crsURIToEPSG", "a00452.html#aa421448c7ce84a54522d8130fa94af64", null ],
     [ "reproject", "a00452.html#a6055e15f4f0347366ad62a93f647f652", null ],
     [ "toGeometry", "a00452.html#a6682d61dc04a15f1d55ed938e4ed5e7e", null ],
     [ "toGeometry", "a00452.html#a7633468ef73e66833ef49d6d357d965f", null ],
