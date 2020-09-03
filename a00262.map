@@ -1,4 +1,6 @@
-<map id="GeoTIFFFormatter" name="GeoTIFFFormatter">
-<area shape="rect" id="node2" href="$a00367.html" title="WCSResultFormatter" alt="" coords="5,80,153,107"/>
-<area shape="rect" id="node3" href="$a00343.html" title="Abstract class to downlift query results. " alt="" coords="21,5,137,32"/>
+<map id="GeoJSONFormatter" name="GeoJSONFormatter">
+<area shape="rect" id="node2" href="$a00384.html" title="WFSResultFormatter" alt="" coords="1541,188,1688,214"/>
+<area shape="rect" id="node3" href="$a00356.html" title="Abstract class to downlift query results. " alt="" coords="1376,188,1492,214"/>
+<area shape="rect" id="node6" href="$a00424.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="1096,225,1243,252"/>
+<area shape="rect" id="node11" href="$a00224.html" title="Return the geometry as a GeoJSON element. " alt="" coords="1565,238,1664,265"/>
 </map>

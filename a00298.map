@@ -1,4 +1,5 @@
-<map id="KMLFormatter" name="KMLFormatter">
-<area shape="rect" id="node2" href="$a00371.html" title="WFSResultFormatter" alt="" coords="5,80,152,107"/>
-<area shape="rect" id="node3" href="$a00343.html" title="Abstract class to downlift query results. " alt="" coords="21,5,137,32"/>
+<map id="JSONLDFormatter" name="JSONLDFormatter">
+<area shape="rect" id="node2" href="$a00384.html" title="WFSResultFormatter" alt="" coords="1541,49,1688,76"/>
+<area shape="rect" id="node3" href="$a00356.html" title="Abstract class to downlift query results. " alt="" coords="1376,181,1492,208"/>
+<area shape="rect" id="node6" href="$a00424.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="1096,212,1243,239"/>
 </map>

@@ -1,13 +1,14 @@
 var a00340 =
 [
-    [ "SVGFormatter", "a00340.html#a43d3cfa6010e0a04d76d8dcf68161ca2", null ],
+    [ "PolyshapeFormatter", "a00340.html#a62dc43d7f4c51e11d50bd78937c211ad", null ],
     [ "[static initializer]", "a00340.html#a2e87c5ede6b7235170d287cd2e254454", null ],
     [ "formatFooter", "a00340.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00340.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
-    [ "formatter", "a00340.html#a02e89e91276c92b30065be47d60aa221", null ],
+    [ "formatter", "a00340.html#a4d60ad97c2097d9323921b749f163e26", null ],
     [ "getFormatter", "a00340.html#afce25d64087d96d66b6b5535660a8ddb", null ],
     [ "contextMapper", "a00340.html#ae7316c0c7550712f915cc3cd353cd981", null ],
     [ "exposedType", "a00340.html#aa6a844c9b01d97aca583be867a1c5413", null ],
+    [ "featureType", "a00340.html#aba4867b615c0892cdae42bc4fd982639", null ],
     [ "label", "a00340.html#aec69fbfab86b7473c3e6ccea79368f0f", null ],
     [ "lastQueriedElemCount", "a00340.html#a1ce6ef499b64cec5981912a236baa199", null ],
     [ "mimeType", "a00340.html#a09c78e464072ccab667894f0d179fbdf", null ],

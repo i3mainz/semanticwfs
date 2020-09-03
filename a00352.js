@@ -1,6 +1,6 @@
 var a00352 =
 [
-    [ "TrixFormatter", "a00352.html#a3a3863febc8c94360178708ceb2045b6", null ],
+    [ "RDFThriftFormatter", "a00352.html#a9ba53815db0a8820185836ebd69ab03d", null ],
     [ "[static initializer]", "a00352.html#a2e87c5ede6b7235170d287cd2e254454", null ],
     [ "formatFooter", "a00352.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00352.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
