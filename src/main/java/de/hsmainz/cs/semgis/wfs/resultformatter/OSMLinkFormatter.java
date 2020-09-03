@@ -14,6 +14,7 @@ import org.locationtech.jts.io.ParseException;
 import org.locationtech.jts.io.WKTReader;
 
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
+import de.hsmainz.cs.semgis.wfs.util.ReprojectionUtils;
 
 public class OSMLinkFormatter extends ResultFormatter {
 
@@ -47,7 +48,8 @@ public class OSMLinkFormatter extends ResultFormatter {
 				if(name.endsWith("_geom")) {
 					try {
 						Geometry geom=reader.read(solu.get(name).toString().substring(0,solu.get(name).toString().indexOf("^^")));
-				        Envelope env = geom.getEnvelopeInternal();
+						geom=ReprojectionUtils.reproject(geom, epsg, srsName);
+						Envelope env = geom.getEnvelopeInternal();
 				        builder.append("http://www.openstreetmap.org/?");
 				        builder.append("minlon=").append(env.getMinY());
 				        builder.append("&minlat=").append(env.getMinX());

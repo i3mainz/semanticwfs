@@ -12,6 +12,7 @@ import org.locationtech.jts.io.ParseException;
 import org.locationtech.jts.io.WKTReader;
 
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
+import de.hsmainz.cs.semgis.wfs.util.ReprojectionUtils;
 
 public class LatLonTextFormatter extends ResultFormatter {
 
@@ -69,6 +70,7 @@ public class LatLonTextFormatter extends ResultFormatter {
 				if(name.endsWith("_geom")) {
 					try {
 						Geometry geom=reader.read(solu.get(name).toString().substring(0,solu.get(name).toString().indexOf("^^")));
+						geom=ReprojectionUtils.reproject(geom, epsg, srsName);
 						builder.append(convertDecimalToLatLonText(geom.getCentroid().getCoordinate().x,false)+" "+convertDecimalToLatLonText(geom.getCentroid().getCoordinate().getY(),true)+System.lineSeparator());
 					} catch (ParseException e) {
 						// TODO Auto-generated catch block
@@ -93,6 +95,7 @@ public class LatLonTextFormatter extends ResultFormatter {
 				Geometry geom;
 				try {
 					geom = reader.read("Point("+lon+" "+lat+")");
+					geom=ReprojectionUtils.reproject(geom, epsg, srsName);
 					builder.append(convertDecimalToLatLonText(geom.getCoordinate().x,false)+" "+convertDecimalToLatLonText(geom.getCoordinate().getY(),true)+System.lineSeparator());
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block

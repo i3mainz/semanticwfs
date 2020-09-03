@@ -13,6 +13,7 @@ import org.locationtech.jts.io.WKBWriter;
 import org.locationtech.jts.io.WKTReader;
 
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
+import de.hsmainz.cs.semgis.wfs.util.ReprojectionUtils;
 
 public class WKBFormatter extends ResultFormatter {
 
@@ -45,6 +46,7 @@ public class WKBFormatter extends ResultFormatter {
 				if(name.endsWith("_geom")) {
 					try {
 						Geometry geom=reader.read(solu.get(name).toString().substring(0,solu.get(name).toString().indexOf("^^")));
+						geom=ReprojectionUtils.reproject(geom, epsg, srsName);
 						builder.append(writer.write(geom)+System.lineSeparator());
 					} catch (ParseException e) {
 						// TODO Auto-generated catch block
@@ -68,6 +70,7 @@ public class WKBFormatter extends ResultFormatter {
 				}
 				try {
 					Geometry geom=reader.read("Point("+lon+" "+lat+")");
+					geom=ReprojectionUtils.reproject(geom, epsg, srsName);
 					builder.append(writer.write(geom)+System.lineSeparator());
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block

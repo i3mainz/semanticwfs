@@ -30,8 +30,10 @@ public class ReprojectionUtils {
 		if(uri.startsWith("http")) {
 			uri=uri.replace(">","");
 			return "EPSG:"+uri.substring(uri.lastIndexOf('/')+1);
+		}else if(uri.startsWith("EPSG")) {
+			return uri;
 		}
-		return uri;
+		return "";
 	}
 	
 	public static Geometry reproject(Geometry geom,String sourceCRS,String targetCRS) {
@@ -39,7 +41,7 @@ public class ReprojectionUtils {
 			return geom;
 		String src=crsURIToEPSG(sourceCRS);
 		String target=crsURIToEPSG(targetCRS);
-		if(src.equals(target)) {
+		if(src.isEmpty() || target.isEmpty() || src.equals(target)) {
 			return geom;
 		}
 		CoordinateReferenceSystem crs1 = csFactory.createFromName(src);
