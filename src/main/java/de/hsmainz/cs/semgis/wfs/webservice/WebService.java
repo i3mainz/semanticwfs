@@ -163,7 +163,7 @@ public class WebService {
 	}
 				
 	@GET
-	@Produces({OpenAPIMediaType.OA3})
+	@Produces(OpenAPIMediaType.OA3)
 	@Path("/openapi")
 	public Response openapiJSON() {
 		CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -2018,11 +2018,12 @@ public class WebService {
 			@DefaultValue("10") @QueryParam("limit") String limit,
 			@Parameter(description="The offset to consider when fetching items") @DefaultValue("0") @QueryParam("offset") String offset, @DefaultValue("") @QueryParam("bbox") String bbox,
 			@Parameter(description="The styling of the item when returned")  @DefaultValue("") @QueryParam("style") String style,
+			@Parameter(description="The crs of the data to be returned") @DefaultValue("") @QueryParam("crs") String crs,
 			@Parameter(description="The crs of a given bounding box") @DefaultValue("") @QueryParam("bbox-crs") String bboxcrs,
 			@Parameter(description="A filter expression") @DefaultValue("") @QueryParam("filter") String filter,
 			@Parameter(description="The language in which the filter expression is formulated") @DefaultValue("") @QueryParam("filter-lang") String filterlang,
 			@Parameter(description="A temporal filter expression") @DefaultValue("") @QueryParam("datetime") String datetime) {
-		return collectionItems(collectionid, format, limit, offset, bbox, style, bboxcrs, filter, filterlang, datetime);
+		return collectionItems(collectionid, format, limit, offset, bbox, style,crs, bboxcrs, filter, filterlang, datetime);
 	}
 	
 	
@@ -2037,11 +2038,12 @@ public class WebService {
 			@DefaultValue("10") @QueryParam("limit") String limit,
 			@Parameter(description="The offset to consider when fetching items") @DefaultValue("0") @QueryParam("offset") String offset, @DefaultValue("") @QueryParam("bbox") String bbox,
 			@Parameter(description="The styling of the item when returned")  @DefaultValue("") @QueryParam("style") String style,
+			@Parameter(description="The crs of the data to be returned") @DefaultValue("") @QueryParam("crs") String crs,
 			@Parameter(description="The crs of a given bounding box") @DefaultValue("") @QueryParam("bbox-crs") String bboxcrs,
 			@Parameter(description="A filter expression") @DefaultValue("") @QueryParam("filter") String filter,
 			@Parameter(description="The language in which the filter expression is formulated") @DefaultValue("") @QueryParam("filter-lang") String filterlang,
 			@Parameter(description="A temporal filter expression") @DefaultValue("") @QueryParam("datetime") String datetime) {
-		return collectionItems(collectionid, format, limit, offset, bbox, style, bboxcrs, filter, filterlang, datetime);
+		return collectionItems(collectionid, format, limit, offset, bbox, style,crs, bboxcrs, filter, filterlang, datetime);
 	}
 	
 	@GET
@@ -2055,11 +2057,12 @@ public class WebService {
 			@DefaultValue("10") @QueryParam("limit") String limit,
 			@Parameter(description="The offset to consider when fetching items") @DefaultValue("0") @QueryParam("offset") String offset, @DefaultValue("") @QueryParam("bbox") String bbox,
 			@Parameter(description="The styling of the item when returned")  @DefaultValue("") @QueryParam("style") String style,
+			@Parameter(description="The crs of the data to be returned") @DefaultValue("") @QueryParam("crs") String crs,
 			@Parameter(description="The crs of a given bounding box") @DefaultValue("") @QueryParam("bbox-crs") String bboxcrs,
 			@Parameter(description="A filter expression") @DefaultValue("") @QueryParam("filter") String filter,
 			@Parameter(description="The language in which the filter expression is formulated") @DefaultValue("") @QueryParam("filter-lang") String filterlang,
 			@Parameter(description="A temporal filter expression") @DefaultValue("") @QueryParam("datetime") String datetime) {
-		return collectionItems(collectionid, format, limit, offset, bbox, style, bboxcrs, filter, filterlang, datetime);
+		return collectionItems(collectionid, format, limit, offset, bbox, style,crs, bboxcrs, filter, filterlang, datetime);
 	}
 	
 	
@@ -2083,11 +2086,13 @@ public class WebService {
 	@Operation(
             summary = "Returns items of a given collection",
             description = "Returns items of a given collection which conform to certain criteria")
-	public Response collectionItems(@Parameter(description="The id of the collection") @PathParam("collectionid") String collectionid,
+	public Response collectionItems(
+			@Parameter(description="The id of the collection") @PathParam("collectionid") String collectionid,
 			@Parameter(description="The format of the result") @DefaultValue("html") @QueryParam("f") String format, 
 			@DefaultValue("10") @QueryParam("limit") String limit,
 			@Parameter(description="The offset to consider when fetching items") @DefaultValue("0") @QueryParam("offset") String offset, @DefaultValue("") @QueryParam("bbox") String bbox,
 			@Parameter(description="The styling of the item when returned")  @DefaultValue("") @QueryParam("style") String style,
+			@Parameter(description="The crs of the data to be returned") @DefaultValue("") @QueryParam("crs") String crs,
 			@Parameter(description="The crs of a given bounding box") @DefaultValue("") @QueryParam("bbox-crs") String bboxcrs,
 			@Parameter(description="A filter expression") @DefaultValue("") @QueryParam("filter") String filter,
 			@Parameter(description="The language in which the filter expression is formulated") @DefaultValue("") @QueryParam("filter-lang") String filterlang,
@@ -2127,7 +2132,7 @@ public class WebService {
 					workingobj.getString("triplestore"), format,
 					limit,
 					offset, "sf:featureMember", collectionid,
-					"", workingobj, filter, "", "", bbox, style,true,(workingobj.has("invertXY")?workingobj.getBoolean("invertXY"):false));
+					"", workingobj, filter, "", crs, bbox, style,true,(workingobj.has("invertXY")?workingobj.getBoolean("invertXY"):false));
 			// System.out.println(res);
 			if (res == null || res.isEmpty()) {
 				System.out.println("RES: "+res);
