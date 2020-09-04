@@ -56,10 +56,20 @@ public class GeoURIFormatter extends WFSResultFormatter {
 	    		if(name.endsWith("_geom")) {
 	    			try {
 						Geometry geom=ReprojectionUtils.reproject(reader.read(solu.getLiteral(name).getString()), epsg,srsName);
+						String uricode="";
+						if(!srsName.isEmpty()) {
+							if(srsName.startsWith("http")) {
+								uricode="EPSG:"+srsName.substring(srsName.lastIndexOf("/")+1);
+							}else {
+								uricode=srsName;
+							}
+						}else {
+							uricode=epsg;
+						}
 		                if("POINT".equalsIgnoreCase(geom.getGeometryType())) {
-		                	resultCSV.append("geo:"+geom.getCoordinate().x+","+geom.getCoordinate().y+";crs="+(srsName.isEmpty()?epsg:srsName));
+		                	resultCSV.append("geo:"+geom.getCoordinate().x+","+geom.getCoordinate().y+";crs="+uricode+System.lineSeparator());
 		                }else {
-		                	resultCSV.append("geo:"+geom.getCentroid().getCoordinate().x+","+geom.getCentroid().getCoordinate().y+";crs="+(srsName.isEmpty()?epsg:srsName));
+		                	resultCSV.append("geo:"+geom.getCentroid().getCoordinate().x+","+geom.getCentroid().getCoordinate().y+";crs="+uricode+System.lineSeparator());
 		                }
 	    			}catch(Exception e) {
 	    				e.printStackTrace();
