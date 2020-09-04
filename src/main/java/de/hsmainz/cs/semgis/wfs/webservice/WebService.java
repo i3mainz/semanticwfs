@@ -708,6 +708,7 @@ public class WebService {
 				temporal.put("2020-08-22T22:10:44Z");*/
 				JSONArray crs=new JSONArray();	
 				crs.put("http://www.opengis.net/def/crs/EPSG/0/"+curobj.getString("targetCRS").substring(curobj.getString("targetCRS").indexOf(":")+1));
+				coll.put("storageCRS", "http://www.opengis.net/def/crs/EPSG/0/"+curobj.getString("targetCRS").substring(curobj.getString("targetCRS").indexOf(":")+1));
 				coll.put("crs",crs);
 				/*coll.put("extent", extent);
 				extent.put("spatial", spatial);
@@ -1403,6 +1404,7 @@ public class WebService {
 				temporal.put("2020-08-22T22:10:44Z");*/
 				JSONArray crs = new JSONArray();		
 				crs.put("http://www.opengis.net/def/crs/EPSG/0/"+curobj.getString("targetCRS").substring(curobj.getString("targetCRS").indexOf(":")+1));
+				coll.put("storageCRS", "http://www.opengis.net/def/crs/EPSG/0/"+curobj.getString("targetCRS").substring(curobj.getString("targetCRS").indexOf(":")+1));
 				coll.put("crs", crs);
 				//JSONArray crs = new JSONArray();
 				//crs.put("http://www.opengis.net/def/crs/OGC/1.3/CRS84");
@@ -1797,6 +1799,7 @@ public class WebService {
 			extent.put("temporal",temporal);*/
 			JSONArray crs = new JSONArray();		
 			crs.put("http://www.opengis.net/def/crs/EPSG/0/"+workingobj.getString("targetCRS").substring(workingobj.getString("targetCRS").indexOf(":")+1));
+			result.put("storageCRS", "http://www.opengis.net/def/crs/EPSG/0/"+workingobj.getString("targetCRS").substring(workingobj.getString("targetCRS").indexOf(":")+1));
 			result.put("crs", crs);
 			JSONObject link = new JSONObject();
 			link.put("href", wfsconf.getString("baseurl") + "/collections/"+collectionid+"?f=json");
@@ -2321,6 +2324,7 @@ public class WebService {
 			conforms.put("http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/core");
 			conforms.put("http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/oas30");
 			conforms.put("http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/html");
+			conforms.put("http://www.opengis.net/spec/ogcapi-features-2/1.0/conf/crs");
 			conforms.put("http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/geojson");
 			conforms.put("http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/gmlsf0");
 			result.put("conformsTo", conforms);
@@ -2348,6 +2352,9 @@ public class WebService {
 				writer.writeAttribute("href", "http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/oas30");
 				writer.writeEndElement();
 				writer.writeStartElement("atom:link");
+				writer.writeAttribute("href", "http://www.opengis.net/spec/ogcapi-features-2/1.0/conf/crs");
+				writer.writeEndElement();
+				writer.writeStartElement("atom:link");
 				writer.writeAttribute("href", "http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/html");
 				writer.writeEndElement();
 				writer.writeStartElement("atom:link");
@@ -2372,6 +2379,8 @@ public class WebService {
 					"<li><a target=\"_blank\" href=\"http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/core\">Core</a></li>");
 			builder.append(
 					"<li><a target=\"_blank\" href=\"http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/oas30\">Oas30</a></li>");
+			builder.append(
+					"<li><a target=\"_blank\" href=\"http://www.opengis.net/spec/ogcapi-features-2/1.0/conf/crs\">Crs</a></li>");
 			builder.append(
 					"<li><a target=\"_blank\" href=\"http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/html\">HTML</a></li>");
 			builder.append(
