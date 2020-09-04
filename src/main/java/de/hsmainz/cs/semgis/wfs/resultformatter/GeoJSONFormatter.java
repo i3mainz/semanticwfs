@@ -15,6 +15,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.Geometry;
 
 import de.hsmainz.cs.semgis.wfs.converters.AsGeoJSON;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.GeoJSONCSSFormatter;
@@ -228,10 +229,10 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 					
 					lastgeom = solu.get(name).toString();
 					try {
-						NodeValue nodeval = geojson.exec(NodeValue.makeNode(solu.getLiteral(name).getString(),
+						Geometry coord=ReprojectionUtils.reproject(reader.read(solu.getLiteral(name).getString()), epsg,srsName);
+						NodeValue nodeval = geojson.exec(NodeValue.makeNode(coord.toText(),
 								solu.getLiteral(name).getDatatype()));
-						JSONObject geomobj = new JSONObject(nodeval.asNode().getLiteralValue().toString());
-						
+						JSONObject geomobj = new JSONObject(nodeval.asNode().getLiteralValue().toString());			
 						//System.out.println("ADD GEOMETRY!");
 						//System.out.println(geomobj);
 						geoms.add(geomobj);
