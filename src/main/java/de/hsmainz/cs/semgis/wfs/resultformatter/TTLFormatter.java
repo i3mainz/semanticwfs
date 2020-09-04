@@ -11,7 +11,6 @@ import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.io.ParseException;
-import org.locationtech.jts.io.WKTReader;
 
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 import de.hsmainz.cs.semgis.wfs.util.ReprojectionUtils;
@@ -60,7 +59,17 @@ public class TTLFormatter extends ResultFormatter {
 			while(varnames.hasNext()) {
 				String name=varnames.next();
 				if(name.endsWith("_geom")) {
-					geomLiteral="\""+solu.get(name).toString().substring(0,solu.get(name).toString().indexOf("^^"))+"\"^^<"+solu.get(name).toString().substring(solu.get(name).toString().indexOf("^^")+2)+"> .";
+					if(solu.get(name).toString().substring(solu.get(name).toString().indexOf("^^")+2).contains("wkt")) {
+						Geometry geom;
+						try {
+							geom = reader.read(solu.get(name).toString().substring(0,solu.get(name).toString().indexOf("^^")));
+							geom=ReprojectionUtils.reproject(geom, epsg, srsName);
+							geomLiteral="\""+solu.get(name).toString().substring(0,solu.get(name).toString().indexOf("^^"))+"\"^^<"+solu.get(name).toString().substring(solu.get(name).toString().indexOf("^^")+2)+"> .";
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
 				}else if(name.equalsIgnoreCase(indvar)){
 					continue;
 				}else if("rel".equalsIgnoreCase(name) || name.contains("_rel") || name.matches("rel[0-9]+$")){
