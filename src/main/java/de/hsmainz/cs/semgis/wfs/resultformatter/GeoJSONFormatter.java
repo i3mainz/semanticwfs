@@ -96,7 +96,7 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 				//System.out.println(latlist+" - "+lonlist);
 				if(!latlist.isEmpty() && !lonlist.isEmpty()) {
 					if(latlist.size()==1 && lonlist.size()==1) {
-						Coordinate coord=ReprojectionUtils.reproject(Double.valueOf(lonlist.get(0)), Double.valueOf(latlist.get(0)), srsName, epsg);
+						Coordinate coord=ReprojectionUtils.reproject(Double.valueOf(lonlist.get(0)), Double.valueOf(latlist.get(0)), epsg,srsName);
 						JSONObject geomobj=new JSONObject("{\"type\":\"Point\",\"coordinates\":["+coord.x+","+coord.y+"]}");
 						geoms.add(geomobj);
 						properties.put("lon",coord.x);
@@ -119,7 +119,7 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 						geomobj.put("coordinates",arr);
 						for(int i=0;i<latlist.size();i++) {
 							JSONArray arr3=new JSONArray();
-							Coordinate coord=ReprojectionUtils.reproject(Double.valueOf(lonlist.get(i)), Double.valueOf(latlist.get(i)), srsName, epsg);
+							Coordinate coord=ReprojectionUtils.reproject(Double.valueOf(lonlist.get(i)), Double.valueOf(latlist.get(i)), epsg,srsName);
 							arr3.put(coord.x);
 							arr3.put(coord.y);
 							lit+=coord.x+" "+coord.y;//lonlist.get(i)+" "+latlist.get(i)+",";
@@ -143,7 +143,7 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 						geomobj.put("coordinates",arr);
 						for(int i=0;i<latlist.size();i++) {
 							JSONArray arr2=new JSONArray();
-							Coordinate coord=ReprojectionUtils.reproject(Double.valueOf(lonlist.get(i)), Double.valueOf(latlist.get(i)), srsName, epsg);
+							Coordinate coord=ReprojectionUtils.reproject(Double.valueOf(lonlist.get(i)), Double.valueOf(latlist.get(i)), epsg,srsName);
 							arr2.put(coord.x);
 							arr2.put(coord.y);
 							lit+=coord.x+" "+coord.y;//lonlist.get(i)+" "+latlist.get(i)+",";
@@ -343,7 +343,7 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 				geomobj.put("coordinates",arr);
 				for(int i=0;i<latlist.size();i++) {
 					JSONArray arr3=new JSONArray();
-					Coordinate coord=ReprojectionUtils.reproject(Double.valueOf(lonlist.get(i)), Double.valueOf(latlist.get(i)), srsName, epsg);
+					Coordinate coord=ReprojectionUtils.reproject(Double.valueOf(lonlist.get(i)), Double.valueOf(latlist.get(i)), epsg,srsName);
 					arr3.put(coord.x);
 					arr3.put(coord.y);
 					//arr3.put(lonlist.get(i));
@@ -368,7 +368,7 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 				geomobj.put("coordinates",arr);
 				for(int i=0;i<latlist.size();i++) {
 					JSONArray arr2=new JSONArray();
-					Coordinate coord=ReprojectionUtils.reproject(Double.valueOf(lonlist.get(i)), Double.valueOf(latlist.get(i)), srsName, epsg);
+					Coordinate coord=ReprojectionUtils.reproject(Double.valueOf(lonlist.get(i)), Double.valueOf(latlist.get(i)), epsg,srsName);
 					arr2.put(coord.x);
 					arr2.put(coord.y);
 					//arr2.put(lonlist.get(i));
