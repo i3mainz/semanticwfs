@@ -322,10 +322,11 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 		System.out.println("LastLat: "+latlist.toString()+" "+lonlist.toString());
 		if(!latlist.isEmpty() && !lonlist.isEmpty()) {
 			if(latlist.size()==1 && lonlist.size()==1) {
-				JSONObject geomobj=new JSONObject("{\"type\":\"Point\",\"coordinates\":["+lonlist.get(0)+","+latlist.get(0)+"]}");
+				Coordinate coord=ReprojectionUtils.reproject(Double.valueOf(lonlist.get(0)), Double.valueOf(latlist.get(0)), epsg,srsName);
+				JSONObject geomobj=new JSONObject("{\"type\":\"Point\",\"coordinates\":["+coord.x+","+coord.y+"]}");
 				geoms.add(geomobj);
-				properties.put("lon",lonlist.get(0));
-				properties.put("lat", latlist.get(0));
+				properties.put("lon",coord.x);
+				properties.put("lat", coord.y);
 				if(mapstyle!=null) {
 					JSONObject geojsonstyle=new JSONObject(this.styleformatter.formatGeometry("Point", mapstyle));
 					System.out.println("Got style? - "+geojsonstyle);
