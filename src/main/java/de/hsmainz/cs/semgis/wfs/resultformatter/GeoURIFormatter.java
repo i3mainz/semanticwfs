@@ -32,9 +32,7 @@ public class GeoURIFormatter extends WFSResultFormatter {
 			String srsName,String indvar,String epsg,List<String> eligiblenamespaces,
 			List<String> noteligiblenamespaces,StyleObject mapstyle,Boolean alternativeFormat,Boolean invertXY) {
 		List<QuerySolution> test=ResultSetFormatter.toList(results);
-    	Boolean first=true;
     	StringBuilder resultCSV=new StringBuilder();
-    	StringBuilder resultCSVHeader=new StringBuilder();
     	String lastInd="";
 	    for(QuerySolution solu:test) {
 	    	Iterator<String> varnames = solu.varNames();
@@ -50,9 +48,6 @@ public class GeoURIFormatter extends WFSResultFormatter {
 						lastQueriedElemCount++;
 					}
 				}
-	    		if(first) {
-	    		    resultCSVHeader.append(name+",");
-	    		}
 	    		if(name.endsWith("_geom")) {
 	    			try {
 						Geometry geom=ReprojectionUtils.reproject(reader.read(solu.getLiteral(name).getString()), epsg,srsName);
