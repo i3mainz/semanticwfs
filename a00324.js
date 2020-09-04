@@ -11,6 +11,7 @@ var a00324 =
     [ "label", "a00324.html#aec69fbfab86b7473c3e6ccea79368f0f", null ],
     [ "lastQueriedElemCount", "a00324.html#a1ce6ef499b64cec5981912a236baa199", null ],
     [ "mimeType", "a00324.html#a09c78e464072ccab667894f0d179fbdf", null ],
+    [ "reader", "a00324.html#ae8b1e194dbc193fe759f7e517807e668", null ],
     [ "resultMap", "a00324.html#ad4dc7a6c041435f4beebcc9e95620641", null ],
     [ "styleformatter", "a00324.html#a642e338a4dd781605dd3b0ca82fbd940", null ],
     [ "urlformat", "a00324.html#ab8f021a6bbeb42028cef0a3a7cc1872d", null ]
