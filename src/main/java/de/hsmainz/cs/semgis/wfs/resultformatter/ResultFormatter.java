@@ -7,6 +7,7 @@ import java.util.TreeMap;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.jena.query.ResultSet;
+import org.locationtech.jts.io.WKTReader;
 
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.ResultStyleFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
@@ -32,6 +33,8 @@ public abstract class ResultFormatter {
 	public Map<String,String> contextMapper=new TreeMap<>();
 	
 	public ResultStyleFormatter styleformatter;
+	
+	public WKTReader reader=new WKTReader();
 	
 	public static ResultFormatter getFormatter(String formatString) {
 		formatString=formatString.toLowerCase();

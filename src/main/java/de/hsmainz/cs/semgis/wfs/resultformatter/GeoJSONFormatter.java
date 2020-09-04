@@ -14,11 +14,13 @@ import org.apache.jena.sparql.expr.NodeValue;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.locationtech.jts.geom.Coordinate;
 
 import de.hsmainz.cs.semgis.wfs.converters.AsGeoJSON;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.GeoJSONCSSFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.ResultStyleFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
+import de.hsmainz.cs.semgis.wfs.util.ReprojectionUtils;
 
 /**
  * Formats a query result to GeoJSON.
@@ -94,10 +96,11 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 				//System.out.println(latlist+" - "+lonlist);
 				if(!latlist.isEmpty() && !lonlist.isEmpty()) {
 					if(latlist.size()==1 && lonlist.size()==1) {
-						JSONObject geomobj=new JSONObject("{\"type\":\"Point\",\"coordinates\":["+lonlist.get(0)+","+latlist.get(0)+"]}");
+						Coordinate coord=ReprojectionUtils.reproject(Double.valueOf(lonlist.get(0)), Double.valueOf(latlist.get(0)), srsName, epsg);
+						JSONObject geomobj=new JSONObject("{\"type\":\"Point\",\"coordinates\":["+coord.x+","+coord.y+"]}");
 						geoms.add(geomobj);
-						properties.put("lon",lonlist.get(0));
-						properties.put("lat", latlist.get(0));
+						properties.put("lon",coord.x);
+						properties.put("lat", coord.y);
 						if(mapstyle!=null) {
 							JSONObject geojsonstyle=new JSONObject(this.styleformatter.formatGeometry("Point", mapstyle));
 							System.out.println("Got style? - "+geojsonstyle);
@@ -116,9 +119,11 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 						geomobj.put("coordinates",arr);
 						for(int i=0;i<latlist.size();i++) {
 							JSONArray arr3=new JSONArray();
-							arr3.put(lonlist.get(i));
-							arr3.put(latlist.get(i));
-							lit+=lonlist.get(i)+" "+latlist.get(i)+",";
+							Coordinate coord=ReprojectionUtils.reproject(Double.valueOf(lonlist.get(i)), Double.valueOf(latlist.get(i)), srsName, epsg);
+							arr3.put(coord.x);
+							arr3.put(coord.y);
+							lit+=coord.x+" "+coord.y;//lonlist.get(i)+" "+latlist.get(i)+",";
+							//lit+=lonlist.get(i)+" "+latlist.get(i)+",";
 							arr2.put(arr3);
 						}
 						geoms.add(geomobj);
@@ -138,9 +143,11 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 						geomobj.put("coordinates",arr);
 						for(int i=0;i<latlist.size();i++) {
 							JSONArray arr2=new JSONArray();
-							arr2.put(lonlist.get(i));
-							arr2.put(latlist.get(i));
-							lit+=lonlist.get(i)+" "+latlist.get(i)+",";
+							Coordinate coord=ReprojectionUtils.reproject(Double.valueOf(lonlist.get(i)), Double.valueOf(latlist.get(i)), srsName, epsg);
+							arr2.put(coord.x);
+							arr2.put(coord.y);
+							lit+=coord.x+" "+coord.y;//lonlist.get(i)+" "+latlist.get(i)+",";
+							//lit+=lonlist.get(i)+" "+latlist.get(i)+",";
 							arr.put(arr2);
 						}
 						geoms.add(geomobj);
@@ -336,9 +343,12 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 				geomobj.put("coordinates",arr);
 				for(int i=0;i<latlist.size();i++) {
 					JSONArray arr3=new JSONArray();
-					arr3.put(lonlist.get(i));
-					arr3.put(latlist.get(i));
-					lit+=lonlist.get(i)+" "+latlist.get(i)+",";
+					Coordinate coord=ReprojectionUtils.reproject(Double.valueOf(lonlist.get(i)), Double.valueOf(latlist.get(i)), srsName, epsg);
+					arr3.put(coord.x);
+					arr3.put(coord.y);
+					//arr3.put(lonlist.get(i));
+					//arr3.put(latlist.get(i));
+					lit+=coord.x+" "+coord.y;//lonlist.get(i)+" "+latlist.get(i)+",";
 					arr2.put(arr3);
 				}
 				geoms.add(geomobj);
@@ -358,9 +368,13 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 				geomobj.put("coordinates",arr);
 				for(int i=0;i<latlist.size();i++) {
 					JSONArray arr2=new JSONArray();
-					arr2.put(lonlist.get(i));
-					arr2.put(latlist.get(i));
-					lit+=lonlist.get(i)+" "+latlist.get(i)+",";
+					Coordinate coord=ReprojectionUtils.reproject(Double.valueOf(lonlist.get(i)), Double.valueOf(latlist.get(i)), srsName, epsg);
+					arr2.put(coord.x);
+					arr2.put(coord.y);
+					//arr2.put(lonlist.get(i));
+					//arr2.put(latlist.get(i));
+					lit+=coord.x+" "+coord.y;//lonlist.get(i)+" "+latlist.get(i)+",";
+					//lit+=lonlist.get(i)+" "+latlist.get(i)+",";
 					arr.put(arr2);
 				}
 				geoms.add(geomobj);

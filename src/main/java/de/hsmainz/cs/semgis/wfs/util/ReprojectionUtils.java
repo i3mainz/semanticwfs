@@ -36,6 +36,51 @@ public class ReprojectionUtils {
 		return "";
 	}
 	
+	public static Coordinate reproject(Double x,Double y,String sourceCRS,String targetCRS) {
+		if(sourceCRS==null || sourceCRS.isEmpty() || targetCRS==null || targetCRS.isEmpty())
+			return new Coordinate(x,y);
+		String src=crsURIToEPSG(sourceCRS);
+		String target=crsURIToEPSG(targetCRS);
+		if(src.isEmpty() || target.isEmpty() || src.equals(target)) {
+			return new Coordinate(x,y);
+		}
+		CoordinateReferenceSystem crs1 = csFactory.createFromName(src);
+        CoordinateReferenceSystem crs2 = csFactory.createFromName(target);
+        CoordinateTransform trans = ctFactory.createTransform(crs1, crs2);
+		ProjCoordinate p1 = new ProjCoordinate();
+	    ProjCoordinate p2 = new ProjCoordinate();
+	    p1.x = x;
+	    p1.y = y;
+	    trans.transform(p1, p2);
+	    return new Coordinate(p2.x,p2.y);
+	}
+	
+	public static Coordinate[] reproject(Coordinate[] geom,String sourceCRS,String targetCRS) {
+		if(sourceCRS==null || sourceCRS.isEmpty() || targetCRS==null || targetCRS.isEmpty())
+			return geom;
+		String src=crsURIToEPSG(sourceCRS);
+		String target=crsURIToEPSG(targetCRS);
+		if(src.isEmpty() || target.isEmpty() || src.equals(target)) {
+			return geom;
+		}
+		CoordinateReferenceSystem crs1 = csFactory.createFromName(src);
+        CoordinateReferenceSystem crs2 = csFactory.createFromName(target);
+        CoordinateTransform trans = ctFactory.createTransform(crs1, crs2);
+        Coordinate[] oldcoords=geom;
+        Coordinate[] newcoords=new Coordinate[oldcoords.length];
+        int i=0;
+		for(Coordinate cur:oldcoords) {
+			 ProjCoordinate p1 = new ProjCoordinate();
+		     ProjCoordinate p2 = new ProjCoordinate();
+		     p1.x = cur.x;
+		     p1.y = cur.y;
+		     trans.transform(p1, p2);
+		     newcoords[i]=new Coordinate(p2.x,p2.y);
+		}
+		return newcoords;
+	}
+	
+	
 	public static Geometry reproject(Geometry geom,String sourceCRS,String targetCRS) {
 		if(sourceCRS==null || sourceCRS.isEmpty() || targetCRS==null || targetCRS.isEmpty())
 			return geom;

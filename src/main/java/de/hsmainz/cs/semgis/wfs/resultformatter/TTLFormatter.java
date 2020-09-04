@@ -9,14 +9,20 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.io.ParseException;
+import org.locationtech.jts.io.WKTReader;
 
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
+import de.hsmainz.cs.semgis.wfs.util.ReprojectionUtils;
 
 /**
  * Formats a query result to TTL.
  */
 public class TTLFormatter extends ResultFormatter {
 
+
+	
 	/**
 	 * Constructor for this class.
 	 */
@@ -83,10 +89,18 @@ public class TTLFormatter extends ResultFormatter {
 				if(lon.contains("^^")) {
 					lon=lon.substring(0,lon.indexOf("^^"));
 				}
-				geomLiteral="\"Point("+lon+" "+lat+")\"^^<http://www.opengis.net/ont/geosparql#wktLiteral> .";
-				builder.append("<"+solu.get(indvar)+"_geom> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.opengis.net/ont/geosparql#Geometry> ."+System.lineSeparator());
-				builder.append("<"+solu.get(indvar)+"> <http://www.opengis.net/ont/geosparql#hasGeometry> <"+solu.get(indvar)+"_geom> ."+System.lineSeparator());
-				builder.append("<"+solu.get(indvar)+"_geom> <http://www.opengis.net/ont/geosparql#asWKT> "+geomLiteral+System.lineSeparator());
+				Geometry geom;
+				try {
+					geom = reader.read("Point("+lon+" "+lat+")");
+					geom=ReprojectionUtils.reproject(geom, epsg, srsName);
+					geomLiteral="\""+geom.toText()+"\"^^<http://www.opengis.net/ont/geosparql#wktLiteral> .";
+					builder.append("<"+solu.get(indvar)+"_geom> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.opengis.net/ont/geosparql#Geometry> ."+System.lineSeparator());
+					builder.append("<"+solu.get(indvar)+"> <http://www.opengis.net/ont/geosparql#hasGeometry> <"+solu.get(indvar)+"_geom> ."+System.lineSeparator());
+					builder.append("<"+solu.get(indvar)+"_geom> <http://www.opengis.net/ont/geosparql#asWKT> "+geomLiteral+System.lineSeparator());
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				lat="";
 				lon="";
 			}
