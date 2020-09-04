@@ -64,7 +64,7 @@ public class TTLFormatter extends ResultFormatter {
 						try {
 							geom = reader.read(solu.get(name).toString().substring(0,solu.get(name).toString().indexOf("^^")));
 							geom=ReprojectionUtils.reproject(geom, epsg, srsName);
-							geomLiteral="\""+solu.get(name).toString().substring(0,solu.get(name).toString().indexOf("^^"))+"\"^^<"+solu.get(name).toString().substring(solu.get(name).toString().indexOf("^^")+2)+"> .";
+							geomLiteral="\""+geom.toText()+"\"^^<"+solu.get(name).toString().substring(solu.get(name).toString().indexOf("^^")+2)+"> .";
 						} catch (ParseException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
