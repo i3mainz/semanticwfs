@@ -6,11 +6,8 @@ import java.util.List;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.query.ResultSetFormatter;
-import org.apache.jena.sparql.expr.NodeValue;
-import org.json.JSONObject;
 import org.locationtech.jts.geom.Geometry;
 
-import de.hsmainz.cs.semgis.wfs.converters.AsGeoURI;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 import de.hsmainz.cs.semgis.wfs.util.ReprojectionUtils;
 
@@ -57,14 +54,13 @@ public class GeoURIFormatter extends WFSResultFormatter {
 	    		    resultCSVHeader.append(name+",");
 	    		}
 	    		if(name.endsWith("_geom")) {
-	    			
-	    			AsGeoURI geojson=new AsGeoURI();
 	    			try {
-						Geometry coord=ReprojectionUtils.reproject(reader.read(solu.getLiteral(name).getString()), epsg,srsName);
-						NodeValue val = geojson.exec(NodeValue.makeNode(coord.toText(),
-								solu.getLiteral(name).getDatatype()));
-	    			//JSONObject geomobj=new JSONObject(val.asNode().getLiteralValue().toString());
-	    			resultCSV.append(val.asString()+System.lineSeparator());
+						Geometry geom=ReprojectionUtils.reproject(reader.read(solu.getLiteral(name).getString()), epsg,srsName);
+		                if("POINT".equalsIgnoreCase(geom.getGeometryType())) {
+		                	resultCSV.append("geo:"+geom.getCoordinate().x+","+geom.getCoordinate().y+";crs="+(srsName.isEmpty()?epsg:srsName));
+		                }else {
+		                	resultCSV.append("geo:"+geom.getCentroid().getCoordinate().x+","+geom.getCentroid().getCoordinate().y+";crs="+(srsName.isEmpty()?epsg:srsName));
+		                }
 	    			}catch(Exception e) {
 	    				e.printStackTrace();
 	    			}
