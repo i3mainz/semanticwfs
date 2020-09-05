@@ -1968,12 +1968,12 @@ public class WebService {
 			for (ResultFormatter formatter : ResultFormatter.resultMap.values()) {
 				builder.append("<option value=\""+formatter.urlformat+"\">"+formatter.label+"</option>");
 			}
-			builder.append("</select>&nbsp;CRS:<select id=\"crs\" disabled></select><button id=\"showfeaturebutton\" onclick=\"showCollections('"+wfsconf.getString("baseurl")+"/collections/" + workingobj.getString("name") + "/items')\"/>Show</button></section></div></div></div>");
+			builder.append("</select>&nbsp;CRS:<select id=\"crs\"></select><button id=\"showfeaturebutton\" onclick=\"showCollections('"+wfsconf.getString("baseurl")+"/collections/" + workingobj.getString("name") + "/items')\"/>Show</button></section></div></div></div>");
 			builder.append("<footer id=\"footer\"><table width=100%><tbody><tr><td><a href=\"" + wfsconf.getString("baseurl")
 					+ "/collections?f=html\">Back to Collections</a></td><td align=right>This page in <a href=\""
 					+ wfsconf.getString("baseurl") + "/collections/" + workingobj.getString("name")
 					+ "?f=gml\">[GML]</a> <a href=\"" + wfsconf.getString("baseurl") + "/collections/"
-					+ workingobj.getString("name") + "?f=geojson\">[JSON]</a></td></tr></tbody></table></footer></body></html>");
+					+ workingobj.getString("name") + "?f=geojson\">[JSON]</a></td></tr></tbody></table></footer><script> $.ajax({url:'epsg.txt',success: function (data){$('#crs').html(data) $(\"#crs\").val(\""+workingobj.getString("targetCRS")+"\");}});</script></body></html>");
 			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
 		} else {
 			throw new NotFoundException();
