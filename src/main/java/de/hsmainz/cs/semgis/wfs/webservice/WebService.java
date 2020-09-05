@@ -1973,7 +1973,7 @@ public class WebService {
 					+ "/collections?f=html\">Back to Collections</a></td><td align=right>This page in <a href=\""
 					+ wfsconf.getString("baseurl") + "/collections/" + workingobj.getString("name")
 					+ "?f=gml\">[GML]</a> <a href=\"" + wfsconf.getString("baseurl") + "/collections/"
-					+ workingobj.getString("name") + "?f=geojson\">[JSON]</a></td></tr></tbody></table></footer><script> $.ajax({url:'epsg.txt',success: function (data){$('#crs').html(data); $('#crs').val(\""+workingobj.getString("targetCRS")+"\");}});</script></body></html>");
+					+ workingobj.getString("name") + "?f=geojson\">[JSON]</a></td></tr></tbody></table></footer><script> $.ajax({url:'../config/epsg.txt',success: function (data){$('#crs').html(data); $('#crs').val(\""+workingobj.getString("targetCRS")+"\");}});</script></body></html>");
 			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
 		} else {
 			throw new NotFoundException();
