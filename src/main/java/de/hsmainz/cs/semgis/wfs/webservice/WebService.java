@@ -1939,7 +1939,7 @@ public class WebService {
 			geojson.put("geometry", geometry);
 			geojson.put("properties", properties);
 			builder.append(htmlHead);
-			builder.append("<script>function showCollections(link){window.open(link+\"?offset=\"+$('#offset').val()+\"&limit=\"+$('#limit').val()+\"&f=\"+$('#format').val(),'_blank');} var espg=\"" + (workingobj.has("targetCRS") ? workingobj.get("targetCRS") : "")
+			builder.append("<script>function showCollections(link){window.open(link+\"?offset=\"+$('#offset').val()+\"&limit=\"+$('#limit').val()+\"&crs=\"+$('#crs').val()+\"&f=\"+$('#format').val(),'_blank');} var espg=\"" + (workingobj.has("targetCRS") ? workingobj.get("targetCRS") : "")
 					+ "\";</script><body><header id=\"header\"><h1 align=\"center\">");
 			builder.append(
 					(workingobj.getString("name") != null ? workingobj.getString("name") : collectionid));
@@ -1973,7 +1973,7 @@ public class WebService {
 					+ "/collections?f=html\">Back to Collections</a></td><td align=right>This page in <a href=\""
 					+ wfsconf.getString("baseurl") + "/collections/" + workingobj.getString("name")
 					+ "?f=gml\">[GML]</a> <a href=\"" + wfsconf.getString("baseurl") + "/collections/"
-					+ workingobj.getString("name") + "?f=geojson\">[JSON]</a></td></tr></tbody></table></footer><script> $.ajax({url:'epsg.txt',success: function (data){$('#crs').html(data) $(\"#crs\").val(\""+workingobj.getString("targetCRS")+"\");}});</script></body></html>");
+					+ workingobj.getString("name") + "?f=geojson\">[JSON]</a></td></tr></tbody></table></footer><script> $.ajax({url:'epsg.txt',success: function (data){$('#crs').html(data); $('#crs').val(\""+workingobj.getString("targetCRS")+"\");}});</script></body></html>");
 			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
 		} else {
 			throw new NotFoundException();
