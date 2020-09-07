@@ -2095,7 +2095,7 @@ public class WebService {
 			@DefaultValue("10") @QueryParam("limit") String limit,
 			@Parameter(description="The offset to consider when fetching items") @DefaultValue("0") @QueryParam("offset") String offset, @DefaultValue("") @QueryParam("bbox") String bbox,
 			@Parameter(description="The styling of the item when returned")  @DefaultValue("") @QueryParam("style") String style,
-			@Parameter(description="The crs of the data to be returned") @DefaultValue("") @QueryParam("crs") String crs,
+			@Parameter(description="The crs of the data to be returned") @DefaultValue("EPSG:4326") @QueryParam("crs") String crs,
 			@Parameter(description="The crs of a given bounding box") @DefaultValue("") @QueryParam("bbox-crs") String bboxcrs,
 			@Parameter(description="A filter expression") @DefaultValue("") @QueryParam("filter") String filter,
 			@Parameter(description="The language in which the filter expression is formulated") @DefaultValue("") @QueryParam("filter-lang") String filterlang,
