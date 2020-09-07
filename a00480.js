@@ -8,7 +8,7 @@ var a00480 =
     [ "collectionInformationHTML", "a00480.html#a468aec61aa25df5e0f4e7f5f3cb22b03", null ],
     [ "collectionInformationJSON", "a00480.html#a2effa5a4ad52b73af2fe461363e19370", null ],
     [ "collectionInformationXML", "a00480.html#afc777e0d040eacce8c5c9e45a6667ed3", null ],
-    [ "collectionItems", "a00480.html#ab193398f8a6032935a272dc982f371aa", null ],
+    [ "collectionItems", "a00480.html#a768624eeb5a64a18d0dc31892c73cdcd", null ],
     [ "collectionItemsHTML", "a00480.html#a1c9f3383db071a9529ad696df6179c4c", null ],
     [ "collectionItemsJSON", "a00480.html#aed554ecefd79cc9820679fb1ab7469ed", null ],
     [ "collectionItemsXML", "a00480.html#a3c2d6e7bd0e829d2d36c2afea868f72b", null ],
