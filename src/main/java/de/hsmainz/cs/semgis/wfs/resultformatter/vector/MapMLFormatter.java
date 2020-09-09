@@ -21,7 +21,7 @@ import de.hsmainz.cs.semgis.wfs.webservice.WebService;
 public class MapMLFormatter extends ResultFormatter {
 
 	public MapMLFormatter() {
-		this.urlformat="mvt";
+		this.urlformat="mapml";
 		this.label="Map Markup Language (MapML)";
 		this.mimeType="text/mapml";
 		this.exposedType="text/mapml";
