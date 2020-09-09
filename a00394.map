@@ -1,4 +1,4 @@
-<map id="DCATFormatter" name="DCATFormatter">
-<area shape="rect" id="node2" href="$a00404.html" title="ResultMetadataFormatter" alt="" coords="935,81,1105,108"/>
-<area shape="rect" id="node8" href="$a00400.html" title="Formats metadata to the GMD XML format. " alt="" coords="1155,107,1264,133"/>
+<map id="SVGFormatter" name="SVGFormatter">
+<area shape="rect" id="node2" href="$a00328.html" title="Abstract class to downlift query results. " alt="" coords="1376,200,1492,227"/>
+<area shape="rect" id="node6" href="$a00448.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="1096,123,1243,149"/>
 </map>

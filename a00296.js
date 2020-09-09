@@ -1,6 +1,6 @@
 var a00296 =
 [
-    [ "JSONFormatter", "a00296.html#a109887895ab6af332897c4f71b6cd4cf", null ],
+    [ "NQuadsFormatter", "a00296.html#a6fcceab6ee9b98cef6602dcbbfa8dcf7", null ],
     [ "[static initializer]", "a00296.html#a2e87c5ede6b7235170d287cd2e254454", null ],
     [ "formatFooter", "a00296.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00296.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
@@ -8,7 +8,6 @@ var a00296 =
     [ "getFormatter", "a00296.html#afce25d64087d96d66b6b5535660a8ddb", null ],
     [ "contextMapper", "a00296.html#ae7316c0c7550712f915cc3cd353cd981", null ],
     [ "exposedType", "a00296.html#aa6a844c9b01d97aca583be867a1c5413", null ],
-    [ "featureType", "a00296.html#aba4867b615c0892cdae42bc4fd982639", null ],
     [ "label", "a00296.html#aec69fbfab86b7473c3e6ccea79368f0f", null ],
     [ "lastQueriedElemCount", "a00296.html#a1ce6ef499b64cec5981912a236baa199", null ],
     [ "mimeType", "a00296.html#a09c78e464072ccab667894f0d179fbdf", null ],

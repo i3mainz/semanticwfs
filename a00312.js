@@ -1,8 +1,7 @@
 var a00312 =
 [
-    [ "LatLonTextFormatter", "a00312.html#a0b65188f476cbab30f3f4c58501890c3", null ],
+    [ "RDFThriftFormatter", "a00312.html#a9ba53815db0a8820185836ebd69ab03d", null ],
     [ "[static initializer]", "a00312.html#a2e87c5ede6b7235170d287cd2e254454", null ],
-    [ "convertDecimalToLatLonText", "a00312.html#a4de262c8cc5abdbadbdd425520b98ef1", null ],
     [ "formatFooter", "a00312.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00312.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
     [ "formatter", "a00312.html#a4d60ad97c2097d9323921b749f163e26", null ],

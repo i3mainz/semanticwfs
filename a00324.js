@@ -1,7 +1,8 @@
 var a00324 =
 [
-    [ "NQuadsFormatter", "a00324.html#a6fcceab6ee9b98cef6602dcbbfa8dcf7", null ],
+    [ "TTLFormatter", "a00324.html#a5b3ec5d4833703906230d1967af27517", null ],
     [ "[static initializer]", "a00324.html#a2e87c5ede6b7235170d287cd2e254454", null ],
+    [ "addKeyValList", "a00324.html#a9d9180f34dd3cb76d915f829937fdda1", null ],
     [ "formatFooter", "a00324.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00324.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
     [ "formatter", "a00324.html#a4d60ad97c2097d9323921b749f163e26", null ],

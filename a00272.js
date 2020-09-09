@@ -1,6 +1,6 @@
 var a00272 =
 [
-    [ "GeoTIFFFormatter", "a00272.html#a30b925afcbba4f017764c9e711ca97a1", null ],
+    [ "GMLCOVFormatter", "a00272.html#ae89d0872f7a9fc9f24b9b52b1fd8261d", null ],
     [ "[static initializer]", "a00272.html#a2e87c5ede6b7235170d287cd2e254454", null ],
     [ "formatFooter", "a00272.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00272.html#abaa077ed79fcfd5a2279597e3f324c64", null ],

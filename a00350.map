@@ -1,4 +1,5 @@
-<map id="RDFThriftFormatter" name="RDFThriftFormatter">
-<area shape="rect" id="node2" href="$a00356.html" title="Abstract class to downlift query results. " alt="" coords="1376,200,1492,227"/>
-<area shape="rect" id="node6" href="$a00424.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="1096,123,1243,149"/>
+<map id="GMLFormatter" name="GMLFormatter">
+<area shape="rect" id="node2" href="$a00416.html" title="WFSResultFormatter" alt="" coords="1541,53,1688,80"/>
+<area shape="rect" id="node3" href="$a00328.html" title="Abstract class to downlift query results. " alt="" coords="1376,169,1492,196"/>
+<area shape="rect" id="node7" href="$a00448.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="1096,169,1243,196"/>
 </map>

@@ -1,3 +1,5 @@
-<map id="GMDFormatter" name="GMDFormatter">
-<area shape="rect" id="node2" href="$a00404.html" title="ResultMetadataFormatter" alt="" coords="935,81,1105,108"/>
+<map id="TopoJSONFormatter" name="TopoJSONFormatter">
+<area shape="rect" id="node2" href="$a00416.html" title="WFSResultFormatter" alt="" coords="1541,53,1688,80"/>
+<area shape="rect" id="node3" href="$a00328.html" title="Abstract class to downlift query results. " alt="" coords="1376,169,1492,196"/>
+<area shape="rect" id="node7" href="$a00448.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="1096,169,1243,196"/>
 </map>

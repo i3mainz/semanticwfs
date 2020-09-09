@@ -1,6 +1,6 @@
 var a00364 =
 [
-    [ "TopoJSONFormatter", "a00364.html#a7451345927a54246eb474d28f87c6154", null ],
+    [ "JSONLDFormatter", "a00364.html#a1bc949e7a9e8b3b31ddbbe430beffb67", null ],
     [ "[static initializer]", "a00364.html#a2e87c5ede6b7235170d287cd2e254454", null ],
     [ "formatFooter", "a00364.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00364.html#abaa077ed79fcfd5a2279597e3f324c64", null ],

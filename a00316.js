@@ -1,6 +1,6 @@
 var a00316 =
 [
-    [ "MVTFormatter", "a00316.html#a36d4b6d055b53f8203409190be717087", null ],
+    [ "TrigFormatter", "a00316.html#aff99208243e715c94826b98b7adef3e9", null ],
     [ "[static initializer]", "a00316.html#a2e87c5ede6b7235170d287cd2e254454", null ],
     [ "formatFooter", "a00316.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00316.html#abaa077ed79fcfd5a2279597e3f324c64", null ],

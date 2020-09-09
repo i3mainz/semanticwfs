@@ -1,9 +1,8 @@
 var a00432 =
 [
     [ "[static initializer]", "a00432.html#a2e87c5ede6b7235170d287cd2e254454", null ],
-    [ "cssLiteralToXML", "a00432.html#a55fcfd9f7a5a77f5f73f89e01db155b7", null ],
     [ "formatFooter", "a00432.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
-    [ "formatGeometry", "a00432.html#aa353aab5dee656d3508d8aa8f520edbb", null ],
+    [ "formatGeometry", "a00432.html#a399873993b7ab0c34a034702639a6cad", null ],
     [ "formatHeader", "a00432.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
     [ "formatter", "a00432.html#a6561dcf48f63c199d693d5ed6c739dc0", null ],
     [ "getFormatter", "a00432.html#a91715aa5eef12ebcf3ea95d7493b9084", null ],

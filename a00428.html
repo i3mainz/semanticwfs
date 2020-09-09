@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>semanticwfs: SimpleStyleFormatter Class Reference</title>
+<title>semanticwfs: ResultMetadataFormatter Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -68,98 +68,61 @@ $(document).ready(function(){initNavTree('a00428.html','');});
 <a href="#pac-static-methods">Static Package Functions</a> &#124;
 <a href="a00425.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">SimpleStyleFormatter Class Reference</div>  </div>
+<div class="title">ResultMetadataFormatter Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
-
-<p>Reads an ontological style description and formats it according to the mapbox simple style specification.  
- <a href="a00428.html#details">More...</a></p>
 <div class="dynheader">
-Inheritance diagram for SimpleStyleFormatter:</div>
+Inheritance diagram for ResultMetadataFormatter:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00427.png" border="0" usemap="#SimpleStyleFormatter_inherit__map" alt="Inheritance graph"/></div>
-<map name="SimpleStyleFormatter_inherit__map" id="SimpleStyleFormatter_inherit__map">
-<area shape="rect" id="node2" href="a00424.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="6,5,153,32"/>
+<div class="center"><img src="a00427.png" border="0" usemap="#ResultMetadataFormatter_inherit__map" alt="Inheritance graph"/></div>
+<map name="ResultMetadataFormatter_inherit__map" id="ResultMetadataFormatter_inherit__map">
+<area shape="rect" id="node2" href="a00420.html" title="Formats metadata according to the GeoDCAT format. " alt="" coords="5,80,120,107"/>
+<area shape="rect" id="node3" href="a00424.html" title="Formats metadata to the GMD XML format. " alt="" coords="144,80,253,107"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
-Collaboration diagram for SimpleStyleFormatter:</div>
+Collaboration diagram for ResultMetadataFormatter:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00426.png" border="0" usemap="#SimpleStyleFormatter_coll__map" alt="Collaboration graph"/></div>
-<map name="SimpleStyleFormatter_coll__map" id="SimpleStyleFormatter_coll__map">
-<area shape="rect" id="node2" href="a00424.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="883,71,1029,97"/>
+<div class="center"><img src="a00426.png" border="0" usemap="#ResultMetadataFormatter_coll__map" alt="Collaboration graph"/></div>
+<map name="ResultMetadataFormatter_coll__map" id="ResultMetadataFormatter_coll__map">
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a922d460a9ab0aa5a7a7b70ad8bd3868a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00428.html#a922d460a9ab0aa5a7a7b70ad8bd3868a">SimpleStyleFormatter</a> ()</td></tr>
-<tr class="memdesc:a922d460a9ab0aa5a7a7b70ad8bd3868a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for this class.  <a href="#a922d460a9ab0aa5a7a7b70ad8bd3868a">More...</a><br /></td></tr>
-<tr class="separator:a922d460a9ab0aa5a7a7b70ad8bd3868a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a67699ff82e77f0268956c5f37cc52c7b"><td class="memItemLeft" align="right" valign="top">JSONObject&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00428.html#a67699ff82e77f0268956c5f37cc52c7b">cssLiteralToJSON</a> (String cssString)</td></tr>
-<tr class="memdesc:a67699ff82e77f0268956c5f37cc52c7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a CSS literal given in the ontology to a JSON representation.  <a href="#a67699ff82e77f0268956c5f37cc52c7b">More...</a><br /></td></tr>
-<tr class="separator:a67699ff82e77f0268956c5f37cc52c7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6561dcf48f63c199d693d5ed6c739dc0"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00428.html#a6561dcf48f63c199d693d5ed6c739dc0">formatter</a> (ResultSet results, String featuretype)  throws XMLStreamException </td></tr>
-<tr class="separator:a6561dcf48f63c199d693d5ed6c739dc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a399873993b7ab0c34a034702639a6cad"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00428.html#a399873993b7ab0c34a034702639a6cad">formatGeometry</a> (String geometrytype, <a class="el" href="a00436.html">StyleObject</a> styleobj)</td></tr>
-<tr class="separator:a399873993b7ab0c34a034702639a6cad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abaa077ed79fcfd5a2279597e3f324c64"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00424.html#abaa077ed79fcfd5a2279597e3f324c64">formatHeader</a> ()</td></tr>
+<tr class="memitem:a7bbb52a0cd4f85be75403edbf9d7887c"><td class="memItemLeft" align="right" valign="top">abstract String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00428.html#a7bbb52a0cd4f85be75403edbf9d7887c">formatter</a> (String collectionid, String collectioncall, String collectionurl, JSONObject workingobj, String format)  throws XMLStreamException</td></tr>
+<tr class="separator:a7bbb52a0cd4f85be75403edbf9d7887c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abaa077ed79fcfd5a2279597e3f324c64"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00428.html#abaa077ed79fcfd5a2279597e3f324c64">formatHeader</a> ()</td></tr>
 <tr class="separator:abaa077ed79fcfd5a2279597e3f324c64"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af149b280d2c9bcc76f05c6a1c291d30f"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00424.html#af149b280d2c9bcc76f05c6a1c291d30f">formatFooter</a> ()</td></tr>
+<tr class="memitem:af149b280d2c9bcc76f05c6a1c291d30f"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00428.html#af149b280d2c9bcc76f05c6a1c291d30f">formatFooter</a> ()</td></tr>
 <tr class="separator:af149b280d2c9bcc76f05c6a1c291d30f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a91715aa5eef12ebcf3ea95d7493b9084"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="a00424.html">ResultStyleFormatter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00424.html#a91715aa5eef12ebcf3ea95d7493b9084">getFormatter</a> (String formatString)</td></tr>
-<tr class="memdesc:a91715aa5eef12ebcf3ea95d7493b9084"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a style formatter for a chosen style type.  <a href="#a91715aa5eef12ebcf3ea95d7493b9084">More...</a><br /></td></tr>
-<tr class="separator:a91715aa5eef12ebcf3ea95d7493b9084"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab42a39cb4384c1f14ad0bb6d0e27abd8"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="a00428.html">ResultMetadataFormatter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00428.html#ab42a39cb4384c1f14ad0bb6d0e27abd8">getFormatter</a> (String formatString)</td></tr>
+<tr class="separator:ab42a39cb4384c1f14ad0bb6d0e27abd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a1ce6ef499b64cec5981912a236baa199"><td class="memItemLeft" align="right" valign="top">Integer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00424.html#a1ce6ef499b64cec5981912a236baa199">lastQueriedElemCount</a> =0</td></tr>
+<tr class="memitem:a1ce6ef499b64cec5981912a236baa199"><td class="memItemLeft" align="right" valign="top">Integer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00428.html#a1ce6ef499b64cec5981912a236baa199">lastQueriedElemCount</a> =0</td></tr>
 <tr class="separator:a1ce6ef499b64cec5981912a236baa199"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a09c78e464072ccab667894f0d179fbdf"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00424.html#a09c78e464072ccab667894f0d179fbdf">mimeType</a> =&quot;text/plain&quot;</td></tr>
+<tr class="memitem:a09c78e464072ccab667894f0d179fbdf"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00428.html#a09c78e464072ccab667894f0d179fbdf">mimeType</a> =&quot;text/plain&quot;</td></tr>
 <tr class="separator:a09c78e464072ccab667894f0d179fbdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa6a844c9b01d97aca583be867a1c5413"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00424.html#aa6a844c9b01d97aca583be867a1c5413">exposedType</a> =&quot;application/vnd.geo+json&quot;</td></tr>
+<tr class="memitem:aa6a844c9b01d97aca583be867a1c5413"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00428.html#aa6a844c9b01d97aca583be867a1c5413">exposedType</a> =&quot;application/vnd.geo+json&quot;</td></tr>
 <tr class="separator:aa6a844c9b01d97aca583be867a1c5413"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8e9232fc24a04d17c4a31141d78cb0ca"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00424.html#a8e9232fc24a04d17c4a31141d78cb0ca">styleAttribute</a> =&quot;&quot;</td></tr>
-<tr class="separator:a8e9232fc24a04d17c4a31141d78cb0ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afbd8bf7386c4d548993d0957bfd902bf"><td class="memItemLeft" align="right" valign="top">XMLStreamWriter&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00428.html#afbd8bf7386c4d548993d0957bfd902bf">xmlwriter</a></td></tr>
+<tr class="separator:afbd8bf7386c4d548993d0957bfd902bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
-<tr class="memitem:a54c9d791b2138017b960a7cf457b5fd2"><td class="memItemLeft" align="right" valign="top">static Map&lt; String, <a class="el" href="a00424.html">ResultStyleFormatter</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00424.html#a54c9d791b2138017b960a7cf457b5fd2">resultMap</a> =new TreeMap&lt;String, <a class="el" href="a00424.html">ResultStyleFormatter</a>&gt;()</td></tr>
-<tr class="separator:a54c9d791b2138017b960a7cf457b5fd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a596ca937904dbfbdf019f9114f611d37"><td class="memItemLeft" align="right" valign="top">static Map&lt; String, <a class="el" href="a00428.html">ResultMetadataFormatter</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00428.html#a596ca937904dbfbdf019f9114f611d37">resultMap</a> =new TreeMap&lt;String, <a class="el" href="a00428.html">ResultMetadataFormatter</a>&gt;()</td></tr>
+<tr class="separator:a596ca937904dbfbdf019f9114f611d37"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pac-static-methods"></a>
 Static Package Functions</h2></td></tr>
-<tr class="memitem:a2e87c5ede6b7235170d287cd2e254454"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00424.html#a2e87c5ede6b7235170d287cd2e254454">[static initializer]</a></td></tr>
+<tr class="memitem:a2e87c5ede6b7235170d287cd2e254454"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00428.html#a2e87c5ede6b7235170d287cd2e254454">[static initializer]</a></td></tr>
 <tr class="separator:a2e87c5ede6b7235170d287cd2e254454"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Reads an ontological style description and formats it according to the mapbox simple style specification. </p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a922d460a9ab0aa5a7a7b70ad8bd3868a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a922d460a9ab0aa5a7a7b70ad8bd3868a">&#9670;&nbsp;</a></span>SimpleStyleFormatter()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="a00428.html">SimpleStyleFormatter</a> </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Constructor for this class. </p>
-
-<p class="reference">References <a class="el" href="a00424.html#a8e9232fc24a04d17c4a31141d78cb0ca">ResultStyleFormatter.styleAttribute</a>.</p>
-<div class="fragment"><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;                                      {</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;                this.<a class="code" href="a00424.html#a8e9232fc24a04d17c4a31141d78cb0ca">styleAttribute</a>=<span class="stringliteral">&quot;properties&quot;</span>;</div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        }</div><div class="ttc" id="a00424_html_a8e9232fc24a04d17c4a31141d78cb0ca"><div class="ttname"><a href="a00424.html#a8e9232fc24a04d17c4a31141d78cb0ca">de.hsmainz.cs.semgis.wfs.resultstyleformatter.ResultStyleFormatter.styleAttribute</a></div><div class="ttdeci">String styleAttribute</div><div class="ttdef"><b>Definition:</b> ResultStyleFormatter.java:24</div></div>
-</div><!-- fragment -->
-</div>
-</div>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="a2e87c5ede6b7235170d287cd2e254454"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2e87c5ede6b7235170d287cd2e254454">&#9670;&nbsp;</a></span>[static initializer]()</h2>
@@ -179,40 +142,11 @@ Static Package Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">package</span><span class="mlabel">inherited</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">package</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-</div>
-</div>
-<a id="a67699ff82e77f0268956c5f37cc52c7b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a67699ff82e77f0268956c5f37cc52c7b">&#9670;&nbsp;</a></span>cssLiteralToJSON()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">JSONObject cssLiteralToJSON </td>
-          <td>(</td>
-          <td class="paramtype">String&#160;</td>
-          <td class="paramname"><em>cssString</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Converts a CSS literal given in the ontology to a JSON representation. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">cssString</td><td>the literal value </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>the JSON object to contain the style information </dd></dl>
-
-<p class="reference">Referenced by <a class="el" href="a00428.html#a399873993b7ab0c34a034702639a6cad">SimpleStyleFormatter.formatGeometry()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                                                             {</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                JSONObject styleproperties=<span class="keyword">new</span> JSONObject();</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                <span class="keywordflow">if</span>(cssString==null)</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                        <span class="keywordflow">return</span> styleproperties;</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                cssString=cssString.substring(0,cssString.indexOf(<span class="stringliteral">&quot;^^&quot;</span>));</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                <span class="keywordflow">if</span>(cssString.contains(<span class="stringliteral">&quot;;&quot;</span>)) {</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                        <span class="keywordflow">for</span>(String statement:cssString.split(<span class="stringliteral">&quot;;&quot;</span>)) {</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                                String[] split=statement.split(<span class="stringliteral">&quot;:&quot;</span>);</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                                styleproperties.put(split[0].replace(<span class="stringliteral">&quot;\\&quot;</span>,<span class="stringliteral">&quot;&quot;</span>).replace(<span class="stringliteral">&quot;\&quot;&quot;</span>,<span class="stringliteral">&quot;&quot;</span>).replace(<span class="stringliteral">&quot;{&quot;</span>,<span class="stringliteral">&quot;&quot;</span>).replace(<span class="stringliteral">&quot;}&quot;</span>,<span class="stringliteral">&quot;&quot;</span>).trim(),</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                                                split[1].replace(<span class="stringliteral">&quot;\\&quot;</span>,<span class="stringliteral">&quot;&quot;</span>).replace(<span class="stringliteral">&quot;\&quot;&quot;</span>,<span class="stringliteral">&quot;&quot;</span>).replace(<span class="stringliteral">&quot;{&quot;</span>,<span class="stringliteral">&quot;&quot;</span>).replace(<span class="stringliteral">&quot;}&quot;</span>,<span class="stringliteral">&quot;&quot;</span>).trim());</div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                        }</div><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                }<span class="keywordflow">else</span> <span class="keywordflow">if</span>(cssString.contains(<span class="stringliteral">&quot;,&quot;</span>)) {</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                        <span class="keywordflow">for</span>(String statement:cssString.split(<span class="stringliteral">&quot;,&quot;</span>)) {</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                                String[] split=statement.split(<span class="stringliteral">&quot;:&quot;</span>);</div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                                styleproperties.put(split[0].replace(<span class="stringliteral">&quot;\\&quot;</span>,<span class="stringliteral">&quot;&quot;</span>).replace(<span class="stringliteral">&quot;\&quot;&quot;</span>,<span class="stringliteral">&quot;&quot;</span>).replace(<span class="stringliteral">&quot;{&quot;</span>,<span class="stringliteral">&quot;&quot;</span>).replace(<span class="stringliteral">&quot;}&quot;</span>,<span class="stringliteral">&quot;&quot;</span>).trim(),</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                                                split[1].replace(<span class="stringliteral">&quot;\\&quot;</span>,<span class="stringliteral">&quot;&quot;</span>).replace(<span class="stringliteral">&quot;\&quot;&quot;</span>,<span class="stringliteral">&quot;&quot;</span>).replace(<span class="stringliteral">&quot;{&quot;</span>,<span class="stringliteral">&quot;&quot;</span>).replace(<span class="stringliteral">&quot;}&quot;</span>,<span class="stringliteral">&quot;&quot;</span>).trim());</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                        }</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                }<span class="keywordflow">else</span> {</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                        String[] split=cssString.split(<span class="stringliteral">&quot;:&quot;</span>);</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                        styleproperties.put(split[0].replace(<span class="stringliteral">&quot;\\&quot;</span>,<span class="stringliteral">&quot;&quot;</span>).replace(<span class="stringliteral">&quot;\&quot;&quot;</span>,<span class="stringliteral">&quot;&quot;</span>).replace(<span class="stringliteral">&quot;{&quot;</span>,<span class="stringliteral">&quot;&quot;</span>).replace(<span class="stringliteral">&quot;}&quot;</span>,<span class="stringliteral">&quot;&quot;</span>).trim(),</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                                        split[1].replace(<span class="stringliteral">&quot;\\&quot;</span>,<span class="stringliteral">&quot;&quot;</span>).replace(<span class="stringliteral">&quot;\&quot;&quot;</span>,<span class="stringliteral">&quot;&quot;</span>).replace(<span class="stringliteral">&quot;{&quot;</span>,<span class="stringliteral">&quot;&quot;</span>).replace(<span class="stringliteral">&quot;}&quot;</span>,<span class="stringliteral">&quot;&quot;</span>).trim());</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                }</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                <span class="keywordflow">return</span> styleproperties;</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="af149b280d2c9bcc76f05c6a1c291d30f"></a>
@@ -220,9 +154,6 @@ Static Package Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">String formatFooter </td>
@@ -231,46 +162,8 @@ Static Package Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
-
-<p class="reference">References <a class="el" href="a00424.html#a3770f80b7c98a8315479f697590303a3">ResultStyleFormatter.formatGeometry()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                                     {</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                <span class="keywordflow">return</span> <span class="stringliteral">&quot;&quot;</span>;</div><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        }</div></div><!-- fragment -->
-</div>
-</div>
-<a id="a399873993b7ab0c34a034702639a6cad"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a399873993b7ab0c34a034702639a6cad">&#9670;&nbsp;</a></span>formatGeometry()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">String formatGeometry </td>
-          <td>(</td>
-          <td class="paramtype">String&#160;</td>
-          <td class="paramname"><em>geometrytype</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a00436.html">StyleObject</a>&#160;</td>
-          <td class="paramname"><em>styleobj</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="reference">References <a class="el" href="a00428.html#a67699ff82e77f0268956c5f37cc52c7b">SimpleStyleFormatter.cssLiteralToJSON()</a>, <a class="el" href="a00436.html#ab280196b35e8fb195755480f7b6bba1c">StyleObject.hatch</a>, <a class="el" href="a00436.html#ac5ffd3d17c1fd4d95bdf3423d8d95102">StyleObject.lineStringImage</a>, <a class="el" href="a00436.html#ae1748922a6f7b626b0c88fcd21f48392">StyleObject.lineStringStyle</a>, <a class="el" href="a00436.html#a5d0c401b8996e35a911e178227081b32">StyleObject.pointImage</a>, <a class="el" href="a00436.html#a87e7ed2ad089c7ba8db7857efa15befa">StyleObject.pointStyle</a>, <a class="el" href="a00436.html#a3877196bb534272431a59e7ecb4d5338">StyleObject.polygonImage</a>, and <a class="el" href="a00436.html#a27511b5779d69b4e26b4ed7737d5de2e">StyleObject.polygonStyle</a>.</p>
-<div class="fragment"><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                                                                                {</div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                <span class="keywordflow">if</span>(geometrytype.contains(<span class="stringliteral">&quot;Point&quot;</span>)) {</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                    JSONObject props=<a class="code" href="a00428.html#a67699ff82e77f0268956c5f37cc52c7b">cssLiteralToJSON</a>(styleobj.pointStyle);</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                    <span class="keywordflow">if</span>(styleobj.pointImage!=null) {</div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                        JSONObject iconobj=<span class="keyword">new</span> JSONObject();</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                        <span class="keywordflow">if</span>(styleobj.pointImage.contains(<span class="stringliteral">&quot;svg&quot;</span>)) {</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                                iconobj.put(<span class="stringliteral">&quot;iconUrl&quot;</span>, <span class="stringliteral">&quot;url(&#39;data:image/svg+xml;utf8,&quot;</span>+styleobj.pointImage+<span class="stringliteral">&quot;&#39;)&quot;</span>);</div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                        }<span class="keywordflow">else</span> <span class="keywordflow">if</span>(styleobj.pointImage.contains(<span class="stringliteral">&quot;http&quot;</span>)) {</div><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                                iconobj.put(<span class="stringliteral">&quot;iconUrl&quot;</span>, styleobj.pointImage);</div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                        }<span class="keywordflow">else</span> {</div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                                iconobj.put(<span class="stringliteral">&quot;iconUrl&quot;</span>, styleobj.pointImage);</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                        }</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                        JSONArray size=<span class="keyword">new</span> JSONArray();</div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                        size.put(32);</div><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                        size.put(32);</div><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                        JSONArray anchor=<span class="keyword">new</span> JSONArray();</div><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                        size.put(16);</div><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                        size.put(16);</div><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                        iconobj.put(<span class="stringliteral">&quot;iconSize&quot;</span>,size);</div><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                        iconobj.put(<span class="stringliteral">&quot;iconAnchor&quot;</span>, anchor);</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                                props.put(<span class="stringliteral">&quot;icon&quot;</span>, iconobj);</div><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                    }</div><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                        System.out.println(props.toString());</div><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                    <span class="keywordflow">return</span> props.toString();</div><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                }</div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                <span class="keywordflow">if</span>(geometrytype.contains(<span class="stringliteral">&quot;LineString&quot;</span>)) {</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                        JSONObject props=<a class="code" href="a00428.html#a67699ff82e77f0268956c5f37cc52c7b">cssLiteralToJSON</a>(styleobj.lineStringStyle);</div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                         <span class="keywordflow">if</span>(styleobj.lineStringImage!=null) {</div><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                                JSONObject iconobj=<span class="keyword">new</span> JSONObject();</div><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                                <span class="keywordflow">if</span>(styleobj.lineStringImage.contains(<span class="stringliteral">&quot;svg&quot;</span>)) {</div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                                        iconobj.put(<span class="stringliteral">&quot;iconUrl&quot;</span>, <span class="stringliteral">&quot;url(&#39;data:image/svg+xml;utf8,&quot;</span>+styleobj.lineStringImage+<span class="stringliteral">&quot;&#39;)&quot;</span>);</div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                                }<span class="keywordflow">else</span> <span class="keywordflow">if</span>(styleobj.lineStringImage.contains(<span class="stringliteral">&quot;http&quot;</span>)) {</div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                                        iconobj.put(<span class="stringliteral">&quot;iconUrl&quot;</span>, styleobj.lineStringImage);</div><div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                                }<span class="keywordflow">else</span> {</div><div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                                        iconobj.put(<span class="stringliteral">&quot;iconUrl&quot;</span>, styleobj.lineStringImage);</div><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                                }</div><div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                                JSONArray size=<span class="keyword">new</span> JSONArray();</div><div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                                size.put(32);</div><div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                                size.put(32);</div><div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                                JSONArray anchor=<span class="keyword">new</span> JSONArray();</div><div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                                size.put(16);</div><div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                                size.put(16);</div><div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                                iconobj.put(<span class="stringliteral">&quot;iconSize&quot;</span>,size);</div><div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                                iconobj.put(<span class="stringliteral">&quot;iconAnchor&quot;</span>, anchor);</div><div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                                        props.put(<span class="stringliteral">&quot;icon&quot;</span>, iconobj);</div><div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                            }</div><div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                        <span class="keywordflow">if</span>(styleobj.hatch!=null) {</div><div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                                JSONObject hatch=<a class="code" href="a00428.html#a67699ff82e77f0268956c5f37cc52c7b">cssLiteralToJSON</a>(styleobj.hatch);</div><div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                                props.put(<span class="stringliteral">&quot;hatch&quot;</span>,hatch);</div><div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                        }</div><div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                        System.out.println(props);</div><div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;                        <span class="keywordflow">return</span> props.toString();</div><div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                }</div><div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                <span class="keywordflow">if</span>(geometrytype.contains(<span class="stringliteral">&quot;Polygon&quot;</span>)) {</div><div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                        JSONObject props=<a class="code" href="a00428.html#a67699ff82e77f0268956c5f37cc52c7b">cssLiteralToJSON</a>(styleobj.polygonStyle);</div><div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                        <span class="keywordflow">if</span>(styleobj.polygonImage!=null) {</div><div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                        JSONObject iconobj=<span class="keyword">new</span> JSONObject();</div><div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                        <span class="keywordflow">if</span>(styleobj.polygonImage.contains(<span class="stringliteral">&quot;svg&quot;</span>)) {</div><div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                                iconobj.put(<span class="stringliteral">&quot;iconUrl&quot;</span>, <span class="stringliteral">&quot;url(&#39;data:image/svg+xml;utf8,&quot;</span>+styleobj.polygonImage+<span class="stringliteral">&quot;&#39;)&quot;</span>);</div><div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;                        }<span class="keywordflow">else</span> <span class="keywordflow">if</span>(styleobj.polygonImage.contains(<span class="stringliteral">&quot;http&quot;</span>)) {</div><div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;                                iconobj.put(<span class="stringliteral">&quot;iconUrl&quot;</span>, styleobj.polygonImage);</div><div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;                        }<span class="keywordflow">else</span> {</div><div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                                iconobj.put(<span class="stringliteral">&quot;iconUrl&quot;</span>, styleobj.polygonImage);</div><div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;                        }</div><div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                        JSONArray size=<span class="keyword">new</span> JSONArray();</div><div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;                        size.put(32);</div><div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;                        size.put(32);</div><div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;                        JSONArray anchor=<span class="keyword">new</span> JSONArray();</div><div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;                        size.put(16);</div><div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;                        size.put(16);</div><div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;                        iconobj.put(<span class="stringliteral">&quot;iconSize&quot;</span>,size);</div><div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;                        iconobj.put(<span class="stringliteral">&quot;iconAnchor&quot;</span>, anchor);</div><div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;                                props.put(<span class="stringliteral">&quot;icon&quot;</span>, iconobj);</div><div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;                    }</div><div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;                        <span class="keywordflow">if</span>(styleobj.hatch!=null) {</div><div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;                                JSONObject hatch=<a class="code" href="a00428.html#a67699ff82e77f0268956c5f37cc52c7b">cssLiteralToJSON</a>(styleobj.hatch);</div><div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;                                props.put(<span class="stringliteral">&quot;hatch&quot;</span>,hatch);</div><div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;                        }</div><div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;                        System.out.println(props);</div><div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;                        <span class="keywordflow">return</span> props.toString();</div><div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;                }</div><div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;                <span class="keywordflow">return</span> <span class="stringliteral">&quot;{}&quot;</span>;</div><div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;        }</div><div class="ttc" id="a00428_html_a67699ff82e77f0268956c5f37cc52c7b"><div class="ttname"><a href="a00428.html#a67699ff82e77f0268956c5f37cc52c7b">de.hsmainz.cs.semgis.wfs.resultstyleformatter.SimpleStyleFormatter.cssLiteralToJSON</a></div><div class="ttdeci">JSONObject cssLiteralToJSON(String cssString)</div><div class="ttdoc">Converts a CSS literal given in the ontology to a JSON representation. </div><div class="ttdef"><b>Definition:</b> SimpleStyleFormatter.java:27</div></div>
-</div><!-- fragment -->
+<div class="fragment"><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                                     {</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                <span class="keywordflow">return</span> <span class="stringliteral">&quot;&quot;</span>;</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="abaa077ed79fcfd5a2279597e3f324c64"></a>
@@ -278,9 +171,6 @@ Static Package Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">String formatHeader </td>
@@ -289,45 +179,12 @@ Static Package Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                                     {</div><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                <span class="keywordflow">return</span> <span class="stringliteral">&quot;&quot;</span>;</div><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        }</div></div><!-- fragment -->
+<div class="fragment"><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                                     {</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                <span class="keywordflow">return</span> <span class="stringliteral">&quot;&quot;</span>;</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
-<a id="a6561dcf48f63c199d693d5ed6c739dc0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6561dcf48f63c199d693d5ed6c739dc0">&#9670;&nbsp;</a></span>formatter()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">String formatter </td>
-          <td>(</td>
-          <td class="paramtype">ResultSet&#160;</td>
-          <td class="paramname"><em>results</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">String&#160;</td>
-          <td class="paramname"><em>featuretype</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> throws XMLStreamException</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                                                                                                 {</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                <span class="comment">// TODO Auto-generated method stub</span></div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                <span class="keywordflow">return</span> null;</div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        }</div></div><!-- fragment -->
-</div>
-</div>
-<a id="a91715aa5eef12ebcf3ea95d7493b9084"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a91715aa5eef12ebcf3ea95d7493b9084">&#9670;&nbsp;</a></span>getFormatter()</h2>
+<a id="a7bbb52a0cd4f85be75403edbf9d7887c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7bbb52a0cd4f85be75403edbf9d7887c">&#9670;&nbsp;</a></span>formatter()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -336,7 +193,63 @@ Static Package Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="a00424.html">ResultStyleFormatter</a> getFormatter </td>
+          <td class="memname">abstract String formatter </td>
+          <td>(</td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>collectionid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>collectioncall</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>collectionurl</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">JSONObject&#160;</td>
+          <td class="paramname"><em>workingobj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>format</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> throws XMLStreamException</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">abstract</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="reference">Referenced by <a class="el" href="a00504.html#a0d7c82140929edf4598696a7252a7401">WebService.getCollectionMetadata()</a>, and <a class="el" href="a00428.html#ab42a39cb4384c1f14ad0bb6d0e27abd8">ResultMetadataFormatter.getFormatter()</a>.</p>
+
+</div>
+</div>
+<a id="ab42a39cb4384c1f14ad0bb6d0e27abd8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab42a39cb4384c1f14ad0bb6d0e27abd8">&#9670;&nbsp;</a></span>getFormatter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="a00428.html">ResultMetadataFormatter</a> getFormatter </td>
           <td>(</td>
           <td class="paramtype">String&#160;</td>
           <td class="paramname"><em>formatString</em></td><td>)</td>
@@ -345,22 +258,15 @@ Static Package Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">inherited</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Gets a style formatter for a chosen style type. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">formatString</td><td>the formatString indicating a given style type </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>a <a class="el" href="a00424.html" title="Abstract class to describe a class applying a style to a downlifted dataset. ">ResultStyleFormatter</a> generating the chosen style type </dd></dl>
+<p class="reference">References <a class="el" href="a00428.html#a7bbb52a0cd4f85be75403edbf9d7887c">ResultMetadataFormatter.formatter()</a>.</p>
 
-<p class="reference">References <a class="el" href="a00424.html#aa231f1de0281037224372f0afb1f0fe1">ResultStyleFormatter.formatter()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                                                                             {</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                formatString=formatString.toLowerCase();</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                <span class="keywordflow">if</span>(<a class="code" href="a00424.html#a54c9d791b2138017b960a7cf457b5fd2">resultMap</a>.containsKey(formatString)) {</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                        <span class="keywordflow">return</span> <a class="code" href="a00424.html#a54c9d791b2138017b960a7cf457b5fd2">resultMap</a>.get(formatString);</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                }</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                formatString=formatString.replace(<span class="stringliteral">&quot;+&quot;</span>,<span class="stringliteral">&quot;&quot;</span>);</div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                <span class="keywordflow">if</span>(formatString.contains(<span class="stringliteral">&quot;mapcss&quot;</span>)) {</div><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                        <span class="keywordflow">return</span> <a class="code" href="a00424.html#a54c9d791b2138017b960a7cf457b5fd2">resultMap</a>.get(<span class="stringliteral">&quot;mapcss&quot;</span>);</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                }</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                <span class="keywordflow">if</span>(formatString.contains(<span class="stringliteral">&quot;geojsoncss&quot;</span>)) {</div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                        <span class="keywordflow">return</span> <a class="code" href="a00424.html#a54c9d791b2138017b960a7cf457b5fd2">resultMap</a>.get(<span class="stringliteral">&quot;geojsoncss&quot;</span>);</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                }</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                <span class="keywordflow">if</span>(formatString.contains(<span class="stringliteral">&quot;sld&quot;</span>)) {</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                        <span class="keywordflow">return</span> <a class="code" href="a00424.html#a54c9d791b2138017b960a7cf457b5fd2">resultMap</a>.get(<span class="stringliteral">&quot;sld&quot;</span>);</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                }</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                <span class="keywordflow">return</span> null;</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        }</div><div class="ttc" id="a00424_html_a54c9d791b2138017b960a7cf457b5fd2"><div class="ttname"><a href="a00424.html#a54c9d791b2138017b960a7cf457b5fd2">de.hsmainz.cs.semgis.wfs.resultstyleformatter.ResultStyleFormatter.resultMap</a></div><div class="ttdeci">static Map&lt; String, ResultStyleFormatter &gt; resultMap</div><div class="ttdef"><b>Definition:</b> ResultStyleFormatter.java:16</div></div>
+<p class="reference">Referenced by <a class="el" href="a00504.html#a0d7c82140929edf4598696a7252a7401">WebService.getCollectionMetadata()</a>.</p>
+<div class="fragment"><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                                                                                {</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                formatString=formatString.toLowerCase();</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                <span class="keywordflow">if</span>(<a class="code" href="a00428.html#a596ca937904dbfbdf019f9114f611d37">resultMap</a>.containsKey(formatString)) {</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                        <span class="keywordflow">return</span> <a class="code" href="a00428.html#a596ca937904dbfbdf019f9114f611d37">resultMap</a>.get(formatString);</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                }</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                formatString=formatString.replace(<span class="stringliteral">&quot;+&quot;</span>,<span class="stringliteral">&quot;&quot;</span>);</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                <span class="keywordflow">if</span>(formatString.contains(<span class="stringliteral">&quot;dcat&quot;</span>)) {</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                        <span class="keywordflow">return</span> <a class="code" href="a00428.html#a596ca937904dbfbdf019f9114f611d37">resultMap</a>.get(<span class="stringliteral">&quot;geodcat&quot;</span>);</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                }</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                <span class="keywordflow">return</span> <a class="code" href="a00428.html#a596ca937904dbfbdf019f9114f611d37">resultMap</a>.get(<span class="stringliteral">&quot;gmd&quot;</span>);</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        }</div><div class="ttc" id="a00428_html_a596ca937904dbfbdf019f9114f611d37"><div class="ttname"><a href="a00428.html#a596ca937904dbfbdf019f9114f611d37">de.hsmainz.cs.semgis.wfs.resultmetadataformatter.ResultMetadataFormatter.resultMap</a></div><div class="ttdeci">static Map&lt; String, ResultMetadataFormatter &gt; resultMap</div><div class="ttdef"><b>Definition:</b> ResultMetadataFormatter.java:13</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -370,22 +276,12 @@ Static Package Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">String exposedType =&quot;application/vnd.geo+json&quot;</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
-
-<p class="reference">Referenced by <a class="el" href="a00432.html#a6561dcf48f63c199d693d5ed6c739dc0">SLDFormatter.formatter()</a>.</p>
 
 </div>
 </div>
@@ -394,19 +290,11 @@ Static Package Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">Integer lastQueriedElemCount =0</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 </div>
@@ -416,25 +304,19 @@ Static Package Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">String mimeType =&quot;text/plain&quot;</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
+
+<p class="reference">Referenced by <a class="el" href="a00420.html#a902b5f00480accd29598a6bf40dfdbf9">DCATFormatter.formatter()</a>, <a class="el" href="a00504.html#a0d7c82140929edf4598696a7252a7401">WebService.getCollectionMetadata()</a>, and <a class="el" href="a00424.html#a809a573ed723668fa44319523ff6d9be">GMDFormatter.GMDFormatter()</a>.</p>
 
 </div>
 </div>
-<a id="a54c9d791b2138017b960a7cf457b5fd2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a54c9d791b2138017b960a7cf457b5fd2">&#9670;&nbsp;</a></span>resultMap</h2>
+<a id="a596ca937904dbfbdf019f9114f611d37"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a596ca937904dbfbdf019f9114f611d37">&#9670;&nbsp;</a></span>resultMap</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -443,39 +325,31 @@ Static Package Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Map&lt;String,<a class="el" href="a00424.html">ResultStyleFormatter</a>&gt; resultMap =new TreeMap&lt;String, <a class="el" href="a00424.html">ResultStyleFormatter</a>&gt;()</td>
+          <td class="memname">Map&lt;String,<a class="el" href="a00428.html">ResultMetadataFormatter</a>&gt; resultMap =new TreeMap&lt;String, <a class="el" href="a00428.html">ResultMetadataFormatter</a>&gt;()</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">inherited</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a8e9232fc24a04d17c4a31141d78cb0ca"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8e9232fc24a04d17c4a31141d78cb0ca">&#9670;&nbsp;</a></span>styleAttribute</h2>
+<a id="afbd8bf7386c4d548993d0957bfd902bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afbd8bf7386c4d548993d0957bfd902bf">&#9670;&nbsp;</a></span>xmlwriter</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">String styleAttribute =&quot;&quot;</td>
+          <td class="memname">XMLStreamWriter xmlwriter</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="a00264.html#a4d60ad97c2097d9323921b749f163e26">GeoJSONFormatter.formatter()</a>, <a class="el" href="a00412.html#a260286963b4c3e8010ecc3d97c9712a6">GeoJSONCSSFormatter.GeoJSONCSSFormatter()</a>, and <a class="el" href="a00428.html#a922d460a9ab0aa5a7a7b70ad8bd3868a">SimpleStyleFormatter.SimpleStyleFormatter()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="a00424.html#a902b5f00480accd29598a6bf40dfdbf9">GMDFormatter.formatter()</a>.</p>
 
 </div>
 </div>
@@ -485,7 +359,7 @@ Static Package Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00201.html">de</a></li><li class="navelem"><a class="el" href="a00202.html">hsmainz</a></li><li class="navelem"><a class="el" href="a00203.html">cs</a></li><li class="navelem"><a class="el" href="a00204.html">semgis</a></li><li class="navelem"><a class="el" href="a00205.html">wfs</a></li><li class="navelem"><a class="el" href="a00208.html">resultstyleformatter</a></li><li class="navelem"><a class="el" href="a00428.html">SimpleStyleFormatter</a></li>
+    <li class="navelem"><a class="el" href="a00210.html">de</a></li><li class="navelem"><a class="el" href="a00211.html">hsmainz</a></li><li class="navelem"><a class="el" href="a00212.html">cs</a></li><li class="navelem"><a class="el" href="a00213.html">semgis</a></li><li class="navelem"><a class="el" href="a00214.html">wfs</a></li><li class="navelem"><a class="el" href="a00219.html">resultmetadataformatter</a></li><li class="navelem"><a class="el" href="a00428.html">ResultMetadataFormatter</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>

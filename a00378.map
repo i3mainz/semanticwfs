@@ -1,4 +1,4 @@
-<map id="WCSResultFormatter" name="WCSResultFormatter">
-<area shape="rect" id="node2" href="$a00356.html" title="Abstract class to downlift query results. " alt="" coords="1376,200,1492,227"/>
-<area shape="rect" id="node6" href="$a00424.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="1096,123,1243,149"/>
+<map id="MVTFormatter" name="MVTFormatter">
+<area shape="rect" id="node2" href="$a00328.html" title="Abstract class to downlift query results. " alt="" coords="1376,200,1492,227"/>
+<area shape="rect" id="node6" href="$a00448.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="1096,123,1243,149"/>
 </map>

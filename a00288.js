@@ -1,15 +1,14 @@
 var a00288 =
 [
-    [ "GPXFormatter", "a00288.html#a1fce5d275978d7dad93b2457141bd42a", null ],
+    [ "HexTuplesFormatter", "a00288.html#a2cca9e83766c9d13bf7b7707cfed1704", null ],
     [ "[static initializer]", "a00288.html#a2e87c5ede6b7235170d287cd2e254454", null ],
-    [ "collectColumns", "a00288.html#a29fa093ba1a2582bb6073a305555c49c", null ],
+    [ "addKeyValList", "a00288.html#a9d9180f34dd3cb76d915f829937fdda1", null ],
     [ "formatFooter", "a00288.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00288.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
     [ "formatter", "a00288.html#a4d60ad97c2097d9323921b749f163e26", null ],
     [ "getFormatter", "a00288.html#afce25d64087d96d66b6b5535660a8ddb", null ],
     [ "contextMapper", "a00288.html#ae7316c0c7550712f915cc3cd353cd981", null ],
     [ "exposedType", "a00288.html#aa6a844c9b01d97aca583be867a1c5413", null ],
-    [ "featureType", "a00288.html#aba4867b615c0892cdae42bc4fd982639", null ],
     [ "label", "a00288.html#aec69fbfab86b7473c3e6ccea79368f0f", null ],
     [ "lastQueriedElemCount", "a00288.html#a1ce6ef499b64cec5981912a236baa199", null ],
     [ "mimeType", "a00288.html#a09c78e464072ccab667894f0d179fbdf", null ],

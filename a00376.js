@@ -1,8 +1,8 @@
 var a00376 =
 [
-    [ "TTLFormatter", "a00376.html#a5b3ec5d4833703906230d1967af27517", null ],
+    [ "LatLonTextFormatter", "a00376.html#a0b65188f476cbab30f3f4c58501890c3", null ],
     [ "[static initializer]", "a00376.html#a2e87c5ede6b7235170d287cd2e254454", null ],
-    [ "addKeyValList", "a00376.html#a9d9180f34dd3cb76d915f829937fdda1", null ],
+    [ "convertDecimalToLatLonText", "a00376.html#a4de262c8cc5abdbadbdd425520b98ef1", null ],
     [ "formatFooter", "a00376.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00376.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
     [ "formatter", "a00376.html#a4d60ad97c2097d9323921b749f163e26", null ],

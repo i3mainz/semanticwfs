@@ -1,9 +1,10 @@
 var a00380 =
 [
+    [ "MVTFormatter", "a00380.html#a36d4b6d055b53f8203409190be717087", null ],
     [ "[static initializer]", "a00380.html#a2e87c5ede6b7235170d287cd2e254454", null ],
     [ "formatFooter", "a00380.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00380.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
-    [ "formatter", "a00380.html#ab09d0b676bdd060ceaf68efa0a32a4cf", null ],
+    [ "formatter", "a00380.html#a4d60ad97c2097d9323921b749f163e26", null ],
     [ "getFormatter", "a00380.html#afce25d64087d96d66b6b5535660a8ddb", null ],
     [ "contextMapper", "a00380.html#ae7316c0c7550712f915cc3cd353cd981", null ],
     [ "exposedType", "a00380.html#aa6a844c9b01d97aca583be867a1c5413", null ],

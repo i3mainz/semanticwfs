@@ -1,10 +1,9 @@
 var a00328 =
 [
-    [ "NTFormatter", "a00328.html#a1c90e14ae5987c0847e486ed3c1fe95e", null ],
     [ "[static initializer]", "a00328.html#a2e87c5ede6b7235170d287cd2e254454", null ],
     [ "formatFooter", "a00328.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00328.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
-    [ "formatter", "a00328.html#a4d60ad97c2097d9323921b749f163e26", null ],
+    [ "formatter", "a00328.html#ab09d0b676bdd060ceaf68efa0a32a4cf", null ],
     [ "getFormatter", "a00328.html#afce25d64087d96d66b6b5535660a8ddb", null ],
     [ "contextMapper", "a00328.html#ae7316c0c7550712f915cc3cd353cd981", null ],
     [ "exposedType", "a00328.html#aa6a844c9b01d97aca583be867a1c5413", null ],
