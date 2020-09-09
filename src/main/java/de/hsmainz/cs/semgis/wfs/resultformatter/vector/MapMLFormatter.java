@@ -115,7 +115,7 @@ public class MapMLFormatter extends ResultFormatter {
 			writer.writeStartElement("feature");
 			writer.writeAttribute("id", feature.optString("id"));
 			writer.writeAttribute("itemscope","itemscope");
-			writer.writeAttribute("itemtype", WebService.wfsconf.getString("baseurl"));
+			writer.writeAttribute("itemtype", featuretype);
 			writer.writeStartElement("properties");
 			writer.writeStartElement("div");
 			writer.writeAttribute("class", "table-container");
