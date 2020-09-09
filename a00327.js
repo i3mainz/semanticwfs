@@ -1,8 +1,7 @@
 var a00327 =
 [
-    [ "TTLFormatter", "a00327.html#a5b3ec5d4833703906230d1967af27517", null ],
+    [ "RDFJSONFormatter", "a00327.html#ad1b3a32f8e06089a79011561ed1052ac", null ],
     [ "[static initializer]", "a00327.html#a2e87c5ede6b7235170d287cd2e254454", null ],
-    [ "addKeyValList", "a00327.html#a9d9180f34dd3cb76d915f829937fdda1", null ],
     [ "formatFooter", "a00327.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00327.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
     [ "formatter", "a00327.html#a4d60ad97c2097d9323921b749f163e26", null ],

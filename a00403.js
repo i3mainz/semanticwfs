@@ -1,10 +1,11 @@
 var a00403 =
 [
-    [ "SVGFormatter", "a00403.html#a43d3cfa6010e0a04d76d8dcf68161ca2", null ],
+    [ "LatLonTextFormatter", "a00403.html#a0b65188f476cbab30f3f4c58501890c3", null ],
     [ "[static initializer]", "a00403.html#a2e87c5ede6b7235170d287cd2e254454", null ],
+    [ "convertDecimalToLatLonText", "a00403.html#a4de262c8cc5abdbadbdd425520b98ef1", null ],
     [ "formatFooter", "a00403.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00403.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
-    [ "formatter", "a00403.html#a02e89e91276c92b30065be47d60aa221", null ],
+    [ "formatter", "a00403.html#a4d60ad97c2097d9323921b749f163e26", null ],
     [ "getFormatter", "a00403.html#afce25d64087d96d66b6b5535660a8ddb", null ],
     [ "contextMapper", "a00403.html#ae7316c0c7550712f915cc3cd353cd981", null ],
     [ "exposedType", "a00403.html#aa6a844c9b01d97aca583be867a1c5413", null ],

@@ -1,4 +1,27 @@
 var a00233 =
 [
-    [ "WebService", "a00525.html", "a00525" ]
+    [ "CSVFormatter", "a00351.html", "a00351" ],
+    [ "GeoHashFormatter", "a00355.html", "a00355" ],
+    [ "GeoJSONFormatter", "a00359.html", "a00359" ],
+    [ "GeoJSONLDFormatter", "a00363.html", "a00363" ],
+    [ "GeoJSONSeqFormatter", "a00367.html", "a00367" ],
+    [ "GeoURIFormatter", "a00371.html", "a00371" ],
+    [ "GMLFormatter", "a00375.html", "a00375" ],
+    [ "GPXFormatter", "a00379.html", "a00379" ],
+    [ "JSONFormatter", "a00383.html", "a00383" ],
+    [ "JSONLDFormatter", "a00387.html", "a00387" ],
+    [ "JSONPFormatter", "a00391.html", "a00391" ],
+    [ "JSONSeqFormatter", "a00395.html", "a00395" ],
+    [ "KMLFormatter", "a00399.html", "a00399" ],
+    [ "LatLonTextFormatter", "a00403.html", "a00403" ],
+    [ "MapMLFormatter", "a00407.html", "a00407" ],
+    [ "MVTFormatter", "a00411.html", "a00411" ],
+    [ "OSMFormatter", "a00415.html", "a00415" ],
+    [ "OSMLinkFormatter", "a00419.html", "a00419" ],
+    [ "PolyshapeFormatter", "a00423.html", "a00423" ],
+    [ "SVGFormatter", "a00427.html", "a00427" ],
+    [ "TopoJSONFormatter", "a00431.html", "a00431" ],
+    [ "WKBFormatter", "a00435.html", "a00435" ],
+    [ "WKTFormatter", "a00439.html", "a00439" ],
+    [ "XLSFormatter", "a00443.html", "a00443" ]
 ];

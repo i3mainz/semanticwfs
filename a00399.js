@@ -1,7 +1,8 @@
 var a00399 =
 [
-    [ "PolyshapeFormatter", "a00399.html#a62dc43d7f4c51e11d50bd78937c211ad", null ],
+    [ "KMLFormatter", "a00399.html#a71671269609c089275747e1c75d17afe", null ],
     [ "[static initializer]", "a00399.html#a2e87c5ede6b7235170d287cd2e254454", null ],
+    [ "addTagsFromJSONObject", "a00399.html#ad2df52d63f2f157b044923ff7cf52cd1", null ],
     [ "formatFooter", "a00399.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00399.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
     [ "formatter", "a00399.html#a4d60ad97c2097d9323921b749f163e26", null ],

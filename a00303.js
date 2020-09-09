@@ -1,6 +1,6 @@
 var a00303 =
 [
-    [ "NTFormatter", "a00303.html#a1c90e14ae5987c0847e486ed3c1fe95e", null ],
+    [ "HDTFormatter", "a00303.html#ae0d4145335cf002e2ef3f69d6f64e667", null ],
     [ "[static initializer]", "a00303.html#a2e87c5ede6b7235170d287cd2e254454", null ],
     [ "formatFooter", "a00303.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00303.html#abaa077ed79fcfd5a2279597e3f324c64", null ],

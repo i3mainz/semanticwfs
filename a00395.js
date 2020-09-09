@@ -1,6 +1,6 @@
 var a00395 =
 [
-    [ "OSMLinkFormatter", "a00395.html#aba9705287eb026933a9c7bdf5cd90c61", null ],
+    [ "JSONSeqFormatter", "a00395.html#abe6d9b1e3cfba4768b80d904d400f789", null ],
     [ "[static initializer]", "a00395.html#a2e87c5ede6b7235170d287cd2e254454", null ],
     [ "formatFooter", "a00395.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00395.html#abaa077ed79fcfd5a2279597e3f324c64", null ],

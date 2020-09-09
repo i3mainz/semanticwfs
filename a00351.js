@@ -1,6 +1,6 @@
 var a00351 =
 [
-    [ "GeoURIFormatter", "a00351.html#a5eb340b9f43f6ac50786dc48ef83c1df", null ],
+    [ "CSVFormatter", "a00351.html#ad05667ae15b908cbd8951b3cdd299d23", null ],
     [ "[static initializer]", "a00351.html#a2e87c5ede6b7235170d287cd2e254454", null ],
     [ "formatFooter", "a00351.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00351.html#abaa077ed79fcfd5a2279597e3f324c64", null ],

@@ -1,8 +1,7 @@
 var a00291 =
 [
-    [ "HexTuplesFormatter", "a00291.html#a2cca9e83766c9d13bf7b7707cfed1704", null ],
+    [ "X3DFormatter", "a00291.html#aee6ae846ff51834725428ec6d4377156", null ],
     [ "[static initializer]", "a00291.html#a2e87c5ede6b7235170d287cd2e254454", null ],
-    [ "addKeyValList", "a00291.html#a9d9180f34dd3cb76d915f829937fdda1", null ],
     [ "formatFooter", "a00291.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00291.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
     [ "formatter", "a00291.html#a4d60ad97c2097d9323921b749f163e26", null ],

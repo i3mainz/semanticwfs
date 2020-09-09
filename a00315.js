@@ -1,6 +1,6 @@
 var a00315 =
 [
-    [ "RDFThriftFormatter", "a00315.html#a9ba53815db0a8820185836ebd69ab03d", null ],
+    [ "NQuadsFormatter", "a00315.html#a6fcceab6ee9b98cef6602dcbbfa8dcf7", null ],
     [ "[static initializer]", "a00315.html#a2e87c5ede6b7235170d287cd2e254454", null ],
     [ "formatFooter", "a00315.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00315.html#abaa077ed79fcfd5a2279597e3f324c64", null ],

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>semanticwfs: StyleObject Class Reference</title>
+<title>semanticwfs: CartoCSSFormatter Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,349 +62,359 @@ $(document).ready(function(){initNavTree('a00467.html','');});
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
+<a href="#pac-static-methods">Static Package Functions</a> &#124;
 <a href="a00464.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">StyleObject Class Reference</div>  </div>
+<div class="title">CartoCSSFormatter Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>An object containing style definitions to apply on geospatial objects.  
+<p>Reads an ontological style description and formats it to CartoCSS.  
  <a href="a00467.html#details">More...</a></p>
 <div class="dynheader">
-Collaboration diagram for StyleObject:</div>
+Inheritance diagram for CartoCSSFormatter:</div>
 <div class="dyncontent">
-<div class="center"><img src="a00465.png" border="0" usemap="#StyleObject_coll__map" alt="Collaboration graph"/></div>
-<map name="StyleObject_coll__map" id="StyleObject_coll__map">
+<div class="center"><img src="a00466.png" border="0" usemap="#CartoCSSFormatter_inherit__map" alt="Inheritance graph"/></div>
+<map name="CartoCSSFormatter_inherit__map" id="CartoCSSFormatter_inherit__map">
+<area shape="rect" id="node2" href="a00483.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="5,5,152,32"/>
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
+Collaboration diagram for CartoCSSFormatter:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00465.png" border="0" usemap="#CartoCSSFormatter_coll__map" alt="Collaboration graph"/></div>
+<map name="CartoCSSFormatter_coll__map" id="CartoCSSFormatter_coll__map">
+<area shape="rect" id="node2" href="a00483.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="883,71,1029,97"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ad146fa8579a5f8a876c4688cc5a68520"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00467.html#ad146fa8579a5f8a876c4688cc5a68520">toString</a> ()</td></tr>
-<tr class="separator:ad146fa8579a5f8a876c4688cc5a68520"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a693608dec873ba750e1bf45f50d81817"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00467.html#a693608dec873ba750e1bf45f50d81817">toJSON</a> ()</td></tr>
-<tr class="memdesc:a693608dec873ba750e1bf45f50d81817"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exports the <a class="el" href="a00467.html" title="An object containing style definitions to apply on geospatial objects. ">StyleObject</a> to JSON.  <a href="#a693608dec873ba750e1bf45f50d81817">More...</a><br /></td></tr>
-<tr class="separator:a693608dec873ba750e1bf45f50d81817"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:add850f03e24411f6d9e46e4e07a02727"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00467.html#add850f03e24411f6d9e46e4e07a02727">toHTML</a> ()</td></tr>
-<tr class="memdesc:add850f03e24411f6d9e46e4e07a02727"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exports the <a class="el" href="a00467.html" title="An object containing style definitions to apply on geospatial objects. ">StyleObject</a> to HTML.  <a href="#add850f03e24411f6d9e46e4e07a02727">More...</a><br /></td></tr>
-<tr class="separator:add850f03e24411f6d9e46e4e07a02727"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1123f91ca59c943e426493e42cb61108"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00467.html#a1123f91ca59c943e426493e42cb61108">toXML</a> ()</td></tr>
-<tr class="memdesc:a1123f91ca59c943e426493e42cb61108"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exports the <a class="el" href="a00467.html" title="An object containing style definitions to apply on geospatial objects. ">StyleObject</a> to XML.  <a href="#a1123f91ca59c943e426493e42cb61108">More...</a><br /></td></tr>
-<tr class="separator:a1123f91ca59c943e426493e42cb61108"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6561dcf48f63c199d693d5ed6c739dc0"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00467.html#a6561dcf48f63c199d693d5ed6c739dc0">formatter</a> (ResultSet results, String featuretype)  throws XMLStreamException </td></tr>
+<tr class="separator:a6561dcf48f63c199d693d5ed6c739dc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a399873993b7ab0c34a034702639a6cad"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00467.html#a399873993b7ab0c34a034702639a6cad">formatGeometry</a> (String geometrytype, <a class="el" href="a00495.html">StyleObject</a> styleobj)</td></tr>
+<tr class="separator:a399873993b7ab0c34a034702639a6cad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abaa077ed79fcfd5a2279597e3f324c64"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00483.html#abaa077ed79fcfd5a2279597e3f324c64">formatHeader</a> ()</td></tr>
+<tr class="separator:abaa077ed79fcfd5a2279597e3f324c64"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af149b280d2c9bcc76f05c6a1c291d30f"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00483.html#af149b280d2c9bcc76f05c6a1c291d30f">formatFooter</a> ()</td></tr>
+<tr class="separator:af149b280d2c9bcc76f05c6a1c291d30f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a91715aa5eef12ebcf3ea95d7493b9084"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="a00483.html">ResultStyleFormatter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00483.html#a91715aa5eef12ebcf3ea95d7493b9084">getFormatter</a> (String formatString)</td></tr>
+<tr class="memdesc:a91715aa5eef12ebcf3ea95d7493b9084"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a style formatter for a chosen style type.  <a href="#a91715aa5eef12ebcf3ea95d7493b9084">More...</a><br /></td></tr>
+<tr class="separator:a91715aa5eef12ebcf3ea95d7493b9084"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a87e7ed2ad089c7ba8db7857efa15befa"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00467.html#a87e7ed2ad089c7ba8db7857efa15befa">pointStyle</a></td></tr>
-<tr class="memdesc:a87e7ed2ad089c7ba8db7857efa15befa"><td class="mdescLeft">&#160;</td><td class="mdescRight">A point style definition in CSS.  <a href="#a87e7ed2ad089c7ba8db7857efa15befa">More...</a><br /></td></tr>
-<tr class="separator:a87e7ed2ad089c7ba8db7857efa15befa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5d0c401b8996e35a911e178227081b32"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00467.html#a5d0c401b8996e35a911e178227081b32">pointImage</a></td></tr>
-<tr class="memdesc:a5d0c401b8996e35a911e178227081b32"><td class="mdescLeft">&#160;</td><td class="mdescRight">An SVG definition oder an image path to indicate an icon for a point.  <a href="#a5d0c401b8996e35a911e178227081b32">More...</a><br /></td></tr>
-<tr class="separator:a5d0c401b8996e35a911e178227081b32"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae1748922a6f7b626b0c88fcd21f48392"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00467.html#ae1748922a6f7b626b0c88fcd21f48392">lineStringStyle</a></td></tr>
-<tr class="memdesc:ae1748922a6f7b626b0c88fcd21f48392"><td class="mdescLeft">&#160;</td><td class="mdescRight">A hatch definition in CSS.  <a href="#ae1748922a6f7b626b0c88fcd21f48392">More...</a><br /></td></tr>
-<tr class="separator:ae1748922a6f7b626b0c88fcd21f48392"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac5ffd3d17c1fd4d95bdf3423d8d95102"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00467.html#ac5ffd3d17c1fd4d95bdf3423d8d95102">lineStringImage</a></td></tr>
-<tr class="memdesc:ac5ffd3d17c1fd4d95bdf3423d8d95102"><td class="mdescLeft">&#160;</td><td class="mdescRight">An SVG definition oder an image path to indicate an icon for a LineString.  <a href="#ac5ffd3d17c1fd4d95bdf3423d8d95102">More...</a><br /></td></tr>
-<tr class="separator:ac5ffd3d17c1fd4d95bdf3423d8d95102"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a27511b5779d69b4e26b4ed7737d5de2e"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00467.html#a27511b5779d69b4e26b4ed7737d5de2e">polygonStyle</a></td></tr>
-<tr class="memdesc:a27511b5779d69b4e26b4ed7737d5de2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">A Polygon style definition in CSS.  <a href="#a27511b5779d69b4e26b4ed7737d5de2e">More...</a><br /></td></tr>
-<tr class="separator:a27511b5779d69b4e26b4ed7737d5de2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3877196bb534272431a59e7ecb4d5338"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00467.html#a3877196bb534272431a59e7ecb4d5338">polygonImage</a></td></tr>
-<tr class="memdesc:a3877196bb534272431a59e7ecb4d5338"><td class="mdescLeft">&#160;</td><td class="mdescRight">An SVG definition oder an image path to indicate an icon for a Polygon.  <a href="#a3877196bb534272431a59e7ecb4d5338">More...</a><br /></td></tr>
-<tr class="separator:a3877196bb534272431a59e7ecb4d5338"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab280196b35e8fb195755480f7b6bba1c"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00467.html#ab280196b35e8fb195755480f7b6bba1c">hatch</a></td></tr>
-<tr class="memdesc:ab280196b35e8fb195755480f7b6bba1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">A hatch definition in CSS.  <a href="#ab280196b35e8fb195755480f7b6bba1c">More...</a><br /></td></tr>
-<tr class="separator:ab280196b35e8fb195755480f7b6bba1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a124c238dd7f1a8e8b30588868bf3f809"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00467.html#a124c238dd7f1a8e8b30588868bf3f809">lineStringImageStyle</a></td></tr>
-<tr class="memdesc:a124c238dd7f1a8e8b30588868bf3f809"><td class="mdescLeft">&#160;</td><td class="mdescRight">A style definition of an image which is enclosed in a LineString.  <a href="#a124c238dd7f1a8e8b30588868bf3f809">More...</a><br /></td></tr>
-<tr class="separator:a124c238dd7f1a8e8b30588868bf3f809"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac1612ef6d046b45bf698d7c2c284e0ca"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00467.html#ac1612ef6d046b45bf698d7c2c284e0ca">styleName</a></td></tr>
-<tr class="memdesc:ac1612ef6d046b45bf698d7c2c284e0ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">An identifier of a given style.  <a href="#ac1612ef6d046b45bf698d7c2c284e0ca">More...</a><br /></td></tr>
-<tr class="separator:ac1612ef6d046b45bf698d7c2c284e0ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ce6ef499b64cec5981912a236baa199"><td class="memItemLeft" align="right" valign="top">Integer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00483.html#a1ce6ef499b64cec5981912a236baa199">lastQueriedElemCount</a> =0</td></tr>
+<tr class="separator:a1ce6ef499b64cec5981912a236baa199"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09c78e464072ccab667894f0d179fbdf"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00483.html#a09c78e464072ccab667894f0d179fbdf">mimeType</a> =&quot;text/plain&quot;</td></tr>
+<tr class="separator:a09c78e464072ccab667894f0d179fbdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6a844c9b01d97aca583be867a1c5413"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00483.html#aa6a844c9b01d97aca583be867a1c5413">exposedType</a> =&quot;application/vnd.geo+json&quot;</td></tr>
+<tr class="separator:aa6a844c9b01d97aca583be867a1c5413"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e9232fc24a04d17c4a31141d78cb0ca"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00483.html#a8e9232fc24a04d17c4a31141d78cb0ca">styleAttribute</a> =&quot;&quot;</td></tr>
+<tr class="separator:a8e9232fc24a04d17c4a31141d78cb0ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
+Static Public Attributes</h2></td></tr>
+<tr class="memitem:a54c9d791b2138017b960a7cf457b5fd2"><td class="memItemLeft" align="right" valign="top">static Map&lt; String, <a class="el" href="a00483.html">ResultStyleFormatter</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00483.html#a54c9d791b2138017b960a7cf457b5fd2">resultMap</a> =new TreeMap&lt;String, <a class="el" href="a00483.html">ResultStyleFormatter</a>&gt;()</td></tr>
+<tr class="separator:a54c9d791b2138017b960a7cf457b5fd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pac-static-methods"></a>
+Static Package Functions</h2></td></tr>
+<tr class="memitem:a2e87c5ede6b7235170d287cd2e254454"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00483.html#a2e87c5ede6b7235170d287cd2e254454">[static initializer]</a></td></tr>
+<tr class="separator:a2e87c5ede6b7235170d287cd2e254454"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>An object containing style definitions to apply on geospatial objects. </p>
+<div class="textblock"><p>Reads an ontological style description and formats it to CartoCSS. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="add850f03e24411f6d9e46e4e07a02727"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#add850f03e24411f6d9e46e4e07a02727">&#9670;&nbsp;</a></span>toHTML()</h2>
+<a id="a2e87c5ede6b7235170d287cd2e254454"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e87c5ede6b7235170d287cd2e254454">&#9670;&nbsp;</a></span>[static initializer]()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">String toHTML </td>
+          <td class="memname">[static initializer] </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">package</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Exports the <a class="el" href="a00467.html" title="An object containing style definitions to apply on geospatial objects. ">StyleObject</a> to HTML. </p>
-<dl class="section return"><dt>Returns</dt><dd>A HTML table containing the <a class="el" href="a00467.html" title="An object containing style definitions to apply on geospatial objects. ">StyleObject</a> information </dd></dl>
-
-<p class="reference">Referenced by <a class="el" href="a00511.html#aa6cd9ce33426c383d9fdebad6066567e">WebService.getCollectionStyle()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                               {</div><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                StringBuilder result=<span class="keyword">new</span> StringBuilder();</div><div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                result.append(<span class="stringliteral">&quot;&lt;table border=1&gt;&lt;tr&gt;&lt;th&gt;Styleaspect&lt;/th&gt;&lt;th&gt;CSS&lt;/th&gt;&lt;/tr&gt;&quot;</span>);</div><div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                result.append(<span class="stringliteral">&quot;&lt;tr&gt;&lt;td&gt;pointStyle&lt;/td&gt;&lt;td&gt;&quot;</span>+(<a class="code" href="a00467.html#a87e7ed2ad089c7ba8db7857efa15befa">pointStyle</a>!=null?<a class="code" href="a00467.html#a87e7ed2ad089c7ba8db7857efa15befa">pointStyle</a>.replace(<span class="stringliteral">&quot;\&quot;&quot;</span>,<span class="stringliteral">&quot;&quot;</span>).replace(<span class="stringliteral">&quot;\\&quot;</span>,<span class="stringliteral">&quot;&quot;</span>):<span class="stringliteral">&quot;&quot;</span>)+<span class="stringliteral">&quot;&lt;/td&gt;&lt;/tr&gt;&quot;</span>);</div><div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                result.append(<span class="stringliteral">&quot;&lt;tr&gt;&lt;td&gt;pointImage&lt;/td&gt;&lt;td&gt;&quot;</span>+(<a class="code" href="a00467.html#a5d0c401b8996e35a911e178227081b32">pointImage</a>!=null?<a class="code" href="a00467.html#a5d0c401b8996e35a911e178227081b32">pointImage</a>.replace(<span class="stringliteral">&quot;\&quot;&quot;</span>,<span class="stringliteral">&quot;&quot;</span>).replace(<span class="stringliteral">&quot;\\&quot;</span>,<span class="stringliteral">&quot;&quot;</span>):<span class="stringliteral">&quot;&quot;</span>)+<span class="stringliteral">&quot;&lt;/td&gt;&lt;/tr&gt;&quot;</span>);</div><div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                result.append(<span class="stringliteral">&quot;&lt;tr&gt;&lt;td&gt;lineStringStyle&lt;/td&gt;&lt;td&gt;&quot;</span>+(<a class="code" href="a00467.html#ae1748922a6f7b626b0c88fcd21f48392">lineStringStyle</a>!=null?<a class="code" href="a00467.html#ae1748922a6f7b626b0c88fcd21f48392">lineStringStyle</a>.replace(<span class="stringliteral">&quot;\&quot;&quot;</span>,<span class="stringliteral">&quot;&quot;</span>).replace(<span class="stringliteral">&quot;\\&quot;</span>,<span class="stringliteral">&quot;&quot;</span>):<span class="stringliteral">&quot;&quot;</span>)+<span class="stringliteral">&quot;&lt;/td&gt;&lt;/tr&gt;&quot;</span>);</div><div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                result.append(<span class="stringliteral">&quot;&lt;tr&gt;&lt;td&gt;lineStringImage&lt;/td&gt;&lt;td&gt;&quot;</span>+(<a class="code" href="a00467.html#ac5ffd3d17c1fd4d95bdf3423d8d95102">lineStringImage</a>!=null?<a class="code" href="a00467.html#ac5ffd3d17c1fd4d95bdf3423d8d95102">lineStringImage</a>.replace(<span class="stringliteral">&quot;\&quot;&quot;</span>,<span class="stringliteral">&quot;&quot;</span>).replace(<span class="stringliteral">&quot;\\&quot;</span>,<span class="stringliteral">&quot;&quot;</span>):<span class="stringliteral">&quot;&quot;</span>)+<span class="stringliteral">&quot;&lt;/td&gt;&lt;/tr&gt;&quot;</span>);</div><div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                result.append(<span class="stringliteral">&quot;&lt;tr&gt;&lt;td&gt;lineStringImageStyle&lt;/td&gt;&lt;td&gt;&quot;</span>+(<a class="code" href="a00467.html#a124c238dd7f1a8e8b30588868bf3f809">lineStringImageStyle</a>!=null?<a class="code" href="a00467.html#a124c238dd7f1a8e8b30588868bf3f809">lineStringImageStyle</a>.replace(<span class="stringliteral">&quot;\&quot;&quot;</span>,<span class="stringliteral">&quot;&quot;</span>).replace(<span class="stringliteral">&quot;\\&quot;</span>,<span class="stringliteral">&quot;&quot;</span>):<span class="stringliteral">&quot;&quot;</span>)+<span class="stringliteral">&quot;&lt;/td&gt;&lt;/tr&gt;&quot;</span>);</div><div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                result.append(<span class="stringliteral">&quot;&lt;tr&gt;&lt;td&gt;polygonStyle&lt;/td&gt;&lt;td&gt;&quot;</span>+(<a class="code" href="a00467.html#a27511b5779d69b4e26b4ed7737d5de2e">polygonStyle</a>!=null?<a class="code" href="a00467.html#a27511b5779d69b4e26b4ed7737d5de2e">polygonStyle</a>.replace(<span class="stringliteral">&quot;\&quot;&quot;</span>,<span class="stringliteral">&quot;&quot;</span>).replace(<span class="stringliteral">&quot;\\&quot;</span>,<span class="stringliteral">&quot;&quot;</span>):<span class="stringliteral">&quot;&quot;</span>)+<span class="stringliteral">&quot;&lt;/td&gt;&lt;/tr&gt;&quot;</span>);</div><div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                result.append(<span class="stringliteral">&quot;&lt;tr&gt;&lt;td&gt;polygonImage&lt;/td&gt;&lt;td&gt;&quot;</span>+(<a class="code" href="a00467.html#a3877196bb534272431a59e7ecb4d5338">polygonImage</a>!=null?<a class="code" href="a00467.html#a3877196bb534272431a59e7ecb4d5338">polygonImage</a>.replace(<span class="stringliteral">&quot;\&quot;&quot;</span>,<span class="stringliteral">&quot;&quot;</span>).replace(<span class="stringliteral">&quot;\\&quot;</span>,<span class="stringliteral">&quot;&quot;</span>):<span class="stringliteral">&quot;&quot;</span>)+<span class="stringliteral">&quot;&lt;/td&gt;&lt;/tr&gt;&quot;</span>);</div><div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                result.append(<span class="stringliteral">&quot;&lt;tr&gt;&lt;td&gt;hatch&lt;/td&gt;&lt;td&gt;&quot;</span>+(<a class="code" href="a00467.html#ab280196b35e8fb195755480f7b6bba1c">hatch</a>!=null?<a class="code" href="a00467.html#ab280196b35e8fb195755480f7b6bba1c">hatch</a>.replace(<span class="stringliteral">&quot;\&quot;&quot;</span>,<span class="stringliteral">&quot;&quot;</span>).replace(<span class="stringliteral">&quot;\\&quot;</span>,<span class="stringliteral">&quot;&quot;</span>):<span class="stringliteral">&quot;&quot;</span>)+<span class="stringliteral">&quot;&lt;/td&gt;&lt;/tr&gt;&quot;</span>);</div><div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                result.append(<span class="stringliteral">&quot;&lt;tr&gt;&lt;td&gt;styleName&lt;/td&gt;&lt;td&gt;&quot;</span>+<a class="code" href="a00467.html#ac1612ef6d046b45bf698d7c2c284e0ca">styleName</a>+<span class="stringliteral">&quot;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&quot;</span>);</div><div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                <span class="keywordflow">return</span> result.toString();</div><div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        }</div><div class="ttc" id="a00467_html_ab280196b35e8fb195755480f7b6bba1c"><div class="ttname"><a href="a00467.html#ab280196b35e8fb195755480f7b6bba1c">de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject.hatch</a></div><div class="ttdeci">String hatch</div><div class="ttdoc">A hatch definition in CSS. </div><div class="ttdef"><b>Definition:</b> StyleObject.java:52</div></div>
-<div class="ttc" id="a00467_html_a87e7ed2ad089c7ba8db7857efa15befa"><div class="ttname"><a href="a00467.html#a87e7ed2ad089c7ba8db7857efa15befa">de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject.pointStyle</a></div><div class="ttdeci">String pointStyle</div><div class="ttdoc">A point style definition in CSS. </div><div class="ttdef"><b>Definition:</b> StyleObject.java:22</div></div>
-<div class="ttc" id="a00467_html_a27511b5779d69b4e26b4ed7737d5de2e"><div class="ttname"><a href="a00467.html#a27511b5779d69b4e26b4ed7737d5de2e">de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject.polygonStyle</a></div><div class="ttdeci">String polygonStyle</div><div class="ttdoc">A Polygon style definition in CSS. </div><div class="ttdef"><b>Definition:</b> StyleObject.java:42</div></div>
-<div class="ttc" id="a00467_html_ac1612ef6d046b45bf698d7c2c284e0ca"><div class="ttname"><a href="a00467.html#ac1612ef6d046b45bf698d7c2c284e0ca">de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject.styleName</a></div><div class="ttdeci">String styleName</div><div class="ttdoc">An identifier of a given style. </div><div class="ttdef"><b>Definition:</b> StyleObject.java:62</div></div>
-<div class="ttc" id="a00467_html_a124c238dd7f1a8e8b30588868bf3f809"><div class="ttname"><a href="a00467.html#a124c238dd7f1a8e8b30588868bf3f809">de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject.lineStringImageStyle</a></div><div class="ttdeci">String lineStringImageStyle</div><div class="ttdoc">A style definition of an image which is enclosed in a LineString. </div><div class="ttdef"><b>Definition:</b> StyleObject.java:57</div></div>
-<div class="ttc" id="a00467_html_a3877196bb534272431a59e7ecb4d5338"><div class="ttname"><a href="a00467.html#a3877196bb534272431a59e7ecb4d5338">de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject.polygonImage</a></div><div class="ttdeci">String polygonImage</div><div class="ttdoc">An SVG definition oder an image path to indicate an icon for a Polygon. </div><div class="ttdef"><b>Definition:</b> StyleObject.java:47</div></div>
-<div class="ttc" id="a00467_html_a5d0c401b8996e35a911e178227081b32"><div class="ttname"><a href="a00467.html#a5d0c401b8996e35a911e178227081b32">de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject.pointImage</a></div><div class="ttdeci">String pointImage</div><div class="ttdoc">An SVG definition oder an image path to indicate an icon for a point. </div><div class="ttdef"><b>Definition:</b> StyleObject.java:27</div></div>
-<div class="ttc" id="a00467_html_ac5ffd3d17c1fd4d95bdf3423d8d95102"><div class="ttname"><a href="a00467.html#ac5ffd3d17c1fd4d95bdf3423d8d95102">de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject.lineStringImage</a></div><div class="ttdeci">String lineStringImage</div><div class="ttdoc">An SVG definition oder an image path to indicate an icon for a LineString. </div><div class="ttdef"><b>Definition:</b> StyleObject.java:37</div></div>
-<div class="ttc" id="a00467_html_ae1748922a6f7b626b0c88fcd21f48392"><div class="ttname"><a href="a00467.html#ae1748922a6f7b626b0c88fcd21f48392">de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject.lineStringStyle</a></div><div class="ttdeci">String lineStringStyle</div><div class="ttdoc">A hatch definition in CSS. </div><div class="ttdef"><b>Definition:</b> StyleObject.java:32</div></div>
-</div><!-- fragment -->
 </div>
 </div>
-<a id="a693608dec873ba750e1bf45f50d81817"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a693608dec873ba750e1bf45f50d81817">&#9670;&nbsp;</a></span>toJSON()</h2>
+<a id="af149b280d2c9bcc76f05c6a1c291d30f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af149b280d2c9bcc76f05c6a1c291d30f">&#9670;&nbsp;</a></span>formatFooter()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">String toJSON </td>
+          <td class="memname">String formatFooter </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Exports the <a class="el" href="a00467.html" title="An object containing style definitions to apply on geospatial objects. ">StyleObject</a> to JSON. </p>
-<dl class="section return"><dt>Returns</dt><dd>The JSONObject containing the style information </dd></dl>
-
-<p class="reference">Referenced by <a class="el" href="a00511.html#aa6cd9ce33426c383d9fdebad6066567e">WebService.getCollectionStyle()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                               {</div><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                JSONObject result=<span class="keyword">new</span> JSONObject();</div><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                result.put(<span class="stringliteral">&quot;pointStyle&quot;</span>,(<a class="code" href="a00467.html#a87e7ed2ad089c7ba8db7857efa15befa">pointStyle</a>!=null?<a class="code" href="a00467.html#a87e7ed2ad089c7ba8db7857efa15befa">pointStyle</a>.replace(<span class="stringliteral">&quot;\&quot;&quot;</span>,<span class="stringliteral">&quot;&quot;</span>).replace(<span class="stringliteral">&quot;\\&quot;</span>,<span class="stringliteral">&quot;&quot;</span>):null));</div><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                result.put(<span class="stringliteral">&quot;pointImage&quot;</span>,(<a class="code" href="a00467.html#a5d0c401b8996e35a911e178227081b32">pointImage</a>!=null?<a class="code" href="a00467.html#a5d0c401b8996e35a911e178227081b32">pointImage</a>.replace(<span class="stringliteral">&quot;\&quot;&quot;</span>,<span class="stringliteral">&quot;&quot;</span>).replace(<span class="stringliteral">&quot;\\&quot;</span>,<span class="stringliteral">&quot;&quot;</span>):null));</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                result.put(<span class="stringliteral">&quot;lineStringStyle&quot;</span>,(<a class="code" href="a00467.html#ae1748922a6f7b626b0c88fcd21f48392">lineStringStyle</a>!=null?<a class="code" href="a00467.html#ae1748922a6f7b626b0c88fcd21f48392">lineStringStyle</a>.replace(<span class="stringliteral">&quot;\&quot;&quot;</span>,<span class="stringliteral">&quot;&quot;</span>).replace(<span class="stringliteral">&quot;\\&quot;</span>,<span class="stringliteral">&quot;&quot;</span>):null));</div><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                result.put(<span class="stringliteral">&quot;lineStringImage&quot;</span>,(<a class="code" href="a00467.html#ac5ffd3d17c1fd4d95bdf3423d8d95102">lineStringImage</a>!=null?<a class="code" href="a00467.html#ac5ffd3d17c1fd4d95bdf3423d8d95102">lineStringImage</a>.replace(<span class="stringliteral">&quot;\&quot;&quot;</span>,<span class="stringliteral">&quot;&quot;</span>).replace(<span class="stringliteral">&quot;\\&quot;</span>,<span class="stringliteral">&quot;&quot;</span>):null));</div><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                result.put(<span class="stringliteral">&quot;lineStringImageStyle&quot;</span>,(<a class="code" href="a00467.html#a124c238dd7f1a8e8b30588868bf3f809">lineStringImageStyle</a>!=null?<a class="code" href="a00467.html#a124c238dd7f1a8e8b30588868bf3f809">lineStringImageStyle</a>.replace(<span class="stringliteral">&quot;\&quot;&quot;</span>,<span class="stringliteral">&quot;&quot;</span>).replace(<span class="stringliteral">&quot;\\&quot;</span>,<span class="stringliteral">&quot;&quot;</span>):null));</div><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                result.put(<span class="stringliteral">&quot;polygonStyle&quot;</span>,(<a class="code" href="a00467.html#a27511b5779d69b4e26b4ed7737d5de2e">polygonStyle</a>!=null?<a class="code" href="a00467.html#a27511b5779d69b4e26b4ed7737d5de2e">polygonStyle</a>.replace(<span class="stringliteral">&quot;\&quot;&quot;</span>,<span class="stringliteral">&quot;&quot;</span>).replace(<span class="stringliteral">&quot;\\&quot;</span>,<span class="stringliteral">&quot;&quot;</span>):null));</div><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                result.put(<span class="stringliteral">&quot;polygonImage&quot;</span>,(<a class="code" href="a00467.html#a3877196bb534272431a59e7ecb4d5338">polygonImage</a>!=null?<a class="code" href="a00467.html#a3877196bb534272431a59e7ecb4d5338">polygonImage</a>.replace(<span class="stringliteral">&quot;\&quot;&quot;</span>,<span class="stringliteral">&quot;&quot;</span>).replace(<span class="stringliteral">&quot;\\&quot;</span>,<span class="stringliteral">&quot;&quot;</span>):null));</div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                result.put(<span class="stringliteral">&quot;hatch&quot;</span>,(<a class="code" href="a00467.html#ab280196b35e8fb195755480f7b6bba1c">hatch</a>!=null?<a class="code" href="a00467.html#ab280196b35e8fb195755480f7b6bba1c">hatch</a>.replace(<span class="stringliteral">&quot;\&quot;&quot;</span>,<span class="stringliteral">&quot;&quot;</span>).replace(<span class="stringliteral">&quot;\\&quot;</span>,<span class="stringliteral">&quot;&quot;</span>):null));</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                result.put(<span class="stringliteral">&quot;styleName&quot;</span>,<a class="code" href="a00467.html#ac1612ef6d046b45bf698d7c2c284e0ca">styleName</a>);</div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                <span class="keywordflow">return</span> result.toString(2);</div><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        }</div><div class="ttc" id="a00467_html_ab280196b35e8fb195755480f7b6bba1c"><div class="ttname"><a href="a00467.html#ab280196b35e8fb195755480f7b6bba1c">de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject.hatch</a></div><div class="ttdeci">String hatch</div><div class="ttdoc">A hatch definition in CSS. </div><div class="ttdef"><b>Definition:</b> StyleObject.java:52</div></div>
-<div class="ttc" id="a00467_html_a87e7ed2ad089c7ba8db7857efa15befa"><div class="ttname"><a href="a00467.html#a87e7ed2ad089c7ba8db7857efa15befa">de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject.pointStyle</a></div><div class="ttdeci">String pointStyle</div><div class="ttdoc">A point style definition in CSS. </div><div class="ttdef"><b>Definition:</b> StyleObject.java:22</div></div>
-<div class="ttc" id="a00467_html_a27511b5779d69b4e26b4ed7737d5de2e"><div class="ttname"><a href="a00467.html#a27511b5779d69b4e26b4ed7737d5de2e">de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject.polygonStyle</a></div><div class="ttdeci">String polygonStyle</div><div class="ttdoc">A Polygon style definition in CSS. </div><div class="ttdef"><b>Definition:</b> StyleObject.java:42</div></div>
-<div class="ttc" id="a00467_html_ac1612ef6d046b45bf698d7c2c284e0ca"><div class="ttname"><a href="a00467.html#ac1612ef6d046b45bf698d7c2c284e0ca">de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject.styleName</a></div><div class="ttdeci">String styleName</div><div class="ttdoc">An identifier of a given style. </div><div class="ttdef"><b>Definition:</b> StyleObject.java:62</div></div>
-<div class="ttc" id="a00467_html_a124c238dd7f1a8e8b30588868bf3f809"><div class="ttname"><a href="a00467.html#a124c238dd7f1a8e8b30588868bf3f809">de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject.lineStringImageStyle</a></div><div class="ttdeci">String lineStringImageStyle</div><div class="ttdoc">A style definition of an image which is enclosed in a LineString. </div><div class="ttdef"><b>Definition:</b> StyleObject.java:57</div></div>
-<div class="ttc" id="a00467_html_a3877196bb534272431a59e7ecb4d5338"><div class="ttname"><a href="a00467.html#a3877196bb534272431a59e7ecb4d5338">de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject.polygonImage</a></div><div class="ttdeci">String polygonImage</div><div class="ttdoc">An SVG definition oder an image path to indicate an icon for a Polygon. </div><div class="ttdef"><b>Definition:</b> StyleObject.java:47</div></div>
-<div class="ttc" id="a00467_html_a5d0c401b8996e35a911e178227081b32"><div class="ttname"><a href="a00467.html#a5d0c401b8996e35a911e178227081b32">de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject.pointImage</a></div><div class="ttdeci">String pointImage</div><div class="ttdoc">An SVG definition oder an image path to indicate an icon for a point. </div><div class="ttdef"><b>Definition:</b> StyleObject.java:27</div></div>
-<div class="ttc" id="a00467_html_ac5ffd3d17c1fd4d95bdf3423d8d95102"><div class="ttname"><a href="a00467.html#ac5ffd3d17c1fd4d95bdf3423d8d95102">de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject.lineStringImage</a></div><div class="ttdeci">String lineStringImage</div><div class="ttdoc">An SVG definition oder an image path to indicate an icon for a LineString. </div><div class="ttdef"><b>Definition:</b> StyleObject.java:37</div></div>
-<div class="ttc" id="a00467_html_ae1748922a6f7b626b0c88fcd21f48392"><div class="ttname"><a href="a00467.html#ae1748922a6f7b626b0c88fcd21f48392">de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject.lineStringStyle</a></div><div class="ttdeci">String lineStringStyle</div><div class="ttdoc">A hatch definition in CSS. </div><div class="ttdef"><b>Definition:</b> StyleObject.java:32</div></div>
-</div><!-- fragment -->
+<p class="reference">References <a class="el" href="a00483.html#a3770f80b7c98a8315479f697590303a3">ResultStyleFormatter.formatGeometry()</a>.</p>
+<div class="fragment"><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                                     {</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                <span class="keywordflow">return</span> <span class="stringliteral">&quot;&quot;</span>;</div><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
-<a id="ad146fa8579a5f8a876c4688cc5a68520"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad146fa8579a5f8a876c4688cc5a68520">&#9670;&nbsp;</a></span>toString()</h2>
+<a id="a399873993b7ab0c34a034702639a6cad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a399873993b7ab0c34a034702639a6cad">&#9670;&nbsp;</a></span>formatGeometry()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">String toString </td>
+          <td class="memname">String formatGeometry </td>
+          <td>(</td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>geometrytype</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a00495.html">StyleObject</a>&#160;</td>
+          <td class="paramname"><em>styleobj</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="fragment"><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                                                                                {</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;                <span class="comment">// TODO Auto-generated method stub</span></div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;                <span class="keywordflow">return</span> null;</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        }</div></div><!-- fragment -->
+</div>
+</div>
+<a id="abaa077ed79fcfd5a2279597e3f324c64"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abaa077ed79fcfd5a2279597e3f324c64">&#9670;&nbsp;</a></span>formatHeader()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">String formatHeader </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-
-<p class="reference">Referenced by <a class="el" href="a00511.html#aa6cd9ce33426c383d9fdebad6066567e">WebService.getCollectionStyle()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                                 {</div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                <span class="keywordflow">return</span> <span class="stringliteral">&quot;StyleObject [pointStyle=&quot;</span> + <a class="code" href="a00467.html#a87e7ed2ad089c7ba8db7857efa15befa">pointStyle</a> + <span class="stringliteral">&quot;, pointImage=&quot;</span> + <a class="code" href="a00467.html#a5d0c401b8996e35a911e178227081b32">pointImage</a> + <span class="stringliteral">&quot;, lineStringStyle=&quot;</span></div><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                                + <a class="code" href="a00467.html#ae1748922a6f7b626b0c88fcd21f48392">lineStringStyle</a> + <span class="stringliteral">&quot;, lineStringImage=&quot;</span> + <a class="code" href="a00467.html#ac5ffd3d17c1fd4d95bdf3423d8d95102">lineStringImage</a> + <span class="stringliteral">&quot;, polygonStyle=&quot;</span> + <a class="code" href="a00467.html#a27511b5779d69b4e26b4ed7737d5de2e">polygonStyle</a></div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                                + <span class="stringliteral">&quot;, polygonImage=&quot;</span> + <a class="code" href="a00467.html#a3877196bb534272431a59e7ecb4d5338">polygonImage</a> + <span class="stringliteral">&quot;, hatch=&quot;</span> + <a class="code" href="a00467.html#ab280196b35e8fb195755480f7b6bba1c">hatch</a> + <span class="stringliteral">&quot;]&quot;</span>;</div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        }</div><div class="ttc" id="a00467_html_ab280196b35e8fb195755480f7b6bba1c"><div class="ttname"><a href="a00467.html#ab280196b35e8fb195755480f7b6bba1c">de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject.hatch</a></div><div class="ttdeci">String hatch</div><div class="ttdoc">A hatch definition in CSS. </div><div class="ttdef"><b>Definition:</b> StyleObject.java:52</div></div>
-<div class="ttc" id="a00467_html_a87e7ed2ad089c7ba8db7857efa15befa"><div class="ttname"><a href="a00467.html#a87e7ed2ad089c7ba8db7857efa15befa">de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject.pointStyle</a></div><div class="ttdeci">String pointStyle</div><div class="ttdoc">A point style definition in CSS. </div><div class="ttdef"><b>Definition:</b> StyleObject.java:22</div></div>
-<div class="ttc" id="a00467_html_a27511b5779d69b4e26b4ed7737d5de2e"><div class="ttname"><a href="a00467.html#a27511b5779d69b4e26b4ed7737d5de2e">de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject.polygonStyle</a></div><div class="ttdeci">String polygonStyle</div><div class="ttdoc">A Polygon style definition in CSS. </div><div class="ttdef"><b>Definition:</b> StyleObject.java:42</div></div>
-<div class="ttc" id="a00467_html_a3877196bb534272431a59e7ecb4d5338"><div class="ttname"><a href="a00467.html#a3877196bb534272431a59e7ecb4d5338">de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject.polygonImage</a></div><div class="ttdeci">String polygonImage</div><div class="ttdoc">An SVG definition oder an image path to indicate an icon for a Polygon. </div><div class="ttdef"><b>Definition:</b> StyleObject.java:47</div></div>
-<div class="ttc" id="a00467_html_a5d0c401b8996e35a911e178227081b32"><div class="ttname"><a href="a00467.html#a5d0c401b8996e35a911e178227081b32">de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject.pointImage</a></div><div class="ttdeci">String pointImage</div><div class="ttdoc">An SVG definition oder an image path to indicate an icon for a point. </div><div class="ttdef"><b>Definition:</b> StyleObject.java:27</div></div>
-<div class="ttc" id="a00467_html_ac5ffd3d17c1fd4d95bdf3423d8d95102"><div class="ttname"><a href="a00467.html#ac5ffd3d17c1fd4d95bdf3423d8d95102">de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject.lineStringImage</a></div><div class="ttdeci">String lineStringImage</div><div class="ttdoc">An SVG definition oder an image path to indicate an icon for a LineString. </div><div class="ttdef"><b>Definition:</b> StyleObject.java:37</div></div>
-<div class="ttc" id="a00467_html_ae1748922a6f7b626b0c88fcd21f48392"><div class="ttname"><a href="a00467.html#ae1748922a6f7b626b0c88fcd21f48392">de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject.lineStringStyle</a></div><div class="ttdeci">String lineStringStyle</div><div class="ttdoc">A hatch definition in CSS. </div><div class="ttdef"><b>Definition:</b> StyleObject.java:32</div></div>
-</div><!-- fragment -->
+<div class="fragment"><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                                     {</div><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                <span class="keywordflow">return</span> <span class="stringliteral">&quot;&quot;</span>;</div><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
-<a id="a1123f91ca59c943e426493e42cb61108"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1123f91ca59c943e426493e42cb61108">&#9670;&nbsp;</a></span>toXML()</h2>
+<a id="a6561dcf48f63c199d693d5ed6c739dc0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6561dcf48f63c199d693d5ed6c739dc0">&#9670;&nbsp;</a></span>formatter()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">String toXML </td>
+          <td class="memname">String formatter </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">ResultSet&#160;</td>
+          <td class="paramname"><em>results</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>featuretype</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> throws XMLStreamException</td>
         </tr>
       </table>
 </div><div class="memdoc">
+<div class="fragment"><div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;                                                                                                 {</div><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;                <span class="comment">// TODO Auto-generated method stub</span></div><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;                <span class="keywordflow">return</span> null;</div><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        }</div></div><!-- fragment -->
+</div>
+</div>
+<a id="a91715aa5eef12ebcf3ea95d7493b9084"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a91715aa5eef12ebcf3ea95d7493b9084">&#9670;&nbsp;</a></span>getFormatter()</h2>
 
-<p>Exports the <a class="el" href="a00467.html" title="An object containing style definitions to apply on geospatial objects. ">StyleObject</a> to XML. </p>
-<dl class="section return"><dt>Returns</dt><dd>A String representation of the XML serialization </dd></dl>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="a00483.html">ResultStyleFormatter</a> getFormatter </td>
+          <td>(</td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>formatString</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="a00511.html#aa6cd9ce33426c383d9fdebad6066567e">WebService.getCollectionStyle()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                              {</div><div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                StringWriter strwriter = <span class="keyword">new</span> StringWriter();</div><div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                XMLOutputFactory output = XMLOutputFactory.newInstance();</div><div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                XMLStreamWriter writer;</div><div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                        <span class="keywordflow">try</span> {</div><div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                                writer = <span class="keyword">new</span> IndentingXMLStreamWriter(output.createXMLStreamWriter(strwriter));</div><div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;                                writer.writeStartDocument();</div><div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;                                writer.writeStartElement(<span class="stringliteral">&quot;style&quot;</span>);</div><div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;                                writer.writeStartElement(<a class="code" href="a00467.html#ac1612ef6d046b45bf698d7c2c284e0ca">styleName</a>);</div><div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                                writer.writeStartElement(<span class="stringliteral">&quot;pointStyle&quot;</span>);</div><div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;                                writer.writeCharacters(<a class="code" href="a00467.html#a87e7ed2ad089c7ba8db7857efa15befa">pointStyle</a>);</div><div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                                writer.writeEndElement();</div><div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;                                writer.writeStartElement(<span class="stringliteral">&quot;pointImage&quot;</span>);</div><div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;                                writer.writeCharacters(<a class="code" href="a00467.html#a5d0c401b8996e35a911e178227081b32">pointImage</a>);</div><div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;                                writer.writeEndElement();</div><div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;                                writer.writeStartElement(<span class="stringliteral">&quot;lineStringStyle&quot;</span>);</div><div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;                                writer.writeCharacters(<a class="code" href="a00467.html#ae1748922a6f7b626b0c88fcd21f48392">lineStringStyle</a>);</div><div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;                                writer.writeEndElement();</div><div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;                                writer.writeStartElement(<span class="stringliteral">&quot;lineStringImage&quot;</span>);</div><div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;                                writer.writeCharacters(<a class="code" href="a00467.html#ac5ffd3d17c1fd4d95bdf3423d8d95102">lineStringImage</a>);</div><div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;                                writer.writeEndElement();</div><div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;                                writer.writeStartElement(<span class="stringliteral">&quot;lineStringImageStyle&quot;</span>);</div><div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;                                writer.writeCharacters(<a class="code" href="a00467.html#a124c238dd7f1a8e8b30588868bf3f809">lineStringImageStyle</a>);</div><div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;                                writer.writeEndElement();</div><div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;                                writer.writeStartElement(<span class="stringliteral">&quot;polygonStyle&quot;</span>);</div><div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;                                writer.writeCharacters(<a class="code" href="a00467.html#a27511b5779d69b4e26b4ed7737d5de2e">polygonStyle</a>);</div><div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;                                writer.writeEndElement();</div><div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;                                writer.writeStartElement(<span class="stringliteral">&quot;polygonImage&quot;</span>);</div><div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;                                writer.writeCharacters(<a class="code" href="a00467.html#a3877196bb534272431a59e7ecb4d5338">polygonImage</a>);</div><div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;                                writer.writeEndElement();</div><div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;                                writer.writeStartElement(<span class="stringliteral">&quot;hatch&quot;</span>);</div><div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;                                writer.writeCharacters(<a class="code" href="a00467.html#ab280196b35e8fb195755480f7b6bba1c">hatch</a>);</div><div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;                                writer.writeEndElement();</div><div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;                                writer.writeEndElement();</div><div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;                                writer.writeEndElement();</div><div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;                                writer.writeEndDocument();</div><div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;                                writer.flush();</div><div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;                        } <span class="keywordflow">catch</span> (XMLStreamException e) {</div><div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;                                <span class="comment">// TODO Auto-generated catch block</span></div><div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;                                e.printStackTrace();</div><div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;                        }</div><div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;                        <span class="keywordflow">return</span> strwriter.toString();</div><div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;        }</div><div class="ttc" id="a00467_html_ab280196b35e8fb195755480f7b6bba1c"><div class="ttname"><a href="a00467.html#ab280196b35e8fb195755480f7b6bba1c">de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject.hatch</a></div><div class="ttdeci">String hatch</div><div class="ttdoc">A hatch definition in CSS. </div><div class="ttdef"><b>Definition:</b> StyleObject.java:52</div></div>
-<div class="ttc" id="a00467_html_a87e7ed2ad089c7ba8db7857efa15befa"><div class="ttname"><a href="a00467.html#a87e7ed2ad089c7ba8db7857efa15befa">de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject.pointStyle</a></div><div class="ttdeci">String pointStyle</div><div class="ttdoc">A point style definition in CSS. </div><div class="ttdef"><b>Definition:</b> StyleObject.java:22</div></div>
-<div class="ttc" id="a00467_html_a27511b5779d69b4e26b4ed7737d5de2e"><div class="ttname"><a href="a00467.html#a27511b5779d69b4e26b4ed7737d5de2e">de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject.polygonStyle</a></div><div class="ttdeci">String polygonStyle</div><div class="ttdoc">A Polygon style definition in CSS. </div><div class="ttdef"><b>Definition:</b> StyleObject.java:42</div></div>
-<div class="ttc" id="a00467_html_ac1612ef6d046b45bf698d7c2c284e0ca"><div class="ttname"><a href="a00467.html#ac1612ef6d046b45bf698d7c2c284e0ca">de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject.styleName</a></div><div class="ttdeci">String styleName</div><div class="ttdoc">An identifier of a given style. </div><div class="ttdef"><b>Definition:</b> StyleObject.java:62</div></div>
-<div class="ttc" id="a00467_html_a124c238dd7f1a8e8b30588868bf3f809"><div class="ttname"><a href="a00467.html#a124c238dd7f1a8e8b30588868bf3f809">de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject.lineStringImageStyle</a></div><div class="ttdeci">String lineStringImageStyle</div><div class="ttdoc">A style definition of an image which is enclosed in a LineString. </div><div class="ttdef"><b>Definition:</b> StyleObject.java:57</div></div>
-<div class="ttc" id="a00467_html_a3877196bb534272431a59e7ecb4d5338"><div class="ttname"><a href="a00467.html#a3877196bb534272431a59e7ecb4d5338">de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject.polygonImage</a></div><div class="ttdeci">String polygonImage</div><div class="ttdoc">An SVG definition oder an image path to indicate an icon for a Polygon. </div><div class="ttdef"><b>Definition:</b> StyleObject.java:47</div></div>
-<div class="ttc" id="a00467_html_a5d0c401b8996e35a911e178227081b32"><div class="ttname"><a href="a00467.html#a5d0c401b8996e35a911e178227081b32">de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject.pointImage</a></div><div class="ttdeci">String pointImage</div><div class="ttdoc">An SVG definition oder an image path to indicate an icon for a point. </div><div class="ttdef"><b>Definition:</b> StyleObject.java:27</div></div>
-<div class="ttc" id="a00467_html_ac5ffd3d17c1fd4d95bdf3423d8d95102"><div class="ttname"><a href="a00467.html#ac5ffd3d17c1fd4d95bdf3423d8d95102">de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject.lineStringImage</a></div><div class="ttdeci">String lineStringImage</div><div class="ttdoc">An SVG definition oder an image path to indicate an icon for a LineString. </div><div class="ttdef"><b>Definition:</b> StyleObject.java:37</div></div>
-<div class="ttc" id="a00467_html_ae1748922a6f7b626b0c88fcd21f48392"><div class="ttname"><a href="a00467.html#ae1748922a6f7b626b0c88fcd21f48392">de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject.lineStringStyle</a></div><div class="ttdeci">String lineStringStyle</div><div class="ttdoc">A hatch definition in CSS. </div><div class="ttdef"><b>Definition:</b> StyleObject.java:32</div></div>
+<p>Gets a style formatter for a chosen style type. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">formatString</td><td>the formatString indicating a given style type </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a <a class="el" href="a00483.html" title="Abstract class to describe a class applying a style to a downlifted dataset. ">ResultStyleFormatter</a> generating the chosen style type </dd></dl>
+
+<p class="reference">References <a class="el" href="a00483.html#aa231f1de0281037224372f0afb1f0fe1">ResultStyleFormatter.formatter()</a>.</p>
+<div class="fragment"><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                                                                             {</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                formatString=formatString.toLowerCase();</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                <span class="keywordflow">if</span>(<a class="code" href="a00483.html#a54c9d791b2138017b960a7cf457b5fd2">resultMap</a>.containsKey(formatString)) {</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                        <span class="keywordflow">return</span> <a class="code" href="a00483.html#a54c9d791b2138017b960a7cf457b5fd2">resultMap</a>.get(formatString);</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                }</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                formatString=formatString.replace(<span class="stringliteral">&quot;+&quot;</span>,<span class="stringliteral">&quot;&quot;</span>);</div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                <span class="keywordflow">if</span>(formatString.contains(<span class="stringliteral">&quot;mapcss&quot;</span>)) {</div><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                        <span class="keywordflow">return</span> <a class="code" href="a00483.html#a54c9d791b2138017b960a7cf457b5fd2">resultMap</a>.get(<span class="stringliteral">&quot;mapcss&quot;</span>);</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                }</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                <span class="keywordflow">if</span>(formatString.contains(<span class="stringliteral">&quot;geojsoncss&quot;</span>)) {</div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                        <span class="keywordflow">return</span> <a class="code" href="a00483.html#a54c9d791b2138017b960a7cf457b5fd2">resultMap</a>.get(<span class="stringliteral">&quot;geojsoncss&quot;</span>);</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                }</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                <span class="keywordflow">if</span>(formatString.contains(<span class="stringliteral">&quot;sld&quot;</span>)) {</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                        <span class="keywordflow">return</span> <a class="code" href="a00483.html#a54c9d791b2138017b960a7cf457b5fd2">resultMap</a>.get(<span class="stringliteral">&quot;sld&quot;</span>);</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                }</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                <span class="keywordflow">return</span> null;</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        }</div><div class="ttc" id="a00483_html_a54c9d791b2138017b960a7cf457b5fd2"><div class="ttname"><a href="a00483.html#a54c9d791b2138017b960a7cf457b5fd2">de.hsmainz.cs.semgis.wfs.resultstyleformatter.ResultStyleFormatter.resultMap</a></div><div class="ttdeci">static Map&lt; String, ResultStyleFormatter &gt; resultMap</div><div class="ttdef"><b>Definition:</b> ResultStyleFormatter.java:16</div></div>
 </div><!-- fragment -->
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="ab280196b35e8fb195755480f7b6bba1c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab280196b35e8fb195755480f7b6bba1c">&#9670;&nbsp;</a></span>hatch</h2>
+<a id="aa6a844c9b01d97aca583be867a1c5413"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6a844c9b01d97aca583be867a1c5413">&#9670;&nbsp;</a></span>exposedType</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">String hatch</td>
+          <td class="memname">String exposedType =&quot;application/vnd.geo+json&quot;</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>A hatch definition in CSS. </p>
-
-<p class="reference">Referenced by <a class="el" href="a00443.html#a399873993b7ab0c34a034702639a6cad">GeoJSONCSSFormatter.formatGeometry()</a>, <a class="el" href="a00459.html#a399873993b7ab0c34a034702639a6cad">SimpleStyleFormatter.formatGeometry()</a>, and <a class="el" href="a00471.html#aef725dfee0f51e6220a91217779f1b26">TripleStoreConnector.getStyle()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="a00491.html#a6561dcf48f63c199d693d5ed6c739dc0">SLDFormatter.formatter()</a>.</p>
 
 </div>
 </div>
-<a id="ac5ffd3d17c1fd4d95bdf3423d8d95102"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac5ffd3d17c1fd4d95bdf3423d8d95102">&#9670;&nbsp;</a></span>lineStringImage</h2>
+<a id="a1ce6ef499b64cec5981912a236baa199"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ce6ef499b64cec5981912a236baa199">&#9670;&nbsp;</a></span>lastQueriedElemCount</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">String lineStringImage</td>
+          <td class="memname">Integer lastQueriedElemCount =0</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>An SVG definition oder an image path to indicate an icon for a LineString. </p>
-
-<p class="reference">Referenced by <a class="el" href="a00443.html#a399873993b7ab0c34a034702639a6cad">GeoJSONCSSFormatter.formatGeometry()</a>, <a class="el" href="a00459.html#a399873993b7ab0c34a034702639a6cad">SimpleStyleFormatter.formatGeometry()</a>, and <a class="el" href="a00471.html#aef725dfee0f51e6220a91217779f1b26">TripleStoreConnector.getStyle()</a>.</p>
-
 </div>
 </div>
-<a id="a124c238dd7f1a8e8b30588868bf3f809"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a124c238dd7f1a8e8b30588868bf3f809">&#9670;&nbsp;</a></span>lineStringImageStyle</h2>
+<a id="a09c78e464072ccab667894f0d179fbdf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a09c78e464072ccab667894f0d179fbdf">&#9670;&nbsp;</a></span>mimeType</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">String lineStringImageStyle</td>
+          <td class="memname">String mimeType =&quot;text/plain&quot;</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>A style definition of an image which is enclosed in a LineString. </p>
-
-<p class="reference">Referenced by <a class="el" href="a00471.html#aef725dfee0f51e6220a91217779f1b26">TripleStoreConnector.getStyle()</a>.</p>
-
 </div>
 </div>
-<a id="ae1748922a6f7b626b0c88fcd21f48392"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae1748922a6f7b626b0c88fcd21f48392">&#9670;&nbsp;</a></span>lineStringStyle</h2>
+<a id="a54c9d791b2138017b960a7cf457b5fd2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a54c9d791b2138017b960a7cf457b5fd2">&#9670;&nbsp;</a></span>resultMap</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">String lineStringStyle</td>
+          <td class="memname">Map&lt;String,<a class="el" href="a00483.html">ResultStyleFormatter</a>&gt; resultMap =new TreeMap&lt;String, <a class="el" href="a00483.html">ResultStyleFormatter</a>&gt;()</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>A hatch definition in CSS. </p>
-
-<p class="reference">Referenced by <a class="el" href="a00443.html#a399873993b7ab0c34a034702639a6cad">GeoJSONCSSFormatter.formatGeometry()</a>, <a class="el" href="a00459.html#a399873993b7ab0c34a034702639a6cad">SimpleStyleFormatter.formatGeometry()</a>, <a class="el" href="a00447.html#a399873993b7ab0c34a034702639a6cad">KMLStyleFormatter.formatGeometry()</a>, and <a class="el" href="a00471.html#aef725dfee0f51e6220a91217779f1b26">TripleStoreConnector.getStyle()</a>.</p>
-
 </div>
 </div>
-<a id="a5d0c401b8996e35a911e178227081b32"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5d0c401b8996e35a911e178227081b32">&#9670;&nbsp;</a></span>pointImage</h2>
+<a id="a8e9232fc24a04d17c4a31141d78cb0ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e9232fc24a04d17c4a31141d78cb0ca">&#9670;&nbsp;</a></span>styleAttribute</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">String pointImage</td>
+          <td class="memname">String styleAttribute =&quot;&quot;</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>An SVG definition oder an image path to indicate an icon for a point. </p>
-
-<p class="reference">Referenced by <a class="el" href="a00443.html#a399873993b7ab0c34a034702639a6cad">GeoJSONCSSFormatter.formatGeometry()</a>, <a class="el" href="a00459.html#a399873993b7ab0c34a034702639a6cad">SimpleStyleFormatter.formatGeometry()</a>, <a class="el" href="a00447.html#a399873993b7ab0c34a034702639a6cad">KMLStyleFormatter.formatGeometry()</a>, and <a class="el" href="a00471.html#aef725dfee0f51e6220a91217779f1b26">TripleStoreConnector.getStyle()</a>.</p>
-
-</div>
-</div>
-<a id="a87e7ed2ad089c7ba8db7857efa15befa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a87e7ed2ad089c7ba8db7857efa15befa">&#9670;&nbsp;</a></span>pointStyle</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">String pointStyle</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>A point style definition in CSS. </p>
-
-<p class="reference">Referenced by <a class="el" href="a00443.html#a399873993b7ab0c34a034702639a6cad">GeoJSONCSSFormatter.formatGeometry()</a>, <a class="el" href="a00459.html#a399873993b7ab0c34a034702639a6cad">SimpleStyleFormatter.formatGeometry()</a>, <a class="el" href="a00447.html#a399873993b7ab0c34a034702639a6cad">KMLStyleFormatter.formatGeometry()</a>, and <a class="el" href="a00471.html#aef725dfee0f51e6220a91217779f1b26">TripleStoreConnector.getStyle()</a>.</p>
-
-</div>
-</div>
-<a id="a3877196bb534272431a59e7ecb4d5338"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3877196bb534272431a59e7ecb4d5338">&#9670;&nbsp;</a></span>polygonImage</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">String polygonImage</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>An SVG definition oder an image path to indicate an icon for a Polygon. </p>
-
-<p class="reference">Referenced by <a class="el" href="a00443.html#a399873993b7ab0c34a034702639a6cad">GeoJSONCSSFormatter.formatGeometry()</a>, <a class="el" href="a00459.html#a399873993b7ab0c34a034702639a6cad">SimpleStyleFormatter.formatGeometry()</a>, and <a class="el" href="a00471.html#aef725dfee0f51e6220a91217779f1b26">TripleStoreConnector.getStyle()</a>.</p>
-
-</div>
-</div>
-<a id="a27511b5779d69b4e26b4ed7737d5de2e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a27511b5779d69b4e26b4ed7737d5de2e">&#9670;&nbsp;</a></span>polygonStyle</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">String polygonStyle</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>A Polygon style definition in CSS. </p>
-
-<p class="reference">Referenced by <a class="el" href="a00443.html#a399873993b7ab0c34a034702639a6cad">GeoJSONCSSFormatter.formatGeometry()</a>, <a class="el" href="a00459.html#a399873993b7ab0c34a034702639a6cad">SimpleStyleFormatter.formatGeometry()</a>, <a class="el" href="a00447.html#a399873993b7ab0c34a034702639a6cad">KMLStyleFormatter.formatGeometry()</a>, and <a class="el" href="a00471.html#aef725dfee0f51e6220a91217779f1b26">TripleStoreConnector.getStyle()</a>.</p>
-
-</div>
-</div>
-<a id="ac1612ef6d046b45bf698d7c2c284e0ca"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac1612ef6d046b45bf698d7c2c284e0ca">&#9670;&nbsp;</a></span>styleName</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">String styleName</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>An identifier of a given style. </p>
-
-<p class="reference">Referenced by <a class="el" href="a00471.html#aef725dfee0f51e6220a91217779f1b26">TripleStoreConnector.getStyle()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="a00359.html#a4d60ad97c2097d9323921b749f163e26">GeoJSONFormatter.formatter()</a>, <a class="el" href="a00471.html#a260286963b4c3e8010ecc3d97c9712a6">GeoJSONCSSFormatter.GeoJSONCSSFormatter()</a>, and <a class="el" href="a00487.html#a922d460a9ab0aa5a7a7b70ad8bd3868a">SimpleStyleFormatter.SimpleStyleFormatter()</a>.</p>
 
 </div>
 </div>
@@ -414,7 +424,7 @@ Public Attributes</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00213.html">de</a></li><li class="navelem"><a class="el" href="a00214.html">hsmainz</a></li><li class="navelem"><a class="el" href="a00215.html">cs</a></li><li class="navelem"><a class="el" href="a00216.html">semgis</a></li><li class="navelem"><a class="el" href="a00217.html">wfs</a></li><li class="navelem"><a class="el" href="a00223.html">resultstyleformatter</a></li><li class="navelem"><a class="el" href="a00467.html">StyleObject</a></li>
+    <li class="navelem"><a class="el" href="a00225.html">de</a></li><li class="navelem"><a class="el" href="a00226.html">hsmainz</a></li><li class="navelem"><a class="el" href="a00227.html">cs</a></li><li class="navelem"><a class="el" href="a00228.html">semgis</a></li><li class="navelem"><a class="el" href="a00229.html">wfs</a></li><li class="navelem"><a class="el" href="a00235.html">resultstyleformatter</a></li><li class="navelem"><a class="el" href="a00467.html">CartoCSSFormatter</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
