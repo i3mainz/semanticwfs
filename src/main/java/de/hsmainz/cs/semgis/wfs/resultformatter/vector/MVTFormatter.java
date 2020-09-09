@@ -16,9 +16,10 @@ public class MVTFormatter extends ResultFormatter {
 
 	public MVTFormatter() {
 		this.urlformat="mvt";
-		this.label="MVT";
+		this.label="Mapbox Vector Tiles (MVT)";
 		this.mimeType="text/mvt";
 		this.exposedType="text/mvt";
+
 	}
 	
 	@Override

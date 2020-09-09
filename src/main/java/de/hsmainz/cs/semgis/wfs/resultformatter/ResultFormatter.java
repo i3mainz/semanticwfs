@@ -9,6 +9,7 @@ import javax.xml.stream.XMLStreamException;
 import org.apache.jena.query.ResultSet;
 import org.locationtech.jts.io.WKTReader;
 
+import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.HexTuplesFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.N3Formatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.NQuadsFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.NTFormatter;
@@ -170,6 +171,9 @@ public abstract class ResultFormatter {
 		if(formatString.contains("polyshape")) {
 			return resultMap.get("polyshape");
 		}
+		if(formatString.contains("hextuples")) {
+			return resultMap.get("hextuples");
+		}
 		return resultMap.get("html");
 	}
 	
@@ -189,6 +193,7 @@ public abstract class ResultFormatter {
 		resultMap.put("trig", new TrigFormatter());
 		resultMap.put("trix", new TrixFormatter());
 		resultMap.put("kml", new KMLFormatter());
+		resultMap.put("hextuples", new HexTuplesFormatter());
 		resultMap.put("latlon", new LatLonTextFormatter());
 		resultMap.put("wkt", new WKTFormatter());
 		resultMap.put("wkb", new WKBFormatter());
