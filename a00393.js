@@ -2,7 +2,7 @@ var a00393 =
 [
     [ "MapMLFormatter", "a00393.html#a7644b29a08037e6d6693e985d246afa5", null ],
     [ "[static initializer]", "a00393.html#a2e87c5ede6b7235170d287cd2e254454", null ],
-    [ "addTagsFromJSONObject", "a00393.html#a9c11f424a7fbe3f8c89a6b06c22f02f5", null ],
+    [ "collectColumns", "a00393.html#a29fa093ba1a2582bb6073a305555c49c", null ],
     [ "formatFooter", "a00393.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00393.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
     [ "formatter", "a00393.html#a4d60ad97c2097d9323921b749f163e26", null ],
