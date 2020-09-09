@@ -134,7 +134,6 @@ public class MapMLFormatter extends ResultFormatter {
 			writer.writeEndElement();
 			writer.writeEndElement();
 			writer.writeEndElement();
-			writer.writeEndElement();
 		}
 		writer.writeEndElement();
 		writer.writeEndElement();

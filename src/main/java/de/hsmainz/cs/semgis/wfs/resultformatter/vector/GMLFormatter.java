@@ -32,7 +32,7 @@ public class GMLFormatter extends WFSResultFormatter {
 		this.mimeType="application/xml";
 		this.exposedType="application/gml";
 		this.urlformat="gml";
-		this.label="GML";
+		this.label="Geography Markup Language (GML)";
 	}
 	
 	public String[] splitURL(String url) {

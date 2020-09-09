@@ -35,7 +35,7 @@ public class KMLFormatter extends WFSResultFormatter {
 		this.exposedType="application/inkml+xml";
 		this.urlformat="kml";
 		this.styleformatter=new KMLStyleFormatter();
-		this.label="KML";
+		this.label="Keyhole Markup Language (KML)";
 	}
 	
 	/**
