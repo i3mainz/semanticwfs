@@ -1,6 +1,14 @@
 var a00455 =
 [
-    [ "GeoDCATToHTML", "a00455.html#a3787c7fe3a230990e34a04a224344a2a", null ],
-    [ "gmdToGeoDCAT", "a00455.html#a8fe768120ce2627e0c36fd48b36b74b8", null ],
-    [ "validateAgainstXSDSchema", "a00455.html#aaa7f4840f78e250a0cedfba324c8c52c", null ]
+    [ "[static initializer]", "a00455.html#a2e87c5ede6b7235170d287cd2e254454", null ],
+    [ "formatFooter", "a00455.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
+    [ "formatGeometry", "a00455.html#a3770f80b7c98a8315479f697590303a3", null ],
+    [ "formatHeader", "a00455.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
+    [ "formatter", "a00455.html#aa231f1de0281037224372f0afb1f0fe1", null ],
+    [ "getFormatter", "a00455.html#a91715aa5eef12ebcf3ea95d7493b9084", null ],
+    [ "exposedType", "a00455.html#aa6a844c9b01d97aca583be867a1c5413", null ],
+    [ "lastQueriedElemCount", "a00455.html#a1ce6ef499b64cec5981912a236baa199", null ],
+    [ "mimeType", "a00455.html#a09c78e464072ccab667894f0d179fbdf", null ],
+    [ "resultMap", "a00455.html#a54c9d791b2138017b960a7cf457b5fd2", null ],
+    [ "styleAttribute", "a00455.html#a8e9232fc24a04d17c4a31141d78cb0ca", null ]
 ];

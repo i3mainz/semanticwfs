@@ -1,7 +1,8 @@
 var a00379 =
 [
-    [ "WKTFormatter", "a00379.html#a33867e8c7c6858d77a4d06fabe01433e", null ],
+    [ "LatLonTextFormatter", "a00379.html#a0b65188f476cbab30f3f4c58501890c3", null ],
     [ "[static initializer]", "a00379.html#a2e87c5ede6b7235170d287cd2e254454", null ],
+    [ "convertDecimalToLatLonText", "a00379.html#a4de262c8cc5abdbadbdd425520b98ef1", null ],
     [ "formatFooter", "a00379.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00379.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
     [ "formatter", "a00379.html#a4d60ad97c2097d9323921b749f163e26", null ],

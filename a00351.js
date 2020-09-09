@@ -1,6 +1,6 @@
 var a00351 =
 [
-    [ "TopoJSONFormatter", "a00351.html#a7451345927a54246eb474d28f87c6154", null ],
+    [ "GeoURIFormatter", "a00351.html#a5eb340b9f43f6ac50786dc48ef83c1df", null ],
     [ "[static initializer]", "a00351.html#a2e87c5ede6b7235170d287cd2e254454", null ],
     [ "formatFooter", "a00351.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00351.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
@@ -12,6 +12,7 @@ var a00351 =
     [ "label", "a00351.html#aec69fbfab86b7473c3e6ccea79368f0f", null ],
     [ "lastQueriedElemCount", "a00351.html#a1ce6ef499b64cec5981912a236baa199", null ],
     [ "mimeType", "a00351.html#a09c78e464072ccab667894f0d179fbdf", null ],
+    [ "reader", "a00351.html#ae8b1e194dbc193fe759f7e517807e668", null ],
     [ "resultMap", "a00351.html#ad4dc7a6c041435f4beebcc9e95620641", null ],
     [ "styleformatter", "a00351.html#a642e338a4dd781605dd3b0ca82fbd940", null ],
     [ "urlformat", "a00351.html#ab8f021a6bbeb42028cef0a3a7cc1872d", null ]

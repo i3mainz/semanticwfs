@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>semanticwfs: Member List</title>
+<title>semanticwfs: SLDFormatter Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -56,102 +56,421 @@ $(function() {
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('a00466.html','');});
+$(document).ready(function(){initNavTree('a00463.html','');});
 </script>
 <div id="doc-content">
 <div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
+<a href="#pac-static-methods">Static Package Functions</a> &#124;
+<a href="a00460.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">WebService Member List</div>  </div>
+<div class="title">SLDFormatter Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a00466.html">WebService</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a00466.html#a1eac1cee9d2427a515f268a0b5b6bbd7">addEndpoint</a>(@Parameter(description=&quot;The name of the SPARQL endpoint to add&quot;) @QueryParam(&quot;name&quot;) String name, @Parameter(description=&quot;The address of the SPARQL endpoint&quot;) @QueryParam(&quot;endpoint&quot;) String endpoint, @Parameter(description=&quot;The type property used in this SPARQL endpoint&quot;) @QueryParam(&quot;typerel&quot;) String typerel, @Parameter(description=&quot;The geometry property used by this SPARQL endpoint&quot;) @QueryParam(&quot;georel&quot;) String georel, @Parameter(description=&quot;Username for authorization&quot;) @QueryParam(&quot;username&quot;) String username, @Parameter(description=&quot;Password for authorization&quot;) @QueryParam(&quot;password&quot;) String password, @Parameter(description=&quot;Authtoken if the user is already logged in&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;authtoken&quot;) String authtoken)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00466.html#aafe01da774bf87e7e25da9bf0b3655a3">addFeatureType</a>( @Parameter(description=&quot;The SPARQL query used to retrive the feature type&quot;) @QueryParam(&quot;query&quot;) String sparqlQuery, @Parameter(description=&quot;The featuretype name&quot;) @QueryParam(&quot;typename&quot;) String name, @Parameter(description=&quot;The variable indicating the individual in the query&quot;) @DefaultValue(&quot;item&quot;) @QueryParam(&quot;indvar&quot;) String indvar, @Parameter(description=&quot;The limit of the initial sample to retrieve&quot;) @DefaultValue(&quot;500&quot;) @QueryParam(&quot;bboxlimit&quot;) String bboxlimit, @Parameter(description=&quot;The class to query&quot;) @QueryParam(&quot;class&quot;) String classs, @Parameter(description=&quot;The service type which is queried&quot;) @DefaultValue(&quot;WFS&quot;) @QueryParam(&quot;type&quot;) String type, @Parameter(description=&quot;The feature type description&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;description&quot;) String description, @Parameter(description=&quot;The EPSG of the feature type to be added&quot;) @DefaultValue(&quot;EPSG:4326&quot;) @QueryParam(&quot;targetCRS&quot;) String targetCRS, @Parameter(description=&quot;The namespace used for the feature type&quot;) @QueryParam(&quot;namespace&quot;) String namespace, @Parameter(description=&quot;The triple store to query when loading the feature type&quot;) @QueryParam(&quot;triplestore&quot;) String triplestore, @Parameter(description=&quot;The username needed for authentication&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;username&quot;) String username, @Parameter(description=&quot;The password needed for authentication&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;password&quot;) String password, @Parameter(description=&quot;The authtoken for authentication&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;authtoken&quot;) String authtoken)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00466.html#a286a860174a898905ecad89f5f037cf1">addPrefixes</a>(@QueryParam(&quot;query&quot;) String sparqlQuery, @QueryParam(&quot;typename&quot;) String name, @QueryParam(&quot;namespace&quot;) String namespace, @QueryParam(&quot;triplestore&quot;) String triplestore)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00466.html#a2fcea3e979c877ff708f03f836e27722">bboxCache</a></td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00466.html#a16a865710dde3c76fa4ebb31e7d641c7">collectionInformation</a>( @Parameter(description=&quot;The id of the collection to be considered&quot;) @PathParam(&quot;collectionid&quot;) String collectionid, @Parameter(description=&quot;The format in which the collection should be returned&quot;, example=&quot;geojson&quot;) @DefaultValue(&quot;html&quot;) @QueryParam(&quot;f&quot;) String format, @Parameter(description=&quot;The maximum amount of features to be returned&quot;, example=&quot;10&quot;) @DefaultValue(&quot;10&quot;) @QueryParam(&quot;limit&quot;) String limit, @Parameter(description=&quot;An offset to be considered when returning features&quot;, example=&quot;10&quot;) @DefaultValue(&quot;0&quot;) @QueryParam(&quot;offset&quot;) String offset, @Parameter(description=&quot;Defines a bounding box from which to return the given features&quot;) @QueryParam(&quot;bbox&quot;) String bbox)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00466.html#a468aec61aa25df5e0f4e7f5f3cb22b03">collectionInformationHTML</a>( @Parameter(description=&quot;The id of the collection to be considered&quot;) @PathParam(&quot;collectionid&quot;) String collectionid, @Parameter(description=&quot;The format in which the collection should be returned&quot;, example=&quot;geojson&quot;) @DefaultValue(&quot;html&quot;) @QueryParam(&quot;f&quot;) String format, @Parameter(description=&quot;The maximum amount of features to be returned&quot;, example=&quot;10&quot;) @DefaultValue(&quot;10&quot;) @QueryParam(&quot;limit&quot;) String limit, @Parameter(description=&quot;An offset to be considered when returning features&quot;, example=&quot;10&quot;) @DefaultValue(&quot;0&quot;) @QueryParam(&quot;offset&quot;) String offset, @Parameter(description=&quot;Defines a bounding box from which to return the given features&quot;) @QueryParam(&quot;bbox&quot;) String bbox)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00466.html#a2effa5a4ad52b73af2fe461363e19370">collectionInformationJSON</a>( @Parameter(description=&quot;The id of the collection to be considered&quot;) @PathParam(&quot;collectionid&quot;) String collectionid, @Parameter(description=&quot;The format in which the collection should be returned&quot;, example=&quot;geojson&quot;) @DefaultValue(&quot;json&quot;) @QueryParam(&quot;f&quot;) String format, @Parameter(description=&quot;The maximum amount of features to be returned&quot;, example=&quot;10&quot;) @DefaultValue(&quot;10&quot;) @QueryParam(&quot;limit&quot;) String limit, @Parameter(description=&quot;An offset to be considered when returning features&quot;, example=&quot;10&quot;) @DefaultValue(&quot;0&quot;) @QueryParam(&quot;offset&quot;) String offset, @Parameter(description=&quot;Defines a bounding box from which to return the given features&quot;) @QueryParam(&quot;bbox&quot;) String bbox)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00466.html#afc777e0d040eacce8c5c9e45a6667ed3">collectionInformationXML</a>( @Parameter(description=&quot;The id of the collection to be considered&quot;) @PathParam(&quot;collectionid&quot;) String collectionid, @Parameter(description=&quot;The format in which the collection should be returned&quot;, example=&quot;geojson&quot;) @DefaultValue(&quot;xml&quot;) @QueryParam(&quot;f&quot;) String format, @Parameter(description=&quot;The maximum amount of features to be returned&quot;, example=&quot;10&quot;) @DefaultValue(&quot;10&quot;) @QueryParam(&quot;limit&quot;) String limit, @Parameter(description=&quot;An offset to be considered when returning features&quot;, example=&quot;10&quot;) @DefaultValue(&quot;0&quot;) @QueryParam(&quot;offset&quot;) String offset, @Parameter(description=&quot;Defines a bounding box from which to return the given features&quot;) @QueryParam(&quot;bbox&quot;) String bbox)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00466.html#aa3aaf973b9ec921df3dc5f49ddab7fcc">collectionItems</a>(@Parameter(description=&quot;The id of the collection&quot;) @PathParam(&quot;collectionid&quot;) String collectionid, @Parameter(description=&quot;The format of the result&quot;) @DefaultValue(&quot;html&quot;) @QueryParam(&quot;f&quot;) String format, @DefaultValue(&quot;10&quot;) @QueryParam(&quot;limit&quot;) String limit, @Parameter(description=&quot;The offset to consider when fetching items&quot;) @DefaultValue(&quot;0&quot;) @QueryParam(&quot;offset&quot;) String offset, @DefaultValue(&quot;&quot;) @QueryParam(&quot;bbox&quot;) String bbox, @Parameter(description=&quot;The styling of the item when returned&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;style&quot;) String style, @Parameter(description=&quot;The crs of a given bounding box&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;bbox-crs&quot;) String bboxcrs, @Parameter(description=&quot;A filter expression&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;filter&quot;) String filter, @Parameter(description=&quot;The language in which the filter expression is formulated&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;filter-lang&quot;) String filterlang, @Parameter(description=&quot;A temporal filter expression&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;datetime&quot;) String datetime)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00466.html#ad5425bea15dbbf98891a84cda43bc40a">collections</a>( @Parameter(description=&quot;Return format&quot;) @DefaultValue(&quot;html&quot;) @QueryParam(&quot;f&quot;) String format)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00466.html#ad130e6e43011d24130ed118e8e2b517b">collectionsHTML</a>( @Parameter(description=&quot;Return format&quot;) @DefaultValue(&quot;html&quot;) @QueryParam(&quot;f&quot;) String format)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00466.html#a56d1bb3a0b2d2e177893b91401d74119">collectionsJSON</a>( @Parameter(description=&quot;Return format&quot;) @DefaultValue(&quot;json&quot;) @QueryParam(&quot;f&quot;) String format)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00466.html#ae3d8275d8e03fbf89bb97ee026e21700">collectionsXML</a>( @Parameter(description=&quot;Return format&quot;) @DefaultValue(&quot;xml&quot;) @QueryParam(&quot;f&quot;) String format)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00466.html#a31e48fd1ece1f1467a0654748163c1c4">conformance</a>(@Parameter(description=&quot;The format of the conformance page&quot;) @DefaultValue(&quot;html&quot;) @QueryParam(&quot;f&quot;) String format)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00466.html#ad16b38a1bdf64581dbbc250219a707a4">conformanceHTML</a>(@Parameter(description=&quot;The format of the conformance page&quot;) @DefaultValue(&quot;html&quot;) @QueryParam(&quot;f&quot;) String format)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00466.html#a06fec031e601ce30b2efbe80fa05535d">conformanceJSON</a>(@Parameter(description=&quot;The format of the conformance page&quot;) @DefaultValue(&quot;json&quot;) @QueryParam(&quot;f&quot;) String format)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00466.html#a0041df4f1220e8c6c6aa1115f5f45999">conformanceXML</a>(@Parameter(description=&quot;The format of the conformance page&quot;) @DefaultValue(&quot;xml&quot;) @QueryParam(&quot;f&quot;) String format)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00466.html#a0d0a2b65e2cd5792977c400c82ba0676">constructCapabilities</a>(String version, String versionnamespace)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00466.html#afc17958c87fe9fcc762b15b9e3f41d2b">constructCapabilitiesCSW</a>(String version, String versionnamespace)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00466.html#a02f1bd0586e5b2fc8811c6365800999d">constructCapabilitiesWFS10</a>(String version, String versionnamespace)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00466.html#a144f307441a7e2622ad74dd5ef58f017">createExceptionResponse</a>(Exception e, String format)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00466.html#a2b52dfa65c7ae2f6fef9f84a2675c18b">describeConformance</a>(IndentingXMLStreamWriter writer, String versionnamespace, String namespace)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00466.html#a28bcff08fde95d77ffa6a502701688ce">describeFeatureType</a>(XMLStreamWriter writer, JSONObject featuretype, String versionnamespace, String version)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00466.html#a818e38edc96438ef69a081e9c67e3ead">describeFeatureType</a>( @Parameter(description=&quot;The feature type name to describe&quot;) @QueryParam(&quot;typename&quot;) String typename, @Parameter(description=&quot;The version of the WFS service&quot;) @DefaultValue(&quot;version&quot;) @QueryParam(&quot;version&quot;) String version)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00466.html#a8ec840c0797ecf2a38266bce2b9f40b1">describeFeatureTypeJSON</a>( @Parameter(description=&quot;The feature type to describe&quot;) @QueryParam(&quot;typename&quot;) String typename, @Parameter(description=&quot;The version of the WFS service&quot;) @DefaultValue(&quot;version&quot;) @QueryParam(&quot;version&quot;) String version)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00466.html#af4323d0e010d3b5f05244c917a43eb59">describeFeatureTypeWFS10</a>(XMLStreamWriter writer, JSONObject featuretype, String versionnamespace, String version)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00466.html#a861ccbf29e313388b7b887f247644c2e">describeScalarCapabilities</a>(XMLStreamWriter writer, String versionnamespace, String namespace)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00466.html#ad165877472c415f9bfdbad811c99f754">describeSpatialCapabilities</a>(XMLStreamWriter writer, String versionnamespace, String namespace)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00466.html#a6196d8576a3809e04288c34d85b3c6bf">describeSpatialCapabilitiesWFS10</a>(XMLStreamWriter writer, String versionnamespace, String namespace)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00466.html#a19a39706b885311cee8e00fc213095e3">entryPoint</a>( @Parameter(description=&quot;Service type&quot;) @DefaultValue(&quot;WFS&quot;) @QueryParam(&quot;SERVICE&quot;) String service, @Parameter(description=&quot;Request type&quot;) @DefaultValue(&quot;GetCapabilities&quot;) @QueryParam(&quot;REQUEST&quot;) String request, @Parameter(description=&quot;Service version&quot;) @DefaultValue(&quot;2.0.0&quot;) @QueryParam(&quot;VERSION&quot;) String version, @Parameter(description=&quot;Feature type names&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;TYPENAME&quot;) String typename, @Parameter(description=&quot;Feature type names&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;TYPENAMES&quot;) String typenames, @Parameter(description=&quot;CRS type&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;SRSNAME&quot;) String srsName, @DefaultValue(&quot;gml&quot;) @QueryParam(&quot;EXCEPTIONS&quot;) String exceptions, @Parameter(description=&quot;Bounding box for filtering the results&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;BBOX&quot;) String bbox, @DefaultValue(&quot;&quot;) @QueryParam(&quot;VALUEREFERENCE&quot;) String propertyname, @Parameter(description=&quot;Sorting order&quot;) @DefaultValue(&quot;ASC&quot;) @QueryParam(&quot;SORTBY&quot;) String sortBy, @DefaultValue(&quot;&quot;) @QueryParam(&quot;STYLES&quot;) String style, @DefaultValue(&quot;results&quot;) @QueryParam(&quot;RESULTTYPE&quot;) String resultType, @DefaultValue(&quot;&quot;) @QueryParam(&quot;RESOURCEID&quot;) String resourceids, @DefaultValue(&quot;&quot;) @QueryParam(&quot;GMLOBJECTID&quot;) String gmlobjectid, @DefaultValue(&quot;0&quot;) @QueryParam(&quot;STARTINDEX&quot;) String startindex, @Parameter(description=&quot;Filter expression&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;FILTER&quot;) String filter, @Parameter(description=&quot;Filter query language&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;FILTERLANGUAGE&quot;) String filterLanguage, @Parameter(description=&quot;Return format&quot;) @DefaultValue(&quot;gml&quot;) @QueryParam(&quot;OUTPUTFORMAT&quot;) String output, @Parameter(description=&quot;Maximum amount of results to return&quot;) @DefaultValue(&quot;5&quot;) @QueryParam(&quot;COUNT&quot;) String count)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00466.html#ac4b707fdc3105259a833785abfae0d5e">entryPointCSW</a>( @Parameter(description=&quot;Service type&quot;) @DefaultValue(&quot;CSW&quot;) @QueryParam(&quot;SERVICE&quot;) String service, @Parameter(description=&quot;Request type&quot;) @DefaultValue(&quot;GetCapabilities&quot;) @QueryParam(&quot;REQUEST&quot;) String request, @Parameter(description=&quot;Version of the webservice&quot;) @DefaultValue(&quot;2.0.2&quot;) @QueryParam(&quot;VERSION&quot;) String version, @Parameter(description=&quot;Feature type names&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;TYPENAME&quot;) String typename, @Parameter(description=&quot;Feature type names&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;TYPENAMES&quot;) String typenames, @Parameter(description=&quot;Return type&quot;) @DefaultValue(&quot;gml&quot;) @QueryParam(&quot;OUTPUTFORMAT&quot;) String output)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00466.html#ab730c29537669b89f96dce42a61e7a0e">entryPointCSWPost</a>(@DefaultValue(&quot;CSW&quot;) @QueryParam(&quot;SERVICE&quot;) String service, @DefaultValue(&quot;GetCapabilities&quot;) @QueryParam(&quot;REQUEST&quot;) String request, @DefaultValue(&quot;2.0.2&quot;) @QueryParam(&quot;VERSION&quot;) String version, @DefaultValue(&quot;&quot;) @QueryParam(&quot;TYPENAME&quot;) String typename, @DefaultValue(&quot;&quot;) @QueryParam(&quot;TYPENAMES&quot;) String typenames, @DefaultValue(&quot;gml&quot;) @QueryParam(&quot;OUTPUTFORMAT&quot;) String output)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00466.html#a819b72c37d3049b5036fb5faa1756a71">entryPointPOST</a>( @Parameter(description=&quot;Service type definition&quot;) @DefaultValue(&quot;WFS&quot;) @QueryParam(&quot;SERVICE&quot;) String service, @Parameter(description=&quot;Request definition&quot;) @DefaultValue(&quot;GetCapabilities&quot;) @QueryParam(&quot;REQUEST&quot;) String request, @Parameter(description=&quot;Version of the web service&quot;) @DefaultValue(&quot;2.0.0&quot;) @QueryParam(&quot;VERSION&quot;) String version, @Parameter(description=&quot;The feature type name to be queried&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;TYPENAME&quot;) String typename, @Parameter(description=&quot;The feature type(s) name(s) to be queried&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;TYPENAMES&quot;) String typenames, @Parameter(description=&quot;The name of the CRS to be returned&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;SRSNAME&quot;) String srsName, @DefaultValue(&quot;gml&quot;) @QueryParam(&quot;EXCEPTIONS&quot;) String exceptions, @Parameter(description=&quot;A bounding box used for filtering results&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;BBOX&quot;) String bbox, @DefaultValue(&quot;&quot;) @QueryParam(&quot;VALUEREFERENCE&quot;) String propertyname, @Parameter(description=&quot;Sorting order definition&quot;) @DefaultValue(&quot;ASC&quot;) @QueryParam(&quot;SORTBY&quot;) String sortBy, @DefaultValue(&quot;&quot;) @QueryParam(&quot;STYLES&quot;) String style, @DefaultValue(&quot;results&quot;) @QueryParam(&quot;RESULTTYPE&quot;) String resultType, @DefaultValue(&quot;&quot;) @QueryParam(&quot;RESOURCEID&quot;) String resourceids, @DefaultValue(&quot;&quot;) @QueryParam(&quot;GMLOBJECTID&quot;) String gmlobjectid, @DefaultValue(&quot;0&quot;) @QueryParam(&quot;STARTINDEX&quot;) String startindex, @DefaultValue(&quot;&quot;) @QueryParam(&quot;FILTER&quot;) String filter, @DefaultValue(&quot;&quot;) @QueryParam(&quot;FILTERLANGUAGE&quot;) String filterLanguage, @DefaultValue(&quot;gml&quot;) @QueryParam(&quot;OUTPUTFORMAT&quot;) String output, @DefaultValue(&quot;5&quot;) @QueryParam(&quot;COUNT&quot;) String count)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00466.html#aac6cc225f89d757e0034110b178ac276">featureTypeCache</a></td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00466.html#ac096bce96d8d7edfa35c79060ad1fcb5">generateOpenAPIDefinitions</a>()</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00466.html#a79c4c5a305ce2823e97b26d2f676174b">getCapabilities</a>( @Parameter(description=&quot;The version of the WFS service to target&quot;) @DefaultValue(&quot;2.0.0&quot;) @QueryParam(&quot;version&quot;) String version)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00466.html#a0d7c82140929edf4598696a7252a7401">getCollectionMetadata</a>(@PathParam(&quot;collectionid&quot;) String collectionid, @Parameter(description=&quot;The metadata schema to be used&quot;) @DefaultValue(&quot;gmd&quot;) @QueryParam(&quot;metadataformat&quot;) String mdformat, @Parameter(description=&quot;The format to downlift metadata&quot;) @DefaultValue(&quot;html&quot;) @QueryParam(&quot;f&quot;) String format, @DefaultValue(&quot;false&quot;) @QueryParam(&quot;collectioncall&quot;) String collectioncall)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00466.html#a62ff505fc85ee400f73633994090c5a4">getCollectionsMetadata</a>(@Parameter(description=&quot;The format of the collection page&quot;) @DefaultValue(&quot;html&quot;) @QueryParam(&quot;f&quot;) String format)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00466.html#aa6cd9ce33426c383d9fdebad6066567e">getCollectionStyle</a>( @Parameter(description=&quot;Feature type name&quot;) @PathParam(&quot;collectionid&quot;) String collectionid, @Parameter(description=&quot;Style id&quot;) @PathParam(&quot;styleid&quot;) String styleid, @Parameter(description=&quot;Return format&quot;) @DefaultValue(&quot;html&quot;) @QueryParam(&quot;f&quot;) String format)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00466.html#a296db337429a87cfd2fa27be39bc2fd5">getCollectionStyles</a>( @Parameter(description=&quot;Feature type name&quot;) @PathParam(&quot;collectionid&quot;) String collectionid, @Parameter(description=&quot;Return type&quot;) @DefaultValue(&quot;html&quot;) @QueryParam(&quot;f&quot;) String format)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00466.html#af314706cc5221dc615f250c0b9b8336f">getEndpoints</a>()</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00466.html#a1e4498da627586b71176a9f60def3b75">getFeature</a>(@QueryParam(&quot;typename&quot;) String typename, @Parameter(description=&quot;The output format of the WFS service request&quot;) @DefaultValue(&quot;json&quot;) @QueryParam(&quot;outputFormat&quot;) String output, @Parameter(description=&quot;The amount of features to be returned&quot;, example=&quot;10&quot;) @DefaultValue(&quot;10&quot;) @QueryParam(&quot;count&quot;) String count, @Parameter(description=&quot;The starting index of the WFS request&quot;) @DefaultValue(&quot;0&quot;) @QueryParam(&quot;startindex&quot;) String startindex, @Parameter(description=&quot;The name of the CRS to be used&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;srsName&quot;) String srsName, @Parameter(description=&quot;Indicates the sorting order&quot;) @DefaultValue(&quot;ASC&quot;) @QueryParam(&quot;sortBy&quot;) String sortBy, @Parameter(description=&quot;The style to apply to the returned collection if any&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;styles&quot;) String style, @Parameter(description=&quot;The version of the WFS&quot;, example=&quot;2.0.0&quot;) @DefaultValue(&quot;2.0.0&quot;) @QueryParam(&quot;version&quot;) String version, @Parameter(description=&quot;Indicates a specific resource id to be queried&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;resourceid&quot;) String resourceids, @Parameter(description=&quot;A WFS filter expression&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;filter&quot;) String filter, @Parameter(description=&quot;The filter language to be used in the filterExpression parameter&quot;) @DefaultValue(&quot;CQL&quot;) @QueryParam(&quot;filterLanguage&quot;) String filterLanguage, @Parameter(description=&quot;The result type to return&quot;) @DefaultValue(&quot;results&quot;) @QueryParam(&quot;resultType&quot;) String resultType)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00466.html#a366a371862290189ff2c3cb166b21b9d">getFeatureById</a>( @Parameter(description=&quot;The collection id&quot;) @PathParam(&quot;collectionid&quot;) String collectionid, @Parameter(description=&quot;The feature id&quot;) @PathParam(&quot;featureid&quot;) String featureid, @Parameter(description=&quot;The style to be applied&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;style&quot;) String style, @Parameter(description=&quot;The format to be returned&quot;) @DefaultValue(&quot;html&quot;) @QueryParam(&quot;f&quot;) String format)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00466.html#a6054667ee75eb4705f6af4db1ea52678">getFeatureTypes</a>()</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00466.html#a240cfa9e666a9b8e1e04d1e0b0caf025">getGeoClassesFromOntology</a>( @Parameter(description=&quot;The SPARQL endpoint to load classes from&quot;) @QueryParam(&quot;endpoint&quot;) String endpoint)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00466.html#a41919f870e710f41155aa6da39757fc9">getGmlObject</a>(@QueryParam(&quot;typename&quot;) String typename, @QueryParam(&quot;GmlObjectId&quot;) String gmlobjectid, @DefaultValue(&quot;4&quot;) @QueryParam(&quot;traverseXlinkDepth&quot;) String traverseXlinkDepth, @DefaultValue(&quot;gml&quot;) @QueryParam(&quot;outputFormat&quot;) String output)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00466.html#a74df4cd0ec75149ccde088d5597b093e">getPropertiesByClass</a>( @Parameter(description=&quot;The SPARQL endpoint to load properties from&quot;) @QueryParam(&quot;endpoint&quot;) String endpoint, @Parameter(description=&quot;The class from which properties should be loaded&quot;) @QueryParam(&quot;class&quot;) String classs)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00466.html#a8821ed26f9efb274155fb0cb9684293f">getPropertyValue</a>( @Parameter(description=&quot;Feature type to query&quot;) @QueryParam(&quot;typename&quot;) String typename, @QueryParam(&quot;valuereference&quot;) String propertyname, @DefaultValue(&quot;json&quot;) @QueryParam(&quot;outputFormat&quot;) String output, @DefaultValue(&quot;&quot;) @QueryParam(&quot;resourceids&quot;) String resourceids, @DefaultValue(&quot;&quot;) @QueryParam(&quot;filter&quot;) String filter, @DefaultValue(&quot;0&quot;) @QueryParam(&quot;count&quot;) String count, @DefaultValue(&quot;results&quot;) @QueryParam(&quot;resultType&quot;) String resultType)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00466.html#a5466512063c41595951b2768261f3522">getSchema</a>( @Parameter(description=&quot;The collection id for which to return the schema&quot;) @PathParam(&quot;collectionid&quot;) String collectionid, @Parameter(description=&quot;The format in which the schema should be returned&quot;, example=&quot;json&quot;) @DefaultValue(&quot;gml&quot;) @QueryParam(&quot;f&quot;) String format)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00466.html#a9ebf090c22190f689427fc0956812833">hitCache</a></td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00466.html#abadb2017cd034105cf534f764aee53eb">htmlHead</a></td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"><span class="mlabel">package</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00466.html#aa26f0ca1951eb9f65acf5e2fa482ca42">landingPage</a>(@Parameter(description=&quot;The format of the landingpage&quot;) @DefaultValue(&quot;html&quot;) @QueryParam(&quot;f&quot;) String format)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00466.html#a198a73899f84d52feb072010d93e913f">landingPageHTML</a>(@Parameter(description=&quot;The format of the landingpage&quot;) @DefaultValue(&quot;html&quot;) @QueryParam(&quot;f&quot;) String format)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00466.html#a297c712aa4ea8ba65e689c42172e678a">landingPageJSON</a>(@Parameter(description=&quot;The format of the landingpage&quot;) @DefaultValue(&quot;json&quot;) @QueryParam(&quot;f&quot;) String format)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00466.html#a332bbfcb74b5d2c4e06d50c8fb7aafaf">landingPageXML</a>(@Parameter(description=&quot;The format of the landingpage&quot;) @DefaultValue(&quot;xml&quot;) @QueryParam(&quot;f&quot;) String format)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00466.html#ab5eeb22a4edf8c2b8a9e26b0cf8f5304">lockFeature</a>()</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00466.html#a7debf0ca9a3c2582b49ee8abc95f58d2">login</a>(@Parameter(description=&quot;Username for authorization&quot;) @QueryParam(&quot;username&quot;) String username, @Parameter(description=&quot;Password for authorization&quot;) @QueryParam(&quot;password&quot;) String password)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00466.html#a103fe877959c559c3efe72dc9db98f5e">milliesInDays</a></td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00466.html#a37319c767ff2ca750a3ab110aa78ac7a">nameSpaceCache</a></td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00466.html#a0381ca57a013625ed7c5580c9169b5cc">openapi</a></td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00466.html#ae0e538313c866ad6cb68e0d67d9c7d3d">openapiJSON</a>()</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00466.html#a7cc6ef219803a0735a8864bd41693b65">openapiOAJSON</a>()</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00466.html#ad6d5affadf7dcc703a0a3937e2152234">openapiYAML</a>()</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00466.html#a88724b837ed6ce278eccca40f2f6f87b">prefixes</a>()</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00466.html#ae52a932fac3aaf398d86fafc31269f30">queryables</a>(@Parameter(description=&quot;The id of the collection to be considered&quot;) @PathParam(&quot;collectionid&quot;) String collectionid, @Parameter(description=&quot;The format in which the collection should be returned&quot;, example=&quot;geojson&quot;) @DefaultValue(&quot;html&quot;) @QueryParam(&quot;f&quot;) String format)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00466.html#a0db1e9331f9e64ddc4826cf215c25761">queryConfigs</a>()</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00466.html#a0490144595adfdce9fd7a496b44ccb4c">queryService</a>( @Parameter(description=&quot;SPARQL query to be resolved&quot;) @QueryParam(&quot;query&quot;) String query, @Parameter(description=&quot;SPARQL endpoint to query&quot;) @QueryParam(&quot;endpoint&quot;) String endpoint)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00466.html#a0dca993464d6e57f6ad5e6ea4cc578fd">queryService</a>( @Parameter(description=&quot;SPARQL query to be resolved&quot;) @QueryParam(&quot;query&quot;) String query, @Parameter(description=&quot;SPARQL endpoint to be queried&quot;) @QueryParam(&quot;endpoint&quot;) String endpoint, @Parameter(description=&quot;Indicates whether geojson should be returned to be shown in a map view&quot;) @QueryParam(&quot;geojson&quot;) String geojson)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00466.html#a0abf23c36f2a6a426186234b31db36a4">saveFeatureTypes</a>( @Parameter(description=&quot;JSON object containing feature types to be saved&quot;) @QueryParam(&quot;featjson&quot;) String featureTypesJSON, @Parameter(description=&quot;Authtoken for authorization&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;authtoken&quot;) String authtoken)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00466.html#a503eb82f8096e9d01d04b51d598aefcd">SERVERURL</a></td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00466.html#a5d430a6faf3d545dd008cdc89376ba6b">SERVICETYPEVERSION</a></td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00466.html#af9981a8421bdcbdea85347885a8b9557">style</a>( @Parameter(description=&quot;The service type which is addressed&quot;) @DefaultValue(&quot;WFS&quot;) @QueryParam(&quot;SERVICE&quot;) String service, @Parameter(description=&quot;Request type of this query&quot;) @DefaultValue(&quot;GetStyle&quot;) @QueryParam(&quot;REQUEST&quot;) String request, @Parameter(description=&quot;Feature type names&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;TYPENAME&quot;) String typename, @Parameter(description=&quot;Feature type names&quot;) @DefaultValue(&quot;&quot;) @QueryParam(&quot;TYPENAMES&quot;) String typenames, @Parameter(description=&quot;Outputformat of the style which is returned&quot;) @DefaultValue(&quot;gml&quot;) @QueryParam(&quot;OUTPUTFORMAT&quot;) String output)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00466.html#adae526bd90688be0803d1ae1e6b9c1d1">styleCache</a></td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00466.html#a56810f82731fd18b8c6ef24a436ec3a1">transaction</a>()</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00466.html#ace30f38fba60924b394de3127fb8dec8">triplestoreconf</a></td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00466.html#aebca3743bf6bb6a049732727cdf3e41e">vectorTiles</a>(@DefaultValue(&quot;CSW&quot;) @QueryParam(&quot;SERVICE&quot;) String service, @DefaultValue(&quot;GetCapabilities&quot;) @QueryParam(&quot;REQUEST&quot;) String request, @DefaultValue(&quot;2.0.2&quot;) @QueryParam(&quot;VERSION&quot;) String version, @DefaultValue(&quot;&quot;) @QueryParam(&quot;TYPENAME&quot;) String typename, @DefaultValue(&quot;&quot;) @QueryParam(&quot;TYPENAMES&quot;) String typenames, @DefaultValue(&quot;gml&quot;) @QueryParam(&quot;OUTPUTFORMAT&quot;) String output)</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00466.html#a7a8fdc0242859fa8c99102a9095b600f">WebService</a>()</td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00466.html#a9bc418f5f79bbc27b865eb32dfaaf298">wfsconf</a></td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00466.html#afbd8bf7386c4d548993d0957bfd902bf">xmlwriter</a></td><td class="entry"><a class="el" href="a00466.html">WebService</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
+<p>Formats styles according to the styled layer description definition.  
+ <a href="a00463.html#details">More...</a></p>
+<div class="dynheader">
+Inheritance diagram for SLDFormatter:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00462.png" border="0" usemap="#SLDFormatter_inherit__map" alt="Inheritance graph"/></div>
+<map name="SLDFormatter_inherit__map" id="SLDFormatter_inherit__map">
+<area shape="rect" id="node2" href="a00455.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="5,5,152,32"/>
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
+Collaboration diagram for SLDFormatter:</div>
+<div class="dyncontent">
+<div class="center"><img src="a00461.png" border="0" usemap="#SLDFormatter_coll__map" alt="Collaboration graph"/></div>
+<map name="SLDFormatter_coll__map" id="SLDFormatter_coll__map">
+<area shape="rect" id="node2" href="a00455.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="883,71,1029,97"/>
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a6561dcf48f63c199d693d5ed6c739dc0"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00463.html#a6561dcf48f63c199d693d5ed6c739dc0">formatter</a> (ResultSet results, String featuretype)  throws XMLStreamException </td></tr>
+<tr class="separator:a6561dcf48f63c199d693d5ed6c739dc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55fcfd9f7a5a77f5f73f89e01db155b7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00463.html#a55fcfd9f7a5a77f5f73f89e01db155b7">cssLiteralToXML</a> (XMLStreamWriter writer, String cssString)</td></tr>
+<tr class="memdesc:a55fcfd9f7a5a77f5f73f89e01db155b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Formats a cssliteral to an XML representation as needed by SLD.  <a href="#a55fcfd9f7a5a77f5f73f89e01db155b7">More...</a><br /></td></tr>
+<tr class="separator:a55fcfd9f7a5a77f5f73f89e01db155b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa353aab5dee656d3508d8aa8f520edbb"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00463.html#aa353aab5dee656d3508d8aa8f520edbb">formatGeometry</a> (String geometrytype, <a class="el" href="a00467.html">StyleObject</a> style)</td></tr>
+<tr class="separator:aa353aab5dee656d3508d8aa8f520edbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abaa077ed79fcfd5a2279597e3f324c64"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00455.html#abaa077ed79fcfd5a2279597e3f324c64">formatHeader</a> ()</td></tr>
+<tr class="separator:abaa077ed79fcfd5a2279597e3f324c64"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af149b280d2c9bcc76f05c6a1c291d30f"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00455.html#af149b280d2c9bcc76f05c6a1c291d30f">formatFooter</a> ()</td></tr>
+<tr class="separator:af149b280d2c9bcc76f05c6a1c291d30f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a91715aa5eef12ebcf3ea95d7493b9084"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="a00455.html">ResultStyleFormatter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00455.html#a91715aa5eef12ebcf3ea95d7493b9084">getFormatter</a> (String formatString)</td></tr>
+<tr class="memdesc:a91715aa5eef12ebcf3ea95d7493b9084"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a style formatter for a chosen style type.  <a href="#a91715aa5eef12ebcf3ea95d7493b9084">More...</a><br /></td></tr>
+<tr class="separator:a91715aa5eef12ebcf3ea95d7493b9084"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:a1ce6ef499b64cec5981912a236baa199"><td class="memItemLeft" align="right" valign="top">Integer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00455.html#a1ce6ef499b64cec5981912a236baa199">lastQueriedElemCount</a> =0</td></tr>
+<tr class="separator:a1ce6ef499b64cec5981912a236baa199"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09c78e464072ccab667894f0d179fbdf"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00455.html#a09c78e464072ccab667894f0d179fbdf">mimeType</a> =&quot;text/plain&quot;</td></tr>
+<tr class="separator:a09c78e464072ccab667894f0d179fbdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6a844c9b01d97aca583be867a1c5413"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00455.html#aa6a844c9b01d97aca583be867a1c5413">exposedType</a> =&quot;application/vnd.geo+json&quot;</td></tr>
+<tr class="separator:aa6a844c9b01d97aca583be867a1c5413"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e9232fc24a04d17c4a31141d78cb0ca"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00455.html#a8e9232fc24a04d17c4a31141d78cb0ca">styleAttribute</a> =&quot;&quot;</td></tr>
+<tr class="separator:a8e9232fc24a04d17c4a31141d78cb0ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
+Static Public Attributes</h2></td></tr>
+<tr class="memitem:a54c9d791b2138017b960a7cf457b5fd2"><td class="memItemLeft" align="right" valign="top">static Map&lt; String, <a class="el" href="a00455.html">ResultStyleFormatter</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00455.html#a54c9d791b2138017b960a7cf457b5fd2">resultMap</a> =new TreeMap&lt;String, <a class="el" href="a00455.html">ResultStyleFormatter</a>&gt;()</td></tr>
+<tr class="separator:a54c9d791b2138017b960a7cf457b5fd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pac-static-methods"></a>
+Static Package Functions</h2></td></tr>
+<tr class="memitem:a2e87c5ede6b7235170d287cd2e254454"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00455.html#a2e87c5ede6b7235170d287cd2e254454">[static initializer]</a></td></tr>
+<tr class="separator:a2e87c5ede6b7235170d287cd2e254454"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Formats styles according to the styled layer description definition. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a2e87c5ede6b7235170d287cd2e254454"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e87c5ede6b7235170d287cd2e254454">&#9670;&nbsp;</a></span>[static initializer]()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">[static initializer] </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">package</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a55fcfd9f7a5a77f5f73f89e01db155b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a55fcfd9f7a5a77f5f73f89e01db155b7">&#9670;&nbsp;</a></span>cssLiteralToXML()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cssLiteralToXML </td>
+          <td>(</td>
+          <td class="paramtype">XMLStreamWriter&#160;</td>
+          <td class="paramname"><em>writer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>cssString</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Formats a cssliteral to an XML representation as needed by SLD. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">writer</td><td>the XMLWriter to use </td></tr>
+    <tr><td class="paramname">cssString</td><td>a String containing CSS definitions </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="reference">Referenced by <a class="el" href="a00463.html#a6561dcf48f63c199d693d5ed6c739dc0">SLDFormatter.formatter()</a>.</p>
+<div class="fragment"><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                                                                             {</div><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                Map&lt;String,Map&lt;String,String&gt;&gt; treemap=<span class="keyword">new</span> TreeMap&lt;&gt;();</div><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                treemap.put(<span class="stringliteral">&quot;Fill&quot;</span>,<span class="keyword">new</span> TreeMap&lt;&gt;());</div><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                treemap.put(<span class="stringliteral">&quot;Stroke&quot;</span>,<span class="keyword">new</span> TreeMap&lt;&gt;());</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                <span class="keywordflow">if</span>(cssString.contains(<span class="stringliteral">&quot;;&quot;</span>)) {</div><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                        <span class="keywordflow">for</span>(String statement:cssString.split(<span class="stringliteral">&quot;;&quot;</span>)) {</div><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                                String[] split=statement.split(<span class="stringliteral">&quot;:&quot;</span>);</div><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                                <span class="keywordflow">if</span>(split[0].contains(<span class="stringliteral">&quot;stroke&quot;</span>)) {</div><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                                        treemap.get(<span class="stringliteral">&quot;Stroke&quot;</span>).put(split[0],split[1]);</div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                                }<span class="keywordflow">else</span> <span class="keywordflow">if</span>(split[0].contains(<span class="stringliteral">&quot;fill&quot;</span>)) {</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                                        treemap.get(<span class="stringliteral">&quot;Fill&quot;</span>).put(split[0],split[1]);</div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                                }</div><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                        }</div><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                        <span class="keywordflow">for</span>(String key:treemap.keySet()) {</div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                                <span class="keywordflow">try</span> {</div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                                        writer.writeStartElement(<span class="stringliteral">&quot;sld:&quot;</span>+key);</div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                                        <span class="keywordflow">for</span>(String keyy:treemap.get(key).keySet()) {</div><div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                                                writer.writeStartElement(<span class="stringliteral">&quot;sld:CssParameter&quot;</span>);</div><div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                                                writer.writeAttribute(<span class="stringliteral">&quot;name&quot;</span>, keyy);</div><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                                                writer.writeStartElement(<span class="stringliteral">&quot;ogc:Literal&quot;</span>);</div><div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                                                writer.writeCharacters(treemap.get(key).get(keyy));</div><div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                                                writer.writeEndElement();</div><div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                                                writer.writeEndElement();</div><div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                                        }</div><div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                                        writer.writeEndElement();</div><div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                                } <span class="keywordflow">catch</span> (XMLStreamException e) {</div><div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                                        <span class="comment">// TODO Auto-generated catch block</span></div><div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                                        e.printStackTrace();</div><div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                                }</div><div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                                </div><div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                        }</div><div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                }</div><div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        }</div></div><!-- fragment -->
+</div>
+</div>
+<a id="af149b280d2c9bcc76f05c6a1c291d30f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af149b280d2c9bcc76f05c6a1c291d30f">&#9670;&nbsp;</a></span>formatFooter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">String formatFooter </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="reference">References <a class="el" href="a00455.html#a3770f80b7c98a8315479f697590303a3">ResultStyleFormatter.formatGeometry()</a>.</p>
+<div class="fragment"><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                                     {</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                <span class="keywordflow">return</span> <span class="stringliteral">&quot;&quot;</span>;</div><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        }</div></div><!-- fragment -->
+</div>
+</div>
+<a id="aa353aab5dee656d3508d8aa8f520edbb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa353aab5dee656d3508d8aa8f520edbb">&#9670;&nbsp;</a></span>formatGeometry()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">String formatGeometry </td>
+          <td>(</td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>geometrytype</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a00467.html">StyleObject</a>&#160;</td>
+          <td class="paramname"><em>style</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="fragment"><div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;                                                                            {</div><div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                <span class="comment">// TODO Auto-generated method stub</span></div><div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                <span class="keywordflow">return</span> null;</div><div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        }</div></div><!-- fragment -->
+</div>
+</div>
+<a id="abaa077ed79fcfd5a2279597e3f324c64"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abaa077ed79fcfd5a2279597e3f324c64">&#9670;&nbsp;</a></span>formatHeader()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">String formatHeader </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="fragment"><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                                     {</div><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                <span class="keywordflow">return</span> <span class="stringliteral">&quot;&quot;</span>;</div><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        }</div></div><!-- fragment -->
+</div>
+</div>
+<a id="a6561dcf48f63c199d693d5ed6c739dc0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6561dcf48f63c199d693d5ed6c739dc0">&#9670;&nbsp;</a></span>formatter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">String formatter </td>
+          <td>(</td>
+          <td class="paramtype">ResultSet&#160;</td>
+          <td class="paramname"><em>results</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>featuretype</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> throws XMLStreamException</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="reference">References <a class="el" href="a00463.html#a55fcfd9f7a5a77f5f73f89e01db155b7">SLDFormatter.cssLiteralToXML()</a>, and <a class="el" href="a00455.html#aa6a844c9b01d97aca583be867a1c5413">ResultStyleFormatter.exposedType</a>.</p>
+<div class="fragment"><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;                                                                                                {</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                StringWriter strwriter = <span class="keyword">new</span> StringWriter();</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                XMLOutputFactory output = XMLOutputFactory.newInstance();</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                XMLStreamWriter writer;</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                        writer = <span class="keyword">new</span> IndentingXMLStreamWriter(output.createXMLStreamWriter(strwriter));</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                        writer.writeStartDocument();</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                        writer.writeAttribute(<span class="stringliteral">&quot;xmlns&quot;</span>, <span class="stringliteral">&quot;http://www.opengis.net/ogcapi-features-1/1.0&quot;</span>);</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                        writer.writeAttribute(<span class="stringliteral">&quot;xmlns:sld&quot;</span>, <span class="stringliteral">&quot;http://www.opengis.net/sld&quot;</span>);</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                        writer.writeAttribute(<span class="stringliteral">&quot;xmlns:ogc&quot;</span>, <span class="stringliteral">&quot;http://www.opengis.net/ogc&quot;</span>);</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                        writer.writeAttribute(<span class="stringliteral">&quot;xmlns:xlink&quot;</span>, <span class="stringliteral">&quot;http://www.w3.org/1999/xlink&quot;</span>);</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                        writer.writeAttribute(<span class="stringliteral">&quot;xmlns:gml&quot;</span>, <span class="stringliteral">&quot;http://www.opengis.net/gml&quot;</span>);</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                        writer.writeAttribute(<span class="stringliteral">&quot;xmlns:xsi&quot;</span>,<span class="stringliteral">&quot;http://www.w3.org/1999/xlink&quot;</span>);</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                        writer.writeAttribute(<span class="stringliteral">&quot;version&quot;</span>,<span class="stringliteral">&quot;1.0.0&quot;</span>);</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                        writer.writeStartElement(<span class="stringliteral">&quot;sld:UserStyle&quot;</span>);</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                        writer.writeStartElement(<span class="stringliteral">&quot;sld:Name&quot;</span>);</div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                        writer.writeCharacters(featuretype+<span class="stringliteral">&quot; Style&quot;</span>);</div><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                        writer.writeEndElement();</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                        writer.writeStartElement(<span class="stringliteral">&quot;sld:Title&quot;</span>);</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                        writer.writeCharacters(featuretype+<span class="stringliteral">&quot; Style&quot;</span>);</div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                        writer.writeEndElement();</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                        writer.writeStartElement(<span class="stringliteral">&quot;sld:Abstract&quot;</span>);</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                        writer.writeCharacters(<span class="stringliteral">&quot;&quot;</span>);</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                        writer.writeEndElement();</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                        writer.writeStartElement(<span class="stringliteral">&quot;sld:IsDefault&quot;</span>);</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                        writer.writeCharacters(<span class="stringliteral">&quot;1&quot;</span>);</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                        writer.writeEndElement();</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                        writer.writeStartElement(<span class="stringliteral">&quot;sld:FeatureTypeStyle&quot;</span>);</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                        writer.writeStartElement(<span class="stringliteral">&quot;sld:Name&quot;</span>);</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                        writer.writeEndElement();</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                        writer.writeStartElement(<span class="stringliteral">&quot;sld:Title&quot;</span>);</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                        writer.writeEndElement();</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                        writer.writeStartElement(<span class="stringliteral">&quot;sld:Abstract&quot;</span>);</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                        writer.writeEndElement();</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                        writer.writeStartElement(<span class="stringliteral">&quot;sld:FeatureTypeName&quot;</span>);</div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                        writer.writeCharacters(featuretype);</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                        writer.writeEndElement();</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                        writer.writeStartElement(<span class="stringliteral">&quot;sld:SemanticTypeIdentifier&quot;</span>);</div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                        writer.writeCharacters(<span class="stringliteral">&quot;generic:geometry&quot;</span>);</div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                        writer.writeEndElement();</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                        writer.writeStartElement(<span class="stringliteral">&quot;sld:Rule&quot;</span>);</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                        writer.writeStartElement(<span class="stringliteral">&quot;sld:PolygonSymbolizer&quot;</span>);</div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                        <a class="code" href="a00463.html#a55fcfd9f7a5a77f5f73f89e01db155b7">cssLiteralToXML</a>(writer, <span class="stringliteral">&quot;&quot;</span>);</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                        writer.writeEndElement();</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                        writer.writeEndElement();</div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                        writer.writeEndElement();</div><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                        <span class="keywordflow">return</span> <a class="code" href="a00455.html#aa6a844c9b01d97aca583be867a1c5413">exposedType</a>;</div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        }</div><div class="ttc" id="a00455_html_aa6a844c9b01d97aca583be867a1c5413"><div class="ttname"><a href="a00455.html#aa6a844c9b01d97aca583be867a1c5413">de.hsmainz.cs.semgis.wfs.resultstyleformatter.ResultStyleFormatter.exposedType</a></div><div class="ttdeci">String exposedType</div><div class="ttdef"><b>Definition:</b> ResultStyleFormatter.java:22</div></div>
+<div class="ttc" id="a00463_html_a55fcfd9f7a5a77f5f73f89e01db155b7"><div class="ttname"><a href="a00463.html#a55fcfd9f7a5a77f5f73f89e01db155b7">de.hsmainz.cs.semgis.wfs.resultstyleformatter.SLDFormatter.cssLiteralToXML</a></div><div class="ttdeci">void cssLiteralToXML(XMLStreamWriter writer, String cssString)</div><div class="ttdoc">Formats a cssliteral to an XML representation as needed by SLD. </div><div class="ttdef"><b>Definition:</b> SLDFormatter.java:75</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a91715aa5eef12ebcf3ea95d7493b9084"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a91715aa5eef12ebcf3ea95d7493b9084">&#9670;&nbsp;</a></span>getFormatter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="a00455.html">ResultStyleFormatter</a> getFormatter </td>
+          <td>(</td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>formatString</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets a style formatter for a chosen style type. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">formatString</td><td>the formatString indicating a given style type </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a <a class="el" href="a00455.html" title="Abstract class to describe a class applying a style to a downlifted dataset. ">ResultStyleFormatter</a> generating the chosen style type </dd></dl>
+
+<p class="reference">References <a class="el" href="a00455.html#aa231f1de0281037224372f0afb1f0fe1">ResultStyleFormatter.formatter()</a>.</p>
+<div class="fragment"><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                                                                             {</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                formatString=formatString.toLowerCase();</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                <span class="keywordflow">if</span>(<a class="code" href="a00455.html#a54c9d791b2138017b960a7cf457b5fd2">resultMap</a>.containsKey(formatString)) {</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                        <span class="keywordflow">return</span> <a class="code" href="a00455.html#a54c9d791b2138017b960a7cf457b5fd2">resultMap</a>.get(formatString);</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                }</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                formatString=formatString.replace(<span class="stringliteral">&quot;+&quot;</span>,<span class="stringliteral">&quot;&quot;</span>);</div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                <span class="keywordflow">if</span>(formatString.contains(<span class="stringliteral">&quot;mapcss&quot;</span>)) {</div><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                        <span class="keywordflow">return</span> <a class="code" href="a00455.html#a54c9d791b2138017b960a7cf457b5fd2">resultMap</a>.get(<span class="stringliteral">&quot;mapcss&quot;</span>);</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                }</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                <span class="keywordflow">if</span>(formatString.contains(<span class="stringliteral">&quot;geojsoncss&quot;</span>)) {</div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                        <span class="keywordflow">return</span> <a class="code" href="a00455.html#a54c9d791b2138017b960a7cf457b5fd2">resultMap</a>.get(<span class="stringliteral">&quot;geojsoncss&quot;</span>);</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                }</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                <span class="keywordflow">if</span>(formatString.contains(<span class="stringliteral">&quot;sld&quot;</span>)) {</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                        <span class="keywordflow">return</span> <a class="code" href="a00455.html#a54c9d791b2138017b960a7cf457b5fd2">resultMap</a>.get(<span class="stringliteral">&quot;sld&quot;</span>);</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                }</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                <span class="keywordflow">return</span> null;</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        }</div><div class="ttc" id="a00455_html_a54c9d791b2138017b960a7cf457b5fd2"><div class="ttname"><a href="a00455.html#a54c9d791b2138017b960a7cf457b5fd2">de.hsmainz.cs.semgis.wfs.resultstyleformatter.ResultStyleFormatter.resultMap</a></div><div class="ttdeci">static Map&lt; String, ResultStyleFormatter &gt; resultMap</div><div class="ttdef"><b>Definition:</b> ResultStyleFormatter.java:16</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="aa6a844c9b01d97aca583be867a1c5413"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6a844c9b01d97aca583be867a1c5413">&#9670;&nbsp;</a></span>exposedType</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">String exposedType =&quot;application/vnd.geo+json&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="reference">Referenced by <a class="el" href="a00463.html#a6561dcf48f63c199d693d5ed6c739dc0">SLDFormatter.formatter()</a>.</p>
+
+</div>
+</div>
+<a id="a1ce6ef499b64cec5981912a236baa199"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ce6ef499b64cec5981912a236baa199">&#9670;&nbsp;</a></span>lastQueriedElemCount</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Integer lastQueriedElemCount =0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a09c78e464072ccab667894f0d179fbdf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a09c78e464072ccab667894f0d179fbdf">&#9670;&nbsp;</a></span>mimeType</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">String mimeType =&quot;text/plain&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a54c9d791b2138017b960a7cf457b5fd2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a54c9d791b2138017b960a7cf457b5fd2">&#9670;&nbsp;</a></span>resultMap</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Map&lt;String,<a class="el" href="a00455.html">ResultStyleFormatter</a>&gt; resultMap =new TreeMap&lt;String, <a class="el" href="a00455.html">ResultStyleFormatter</a>&gt;()</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8e9232fc24a04d17c4a31141d78cb0ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e9232fc24a04d17c4a31141d78cb0ca">&#9670;&nbsp;</a></span>styleAttribute</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">String styleAttribute =&quot;&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="reference">Referenced by <a class="el" href="a00343.html#a4d60ad97c2097d9323921b749f163e26">GeoJSONFormatter.formatter()</a>, <a class="el" href="a00443.html#a260286963b4c3e8010ecc3d97c9712a6">GeoJSONCSSFormatter.GeoJSONCSSFormatter()</a>, and <a class="el" href="a00459.html#a922d460a9ab0aa5a7a7b70ad8bd3868a">SimpleStyleFormatter.SimpleStyleFormatter()</a>.</p>
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.13-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a00213.html">de</a></li><li class="navelem"><a class="el" href="a00214.html">hsmainz</a></li><li class="navelem"><a class="el" href="a00215.html">cs</a></li><li class="navelem"><a class="el" href="a00216.html">semgis</a></li><li class="navelem"><a class="el" href="a00217.html">wfs</a></li><li class="navelem"><a class="el" href="a00223.html">resultstyleformatter</a></li><li class="navelem"><a class="el" href="a00463.html">SLDFormatter</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>

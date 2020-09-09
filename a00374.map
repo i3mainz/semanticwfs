@@ -1,4 +1,4 @@
-<map id="LatLonTextFormatter" name="LatLonTextFormatter">
-<area shape="rect" id="node2" href="$a00328.html" title="Abstract class to downlift query results. " alt="" coords="1376,299,1492,325"/>
-<area shape="rect" id="node6" href="$a00448.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="1096,228,1243,255"/>
+<map id="KMLFormatter" name="KMLFormatter">
+<area shape="rect" id="node2" href="$a00423.html" title="WFSResultFormatter" alt="" coords="5,80,152,107"/>
+<area shape="rect" id="node3" href="$a00331.html" title="Abstract class to downlift query results. " alt="" coords="21,5,137,32"/>
 </map>

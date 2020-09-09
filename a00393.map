@@ -1,3 +1,4 @@
-<map id="GMDFormatter" name="GMDFormatter">
-<area shape="rect" id="node2" href="$a00398.html" title="ResultMetadataFormatter" alt="" coords="5,5,176,32"/>
+<map id="OSMLinkFormatter" name="OSMLinkFormatter">
+<area shape="rect" id="node2" href="$a00331.html" title="Abstract class to downlift query results. " alt="" coords="1376,299,1492,325"/>
+<area shape="rect" id="node6" href="$a00455.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="1096,228,1243,255"/>
 </map>
