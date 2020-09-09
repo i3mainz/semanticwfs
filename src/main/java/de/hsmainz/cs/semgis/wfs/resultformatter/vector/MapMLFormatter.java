@@ -137,7 +137,9 @@ public class MapMLFormatter extends ResultFormatter {
 			writer.writeEndElement();
 			writer.writeStartElement("geometry");
 			writer.writeStartElement(feature.getJSONObject("geometry").getString("type"));
+			writer.writeStartElement("coordinates");
 			writer.writeCharacters(feature.getJSONObject("geometry").getJSONArray("coordinates").toString().replace("[", "").replace("]", "").replace(",", " "));
+			writer.writeEndElement();
 			writer.writeEndElement();
 			writer.writeEndElement();
 			writer.writeEndElement();
