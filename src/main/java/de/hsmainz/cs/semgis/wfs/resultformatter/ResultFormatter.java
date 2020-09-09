@@ -25,10 +25,12 @@ import de.hsmainz.cs.semgis.wfs.resultformatter.vector.GPXFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.GeoHashFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.GeoJSONFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.GeoJSONLDFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.vector.GeoJSONSeqFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.GeoURIFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.JSONFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.JSONLDFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.JSONPFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.vector.JSONSeqFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.KMLFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.LatLonTextFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.MVTFormatter;
@@ -69,6 +71,9 @@ public abstract class ResultFormatter {
 		formatString=formatString.toLowerCase();
 		if(resultMap.containsKey(formatString)) {
 			return resultMap.get(formatString);
+		}
+		if(formatString.contains("geojsonseq")) {
+			return resultMap.get("geojsonseq");
 		}
 		if(formatString.equals("application/vnd.geo+json+ld") || formatString.contains("geojsonld") || formatString.contains("geo+json+ld")) {
 			return resultMap.get("geojsonld");
@@ -139,6 +144,9 @@ public abstract class ResultFormatter {
 		if(formatString.contains("covjson")) {
 			return resultMap.get("covjson");
 		}
+		if(formatString.contains("jsonseq")) {
+			return resultMap.get("jsonseq");
+		}
 		if(formatString.contains("jsonld")) {
 			return resultMap.get("jsonld");
 		}
@@ -186,10 +194,12 @@ public abstract class ResultFormatter {
 		//resultMap.put("covjson", new CovJSONFormatter());
 		//resultMap.put("gmlcov", new GMLCOVFormatter());	
 		resultMap.put("geojson", new GeoJSONFormatter());
+		resultMap.put("geojsonseq", new GeoJSONSeqFormatter());
 		resultMap.put("geojsonld", new GeoJSONLDFormatter());
 		resultMap.put("geohash", new GeoHashFormatter());
 		resultMap.put("geouri", new GeoURIFormatter());
 		resultMap.put("json", new GeoJSONFormatter());
+		resultMap.put("jsonseq", new JSONSeqFormatter());
 		resultMap.put("jsonn", new JSONFormatter());
 		resultMap.put("jsonp", new JSONPFormatter());
 		resultMap.put("jsonld", new JSONLDFormatter());
