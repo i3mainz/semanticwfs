@@ -1,4 +1,4 @@
-package de.hsmainz.cs.semgis.wfs.resultformatter;
+package de.hsmainz.cs.semgis.wfs.resultformatter.coverage;
 
 import java.util.List;
 
@@ -6,6 +6,7 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.jena.query.ResultSet;
 
+import de.hsmainz.cs.semgis.wfs.resultformatter.WCSResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
 public class CovJSONFormatter extends WCSResultFormatter {

@@ -1,4 +1,4 @@
-package de.hsmainz.cs.semgis.wfs.resultformatter;
+package de.hsmainz.cs.semgis.wfs.resultformatter.rdf;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -13,21 +13,23 @@ import org.apache.jena.ontology.OntModel;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.ModelFactory;
 
+import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
 /**
- * Formats a query result to N3.
+ * Formats a query result to NT.
+ *
  */
-public class N3Formatter extends ResultFormatter{
+public class NTFormatter extends ResultFormatter{
 
 	/**
 	 * Constructor for this class.
 	 */
-	public N3Formatter() {
-		this.mimeType="text/n3";
-		this.exposedType="text/n3";
-		this.urlformat="n3";
-		this.label="N3";
+	public NTFormatter() {
+		this.mimeType="text/nt";
+		this.exposedType="text/nt";
+		this.urlformat="nt";
+		this.label="NTriples";
 	}
 	
 	@Override
@@ -43,7 +45,7 @@ public class N3Formatter extends ResultFormatter{
 		model.read(result, null, "TTL");
 		System.out.println("RDF Formatter!!!!");
 		ByteArrayOutputStream bOutput = new ByteArrayOutputStream(12);
-		model.write(bOutput,"N3");
+		model.write(bOutput,"NT");
 		try {
 			return new String(bOutput.toByteArray(), "UTF-8");
 		} catch (UnsupportedEncodingException e) {

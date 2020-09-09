@@ -1,4 +1,4 @@
-package de.hsmainz.cs.semgis.wfs.resultformatter;
+package de.hsmainz.cs.semgis.wfs.resultformatter.vector;
 
 import java.util.Iterator;
 import java.util.List;
@@ -13,6 +13,7 @@ import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.io.ParseException;
 import org.locationtech.jts.io.WKTReader;
 
+import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 import de.hsmainz.cs.semgis.wfs.util.ReprojectionUtils;
 

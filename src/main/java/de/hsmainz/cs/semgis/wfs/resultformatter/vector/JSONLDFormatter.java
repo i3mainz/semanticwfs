@@ -1,4 +1,4 @@
-package de.hsmainz.cs.semgis.wfs.resultformatter;
+package de.hsmainz.cs.semgis.wfs.resultformatter.vector;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -12,6 +12,7 @@ import org.apache.jena.rdf.model.Literal;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import de.hsmainz.cs.semgis.wfs.resultformatter.WFSResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
 /**

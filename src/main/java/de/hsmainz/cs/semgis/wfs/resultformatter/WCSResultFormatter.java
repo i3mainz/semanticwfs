@@ -1,5 +1,9 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter;
 
+import de.hsmainz.cs.semgis.wfs.resultformatter.coverage.CovJSONFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.coverage.GMLCOVFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.coverage.GeoTIFFFormatter;
+
 public abstract class WCSResultFormatter extends ResultFormatter {
 
 	static {

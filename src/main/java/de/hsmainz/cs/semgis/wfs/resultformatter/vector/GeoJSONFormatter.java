@@ -1,4 +1,4 @@
-package de.hsmainz.cs.semgis.wfs.resultformatter;
+package de.hsmainz.cs.semgis.wfs.resultformatter.vector;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -18,6 +18,7 @@ import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
 
 import de.hsmainz.cs.semgis.wfs.converters.AsGeoJSON;
+import de.hsmainz.cs.semgis.wfs.resultformatter.WFSResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.GeoJSONCSSFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.ResultStyleFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;

@@ -9,6 +9,33 @@ import javax.xml.stream.XMLStreamException;
 import org.apache.jena.query.ResultSet;
 import org.locationtech.jts.io.WKTReader;
 
+import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.N3Formatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.NQuadsFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.NTFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.RDFFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.RDFJSONFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.RDFThriftFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.TTLFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.TrigFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.TrixFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.vector.CSVFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.vector.GMLFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.vector.GPXFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.vector.GeoHashFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.vector.GeoJSONFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.vector.GeoJSONLDFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.vector.GeoURIFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.vector.JSONFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.vector.JSONLDFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.vector.JSONPFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.vector.KMLFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.vector.LatLonTextFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.vector.MVTFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.vector.OSMFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.vector.OSMLinkFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.vector.SVGFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.vector.WKBFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.vector.WKTFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.ResultStyleFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
@@ -122,6 +149,9 @@ public abstract class ResultFormatter {
 		if(formatString.contains("wkt")) {
 			return resultMap.get("wkt");
 		}
+		if(formatString.contains("mvt")) {
+			return resultMap.get("mvt");
+		}
 		if(formatString.contains("latlon")) {
 			return resultMap.get("latlon");
 		}
@@ -163,6 +193,7 @@ public abstract class ResultFormatter {
 		resultMap.put("wkt", new WKTFormatter());
 		resultMap.put("wkb", new WKBFormatter());
 		resultMap.put("ttl", new TTLFormatter());
+		resultMap.put("mvt", new MVTFormatter());
 		resultMap.put("n3", new N3Formatter());
 		resultMap.put("nt", new NTFormatter());
 		resultMap.put("nq", new NQuadsFormatter());

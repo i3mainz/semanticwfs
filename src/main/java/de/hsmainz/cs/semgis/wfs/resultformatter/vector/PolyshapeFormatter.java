@@ -1,4 +1,4 @@
-package de.hsmainz.cs.semgis.wfs.resultformatter;
+package de.hsmainz.cs.semgis.wfs.resultformatter.vector;
 
 import java.util.Iterator;
 import java.util.List;
@@ -12,6 +12,7 @@ import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.sparql.expr.NodeValue;
 
 import de.hsmainz.cs.semgis.wfs.converters.AsPolyshape;
+import de.hsmainz.cs.semgis.wfs.resultformatter.WFSResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
 public class PolyshapeFormatter extends WFSResultFormatter {

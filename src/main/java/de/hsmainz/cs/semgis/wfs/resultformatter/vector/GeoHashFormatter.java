@@ -1,4 +1,4 @@
-package de.hsmainz.cs.semgis.wfs.resultformatter;
+package de.hsmainz.cs.semgis.wfs.resultformatter.vector;
 
 import java.util.Iterator;
 import java.util.List;
@@ -8,6 +8,7 @@ import javax.xml.stream.XMLStreamException;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 
+import de.hsmainz.cs.semgis.wfs.resultformatter.WFSResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
 public class GeoHashFormatter extends WFSResultFormatter {

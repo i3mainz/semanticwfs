@@ -1,4 +1,4 @@
-package de.hsmainz.cs.semgis.wfs.resultformatter;
+package de.hsmainz.cs.semgis.wfs.resultformatter.vector;
 
 import java.util.List;
 import java.util.Map;
@@ -9,6 +9,8 @@ import javax.xml.stream.XMLStreamException;
 import org.apache.jena.query.ResultSet;
 import org.json.JSONObject;
 
+import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.WFSResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
 /**

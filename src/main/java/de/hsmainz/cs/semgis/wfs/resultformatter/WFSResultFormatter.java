@@ -1,5 +1,16 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter;
 
+import de.hsmainz.cs.semgis.wfs.resultformatter.vector.CSVFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.vector.GMLFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.vector.GPXFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.vector.GeoHashFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.vector.GeoJSONFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.vector.GeoJSONLDFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.vector.GeoURIFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.vector.KMLFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.vector.PolyshapeFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.vector.TopoJSONFormatter;
+
 public abstract class WFSResultFormatter extends ResultFormatter{
 	
 	String featureType="";

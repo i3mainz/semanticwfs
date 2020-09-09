@@ -23,8 +23,8 @@ import org.apache.jena.query.ResultSet;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import de.hsmainz.cs.semgis.wfs.resultformatter.GeoJSONFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.vector.GeoJSONFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 import de.hsmainz.cs.semgis.wfs.webservice.WebService;
 

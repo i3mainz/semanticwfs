@@ -1,4 +1,4 @@
-package de.hsmainz.cs.semgis.wfs.resultformatter;
+package de.hsmainz.cs.semgis.wfs.resultformatter.rdf;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -13,22 +13,22 @@ import org.apache.jena.ontology.OntModel;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.ModelFactory;
 
+import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
 /**
- * Formats a query result to Trig.
- *
+ * Formats a query result to Trix.
  */
-public class TrigFormatter extends ResultFormatter {
+public class TrixFormatter extends ResultFormatter {
 
 	/**
 	 * Constructor for this class.
 	 */
-	public TrigFormatter() {
-		this.mimeType="text/trig";
-		this.exposedType="text/trig";
-		this.urlformat="trig";
-		this.label="Trig";
+	public TrixFormatter() {
+		this.mimeType="text/trix";
+		this.exposedType="text/trix";
+		this.urlformat="trix";
+		this.label="Trix";
 	}
 	
 	@Override
@@ -44,7 +44,7 @@ public class TrigFormatter extends ResultFormatter {
 		model.read(result, null, "TTL");
 		System.out.println("RDF Formatter!!!!");
 		ByteArrayOutputStream bOutput = new ByteArrayOutputStream(12);
-		model.write(bOutput,"TRIG");
+		model.write(bOutput,"TRIX");
 		try {
 			return new String(bOutput.toByteArray(), "UTF-8");
 		} catch (UnsupportedEncodingException e) {

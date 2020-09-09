@@ -1,4 +1,4 @@
-package de.hsmainz.cs.semgis.wfs.resultformatter;
+package de.hsmainz.cs.semgis.wfs.resultformatter.rdf;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -13,25 +13,30 @@ import org.apache.jena.ontology.OntModel;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.ModelFactory;
 
+import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
-public class NQuadsFormatter extends ResultFormatter {
+/**
+ * Formats a query result to Trig.
+ *
+ */
+public class TrigFormatter extends ResultFormatter {
 
 	/**
 	 * Constructor for this class.
 	 */
-	public NQuadsFormatter() {
-		this.mimeType="text/nq";
-		this.exposedType="text/nq";
-		this.urlformat="nq";
-		this.label="NQuads";
+	public TrigFormatter() {
+		this.mimeType="text/trig";
+		this.exposedType="text/trig";
+		this.urlformat="trig";
+		this.label="Trig";
 	}
 	
 	@Override
 	public String formatter(ResultSet results, String startingElement, String featuretype, String propertytype,
 			String typeColumn, Boolean onlyproperty, Boolean onlyhits, String srsName, String indvar, String epsg,
-			List<String> eligiblenamespaces, List<String> noteligiblenamespaces, StyleObject mapstyle,
-			Boolean alternativeFormat, Boolean invertXY) throws XMLStreamException {
+			List<String> eligiblenamespaces, List<String> noteligiblenamespaces, StyleObject mapstyle,Boolean alternativeFormat,Boolean invertXY)
+			throws XMLStreamException {
 		ResultFormatter format = resultMap.get("ttl");
 		String ttl=format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,srsName,indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat,invertXY);
 		this.lastQueriedElemCount = format.lastQueriedElemCount;
@@ -40,7 +45,7 @@ public class NQuadsFormatter extends ResultFormatter {
 		model.read(result, null, "TTL");
 		System.out.println("RDF Formatter!!!!");
 		ByteArrayOutputStream bOutput = new ByteArrayOutputStream(12);
-		model.write(bOutput,"NQUADS");
+		model.write(bOutput,"TRIG");
 		try {
 			return new String(bOutput.toByteArray(), "UTF-8");
 		} catch (UnsupportedEncodingException e) {

@@ -1,4 +1,4 @@
-package de.hsmainz.cs.semgis.wfs.resultformatter;
+package de.hsmainz.cs.semgis.wfs.resultformatter.vector;
 
 import java.io.StringWriter;
 import java.util.LinkedList;
@@ -14,6 +14,7 @@ import org.json.JSONObject;
 
 import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
 
+import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 import de.hsmainz.cs.semgis.wfs.webservice.WebService;
 
