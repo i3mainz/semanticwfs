@@ -27,49 +27,56 @@ public class MapMLFormatter extends ResultFormatter {
 		this.exposedType="text/mapml";
 	}
 	
-	public void addTagsFromJSONObject(JSONObject obj,XMLStreamWriter writer,String curfeatureid) throws XMLStreamException {
-		if(obj.has("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")) {
-			String uri="";
-			try {
-				JSONArray arr=obj.getJSONArray("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-			for(int i=0;i<arr.length();i++) {
-				if(arr.get(i).toString().startsWith("http")) {
-					uri=arr.getString(i).toString();
-					break;
-				}
-			}
-			}catch(JSONException e) {
-				uri=obj.get("http://www.w3.org/1999/02/22-rdf-syntax-ns#type").toString();
-			}		
-			writer.writeStartElement("th");
-			writer.writeAttribute("scope", "row");
-			writer.writeCharacters(uri);
-			writer.writeEndElement();
-		}
-		for(String key:obj.keySet()) {
-			if(!key.equals("http://www.opengis.net/ont/geosparql#hasGeometry") 
-					&& !key.equalsIgnoreCase("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")
-					&& !key.equalsIgnoreCase("the_geom")) {
-				writer.writeStartElement("th");
-				writer.writeAttribute("scope", "row");
-				writer.writeCharacters(key);
-				writer.writeEndElement();
-			try {
-				addTagsFromJSONObject(obj.getJSONObject(key),writer,curfeatureid);
-			}catch(Exception e) {
-				String val=obj.get(key).toString();
-				if(val.contains("^^")) {
-					writer.writeCharacters(val.substring(0,val.lastIndexOf("^^")));
+	
+	public void collectColumns(XMLStreamWriter writer,JSONObject obj,String nameprefix) throws JSONException, XMLStreamException {
+		for(String key:obj.keySet()) {		
+			String namekey="";
+			String val="";
+			if(key.startsWith("http")) {
+				if(key.contains("#")) {
+					namekey=key.substring(key.lastIndexOf('#')+1);
 				}else {
-					writer.writeStartElement("td");
-					writer.writeAttribute("itemprop", key);
-					writer.writeCharacters(val);
-					writer.writeEndElement();
+					namekey=key.substring(key.lastIndexOf('/')+1);
 				}
 			}
+			try {
+				if(nameprefix.isEmpty()) {
+					collectColumns(writer,obj.getJSONObject(key),namekey);	
+				}else {
+					collectColumns(writer,obj.getJSONObject(key),nameprefix+"."+namekey);
+				}
+				
+			}catch(Exception e) {
+				String tagname=key;
+				tagname=namekey;
+				if(!nameprefix.isEmpty()) {
+					tagname=nameprefix+"."+namekey;
+				}
+				if(!tagname.isEmpty() && !key.equals("http://www.opengis.net/ont/geosparql#hasGeometry") && !key.equals("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")) {
+					writer.writeStartElement("th");
+					writer.writeAttribute("scope", "row");
+					writer.writeCharacters(tagname);
+					writer.writeEndElement();
+				if(obj.get(key).toString().contains("http")) {
+					if(obj.get(key).toString().contains("^^")) {
+						val=obj.get(key).toString().substring(1,obj.get(key).toString().lastIndexOf("^^"));
+					}else if(obj.get(key).toString().contains("#")) {
+						val=obj.get(key).toString().substring(obj.get(key).toString().lastIndexOf('#')+1);
+					}else {
+						val=obj.get(key).toString().substring(obj.get(key).toString().lastIndexOf('/')+1);
+					}
+				}else {
+					val=obj.get(key).toString();
+				}
+				writer.writeStartElement("td");
+				writer.writeAttribute("itemprop", tagname);
+				writer.writeCharacters(val);
+				writer.writeEndElement();
+				}
 			}
 		}
 	}
+	
 	
 	@Override
 	public String formatter(ResultSet results,String startingElement,
@@ -123,7 +130,7 @@ public class MapMLFormatter extends ResultFormatter {
 			}else if(curfeaturetype.startsWith("http")) {
 				curfeaturetype=curfeaturetype.substring(curfeaturetype.lastIndexOf('/')+1);
 			}
-			addTagsFromJSONObject(feature.getJSONObject("properties"), writer,curfeaturetype);	
+			collectColumns(writer,feature.getJSONObject("properties"),"");	
 			writer.writeEndElement();
 			writer.writeEndElement();
 			writer.writeEndElement();
