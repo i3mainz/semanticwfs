@@ -1,6 +1,6 @@
 var a00313 =
 [
-    [ "TrixFormatter", "a00313.html#a3a3863febc8c94360178708ceb2045b6", null ],
+    [ "NTFormatter", "a00313.html#a1c90e14ae5987c0847e486ed3c1fe95e", null ],
     [ "[static initializer]", "a00313.html#a2e87c5ede6b7235170d287cd2e254454", null ],
     [ "formatFooter", "a00313.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00313.html#abaa077ed79fcfd5a2279597e3f324c64", null ],

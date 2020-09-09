@@ -1,6 +1,6 @@
 var a00285 =
 [
-    [ "N3Formatter", "a00285.html#aa6304c9b7a84c93dfdc1280668cbade1", null ],
+    [ "X3DFormatter", "a00285.html#aee6ae846ff51834725428ec6d4377156", null ],
     [ "[static initializer]", "a00285.html#a2e87c5ede6b7235170d287cd2e254454", null ],
     [ "formatFooter", "a00285.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00285.html#abaa077ed79fcfd5a2279597e3f324c64", null ],

@@ -1,6 +1,6 @@
 var a00357 =
 [
-    [ "JSONLDFormatter", "a00357.html#a1bc949e7a9e8b3b31ddbbe430beffb67", null ],
+    [ "GeoJSONLDFormatter", "a00357.html#a6e6ac0b7e7f5c301c4f4be738e37d065", null ],
     [ "[static initializer]", "a00357.html#a2e87c5ede6b7235170d287cd2e254454", null ],
     [ "formatFooter", "a00357.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00357.html#abaa077ed79fcfd5a2279597e3f324c64", null ],

@@ -1,9 +1,10 @@
 var a00225 =
 [
-    [ "user", "a00226.html", "a00226" ],
-    [ "AbstractTransformer", "a00475.html", "a00475" ],
-    [ "OpenAPIMediaType", "a00479.html", "a00479" ],
-    [ "ReprojectionUtils", "a00483.html", "a00483" ],
-    [ "Tuple", "a00487.html", "a00487" ],
-    [ "XSLTTransformer", "a00507.html", "a00507" ]
+    [ "coverage", "a00224.html", "a00224" ],
+    [ "rdf", "a00226.html", "a00226" ],
+    [ "vector", "a00227.html", "a00227" ],
+    [ "HTMLFormatter", "a00293.html", "a00293" ],
+    [ "ResultFormatter", "a00341.html", "a00341" ],
+    [ "WCSResultFormatter", "a00433.html", "a00433" ],
+    [ "WFSResultFormatter", "a00437.html", "a00437" ]
 ];

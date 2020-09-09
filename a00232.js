@@ -1,4 +1,6 @@
 var a00232 =
 [
-    [ "exec", "a00232.html#a892f62c3bf1ab2917fc8745f0b6da2a3", null ]
+    [ "User", "a00505.html", "a00505" ],
+    [ "UserManagementConnection", "a00509.html", "a00509" ],
+    [ "UserType", "a00517.html", "a00517" ]
 ];

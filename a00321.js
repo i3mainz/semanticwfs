@@ -1,9 +1,10 @@
 var a00321 =
 [
+    [ "RDFJSONFormatter", "a00321.html#ad1b3a32f8e06089a79011561ed1052ac", null ],
     [ "[static initializer]", "a00321.html#a2e87c5ede6b7235170d287cd2e254454", null ],
     [ "formatFooter", "a00321.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00321.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
-    [ "formatter", "a00321.html#ab09d0b676bdd060ceaf68efa0a32a4cf", null ],
+    [ "formatter", "a00321.html#a4d60ad97c2097d9323921b749f163e26", null ],
     [ "getFormatter", "a00321.html#afce25d64087d96d66b6b5535660a8ddb", null ],
     [ "contextMapper", "a00321.html#ae7316c0c7550712f915cc3cd353cd981", null ],
     [ "exposedType", "a00321.html#aa6a844c9b01d97aca583be867a1c5413", null ],

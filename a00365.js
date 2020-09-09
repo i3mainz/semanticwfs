@@ -1,12 +1,13 @@
 var a00365 =
 [
-    [ "KMLFormatter", "a00365.html#a71671269609c089275747e1c75d17afe", null ],
+    [ "GMLFormatter", "a00365.html#a838cb0e3eaafb657bd40a3e9c8bef8a8", null ],
     [ "[static initializer]", "a00365.html#a2e87c5ede6b7235170d287cd2e254454", null ],
-    [ "addTagsFromJSONObject", "a00365.html#ad2df52d63f2f157b044923ff7cf52cd1", null ],
+    [ "addTagsFromJSONObject", "a00365.html#a9c11f424a7fbe3f8c89a6b06c22f02f5", null ],
     [ "formatFooter", "a00365.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00365.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
     [ "formatter", "a00365.html#a4d60ad97c2097d9323921b749f163e26", null ],
     [ "getFormatter", "a00365.html#afce25d64087d96d66b6b5535660a8ddb", null ],
+    [ "splitURL", "a00365.html#a5656e00eb3d76d57f0ba0df27fc2d658", null ],
     [ "contextMapper", "a00365.html#ae7316c0c7550712f915cc3cd353cd981", null ],
     [ "exposedType", "a00365.html#aa6a844c9b01d97aca583be867a1c5413", null ],
     [ "featureType", "a00365.html#aba4867b615c0892cdae42bc4fd982639", null ],

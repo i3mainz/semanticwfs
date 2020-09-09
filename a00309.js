@@ -1,6 +1,6 @@
 var a00309 =
 [
-    [ "TrigFormatter", "a00309.html#aff99208243e715c94826b98b7adef3e9", null ],
+    [ "NQuadsFormatter", "a00309.html#a6fcceab6ee9b98cef6602dcbbfa8dcf7", null ],
     [ "[static initializer]", "a00309.html#a2e87c5ede6b7235170d287cd2e254454", null ],
     [ "formatFooter", "a00309.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00309.html#abaa077ed79fcfd5a2279597e3f324c64", null ],

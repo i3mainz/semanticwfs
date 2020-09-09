@@ -1,11 +1,10 @@
 var a00349 =
 [
-    [ "GPXFormatter", "a00349.html#a1fce5d275978d7dad93b2457141bd42a", null ],
+    [ "GeoHashFormatter", "a00349.html#ad6ed20299336efd0e93d2f25cb59aa98", null ],
     [ "[static initializer]", "a00349.html#a2e87c5ede6b7235170d287cd2e254454", null ],
-    [ "collectColumns", "a00349.html#a29fa093ba1a2582bb6073a305555c49c", null ],
     [ "formatFooter", "a00349.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00349.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
-    [ "formatter", "a00349.html#a4d60ad97c2097d9323921b749f163e26", null ],
+    [ "formatter", "a00349.html#a80b99178376ce1679ae8af1ba155a09d", null ],
     [ "getFormatter", "a00349.html#afce25d64087d96d66b6b5535660a8ddb", null ],
     [ "contextMapper", "a00349.html#ae7316c0c7550712f915cc3cd353cd981", null ],
     [ "exposedType", "a00349.html#aa6a844c9b01d97aca583be867a1c5413", null ],

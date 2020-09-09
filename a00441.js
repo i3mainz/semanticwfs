@@ -2,13 +2,13 @@ var a00441 =
 [
     [ "[static initializer]", "a00441.html#a2e87c5ede6b7235170d287cd2e254454", null ],
     [ "formatFooter", "a00441.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
-    [ "formatGeometry", "a00441.html#a3770f80b7c98a8315479f697590303a3", null ],
     [ "formatHeader", "a00441.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
-    [ "formatter", "a00441.html#aa231f1de0281037224372f0afb1f0fe1", null ],
-    [ "getFormatter", "a00441.html#a91715aa5eef12ebcf3ea95d7493b9084", null ],
+    [ "formatter", "a00441.html#a902b5f00480accd29598a6bf40dfdbf9", null ],
+    [ "getFormatter", "a00441.html#ab42a39cb4384c1f14ad0bb6d0e27abd8", null ],
     [ "exposedType", "a00441.html#aa6a844c9b01d97aca583be867a1c5413", null ],
+    [ "formatter", "a00441.html#aa4924f78c5486e42b078f715301db642", null ],
     [ "lastQueriedElemCount", "a00441.html#a1ce6ef499b64cec5981912a236baa199", null ],
     [ "mimeType", "a00441.html#a09c78e464072ccab667894f0d179fbdf", null ],
-    [ "resultMap", "a00441.html#a54c9d791b2138017b960a7cf457b5fd2", null ],
-    [ "styleAttribute", "a00441.html#a8e9232fc24a04d17c4a31141d78cb0ca", null ]
+    [ "resultMap", "a00441.html#a596ca937904dbfbdf019f9114f611d37", null ],
+    [ "xmlwriter", "a00441.html#afbd8bf7386c4d548993d0957bfd902bf", null ]
 ];
