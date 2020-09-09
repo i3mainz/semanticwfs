@@ -1,4 +1,4 @@
-<map id="JSONLDFormatter" name="JSONLDFormatter">
-<area shape="rect" id="node2" href="$a00384.html" title="WFSResultFormatter" alt="" coords="5,80,152,107"/>
-<area shape="rect" id="node3" href="$a00356.html" title="Abstract class to downlift query results. " alt="" coords="21,5,137,32"/>
+<map id="RDFJSONFormatter" name="RDFJSONFormatter">
+<area shape="rect" id="node2" href="$a00321.html" title="Abstract class to downlift query results. " alt="" coords="1376,200,1492,227"/>
+<area shape="rect" id="node6" href="$a00441.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="1096,123,1243,149"/>
 </map>

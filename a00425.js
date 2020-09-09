@@ -1,8 +1,6 @@
 var a00425 =
 [
-    [ "SimpleStyleFormatter", "a00425.html#a922d460a9ab0aa5a7a7b70ad8bd3868a", null ],
     [ "[static initializer]", "a00425.html#a2e87c5ede6b7235170d287cd2e254454", null ],
-    [ "cssLiteralToJSON", "a00425.html#a67699ff82e77f0268956c5f37cc52c7b", null ],
     [ "formatFooter", "a00425.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatGeometry", "a00425.html#a399873993b7ab0c34a034702639a6cad", null ],
     [ "formatHeader", "a00425.html#abaa077ed79fcfd5a2279597e3f324c64", null ],

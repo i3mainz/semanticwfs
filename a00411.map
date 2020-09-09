@@ -1,3 +1,4 @@
-<map id="GeoJSONCSSFormatter" name="GeoJSONCSSFormatter">
-<area shape="rect" id="node2" href="$a00424.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="15,5,162,32"/>
+<map id="DCATFormatter" name="DCATFormatter">
+<area shape="rect" id="node2" href="$a00421.html" title="ResultMetadataFormatter" alt="" coords="935,81,1105,108"/>
+<area shape="rect" id="node8" href="$a00417.html" title="Formats metadata to the GMD XML format. " alt="" coords="1155,107,1264,133"/>
 </map>

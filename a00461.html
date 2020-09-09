@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>semanticwfs: Member List</title>
+<title>semanticwfs: AbstractTransformer Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -56,38 +56,126 @@ $(function() {
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('a00464.html','');});
+$(document).ready(function(){initNavTree('a00461.html','');});
 </script>
 <div id="doc-content">
 <div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="a00458.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">UserManagementConnection Member List</div>  </div>
+<div class="title">AbstractTransformer Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="a00464.html">UserManagementConnection</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="a00464.html#ab1068b1130546891b91f57e71b5d637e">addUser</a>(String userToAdd, String userToAddPasswordHash, String userlevel)</td><td class="entry"><a class="el" href="a00464.html">UserManagementConnection</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00464.html#a3ec8a6717ff7d1a9cb4d03ab8e6ab121">deleteUser</a>(String userToAdd, String userToAddPasswordHash, Integer userlevel)</td><td class="entry"><a class="el" href="a00464.html">UserManagementConnection</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00464.html#afc95c9d2bd9691d9d890aa78acb5832e">getHashedPassword</a>(String password)</td><td class="entry"><a class="el" href="a00464.html">UserManagementConnection</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00464.html#a29f011858897cabca687f8d2cbda84a0">getInstance</a>()</td><td class="entry"><a class="el" href="a00464.html">UserManagementConnection</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00464.html#a9a5ec4066559529237d54ed247b96c9d">instance</a></td><td class="entry"><a class="el" href="a00464.html">UserManagementConnection</a></td><td class="entry"><span class="mlabel">private</span><span class="mlabel">static</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00464.html#a9cb69ac69e7e5bc9dfac62f5c5bc3f47">login</a>(String username, String password)</td><td class="entry"><a class="el" href="a00464.html">UserManagementConnection</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00464.html#ae5015f2f9cd9f87ec58aa580e1af9870">loginAuthToken</a>(String authToken)</td><td class="entry"><a class="el" href="a00464.html">UserManagementConnection</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00464.html#a4deb787e0caea958b10db0439fdc3cd1">readUsers</a>()</td><td class="entry"><a class="el" href="a00464.html">UserManagementConnection</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00464.html#aa205888d8017375a3eb7076cf544e9c4">toXML</a>()</td><td class="entry"><a class="el" href="a00464.html">UserManagementConnection</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="a00464.html#a20aa9b3c231bfbab838c2c7867fd2891">updateUser</a>(String userToAdd, String userToAddPasswordHash, String userlevel)</td><td class="entry"><a class="el" href="a00464.html">UserManagementConnection</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00464.html#a9eefff1369fc703725aad733158e39ab">UserManagementConnection</a>()</td><td class="entry"><a class="el" href="a00464.html">UserManagementConnection</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00464.html#adbd471af710a2fde11c1e8ecebc7d081">userNameToPasswordHash</a></td><td class="entry"><a class="el" href="a00464.html">UserManagementConnection</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00464.html#a6294c5a3023ea5880ba3f778aa200c4e">USERS</a></td><td class="entry"><a class="el" href="a00464.html">UserManagementConnection</a></td><td class="entry"><span class="mlabel">private</span><span class="mlabel">static</span></td></tr>
-  <tr><td class="entry"><a class="el" href="a00464.html#a0c7b07c8e6479e20fe0d9b9efbb83d7d">usersToHTML</a>()</td><td class="entry"><a class="el" href="a00464.html">UserManagementConnection</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="a00464.html#aede1517d7d9e17e872007b2eadb1e2bc">uuidToUser</a></td><td class="entry"><a class="el" href="a00464.html">UserManagementConnection</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
-</table></div><!-- contents -->
+<p>An abstract class which describes a transformation process from a XSD schema to an OWL representation.  
+ <a href="a00461.html#details">More...</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a87cd817e2130de1b10c16012517a9c43"><td class="memItemLeft" align="right" valign="top">abstract void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00461.html#a87cd817e2130de1b10c16012517a9c43">transform</a> (String source, String destination, String xsldoc, String baseURI, String superClass, String superClass2, String commentlang)  throws FileNotFoundException, TransformerConfigurationException, TransformerFactoryConfigurationError, TransformerException</td></tr>
+<tr class="memdesc:a87cd817e2130de1b10c16012517a9c43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs a transformation from a source XSD schema to a destination OWL representation.  <a href="#a87cd817e2130de1b10c16012517a9c43">More...</a><br /></td></tr>
+<tr class="separator:a87cd817e2130de1b10c16012517a9c43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>An abstract class which describes a transformation process from a XSD schema to an OWL representation. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a87cd817e2130de1b10c16012517a9c43"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a87cd817e2130de1b10c16012517a9c43">&#9670;&nbsp;</a></span>transform()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">abstract void transform </td>
+          <td>(</td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>source</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>destination</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>xsldoc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>baseURI</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>superClass</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>superClass2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>commentlang</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> throws FileNotFoundException, TransformerConfigurationException, TransformerFactoryConfigurationError, TransformerException</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">abstract</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Performs a transformation from a source XSD schema to a destination OWL representation. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">source</td><td>The path to the XSD schema </td></tr>
+    <tr><td class="paramname">destination</td><td>The destination </td></tr>
+    <tr><td class="paramname">xsldoc</td><td>The XSLT transformation stylesheet </td></tr>
+    <tr><td class="paramname">baseURI</td><td>The baseURI </td></tr>
+    <tr><td class="paramname">superClass</td><td></td></tr>
+    <tr><td class="paramname">superClass2</td><td></td></tr>
+    <tr><td class="paramname">commentlang</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">FileNotFoundException</td><td></td></tr>
+    <tr><td class="paramname">TransformerConfigurationException</td><td></td></tr>
+    <tr><td class="paramname">TransformerFactoryConfigurationError</td><td></td></tr>
+    <tr><td class="paramname">TransformerException</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.13-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="a00207.html">de</a></li><li class="navelem"><a class="el" href="a00208.html">hsmainz</a></li><li class="navelem"><a class="el" href="a00209.html">cs</a></li><li class="navelem"><a class="el" href="a00210.html">semgis</a></li><li class="navelem"><a class="el" href="a00211.html">wfs</a></li><li class="navelem"><a class="el" href="a00219.html">util</a></li><li class="navelem"><a class="el" href="a00461.html">AbstractTransformer</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>

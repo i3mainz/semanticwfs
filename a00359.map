@@ -1,3 +1,4 @@
-<map id="SVGFormatter" name="SVGFormatter">
-<area shape="rect" id="node2" href="$a00356.html" title="Abstract class to downlift query results. " alt="" coords="5,5,121,32"/>
+<map id="JSONPFormatter" name="JSONPFormatter">
+<area shape="rect" id="node2" href="$a00321.html" title="Abstract class to downlift query results. " alt="" coords="1376,200,1492,227"/>
+<area shape="rect" id="node6" href="$a00441.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="1096,123,1243,149"/>
 </map>
