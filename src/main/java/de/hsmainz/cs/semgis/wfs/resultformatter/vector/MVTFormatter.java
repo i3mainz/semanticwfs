@@ -1,6 +1,7 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter.vector;
 
 import java.util.List;
+import java.util.TreeMap;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -19,7 +20,6 @@ public class MVTFormatter extends ResultFormatter {
 		this.label="Mapbox Vector Tiles (MVT)";
 		this.mimeType="text/mvt";
 		this.exposedType="text/mvt";
-
 	}
 	
 	@Override
@@ -31,11 +31,14 @@ public class MVTFormatter extends ResultFormatter {
 				format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,"",indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat,invertXY));
 		this.lastQueriedElemCount = format.lastQueriedElemCount;
 		VectorTileEncoder encoder = new VectorTileEncoder();
-		GeoJSONReader reader=new GeoJSONReader();
-		
+		GeoJSONReader reader=new GeoJSONReader();	
 		for(int i=0;i<geojson.getJSONArray("features").length();i++) {
 			JSONObject feature=geojson.getJSONArray("features").getJSONObject(i);
-			encoder.addFeature(featuretype, geojson.getJSONObject("properties").toMap(),reader.read(feature.getJSONObject("geometry").toString()));
+			if(feature.has("properties")) {
+				encoder.addFeature(featuretype, new TreeMap<>(),reader.read(feature.getJSONObject("geometry").toString()));				
+			}else {
+				encoder.addFeature(featuretype, geojson.getJSONObject("properties").toMap(),reader.read(feature.getJSONObject("geometry").toString()));				
+			}
 		}
 		byte[] encoded = encoder.encode();
 		return encoded.toString();

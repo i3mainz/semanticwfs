@@ -32,6 +32,7 @@ import de.hsmainz.cs.semgis.wfs.resultformatter.vector.JSONPFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.KMLFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.LatLonTextFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.MVTFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.vector.MapMLFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.OSMFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.OSMLinkFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.SVGFormatter;
@@ -162,6 +163,9 @@ public abstract class ResultFormatter {
 		if(formatString.contains("geouri")) {
 			return resultMap.get("geouri");
 		}
+		if(formatString.contains("mapml")) {
+			return resultMap.get("mapml");
+		}
 		if(formatString.contains("geohash")) {
 			return resultMap.get("geohash");
 		}
@@ -205,6 +209,7 @@ public abstract class ResultFormatter {
 		resultMap.put("rt", new RDFThriftFormatter());
 		resultMap.put("osm", new OSMFormatter());
 		resultMap.put("osmlink", new OSMLinkFormatter());
+		resultMap.put("mapml", new MapMLFormatter());
 		resultMap.put("rdf", new RDFFormatter());
 		resultMap.put("rdfjson", new RDFJSONFormatter());
 		resultMap.put("gml", new GMLFormatter());
