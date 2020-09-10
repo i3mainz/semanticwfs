@@ -2269,7 +2269,7 @@ public class WebService {
 				builder.append("</body></html>");
 				return Response.ok(builder.toString(),ResultFormatter.getFormatter(format).mimeType).build();
 			} else {
-				return Response.ok(res,ResultFormatter.getFormatter(format).mimeType).header("Content-Disposition", "attachment; filename*=UTF-8''" + collectionid+"_items"+ResultFormatter.getFormatter(format).fileextension).build();
+				return Response.ok(res,ResultFormatter.getFormatter(format).mimeType).header("Content-Disposition", "attachment; filename*=UTF-8''" + collectionid+"_items."+ResultFormatter.getFormatter(format).fileextension).build();
 			}
 		} catch (JSONException | XMLStreamException e1) {
 			e1.printStackTrace();
