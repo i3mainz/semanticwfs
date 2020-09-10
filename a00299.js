@@ -15,6 +15,7 @@ var a00299 =
     [ "htmlHeader", "a00299.html#a385b5e71821f5098a6ea37a2a2a62272", null ],
     [ "htmlHeader2", "a00299.html#a88331e2aef1a44a2e9dc92bcd51ba7b2", null ],
     [ "label", "a00299.html#aec69fbfab86b7473c3e6ccea79368f0f", null ],
+    [ "labelMap", "a00299.html#ab4b9cca481344d8fd19ffaf929374a92", null ],
     [ "lastQueriedElemCount", "a00299.html#a1ce6ef499b64cec5981912a236baa199", null ],
     [ "mimeType", "a00299.html#a09c78e464072ccab667894f0d179fbdf", null ],
     [ "reader", "a00299.html#ae8b1e194dbc193fe759f7e517807e668", null ],

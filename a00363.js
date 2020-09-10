@@ -11,6 +11,7 @@ var a00363 =
     [ "featureType", "a00363.html#aba4867b615c0892cdae42bc4fd982639", null ],
     [ "fileextension", "a00363.html#a8e93de8aa2d961fc3746c4c6a43f3053", null ],
     [ "label", "a00363.html#aec69fbfab86b7473c3e6ccea79368f0f", null ],
+    [ "labelMap", "a00363.html#ab4b9cca481344d8fd19ffaf929374a92", null ],
     [ "lastQueriedElemCount", "a00363.html#a1ce6ef499b64cec5981912a236baa199", null ],
     [ "mimeType", "a00363.html#a09c78e464072ccab667894f0d179fbdf", null ],
     [ "reader", "a00363.html#ae8b1e194dbc193fe759f7e517807e668", null ],
