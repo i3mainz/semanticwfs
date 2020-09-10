@@ -1,7 +1,7 @@
 var hierarchy =
 [
     [ "AbstractTransformer", "a00503.html", null ],
-    [ "Comparable", "a01083.html", [
+    [ "Comparable", "a01091.html", [
       [ "Tuple< T, T2 >", "a00515.html", null ]
     ] ],
     [ "OpenAPIMediaType", "a00507.html", null ],
