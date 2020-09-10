@@ -18,6 +18,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.xml.stream.XMLOutputFactory;
@@ -2018,7 +2020,7 @@ public class WebService {
 	@Operation(
             summary = "Returns items of a given collection",
             description = "Returns items of a given collection which conform to certain criteria")
-	public Response collectionItemsJSON(@Parameter(description="The id of the collection") @PathParam("collectionid") String collectionid,
+	public Response collectionItemsJSON(@Context  HttpHeaders headers,@Parameter(description="The id of the collection") @PathParam("collectionid") String collectionid,
 			@Parameter(description="The format of the result") @DefaultValue("json") @QueryParam("f") String format, 
 			@DefaultValue("10") @QueryParam("limit") String limit,
 			@Parameter(description="The offset to consider when fetching items") @DefaultValue("0") @QueryParam("offset") String offset, @DefaultValue("") @QueryParam("bbox") String bbox,
@@ -2028,7 +2030,7 @@ public class WebService {
 			@Parameter(description="A filter expression") @DefaultValue("") @QueryParam("filter") String filter,
 			@Parameter(description="The language in which the filter expression is formulated") @DefaultValue("") @QueryParam("filter-lang") String filterlang,
 			@Parameter(description="A temporal filter expression") @DefaultValue("") @QueryParam("datetime") String datetime) {
-		return collectionItems(collectionid, format, limit, offset, bbox, style,crs, bboxcrs, filter, filterlang, datetime);
+		return collectionItems(headers,collectionid, format, limit, offset, bbox, style,crs, bboxcrs, filter, filterlang, datetime);
 	}
 	
 	
@@ -2038,7 +2040,7 @@ public class WebService {
 	@Operation(
             summary = "Returns items of a given collection",
             description = "Returns items of a given collection which conform to certain criteria")
-	public Response collectionItemsXML(@Parameter(description="The id of the collection") @PathParam("collectionid") String collectionid,
+	public Response collectionItemsXML(@Context  HttpHeaders headers,@Parameter(description="The id of the collection") @PathParam("collectionid") String collectionid,
 			@Parameter(description="The format of the result") @DefaultValue("gml") @QueryParam("f") String format, 
 			@DefaultValue("10") @QueryParam("limit") String limit,
 			@Parameter(description="The offset to consider when fetching items") @DefaultValue("0") @QueryParam("offset") String offset, @DefaultValue("") @QueryParam("bbox") String bbox,
@@ -2048,7 +2050,7 @@ public class WebService {
 			@Parameter(description="A filter expression") @DefaultValue("") @QueryParam("filter") String filter,
 			@Parameter(description="The language in which the filter expression is formulated") @DefaultValue("") @QueryParam("filter-lang") String filterlang,
 			@Parameter(description="A temporal filter expression") @DefaultValue("") @QueryParam("datetime") String datetime) {
-		return collectionItems(collectionid, format, limit, offset, bbox, style,crs, bboxcrs, filter, filterlang, datetime);
+		return collectionItems(headers,collectionid, format, limit, offset, bbox, style,crs, bboxcrs, filter, filterlang, datetime);
 	}
 	
 	@GET
@@ -2057,7 +2059,7 @@ public class WebService {
 	@Operation(
             summary = "Returns items of a given collection",
             description = "Returns items of a given collection which conform to certain criteria")
-	public Response collectionItemsHTML(@Parameter(description="The id of the collection") @PathParam("collectionid") String collectionid,
+	public Response collectionItemsHTML(@Context  HttpHeaders headers,@Parameter(description="The id of the collection") @PathParam("collectionid") String collectionid,
 			@Parameter(description="The format of the result") @DefaultValue("html") @QueryParam("f") String format, 
 			@DefaultValue("10") @QueryParam("limit") String limit,
 			@Parameter(description="The offset to consider when fetching items") @DefaultValue("0") @QueryParam("offset") String offset, @DefaultValue("") @QueryParam("bbox") String bbox,
@@ -2067,7 +2069,7 @@ public class WebService {
 			@Parameter(description="A filter expression") @DefaultValue("") @QueryParam("filter") String filter,
 			@Parameter(description="The language in which the filter expression is formulated") @DefaultValue("") @QueryParam("filter-lang") String filterlang,
 			@Parameter(description="A temporal filter expression") @DefaultValue("") @QueryParam("datetime") String datetime) {
-		return collectionItems(collectionid, format, limit, offset, bbox, style,crs, bboxcrs, filter, filterlang, datetime);
+		return collectionItems(headers,collectionid, format, limit, offset, bbox, style,crs, bboxcrs, filter, filterlang, datetime);
 	}
 	
 	
@@ -2091,7 +2093,7 @@ public class WebService {
 	@Operation(
             summary = "Returns items of a given collection",
             description = "Returns items of a given collection which conform to certain criteria")
-	public Response collectionItems(
+	public Response collectionItems(@Context  HttpHeaders headers,
 			@Parameter(description="The id of the collection") @PathParam("collectionid") String collectionid,
 			@Parameter(description="The format of the result") @DefaultValue("html") @QueryParam("f") String format, 
 			@DefaultValue("10") @QueryParam("limit") String limit,
