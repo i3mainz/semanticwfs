@@ -29,6 +29,7 @@ public class TrixFormatter extends ResultFormatter {
 		this.exposedType="text/trix";
 		this.urlformat="trix";
 		this.label="Triples in XML (Trix)";
+		this.fileextension="trix";
 	}
 	
 	@Override

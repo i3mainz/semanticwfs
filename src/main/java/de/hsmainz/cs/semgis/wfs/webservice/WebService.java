@@ -179,11 +179,11 @@ public class WebService {
 			String result = EntityUtils.toString(entity);
 			response.close();
 			httpClient.close();
-			return Response.ok(result).type(OpenAPIMediaType.OA3).build();
+			return Response.ok(result,OpenAPIMediaType.OA3).build();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return Response.ok(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
+			return Response.ok(e.getMessage(),MediaType.TEXT_PLAIN).build();
 		}
 	}
 	
@@ -1927,7 +1927,7 @@ public class WebService {
 				writer.writeEndElement();
 				writer.writeEndDocument();
 				writer.flush();
-				return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
+				return Response.ok(strwriter.toString(),MediaType.APPLICATION_XML).build();
 			} catch (XMLStreamException e) {
 				e.printStackTrace();
 				return this.createExceptionResponse(e, "");
@@ -1969,8 +1969,8 @@ public class WebService {
 			+ "/collections/" + workingobj.getString("name") + "/items?f=html&limit=1000&offset=" + (offset + 1)
 			+ "\">First 1000 items</a></li>");
 			builder.append("</ul><h3>Downloads</h3>Number of features:&nbsp;<input type=\"number\" min=\"1\" id=\"limit\" value=\"10\"/>&nbsp;Offset:&nbsp;<input type=\"number\" min=\"1\" id=\"offset\" value=\"0\"/>Format:<select id=\"format\">");
-			for (ResultFormatter formatter : ResultFormatter.resultMap.values()) {
-				builder.append("<option value=\""+formatter.urlformat+"\">"+formatter.label+"</option>");
+			for (String key : ResultFormatter.labelMap.keySet()) {
+				builder.append("<option value=\""+ResultFormatter.getFormatter(key).urlformat+"\">"+ResultFormatter.labelMap.get(key)+"</option>");
 			}
 			builder.append("</select><br/>CRS:<select id=\"crs\"></select><button id=\"showfeaturebutton\" onclick=\"showCollections('"+wfsconf.getString("baseurl")+"/collections/" + workingobj.getString("name") + "/items')\"/>Show</button></section></div></div></div>");
 			builder.append("<footer id=\"footer\"><table width=100%><tbody><tr><td><a href=\"" + wfsconf.getString("baseurl")
@@ -1978,7 +1978,7 @@ public class WebService {
 					+ wfsconf.getString("baseurl") + "/collections/" + workingobj.getString("name")
 					+ "?f=gml\">[GML]</a> <a href=\"" + wfsconf.getString("baseurl") + "/collections/"
 					+ workingobj.getString("name") + "?f=geojson\">[JSON]</a></td></tr></tbody></table></footer><script> $.ajax({url:'../config/epsg.txt',success: function (data){$('#crs').html(data); $('#crs').val(\""+workingobj.getString("targetCRS")+"\");}});</script></body></html>");
-			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
+			return Response.ok(builder.toString(),MediaType.TEXT_HTML).build();
 		} else {
 			throw new NotFoundException();
 		}
@@ -2088,14 +2088,13 @@ public class WebService {
 	 * @return The query result as String
 	 */
 	@GET
-	@Produces({MediaType.TEXT_PLAIN })
 	@Path("/collections/{collectionid}/items")
 	@Operation(
             summary = "Returns items of a given collection",
             description = "Returns items of a given collection which conform to certain criteria")
 	public Response collectionItems(@Context  HttpHeaders headers,
 			@Parameter(description="The id of the collection") @PathParam("collectionid") String collectionid,
-			@Parameter(description="The format of the result") @DefaultValue("html") @QueryParam("f") String format, 
+			@Parameter(description="The format of the result") @DefaultValue("") @QueryParam("f") String format, 
 			@DefaultValue("10") @QueryParam("limit") String limit,
 			@Parameter(description="The offset to consider when fetching items") @DefaultValue("0") @QueryParam("offset") String offset, @DefaultValue("") @QueryParam("bbox") String bbox,
 			@Parameter(description="The styling of the item when returned")  @DefaultValue("") @QueryParam("style") String style,
@@ -2105,9 +2104,21 @@ public class WebService {
 			@Parameter(description="The language in which the filter expression is formulated") @DefaultValue("") @QueryParam("filter-lang") String filterlang,
 			@Parameter(description="A temporal filter expression") @DefaultValue("") @QueryParam("datetime") String datetime) {
 		System.out.println("Limit: " + limit);
+		System.out.println("FORMAT: "+format);
 		if (collectionid == null) {
 			throw new NotFoundException();
 		}
+		if(format.isEmpty() && headers.getAcceptableMediaTypes().isEmpty()) {
+			format="html";
+		}else if(format.isEmpty() && !headers.getAcceptableMediaTypes().isEmpty()) {
+			for(MediaType mediatype:headers.getAcceptableMediaTypes()) {
+				if(ResultFormatter.resultMap.containsKey(mediatype.toString())) {
+					format=mediatype.toString();
+					break;
+				}
+			}
+		}
+		System.out.println("FORMAT: "+format);
 		JSONObject workingobj = null;
 		for (int i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
 			JSONObject curobj = wfsconf.getJSONArray("datasets").getJSONObject(i);
@@ -2146,7 +2157,7 @@ public class WebService {
 				throw new NotFoundException();
 			}
 			// System.out.println(res);
-			if (format != null && format.contains("json") && !format.equalsIgnoreCase("rdfjson")) {
+			if (format != null && format.contains("json") && !format.contains("jsonp") && !format.contains("seq") && !format.equalsIgnoreCase("rdfjson")) {
 				JSONObject result = new JSONObject();
 				JSONArray links = new JSONArray();
 				for (ResultFormatter formatter : ResultFormatter.resultMap.values()) {
@@ -2183,7 +2194,7 @@ public class WebService {
 				result.put("numberMatched", features.length());
 				result.put("numberReturned", features.length());
 				result.put("features", features);
-				return Response.ok(result.toString(2)).type(ResultFormatter.getFormatter(format).mimeType).build();
+				return Response.ok(result.toString(2),ResultFormatter.getFormatter(format).mimeType).build();
 			} else if (format != null && format.contains("gml")) {
 				StringWriter strwriter = new StringWriter();
 				XMLOutputFactory output = XMLOutputFactory.newInstance();
@@ -2232,7 +2243,7 @@ public class WebService {
 					writer.writeEndDocument();
 					writer.flush();
 					System.out.println("GML RESULT!");
-					return Response.ok(strwriter.toString()).type(ResultFormatter.getFormatter(format).mimeType)
+					return Response.ok(strwriter.toString(),ResultFormatter.getFormatter(format).mimeType)
 							.build();
 				} catch (XMLStreamException e) {
 					e.printStackTrace();
@@ -2269,13 +2280,13 @@ public class WebService {
 						+ workingobj.getString("name") + "/items?f=geojson&limit=" + limit + "&offset=" + offset
 						+ "\">[JSON]</a></td></tr></tbody></table></footer>");
 				builder.append("</body></html>");
-				return Response.ok(builder.toString()).type(ResultFormatter.getFormatter(format).mimeType).build();
+				return Response.ok(builder.toString(),ResultFormatter.getFormatter(format).mimeType).build();
 			} else {
-				return Response.ok(res).type(ResultFormatter.getFormatter(format).mimeType).build();
+				return Response.ok(res,ResultFormatter.getFormatter(format).mimeType).header("Content-Disposition", "attachment; filename*=UTF-8''" + collectionid+"_items."+ResultFormatter.getFormatter(format).fileextension).build();
 			}
 		} catch (JSONException | XMLStreamException e1) {
 			e1.printStackTrace();
-			return Response.ok("").type(MediaType.TEXT_PLAIN).build();
+			return Response.ok("",MediaType.TEXT_PLAIN).build();
 		}
 	}
 

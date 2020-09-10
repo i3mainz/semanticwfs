@@ -16,6 +16,7 @@ public class GMLCOVFormatter extends WCSResultFormatter {
 		this.exposedType="application/gmlcov";
 		this.urlformat="gmlcov";
 		this.label="GMLCOV";
+		this.fileextension="gmlcov";
 	}
 	
 	@Override

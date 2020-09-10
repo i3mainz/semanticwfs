@@ -27,6 +27,7 @@ public class GeoJSONLDFormatter extends WFSResultFormatter {
 		this.exposedType="application/vnd.geo+json+ld";
 		this.urlformat="geojsonld";
 		this.label="GeoJSON-LD";
+		this.fileextension="geojsonld";
 	}
 	
 	@Override

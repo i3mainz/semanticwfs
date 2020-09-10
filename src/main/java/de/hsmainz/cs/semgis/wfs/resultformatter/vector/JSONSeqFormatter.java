@@ -8,7 +8,6 @@ import javax.xml.stream.XMLStreamException;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Literal;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
@@ -24,6 +23,7 @@ public class JSONSeqFormatter extends ResultFormatter {
 		this.exposedType="application/json-seq";
 		this.urlformat="jsonseq";
 		this.label="JSON Sequential";
+		this.fileextension="json";
 	}
 	
 	@Override

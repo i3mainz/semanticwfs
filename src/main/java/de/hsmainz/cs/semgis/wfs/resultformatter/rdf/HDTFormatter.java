@@ -16,6 +16,7 @@ public class HDTFormatter extends ResultFormatter {
 		this.label="Header Dictionary Triples (HDT)";
 		this.mimeType="text/hdt";
 		this.exposedType="text/hdt";
+		this.fileextension="hdt";
 	}
 	
 	@Override

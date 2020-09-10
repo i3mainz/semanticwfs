@@ -32,6 +32,7 @@ public class GPXFormatter extends WFSResultFormatter {
 		this.exposedType="application/gpx";
 		this.urlformat="gpx";
 		this.label="GPX";
+		this.fileextension="gpx";
 	}
 	
 	public void collectColumns(XMLStreamWriter writer,JSONObject obj,String nameprefix) throws JSONException, XMLStreamException {

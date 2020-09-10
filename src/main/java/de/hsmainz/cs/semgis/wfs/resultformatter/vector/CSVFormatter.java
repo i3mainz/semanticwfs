@@ -20,6 +20,7 @@ public class CSVFormatter extends WFSResultFormatter {
 		this.exposedType="text/csv";
 		this.urlformat="csv";
 		this.label="CSV";
+		this.fileextension="csv";
 	}
 	
 	@Override

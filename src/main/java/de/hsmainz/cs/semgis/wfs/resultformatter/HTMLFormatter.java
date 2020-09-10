@@ -47,6 +47,7 @@ public class HTMLFormatter extends ResultFormatter {
 		this.exposedType = "text/html";
 		this.urlformat="html";
 		this.label="HTML";
+		this.fileextension="html";
 	}
 
 	/**

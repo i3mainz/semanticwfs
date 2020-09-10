@@ -25,6 +25,7 @@ public class MapMLFormatter extends ResultFormatter {
 		this.label="Map Markup Language (MapML)";
 		this.mimeType="text/mapml";
 		this.exposedType="text/mapml";
+		this.fileextension="mapml";
 	}
 	
 	
