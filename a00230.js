@@ -4,5 +4,5 @@ var a00230 =
     [ "GeoTIFFFormatter", "a00283.html", "a00283" ],
     [ "GMLCOVFormatter", "a00287.html", "a00287" ],
     [ "X3DFormatter", "a00291.html", "a00291" ],
-    [ "XYZASCIIFormatter", "a00295.html", null ]
+    [ "XYZASCIIFormatter", "a00295.html", "a00295" ]
 ];

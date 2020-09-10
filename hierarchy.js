@@ -8,6 +8,7 @@ var hierarchy =
     [ "ReprojectionUtils", "a00511.html", null ],
     [ "ResultFormatter", "a00347.html", [
       [ "X3DFormatter", "a00291.html", null ],
+      [ "XYZASCIIFormatter", "a00295.html", null ],
       [ "HTMLFormatter", "a00299.html", null ],
       [ "HDTFormatter", "a00303.html", null ],
       [ "HexTuplesFormatter", "a00307.html", null ],
@@ -71,7 +72,6 @@ var hierarchy =
     [ "UserType", "a00531.html", null ],
     [ "WebService", "a00539.html", null ],
     [ "XSLTTransformer", "a00535.html", null ],
-    [ "XYZASCIIFormatter", "a00295.html", null ],
     [ "DefaultHandler2", null, [
       [ "UserManagementConnection.UserHandler", "a00527.html", null ]
     ] ],

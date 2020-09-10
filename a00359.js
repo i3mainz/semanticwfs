@@ -13,6 +13,7 @@ var a00359 =
     [ "contextMapper", "a00359.html#ae7316c0c7550712f915cc3cd353cd981", null ],
     [ "exposedType", "a00359.html#aa6a844c9b01d97aca583be867a1c5413", null ],
     [ "featureType", "a00359.html#aba4867b615c0892cdae42bc4fd982639", null ],
+    [ "fileextension", "a00359.html#a8e93de8aa2d961fc3746c4c6a43f3053", null ],
     [ "geojson", "a00359.html#aedf41ec72f60a007bc11602e3b031d6a", null ],
     [ "label", "a00359.html#aec69fbfab86b7473c3e6ccea79368f0f", null ],
     [ "lastQueriedElemCount", "a00359.html#a1ce6ef499b64cec5981912a236baa199", null ],

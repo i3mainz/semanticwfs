@@ -9,6 +9,7 @@ var a00423 =
     [ "contextMapper", "a00423.html#ae7316c0c7550712f915cc3cd353cd981", null ],
     [ "exposedType", "a00423.html#aa6a844c9b01d97aca583be867a1c5413", null ],
     [ "featureType", "a00423.html#aba4867b615c0892cdae42bc4fd982639", null ],
+    [ "fileextension", "a00423.html#a8e93de8aa2d961fc3746c4c6a43f3053", null ],
     [ "label", "a00423.html#aec69fbfab86b7473c3e6ccea79368f0f", null ],
     [ "lastQueriedElemCount", "a00423.html#a1ce6ef499b64cec5981912a236baa199", null ],
     [ "mimeType", "a00423.html#a09c78e464072ccab667894f0d179fbdf", null ],

@@ -221,6 +221,6 @@ var files =
       [ "XSLTTransformer", "a00535.html", "a00535" ]
     ] ],
     [ "XYZASCIIFormatter.java", "a00041.html", [
-      [ "XYZASCIIFormatter", "a00295.html", null ]
+      [ "XYZASCIIFormatter", "a00295.html", "a00295" ]
     ] ]
 ];
