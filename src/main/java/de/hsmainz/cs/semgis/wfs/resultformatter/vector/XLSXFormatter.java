@@ -10,9 +10,6 @@ import javax.xml.stream.XMLStreamException;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Literal;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -21,14 +18,18 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
-public class XLSFormatter extends ResultFormatter {
+public class XLSXFormatter extends ResultFormatter {
 
-	public XLSFormatter() {
-		this.urlformat="xls";
-		this.label="MS Excel (XLS)";
-		this.mimeType="application/msexcel";
-		this.exposedType="application/msexcel";
-		this.fileextension="xls";
+	
+	/**
+	 * Constructor for this class.
+	 */
+	public XLSXFormatter() {
+		this.mimeType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+		this.exposedType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+		this.urlformat="xlsx";
+		this.label="Excel Sheet (XLSX)";
+		this.fileextension="xlsx";
 	}
 	
 	@Override
@@ -36,7 +37,7 @@ public class XLSFormatter extends ResultFormatter {
 			String typeColumn, Boolean onlyproperty, Boolean onlyhits, String srsName, String indvar, String epsg,
 			List<String> eligiblenamespaces, List<String> noteligiblenamespaces, StyleObject mapstyle,
 			Boolean alternativeFormat, Boolean invertXY) throws XMLStreamException {
-		Workbook wb = new HSSFWorkbook();
+		Workbook wb = new XSSFWorkbook();
 		Sheet sheet = wb.createSheet(featuretype);
     	Boolean first=true;
 		String rel="",val="",lastInd="";

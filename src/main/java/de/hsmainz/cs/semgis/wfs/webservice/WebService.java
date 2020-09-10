@@ -2089,12 +2089,13 @@ public class WebService {
 	 */
 	@GET
 	@Path("/collections/{collectionid}/items")
+	@Produces({MediaType.TEXT_PLAIN})
 	@Operation(
             summary = "Returns items of a given collection",
             description = "Returns items of a given collection which conform to certain criteria")
 	public Response collectionItems(@Context  HttpHeaders headers,
 			@Parameter(description="The id of the collection") @PathParam("collectionid") String collectionid,
-			@Parameter(description="The format of the result") @DefaultValue("") @QueryParam("f") String format, 
+			@Parameter(description="The format of the result") @DefaultValue("html") @QueryParam("f") String format, 
 			@DefaultValue("10") @QueryParam("limit") String limit,
 			@Parameter(description="The offset to consider when fetching items") @DefaultValue("0") @QueryParam("offset") String offset, @DefaultValue("") @QueryParam("bbox") String bbox,
 			@Parameter(description="The styling of the item when returned")  @DefaultValue("") @QueryParam("style") String style,
@@ -2108,7 +2109,7 @@ public class WebService {
 		if (collectionid == null) {
 			throw new NotFoundException();
 		}
-		if(format.isEmpty() && headers.getAcceptableMediaTypes().isEmpty()) {
+		/*if(format.isEmpty() && headers.getAcceptableMediaTypes().isEmpty()) {
 			format="html";
 		}else if(format.isEmpty() && !headers.getAcceptableMediaTypes().isEmpty()) {
 			for(MediaType mediatype:headers.getAcceptableMediaTypes()) {
@@ -2117,7 +2118,7 @@ public class WebService {
 					break;
 				}
 			}
-		}
+		}*/
 		System.out.println("FORMAT: "+format);
 		JSONObject workingobj = null;
 		for (int i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
