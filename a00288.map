@@ -1,3 +1,5 @@
-<map id="NQuadsFormatter" name="NQuadsFormatter">
-<area shape="rect" id="node2" href="$a00321.html" title="Abstract class to downlift query results. " alt="" coords="11,5,127,32"/>
+<map id="GMLCOVFormatter" name="GMLCOVFormatter">
+<area shape="rect" id="node2" href="$a00454.html" title="WCSResultFormatter" alt="" coords="1541,215,1689,241"/>
+<area shape="rect" id="node3" href="$a00350.html" title="Abstract class to downlift query results. " alt="" coords="1376,215,1492,241"/>
+<area shape="rect" id="node7" href="$a00490.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="1096,137,1243,164"/>
 </map>

@@ -1,11 +1,14 @@
 var a00235 =
 [
-    [ "CartoCSSFormatter", "a00467.html", "a00467" ],
-    [ "GeoJSONCSSFormatter", "a00471.html", "a00471" ],
-    [ "KMLStyleFormatter", "a00475.html", "a00475" ],
-    [ "MapCSSFormatter", "a00479.html", "a00479" ],
-    [ "ResultStyleFormatter", "a00483.html", "a00483" ],
-    [ "SimpleStyleFormatter", "a00487.html", "a00487" ],
-    [ "SLDFormatter", "a00491.html", "a00491" ],
-    [ "StyleObject", "a00495.html", "a00495" ]
+    [ "HDTFormatter", "a00306.html", "a00306" ],
+    [ "HexTuplesFormatter", "a00310.html", "a00310" ],
+    [ "N3Formatter", "a00314.html", "a00314" ],
+    [ "NQuadsFormatter", "a00318.html", "a00318" ],
+    [ "NTFormatter", "a00322.html", "a00322" ],
+    [ "RDFFormatter", "a00326.html", "a00326" ],
+    [ "RDFJSONFormatter", "a00330.html", "a00330" ],
+    [ "RDFThriftFormatter", "a00334.html", "a00334" ],
+    [ "TrigFormatter", "a00338.html", "a00338" ],
+    [ "TrixFormatter", "a00342.html", "a00342" ],
+    [ "TTLFormatter", "a00346.html", "a00346" ]
 ];

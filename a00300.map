@@ -1,3 +1,4 @@
-<map id="HexTuplesFormatter" name="HexTuplesFormatter">
-<area shape="rect" id="node2" href="$a00341.html" title="Abstract class to downlift query results. " alt="" coords="18,5,134,32"/>
+<map id="HTMLFormatter" name="HTMLFormatter">
+<area shape="rect" id="node2" href="$a00350.html" title="Abstract class to downlift query results. " alt="" coords="1376,199,1492,225"/>
+<area shape="rect" id="node6" href="$a00490.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="1096,199,1243,225"/>
 </map>

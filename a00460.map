@@ -1,3 +1,4 @@
-<map id="KMLStyleFormatter" name="KMLStyleFormatter">
-<area shape="rect" id="node2" href="$a00469.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="5,5,152,32"/>
+<map id="DCATFormatter" name="DCATFormatter">
+<area shape="rect" id="node2" href="$a00470.html" title="ResultMetadataFormatter" alt="" coords="935,81,1105,108"/>
+<area shape="rect" id="node8" href="$a00466.html" title="Formats metadata to the GMD XML format. " alt="" coords="1155,107,1264,133"/>
 </map>
