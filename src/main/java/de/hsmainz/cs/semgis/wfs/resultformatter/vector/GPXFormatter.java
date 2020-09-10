@@ -31,7 +31,7 @@ public class GPXFormatter extends WFSResultFormatter {
 		this.mimeType="application/xml";
 		this.exposedType="application/gpx";
 		this.urlformat="gpx";
-		this.label="GPX";
+		this.label="GPS Exchange Format (GPX)";
 		this.fileextension="gpx";
 	}
 	
