@@ -27,6 +27,7 @@ public class JSONFormatter extends WFSResultFormatter {
 		this.exposedType="application/json";
 		this.urlformat="jsonn";
 		this.label="JSON";
+		this.fileextension="json";
 	}
 	
 	@Override

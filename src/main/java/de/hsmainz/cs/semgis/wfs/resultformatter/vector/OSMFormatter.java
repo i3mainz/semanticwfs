@@ -31,6 +31,7 @@ public class OSMFormatter extends ResultFormatter {
 		this.exposedType="application/osm+xml";
 		this.urlformat="osm";
 		this.label="OSM/XML";
+		this.fileextension="osm";
 	}
 	
 	public String[] splitURL(String url) {

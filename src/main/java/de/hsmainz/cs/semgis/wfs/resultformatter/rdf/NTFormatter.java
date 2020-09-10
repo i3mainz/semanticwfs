@@ -30,6 +30,7 @@ public class NTFormatter extends ResultFormatter{
 		this.exposedType="text/nt";
 		this.urlformat="nt";
 		this.label="NTriples";
+		this.fileextension="nt";
 	}
 	
 	@Override

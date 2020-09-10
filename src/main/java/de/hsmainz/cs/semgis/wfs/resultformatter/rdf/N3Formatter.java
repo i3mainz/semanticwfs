@@ -29,6 +29,7 @@ public class N3Formatter extends ResultFormatter{
 		this.exposedType="text/n3";
 		this.urlformat="n3";
 		this.label="N3";
+		this.fileextension="n3";
 	}
 	
 	@Override

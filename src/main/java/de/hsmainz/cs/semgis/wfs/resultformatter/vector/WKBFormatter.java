@@ -27,6 +27,7 @@ public class WKBFormatter extends ResultFormatter {
 		this.exposedType="text/wkb";
 		this.urlformat="wkb";
 		this.label="Well-Known-Binary (WKB)";
+		this.fileextension="wkb";
 	}
 	
 	@Override

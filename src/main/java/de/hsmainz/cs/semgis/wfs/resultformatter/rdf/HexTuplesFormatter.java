@@ -23,6 +23,7 @@ public class HexTuplesFormatter extends ResultFormatter {
 		this.exposedType="application/hex+x-ndjson";
 		this.urlformat="hextuples";
 		this.label="HexTuples Format (RDF)";
+		this.fileextension="ndjson";
 	}
 	
 	@Override

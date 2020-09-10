@@ -16,6 +16,7 @@ public class X3DFormatter extends ResultFormatter {
 		this.exposedType="text/x3d+xml";
 		this.urlformat="x3d";
 		this.label="X3D";
+		this.fileextension="x3d";
 	}
 	
 	@Override

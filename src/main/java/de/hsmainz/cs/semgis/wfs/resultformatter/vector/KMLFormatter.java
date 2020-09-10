@@ -36,6 +36,7 @@ public class KMLFormatter extends WFSResultFormatter {
 		this.urlformat="kml";
 		this.styleformatter=new KMLStyleFormatter();
 		this.label="Keyhole Markup Language (KML)";
+		this.fileextension="kml";
 	}
 	
 	/**

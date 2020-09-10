@@ -16,6 +16,7 @@ public class XLSFormatter extends ResultFormatter {
 		this.label="MS Excel (XLS)";
 		this.mimeType="application/msexcel";
 		this.exposedType="application/msexcel";
+		this.fileextension="xls";
 	}
 	
 	@Override

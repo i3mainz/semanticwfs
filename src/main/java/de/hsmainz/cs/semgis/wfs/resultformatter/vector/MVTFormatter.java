@@ -20,6 +20,7 @@ public class MVTFormatter extends ResultFormatter {
 		this.label="Mapbox Vector Tiles (MVT)";
 		this.mimeType="text/mvt";
 		this.exposedType="text/mvt";
+		this.fileextension="mvt";
 	}
 	
 	@Override

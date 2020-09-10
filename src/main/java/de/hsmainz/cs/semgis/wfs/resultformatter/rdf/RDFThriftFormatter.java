@@ -26,6 +26,7 @@ public class RDFThriftFormatter extends ResultFormatter {
 		this.exposedType="application/rt";
 		this.urlformat="rt";
 		this.label="RDF/Thrift";
+		this.fileextension="rt";
 	}
 	
 	@Override

@@ -23,6 +23,7 @@ public class TopoJSONFormatter extends WFSResultFormatter {
 		this.exposedType="application/topojson";
 		this.urlformat="topojson";
 		this.label="TopoJSON";
+		this.fileextension="topojson";
 	}
 	
 	@Override

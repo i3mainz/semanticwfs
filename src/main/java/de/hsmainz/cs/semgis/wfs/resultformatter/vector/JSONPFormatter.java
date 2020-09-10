@@ -19,6 +19,7 @@ public class JSONPFormatter extends ResultFormatter {
 		this.exposedType="text/javascript";
 		this.urlformat="jsonp";
 		this.label="JSONP";
+		this.fileextension="js";
 	}
 
 	@Override

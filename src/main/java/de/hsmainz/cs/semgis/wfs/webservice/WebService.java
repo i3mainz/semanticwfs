@@ -177,11 +177,11 @@ public class WebService {
 			String result = EntityUtils.toString(entity);
 			response.close();
 			httpClient.close();
-			return Response.ok(result).type(OpenAPIMediaType.OA3).build();
+			return Response.ok(result,OpenAPIMediaType.OA3).build();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return Response.ok(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
+			return Response.ok(e.getMessage(),MediaType.TEXT_PLAIN).build();
 		}
 	}
 	
@@ -2181,7 +2181,7 @@ public class WebService {
 				result.put("numberMatched", features.length());
 				result.put("numberReturned", features.length());
 				result.put("features", features);
-				return Response.ok(result.toString(2)).type(ResultFormatter.getFormatter(format).mimeType).build();
+				return Response.ok(result.toString(2),ResultFormatter.getFormatter(format).mimeType).build();
 			} else if (format != null && format.contains("gml")) {
 				StringWriter strwriter = new StringWriter();
 				XMLOutputFactory output = XMLOutputFactory.newInstance();
@@ -2230,7 +2230,7 @@ public class WebService {
 					writer.writeEndDocument();
 					writer.flush();
 					System.out.println("GML RESULT!");
-					return Response.ok(strwriter.toString()).type(ResultFormatter.getFormatter(format).mimeType)
+					return Response.ok(strwriter.toString(),ResultFormatter.getFormatter(format).mimeType)
 							.build();
 				} catch (XMLStreamException e) {
 					e.printStackTrace();
@@ -2267,13 +2267,13 @@ public class WebService {
 						+ workingobj.getString("name") + "/items?f=geojson&limit=" + limit + "&offset=" + offset
 						+ "\">[JSON]</a></td></tr></tbody></table></footer>");
 				builder.append("</body></html>");
-				return Response.ok(builder.toString()).type(ResultFormatter.getFormatter(format).mimeType).build();
+				return Response.ok(builder.toString(),ResultFormatter.getFormatter(format).mimeType).build();
 			} else {
-				return Response.ok(res).type(ResultFormatter.getFormatter(format).mimeType).build();
+				return Response.ok(res,ResultFormatter.getFormatter(format).mimeType).header("Content-Disposition", "attachment; filename*=UTF-8''" + collectionid+"_items"+ResultFormatter.getFormatter(format).fileextension).build();
 			}
 		} catch (JSONException | XMLStreamException e1) {
 			e1.printStackTrace();
-			return Response.ok("").type(MediaType.TEXT_PLAIN).build();
+			return Response.ok("",MediaType.TEXT_PLAIN).build();
 		}
 	}
 

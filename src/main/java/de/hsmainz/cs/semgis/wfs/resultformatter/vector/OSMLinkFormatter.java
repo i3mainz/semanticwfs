@@ -29,6 +29,7 @@ public class OSMLinkFormatter extends ResultFormatter {
 		this.exposedType="application/osmlink";
 		this.urlformat="osmlink";
 		this.label="OpenStreetMap Link";
+		this.fileextension="";
 	}
 	
 	@Override

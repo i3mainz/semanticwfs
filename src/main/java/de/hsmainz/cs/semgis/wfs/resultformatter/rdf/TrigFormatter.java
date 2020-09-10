@@ -30,6 +30,7 @@ public class TrigFormatter extends ResultFormatter {
 		this.exposedType="text/trig";
 		this.urlformat="trig";
 		this.label="Trig";
+		this.fileextension="trig";
 	}
 	
 	@Override

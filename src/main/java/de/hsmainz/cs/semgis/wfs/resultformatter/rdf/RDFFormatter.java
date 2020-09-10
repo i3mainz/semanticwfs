@@ -30,6 +30,7 @@ public class RDFFormatter extends ResultFormatter{
 		this.exposedType="application/rdf+xml";
 		this.urlformat="rdfxml";
 		this.label="RDF/XML";
+		this.fileextension="rdf";
 	}
 	
 	@Override

@@ -24,6 +24,7 @@ public class LatLonTextFormatter extends ResultFormatter {
 		this.exposedType="text/latlon";
 		this.urlformat="latlon";
 		this.label="LatLonText";
+		this.fileextension="txt";
 	}
 	
 	/**
