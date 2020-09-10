@@ -1927,7 +1927,7 @@ public class WebService {
 				writer.writeEndElement();
 				writer.writeEndDocument();
 				writer.flush();
-				return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
+				return Response.ok(strwriter.toString(),MediaType.APPLICATION_XML).build();
 			} catch (XMLStreamException e) {
 				e.printStackTrace();
 				return this.createExceptionResponse(e, "");
@@ -1969,8 +1969,8 @@ public class WebService {
 			+ "/collections/" + workingobj.getString("name") + "/items?f=html&limit=1000&offset=" + (offset + 1)
 			+ "\">First 1000 items</a></li>");
 			builder.append("</ul><h3>Downloads</h3>Number of features:&nbsp;<input type=\"number\" min=\"1\" id=\"limit\" value=\"10\"/>&nbsp;Offset:&nbsp;<input type=\"number\" min=\"1\" id=\"offset\" value=\"0\"/>Format:<select id=\"format\">");
-			for (ResultFormatter formatter : ResultFormatter.resultMap.values()) {
-				builder.append("<option value=\""+formatter.urlformat+"\">"+formatter.label+"</option>");
+			for (String key : ResultFormatter.labelMap.keySet()) {
+				builder.append("<option value=\""+ResultFormatter.getFormatter(key).urlformat+"\">"+ResultFormatter.labelMap.get(key)+"</option>");
 			}
 			builder.append("</select><br/>CRS:<select id=\"crs\"></select><button id=\"showfeaturebutton\" onclick=\"showCollections('"+wfsconf.getString("baseurl")+"/collections/" + workingobj.getString("name") + "/items')\"/>Show</button></section></div></div></div>");
 			builder.append("<footer id=\"footer\"><table width=100%><tbody><tr><td><a href=\"" + wfsconf.getString("baseurl")
@@ -1978,7 +1978,7 @@ public class WebService {
 					+ wfsconf.getString("baseurl") + "/collections/" + workingobj.getString("name")
 					+ "?f=gml\">[GML]</a> <a href=\"" + wfsconf.getString("baseurl") + "/collections/"
 					+ workingobj.getString("name") + "?f=geojson\">[JSON]</a></td></tr></tbody></table></footer><script> $.ajax({url:'../config/epsg.txt',success: function (data){$('#crs').html(data); $('#crs').val(\""+workingobj.getString("targetCRS")+"\");}});</script></body></html>");
-			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
+			return Response.ok(builder.toString(),MediaType.TEXT_HTML).build();
 		} else {
 			throw new NotFoundException();
 		}
@@ -2088,7 +2088,6 @@ public class WebService {
 	 * @return The query result as String
 	 */
 	@GET
-	@Produces({MediaType.TEXT_PLAIN })
 	@Path("/collections/{collectionid}/items")
 	@Operation(
             summary = "Returns items of a given collection",
