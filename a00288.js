@@ -1,7 +1,8 @@
 var a00288 =
 [
-    [ "CovJSONFormatter", "a00288.html#abecde5cf0a306824d2e38c2777418431", null ],
+    [ "TTLFormatter", "a00288.html#a5b3ec5d4833703906230d1967af27517", null ],
     [ "[static initializer]", "a00288.html#a2e87c5ede6b7235170d287cd2e254454", null ],
+    [ "addKeyValList", "a00288.html#a9d9180f34dd3cb76d915f829937fdda1", null ],
     [ "formatFooter", "a00288.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00288.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
     [ "formatter", "a00288.html#a4d60ad97c2097d9323921b749f163e26", null ],
@@ -12,6 +13,7 @@ var a00288 =
     [ "label", "a00288.html#aec69fbfab86b7473c3e6ccea79368f0f", null ],
     [ "labelMap", "a00288.html#ab4b9cca481344d8fd19ffaf929374a92", null ],
     [ "lastQueriedElemCount", "a00288.html#a1ce6ef499b64cec5981912a236baa199", null ],
+    [ "mediatypes", "a00288.html#a84e00e247359df2d27d038f5d2df0db8", null ],
     [ "mimeType", "a00288.html#a09c78e464072ccab667894f0d179fbdf", null ],
     [ "reader", "a00288.html#ae8b1e194dbc193fe759f7e517807e668", null ],
     [ "resultMap", "a00288.html#ad4dc7a6c041435f4beebcc9e95620641", null ],

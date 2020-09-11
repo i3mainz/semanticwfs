@@ -1,6 +1,5 @@
 var a00320 =
 [
-    [ "N3Formatter", "a00320.html#aa6304c9b7a84c93dfdc1280668cbade1", null ],
     [ "[static initializer]", "a00320.html#a2e87c5ede6b7235170d287cd2e254454", null ],
     [ "formatFooter", "a00320.html#af149b280d2c9bcc76f05c6a1c291d30f", null ],
     [ "formatHeader", "a00320.html#abaa077ed79fcfd5a2279597e3f324c64", null ],
@@ -12,6 +11,7 @@ var a00320 =
     [ "label", "a00320.html#aec69fbfab86b7473c3e6ccea79368f0f", null ],
     [ "labelMap", "a00320.html#ab4b9cca481344d8fd19ffaf929374a92", null ],
     [ "lastQueriedElemCount", "a00320.html#a1ce6ef499b64cec5981912a236baa199", null ],
+    [ "mediatypes", "a00320.html#a84e00e247359df2d27d038f5d2df0db8", null ],
     [ "mimeType", "a00320.html#a09c78e464072ccab667894f0d179fbdf", null ],
     [ "reader", "a00320.html#ae8b1e194dbc193fe759f7e517807e668", null ],
     [ "resultMap", "a00320.html#ad4dc7a6c041435f4beebcc9e95620641", null ],

@@ -1,4 +1,5 @@
-<map id="NQuadsFormatter" name="NQuadsFormatter">
-<area shape="rect" id="node2" href="$a00356.html" title="Abstract class to downlift query results. " alt="" coords="1376,215,1492,241"/>
-<area shape="rect" id="node6" href="$a00504.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="1096,137,1243,164"/>
+<map id="GeoURIFormatter" name="GeoURIFormatter">
+<area shape="rect" id="node2" href="$a00408.html" title="WFSResultFormatter" alt="" coords="1541,68,1688,95"/>
+<area shape="rect" id="node3" href="$a00292.html" title="Abstract class to downlift query results. " alt="" coords="1376,199,1492,225"/>
+<area shape="rect" id="node7" href="$a00440.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="1096,199,1243,225"/>
 </map>

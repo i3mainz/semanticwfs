@@ -1,3 +1,4 @@
-<map id="ResultFormatter" name="ResultFormatter">
-<area shape="rect" id="node5" href="$a00504.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="1096,137,1243,164"/>
+<map id="LatLonTextFormatter" name="LatLonTextFormatter">
+<area shape="rect" id="node2" href="$a00292.html" title="Abstract class to downlift query results. " alt="" coords="1376,325,1492,352"/>
+<area shape="rect" id="node6" href="$a00440.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="1096,255,1243,281"/>
 </map>

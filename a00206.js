@@ -1,12 +1,8 @@
 var a00206 =
 [
-    [ "AsDXF", "a00225.html", "a00225" ],
-    [ "AsGeoHash", "a00229.html", "a00229" ],
-    [ "AsGeoJSON", "a00233.html", "a00233" ],
-    [ "AsGeoURI", "a00237.html", "a00237" ],
-    [ "AsGML", "a00241.html", "a00241" ],
-    [ "AsGPX", "a00245.html", "a00245" ],
-    [ "AsKML", "a00249.html", "a00249" ],
-    [ "AsPolyshape", "a00253.html", "a00253" ],
-    [ "AsX3D", "a00257.html", "a00257" ]
+    [ "CovJSONFormatter", "a00224.html", "a00224" ],
+    [ "GeoTIFFFormatter", "a00228.html", "a00228" ],
+    [ "GMLCOVFormatter", "a00232.html", "a00232" ],
+    [ "X3DFormatter", "a00236.html", "a00236" ],
+    [ "XYZASCIIFormatter", "a00240.html", "a00240" ]
 ];

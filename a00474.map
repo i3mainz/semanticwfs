@@ -1,4 +1,3 @@
-<map id="DCATFormatter" name="DCATFormatter">
-<area shape="rect" id="node2" href="$a00484.html" title="ResultMetadataFormatter" alt="" coords="935,81,1105,108"/>
-<area shape="rect" id="node8" href="$a00480.html" title="Formats metadata to the GMD XML format. " alt="" coords="1155,107,1264,133"/>
+<map id="User" name="User">
+<area shape="rect" id="node3" href="$a00488.html" title="Enumeration type including user levels which may be applied in the SemanticWFS. " alt="" coords="125,111,203,137"/>
 </map>
