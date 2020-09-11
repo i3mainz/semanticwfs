@@ -1,9 +1,11 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import javax.ws.rs.core.MediaType;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.jena.query.ResultSet;
@@ -70,6 +72,13 @@ public abstract class ResultFormatter {
 	public WKTReader reader=new WKTReader();
 	
 	public static Map<String,String> labelMap=new TreeMap<>();
+	
+	public static final String[] mediatypes= {
+			MediaType.TEXT_PLAIN, 
+			"application/vnd.geo+json+ld",
+			"text/csv",
+			
+	};
 	
 	public static ResultFormatter getFormatter(String formatString) {
 		formatString=formatString.toLowerCase();

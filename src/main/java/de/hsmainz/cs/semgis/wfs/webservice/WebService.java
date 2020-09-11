@@ -2089,6 +2089,7 @@ public class WebService {
 	 */
 	@GET
 	@Path("/collections/{collectionid}/items")
+	@Produces(ResultFormatter.mediatypes)
 	@Operation(
             summary = "Returns items of a given collection",
             description = "Returns items of a given collection which conform to certain criteria")
