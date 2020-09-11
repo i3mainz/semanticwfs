@@ -57,6 +57,12 @@
     <artifactId>jena-arq</artifactId>
     <version>3.16.0</version>
 </dependency>
+<!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
+<dependency>
+    <groupId>org.apache.poi</groupId>
+    <artifactId>poi</artifactId>
+    <version>4.1.2</version>
+</dependency>
 <!-- https://mvnrepository.com/artifact/org.json/json -->
 <dependency>
     <groupId>org.json</groupId>
@@ -135,11 +141,6 @@
     <artifactId>jts2geojson</artifactId>
     <version>0.14.2</version>
 </dependency>
-        <dependency>
-            <groupId>io.github.galbiston</groupId>
-            <artifactId>geosparql-jena</artifactId>
-            <version>1.1.1</version>
-        </dependency>
 <dependency>
     <groupId>org.glassfish.jaxb</groupId>
     <artifactId>txw2</artifactId>

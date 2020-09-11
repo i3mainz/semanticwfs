@@ -9,9 +9,7 @@ import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.query.ResultSetFormatter;
 import org.apache.jena.rdf.model.Literal;
-import org.apache.jena.sparql.expr.NodeValue;
 
-import de.hsmainz.cs.semgis.wfs.converters.AsPolyshape;
 import de.hsmainz.cs.semgis.wfs.resultformatter.WFSResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
@@ -42,14 +40,14 @@ public class PolyshapeFormatter extends WFSResultFormatter {
 	    		    resultCSVHeader.append(name+",");
 	    		}
 	    		if(name.endsWith("_geom")) {
-	    			AsPolyshape polyshape=new AsPolyshape();
+	    			/*AsPolyshape polyshape=new AsPolyshape();
 	    			try {
 	    			NodeValue val=polyshape.exec(NodeValue.makeNode(solu.getLiteral(name).getString(),solu.getLiteral(name).getDatatype()));
 	    			//JSONObject geomobj=new JSONObject(val.asNode().getLiteralValue().toString());
 	    			resultCSV.append(val.asString());
 	    			}catch(Exception e) {
 	    				e.printStackTrace();
-	    			}
+	    			}*/
 	    		}else {
 	    			try {
 	    				Literal lit=solu.getLiteral(name);

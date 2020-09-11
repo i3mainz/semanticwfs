@@ -20,6 +20,7 @@ import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
 public class XLSXFormatter extends ResultFormatter {
 
+
 	
 	/**
 	 * Constructor for this class.
