@@ -29,7 +29,7 @@ public class NTFormatter extends ResultFormatter{
 		this.mimeType="text/nt";
 		this.exposedType="text/nt";
 		this.urlformat="nt";
-		this.label="NTriples";
+		this.label="NTriples (NT)";
 		this.fileextension="nt";
 	}
 	

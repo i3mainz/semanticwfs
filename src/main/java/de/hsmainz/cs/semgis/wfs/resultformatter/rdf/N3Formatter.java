@@ -28,7 +28,7 @@ public class N3Formatter extends ResultFormatter{
 		this.mimeType="text/n3";
 		this.exposedType="text/n3";
 		this.urlformat="n3";
-		this.label="N3";
+		this.label="Notation3 (N3)";
 		this.fileextension="n3";
 	}
 	
