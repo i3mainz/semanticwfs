@@ -1,3 +1,4 @@
-<map id="WKBFormatter" name="WKBFormatter">
-<area shape="rect" id="node2" href="$a00347.html" title="Abstract class to downlift query results. " alt="" coords="5,5,121,32"/>
+<map id="OSMLinkFormatter" name="OSMLinkFormatter">
+<area shape="rect" id="node2" href="$a00356.html" title="Abstract class to downlift query results. " alt="" coords="1376,309,1492,336"/>
+<area shape="rect" id="node6" href="$a00504.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="1096,239,1243,265"/>
 </map>

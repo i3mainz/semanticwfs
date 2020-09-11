@@ -1,3 +1,4 @@
-<map id="DCATFormatter" name="DCATFormatter">
-<area shape="rect" id="node2" href="$a00463.html" title="ResultMetadataFormatter" alt="" coords="5,5,176,32"/>
+<map id="WKTFormatter" name="WKTFormatter">
+<area shape="rect" id="node2" href="$a00356.html" title="Abstract class to downlift query results. " alt="" coords="1376,309,1492,336"/>
+<area shape="rect" id="node6" href="$a00504.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="1096,239,1243,265"/>
 </map>

@@ -1,3 +1,4 @@
-<map id="TrigFormatter" name="TrigFormatter">
-<area shape="rect" id="node2" href="$a00347.html" title="Abstract class to downlift query results. " alt="" coords="5,5,121,32"/>
+<map id="RDFJSONFormatter" name="RDFJSONFormatter">
+<area shape="rect" id="node2" href="$a00356.html" title="Abstract class to downlift query results. " alt="" coords="1376,215,1492,241"/>
+<area shape="rect" id="node6" href="$a00504.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="1096,137,1243,164"/>
 </map>
