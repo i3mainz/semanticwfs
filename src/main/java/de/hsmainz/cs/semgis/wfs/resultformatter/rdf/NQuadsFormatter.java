@@ -25,7 +25,7 @@ public class NQuadsFormatter extends ResultFormatter {
 		this.mimeType="text/nq";
 		this.exposedType="text/nq";
 		this.urlformat="nq";
-		this.label="NQuads";
+		this.label="NQuads (NQ)";
 		this.fileextension="nq";
 	}
 	

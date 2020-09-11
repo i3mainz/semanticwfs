@@ -31,6 +31,7 @@ public class TTLFormatter extends ResultFormatter {
 		this.exposedType="text/ttl";
 		this.urlformat="ttl";
 		this.label="Turtle (TTL)";
+		this.definition="https://www.w3.org/TR/turtle/";
 		this.fileextension="ttl";
 	}
 	

@@ -65,6 +65,8 @@ public abstract class ResultFormatter {
 	
 	public String label="JSON";
 	
+	public String definition="";
+	
 	public String fileextension="json";
 	
 	public Map<String,String> contextMapper=new TreeMap<>();
