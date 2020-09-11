@@ -10,6 +10,7 @@ var a00244 =
     [ "keyPathToLabel", "a00244.html#af1f611d193b028d4edb65fdb35867a9a", null ],
     [ "readFile", "a00244.html#ac70b9d10398ac107fa07bdbcee59fac9", null ],
     [ "contextMapper", "a00244.html#ae7316c0c7550712f915cc3cd353cd981", null ],
+    [ "definition", "a00244.html#a204475833916aa852ab5ea580cad92a8", null ],
     [ "exposedType", "a00244.html#aa6a844c9b01d97aca583be867a1c5413", null ],
     [ "fileextension", "a00244.html#a8e93de8aa2d961fc3746c4c6a43f3053", null ],
     [ "htmlHeader", "a00244.html#a385b5e71821f5098a6ea37a2a2a62272", null ],

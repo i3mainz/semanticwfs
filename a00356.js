@@ -8,6 +8,7 @@ var a00356 =
     [ "formatter", "a00356.html#a4d60ad97c2097d9323921b749f163e26", null ],
     [ "getFormatter", "a00356.html#afce25d64087d96d66b6b5535660a8ddb", null ],
     [ "contextMapper", "a00356.html#ae7316c0c7550712f915cc3cd353cd981", null ],
+    [ "definition", "a00356.html#a204475833916aa852ab5ea580cad92a8", null ],
     [ "exposedType", "a00356.html#aa6a844c9b01d97aca583be867a1c5413", null ],
     [ "fileextension", "a00356.html#a8e93de8aa2d961fc3746c4c6a43f3053", null ],
     [ "label", "a00356.html#aec69fbfab86b7473c3e6ccea79368f0f", null ],

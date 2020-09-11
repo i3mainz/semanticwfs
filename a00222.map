@@ -1,5 +1,5 @@
 <map id="CovJSONFormatter" name="CovJSONFormatter">
-<area shape="rect" id="node2" href="$a00404.html" title="WCSResultFormatter" alt="" coords="1541,229,1689,256"/>
-<area shape="rect" id="node3" href="$a00292.html" title="Abstract class to downlift query results. " alt="" coords="1376,229,1492,256"/>
-<area shape="rect" id="node7" href="$a00440.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="1096,152,1243,179"/>
+<area shape="rect" id="node2" href="$a00404.html" title="WCSResultFormatter" alt="" coords="1541,244,1689,271"/>
+<area shape="rect" id="node3" href="$a00292.html" title="Abstract class to downlift query results. " alt="" coords="1376,244,1492,271"/>
+<area shape="rect" id="node7" href="$a00440.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="1096,167,1243,193"/>
 </map>

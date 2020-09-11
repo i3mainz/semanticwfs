@@ -7,6 +7,7 @@ var a00340 =
     [ "formatter", "a00340.html#a4d60ad97c2097d9323921b749f163e26", null ],
     [ "getFormatter", "a00340.html#afce25d64087d96d66b6b5535660a8ddb", null ],
     [ "contextMapper", "a00340.html#ae7316c0c7550712f915cc3cd353cd981", null ],
+    [ "definition", "a00340.html#a204475833916aa852ab5ea580cad92a8", null ],
     [ "exposedType", "a00340.html#aa6a844c9b01d97aca583be867a1c5413", null ],
     [ "featureType", "a00340.html#aba4867b615c0892cdae42bc4fd982639", null ],
     [ "fileextension", "a00340.html#a8e93de8aa2d961fc3746c4c6a43f3053", null ],
