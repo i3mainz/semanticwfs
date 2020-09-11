@@ -19,7 +19,7 @@ public class CSVFormatter extends WFSResultFormatter {
 		this.mimeType="text/csv";
 		this.exposedType="text/csv";
 		this.urlformat="csv";
-		this.label="CSV";
+		this.label="Comma Separated Values (CSV)";
 		this.fileextension="csv";
 	}
 	

@@ -16,8 +16,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
+import org.wololo.geojson.GeoJSON;
+import org.wololo.jts2geojson.GeoJSONWriter;
 
-import de.hsmainz.cs.semgis.wfs.converters.AsGeoJSON;
 import de.hsmainz.cs.semgis.wfs.resultformatter.WFSResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.GeoJSONCSSFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.ResultStyleFormatter;
@@ -49,9 +50,6 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 		this.exposedType="application/geojson";
 		this.styleformatter=styleformatter;
 	}
-	
-	
-	private AsGeoJSON geojson = new AsGeoJSON();
 	
 	@Override
 	public String formatter(ResultSet results, String startingElement, 
@@ -232,14 +230,11 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 					lastgeom = solu.get(name).toString();
 					try {
 						Geometry coord=ReprojectionUtils.reproject(reader.read(solu.getLiteral(name).getString()), epsg,srsName);
-						NodeValue nodeval = geojson.exec(NodeValue.makeNode(coord.toText(),
-								solu.getLiteral(name).getDatatype()));
-						JSONObject geomobj = new JSONObject(nodeval.asNode().getLiteralValue().toString());			
-						//System.out.println("ADD GEOMETRY!");
-						//System.out.println(geomobj);
-						geoms.add(geomobj);
+						GeoJSONWriter writer = new GeoJSONWriter();
+			            GeoJSON geomobj = writer.write(coord);
+			            geoms.add(new JSONObject(geomobj.toString()));
 						if(mapstyle!=null) {
-							JSONObject geojsonstyle=new JSONObject(this.styleformatter.formatGeometry(geomobj.getString("type"), mapstyle));
+							JSONObject geojsonstyle=new JSONObject(this.styleformatter.formatGeometry(geomobj.getType(), mapstyle));
 							System.out.println("Got style? - "+geojsonstyle);
 							for(String key:geojsonstyle.keySet()) {
 								style.put(key,geojsonstyle.get(key));
@@ -285,19 +280,6 @@ public class GeoJSONFormatter extends WFSResultFormatter {
 				if(!rel.values().iterator().next().equals("http://www.opengis.net/ont/geosparql#hasGeometry") && rel.size()==1) {
 					addKeyVal(properties, rel.values().iterator().next(), val.values().iterator().next());
 				}else if(rel.size()>1) {
-					/*String rlstr="";
-					Iterator<String> relit=rel.values().iterator();
-					while(relit.hasNext()) {
-						rlstr=relit.next();
-						if(relit.hasNext()) {
-							rlstr+=".";
-						}
-					}
-					Iterator<String> valit=val.values().iterator();
-					String valstr="";
-					while(valit.hasNext()) {
-						valstr=valit.next();
-					}*/
 					addKeyValList(properties, rel.values(), val.values());
 				}else {
 					addKeyVal(properties, rel.values().iterator().next(), val.values().iterator().next());

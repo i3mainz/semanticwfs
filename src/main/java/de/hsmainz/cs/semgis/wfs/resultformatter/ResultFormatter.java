@@ -42,6 +42,8 @@ import de.hsmainz.cs.semgis.wfs.resultformatter.vector.OSMLinkFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.SVGFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.WKBFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.WKTFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.vector.XLSFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.vector.XLSXFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.ResultStyleFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
@@ -193,6 +195,12 @@ public abstract class ResultFormatter {
 		if(formatString.contains("geotiff")) {
 			return resultMap.get("geotiff");
 		}
+		if(formatString.contains("xlsx")) {
+			return resultMap.get("xlsx");
+		}
+		if(formatString.contains("xls")) {
+			return resultMap.get("xls");
+		}
 		if(formatString.contains("polyshape")) {
 			return resultMap.get("polyshape");
 		}
@@ -342,6 +350,14 @@ public abstract class ResultFormatter {
 		format=new GeoURIFormatter();
 		resultMap.put("geouri", format);
 		labelMap.put("geouri",format.label);
+		resultMap.put(format.mimeType, format);
+		format=new XLSFormatter();
+		resultMap.put("xls", format);
+		labelMap.put("xls",format.label);
+		resultMap.put(format.mimeType, format);
+		format=new XLSXFormatter();
+		resultMap.put("xlsx", format);
+		labelMap.put("xlsx",format.label);
 		resultMap.put(format.mimeType, format);
 		//resultMap.put("topojson", new TopoJSONFormatter());
 		//resultMap.put("polyshape", new PolyshapeFormatter());
