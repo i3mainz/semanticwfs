@@ -11,6 +11,7 @@ import javax.xml.stream.XMLStreamException;
 import org.apache.jena.query.ResultSet;
 import org.locationtech.jts.io.WKTReader;
 
+import de.hsmainz.cs.semgis.wfs.resultformatter.coverage.CovJSONFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.coverage.XYZASCIIFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.HexTuplesFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.N3Formatter;
@@ -204,6 +205,12 @@ public abstract class ResultFormatter {
 		if(formatString.contains("xls")) {
 			return resultMap.get("xls");
 		}
+		if(formatString.contains("xyz")) {
+			return resultMap.get("xyz");
+		}
+		if(formatString.contains("covjson")) {
+			return resultMap.get("covjson");
+		}
 		if(formatString.contains("polyshape")) {
 			return resultMap.get("polyshape");
 		}
@@ -365,6 +372,10 @@ public abstract class ResultFormatter {
 		format=new XYZASCIIFormatter();
 		resultMap.put("xyz", format);
 		labelMap.put("xyz",format.label);
+		resultMap.put(format.mimeType, format);
+		format=new CovJSONFormatter();
+		resultMap.put("covjson", format);
+		labelMap.put("covjson",format.label);
 		resultMap.put(format.mimeType, format);
 		//resultMap.put("topojson", new TopoJSONFormatter());
 		//resultMap.put("polyshape", new PolyshapeFormatter());

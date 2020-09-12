@@ -21,7 +21,7 @@ public class XYZASCIIFormatter extends ResultFormatter {
 		this.mimeType="text/xyz";
 		this.exposedType="text/xyz";
 		this.urlformat="xyz";
-		this.label="XYZ ASCII Format";
+		this.label="XYZ ASCII Format (XYZ)";
 		this.fileextension="xyz";
 	}
 	
@@ -45,7 +45,12 @@ public class XYZASCIIFormatter extends ResultFormatter {
 						Geometry geom=reader.read(solu.get(name).toString().substring(0,solu.get(name).toString().indexOf("^^")));
 						geom=ReprojectionUtils.reproject(geom, epsg, srsName);
 						for(Coordinate coord:geom.getCoordinates()) {
-							builder.append(coord.getX()+" "+coord.getY()+" "+coord.getZ()+System.lineSeparator());
+							builder.append(coord.getX()+" "+coord.getY());
+							if(!Double.isNaN(coord.getZ())) {
+								builder.append(" "+coord.getZ()+System.lineSeparator());								
+							}else {
+								builder.append(System.lineSeparator());
+							}
 						}
 					} catch (ParseException e) {
 						// TODO Auto-generated catch block
