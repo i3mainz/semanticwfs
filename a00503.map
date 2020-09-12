@@ -1,8 +1,0 @@
-<map id="ResultStyleFormatter" name="ResultStyleFormatter">
-<area shape="rect" id="node2" href="$a00488.html" title="Reads an ontological style description and formats it to CartoCSS. " alt="" coords="214,5,353,32"/>
-<area shape="rect" id="node3" href="$a00492.html" title="Reads an ontological style description and formats it to GeoJSONCSS. " alt="" coords="200,56,367,83"/>
-<area shape="rect" id="node4" href="$a00496.html" title="Reads an ontological style description and formats it to KML Styles. " alt="" coords="216,107,351,133"/>
-<area shape="rect" id="node5" href="$a00500.html" title="Reads an ontological style description and formats it to OSM Map CSS. " alt="" coords="218,157,349,184"/>
-<area shape="rect" id="node6" href="$a00508.html" title="Reads an ontological style description and formats it according to the mapbox simple style specificat..." alt="" coords="209,208,357,235"/>
-<area shape="rect" id="node7" href="$a00512.html" title="Formats styles according to the styled layer description definition. " alt="" coords="231,259,335,285"/>
-</map>
