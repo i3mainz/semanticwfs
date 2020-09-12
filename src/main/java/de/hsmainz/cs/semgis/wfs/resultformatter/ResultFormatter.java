@@ -11,6 +11,7 @@ import javax.xml.stream.XMLStreamException;
 import org.apache.jena.query.ResultSet;
 import org.locationtech.jts.io.WKTReader;
 
+import de.hsmainz.cs.semgis.wfs.resultformatter.coverage.XYZASCIIFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.HexTuplesFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.N3Formatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.NQuadsFormatter;
@@ -360,6 +361,10 @@ public abstract class ResultFormatter {
 		format=new XLSXFormatter();
 		resultMap.put("xlsx", format);
 		labelMap.put("xlsx",format.label);
+		resultMap.put(format.mimeType, format);
+		format=new XYZASCIIFormatter();
+		resultMap.put("xyz", format);
+		labelMap.put("xyz",format.label);
 		resultMap.put(format.mimeType, format);
 		//resultMap.put("topojson", new TopoJSONFormatter());
 		//resultMap.put("polyshape", new PolyshapeFormatter());
