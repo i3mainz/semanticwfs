@@ -33,6 +33,7 @@ public class CovJSONFormatter extends WCSResultFormatter {
 			String typeColumn,Boolean onlyproperty,Boolean onlyhits,
 			String srsName,String indvar,String epsg,List<String> eligiblenamespaces,
 			List<String> noteligiblenamespaces,StyleObject mapstyle,Boolean alternativeFormat,Boolean invertXY) throws XMLStreamException {	
+		lastQueriedElemCount=1;
 		JSONObject result=new JSONObject();
 		result.put("type", "Coverage");
 		JSONObject domain=new JSONObject();
