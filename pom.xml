@@ -15,6 +15,10 @@
 			<url>http://download.java.net/maven/2/</url>
 			<layout>default</layout>
 		</repository>
+		<repository>
+		    <id>jitpack.io</id>
+		    <url>https://jitpack.io</url>
+		</repository>
 <repository>
     <id>ECC</id>
     <name>ECC</name>
@@ -63,6 +67,12 @@
     <artifactId>poi</artifactId>
     <version>4.1.2</version>
 </dependency>
+<dependency>
+		<groupId>org.projectlombok</groupId>
+		<artifactId>lombok</artifactId>
+		<version>1.16.16</version>
+		<scope>provided</scope>
+	</dependency>
 <!-- https://mvnrepository.com/artifact/org.json/json -->
 <dependency>
     <groupId>org.json</groupId>
