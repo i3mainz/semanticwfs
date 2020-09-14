@@ -57,7 +57,7 @@ public class HexTuplesFormatter extends ResultFormatter {
 					if(solu.get(name).toString().substring(solu.get(name).toString().indexOf("^^")+2).contains("wkt")) {
 						Geometry geom;
 						try {
-							geom = reader.read(solu.get(name).toString().substring(0,solu.get(name).toString().indexOf("^^")));
+							geom = wktreader.read(solu.get(name).toString().substring(0,solu.get(name).toString().indexOf("^^")));
 							geom=ReprojectionUtils.reproject(geom, epsg, srsName);
 							geomLiteral="\""+geom.toText()+"\", \""+solu.get(name).toString().substring(solu.get(name).toString().indexOf("^^")+2)+"\", \"\", \"\" ]";
 						} catch (ParseException e) {
@@ -95,7 +95,7 @@ public class HexTuplesFormatter extends ResultFormatter {
 				}
 				Geometry geom;
 				try {
-					geom = reader.read("Point("+lon+" "+lat+")");
+					geom = wktreader.read("Point("+lon+" "+lat+")");
 					geom=ReprojectionUtils.reproject(geom, epsg, srsName);
 					geomLiteral="\""+geom.toText()+"\", \"http://www.opengis.net/ont/geosparql#wktLiteral\", \"\", \"\" ]";
 					builder.append("[\""+solu.get(indvar)+"_geom\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#type\", \"http://www.opengis.net/ont/geosparql#Geometry\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#namedNode\",\"\", \"\"]"+System.lineSeparator());

@@ -229,7 +229,7 @@ public class GeoJSONFormatter extends VectorResultFormatter {
 					
 					lastgeom = solu.get(name).toString();
 					try {
-						Geometry coord=ReprojectionUtils.reproject(reader.read(solu.getLiteral(name).getString()), epsg,srsName);
+						Geometry coord=ReprojectionUtils.reproject(wktreader.read(solu.getLiteral(name).getString()), epsg,srsName);
 						GeoJSONWriter writer = new GeoJSONWriter();
 			            GeoJSON geomobj = writer.write(coord);
 			            geoms.add(new JSONObject(geomobj.toString()));

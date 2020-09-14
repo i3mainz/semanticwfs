@@ -1,5 +1,9 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter;
 
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.io.ParseException;
+import org.locationtech.jts.io.WKTReader;
+
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.HDTFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.HexTuplesFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.N3Formatter;
@@ -38,6 +42,20 @@ import de.hsmainz.cs.semgis.wfs.resultformatter.vector.XLSXFormatter;
 public abstract class VectorResultFormatter extends ResultFormatter{
 	
 	String featureType="";
+	
+	public Geometry parseVectorLiteral(String literalValue, String literalType) {
+		if(literalType.toLowerCase().contains("wkt")) {
+			try {
+				return this.wktreader.read(literalValue);
+			} catch (ParseException e) {
+				return null;
+			}
+		}
+		if(literalType.toLowerCase().contains("geojson")) {
+			return this.geojsonreader.read(literalValue);
+		}
+		return null;
+	}
 	
 	static {
 		ResultFormatter format=new GeoJSONFormatter();

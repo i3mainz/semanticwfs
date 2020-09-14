@@ -9,6 +9,7 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.jena.query.ResultSet;
 import org.locationtech.jts.io.WKTReader;
+import org.wololo.jts2geojson.GeoJSONReader;
 
 import de.hsmainz.cs.semgis.wfs.resultformatter.coverage.CovJSONFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.coverage.XYZASCIIFormatter;
@@ -75,7 +76,9 @@ public abstract class ResultFormatter {
 	
 	public ResultStyleFormatter styleformatter;
 	
-	public WKTReader reader=new WKTReader();
+	public WKTReader wktreader=new WKTReader();
+	
+	public GeoJSONReader geojsonreader=new GeoJSONReader();
 	
 	public static Map<String,String> labelMap=new TreeMap<>();
 	

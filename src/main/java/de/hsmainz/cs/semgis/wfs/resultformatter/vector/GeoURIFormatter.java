@@ -53,7 +53,7 @@ public class GeoURIFormatter extends VectorResultFormatter {
 				}
 	    		if(name.endsWith("_geom")) {
 	    			try {
-						Geometry geom=ReprojectionUtils.reproject(reader.read(solu.getLiteral(name).getString()), epsg,srsName);
+						Geometry geom=ReprojectionUtils.reproject(wktreader.read(solu.getLiteral(name).getString()), epsg,srsName);
 						String uricode="";
 						if(!srsName.isEmpty()) {
 							if(srsName.startsWith("http")) {

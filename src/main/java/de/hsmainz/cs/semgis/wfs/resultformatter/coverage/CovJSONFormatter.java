@@ -98,7 +98,7 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 				String name=varnames.next();
 				if(name.endsWith("_geom")) {
 					try {
-						Geometry geom=reader.read(solu.get(name).toString().substring(0,solu.get(name).toString().indexOf("^^")));
+						Geometry geom=wktreader.read(solu.get(name).toString().substring(0,solu.get(name).toString().indexOf("^^")));
 						geom=ReprojectionUtils.reproject(geom, epsg, srsName);
 						for(Coordinate coord:geom.getCoordinates()) {
 							x.getJSONArray("values").put(coord.getX());
@@ -126,7 +126,7 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 				}
 				Geometry geom;
 				try {
-					geom = reader.read("Point("+lon+" "+lat+")");
+					geom = wktreader.read("Point("+lon+" "+lat+")");
 					geom=ReprojectionUtils.reproject(geom, epsg, srsName);
 					for(Coordinate coord:geom.getCoordinates()) {
 						x.getJSONArray("values").put(coord.getX());
