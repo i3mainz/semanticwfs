@@ -7,6 +7,7 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.jena.query.ResultSet;
 import org.json.JSONObject;
+import org.locationtech.jts.io.WKBWriter;
 import org.wololo.jts2geojson.GeoJSONReader;
 
 import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
@@ -42,7 +43,7 @@ public class MVTFormatter extends ResultFormatter {
 			}
 		}
 		byte[] encoded = encoder.encode();
-		return encoded.toString();
+		return WKBWriter.toHex(encoded);
 	}
 
 }
