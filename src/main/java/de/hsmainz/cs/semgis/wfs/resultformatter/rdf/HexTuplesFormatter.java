@@ -24,6 +24,7 @@ public class HexTuplesFormatter extends ResultFormatter {
 		this.urlformat="hextuples";
 		this.label="HexTuples Format (RDF)";
 		this.fileextension="ndjson";
+		this.definition="https://github.com/ontola/hextuples";
 	}
 	
 	@Override

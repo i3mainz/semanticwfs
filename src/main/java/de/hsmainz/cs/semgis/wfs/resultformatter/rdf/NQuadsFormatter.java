@@ -27,6 +27,7 @@ public class NQuadsFormatter extends ResultFormatter {
 		this.urlformat="nq";
 		this.label="NQuads (NQ)";
 		this.fileextension="nq";
+		this.definition="https://www.w3.org/TR/n-quads/";
 	}
 	
 	@Override

@@ -1,5 +1,6 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter;
 
+import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.HDTFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.HexTuplesFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.N3Formatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.NQuadsFormatter;
@@ -119,6 +120,10 @@ public abstract class VectorResultFormatter extends ResultFormatter{
 		format=new RDFFormatter();
 		resultMap.put("rdf", format);
 		labelMap.put("rdf",format.label);
+		resultMap.put(format.mimeType, format);
+		format=new HDTFormatter();
+		resultMap.put("hdt", format);
+		labelMap.put("hdt",format.label);
 		resultMap.put(format.mimeType, format);
 		format=new RDFJSONFormatter();
 		resultMap.put("rdfjson", format);

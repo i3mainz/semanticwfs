@@ -31,6 +31,7 @@ public class RDFJSONFormatter extends ResultFormatter {
 		this.urlformat="rdfjson";
 		this.label="RDF/JSON";
 		this.fileextension="json";
+		this.definition="https://www.w3.org/TR/rdf-json/";
 	}
 	
 	@Override

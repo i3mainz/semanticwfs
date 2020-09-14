@@ -37,11 +37,11 @@ public abstract class CoverageResultFormatter extends ResultFormatter {
 			for(String key:feature.getJSONObject("properties").keySet()) {
 				if(!columns.containsKey(key)) {
 					try {
-						Number value=feature.getNumber(key);
+						Number valuenum=feature.getNumber(key);
 						columns.put(key, true);
 					}catch(Exception e) {
 						try {
-							boolean value=feature.getBoolean(key);
+							boolean valuebool=feature.getBoolean(key);
 							columns.put(key, true);
 						}catch(Exception ex) {
 							if(!columnsval.containsKey(key)) {

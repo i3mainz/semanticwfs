@@ -31,6 +31,7 @@ public class NTFormatter extends ResultFormatter{
 		this.urlformat="nt";
 		this.label="NTriples (NT)";
 		this.fileextension="nt";
+		this.definition="https://www.w3.org/TR/n-triples/";
 	}
 	
 	@Override

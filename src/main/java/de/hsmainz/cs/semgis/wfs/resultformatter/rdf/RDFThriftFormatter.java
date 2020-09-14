@@ -27,6 +27,7 @@ public class RDFThriftFormatter extends ResultFormatter {
 		this.urlformat="rt";
 		this.label="RDF/Thrift";
 		this.fileextension="rt";
+		this.definition="https://afs.github.io/rdf-thrift/rdf-binary-thrift.html";
 	}
 	
 	@Override

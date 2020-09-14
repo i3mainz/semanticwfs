@@ -1,6 +1,5 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -13,6 +12,7 @@ import org.locationtech.jts.io.WKTReader;
 
 import de.hsmainz.cs.semgis.wfs.resultformatter.coverage.CovJSONFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.coverage.XYZASCIIFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.HDTFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.HexTuplesFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.N3Formatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.NQuadsFormatter;
@@ -175,6 +175,9 @@ public abstract class ResultFormatter {
 		if(formatString.contains("kml")) {
 			return resultMap.get("kml");
 		}
+		if(formatString.contains("hdt")) {
+			return resultMap.get("hdt");
+		}
 		if(formatString.contains("wkt")) {
 			return resultMap.get("wkt");
 		}
@@ -304,6 +307,10 @@ public abstract class ResultFormatter {
 		format=new RDFFormatter();
 		resultMap.put("rdf", format);
 		labelMap.put("rdf",format.label);
+		resultMap.put(format.mimeType, format);
+		format=new HDTFormatter();
+		resultMap.put("hdt", format);
+		labelMap.put("hdt",format.label);
 		resultMap.put(format.mimeType, format);
 		format=new RDFJSONFormatter();
 		resultMap.put("rdfjson", format);
