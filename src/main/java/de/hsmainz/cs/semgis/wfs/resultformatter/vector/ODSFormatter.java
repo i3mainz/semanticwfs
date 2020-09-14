@@ -17,6 +17,7 @@ public class ODSFormatter extends ResultFormatter {
 		this.mimeType="application/msexcel";
 		this.exposedType="application/msexcel";
 		this.fileextension="ods";
+		this.definition="https://www.oasis-open.org/committees/tc_home.php";
 	}
 
 	@Override

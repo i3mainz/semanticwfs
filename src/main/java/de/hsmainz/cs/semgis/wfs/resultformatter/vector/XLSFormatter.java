@@ -26,6 +26,7 @@ public class XLSFormatter extends ResultFormatter {
 		this.mimeType="application/msexcel";
 		this.exposedType="application/msexcel";
 		this.fileextension="xls";
+		this.definition="http://www.openoffice.org/sc/excelfileformat.pdf";
 	}
 	
 	@Override

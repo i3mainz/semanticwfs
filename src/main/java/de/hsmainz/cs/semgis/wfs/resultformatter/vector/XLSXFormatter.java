@@ -31,6 +31,7 @@ public class XLSXFormatter extends ResultFormatter {
 		this.urlformat="xlsx";
 		this.label="Excel Sheet (XLSX)";
 		this.fileextension="xlsx";
+		this.definition="http://www.openoffice.org/sc/excelfileformat.pdf";
 	}
 	
 	@Override

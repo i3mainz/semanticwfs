@@ -24,6 +24,7 @@ public class X3DFormatter extends CoverageResultFormatter {
 		this.urlformat="x3d";
 		this.label="X3D";
 		this.fileextension="x3d";
+		this.definition="https://www.web3d.org/standards";
 	}
 	
 	@Override

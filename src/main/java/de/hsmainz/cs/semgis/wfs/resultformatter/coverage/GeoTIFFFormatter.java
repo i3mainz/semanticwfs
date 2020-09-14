@@ -17,6 +17,7 @@ public class GeoTIFFFormatter extends CoverageResultFormatter {
 		this.urlformat="geotiff";
 		this.label="GeoTIFF";
 		this.fileextension="tiff";
+		this.definition="https://www.ogc.org/standards/geotiff";
 	}
 	
 	@Override

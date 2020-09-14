@@ -28,6 +28,7 @@ public class GeoRSSFormatter extends ResultFormatter {
 		this.urlformat="georss";
 		this.label="GeoRSS";
 		this.fileextension="rss";
+		this.definition="https://www.ogc.org/standards/georss";
 	}
 	
 	public void collectColumns(XMLStreamWriter writer,JSONObject obj,String nameprefix) throws JSONException, XMLStreamException {

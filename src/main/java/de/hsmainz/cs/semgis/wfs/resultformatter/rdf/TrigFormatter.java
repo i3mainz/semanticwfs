@@ -29,7 +29,7 @@ public class TrigFormatter extends ResultFormatter {
 		this.mimeType="text/trig";
 		this.exposedType="text/trig";
 		this.urlformat="trig";
-		this.label="RDF Trig";
+		this.label="RDF TriG";
 		this.definition="https://www.w3.org/TR/trig/";
 		this.fileextension="trig";
 	}
