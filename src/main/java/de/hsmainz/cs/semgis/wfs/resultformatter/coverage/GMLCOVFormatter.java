@@ -6,10 +6,10 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.jena.query.ResultSet;
 
-import de.hsmainz.cs.semgis.wfs.resultformatter.WCSResultFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.CoverageResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
-public class GMLCOVFormatter extends WCSResultFormatter {
+public class GMLCOVFormatter extends CoverageResultFormatter {
 
 	public GMLCOVFormatter() {
 		this.mimeType="application/xml";

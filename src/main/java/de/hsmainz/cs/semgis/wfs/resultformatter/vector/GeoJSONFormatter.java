@@ -19,7 +19,7 @@ import org.locationtech.jts.geom.Geometry;
 import org.wololo.geojson.GeoJSON;
 import org.wololo.jts2geojson.GeoJSONWriter;
 
-import de.hsmainz.cs.semgis.wfs.resultformatter.WFSResultFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.VectorResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.GeoJSONCSSFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.ResultStyleFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
@@ -28,7 +28,7 @@ import de.hsmainz.cs.semgis.wfs.util.ReprojectionUtils;
 /**
  * Formats a query result to GeoJSON.
  */
-public class GeoJSONFormatter extends WFSResultFormatter {
+public class GeoJSONFormatter extends VectorResultFormatter {
 
 	/**
 	 * Constructor for this class.

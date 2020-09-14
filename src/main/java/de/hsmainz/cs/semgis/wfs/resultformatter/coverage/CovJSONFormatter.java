@@ -13,11 +13,11 @@ import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.io.ParseException;
 
-import de.hsmainz.cs.semgis.wfs.resultformatter.WCSResultFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.CoverageResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 import de.hsmainz.cs.semgis.wfs.util.ReprojectionUtils;
 
-public class CovJSONFormatter extends WCSResultFormatter {
+public class CovJSONFormatter extends CoverageResultFormatter {
 
 	public CovJSONFormatter() {
 		this.mimeType="application/json";

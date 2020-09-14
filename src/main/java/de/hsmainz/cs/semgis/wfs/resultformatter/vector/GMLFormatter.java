@@ -15,7 +15,7 @@ import org.json.JSONObject;
 import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
 
 import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
-import de.hsmainz.cs.semgis.wfs.resultformatter.WFSResultFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.VectorResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 import de.hsmainz.cs.semgis.wfs.webservice.WebService;
 
@@ -23,7 +23,7 @@ import de.hsmainz.cs.semgis.wfs.webservice.WebService;
  * Formats a query result to GML.
  * At first a GeoJSON representation is created which is then converted to GML.
  */
-public class GMLFormatter extends WFSResultFormatter {
+public class GMLFormatter extends VectorResultFormatter {
 
 	/**
 	 * Constructor for this class.
@@ -34,6 +34,7 @@ public class GMLFormatter extends WFSResultFormatter {
 		this.urlformat="gml";
 		this.label="Geography Markup Language (GML)";
 		this.fileextension="gml";
+		this.definition="https://www.ogc.org/standards/gml";
 	}
 	
 	public String[] splitURL(String url) {

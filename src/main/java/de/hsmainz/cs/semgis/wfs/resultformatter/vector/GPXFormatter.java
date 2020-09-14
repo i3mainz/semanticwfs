@@ -14,7 +14,7 @@ import org.json.JSONObject;
 import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
 
 import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
-import de.hsmainz.cs.semgis.wfs.resultformatter.WFSResultFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.VectorResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
 
@@ -22,7 +22,7 @@ import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
  * Formats a query result to GPX.
  *
  */
-public class GPXFormatter extends WFSResultFormatter {
+public class GPXFormatter extends VectorResultFormatter {
 
 	/**
 	 * Constructor for this class.
@@ -33,6 +33,7 @@ public class GPXFormatter extends WFSResultFormatter {
 		this.urlformat="gpx";
 		this.label="GPS Exchange Format (GPX)";
 		this.fileextension="gpx";
+		this.definition="https://www.topografix.com/gpx.asp";
 	}
 	
 	public void collectColumns(XMLStreamWriter writer,JSONObject obj,String nameprefix) throws JSONException, XMLStreamException {

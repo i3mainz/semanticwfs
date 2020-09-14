@@ -49,7 +49,7 @@ public class WKBFormatter extends ResultFormatter {
 					try {
 						Geometry geom=reader.read(solu.get(name).toString().substring(0,solu.get(name).toString().indexOf("^^")));
 						geom=ReprojectionUtils.reproject(geom, epsg, srsName);
-						builder.append(writer.write(geom)+System.lineSeparator());
+						builder.append(WKBWriter.toHex(writer.write(geom))+System.lineSeparator());
 					} catch (ParseException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -73,7 +73,7 @@ public class WKBFormatter extends ResultFormatter {
 				try {
 					Geometry geom=reader.read("Point("+lon+" "+lat+")");
 					geom=ReprojectionUtils.reproject(geom, epsg, srsName);
-					builder.append(writer.write(geom)+System.lineSeparator());
+					builder.append(WKBWriter.toHex(writer.write(geom))+System.lineSeparator());
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

@@ -12,14 +12,14 @@ import org.apache.jena.rdf.model.Literal;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import de.hsmainz.cs.semgis.wfs.resultformatter.WFSResultFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.VectorResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
 /**
  * Formats a query result to JSON-LD.
  *
  */
-public class JSONLDFormatter extends WFSResultFormatter {
+public class JSONLDFormatter extends VectorResultFormatter {
 
 	/**
 	 * Constructor for this class.
@@ -30,6 +30,7 @@ public class JSONLDFormatter extends WFSResultFormatter {
 		this.urlformat="jsonld";
 		this.label="JSON-LD";
 		this.fileextension="jsonld";
+		this.definition="https://json-ld.org";
 	}
 	
 	@Override

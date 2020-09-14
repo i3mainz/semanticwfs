@@ -14,7 +14,7 @@ import org.json.JSONObject;
 import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
 
 import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
-import de.hsmainz.cs.semgis.wfs.resultformatter.WFSResultFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.VectorResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.KMLStyleFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
@@ -25,7 +25,7 @@ import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
  * KML requires that styles are formatted within the dataset, therefore this class has to utilize the KMLStyleFormatter implementation.
  *
  */
-public class KMLFormatter extends WFSResultFormatter {
+public class KMLFormatter extends VectorResultFormatter {
 
 	/**
 	 * Constructor for this class.
@@ -37,6 +37,7 @@ public class KMLFormatter extends WFSResultFormatter {
 		this.styleformatter=new KMLStyleFormatter();
 		this.label="Keyhole Markup Language (KML)";
 		this.fileextension="kml";
+		this.definition="https://www.ogc.org/standards/kml";
 	}
 	
 	/**
