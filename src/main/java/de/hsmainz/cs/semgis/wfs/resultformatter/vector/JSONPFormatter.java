@@ -20,6 +20,7 @@ public class JSONPFormatter extends ResultFormatter {
 		this.urlformat="jsonp";
 		this.label="JSONP";
 		this.fileextension="js";
+		this.definition="http://jsonp.eu";
 	}
 
 	@Override

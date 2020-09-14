@@ -22,6 +22,7 @@ public class MVTFormatter extends ResultFormatter {
 		this.mimeType="text/mvt";
 		this.exposedType="text/mvt";
 		this.fileextension="mvt";
+		this.definition="https://docs.mapbox.com/vector-tiles/reference/";
 	}
 	
 	@Override

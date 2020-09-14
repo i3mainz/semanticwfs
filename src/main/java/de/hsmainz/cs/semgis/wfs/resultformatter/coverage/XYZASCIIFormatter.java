@@ -23,6 +23,7 @@ public class XYZASCIIFormatter extends ResultFormatter {
 		this.urlformat="xyz";
 		this.label="XYZ ASCII Format (XYZ)";
 		this.fileextension="xyz";
+		this.definition="https://gdal.org/drivers/raster/xyz.html";
 	}
 	
 	@Override

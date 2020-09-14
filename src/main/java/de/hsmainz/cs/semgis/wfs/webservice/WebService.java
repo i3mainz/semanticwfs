@@ -1943,7 +1943,15 @@ public class WebService {
 			geojson.put("geometry", geometry);
 			geojson.put("properties", properties);
 			builder.append(htmlHead);
-			builder.append("<script>function showCollections(link){window.open(link+\"?offset=\"+$('#offset').val()+\"&limit=\"+$('#limit').val()+\"&crs=\"+$('#crs').val()+\"&f=\"+$('#format').val(),'_blank');} var espg=\"" + (workingobj.has("targetCRS") ? workingobj.get("targetCRS") : "")
+			builder.append("<script>");
+			builder.append("var definitionlinks={");
+			for (String key : ResultFormatter.labelMap.keySet()) {
+				builder.append("\""+ResultFormatter.getFormatter(key).urlformat+"\":\""+ResultFormatter.getFormatter(key).definition+"\",\n");
+			}
+			builder.delete(builder.length()-1, builder.length());
+			builder.append("};\n");
+			builder.append("function changeDefLink(){$('#formatlink').attr('href',definitionlinks[$('#format').val()]);}");
+			builder.append("function showCollections(link){window.open(link+\"?offset=\"+$('#offset').val()+\"&limit=\"+$('#limit').val()+\"&crs=\"+$('#crs').val()+\"&f=\"+$('#format').val(),'_blank');} var espg=\"" + (workingobj.has("targetCRS") ? workingobj.get("targetCRS") : "")
 					+ "\";</script><body><header id=\"header\"><h1 align=\"center\">");
 			builder.append(
 					(workingobj.getString("name") != null ? workingobj.getString("name") : collectionid));
@@ -1968,11 +1976,14 @@ public class WebService {
 			builder.append("<li><a href=\"" + wfsconf.getString("baseurl")
 			+ "/collections/" + workingobj.getString("name") + "/items?f=html&limit=1000&offset=" + (offset + 1)
 			+ "\">First 1000 items</a></li>");
-			builder.append("</ul><h3>Downloads</h3>Number of features:&nbsp;<input type=\"number\" min=\"1\" id=\"limit\" value=\"10\"/>&nbsp;Offset:&nbsp;<input type=\"number\" min=\"1\" id=\"offset\" value=\"0\"/>Format:<select id=\"format\">");
+			builder.append("</ul><h3>Downloads</h3>Number of features:&nbsp;<input type=\"number\" min=\"1\" id=\"limit\" value=\"10\"/>&nbsp;Offset:&nbsp;<input type=\"number\" min=\"1\" id=\"offset\" value=\"0\"/>Format:<select id=\"format\" onchange=\"changeDefLink()\">");
 			for (String key : ResultFormatter.labelMap.keySet()) {
 				builder.append("<option value=\""+ResultFormatter.getFormatter(key).urlformat+"\">"+ResultFormatter.labelMap.get(key)+"</option>");
 			}
-			builder.append("</select><br/>CRS:<select id=\"crs\"></select><button id=\"showfeaturebutton\" onclick=\"showCollections('"+wfsconf.getString("baseurl")+"/collections/" + workingobj.getString("name") + "/items')\"/>Show</button></section></div></div></div>");
+			builder.append("</select><a id=\"formatlink\" href=\"#\" target=\"_blank\">");
+			builder.append("<svg width=\"1em\" height=\"1em\" viewBox=\"0 0 16 16\" class=\"bi bi-info-circle-fill\" fill=\"currentColor\" xmlns=\"http://www.w3.org/2000/svg\"><path fill-rule=\"evenodd\" d=\"M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM8 5.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2z\"/></svg>");
+			builder.append("</a>");
+			builder.append("<br/>CRS:<select id=\"crs\"></select><button id=\"showfeaturebutton\" onclick=\"showCollections('"+wfsconf.getString("baseurl")+"/collections/" + workingobj.getString("name") + "/items')\"/>Show</button></section></div></div></div>");
 			builder.append("<footer id=\"footer\"><table width=100%><tbody><tr><td><a href=\"" + wfsconf.getString("baseurl")
 					+ "/collections?f=html\">Back to Collections</a></td><td align=right>This page in <a href=\""
 					+ wfsconf.getString("baseurl") + "/collections/" + workingobj.getString("name")

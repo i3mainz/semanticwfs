@@ -21,6 +21,7 @@ public class CSVFormatter extends VectorResultFormatter {
 		this.urlformat="csv";
 		this.label="Comma Separated Values (CSV)";
 		this.fileextension="csv";
+		this.definition="https://tools.ietf.org/html/rfc4180";
 	}
 	
 	@Override

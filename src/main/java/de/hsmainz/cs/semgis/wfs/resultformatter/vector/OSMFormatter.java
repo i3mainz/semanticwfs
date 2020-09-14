@@ -32,6 +32,7 @@ public class OSMFormatter extends ResultFormatter {
 		this.urlformat="osm";
 		this.label="OSM/XML";
 		this.fileextension="osm";
+		this.definition="https://wiki.openstreetmap.org/wiki/OSM_XML";
 	}
 	
 	public String[] splitURL(String url) {

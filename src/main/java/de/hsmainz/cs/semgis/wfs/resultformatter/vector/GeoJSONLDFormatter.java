@@ -28,6 +28,7 @@ public class GeoJSONLDFormatter extends VectorResultFormatter {
 		this.urlformat="geojsonld";
 		this.label="GeoJSON-LD";
 		this.fileextension="geojsonld";
+		this.definition="http://geojson.org/geojson-ld/";
 	}
 	
 	@Override

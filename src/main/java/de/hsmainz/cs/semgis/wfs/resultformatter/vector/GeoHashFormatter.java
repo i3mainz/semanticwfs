@@ -19,6 +19,7 @@ public class GeoHashFormatter extends VectorResultFormatter {
 		this.urlformat="geohash";
 		this.label="GeoHash";
 		this.fileextension="txt";
+		this.definition="http://geohash.org";
 	}
 	
 	@Override

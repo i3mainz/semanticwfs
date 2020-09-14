@@ -24,6 +24,7 @@ public class JSONSeqFormatter extends ResultFormatter {
 		this.urlformat="jsonseq";
 		this.label="JSON Sequential";
 		this.fileextension="json";
+		this.definition="https://tools.ietf.org/html/rfc7464";
 	}
 	
 	@Override

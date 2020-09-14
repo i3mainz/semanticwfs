@@ -25,6 +25,7 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 		this.urlformat="covjson";
 		this.label="CoverageJSON";
 		this.fileextension="covjson";
+		this.definition="https://covjson.org";
 	}
 	
 	@Override

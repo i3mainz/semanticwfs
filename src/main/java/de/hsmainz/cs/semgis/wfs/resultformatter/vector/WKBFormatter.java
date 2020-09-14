@@ -28,6 +28,7 @@ public class WKBFormatter extends ResultFormatter {
 		this.urlformat="wkb";
 		this.label="Well-Known-Binary (WKB)";
 		this.fileextension="wkb";
+		this.definition="https://www.iso.org/standard/40114.html";
 	}
 	
 	@Override

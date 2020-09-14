@@ -40,6 +40,7 @@ public class GeoJSONFormatter extends VectorResultFormatter {
 		this.label="GeoJSON";
 		this.styleformatter=new GeoJSONCSSFormatter();
 		this.fileextension="geojson";
+		this.definition="https://geojson.org";
 	}
 	
 	/**

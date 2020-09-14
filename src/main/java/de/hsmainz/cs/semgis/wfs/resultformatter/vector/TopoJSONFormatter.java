@@ -24,6 +24,7 @@ public class TopoJSONFormatter extends VectorResultFormatter {
 		this.urlformat="topojson";
 		this.label="TopoJSON";
 		this.fileextension="topojson";
+		this.definition="https://github.com/topojson/topojson";
 	}
 	
 	@Override
