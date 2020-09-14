@@ -96,6 +96,11 @@
     <artifactId>poi</artifactId>
     <version>4.1.2</version>
 </dependency>
+<dependency>
+    <groupId>mil.nga.geopackage</groupId>
+    <artifactId>geopackage</artifactId>
+    <version>4.0.0</version>
+</dependency>
 <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
 <dependency>
     <groupId>org.apache.poi</groupId>

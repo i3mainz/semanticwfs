@@ -1,20 +1,21 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter.coverage;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.stream.XMLStreamException;
 
+import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.io.ParseException;
 
 import de.hsmainz.cs.semgis.wfs.resultformatter.WCSResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
+import de.hsmainz.cs.semgis.wfs.util.ReprojectionUtils;
 
 public class CovJSONFormatter extends WCSResultFormatter {
 
@@ -31,8 +32,8 @@ public class CovJSONFormatter extends WCSResultFormatter {
 			String featuretype,String propertytype,
 			String typeColumn,Boolean onlyproperty,Boolean onlyhits,
 			String srsName,String indvar,String epsg,List<String> eligiblenamespaces,
-			List<String> noteligiblenamespaces,StyleObject mapstyle,Boolean alternativeFormat,Boolean invertXY) throws XMLStreamException {
-		
+			List<String> noteligiblenamespaces,StyleObject mapstyle,Boolean alternativeFormat,Boolean invertXY) throws XMLStreamException {	
+		lastQueriedElemCount=1;
 		JSONObject result=new JSONObject();
 		result.put("type", "Coverage");
 		JSONObject domain=new JSONObject();
@@ -82,61 +83,67 @@ public class CovJSONFormatter extends WCSResultFormatter {
 		axisNames.put("y");
 		JSONArray values=new JSONArray();
 		altituderange.put("values", values);
-		Integer numlines=1;
 		JSONObject x=new JSONObject();
 		x.put("values",new JSONArray());
 		JSONObject y=new JSONObject();
 		y.put("values", new JSONArray());
-		Double maxx=Double.MIN_VALUE,maxy=Double.MIN_VALUE,maxz=Double.MIN_VALUE,minx=Double.MAX_VALUE,miny=Double.MAX_VALUE,minz=Double.MAX_VALUE;
-		File file=null;
-		try {
-			BufferedReader reader=new BufferedReader(new FileReader(file));
-			String firstline;
-			firstline = reader.readLine();
-			while((firstline=reader.readLine())!=null) {
-				String[] splitted=firstline.split(" ");
-				for(String spl:splitted) {
-					/*Double x=Double.valueOf(splitted[0]);
-					if(x<minx) {
-						minx=x;
-					}
-					if(x>maxx) {
-						maxx=x;
-					}
-					Double y=Double.valueOf(splitted[1]);
-					if(y<miny) {
-						miny=y;
-					}
-					if(y>maxy) {
-						maxy=y;
-					}*/
-					x.getJSONArray("values").put(Double.valueOf(splitted[0]));
-					y.getJSONArray("values").put(Double.valueOf(splitted[1]));
-					values.put(Double.valueOf(splitted[2]));
-				}
-				numlines++;
+		String lastInd="",lat="",lon="";
+		while(results.hasNext()) {
+			QuerySolution solu=results.next();
+			Iterator<String> varnames=solu.varNames();
+			if(!solu.get(indvar).toString().equals(lastInd) || lastInd.isEmpty()) {
+				lastQueriedElemCount++;
 			}
-			reader.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			while(varnames.hasNext()) {
+				String name=varnames.next();
+				if(name.endsWith("_geom")) {
+					try {
+						Geometry geom=reader.read(solu.get(name).toString().substring(0,solu.get(name).toString().indexOf("^^")));
+						geom=ReprojectionUtils.reproject(geom, epsg, srsName);
+						for(Coordinate coord:geom.getCoordinates()) {
+							x.getJSONArray("values").put(coord.getX());
+							y.getJSONArray("values").put(coord.getY());
+						}
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}else if(name.equalsIgnoreCase(indvar)){
+					continue;
+				}else if("lat".equalsIgnoreCase(name)){
+					lat=solu.get(name).toString();
+				}else if("lon".equalsIgnoreCase(name)){
+					lon=solu.get(name).toString();
+				}
+			}
+			if(!lat.isEmpty() && !lon.isEmpty()) {
+				System.out.println("LatLon: "+lat+","+lon);
+				if(lat.contains("^^")) {
+					lat=lat.substring(0,lat.indexOf("^^"));
+				}
+				if(lon.contains("^^")) {
+					lon=lon.substring(0,lon.indexOf("^^"));
+				}
+				Geometry geom;
+				try {
+					geom = reader.read("Point("+lon+" "+lat+")");
+					geom=ReprojectionUtils.reproject(geom, epsg, srsName);
+					for(Coordinate coord:geom.getCoordinates()) {
+						x.getJSONArray("values").put(coord.getX());
+						y.getJSONArray("values").put(coord.getY());
+					}
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				lat="";
+				lon="";
+			}
+			lastInd=solu.get(indvar).toString();
 		}
-		/*JSONObject x=new JSONObject();
-		x.put("num", numlines);
-		x.put("min",minx);
-		x.put("max", maxx);
-		JSONObject y=new JSONObject();
-		y.put("num", numlines);
-		y.put("min",miny);
-		y.put("max", maxy);
-		JSONObject z=new JSONObject();
-		z.put("num", numlines);
-		z.put("min",minz);
-		z.put("max", maxz);*/
 		axes.put("x", x);
 		axes.put("y", y);
-		System.out.println(result.toString(2));
-		return result.toString();
+		return result.toString(2);
 	}
 
 }
