@@ -13,11 +13,11 @@ import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.io.ParseException;
 
-import de.hsmainz.cs.semgis.wfs.resultformatter.WCSResultFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.CoverageResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 import de.hsmainz.cs.semgis.wfs.util.ReprojectionUtils;
 
-public class CovJSONFormatter extends WCSResultFormatter {
+public class CovJSONFormatter extends CoverageResultFormatter {
 
 	public CovJSONFormatter() {
 		this.mimeType="application/json";
@@ -25,6 +25,7 @@ public class CovJSONFormatter extends WCSResultFormatter {
 		this.urlformat="covjson";
 		this.label="CoverageJSON";
 		this.fileextension="covjson";
+		this.definition="https://covjson.org";
 	}
 	
 	@Override
@@ -103,7 +104,7 @@ public class CovJSONFormatter extends WCSResultFormatter {
 				String name=varnames.next();
 				if(name.endsWith("_geom")) {
 					try {
-						Geometry geom=reader.read(solu.get(name).toString().substring(0,solu.get(name).toString().indexOf("^^")));
+						Geometry geom=wktreader.read(solu.get(name).toString().substring(0,solu.get(name).toString().indexOf("^^")));
 						geom=ReprojectionUtils.reproject(geom, epsg, srsName);
 						for(Coordinate coord:geom.getCoordinates()) {
 							x.getJSONArray("values").put(coord.getX());
@@ -131,7 +132,7 @@ public class CovJSONFormatter extends WCSResultFormatter {
 				}
 				Geometry geom;
 				try {
-					geom = reader.read("Point("+lon+" "+lat+")");
+					geom = wktreader.read("Point("+lon+" "+lat+")");
 					geom=ReprojectionUtils.reproject(geom, epsg, srsName);
 					for(Coordinate coord:geom.getCoordinates()) {
 						x.getJSONArray("values").put(coord.getX());

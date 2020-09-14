@@ -6,14 +6,14 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.jena.query.ResultSet;
 
-import de.hsmainz.cs.semgis.wfs.resultformatter.WFSResultFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.VectorResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
 /**
  * Formats a query result to TopoJSON.
  *
  */
-public class TopoJSONFormatter extends WFSResultFormatter {
+public class TopoJSONFormatter extends VectorResultFormatter {
 
 	/**
 	 * Constructor for this class.
@@ -24,6 +24,7 @@ public class TopoJSONFormatter extends WFSResultFormatter {
 		this.urlformat="topojson";
 		this.label="TopoJSON";
 		this.fileextension="topojson";
+		this.definition="https://github.com/topojson/topojson";
 	}
 	
 	@Override

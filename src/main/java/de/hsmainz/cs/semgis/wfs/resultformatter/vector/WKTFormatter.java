@@ -25,6 +25,7 @@ public class WKTFormatter extends ResultFormatter {
 		this.urlformat="wkt";
 		this.label="Well-Known-Text (WKT)";
 		this.fileextension="wkt";
+		this.definition="https://www.iso.org/standard/40114.html";
 	}
 	
 	@Override

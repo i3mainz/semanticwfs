@@ -31,6 +31,7 @@ public class RDFFormatter extends ResultFormatter{
 		this.urlformat="rdfxml";
 		this.label="RDF/XML";
 		this.fileextension="rdf";
+		this.definition="https://www.w3.org/TR/rdf-syntax-grammar/";
 	}
 	
 	@Override

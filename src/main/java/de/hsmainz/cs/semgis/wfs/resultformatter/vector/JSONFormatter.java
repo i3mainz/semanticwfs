@@ -11,13 +11,13 @@ import org.apache.jena.rdf.model.Literal;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import de.hsmainz.cs.semgis.wfs.resultformatter.WFSResultFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.VectorResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
 /**
  * Formats a query result to JSON.
  */
-public class JSONFormatter extends WFSResultFormatter {
+public class JSONFormatter extends VectorResultFormatter {
 
 	/**
 	 * Constructor for this class.

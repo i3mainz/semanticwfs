@@ -9,18 +9,15 @@ import org.apache.jena.query.ResultSet;
 import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
-public class JSONPFormatter extends ResultFormatter {
+public class ODSFormatter extends ResultFormatter {
 
-	/**
-	 * Constructor for this class.
-	 */
-	public JSONPFormatter() {
-		this.mimeType="text/javascript";
-		this.exposedType="text/javascript";
-		this.urlformat="jsonp";
-		this.label="JSONP";
-		this.fileextension="js";
-		this.definition="http://jsonp.eu";
+	public ODSFormatter() {
+		this.urlformat="ods";
+		this.label="MS Excel (XLSX)";
+		this.mimeType="application/msexcel";
+		this.exposedType="application/msexcel";
+		this.fileextension="ods";
+		this.definition="https://www.oasis-open.org/committees/tc_home.php";
 	}
 
 	@Override
@@ -28,11 +25,8 @@ public class JSONPFormatter extends ResultFormatter {
 			String typeColumn, Boolean onlyproperty, Boolean onlyhits, String srsName, String indvar, String epsg,
 			List<String> eligiblenamespaces, List<String> noteligiblenamespaces, StyleObject mapstyle,
 			Boolean alternativeFormat, Boolean invertXY) throws XMLStreamException {
-		ResultFormatter format = resultMap.get("geojson");
-		String res = 
-				format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,srsName,indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat,invertXY);
-		this.lastQueriedElemCount = format.lastQueriedElemCount;
-		return "parseResponse("+res+")";
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

@@ -10,10 +10,10 @@ import org.apache.jena.query.ResultSet;
 import org.apache.jena.query.ResultSetFormatter;
 import org.apache.jena.rdf.model.Literal;
 
-import de.hsmainz.cs.semgis.wfs.resultformatter.WFSResultFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.VectorResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
-public class PolyshapeFormatter extends WFSResultFormatter {
+public class PolyshapeFormatter extends VectorResultFormatter {
 
 	public PolyshapeFormatter() {
 		this.mimeType="text/plain";

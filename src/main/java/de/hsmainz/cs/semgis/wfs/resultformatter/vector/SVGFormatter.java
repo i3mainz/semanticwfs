@@ -29,6 +29,7 @@ public class SVGFormatter extends ResultFormatter {
 		this.urlformat="svg";
 		this.label="Scalable Vector Graphics (SVG)";
 		this.fileextension="svg";
+		this.definition="https://www.w3.org/TR/SVG11/";
 	}
 	
 	@Override

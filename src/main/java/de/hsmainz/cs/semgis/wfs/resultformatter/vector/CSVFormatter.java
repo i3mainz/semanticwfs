@@ -7,13 +7,13 @@ import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Literal;
 
-import de.hsmainz.cs.semgis.wfs.resultformatter.WFSResultFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.VectorResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
 /**
  * Formats a query result to CSV.
  */
-public class CSVFormatter extends WFSResultFormatter {
+public class CSVFormatter extends VectorResultFormatter {
 
 	public CSVFormatter() {
 		this.mimeType="text/csv";
@@ -21,6 +21,7 @@ public class CSVFormatter extends WFSResultFormatter {
 		this.urlformat="csv";
 		this.label="Comma Separated Values (CSV)";
 		this.fileextension="csv";
+		this.definition="https://tools.ietf.org/html/rfc4180";
 	}
 	
 	@Override

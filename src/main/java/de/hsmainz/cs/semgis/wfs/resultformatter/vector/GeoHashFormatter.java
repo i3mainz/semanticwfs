@@ -8,10 +8,10 @@ import javax.xml.stream.XMLStreamException;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 
-import de.hsmainz.cs.semgis.wfs.resultformatter.WFSResultFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.VectorResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
-public class GeoHashFormatter extends WFSResultFormatter {
+public class GeoHashFormatter extends VectorResultFormatter {
 
 	public GeoHashFormatter() {
 		this.mimeType="text/plain";
@@ -19,6 +19,7 @@ public class GeoHashFormatter extends WFSResultFormatter {
 		this.urlformat="geohash";
 		this.label="GeoHash";
 		this.fileextension="txt";
+		this.definition="http://geohash.org";
 	}
 	
 	@Override

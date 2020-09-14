@@ -48,6 +48,7 @@ public class HTMLFormatter extends ResultFormatter {
 		this.urlformat="html";
 		this.label="HTML";
 		this.fileextension="html";
+		this.definition="https://html.spec.whatwg.org";
 	}
 
 	/**

@@ -6,10 +6,10 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.jena.query.ResultSet;
 
-import de.hsmainz.cs.semgis.wfs.resultformatter.WCSResultFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.CoverageResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
-public class GeoTIFFFormatter extends WCSResultFormatter {
+public class GeoTIFFFormatter extends CoverageResultFormatter {
 
 	public GeoTIFFFormatter() {
 		this.mimeType="image/tiff";
@@ -17,6 +17,7 @@ public class GeoTIFFFormatter extends WCSResultFormatter {
 		this.urlformat="geotiff";
 		this.label="GeoTIFF";
 		this.fileextension="tiff";
+		this.definition="https://www.ogc.org/standards/geotiff";
 	}
 	
 	@Override

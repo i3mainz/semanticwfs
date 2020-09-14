@@ -8,7 +8,7 @@ import org.apache.jena.query.ResultSet;
 import org.apache.jena.query.ResultSetFormatter;
 import org.locationtech.jts.geom.Geometry;
 
-import de.hsmainz.cs.semgis.wfs.resultformatter.WFSResultFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.VectorResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 import de.hsmainz.cs.semgis.wfs.util.ReprojectionUtils;
 
@@ -17,7 +17,7 @@ import de.hsmainz.cs.semgis.wfs.util.ReprojectionUtils;
  * Only geometries will be serialized, attributes will be ignored.
  *
  */
-public class GeoURIFormatter extends WFSResultFormatter {
+public class GeoURIFormatter extends VectorResultFormatter {
 
 	public GeoURIFormatter() {
 		this.mimeType="text/plain";
@@ -25,6 +25,7 @@ public class GeoURIFormatter extends WFSResultFormatter {
 		this.urlformat="geouri";
 		this.label="GeoURI";
 		this.fileextension="txt";
+		this.definition="https://tools.ietf.org/html/rfc5870";
 	}
 	
 	@Override
@@ -52,7 +53,7 @@ public class GeoURIFormatter extends WFSResultFormatter {
 				}
 	    		if(name.endsWith("_geom")) {
 	    			try {
-						Geometry geom=ReprojectionUtils.reproject(reader.read(solu.getLiteral(name).getString()), epsg,srsName);
+						Geometry geom=ReprojectionUtils.reproject(wktreader.read(solu.getLiteral(name).getString()), epsg,srsName);
 						String uricode="";
 						if(!srsName.isEmpty()) {
 							if(srsName.startsWith("http")) {

@@ -23,6 +23,7 @@ public class XYZASCIIFormatter extends ResultFormatter {
 		this.urlformat="xyz";
 		this.label="XYZ ASCII Format (XYZ)";
 		this.fileextension="xyz";
+		this.definition="https://gdal.org/drivers/raster/xyz.html";
 	}
 	
 	@Override
@@ -42,7 +43,7 @@ public class XYZASCIIFormatter extends ResultFormatter {
 				String name=varnames.next();
 				if(name.endsWith("_geom")) {
 					try {
-						Geometry geom=reader.read(solu.get(name).toString().substring(0,solu.get(name).toString().indexOf("^^")));
+						Geometry geom=wktreader.read(solu.get(name).toString().substring(0,solu.get(name).toString().indexOf("^^")));
 						geom=ReprojectionUtils.reproject(geom, epsg, srsName);
 						for(Coordinate coord:geom.getCoordinates()) {
 							builder.append(coord.getX()+" "+coord.getY());
@@ -74,7 +75,7 @@ public class XYZASCIIFormatter extends ResultFormatter {
 				}
 				Geometry geom;
 				try {
-					geom = reader.read("Point("+lon+" "+lat+")");
+					geom = wktreader.read("Point("+lon+" "+lat+")");
 					geom=ReprojectionUtils.reproject(geom, epsg, srsName);
 					for(Coordinate coord:geom.getCoordinates()) {
 						builder.append(coord.getX()+" "+coord.getY()+" "+coord.getZ()+System.lineSeparator());

@@ -23,6 +23,7 @@ public class GeoJSONSeqFormatter extends ResultFormatter {
 		this.label="GeoJSON Sequential";
 		this.styleformatter=new GeoJSONCSSFormatter();
 		this.fileextension="geojson";
+		this.definition="https://tools.ietf.org/html/rfc8142";
 	}
 	
 	@Override
