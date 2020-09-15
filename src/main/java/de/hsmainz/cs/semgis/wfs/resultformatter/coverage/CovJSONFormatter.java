@@ -88,15 +88,34 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 					JSONArray categories=new JSONArray();
 					parameter.put("categories", categories);
 					for(String cat:columnsval.get(param).keySet()) {
-						JSONObject category=new JSONObject();
-						categories.put(category);
-						category.put("id", cat);
-						JSONObject categorylabel=new JSONObject();
-						category.put("label", categorylabel);
-						if(cat.contains("/")) {
-							categorylabel.put("en", cat.substring(cat.lastIndexOf('/')));							
-						}else {
-							categorylabel.put("en", cat);
+						if(!cat.equals(param)) {
+							if(cat.startsWith("[")) {
+								JSONArray arr=new JSONArray(cat);
+								for(int i=0;i<arr.length();i++) {
+									JSONObject category=new JSONObject();
+									categories.put(category);
+									category.put("id", arr.get(i).toString());
+									JSONObject categorylabel=new JSONObject();
+									category.put("label", categorylabel);
+									if(arr.get(i).toString().contains("/")) {
+										categorylabel.put("en", arr.get(i).toString().substring(arr.get(i).toString().lastIndexOf('/')+1));							
+									}else {
+										categorylabel.put("en", arr.get(i).toString());
+									}
+								}
+							}else {
+								JSONObject category=new JSONObject();
+								categories.put(category);
+								category.put("id", cat);
+								JSONObject categorylabel=new JSONObject();
+								category.put("label", categorylabel);
+								if(cat.contains("/")) {
+									categorylabel.put("en", cat.substring(cat.lastIndexOf('/')+1));							
+								}else {
+									categorylabel.put("en", cat);
+								}								
+							}
+
 						}
 					}
 				}
