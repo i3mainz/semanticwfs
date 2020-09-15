@@ -3,6 +3,7 @@ package de.hsmainz.cs.semgis.wfs.resultformatter.coverage;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 import javax.xml.stream.XMLStreamException;
@@ -71,15 +72,15 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 		JSONObject parameters=new JSONObject();
 		result.put("parameters",parameters);
 		Integer catcounter=1;
+		Map<String,Integer> encodings=new TreeMap<String,Integer>();
 		for(String param:parammap.keySet()) {
 			if(parammap.get(param).getOne()) {
 				JSONObject parameter=new JSONObject();
 				parameter.put("type", "Parameter");
 				JSONObject paramdescription=new JSONObject();
 				paramdescription.put("description", paramdescription);
-				//JSONObject categoryEncoding=new JSONObject();
-				//parameter.put("categoryEncoding", categoryEncoding);
-
+				JSONObject categoryEncoding=new JSONObject();
+				parameter.put("categoryEncoding", categoryEncoding);
 				if(parammap.get(param).getTwo().equals("string")) {
 					JSONArray categories=new JSONArray();
 					parameter.put("categories", categories);
@@ -98,7 +99,8 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 									}else {
 										categorylabel.put("en", arr.get(i).toString());
 									}
-									//categoryEncoding.put(arr.get(i).toString(),catcounter++);
+									encodings.put(arr.get(i).toString(), catcounter);
+									categoryEncoding.put(arr.get(i).toString(),catcounter++);
 								}
 							}else {
 								JSONObject category=new JSONObject();
@@ -111,7 +113,9 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 								}else {
 									categorylabel.put("en", cat);
 								}	
-								//categoryEncoding.put(cat,catcounter++);
+								encodings.put(cat, catcounter);
+								categoryEncoding.put(cat,catcounter++);
+								
 							}
 
 						}
@@ -184,14 +188,22 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 						JSONObject range=new JSONObject();
 							ranges.put(key,range);
 							range.put("type", "NdArray");
-							range.put("dataType",parammap.get(key).getTwo());
+							if(parammap.get(key).getTwo().equals("string")) {
+								range.put("dataType","integer");
+							}else {
+								range.put("dataType",parammap.get(key).getTwo());
+							}
 							range.put("values", new JSONArray());	
 						}
 					}
 					for(String key:feature.getJSONObject("properties").keySet()) {
 						if(parammap.get(key).getOne()) {
 							JSONArray arr=ranges.getJSONObject(key).getJSONArray("values");
-							arr.put(feature.getJSONObject("properties").get(key));
+							if(parammap.get(key).getTwo().equals("string") && encodings.containsKey(feature.getJSONObject("properties").get(key))) {
+								arr.put(encodings.get(feature.getJSONObject("properties").get(key)));
+							}else {
+								arr.put(feature.getJSONObject("properties").get(key));							
+							}
 						}
 					}
 				}
