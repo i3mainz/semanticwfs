@@ -46,10 +46,10 @@ public abstract class CoverageResultFormatter extends ResultFormatter {
 							if(!columnsval.containsKey(key)) {
 								columnsval.put(key, new TreeMap<>());
 							}
-							if(!columnsval.get(key).containsKey(feature.getJSONObject("properties").getString(key))) {
-								columnsval.get(key).put(feature.getJSONObject("properties").getString(key), 0);
+							if(!columnsval.get(key).containsKey(feature.getJSONObject("properties").get(key).toString())) {
+								columnsval.get(key).put(feature.getJSONObject("properties").get(key).toString(), 0);
 							}
-							columnsval.get(key).put(key, columnsval.get(key).put(feature.getJSONObject("properties").getString(key), columnsval.get(key).get(feature.getJSONObject("properties").getString(key))+1));
+							columnsval.get(key).put(key, columnsval.get(key).put(feature.getJSONObject("properties").get(key).toString(), columnsval.get(key).get(feature.getJSONObject("properties").get(key).toString())+1));
 							
 						}
 					}
