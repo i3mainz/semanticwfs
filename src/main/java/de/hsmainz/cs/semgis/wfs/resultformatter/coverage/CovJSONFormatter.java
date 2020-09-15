@@ -118,8 +118,7 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 		}
 		Tuple<String,String> types=this.getDomainTypeFromGeometryTypes(this.getGeometryTypes(geojson));
 		JSONObject domain=result.getJSONObject("domain");
-
-		if(types.getTwo().isEmpty()) {
+		if(!types.getTwo().isEmpty()) {
 			domain.put("domainType", types.getTwo());
 			JSONObject axes=new JSONObject();
 			domain.put("axes", axes);
@@ -133,8 +132,8 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 				y.getJSONArray("values").put(coord.getY());
 			}
 		}else {
-			String geomtype=geojson.getJSONObject("geometry").getString("type");
-			JSONArray coordinates=geojson.getJSONObject("geometry").getJSONArray("coordinates");
+			//String geomtype=geojson.getJSONObject("featuresgetJSONObject("geometry").getString("type");
+			//JSONArray coordinates=geojson.getJSONObject("geometry").getJSONArray("coordinates");
 		}
 		return result;
 	}
