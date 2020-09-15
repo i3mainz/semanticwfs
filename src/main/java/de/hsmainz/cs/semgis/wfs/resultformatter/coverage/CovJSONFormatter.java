@@ -126,10 +126,13 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 			JSONObject y=new JSONObject();
 			x.put("values", new JSONArray());
 			y.put("values",new JSONArray());
-			Geometry geom=geojsonreader.read(geojson.getJSONObject("geometry").toString());
-			for(Coordinate coord:geom.getCoordinates()) {
-				x.getJSONArray("values").put(coord.getX());
-				y.getJSONArray("values").put(coord.getY());
+			for(int i=0;i<geojson.getJSONArray("features").length();i++) {
+				JSONObject feature=geojson.getJSONArray("features").getJSONObject(i);
+				Geometry geom=geojsonreader.read(feature.getJSONObject("geometry").toString());
+				for(Coordinate coord:geom.getCoordinates()) {
+					x.getJSONArray("values").put(coord.getX());
+					y.getJSONArray("values").put(coord.getY());
+				}
 			}
 		}else {
 			//String geomtype=geojson.getJSONObject("featuresgetJSONObject("geometry").getString("type");
