@@ -1,6 +1,5 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter.coverage;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -8,21 +7,15 @@ import java.util.TreeSet;
 
 import javax.xml.stream.XMLStreamException;
 
-import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.io.ParseException;
-
-import com.github.andrewoma.dexx.collection.Vector;
 
 import de.hsmainz.cs.semgis.wfs.resultformatter.CoverageResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
-import de.hsmainz.cs.semgis.wfs.resultformatter.VectorResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
-import de.hsmainz.cs.semgis.wfs.util.ReprojectionUtils;
 import de.hsmainz.cs.semgis.wfs.util.Tuple;
 
 public class CovJSONFormatter extends CoverageResultFormatter {
@@ -84,8 +77,8 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 				parameter.put("type", "Parameter");
 				JSONObject paramdescription=new JSONObject();
 				paramdescription.put("description", paramdescription);
-				JSONObject categoryEncoding=new JSONObject();
-				parameter.put("categoryEncoding", categoryEncoding);
+				//JSONObject categoryEncoding=new JSONObject();
+				//parameter.put("categoryEncoding", categoryEncoding);
 
 				if(parammap.get(param).getTwo().equals("string")) {
 					JSONArray categories=new JSONArray();
@@ -105,7 +98,7 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 									}else {
 										categorylabel.put("en", arr.get(i).toString());
 									}
-									categoryEncoding.put(arr.get(i).toString(),catcounter++);
+									//categoryEncoding.put(arr.get(i).toString(),catcounter++);
 								}
 							}else {
 								JSONObject category=new JSONObject();
@@ -118,7 +111,7 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 								}else {
 									categorylabel.put("en", cat);
 								}	
-								categoryEncoding.put(cat,catcounter++);
+								//categoryEncoding.put(cat,catcounter++);
 							}
 
 						}
