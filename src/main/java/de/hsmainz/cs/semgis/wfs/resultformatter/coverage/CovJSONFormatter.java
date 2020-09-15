@@ -71,7 +71,6 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 	public JSONObject createObservableParametersAndRanges(Map<String,Tuple<Boolean,String>> parammap, JSONObject result, JSONObject geojson,String srsName) {	
 		JSONObject parameters=new JSONObject();
 		result.put("parameters",parameters);
-		Integer catcounter=1;
 		Map<String,Integer> encodings=new TreeMap<String,Integer>();
 		for(String param:parammap.keySet()) {
 			if(parammap.get(param).getOne()) {
@@ -84,7 +83,8 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 				if(parammap.get(param).getTwo().equals("string")) {
 					JSONArray categories=new JSONArray();
 					parameter.put("categories", categories);
-					for(String cat:columnsval.get(param).keySet()) {
+					Integer catcounter=1;
+					for(String cat:columnsval.get(param).keySet()) {						
 						if(!cat.equals(param)) {
 							if(cat.startsWith("[")) {
 								JSONArray arr=new JSONArray(cat);
@@ -199,7 +199,7 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 					for(String key:feature.getJSONObject("properties").keySet()) {
 						if(parammap.get(key).getOne()) {
 							JSONArray arr=ranges.getJSONObject(key).getJSONArray("values");
-							if(parammap.get(key).getTwo().equals("string") && encodings.containsKey(feature.getJSONObject("properties").get(key))) {
+							if(parammap.get(key).getTwo().equals("string") && encodings.containsKey(feature.getJSONObject("properties").get(key).toString())) {
 								arr.put(encodings.get(feature.getJSONObject("properties").get(key)));
 							}else {
 								arr.put(feature.getJSONObject("properties").get(key));							
