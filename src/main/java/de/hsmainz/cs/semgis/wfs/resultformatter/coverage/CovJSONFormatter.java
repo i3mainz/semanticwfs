@@ -146,11 +146,13 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 					JSONObject ranges=new JSONObject();
 					coverage.put("ranges",ranges);
 					for(String key:parammap.keySet()) {
+						if(parammap.get(key).getOne()) {
 						JSONObject range=new JSONObject();
-						ranges.put(key,range);
-						range.put("type", "NdArray");
-						range.put("dataType",parammap.get(key).getTwo());
-						range.put("values", new JSONArray());		
+							ranges.put(key,range);
+							range.put("type", "NdArray");
+							range.put("dataType",parammap.get(key).getTwo());
+							range.put("values", new JSONArray());	
+						}
 					}
 					for(String key:feature.getJSONObject("properties").keySet()) {
 						if(parammap.get(key).getOne()) {
