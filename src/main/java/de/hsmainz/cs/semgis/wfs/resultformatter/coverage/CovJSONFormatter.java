@@ -77,7 +77,7 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 	public JSONObject createObservableParametersAndRanges(Map<String,Tuple<Boolean,String>> parammap, JSONObject result, JSONObject geojson,String srsName) {	
 		JSONObject parameters=new JSONObject();
 		result.put("parameters",parameters);
-
+		Integer catcounter=1;
 		for(String param:parammap.keySet()) {
 			if(parammap.get(param).getOne()) {
 				JSONObject parameter=new JSONObject();
@@ -86,7 +86,7 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 				paramdescription.put("description", paramdescription);
 				JSONObject categoryEncoding=new JSONObject();
 				parameter.put("categoryEncoding", categoryEncoding);
-				Integer catcounter=1;
+
 				if(parammap.get(param).getTwo().equals("string")) {
 					JSONArray categories=new JSONArray();
 					parameter.put("categories", categories);
