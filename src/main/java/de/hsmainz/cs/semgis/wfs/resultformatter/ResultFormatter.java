@@ -47,6 +47,7 @@ import de.hsmainz.cs.semgis.wfs.resultformatter.vector.WKBFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.WKTFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.XLSFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.XLSXFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.vector.YAMLFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.ResultStyleFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
@@ -386,6 +387,10 @@ public abstract class ResultFormatter {
 		format=new CovJSONFormatter();
 		resultMap.put("covjson", format);
 		labelMap.put("covjson",format.label);
+		resultMap.put(format.mimeType, format);
+		format=new YAMLFormatter();
+		resultMap.put("yaml", format);
+		labelMap.put("yaml",format.label);
 		resultMap.put(format.mimeType, format);
 		//resultMap.put("topojson", new TopoJSONFormatter());
 		//resultMap.put("polyshape", new PolyshapeFormatter());
