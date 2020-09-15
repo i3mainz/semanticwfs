@@ -31,7 +31,7 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 		this.mimeType="application/json";
 		this.exposedType="application/prs.coverage+json";
 		this.urlformat="covjson";
-		this.label="CoverageJSON";
+		this.label="CoverageJSON (COVJSON)";
 		this.fileextension="covjson";
 		this.definition="https://covjson.org";
 	}
@@ -74,7 +74,7 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 		return new Tuple<>("CoverageCollection","");
 	}
 	
-	public JSONObject createObservableParametersAndRanges(Map<String,Tuple<Boolean,String>> parammap, JSONObject result, JSONObject geojson) {	
+	public JSONObject createObservableParametersAndRanges(Map<String,Tuple<Boolean,String>> parammap, JSONObject result, JSONObject geojson,String srsName) {	
 		JSONObject parameters=new JSONObject();
 		result.put("parameters",parameters);
 
@@ -105,8 +105,20 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 		Tuple<String,String> types=this.getDomainTypeFromGeometryTypes(this.getGeometryTypes(geojson));
 		JSONObject domain=result.getJSONObject("domain");
 		if(!types.getTwo().isEmpty()) {
-			domain.put("domainType", types.getTwo());
+			result.put("domainType", types.getTwo());
 			result.put("type", types.getOne());
+			JSONArray referencing=new JSONArray();
+			result.put("referencing", referencing);
+			JSONObject ref=new JSONObject();
+			referencing.put(ref);
+			JSONArray coordinates=new JSONArray();
+			coordinates.put("x");
+			coordinates.put("y");
+			ref.put("coordinates", coordinates);
+			JSONObject system=new JSONObject();
+			ref.put("system", system);
+			system.put("type", "GeographicCRS");
+			system.put("id", "http://www.opengis.net/def/crs/EPSG/0/"+srsName.substring(srsName.lastIndexOf(':')+1));
 			if(types.getOne().contains("Collection")) {
 				JSONArray coverages=new JSONArray();
 				result.put("coverages", coverages);
@@ -203,26 +215,8 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 		lastQueriedElemCount=format.lastQueriedElemCount;
 		JSONObject result=new JSONObject();
 		result.put("type", "Coverage");
-		JSONObject domain=new JSONObject();
-		result.put("domain", domain);
-		JSONArray referencing=new JSONArray();
-		domain.put("referencing", referencing);
-		JSONObject ref=new JSONObject();
-		referencing.put(ref);
-		JSONArray coordinates=new JSONArray();
-		coordinates.put("x");
-		coordinates.put("y");
-		ref.put("coordinates", coordinates);
-		JSONObject system=new JSONObject();
-		ref.put("system", system);
-		system.put("type", "GeographicCRS");
-		system.put("id", "http://www.opengis.net/def/crs/EPSG/0/"+srsName.substring(srsName.lastIndexOf(':')+1));
 		if(true) {
-			domain.put("type", "Domain");			
-			domain.put("domainType", "Grid");
-			JSONObject axes=new JSONObject();
-			domain.put("axes", axes);
-			result=createObservableParametersAndRanges(CoverageResultFormatter.extractObservableColumns(geojson),result,geojson);
+			result=createObservableParametersAndRanges(CoverageResultFormatter.extractObservableColumns(geojson),result,geojson,srsName);
 		}else {
 			/*
 			result.put("domain", domain);
