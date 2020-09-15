@@ -2,7 +2,6 @@ package de.hsmainz.cs.semgis.wfs.resultformatter;
 
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.io.ParseException;
-import org.locationtech.jts.io.WKTReader;
 
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.HDTFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.HexTuplesFormatter;
