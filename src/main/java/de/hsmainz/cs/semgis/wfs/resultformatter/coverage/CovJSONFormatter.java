@@ -126,6 +126,8 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 			JSONObject y=new JSONObject();
 			x.put("values", new JSONArray());
 			y.put("values",new JSONArray());
+			axes.put("x", x);
+			axes.put("y", y);
 			for(int i=0;i<geojson.getJSONArray("features").length();i++) {
 				JSONObject feature=geojson.getJSONArray("features").getJSONObject(i);
 				Geometry geom=geojsonreader.read(feature.getJSONObject("geometry").toString());
@@ -166,13 +168,13 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 		JSONObject system=new JSONObject();
 		ref.put("system", system);
 		system.put("type", "GeographicCRS");
-		system.put("id", "http://www.opengis.net/def/crs/EPSG/0/"+srsName);
+		system.put("id", "http://www.opengis.net/def/crs/EPSG/0/"+srsName.substring(srsName.lastIndexOf(':')+1));
 		if(true) {
 			domain.put("type", "Domain");			
 			domain.put("domainType", "Grid");
 			JSONObject axes=new JSONObject();
 			domain.put("axes", axes);
-			createObservableParametersAndRanges(CoverageResultFormatter.extractObservableColumns(geojson),result,geojson);
+			result=createObservableParametersAndRanges(CoverageResultFormatter.extractObservableColumns(geojson),result,geojson);
 		}else {
 			/*
 			result.put("domain", domain);
