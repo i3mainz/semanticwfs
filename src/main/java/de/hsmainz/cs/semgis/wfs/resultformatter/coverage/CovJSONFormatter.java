@@ -110,38 +110,36 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 			if(types.getOne().contains("Collection")) {
 				JSONArray coverages=new JSONArray();
 				result.put("coverages", coverages);
-				JSONObject coverage=new JSONObject();
-				coverage.put("type", "Coverage");
-				JSONObject covdomain=new JSONObject();
-				coverage.put("domain",covdomain);
-				covdomain.put("type", "Domain");
-				JSONObject covaxes=new JSONObject();
-				covdomain.put("axes", covaxes);
-				JSONObject x=new JSONObject();
-				JSONObject y=new JSONObject();
-				x.put("values", new JSONArray());
-				y.put("values",new JSONArray());
-				covaxes.put("x", x);
-				covaxes.put("y", y);
 				for(int i=0;i<geojson.getJSONArray("features").length();i++) {
+					JSONObject coverage=new JSONObject();
+					coverage.put("type", "Coverage");
+					coverages.put(coverage);
+					JSONObject covdomain=new JSONObject();
+					coverage.put("domain",covdomain);
+					covdomain.put("type", "Domain");
+					JSONObject covaxes=new JSONObject();
+					covdomain.put("axes", covaxes);
+					JSONObject x=new JSONObject();
+					JSONObject y=new JSONObject();
+					x.put("values", new JSONArray());
+					y.put("values",new JSONArray());
+					covaxes.put("x", x);
+					covaxes.put("y", y);
 					JSONObject feature=geojson.getJSONArray("features").getJSONObject(i);
 					Geometry geom=geojsonreader.read(feature.getJSONObject("geometry").toString());
 					for(Coordinate coord:geom.getCoordinates()) {
 						x.getJSONArray("values").put(coord.getX());
 						y.getJSONArray("values").put(coord.getY());
 					}
-				}
-				JSONObject ranges=new JSONObject();
-				coverage.put("ranges",ranges);
-				for(String key:parammap.keySet()) {
-					JSONObject range=new JSONObject();
-					ranges.put(key,range);
-					range.put("type", "NdArray");
-					range.put("dataType",parammap.get(key).getTwo());
-					range.put("values", new JSONArray());		
-				}
-				for(int i=0;i<geojson.getJSONArray("features").length();i++) {
-					JSONObject feature=geojson.getJSONArray("features").getJSONObject(i);
+					JSONObject ranges=new JSONObject();
+					coverage.put("ranges",ranges);
+					for(String key:parammap.keySet()) {
+						JSONObject range=new JSONObject();
+						ranges.put(key,range);
+						range.put("type", "NdArray");
+						range.put("dataType",parammap.get(key).getTwo());
+						range.put("values", new JSONArray());		
+					}
 					for(String key:feature.getJSONObject("properties").keySet()) {
 						if(parammap.get(key).getOne()) {
 							JSONArray arr=ranges.getJSONObject(key).getJSONArray("values");
