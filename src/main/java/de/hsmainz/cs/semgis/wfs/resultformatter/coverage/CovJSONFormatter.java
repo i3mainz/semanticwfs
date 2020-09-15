@@ -84,6 +84,9 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 				parameter.put("type", "Parameter");
 				JSONObject paramdescription=new JSONObject();
 				paramdescription.put("description", paramdescription);
+				JSONObject categoryEncoding=new JSONObject();
+				parameter.put("categoryEncoding", categoryEncoding);
+				Integer catcounter=1;
 				if(parammap.get(param).getTwo().equals("string")) {
 					JSONArray categories=new JSONArray();
 					parameter.put("categories", categories);
@@ -102,6 +105,7 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 									}else {
 										categorylabel.put("en", arr.get(i).toString());
 									}
+									categoryEncoding.put(arr.get(i).toString(),catcounter++);
 								}
 							}else {
 								JSONObject category=new JSONObject();
@@ -113,12 +117,15 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 									categorylabel.put("en", cat.substring(cat.lastIndexOf('/')+1));							
 								}else {
 									categorylabel.put("en", cat);
-								}								
+								}	
+								categoryEncoding.put(cat,catcounter++);
 							}
 
 						}
 					}
 				}
+
+				
 				/*JSONObject unit=new JSONObject();		
 				parameter.put("unit", unit);
 				JSONObject unitlabel=new JSONObject();
