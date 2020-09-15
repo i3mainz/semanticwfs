@@ -93,7 +93,11 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 						category.put("id", cat);
 						JSONObject categorylabel=new JSONObject();
 						category.put("label", categorylabel);
-						categorylabel.put("en", cat.substring(cat.lastIndexOf('/')));
+						if(cat.contains("/")) {
+							categorylabel.put("en", cat.substring(cat.lastIndexOf('/')));							
+						}else {
+							categorylabel.put("en", cat);
+						}
 					}
 				}
 				/*JSONObject unit=new JSONObject();		
