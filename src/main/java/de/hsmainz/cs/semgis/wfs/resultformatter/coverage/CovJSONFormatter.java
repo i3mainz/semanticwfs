@@ -84,6 +84,18 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 				parameter.put("type", "Parameter");
 				JSONObject paramdescription=new JSONObject();
 				paramdescription.put("description", paramdescription);
+				if(parammap.get(param).getTwo().equals("string")) {
+					JSONArray categories=new JSONArray();
+					parameter.put("categories", categories);
+					for(String cat:columnsval.get(param).keySet()) {
+						JSONObject category=new JSONObject();
+						categories.put(category);
+						category.put("id", cat);
+						JSONObject categorylabel=new JSONObject();
+						category.put("label", categorylabel);
+						categorylabel.put("en", cat.substring(cat.lastIndexOf('/')));
+					}
+				}
 				/*JSONObject unit=new JSONObject();		
 				parameter.put("unit", unit);
 				JSONObject unitlabel=new JSONObject();
@@ -103,7 +115,6 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 			}	
 		}
 		Tuple<String,String> types=this.getDomainTypeFromGeometryTypes(this.getGeometryTypes(geojson));
-		JSONObject domain=result.getJSONObject("domain");
 		if(!types.getTwo().isEmpty()) {
 			result.put("domainType", types.getTwo());
 			result.put("type", types.getOne());
@@ -162,6 +173,8 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 					}
 				}
 			}else {
+				result.put("domain",new JSONObject());
+				JSONObject domain=result.getJSONObject("domain");
 				JSONObject axes=new JSONObject();
 				domain.put("axes", axes);
 				JSONObject x=new JSONObject();

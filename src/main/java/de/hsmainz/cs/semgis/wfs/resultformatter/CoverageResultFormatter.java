@@ -28,9 +28,12 @@ public abstract class CoverageResultFormatter extends ResultFormatter {
 		resultMap.put("gmlcov", new GMLCOVFormatter());	
 	}
 	
+	public static Map<String,Map<String,Integer>> columnsval;
+	
+	
 	public static Map<String,Tuple<Boolean,String>> extractObservableColumns(JSONObject geojson) {
 		Map<String,Tuple<Boolean,String>> columns=new TreeMap<String,Tuple<Boolean,String>>();
-		Map<String,Map<String,Integer>> columnsval=new TreeMap<String,Map<String,Integer>>();
+		columnsval=new TreeMap<String,Map<String,Integer>>();
 		JSONArray features=geojson.getJSONArray("features");
 		for(int i=0;i<features.length();i++) {
 			JSONObject feature=geojson.getJSONArray("features").getJSONObject(i);
