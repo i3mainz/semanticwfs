@@ -10,6 +10,7 @@ import de.hsmainz.cs.semgis.wfs.resultformatter.coverage.CovJSONFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.coverage.GMLCOVFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.coverage.GeoTIFFFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.coverage.XYZASCIIFormatter;
+import de.hsmainz.cs.semgis.wfs.util.Tuple;
 
 public abstract class CoverageResultFormatter extends ResultFormatter {
 
@@ -27,8 +28,8 @@ public abstract class CoverageResultFormatter extends ResultFormatter {
 		resultMap.put("gmlcov", new GMLCOVFormatter());	
 	}
 	
-	public static Map<String,Boolean> extractObservableColumns(JSONObject geojson) {
-		Map<String,Boolean> columns=new TreeMap<String,Boolean>();
+	public static Map<String,Tuple<Boolean,String>> extractObservableColumns(JSONObject geojson) {
+		Map<String,Tuple<Boolean,String>> columns=new TreeMap<String,Tuple<Boolean,String>>();
 		Map<String,Map<String,Integer>> columnsval=new TreeMap<String,Map<String,Integer>>();
 		JSONArray features=geojson.getJSONArray("features");
 		for(int i=0;i<features.length();i++) {
@@ -37,11 +38,11 @@ public abstract class CoverageResultFormatter extends ResultFormatter {
 				if(!columns.containsKey(key)) {
 					try {
 						Number valuenum=feature.getNumber(key);
-						columns.put(key, true);
+						columns.put(key, new Tuple<>(true,"float"));
 					}catch(Exception e) {
 						try {
 							boolean valuebool=feature.getBoolean(key);
-							columns.put(key, true);
+							columns.put(key, new Tuple<>(true,"bool"));
 						}catch(Exception ex) {
 							if(!columnsval.containsKey(key)) {
 								columnsval.put(key, new TreeMap<>());
@@ -59,9 +60,9 @@ public abstract class CoverageResultFormatter extends ResultFormatter {
 		for(String key:geojson.getJSONArray("features").getJSONObject(0).getJSONObject("properties").keySet()) {
 			if(!columns.containsKey(key)) {
 				if(columnsval.get(key).size()==geojson.getJSONArray("features").length()) {
-					columns.put(key, false);
+					columns.put(key, new Tuple<>(false,null));
 				}else {
-					columns.put(key, true);
+					columns.put(key, new Tuple<>(true,"string"));
 				}
 			}
 		}

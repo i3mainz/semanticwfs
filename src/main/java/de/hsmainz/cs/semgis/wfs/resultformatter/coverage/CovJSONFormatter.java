@@ -45,6 +45,7 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 		return result;
 	}
 	
+	
 	public Tuple<String,String> getDomainTypeFromGeometryTypes(Set<String> types) {
 		if(types.size()==1) {
 			if(types.contains("Polygon")) {
@@ -73,13 +74,12 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 		return new Tuple<>("CoverageCollection","");
 	}
 	
-	public JSONObject createObservableParametersAndRanges(Map<String,Boolean> parammap, JSONObject result, JSONObject geojson) {	
+	public JSONObject createObservableParametersAndRanges(Map<String,Tuple<Boolean,String>> parammap, JSONObject result, JSONObject geojson) {	
 		JSONObject parameters=new JSONObject();
 		result.put("parameters",parameters);
-		JSONObject ranges=new JSONObject();
-		result.put("ranges",ranges);
+
 		for(String param:parammap.keySet()) {
-			if(parammap.get(param)) {
+			if(parammap.get(param).getOne()) {
 				JSONObject parameter=new JSONObject();
 				parameter.put("type", "Parameter");
 				JSONObject paramdescription=new JSONObject();
@@ -100,42 +100,92 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 				observedProperty.put("label",observedPropertyLabel);
 				observedPropertyLabel.put("en", param.substring(param.lastIndexOf('/')+1));
 				parameters.put(param,parameter);
-				JSONObject range=new JSONObject();
-				ranges.put(param,range);
-				range.put("type", "NdArray");
-				range.put("dataType","float");
-				range.put("values", new JSONArray());
 			}	
-		}
-		for(int i=0;i<geojson.getJSONArray("features").length();i++) {
-			JSONObject feature=geojson.getJSONArray("features").getJSONObject(i);
-			for(String key:feature.getJSONObject("properties").keySet()) {
-				if(parammap.get(key)) {
-					JSONArray arr=ranges.getJSONObject(key).getJSONArray("values");
-					arr.put(feature.getJSONObject("properties").get(key));
-				}
-			}
 		}
 		Tuple<String,String> types=this.getDomainTypeFromGeometryTypes(this.getGeometryTypes(geojson));
 		JSONObject domain=result.getJSONObject("domain");
 		if(!types.getTwo().isEmpty()) {
 			domain.put("domainType", types.getTwo());
-			JSONObject axes=new JSONObject();
-			domain.put("axes", axes);
-			JSONObject x=new JSONObject();
-			JSONObject y=new JSONObject();
-			x.put("values", new JSONArray());
-			y.put("values",new JSONArray());
-			axes.put("x", x);
-			axes.put("y", y);
-			for(int i=0;i<geojson.getJSONArray("features").length();i++) {
-				JSONObject feature=geojson.getJSONArray("features").getJSONObject(i);
-				Geometry geom=geojsonreader.read(feature.getJSONObject("geometry").toString());
-				for(Coordinate coord:geom.getCoordinates()) {
-					x.getJSONArray("values").put(coord.getX());
-					y.getJSONArray("values").put(coord.getY());
+			result.put("type", types.getOne());
+			if(types.getOne().contains("Collection")) {
+				JSONArray coverages=new JSONArray();
+				result.put("coverages", coverages);
+				JSONObject coverage=new JSONObject();
+				coverage.put("type", "Coverage");
+				JSONObject covdomain=new JSONObject();
+				coverage.put("domain",covdomain);
+				covdomain.put("type", "Domain");
+				JSONObject covaxes=new JSONObject();
+				covdomain.put("axes", covaxes);
+				JSONObject x=new JSONObject();
+				JSONObject y=new JSONObject();
+				x.put("values", new JSONArray());
+				y.put("values",new JSONArray());
+				covaxes.put("x", x);
+				covaxes.put("y", y);
+				for(int i=0;i<geojson.getJSONArray("features").length();i++) {
+					JSONObject feature=geojson.getJSONArray("features").getJSONObject(i);
+					Geometry geom=geojsonreader.read(feature.getJSONObject("geometry").toString());
+					for(Coordinate coord:geom.getCoordinates()) {
+						x.getJSONArray("values").put(coord.getX());
+						y.getJSONArray("values").put(coord.getY());
+					}
+				}
+				JSONObject ranges=new JSONObject();
+				coverage.put("ranges",ranges);
+				for(String key:parammap.keySet()) {
+					JSONObject range=new JSONObject();
+					ranges.put(key,range);
+					range.put("type", "NdArray");
+					range.put("dataType",parammap.get(key).getTwo());
+					range.put("values", new JSONArray());		
+				}
+				for(int i=0;i<geojson.getJSONArray("features").length();i++) {
+					JSONObject feature=geojson.getJSONArray("features").getJSONObject(i);
+					for(String key:feature.getJSONObject("properties").keySet()) {
+						if(parammap.get(key).getOne()) {
+							JSONArray arr=ranges.getJSONObject(key).getJSONArray("values");
+							arr.put(feature.getJSONObject("properties").get(key));
+						}
+					}
+				}
+			}else {
+				JSONObject axes=new JSONObject();
+				domain.put("axes", axes);
+				JSONObject x=new JSONObject();
+				JSONObject y=new JSONObject();
+				x.put("values", new JSONArray());
+				y.put("values",new JSONArray());
+				axes.put("x", x);
+				axes.put("y", y);
+				for(int i=0;i<geojson.getJSONArray("features").length();i++) {
+					JSONObject feature=geojson.getJSONArray("features").getJSONObject(i);
+					Geometry geom=geojsonreader.read(feature.getJSONObject("geometry").toString());
+					for(Coordinate coord:geom.getCoordinates()) {
+						x.getJSONArray("values").put(coord.getX());
+						y.getJSONArray("values").put(coord.getY());
+					}
+				}
+				JSONObject ranges=new JSONObject();
+				result.put("ranges",ranges);
+				for(String key:parammap.keySet()) {
+					JSONObject range=new JSONObject();
+					ranges.put(key,range);
+					range.put("type", "NdArray");
+					range.put("dataType",parammap.get(key).getTwo());
+					range.put("values", new JSONArray());		
+				}
+				for(int i=0;i<geojson.getJSONArray("features").length();i++) {
+					JSONObject feature=geojson.getJSONArray("features").getJSONObject(i);
+					for(String key:feature.getJSONObject("properties").keySet()) {
+						if(parammap.get(key).getOne()) {
+							JSONArray arr=ranges.getJSONObject(key).getJSONArray("values");
+							arr.put(feature.getJSONObject("properties").get(key));
+						}
+					}
 				}
 			}
+
 		}else {
 			//String geomtype=geojson.getJSONObject("featuresgetJSONObject("geometry").getString("type");
 			//JSONArray coordinates=geojson.getJSONObject("geometry").getJSONArray("coordinates");
