@@ -38,7 +38,7 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 	
 	public Set<String> getGeometryTypes(JSONObject geojson){
 		Set<String> result=new TreeSet<String>();
-		for(int i=0;i<geojson.getJSONObject("features").length();i++) {
+		for(int i=0;i<geojson.getJSONArray("features").length();i++) {
 			JSONObject feature=geojson.getJSONArray("features").getJSONObject(i);
 			result.add(feature.getJSONObject("geometry").getString("type"));
 		}
