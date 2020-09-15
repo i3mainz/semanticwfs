@@ -200,7 +200,7 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 						if(parammap.get(key).getOne()) {
 							JSONArray arr=ranges.getJSONObject(key).getJSONArray("values");
 							if(parammap.get(key).getTwo().equals("string") && encodings.containsKey(feature.getJSONObject("properties").get(key).toString())) {
-								arr.put(encodings.get(feature.getJSONObject("properties").get(key)));
+								arr.put(encodings.get(feature.getJSONObject("properties").get(key).toString()));
 							}else {
 								arr.put(feature.getJSONObject("properties").get(key));							
 							}
