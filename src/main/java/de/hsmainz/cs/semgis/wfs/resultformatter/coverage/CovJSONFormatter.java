@@ -46,7 +46,7 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 				return new Tuple<>("Coverage","MultiPolygon");
 			}
 			if(types.contains("LineString")) {
-				return new Tuple<>("CoverageCollection","Trajectory");
+				return new Tuple<>("Coverage","Trajectory");
 			}
 			if(types.contains("Point")) {
 				return new Tuple<>("CoverageCollection","Point");
