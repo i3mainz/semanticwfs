@@ -37,6 +37,7 @@ import de.hsmainz.cs.semgis.wfs.resultformatter.vector.WKBFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.WKTFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.XLSFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.XLSXFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.vector.YAMLFormatter;
 
 public abstract class VectorResultFormatter extends ResultFormatter{
 	
@@ -205,6 +206,10 @@ public abstract class VectorResultFormatter extends ResultFormatter{
 		format=new XLSXFormatter();
 		resultMap.put("xlsx", format);
 		labelMap.put("xlsx",format.label);
+		resultMap.put(format.mimeType, format);
+		format=new YAMLFormatter();
+		resultMap.put("yaml", format);
+		labelMap.put("yaml",format.label);
 		resultMap.put(format.mimeType, format);
 	}
 
