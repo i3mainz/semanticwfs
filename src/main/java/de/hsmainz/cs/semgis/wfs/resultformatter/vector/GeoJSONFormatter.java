@@ -10,7 +10,6 @@ import java.util.TreeMap;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Literal;
-import org.apache.jena.sparql.expr.NodeValue;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -221,18 +220,17 @@ public class GeoJSONFormatter extends VectorResultFormatter {
 				String name = varnames.next();
 				// System.out.println(name);
 				// if (newobject) {
-				if ((name.endsWith("_geom") && solu.get(name) instanceof Literal)
-						|| (solu.get(name) instanceof Literal && solu.getLiteral(name) != null
-								&& solu.getLiteral(name).getDatatype().toString().contains("wktLiteral"))) {
+				if (name.endsWith("_geom")) {
 					// System.out.println("Geomvar: "+name);
 					geomvars++;
 					geomvarname = name;
 					
 					lastgeom = solu.get(name).toString();
-					try {
-						Geometry coord=ReprojectionUtils.reproject(wktreader.read(solu.getLiteral(name).getString()), epsg,srsName);
+					Geometry geom=this.parseVectorLiteral(solu.get(name).toString().substring(0,solu.get(name).toString().indexOf("^^")),
+							solu.get(name).toString().substring(solu.get(name).toString().indexOf("^^")+2), epsg, srsName);
+					if(geom!=null) {
 						GeoJSONWriter writer = new GeoJSONWriter();
-			            GeoJSON geomobj = writer.write(coord);
+			            GeoJSON geomobj = writer.write(geom);
 			            geoms.add(new JSONObject(geomobj.toString()));
 						if(mapstyle!=null) {
 							JSONObject geojsonstyle=new JSONObject(this.styleformatter.formatGeometry(geomobj.getType(), mapstyle));
@@ -241,10 +239,7 @@ public class GeoJSONFormatter extends VectorResultFormatter {
 								style.put(key,geojsonstyle.get(key));
 							}
 						}
-					} catch (Exception e) {
-						e.printStackTrace();
 					}
-					
 					addKeyVal(properties, name, solu.get(name).toString());
 				}
 				if (name.endsWith("_rel") || name.equals("rel") || name.matches("rel[0-9]+$")) {

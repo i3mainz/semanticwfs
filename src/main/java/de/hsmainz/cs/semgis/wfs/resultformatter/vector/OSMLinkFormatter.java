@@ -10,14 +10,12 @@ import org.apache.jena.query.ResultSet;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Envelope;
 import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.io.ParseException;
 import org.locationtech.jts.io.WKTReader;
 
-import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.VectorResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
-import de.hsmainz.cs.semgis.wfs.util.ReprojectionUtils;
 
-public class OSMLinkFormatter extends ResultFormatter {
+public class OSMLinkFormatter extends VectorResultFormatter {
 
 	WKTReader reader=new WKTReader();
 	
@@ -48,22 +46,19 @@ public class OSMLinkFormatter extends ResultFormatter {
 			while(varnames.hasNext()) {
 				String name=varnames.next();
 				if(name.endsWith("_geom")) {
-					try {
-						Geometry geom=reader.read(solu.get(name).toString().substring(0,solu.get(name).toString().indexOf("^^")));
-						geom=ReprojectionUtils.reproject(geom, epsg, srsName);
+					Geometry geom=this.parseVectorLiteral(solu.get(name).toString().substring(0,solu.get(name).toString().indexOf("^^")),
+							solu.get(name).toString().substring(solu.get(name).toString().indexOf("^^")+2), epsg, srsName);
+					if(geom!=null) {
 						Envelope env = geom.getEnvelopeInternal();
-				        builder.append("http://www.openstreetmap.org/?");
-				        builder.append("minlon=").append(env.getMinY());
-				        builder.append("&minlat=").append(env.getMinX());
-				        builder.append("&maxlon=").append(env.getMaxY());
-				        builder.append("&maxlat=").append(env.getMaxX());
-				        Coordinate centre = env.centre();
-				        builder.append("&mlat=").append(centre.x);
-				        builder.append("&mlon=").append(centre.y);          
-				        builder.append(System.lineSeparator());
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+			        	builder.append("http://www.openstreetmap.org/?");
+			        	builder.append("minlon=").append(env.getMinY());
+			        	builder.append("&minlat=").append(env.getMinX());
+			        	builder.append("&maxlon=").append(env.getMaxY());
+			        	builder.append("&maxlat=").append(env.getMaxX());
+			        	Coordinate centre = env.centre();
+			        	builder.append("&mlat=").append(centre.x);
+			        	builder.append("&mlon=").append(centre.y);          
+			        	builder.append(System.lineSeparator());
 					}
 				}else if(name.equalsIgnoreCase(indvar)){
 					continue;

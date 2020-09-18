@@ -28,6 +28,11 @@ public abstract class CoverageResultFormatter extends ResultFormatter {
 		resultMap.put("gmlcov", new GMLCOVFormatter());	
 	}
 	
+	
+	public JSONObject parseCoverageLiteral(String literalValue, String literalType) {
+		return null;
+	}
+	
 	public static Map<String,Map<String,Integer>> columnsval;
 	
 	

@@ -39,7 +39,7 @@ public class YAMLFormatter extends ResultFormatter {
 		String geojson=
 				format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,srsName,indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat,invertXY);
 		lastQueriedElemCount=format.lastQueriedElemCount;
-		 JsonNode jsonNodeTree;
+		JsonNode jsonNodeTree;
 		try {
 			jsonNodeTree = new ObjectMapper().readTree(geojson);
 	        String jsonAsYaml = new YAMLMapper().writeValueAsString(jsonNodeTree);

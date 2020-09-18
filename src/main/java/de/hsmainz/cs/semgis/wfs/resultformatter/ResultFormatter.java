@@ -8,6 +8,7 @@ import javax.ws.rs.core.MediaType;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.jena.query.ResultSet;
+import org.locationtech.jts.io.WKBReader;
 import org.locationtech.jts.io.WKTReader;
 import org.wololo.jts2geojson.GeoJSONReader;
 
@@ -78,6 +79,8 @@ public abstract class ResultFormatter {
 	public ResultStyleFormatter styleformatter;
 	
 	public WKTReader wktreader=new WKTReader();
+	
+	public WKBReader wkbreader=new WKBReader();
 	
 	public GeoJSONReader geojsonreader=new GeoJSONReader();
 	
