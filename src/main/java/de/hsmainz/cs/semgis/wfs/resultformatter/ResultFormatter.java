@@ -399,16 +399,6 @@ public abstract class ResultFormatter {
 		//resultMap.put("polyshape", new PolyshapeFormatter());
 	}
 	
-	/*public convertCoordinates() {
-		ProjCoordinate coord = new ProjCoordinate(5439627.33, 5661628.09);
-        System.out.println(coord);
-
-        ProjCoordinate target = new ProjCoordinate();
-        CRSFactory crsFactory = new CRSFactory();
-        CoordinateTransformFactory f = new CoordinateTransformFactory();
-        CoordinateTransform t;
-	}*/
-	
 	public abstract String formatter(ResultSet results,String startingElement,
 			String featuretype,String propertytype,String typeColumn,
 			Boolean onlyproperty,Boolean onlyhits,String srsName,String indvar,
