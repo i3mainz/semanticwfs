@@ -8,6 +8,9 @@ import javax.ws.rs.core.MediaType;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.jena.query.ResultSet;
+import org.json.JSONObject;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.io.ParseException;
 import org.locationtech.jts.io.WKBReader;
 import org.locationtech.jts.io.WKTReader;
 import org.wololo.jts2geojson.GeoJSONReader;
@@ -51,6 +54,7 @@ import de.hsmainz.cs.semgis.wfs.resultformatter.vector.XLSXFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.YAMLFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.ResultStyleFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
+import de.hsmainz.cs.semgis.wfs.util.ReprojectionUtils;
 
 /**
  * Abstract class to downlift query results.
@@ -397,6 +401,50 @@ public abstract class ResultFormatter {
 		resultMap.put(format.mimeType, format);
 		//resultMap.put("topojson", new TopoJSONFormatter());
 		//resultMap.put("polyshape", new PolyshapeFormatter());
+	}
+	
+	public Geometry parseVectorLiteral(String literalValue, String literalType, String epsg, String srsName) {
+		Geometry geom=null;
+		if(literalType.toLowerCase().contains("wkt")) {
+			try {
+				geom=this.wktreader.read(literalValue);
+			} catch (ParseException e) {
+				return null;
+			}
+		}
+		else if(literalType.toLowerCase().contains("geojson")) {
+			geom=this.geojsonreader.read(literalValue);
+		}
+		else if(literalType.toLowerCase().contains("wkb")) {
+			try {
+				geom=this.wkbreader.read(WKBReader.hexToBytes(literalValue));
+			} catch (ParseException e) {
+				return null;
+			}
+		}
+		if(geom!=null) {
+			geom=ReprojectionUtils.reproject(geom, epsg,srsName);
+			return geom;
+		}
+		return null;
+	}
+	public JSONObject parseCoverageLiteral(String literalValue, String literalType,String epsg, String srsName) {
+		if(literalType.contains("wkb")) {
+			
+		}
+		return null;
+	}
+	
+	public Object parseLiteral(String literalValue, String literalType, String epsg, String srsName) {
+		Geometry geom=parseVectorLiteral(literalValue, literalType, epsg, srsName);
+		if(geom!=null) {
+			return geom;
+		}
+		JSONObject cov=parseCoverageLiteral(literalValue, literalType, epsg, srsName);
+		if(cov!=null) {
+			return cov;
+		}
+		return null;
 	}
 	
 	public abstract String formatter(ResultSet results,String startingElement,

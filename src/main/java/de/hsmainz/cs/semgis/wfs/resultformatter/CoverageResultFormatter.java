@@ -29,10 +29,6 @@ public abstract class CoverageResultFormatter extends ResultFormatter {
 	}
 	
 	
-	public JSONObject parseCoverageLiteral(String literalValue, String literalType) {
-		return null;
-	}
-	
 	public static Map<String,Map<String,Integer>> columnsval;
 	
 	

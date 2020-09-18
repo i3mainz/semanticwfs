@@ -1,8 +1,6 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter;
 
-import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.io.ParseException;
-import org.locationtech.jts.io.WKBReader;
+import org.json.JSONObject;
 
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.HDTFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.HexTuplesFormatter;
@@ -39,7 +37,6 @@ import de.hsmainz.cs.semgis.wfs.resultformatter.vector.WKTFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.XLSFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.XLSXFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.YAMLFormatter;
-import de.hsmainz.cs.semgis.wfs.util.ReprojectionUtils;
 
 public abstract class VectorResultFormatter extends ResultFormatter{
 	
@@ -47,29 +44,8 @@ public abstract class VectorResultFormatter extends ResultFormatter{
 	
 	public static final String WKTLiteral="http://www.opengis.net/ont/geosparql#wktLiteral";
 	
-	public Geometry parseVectorLiteral(String literalValue, String literalType, String epsg, String srsName) {
-		Geometry geom=null;
-		if(literalType.toLowerCase().contains("wkt")) {
-			try {
-				geom=this.wktreader.read(literalValue);
-			} catch (ParseException e) {
-				return null;
-			}
-		}
-		else if(literalType.toLowerCase().contains("geojson")) {
-			geom=this.geojsonreader.read(literalValue);
-		}
-		else if(literalType.toLowerCase().contains("wkb")) {
-			try {
-				geom=this.wkbreader.read(WKBReader.hexToBytes(literalValue));
-			} catch (ParseException e) {
-				return null;
-			}
-		}
-		if(geom!=null) {
-			geom=ReprojectionUtils.reproject(geom, epsg,srsName);
-			return geom;
-		}
+	@Override
+	public JSONObject parseCoverageLiteral(String literalValue, String literalType, String epsg, String srsName) {
 		return null;
 	}
 	

@@ -9,11 +9,10 @@ import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.io.ParseException;
 
 import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.VectorResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
-import de.hsmainz.cs.semgis.wfs.util.ReprojectionUtils;
 
 public class XYZASCIIFormatter extends ResultFormatter {
 
@@ -42,9 +41,10 @@ public class XYZASCIIFormatter extends ResultFormatter {
 			while(varnames.hasNext()) {
 				String name=varnames.next();
 				if(name.endsWith("_geom")) {
-					try {
-						Geometry geom=wktreader.read(solu.get(name).toString().substring(0,solu.get(name).toString().indexOf("^^")));
-						geom=ReprojectionUtils.reproject(geom, epsg, srsName);
+					Object obj=this.parseLiteral(solu.get(name).toString().substring(0,solu.get(name).toString().indexOf("^^")),
+							solu.get(name).toString().substring(solu.get(name).toString().indexOf("^^")+2), epsg, srsName);
+					if(obj instanceof Geometry) {
+						Geometry geom=(Geometry)obj;
 						for(Coordinate coord:geom.getCoordinates()) {
 							builder.append(coord.getX()+" "+coord.getY());
 							if(!Double.isNaN(coord.getZ())) {
@@ -52,10 +52,7 @@ public class XYZASCIIFormatter extends ResultFormatter {
 							}else {
 								builder.append(System.lineSeparator());
 							}
-						}
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						}						
 					}
 				}else if(name.equalsIgnoreCase(indvar)){
 					continue;
@@ -73,17 +70,9 @@ public class XYZASCIIFormatter extends ResultFormatter {
 				if(lon.contains("^^")) {
 					lon=lon.substring(0,lon.indexOf("^^"));
 				}
-				Geometry geom;
-				try {
-					geom = wktreader.read("Point("+lon+" "+lat+")");
-					geom=ReprojectionUtils.reproject(geom, epsg, srsName);
-					for(Coordinate coord:geom.getCoordinates()) {
-						builder.append(coord.getX()+" "+coord.getY()+" "+coord.getZ()+System.lineSeparator());
-					}
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				Geometry geom=this.parseVectorLiteral("Point("+lon+" "+lat+")", VectorResultFormatter.WKTLiteral, epsg, srsName);
+				if(geom!=null)
+					builder.append(geom.toText()+System.lineSeparator());
 				lat="";
 				lon="";
 			}
