@@ -73,6 +73,12 @@
 		<version>1.16.16</version>
 		<scope>provided</scope>
 	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.apache.sis.storage/sis-storage -->
+<dependency>
+    <groupId>org.apache.sis.storage</groupId>
+    <artifactId>sis-storage</artifactId>
+    <version>1.0</version>
+</dependency>
 <!-- https://mvnrepository.com/artifact/org.json/json -->
 <dependency>
     <groupId>org.json</groupId>
