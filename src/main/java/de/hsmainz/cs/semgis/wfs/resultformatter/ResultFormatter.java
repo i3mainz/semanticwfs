@@ -28,6 +28,7 @@ import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.RDFThriftFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.TTLFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.TrigFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.TrixFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.vector.BSONFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.CSVFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.GMLFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.GPXFormatter;
@@ -398,6 +399,10 @@ public abstract class ResultFormatter {
 		format=new YAMLFormatter();
 		resultMap.put("yaml", format);
 		labelMap.put("yaml",format.label);
+		resultMap.put(format.mimeType, format);
+		format=new BSONFormatter();
+		resultMap.put("bson", format);
+		labelMap.put("bson",format.label);
 		resultMap.put(format.mimeType, format);
 		//resultMap.put("topojson", new TopoJSONFormatter());
 		//resultMap.put("polyshape", new PolyshapeFormatter());
