@@ -162,6 +162,7 @@ public class HTMLFormatter extends ResultFormatter {
 		while (it.hasNext()) {
 			String name = it.next();
 			if (name.endsWith("_geom")) {
+				System.out.println(name+" - "+first.getLiteral(name));
 				if (vectorLiteralMap.contains(first.getLiteral(name).getDatatypeURI())) {
 					System.out.println("Assessment Result True: "+first.getLiteral(name).getDatatypeURI());
 					return true;
@@ -184,7 +185,7 @@ public class HTMLFormatter extends ResultFormatter {
 			List<String> noteligiblenamespaces,StyleObject mapstyle,Boolean alternativeFormat,Boolean invertXY) throws XMLStreamException {
 		Boolean assessment=getVectorOrCoverageRepresentationForHTML(results.next());
 		StringBuilder builder = new StringBuilder();
-		if(!assessment) {
+		if(assessment!=null && !assessment) {
 			ResultFormatter format = resultMap.get("covjson");
 			JSONObject covjson = new JSONObject(
 					format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,"",indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat,invertXY));
