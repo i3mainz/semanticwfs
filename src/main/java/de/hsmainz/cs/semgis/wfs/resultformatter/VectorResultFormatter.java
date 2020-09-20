@@ -10,7 +10,7 @@ public abstract class VectorResultFormatter extends ResultFormatter{
 	public static final String WKTLiteral="http://www.opengis.net/ont/geosparql#wktLiteral";
 	
 	@Override
-	public JSONObject parseCoverageLiteral(String literalValue, String literalType, String epsg, String srsName) {
+	public String parseCoverageLiteral(String literalValue, String literalType, String epsg, String srsName) {
 		return null;
 	}
 	

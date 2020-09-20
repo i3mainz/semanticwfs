@@ -49,6 +49,7 @@ import de.hsmainz.cs.semgis.wfs.resultformatter.vector.KMLFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.LatLonTextFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.MVTFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.MapMLFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.vector.ODSFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.OSMFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.OSMLinkFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.SVGFormatter;
@@ -300,6 +301,7 @@ public abstract class ResultFormatter {
 		addToMaps("covjson", new CovJSONFormatter());
 		addToMaps("yaml", new YAMLFormatter());
 		addToMaps("bson", new BSONFormatter());
+		addToMaps("ods", new ODSFormatter());
 	}
 	
 	public Geometry parseVectorLiteral(String literalValue, String literalType, String epsg, String srsName) {
@@ -327,13 +329,13 @@ public abstract class ResultFormatter {
 		}
 		return null;
 	}
-	public JSONObject parseCoverageLiteral(String literalValue, String literalType,String epsg, String srsName) {
+	public String parseCoverageLiteral(String literalValue, String literalType,String epsg, String srsName) {
 		if(literalType.contains("wkb")) {
 			
 		}else if(literalType.contains("covjson")) {
 			
 		}else if(literalType.contains("xyz")) {
-			
+			return literalValue;
 		}
 		return null;
 	}
@@ -343,7 +345,7 @@ public abstract class ResultFormatter {
 		if(geom!=null) {
 			return geom;
 		}
-		JSONObject cov=parseCoverageLiteral(literalValue, literalType, epsg, srsName);
+		String cov=parseCoverageLiteral(literalValue, literalType, epsg, srsName);
 		if(cov!=null) {
 			return cov;
 		}
@@ -354,6 +356,6 @@ public abstract class ResultFormatter {
 			String featuretype,String propertytype,String typeColumn,
 			Boolean onlyproperty,Boolean onlyhits,String srsName,String indvar,
 			String epsg,List<String> eligiblenamespaces,List<String> noteligiblenamespaces,
-			StyleObject mapstyle,Boolean alternativeFormat,Boolean invertXY) throws XMLStreamException;
+			StyleObject mapstyle,Boolean alternativeFormat,Boolean invertXY,Boolean coverage) throws XMLStreamException;
 
 }

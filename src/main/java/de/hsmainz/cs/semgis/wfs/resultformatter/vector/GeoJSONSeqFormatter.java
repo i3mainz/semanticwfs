@@ -30,11 +30,11 @@ public class GeoJSONSeqFormatter extends ResultFormatter {
 	public String formatter(ResultSet results, String startingElement, String featuretype, String propertytype,
 			String typeColumn, Boolean onlyproperty, Boolean onlyhits, String srsName, String indvar, String epsg,
 			List<String> eligiblenamespaces, List<String> noteligiblenamespaces, StyleObject mapstyle,
-			Boolean alternativeFormat, Boolean invertXY) throws XMLStreamException {
+			Boolean alternativeFormat, Boolean invertXY,Boolean coverage) throws XMLStreamException {
 		ResultFormatter format = resultMap.get("geojson");
 		char record_separator = 0x1e;
 		JSONObject geojson=new JSONObject( 
-				format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,srsName,indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat,invertXY));
+				format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,srsName,indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat,invertXY,coverage));
 		this.lastQueriedElemCount = format.lastQueriedElemCount;
 		StringBuilder builder=new StringBuilder();
 		for(int i=0;i<geojson.getJSONArray("features").length();i++) {

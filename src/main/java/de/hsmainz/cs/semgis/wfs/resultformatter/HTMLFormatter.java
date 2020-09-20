@@ -182,13 +182,13 @@ public class HTMLFormatter extends ResultFormatter {
 			String propertytype, 
 			String typeColumn, Boolean onlyproperty,Boolean onlyhits,
 			String srsName,String indvar,String epsg,List<String> eligiblenamespaces,
-			List<String> noteligiblenamespaces,StyleObject mapstyle,Boolean alternativeFormat,Boolean invertXY) throws XMLStreamException {
+			List<String> noteligiblenamespaces,StyleObject mapstyle,Boolean alternativeFormat,Boolean invertXY,Boolean coverage) throws XMLStreamException {
 		Boolean assessment=getVectorOrCoverageRepresentationForHTML(results.next());
 		StringBuilder builder = new StringBuilder();
 		if(assessment!=null && !assessment) {
 			ResultFormatter format = resultMap.get("covjson");
 			JSONObject covjson = new JSONObject(
-					format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,"",indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat,invertXY));
+					format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,"",indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat,invertXY,coverage));
 			this.lastQueriedElemCount = format.lastQueriedElemCount;
 			builder.append("<script>var overlayMaps={}; var overlayControl; var typeColumn=\"" + typeColumn
 					+ "\"; var markercollection=[];var epsg=\""+epsg+"\"; var invertXY="+invertXY+"; var cov=" + covjson.toString());
@@ -197,7 +197,7 @@ public class HTMLFormatter extends ResultFormatter {
 		}else {
 		ResultFormatter format = resultMap.get("geojson");
 		JSONObject geojson = new JSONObject(
-				format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,"",indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat,invertXY));
+				format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,"",indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat,invertXY,coverage));
 		this.lastQueriedElemCount = format.lastQueriedElemCount;
 		// System.out.println(geojson);
 

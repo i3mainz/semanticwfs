@@ -1,5 +1,6 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter.coverage;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -8,6 +9,7 @@ import java.util.TreeSet;
 
 import javax.xml.stream.XMLStreamException;
 
+import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -258,16 +260,38 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 			String featuretype,String propertytype,
 			String typeColumn,Boolean onlyproperty,Boolean onlyhits,
 			String srsName,String indvar,String epsg,List<String> eligiblenamespaces,
-			List<String> noteligiblenamespaces,StyleObject mapstyle,Boolean alternativeFormat,Boolean invertXY) throws XMLStreamException {	
-		ResultFormatter format = resultMap.get("geojson");
-		JSONObject geojson = new JSONObject(
-				format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,srsName,indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat,invertXY));
-		lastQueriedElemCount=format.lastQueriedElemCount;
+			List<String> noteligiblenamespaces,StyleObject mapstyle,Boolean alternativeFormat,Boolean invertXY, Boolean coverage) throws XMLStreamException {	
 		JSONObject result=new JSONObject();
-		result.put("type", "Coverage");
-		if(true) {
-			result=createObservableParametersAndRanges(CoverageResultFormatter.extractObservableColumns(geojson),result,geojson,srsName);
+		if(coverage) {
+			String lastInd=null;
+			while(results.hasNext()) {
+				QuerySolution solu=results.next();
+				Iterator<String> varnames=solu.varNames();
+				if(!solu.get(indvar).toString().equals(lastInd) || lastInd.isEmpty()) {
+					lastQueriedElemCount++;
+				}
+				while(varnames.hasNext()) {
+					String name=varnames.next();
+					if(name.endsWith("_geom")) {
+						String res=this.parseCoverageLiteral(solu.get(name).toString().substring(0,solu.get(name).toString().indexOf("^^")),
+								solu.get(name).toString().substring(solu.get(name).toString().indexOf("^^")+2), epsg, srsName);
+						result=convertLiteralDataToCoverageJSON(res,solu.get(name).toString().substring(solu.get(name).toString().indexOf("^^")+2));
+					}else if(name.equalsIgnoreCase(indvar)){
+						continue;
+					}
+				}
+				lastInd=solu.get(indvar).toString();
+			}
 		}else {
+			ResultFormatter format = resultMap.get("geojson");
+			JSONObject geojson = new JSONObject(
+					format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,srsName,indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat,invertXY,coverage));
+			lastQueriedElemCount=format.lastQueriedElemCount;
+			result=new JSONObject();
+			result.put("type", "Coverage");
+			result=createObservableParametersAndRanges(CoverageResultFormatter.extractObservableColumns(geojson),result,geojson,srsName);
+		}
+		
 			/*
 			result.put("domain", domain);
 			domain.put("type", "Domain");
@@ -326,7 +350,7 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 			JSONObject y=new JSONObject();
 			y.put("values", new JSONArray());
 			*/
-		}
+		//}
 		return result.toString(2);
 	}
 

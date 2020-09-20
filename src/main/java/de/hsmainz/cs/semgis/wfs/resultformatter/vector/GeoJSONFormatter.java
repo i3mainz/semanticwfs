@@ -57,7 +57,7 @@ public class GeoJSONFormatter extends VectorResultFormatter {
 			String typeColumn,Boolean onlyproperty,
 			Boolean onlyhits,String srsName,
 			String indvar,String epsg,List<String> eligiblenamespaces,
-			List<String> noteligiblenamespaces,StyleObject mapstyle,Boolean alternativeFormat,Boolean invertXY) {
+			List<String> noteligiblenamespaces,StyleObject mapstyle,Boolean alternativeFormat,Boolean invertXY,Boolean coverage) {
 		lastQueriedElemCount=0;
 		this.contextMapper.clear();
 		JSONObject geojsonresults = new JSONObject();

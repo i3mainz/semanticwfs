@@ -31,7 +31,7 @@ public class GeoURIFormatter extends VectorResultFormatter {
 	public String formatter(ResultSet results, String startingElement, String featuretype, String propertytype,
 			String typeColumn, Boolean onlyproperty, Boolean onlyhits, String srsName, String indvar, String epsg,
 			List<String> eligiblenamespaces, List<String> noteligiblenamespaces, StyleObject mapstyle,
-			Boolean alternativeFormat, Boolean invertXY) {
+			Boolean alternativeFormat, Boolean invertXY,Boolean coverage) {
 		List<QuerySolution> test = ResultSetFormatter.toList(results);
 		StringBuilder resultCSV = new StringBuilder();
 		String lastInd = "";

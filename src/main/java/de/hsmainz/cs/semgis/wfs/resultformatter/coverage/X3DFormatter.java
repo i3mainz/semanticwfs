@@ -1,19 +1,12 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter.coverage;
 
-import java.math.BigInteger;
 import java.util.List;
 
 import javax.xml.stream.XMLStreamException;
 
-import org.apache.jena.datatypes.DatatypeFormatException;
 import org.apache.jena.query.ResultSet;
-import org.apache.jena.sparql.expr.ExprEvalException;
-import org.apache.jena.sparql.expr.NodeValue;
-import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.Geometry;
 
 import de.hsmainz.cs.semgis.wfs.resultformatter.CoverageResultFormatter;
-import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
 public class X3DFormatter extends CoverageResultFormatter {
@@ -31,7 +24,7 @@ public class X3DFormatter extends CoverageResultFormatter {
 	public String formatter(ResultSet results, String startingElement, String featuretype, String propertytype,
 			String typeColumn, Boolean onlyproperty, Boolean onlyhits, String srsName, String indvar, String epsg,
 			List<String> eligiblenamespaces, List<String> noteligiblenamespaces, StyleObject mapstyle,
-			Boolean alternativeFormat, Boolean invertXY) throws XMLStreamException {
+			Boolean alternativeFormat, Boolean invertXY, Boolean coverage) throws XMLStreamException {
 		return null;
 		/*
 		try {

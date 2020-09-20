@@ -35,7 +35,7 @@ public class JSONFormatter extends VectorResultFormatter {
 			String featuretype,String propertytype,
 			String typeColumn,Boolean onlyproperty,Boolean onlyhits,
 			String srsName,String indvar,String epsg,List<String> eligiblenamespaces,
-			List<String> noteligiblenamespaces,StyleObject mapstyle,Boolean alternativeFormat,Boolean invertXY) throws XMLStreamException {
+			List<String> noteligiblenamespaces,StyleObject mapstyle,Boolean alternativeFormat,Boolean invertXY,Boolean coverage) throws XMLStreamException {
 		JSONObject result=new JSONObject();
 	    JSONArray obj=new JSONArray();
 	    result.put("features",obj);

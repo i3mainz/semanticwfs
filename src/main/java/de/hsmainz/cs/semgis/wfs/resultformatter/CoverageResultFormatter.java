@@ -16,25 +16,9 @@ import de.hsmainz.cs.semgis.wfs.resultformatter.coverage.XYZASCIIFormatter;
 import de.hsmainz.cs.semgis.wfs.util.Tuple;
 
 public abstract class CoverageResultFormatter extends ResultFormatter {
-
-	static {
-		ResultFormatter format=new XYZASCIIFormatter();
-		resultMap.put("xyz", format);
-		labelMap.put("xyz",format.label);
-		resultMap.put(format.mimeType, format);
-		format=new CovJSONFormatter();
-		resultMap.put("covjson", format);
-		labelMap.put("covjson",format.label);
-		resultMap.put(format.mimeType, format);
-		resultMap.put("geotiff", new GeoTIFFFormatter());
-		resultMap.put("covjson", new CovJSONFormatter());
-		resultMap.put("gmlcov", new GMLCOVFormatter());	
-	}
-	
 	
 	public static Map<String,Map<String,Integer>> columnsval;
-	
-	
+		
 	public static Map<String,Tuple<Boolean,String>> extractObservableColumns(JSONObject geojson) {
 		Map<String,Tuple<Boolean,String>> columns=new TreeMap<String,Tuple<Boolean,String>>();
 		columnsval=new TreeMap<String,Map<String,Integer>>();
