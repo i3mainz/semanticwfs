@@ -2,7 +2,9 @@ package de.hsmainz.cs.semgis.wfs.resultformatter;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import javax.ws.rs.core.MediaType;
 import javax.xml.stream.XMLStreamException;
@@ -91,6 +93,10 @@ public abstract class ResultFormatter {
 	
 	public static Map<String,String> labelMap=new TreeMap<>();
 	
+	public static Set<String> vectorLiteralMap=new TreeSet<>();
+	
+	public static Set<String> coverageLiteralMap=new TreeSet<>();
+
 	public static final String[] mediatypes= {
 			MediaType.TEXT_PLAIN, 
 			"application/vnd.geo+json+ld",
@@ -235,177 +241,62 @@ public abstract class ResultFormatter {
 		return resultMap.get("html");
 	}
 	
-	static {
-		//resultMap.put("geotiff", new GeoTIFFFormatter());
-		//resultMap.put("covjson", new CovJSONFormatter());
-		//resultMap.put("gmlcov", new GMLCOVFormatter());
-		ResultFormatter format=new GeoJSONFormatter();
-		resultMap.put("geojson", format);
-		resultMap.put("json", format);
-		labelMap.put("geojson",format.label);
-		resultMap.put(format.mimeType, format);
+	static void addToMaps(String key,ResultFormatter format) {
 		format=new GeoJSONSeqFormatter();
-		resultMap.put("geojsonseq", format);
-		labelMap.put("geojsonseq",format.label);
+		resultMap.put(key, format);
+		labelMap.put(key,format.label);
 		resultMap.put(format.mimeType, format);
-		format=new GeoJSONLDFormatter();
-		resultMap.put("geojsonld", format);
-		labelMap.put("geojsonld",format.label);
-		resultMap.put(format.mimeType, format);
-		format=new GeoHashFormatter();
-		resultMap.put("geohash", format);
-		labelMap.put("geohash",format.label);
-		resultMap.put(format.mimeType, format);
-		format=new GeoURIFormatter();
-		resultMap.put("geouri", format);
-		labelMap.put("geouri",format.label);
-		resultMap.put(format.mimeType, format);
-		format=new TrigFormatter();
-		resultMap.put("trig", format);
-		labelMap.put("trig",format.label);
-		resultMap.put(format.mimeType, format);
-		format=new TrixFormatter();
-		resultMap.put("trix", format);
-		labelMap.put("trix",format.label);
-		resultMap.put(format.mimeType, format);
-		format=new KMLFormatter();
-		resultMap.put("kml", format);
-		labelMap.put("kml",format.label);
-		resultMap.put(format.mimeType, format);
-		format=new GMLFormatter();
-		resultMap.put("gml", format);
-		labelMap.put("gml",format.label);
-		resultMap.put(format.mimeType, format);
-		format=new N3Formatter();
-		resultMap.put("n3", format);
-		labelMap.put("n3",format.label);
-		resultMap.put(format.mimeType, format);
-		format=new NQuadsFormatter();
-		resultMap.put("nq", format);
-		labelMap.put("nq",format.label);
-		resultMap.put(format.mimeType, format);
-		format=new NTFormatter();
-		resultMap.put("nt", format);
-		labelMap.put("nt",format.label);
-		resultMap.put(format.mimeType, format);
-		format=new RDFThriftFormatter();
-		resultMap.put("rt", format);
-		labelMap.put("rt",format.label);
-		resultMap.put(format.mimeType, format);
-		format=new NTFormatter();
-		resultMap.put("nt", format);
-		labelMap.put("nt",format.label);
-		resultMap.put(format.mimeType, format);
-		format=new MapMLFormatter();
-		resultMap.put("mapml", format);
-		labelMap.put("mapml",format.label);
-		resultMap.put(format.mimeType, format);
-		format=new OSMFormatter();
-		resultMap.put("osm", format);
-		labelMap.put("osm",format.label);
-		resultMap.put(format.mimeType, format);
-		format=new WKTFormatter();
-		resultMap.put("wkt", format);
-		labelMap.put("wkt",format.label);
-		resultMap.put(format.mimeType, format);
-		format=new WKBFormatter();
-		resultMap.put("wkb", format);
-		labelMap.put("wkb",format.label);
-		resultMap.put(format.mimeType, format);
-		format=new GPXFormatter();
-		resultMap.put("gpx", format);
-		labelMap.put("gpx",format.label);
-		resultMap.put(format.mimeType, format);
-		format=new RDFFormatter();
-		resultMap.put("rdf", format);
-		labelMap.put("rdf",format.label);
-		resultMap.put(format.mimeType, format);
-		format=new HDTFormatter();
-		resultMap.put("hdt", format);
-		labelMap.put("hdt",format.label);
-		resultMap.put(format.mimeType, format);
-		format=new RDFJSONFormatter();
-		resultMap.put("rdfjson", format);
-		labelMap.put("rdfjson",format.label);
-		resultMap.put(format.mimeType, format);
-		format=new TTLFormatter();
-		resultMap.put("ttl", format);
-		labelMap.put("ttl",format.label);
-		resultMap.put(format.mimeType, format);
-		format=new SVGFormatter();
-		resultMap.put("svg", format);
-		labelMap.put("svg",format.label);
-		resultMap.put(format.mimeType, format);
-		format=new CSVFormatter();
-		resultMap.put("csv", format);
-		labelMap.put("csv",format.label);
-		resultMap.put(format.mimeType, format);
-		format=new JSONSeqFormatter();
-		resultMap.put("jsonseq", format);
-		labelMap.put("jsonseq",format.label);
-		resultMap.put(format.mimeType, format);
-		format=new JSONLDFormatter();
-		resultMap.put("jsonld", format);
-		labelMap.put("jsonld",format.label);
-		resultMap.put(format.mimeType, format);
-		format=new JSONPFormatter();
-		resultMap.put("jsonp", format);
-		labelMap.put("jsonp",format.label);
-		resultMap.put(format.mimeType, format);
-		format=new JSONFormatter();
-		resultMap.put("jsonn", format);
-		labelMap.put("jsonn",format.label);
-		resultMap.put(format.mimeType, format);
-		format=new HexTuplesFormatter();
-		resultMap.put("hextuples", format);
-		labelMap.put("hextuples",format.label);
-		resultMap.put(format.mimeType, format);
-		format=new LatLonTextFormatter();
-		resultMap.put("latlon", format);
-		labelMap.put("latlon",format.label);
-		resultMap.put(format.mimeType, format);
-		format=new MVTFormatter();
-		resultMap.put("mvt", format);
-		labelMap.put("mvt",format.label);
-		resultMap.put(format.mimeType, format);
-		format=new OSMLinkFormatter();
-		resultMap.put("osmlink", format);
-		labelMap.put("osmlink",format.label);
-		resultMap.put(format.mimeType, format);
-		format=new HTMLFormatter();
-		resultMap.put("html", format);
-		labelMap.put("html",format.label);
-		resultMap.put(format.mimeType, format);
-		format=new GeoURIFormatter();
-		resultMap.put("geouri", format);
-		labelMap.put("geouri",format.label);
-		resultMap.put(format.mimeType, format);
-		format=new XLSFormatter();
-		resultMap.put("xls", format);
-		labelMap.put("xls",format.label);
-		resultMap.put(format.mimeType, format);
-		format=new XLSXFormatter();
-		resultMap.put("xlsx", format);
-		labelMap.put("xlsx",format.label);
-		resultMap.put(format.mimeType, format);
-		format=new XYZASCIIFormatter();
-		resultMap.put("xyz", format);
-		labelMap.put("xyz",format.label);
-		resultMap.put(format.mimeType, format);
-		format=new CovJSONFormatter();
-		resultMap.put("covjson", format);
-		labelMap.put("covjson",format.label);
-		resultMap.put(format.mimeType, format);
-		format=new YAMLFormatter();
-		resultMap.put("yaml", format);
-		labelMap.put("yaml",format.label);
-		resultMap.put(format.mimeType, format);
-		format=new BSONFormatter();
-		resultMap.put("bson", format);
-		labelMap.put("bson",format.label);
-		resultMap.put(format.mimeType, format);
-		//resultMap.put("topojson", new TopoJSONFormatter());
-		//resultMap.put("polyshape", new PolyshapeFormatter());
+	}
+	
+	static {
+		vectorLiteralMap.add("http://www.opengis.net/ont/geosparql#wktLiteral");
+		vectorLiteralMap.add("http://www.opengis.net/ont/geosparql#geoJSONLiteral");
+		vectorLiteralMap.add("http://www.opengis.net/ont/geosparql#wkbLiteral");
+		vectorLiteralMap.add("http://www.opengis.net/ont/geosparql#gmlLiteral");
+		coverageLiteralMap.add("http://www.opengis.net/ont/geosparql#covJSONLiteral");
+		coverageLiteralMap.add("http://www.opengis.net/ont/geosparql#rastwkbLiteral");
+		coverageLiteralMap.add("http://www.opengis.net/ont/geosparql#xyzLiteral");
+		ResultFormatter format=new GeoJSONFormatter();
+		addToMaps("geojson", format);
+		addToMaps("json", format);
+		addToMaps("geojsonseq",new GeoJSONSeqFormatter());
+		addToMaps("geojsonld",new GeoJSONLDFormatter());
+		addToMaps("geohash", new GeoHashFormatter());
+		addToMaps("geouri", new GeoURIFormatter());
+		addToMaps("trig", new TrigFormatter());
+		addToMaps("trix", new TrixFormatter());
+		addToMaps("kml", new KMLFormatter());
+		addToMaps("gml", new GMLFormatter());
+		addToMaps("n3", new N3Formatter());
+		addToMaps("nq", new NQuadsFormatter());
+		addToMaps("nt", new NTFormatter());
+		addToMaps("rt", new RDFThriftFormatter());
+		addToMaps("mapml", new MapMLFormatter());
+		addToMaps("osm", new OSMFormatter());
+		addToMaps("wkt", new WKTFormatter());
+		addToMaps("wkb", new WKBFormatter());
+		addToMaps("gpx", new GPXFormatter());
+		addToMaps("rdf", new RDFFormatter());
+		addToMaps("hdt", new HDTFormatter());
+		addToMaps("rdfjson", new RDFJSONFormatter());
+		addToMaps("ttl", new TTLFormatter());
+		addToMaps("svg", new SVGFormatter());
+		addToMaps("csv", new CSVFormatter());
+		addToMaps("jsonseq", new JSONSeqFormatter());
+		addToMaps("jsonld", new JSONLDFormatter());
+		addToMaps("jsonp", new JSONPFormatter());
+		addToMaps("jsonn", new JSONFormatter());
+		addToMaps("hextuples", new HexTuplesFormatter());
+		addToMaps("latlon", new LatLonTextFormatter());
+		addToMaps("mvt", new MVTFormatter());
+		addToMaps("osmlink", new OSMLinkFormatter());
+		addToMaps("html", new HTMLFormatter());
+		addToMaps("xls", new XLSFormatter());
+		addToMaps("xlsx", new XLSXFormatter());
+		addToMaps("xyz", new XYZASCIIFormatter());
+		addToMaps("covjson", new CovJSONFormatter());
+		addToMaps("yaml", new YAMLFormatter());
+		addToMaps("bson", new BSONFormatter());
 	}
 	
 	public Geometry parseVectorLiteral(String literalValue, String literalType, String epsg, String srsName) {
@@ -458,12 +349,4 @@ public abstract class ResultFormatter {
 			String epsg,List<String> eligiblenamespaces,List<String> noteligiblenamespaces,
 			StyleObject mapstyle,Boolean alternativeFormat,Boolean invertXY) throws XMLStreamException;
 
-	public String formatHeader() {
-		return "";
-	}
-
-	public String formatFooter() {
-		return "";
-	}
-	
 }

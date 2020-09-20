@@ -14,6 +14,8 @@ COPY users.xml /usr/local/tomcat/
 
 COPY prefixes.txt /usr/local/tomcat/
 
+COPY htmlcovtemplate.txt /usr/local/tomcat/
+
 COPY htmltemplate.txt /usr/local/tomcat/
 
 COPY htmltemplate2.txt /usr/local/tomcat/

@@ -7,7 +7,6 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
-import org.apache.jena.atlas.io.IndentedLineBuffer;
 import org.apache.jena.query.ResultSet;
 
 import com.sun.xml.txw2.output.IndentingXMLStreamWriter;

@@ -1,0 +1,17 @@
+<div id="mapid" class="left col-sm-9" style="height: 500px;">
+ </div>
+    <div class="left col-sm-3" id="contentdesc" style="height:500px;overflow-y: scroll;">
+	</div>
+<script>
+var layer = C.dataLayer(cov, {parameter: 'salinity'}).on('afterAdd', function(e) {
+  if (layer.palette) {
+    C.legend(layer).addTo(map)
+  }
+
+  if (layer.timeSlices) {
+      new C.TimeAxis(layer).addTo(map)
+  }
+
+  map.fitBounds(layer.getBounds())
+}).addTo(map)
+</script>
