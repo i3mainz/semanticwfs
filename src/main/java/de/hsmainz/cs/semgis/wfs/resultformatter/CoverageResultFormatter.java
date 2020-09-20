@@ -86,6 +86,7 @@ public abstract class CoverageResultFormatter extends ResultFormatter {
 		domain.put("type", "Domain");
 		domain.put("domainType",coverageType);
 		JSONObject axes=new JSONObject();
+		domain.put("axes", axes);
 		axes.put("x", new JSONObject());
 		axes.getJSONObject("x").put("values",new JSONArray());
 		axes.put("y", new JSONObject());
