@@ -187,7 +187,7 @@ public class HTMLFormatter extends ResultFormatter {
 					format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,"",indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat,invertXY));
 			this.lastQueriedElemCount = format.lastQueriedElemCount;
 			builder.append("<script>var overlayMaps={}; var overlayControl; var typeColumn=\"" + typeColumn
-					+ "\"; var markercollection=[];var epsg=\""+epsg+"\"; var invertXY="+invertXY+"; var geojson=" + covjson.toString());
+					+ "\"; var markercollection=[];var epsg=\""+epsg+"\"; var invertXY="+invertXY+"; var cov=" + covjson.toString());
 			builder.append("</script>");
 			builder.append(htmlcovHeader);
 		}else {
