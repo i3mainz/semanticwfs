@@ -327,6 +327,10 @@ public abstract class ResultFormatter {
 	public JSONObject parseCoverageLiteral(String literalValue, String literalType,String epsg, String srsName) {
 		if(literalType.contains("wkb")) {
 			
+		}else if(literalType.contains("covjson")) {
+			
+		}else if(literalType.contains("xyz")) {
+			
 		}
 		return null;
 	}

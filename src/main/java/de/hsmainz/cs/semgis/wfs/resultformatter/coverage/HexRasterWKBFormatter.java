@@ -1,29 +1,24 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter.coverage;
 
-import java.awt.image.Raster;
-import java.awt.image.SampleModel;
-import java.awt.image.WritableRaster;
 import java.util.List;
 
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.jena.query.ResultSet;
-import org.apache.sis.coverage.grid.GridCoverage;
 import org.geotoolkit.coverage.wkb.WKBRasterWriter;
 
 import de.hsmainz.cs.semgis.wfs.resultformatter.CoverageResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
-import de.hsmainz.cs.semgis.wfs.util.CovJSONCoverage;
 
-public class RasterWKBFormatter extends CoverageResultFormatter {
+public class HexRasterWKBFormatter extends CoverageResultFormatter {
 
 	WKBRasterWriter wkbrastwriter=new WKBRasterWriter();
 	
-	public RasterWKBFormatter() {
-		this.mimeType="application/rasterwkb";
-		this.exposedType="application/rasterwkb";
-		this.urlformat="rastwkb";
-		this.label="RasterWKB (WKB)";
+	public HexRasterWKBFormatter() {
+		this.mimeType="application/hexrasterwkb";
+		this.exposedType="application/hexrasterwkb";
+		this.urlformat="hexrastwkb";
+		this.label="Hexadecimal RasterWKB (WKB)";
 		this.fileextension="wkb";
 	}
 	
@@ -32,7 +27,6 @@ public class RasterWKBFormatter extends CoverageResultFormatter {
 			String typeColumn, Boolean onlyproperty, Boolean onlyhits, String srsName, String indvar, String epsg,
 			List<String> eligiblenamespaces, List<String> noteligiblenamespaces, StyleObject mapstyle,
 			Boolean alternativeFormat, Boolean invertXY) throws XMLStreamException {
-		
 		// TODO Auto-generated method stub
 		return null;
 	}

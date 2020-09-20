@@ -9,18 +9,20 @@ import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.io.WKBWriter;
+
+import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.VectorResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
-public class WKBFormatter extends VectorResultFormatter {
+public class HexWKBFormatter extends VectorResultFormatter {
 
 	WKBWriter writer=new WKBWriter();
 	
-	public WKBFormatter() {
-		this.mimeType="text/wkb";
-		this.exposedType="text/wkb";
-		this.urlformat="wkb";
-		this.label="Well-Known-Binary (WKB)";
+	public HexWKBFormatter() {
+		this.mimeType="text/hexwkb";
+		this.exposedType="text/hexwkb";
+		this.urlformat="hexwkb";
+		this.label="Hexadecimal Well-Known-Binary (HexWKB)";
 		this.fileextension="wkb";
 		this.definition="https://www.iso.org/standard/40114.html";
 	}
@@ -44,7 +46,7 @@ public class WKBFormatter extends VectorResultFormatter {
 					Geometry geom=this.parseVectorLiteral(solu.get(name).toString().substring(0,solu.get(name).toString().indexOf("^^")),
 							solu.get(name).toString().substring(solu.get(name).toString().indexOf("^^")+2), epsg, srsName);
 					if(geom!=null)
-						builder.append(writer.write(geom)+System.lineSeparator());
+						builder.append(WKBWriter.toHex(writer.write(geom))+System.lineSeparator());
 				}else if(name.equalsIgnoreCase(indvar)){
 					continue;
 				}else if("lat".equalsIgnoreCase(name)){
@@ -63,7 +65,7 @@ public class WKBFormatter extends VectorResultFormatter {
 				}
 				Geometry geom=this.parseVectorLiteral("Point("+lon+" "+lat+")",WKTLiteral, epsg, srsName);
 				if(geom!=null)
-					builder.append(writer.write(geom)+System.lineSeparator());
+					builder.append(WKBWriter.toHex(writer.write(geom))+System.lineSeparator());
 				lat="";
 				lon="";
 			}
