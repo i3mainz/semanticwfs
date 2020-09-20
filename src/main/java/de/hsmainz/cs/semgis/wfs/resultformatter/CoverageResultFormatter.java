@@ -69,11 +69,13 @@ public abstract class CoverageResultFormatter extends ResultFormatter {
 		param.put("observedProperty",new JSONObject());	
 		param.getJSONObject("observedProperty").put("id",parameterURI);
 		param.getJSONObject("observedProperty").put("label",new JSONObject());
-		param.getJSONObject("observedProperty").getJSONObject("label").put("en",parameterName);
-		
+		param.getJSONObject("observedProperty").getJSONObject("label").put("en",parameterName);		
 		JSONObject range=new JSONObject();
 		covjson.getJSONObject("ranges").put(parameterName, range);
 		range.put("type", "NdArray");
+		range.put("axisNames", new JSONArray());
+		range.getJSONArray("axisNames").put("x");
+		range.getJSONArray("axisNames").put("y");
 		range.put("dataType", dataType);
 		range.put("values",new JSONArray(values));
 		return covjson;
