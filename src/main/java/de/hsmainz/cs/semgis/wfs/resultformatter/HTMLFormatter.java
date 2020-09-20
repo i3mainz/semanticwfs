@@ -193,7 +193,7 @@ public class HTMLFormatter extends ResultFormatter {
 					+ "\"; var markercollection=[];var epsg=\""+epsg+"\"; var invertXY="+invertXY+"; var cov=" + covjson.toString()+"; "+"var parameters=[");
 			Iterator<String> it=covjson.getJSONObject("parameters").keySet().iterator();
 			while(it.hasNext()) {
-				builder.append(it.next());
+				builder.append("\""+it.next()+"\"");
 				if(it.hasNext())
 					builder.append(",");
 			}
