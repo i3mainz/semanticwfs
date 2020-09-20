@@ -243,7 +243,6 @@ public abstract class ResultFormatter {
 	}
 	
 	static void addToMaps(String key,ResultFormatter format) {
-		format=new GeoJSONSeqFormatter();
 		resultMap.put(key, format);
 		labelMap.put(key,format.label);
 		resultMap.put(format.mimeType, format);
