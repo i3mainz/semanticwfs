@@ -190,7 +190,14 @@ public class HTMLFormatter extends ResultFormatter {
 					format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,"",indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat,invertXY,coverage));
 			this.lastQueriedElemCount = format.lastQueriedElemCount;
 			builder.append("<script>var overlayMaps={}; var overlayControl; var typeColumn=\"" + typeColumn
-					+ "\"; var markercollection=[];var epsg=\""+epsg+"\"; var invertXY="+invertXY+"; var cov=" + covjson.toString());
+					+ "\"; var markercollection=[];var epsg=\""+epsg+"\"; var invertXY="+invertXY+"; var cov=" + covjson.toString()+"; "+"var parameters=[");
+			Iterator<String> it=covjson.getJSONObject("parameters").keySet().iterator();
+			while(it.hasNext()) {
+				builder.append(it.next());
+				if(it.hasNext())
+					builder.append(",");
+			}
+			builder.append("]"+System.lineSeparator());
 			builder.append("</script>");
 			builder.append(htmlcovHeader);
 		}else {
