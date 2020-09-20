@@ -183,9 +183,8 @@ public class HTMLFormatter extends ResultFormatter {
 			String typeColumn, Boolean onlyproperty,Boolean onlyhits,
 			String srsName,String indvar,String epsg,List<String> eligiblenamespaces,
 			List<String> noteligiblenamespaces,StyleObject mapstyle,Boolean alternativeFormat,Boolean invertXY,Boolean coverage) throws XMLStreamException {
-		Boolean assessment=getVectorOrCoverageRepresentationForHTML(results.next());
 		StringBuilder builder = new StringBuilder();
-		if(assessment!=null && !assessment) {
+		if(coverage) {
 			ResultFormatter format = resultMap.get("covjson");
 			JSONObject covjson = new JSONObject(
 					format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,"",indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat,invertXY,coverage));

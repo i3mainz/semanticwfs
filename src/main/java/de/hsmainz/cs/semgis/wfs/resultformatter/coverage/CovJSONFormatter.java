@@ -265,6 +265,7 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 		System.out.println("COVERAGEJSON Formatter: "+coverage);
 		if(coverage) {
 			String lastInd=null;
+			System.out.println("Has Result? "+results.hasNext());
 			while(results.hasNext()) {
 				QuerySolution solu=results.next();
 				Iterator<String> varnames=solu.varNames();
