@@ -1,17 +1,13 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter.vector;
 
-import java.io.StringWriter;
 import java.util.List;
 
-import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
 import org.apache.jena.query.ResultSet;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
 
 import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
