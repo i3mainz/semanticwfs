@@ -3,6 +3,26 @@
     <div class="left col-sm-3" id="contentdesc" style="height:500px;overflow-y: scroll;">
 	</div>
 <script>
+function isArray(what) {
+    return Object.prototype.toString.call(what) === '[object Array]';
+}
+var colorcodes={}
+var map = L.map('mapid',{fullscreenControl: true,fullscreenControlOptions: {position: 'topleft'}}).setView([51.505, -0.09], 16);
+var wmsLayer = L.tileLayer.wms('https://sgx.geodatenzentrum.de/wms_topplus_web_open', {
+layers: 'web',
+format: 'image/png',
+ transparent: true,
+attribution: '&copy; Bundesamt f&uuml;r Kartographie und Geod&auml;sie 2017, <a href="http://sg.geodatenzentrum.de/web_public/Datenquellen_TopPlus_Open.pdf">Datenquellen</a>'
+}); 
+var layer=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',maxZoom: 20});
+var baseMaps = {"BKG":wmsLayer,"OSM": layer}; baseMaps["BKG"].addTo(map);	L.control.scale({
+	position: 'bottomright',
+	imperial: false
+}).addTo(map);
+$( document ).ready(function() {
+	$('#queryres').DataTable({"scrollX":"100%","scrollCollapse": true});
+});
+
 var layer = C.dataLayer(cov, {parameter: 'salinity'}).on('afterAdd', function(e) {
   if (layer.palette) {
     C.legend(layer).addTo(map)
