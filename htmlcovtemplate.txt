@@ -24,17 +24,17 @@ $( document ).ready(function() {
 });
 
 for(param of parameters){
-  var layer = C.dataLayer(cov, {"parameter":param}).on('afterAdd', function(e) {
-  if (layer.palette) {
+  var covlayer = C.dataLayer(cov, {"parameter":param}).on('afterAdd', function(e) {
+  if (covlayer.palette) {
     C.legend(layer).addTo(map)
   }
 
-  if (layer.timeSlices) {
-      new C.TimeAxis(layer).addTo(map)
+  if (covlayer.timeSlices) {
+      new C.TimeAxis(covlayer).addTo(map)
   }
 
-  map.fitBounds(layer.getBounds())
-}).addTo(map)
+  map.fitBounds(covlayer.getBounds())
+  }).addTo(map)
 }
 
 </script>
