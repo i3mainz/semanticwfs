@@ -744,7 +744,7 @@ public abstract class TripleStoreConnector {
 		String res=resformat.formatter(results,startingElement,featuretype.toLowerCase(),propertyValue,
 				(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""),true,false,
 				srsName,(workingobj.has("indvar")?workingobj.getString("indvar"):"item"),
-				(workingobj.has("targetCRS")?workingobj.getString("targetCRS"):""),null,null,null,false,false,!workingobj.get("geometrytype").equals("Coverage"));
+				(workingobj.has("targetCRS")?workingobj.getString("targetCRS"):""),null,null,null,false,false,workingobj.get("geometrytype").equals("Coverage"));
 		qexec.close();
 		if(resformat.lastQueriedElemCount==0) {
 			return "";
@@ -859,7 +859,7 @@ public abstract class TripleStoreConnector {
 		String res=resformat.formatter(results,startingElement,featuretype.toLowerCase(),"",
 				(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""),false,false,
 				srsName,indvar,
-				(workingobj.has("targetCRS")?workingobj.getString("targetCRS"):""),null,null,style,alternativeFormat,invertXY,!workingobj.get("geometrytype").equals("Coverage"));
+				(workingobj.has("targetCRS")?workingobj.getString("targetCRS"):""),null,null,style,alternativeFormat,invertXY,workingobj.get("geometrytype").equals("Coverage"));
 		qexec.close();
 		if(resformat.lastQueriedElemCount==0) {
 			return "";
