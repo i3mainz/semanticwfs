@@ -4,6 +4,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
+import java.util.logging.Logger;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -37,7 +39,7 @@ public class ODSFormatter extends ResultFormatter {
 			String typeColumn, Boolean onlyproperty, Boolean onlyhits, String srsName, String indvar, String epsg,
 			List<String> eligiblenamespaces, List<String> noteligiblenamespaces, StyleObject mapstyle,
 			Boolean alternativeFormat, Boolean invertXY, Boolean coverage) throws XMLStreamException {
-		final OdsFactory odsFactory = OdsFactory.create();
+		final OdsFactory odsFactory = OdsFactory.create(Logger.getLogger("odsformatter"), Locale.US);
 		final AnonymousOdsFileWriter writer = odsFactory.createWriter();
 		final OdsDocument wb = writer.document();
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();

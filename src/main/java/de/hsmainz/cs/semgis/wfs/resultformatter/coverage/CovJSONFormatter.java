@@ -262,6 +262,7 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 			String srsName,String indvar,String epsg,List<String> eligiblenamespaces,
 			List<String> noteligiblenamespaces,StyleObject mapstyle,Boolean alternativeFormat,Boolean invertXY, Boolean coverage) throws XMLStreamException {	
 		JSONObject result=new JSONObject();
+		System.out.println("COVERAGEJSON Formatter: "+coverage);
 		if(coverage) {
 			String lastInd=null;
 			while(results.hasNext()) {
