@@ -40,6 +40,7 @@ import de.hsmainz.cs.semgis.wfs.resultformatter.vector.GeoJSONFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.GeoJSONLDFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.GeoJSONSeqFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.GeoURIFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.vector.HexWKBFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.JSONFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.JSONLDFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.JSONPFormatter;
@@ -274,6 +275,7 @@ public abstract class ResultFormatter {
 		addToMaps("mapml", new MapMLFormatter());
 		addToMaps("osm", new OSMFormatter());
 		addToMaps("wkt", new WKTFormatter());
+		addToMaps("hexwkb", new HexWKBFormatter());
 		addToMaps("wkb", new WKBFormatter());
 		addToMaps("gpx", new GPXFormatter());
 		addToMaps("rdf", new RDFFormatter());

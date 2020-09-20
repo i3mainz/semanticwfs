@@ -161,7 +161,7 @@ public class HTMLFormatter extends ResultFormatter {
 		Iterator<String> it = first.varNames();
 		while (it.hasNext()) {
 			String name = it.next();
-			System.out.println(name+" - "+first.getLiteral(name));
+			System.out.println(name+" - "+first.get(name).toString());
 			if (name.contains("_geom")) {
 				if (vectorLiteralMap.contains(first.getLiteral(name).getDatatypeURI())) {
 					System.out.println("Assessment Result True: "+first.getLiteral(name).getDatatypeURI());
