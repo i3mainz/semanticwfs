@@ -273,10 +273,11 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 				}
 				while(varnames.hasNext()) {
 					String name=varnames.next();
+					System.out.println(name+" "+solu.get(name).toString());
 					if(name.endsWith("_geom")) {
 						String res=this.parseCoverageLiteral(solu.get(name).toString().substring(0,solu.get(name).toString().indexOf("^^")),
 								solu.get(name).toString().substring(solu.get(name).toString().indexOf("^^")+2), epsg, srsName);
-						result=convertLiteralDataToCoverageJSON(res,solu.get(name).toString().substring(solu.get(name).toString().indexOf("^^")+2));
+						result=convertLiteralDataToCoverageJSON(solu.get(name).toString().substring(0,solu.get(name).toString().indexOf("^^")),solu.get(name).toString().substring(solu.get(name).toString().indexOf("^^")+2));
 					}else if(name.equalsIgnoreCase(indvar)){
 						continue;
 					}
@@ -292,66 +293,6 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 			result.put("type", "Coverage");
 			result=createObservableParametersAndRanges(CoverageResultFormatter.extractObservableColumns(geojson),result,geojson,srsName);
 		}
-		
-			/*
-			result.put("domain", domain);
-			domain.put("type", "Domain");
-			domain.put("domainType", "Grid");
-			JSONObject axes=new JSONObject();
-			domain.put("axes", axes);
-			JSONObject parameters=new JSONObject();
-			JSONObject parameter=new JSONObject();
-			parameters.put("altitude",parameter);
-			result.put("parameters",parameters);
-			parameter.put("type","Parameter");
-			JSONObject paramdescription=new JSONObject();
-			parameter.put("description", paramdescription);
-			paramdescription.put("en", "altitude");
-			JSONObject unit=new JSONObject();		
-			parameter.put("unit", unit);
-			JSONObject observedProperty=new JSONObject();
-			observedProperty.put("id", "obs");
-			JSONObject obsPropertyLabel=new JSONObject();
-			observedProperty.put("label", obsPropertyLabel);
-			JSONObject obsPropertyDesc=new JSONObject();
-			obsPropertyDesc.put("en", "Altitude in meter");
-			JSONObject unitlabel=new JSONObject();
-			unitlabel.put("en", "meter");
-			JSONObject unitsymbol=new JSONObject();
-			unit.put("label", unitlabel);
-			unit.put("symbol", unitsymbol);
-			unitsymbol.put("value","meter");
-			unitsymbol.put("type","http://www.opengis.net/def/uom/UCUM/");	
-			referencing=new JSONArray();
-			domain.put("referencing", referencing);
-			ref=new JSONObject();
-			referencing.put(ref);
-			coordinates=new JSONArray();
-			coordinates.put("x");
-			coordinates.put("y");
-			ref.put("coordinates", coordinates);
-			system=new JSONObject();
-			ref.put("system", system);
-			system.put("type", "GeographicCRS");
-			system.put("id", "http://www.opengis.net/def/crs/EPSG/0/"+srsName);
-			JSONObject ranges=new JSONObject();
-			result.put("ranges",ranges);
-			JSONObject altituderange=new JSONObject();
-			ranges.put("altitude",altituderange);
-			altituderange.put("type","NdArray");
-			altituderange.put("dataType", "float");	
-			JSONArray axisNames=new JSONArray();
-			altituderange.put("axisNames", axisNames);
-			axisNames.put("x");
-			axisNames.put("y");
-			JSONArray values=new JSONArray();
-			altituderange.put("values", values);
-			JSONObject x=new JSONObject();
-			x.put("values",new JSONArray());
-			JSONObject y=new JSONObject();
-			y.put("values", new JSONArray());
-			*/
-		//}
 		return result.toString(2);
 	}
 

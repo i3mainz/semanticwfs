@@ -57,7 +57,7 @@
 "query":"SELECT ?item ?rel ?val ?the_geom WHERE{ ?item rdf:type <http://www.ld.gdi-de.org/id/AltitudeModel> . ?item ?rel ?val . OPTIONAL{?val geo:asXYZ ?the_geom .} }",
 "triplestore":"https://ld.gdi-de.org/graphdb/repositories/xyztest",
 "type":"WCS", 
-"name":"AltitudeModel (CoverageTest)"}
+"name":"AltitudeModel"}
 ,
 {"namespace":"http://www.xplanung.de/xplangml/4/1#",
 "indvar":"item","description":"XPlanung BP_StrassenVerkehrsFlaeche Hamburg","geometrytype":"Point","targetCRS":"EPSG:25832","useorderby":true,
