@@ -163,13 +163,16 @@ public class HTMLFormatter extends ResultFormatter {
 			String name = it.next();
 			if (name.endsWith("_geom")) {
 				if (vectorLiteralMap.contains(first.getLiteral(name).getDatatypeURI())) {
+					System.out.println("Assessment Result True: "+first.getLiteral(name).getDatatypeURI());
 					return true;
 				}
 				if (coverageLiteralMap.contains(first.getLiteral(name).getDatatypeURI())) {
+					System.out.println("Assessment Result False: "+first.getLiteral(name).getDatatypeURI());
 					return false;
 				}
 			}
 		}
+		System.out.println("Assessment Result Null: ");
 		return null;
 	}
 

@@ -24,6 +24,7 @@ import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.HexTuplesFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.N3Formatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.NQuadsFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.NTFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.RDFEXIFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.RDFFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.RDFJSONFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.RDFThriftFormatter;
@@ -279,6 +280,7 @@ public abstract class ResultFormatter {
 		addToMaps("rdf", new RDFFormatter());
 		addToMaps("hdt", new HDTFormatter());
 		addToMaps("rdfjson", new RDFJSONFormatter());
+		addToMaps("rdfexi", new RDFEXIFormatter());
 		addToMaps("ttl", new TTLFormatter());
 		addToMaps("svg", new SVGFormatter());
 		addToMaps("csv", new CSVFormatter());
