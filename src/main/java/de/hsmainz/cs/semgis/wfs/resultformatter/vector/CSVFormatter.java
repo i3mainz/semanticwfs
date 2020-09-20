@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Literal;
+import org.locationtech.jts.geom.Geometry;
 
 import de.hsmainz.cs.semgis.wfs.resultformatter.VectorResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
@@ -60,12 +61,12 @@ public class CSVFormatter extends VectorResultFormatter {
 	    		String name=varnames.next();
 	    		System.out.println("Name: "+name);
 	    		if(name.endsWith("_geom")) {
-	    			try {
-	    				Literal lit=solu.getLiteral(name);
-	    				resultCSV.append(lit.getString()+",");
-	    			}catch(Exception e) {
-	    				resultCSV.append(solu.get(name)+",");	
-	    			}
+	    			Geometry geom=this.parseVectorLiteral(solu.get(name).toString().substring(0,solu.get(name).toString().indexOf("^^")),
+							solu.get(name).toString().substring(solu.get(name).toString().indexOf("^^")+2), epsg, srsName);
+					if(geom!=null)
+						resultCSV.append(geom.toText()+",");
+					else
+						resultCSV.append(solu.get(name)+",");
 	    			if(first) {
 	    				resultCSVHeader.append("the_geom,");
 	    			}
@@ -98,8 +99,8 @@ public class CSVFormatter extends VectorResultFormatter {
 				val="";
 			}else {
 				lastQueriedElemCount++;
-		    		resultCSV.delete(resultCSV.length()-1, resultCSV.length());
-			    	resultCSV.append(System.lineSeparator());
+		    	resultCSV.delete(resultCSV.length()-1, resultCSV.length());
+			    resultCSV.append(System.lineSeparator());
 			}
 	    	
 	    	System.out.println(resultCSV.toString());

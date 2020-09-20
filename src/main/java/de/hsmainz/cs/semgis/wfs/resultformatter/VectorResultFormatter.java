@@ -1,7 +1,6 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter;
 
-import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.io.ParseException;
+import org.json.JSONObject;
 
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.HDTFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.HexTuplesFormatter;
@@ -43,17 +42,10 @@ public abstract class VectorResultFormatter extends ResultFormatter{
 	
 	String featureType="";
 	
-	public Geometry parseVectorLiteral(String literalValue, String literalType) {
-		if(literalType.toLowerCase().contains("wkt")) {
-			try {
-				return this.wktreader.read(literalValue);
-			} catch (ParseException e) {
-				return null;
-			}
-		}
-		if(literalType.toLowerCase().contains("geojson")) {
-			return this.geojsonreader.read(literalValue);
-		}
+	public static final String WKTLiteral="http://www.opengis.net/ont/geosparql#wktLiteral";
+	
+	@Override
+	public JSONObject parseCoverageLiteral(String literalValue, String literalType, String epsg, String srsName) {
 		return null;
 	}
 	

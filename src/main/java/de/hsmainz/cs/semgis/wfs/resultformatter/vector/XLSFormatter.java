@@ -14,11 +14,12 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.locationtech.jts.geom.Geometry;
 
-import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.VectorResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
-public class XLSFormatter extends ResultFormatter {
+public class XLSFormatter extends VectorResultFormatter {
 
 	public XLSFormatter() {
 		this.urlformat="xls";
@@ -60,12 +61,12 @@ public class XLSFormatter extends ResultFormatter {
 	    		String name=varnames.next();
 	    		System.out.println("Name: "+name);
 	    		if(name.endsWith("_geom")) {
-	    			try {
-	    				Literal lit=solu.getLiteral(name);
-	    				currentRow.createCell(colNum++).setCellValue(lit.getString());
-	    			}catch(Exception e) {	
-	    				currentRow.createCell(colNum++).setCellValue(solu.get(name).toString());
-	    			}
+	    			Geometry geom=this.parseVectorLiteral(solu.get(name).toString().substring(0,solu.get(name).toString().indexOf("^^")),
+							solu.get(name).toString().substring(solu.get(name).toString().indexOf("^^")+2), epsg, srsName);
+					if(geom!=null)
+						currentRow.createCell(colNum++).setCellValue(geom.toText());
+					else
+						currentRow.createCell(colNum++).setCellValue(solu.get(name).toString());
 	    			if(first) {
 	    				firstRow.createCell(colNum++).setCellValue("the_geom");
 	    			}

@@ -28,6 +28,7 @@ public abstract class CoverageResultFormatter extends ResultFormatter {
 		resultMap.put("gmlcov", new GMLCOVFormatter());	
 	}
 	
+	
 	public static Map<String,Map<String,Integer>> columnsval;
 	
 	

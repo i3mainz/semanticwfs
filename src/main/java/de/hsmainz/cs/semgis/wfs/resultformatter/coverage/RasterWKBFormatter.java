@@ -5,12 +5,15 @@ import java.util.List;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.jena.query.ResultSet;
+import org.geotoolkit.coverage.wkb.WKBRasterWriter;
 
 import de.hsmainz.cs.semgis.wfs.resultformatter.CoverageResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
 public class RasterWKBFormatter extends CoverageResultFormatter {
 
+	WKBRasterWriter wkbrastwriter=new WKBRasterWriter();
+	
 	public RasterWKBFormatter() {
 		this.mimeType="application/rasterwkb";
 		this.exposedType="application/rasterwkb";

@@ -8,19 +8,13 @@ import javax.xml.stream.XMLStreamException;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.io.ParseException;
 import org.locationtech.jts.io.WKBWriter;
-import org.locationtech.jts.io.WKTReader;
-
-import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.VectorResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
-import de.hsmainz.cs.semgis.wfs.util.ReprojectionUtils;
 
-public class WKBFormatter extends ResultFormatter {
+public class WKBFormatter extends VectorResultFormatter {
 
 	WKBWriter writer=new WKBWriter();
-	
-	WKTReader reader=new WKTReader();
 	
 	public WKBFormatter() {
 		this.mimeType="text/wkb";
@@ -47,14 +41,10 @@ public class WKBFormatter extends ResultFormatter {
 			while(varnames.hasNext()) {
 				String name=varnames.next();
 				if(name.endsWith("_geom")) {
-					try {
-						Geometry geom=reader.read(solu.get(name).toString().substring(0,solu.get(name).toString().indexOf("^^")));
-						geom=ReprojectionUtils.reproject(geom, epsg, srsName);
+					Geometry geom=this.parseVectorLiteral(solu.get(name).toString().substring(0,solu.get(name).toString().indexOf("^^")),
+							solu.get(name).toString().substring(solu.get(name).toString().indexOf("^^")+2), epsg, srsName);
+					if(geom!=null)
 						builder.append(WKBWriter.toHex(writer.write(geom))+System.lineSeparator());
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
 				}else if(name.equalsIgnoreCase(indvar)){
 					continue;
 				}else if("lat".equalsIgnoreCase(name)){
@@ -71,14 +61,9 @@ public class WKBFormatter extends ResultFormatter {
 				if(lon.contains("^^")) {
 					lon=lon.substring(0,lon.indexOf("^^"));
 				}
-				try {
-					Geometry geom=reader.read("Point("+lon+" "+lat+")");
-					geom=ReprojectionUtils.reproject(geom, epsg, srsName);
+				Geometry geom=this.parseVectorLiteral("Point("+lon+" "+lat+")",WKTLiteral, epsg, srsName);
+				if(geom!=null)
 					builder.append(WKBWriter.toHex(writer.write(geom))+System.lineSeparator());
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}	
 				lat="";
 				lon="";
 			}

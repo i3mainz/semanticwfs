@@ -10,11 +10,10 @@ import javax.xml.stream.XMLStreamException;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.io.ParseException;
 
 import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.VectorResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
-import de.hsmainz.cs.semgis.wfs.util.ReprojectionUtils;
 
 public class HexTuplesFormatter extends ResultFormatter {
 
@@ -54,16 +53,11 @@ public class HexTuplesFormatter extends ResultFormatter {
 			while(varnames.hasNext()) {
 				String name=varnames.next();
 				if(name.endsWith("_geom")) {
-					if(solu.get(name).toString().substring(solu.get(name).toString().indexOf("^^")+2).contains("wkt")) {
-						Geometry geom;
-						try {
-							geom = wktreader.read(solu.get(name).toString().substring(0,solu.get(name).toString().indexOf("^^")));
-							geom=ReprojectionUtils.reproject(geom, epsg, srsName);
-							geomLiteral="\""+geom.toText()+"\", \""+solu.get(name).toString().substring(solu.get(name).toString().indexOf("^^")+2)+"\", \"\", \"\" ]";
-						} catch (ParseException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+					Object obj=this.parseLiteral(solu.get(name).toString().substring(0,solu.get(name).toString().indexOf("^^")),
+							solu.get(name).toString().substring(solu.get(name).toString().indexOf("^^")+2), epsg, srsName);
+					if(obj instanceof Geometry) {
+						Geometry geom=(Geometry) obj;
+						geomLiteral="\""+geom.toText()+"\", \""+VectorResultFormatter.WKTLiteral+"\", \"\", \"\" ]";
 					}
 				}else if(name.equalsIgnoreCase(indvar)){
 					continue;
@@ -93,17 +87,12 @@ public class HexTuplesFormatter extends ResultFormatter {
 				if(lon.contains("^^")) {
 					lon=lon.substring(0,lon.indexOf("^^"));
 				}
-				Geometry geom;
-				try {
-					geom = wktreader.read("Point("+lon+" "+lat+")");
-					geom=ReprojectionUtils.reproject(geom, epsg, srsName);
+				Geometry geom=this.parseVectorLiteral("Point("+lon+" "+lat+")",VectorResultFormatter.WKTLiteral, epsg, srsName);
+				if(geom!=null) {
 					geomLiteral="\""+geom.toText()+"\", \"http://www.opengis.net/ont/geosparql#wktLiteral\", \"\", \"\" ]";
 					builder.append("[\""+solu.get(indvar)+"_geom\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#type\", \"http://www.opengis.net/ont/geosparql#Geometry\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#namedNode\",\"\", \"\"]"+System.lineSeparator());
 					builder.append("[\""+solu.get(indvar)+"\", \"http://www.opengis.net/ont/geosparql#hasGeometry\", \""+solu.get(indvar)+"_geom\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#namedNode\", \"\", \"\" ]"+System.lineSeparator());
 					builder.append("[\""+solu.get(indvar)+"_geom\", \"http://www.opengis.net/ont/geosparql#asWKT\", "+geomLiteral+System.lineSeparator());
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				}
 				lat="";
 				lon="";

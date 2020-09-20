@@ -5,11 +5,13 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.xml.stream.XMLStreamException;
 
+import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -22,19 +24,24 @@ import de.hsmainz.cs.semgis.wfs.webservice.WebService;
  */
 public class HTMLFormatter extends ResultFormatter {
 
-	/** HTMLHeader for export 1.*/
+	/** HTMLHeader for export 1. */
 	public String htmlHeader = "";
-	/** HTMLHeader for export 2.*/
-	public String htmlHeader2 ="";
-
+	/** HTMLHeader for export 2. */
+	public String htmlHeader2 = "";
+	/** HTMLCovHeader for export 2. */
+	public String htmlcovHeader = "";
 	/**
-	 * Constructor for this class.
-	 * Reads HTML header from given HTML template files
+	 * Constructor for this class. Reads HTML header from given HTML template files
 	 */
 	public HTMLFormatter() {
 		super();
 		try {
 			this.htmlHeader = readFile("htmltemplate.txt", StandardCharsets.UTF_8);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			this.htmlcovHeader = readFile("htmlcovtemplate.txt", StandardCharsets.UTF_8);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -45,15 +52,16 @@ public class HTMLFormatter extends ResultFormatter {
 		}
 		this.mimeType = "text/html";
 		this.exposedType = "text/html";
-		this.urlformat="html";
-		this.label="HTML";
-		this.fileextension="html";
-		this.definition="https://html.spec.whatwg.org";
+		this.urlformat = "html";
+		this.label = "HTML";
+		this.fileextension = "html";
+		this.definition = "https://html.spec.whatwg.org";
 	}
 
 	/**
 	 * Utility method to read a file.
-	 * @param path The file path 
+	 * 
+	 * @param path     The file path
 	 * @param encoding the file encoding
 	 * @return A string which includes the contents of the file
 	 * @throws IOException on error
@@ -62,87 +70,107 @@ public class HTMLFormatter extends ResultFormatter {
 		byte[] encoded = Files.readAllBytes(Paths.get(path));
 		return new String(encoded, encoding);
 	}
-	
+
 	/**
 	 * Shortens a given URI or a list of URIs to a label or a list of labels.
+	 * 
 	 * @param keyPath The String to shorten
 	 * @return The label
 	 */
 	public String keyPathToLabel(String keyPath) {
-		if(!keyPath.contains(";")) {
+		if (!keyPath.contains(";")) {
 			if (keyPath.contains("#")) {
 				return keyPath.substring(keyPath.lastIndexOf('#') + 1);
 			} else {
 				return keyPath.substring(keyPath.lastIndexOf('/') + 1);
 			}
 		}
-		String result="";
-		String[] splitted=keyPath.split(";");
-		int i=0;
-		for(i=0;i<splitted.length;i++) {	
+		String result = "";
+		String[] splitted = keyPath.split(";");
+		int i = 0;
+		for (i = 0; i < splitted.length; i++) {
 			if (splitted[i].contains("#")) {
-				result+=splitted[i].substring(splitted[i].lastIndexOf('#') + 1);
+				result += splitted[i].substring(splitted[i].lastIndexOf('#') + 1);
 			} else {
-				result+=splitted[i].substring(splitted[i].lastIndexOf('/') + 1);
+				result += splitted[i].substring(splitted[i].lastIndexOf('/') + 1);
 			}
-			if(i<splitted.length-1) {
-				result+=".";
+			if (i < splitted.length - 1) {
+				result += ".";
 			}
 		}
 		return result;
 	}
-	
+
 	/**
 	 * Reads columns recursively and prints the results in a given format.
-	 * @param builder The StringBuilder for collecting the result
-	 * @param properties Properties as given by the GeoJSON input
+	 * 
+	 * @param builder        The StringBuilder for collecting the result
+	 * @param properties     Properties as given by the GeoJSON input
 	 * @param propToTableCol List of properties which are mapped to the result table
-	 * @param keyPath The property path to reconstruct the property chain in case of recursion
-	 * @param index The index in the table list
+	 * @param keyPath        The property path to reconstruct the property chain in
+	 *                       case of recursion
+	 * @param index          The index in the table list
 	 */
-	public void collectColumns(StringBuilder builder,JSONObject properties,List<String> propToTableCol,String keyPath,Integer index) {
+	public void collectColumns(StringBuilder builder, JSONObject properties, List<String> propToTableCol,
+			String keyPath, Integer index) {
 		for (String key : properties.keySet()) {
-			Boolean subcols=false;
-			if(keyPath.isEmpty()) {
+			Boolean subcols = false;
+			if (keyPath.isEmpty()) {
 				try {
-					collectColumns(builder,properties.getJSONObject(key),propToTableCol,key,index);
-					subcols=true;
-				}catch(Exception e) {
-					
+					collectColumns(builder, properties.getJSONObject(key), propToTableCol, key, index);
+					subcols = true;
+				} catch (Exception e) {
+
 				}
-			}else {
+			} else {
 				try {
-					collectColumns(builder,properties.getJSONObject(key),propToTableCol,keyPath+";"+key,index);
-					subcols=true;
-				}catch(Exception e) {
-					
+					collectColumns(builder, properties.getJSONObject(key), propToTableCol, keyPath + ";" + key, index);
+					subcols = true;
+				} catch (Exception e) {
+
 				}
 			}
-			if(!subcols) {
-				String label="";
-			if(keyPath.isEmpty()) {
-				label=key;
-				propToTableCol.add(key);
-			}else {
-				propToTableCol.add(keyPath+";"+key);
-				label=keyPath+";"+key;
-			}	
-			index++;
-			if (key.startsWith("http") || key.startsWith("www.")) {
-				if (key.contains("#")) {
-					builder.append("<th align=\"center\"><a href=\"" + key + "\" target=\"_blank\">"+
-					keyPathToLabel(label) + "</a></td>");
+			if (!subcols) {
+				String label = "";
+				if (keyPath.isEmpty()) {
+					label = key;
+					propToTableCol.add(key);
+				} else {
+					propToTableCol.add(keyPath + ";" + key);
+					label = keyPath + ";" + key;
+				}
+				index++;
+				if (key.startsWith("http") || key.startsWith("www.")) {
+					if (key.contains("#")) {
+						builder.append("<th align=\"center\"><a href=\"" + key + "\" target=\"_blank\">"
+								+ keyPathToLabel(label) + "</a></td>");
+					} else {
+						builder.append("<th align=\"center\"><a href=\"" + key + "\" target=\"_blank\">"
+								+ keyPathToLabel(label) + "</a></td>");
+					}
 				} else {
 					builder.append("<th align=\"center\"><a href=\"" + key + "\" target=\"_blank\">"
 							+ keyPathToLabel(label) + "</a></td>");
 				}
-			} else {
-				builder.append("<th align=\"center\"><a href=\"" + key + "\" target=\"_blank\">" + keyPathToLabel(label)
-						+ "</a></td>");
 			}
-			}	
 		}
-		
+
+	}
+
+	public Boolean getVectorOrCoverageRepresentationForHTML(QuerySolution first) {
+		Iterator<String> it = first.varNames();
+		while (it.hasNext()) {
+			String name = it.next();
+			if (name.endsWith("_geom")) {
+				if (vectorLiteralMap.contains(first.getLiteral(name).getDatatypeURI())) {
+					return true;
+				}
+				if (coverageLiteralMap.contains(first.getLiteral(name).getDatatypeURI())) {
+					return false;
+				}
+			}
+		}
+		return null;
 	}
 
 	@Override
@@ -151,12 +179,24 @@ public class HTMLFormatter extends ResultFormatter {
 			String typeColumn, Boolean onlyproperty,Boolean onlyhits,
 			String srsName,String indvar,String epsg,List<String> eligiblenamespaces,
 			List<String> noteligiblenamespaces,StyleObject mapstyle,Boolean alternativeFormat,Boolean invertXY) throws XMLStreamException {
+		Boolean assessment=getVectorOrCoverageRepresentationForHTML(results.next());
+		StringBuilder builder = new StringBuilder();
+		if(!assessment) {
+			ResultFormatter format = resultMap.get("covjson");
+			JSONObject covjson = new JSONObject(
+					format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,"",indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat,invertXY));
+			this.lastQueriedElemCount = format.lastQueriedElemCount;
+			builder.append("<script>var overlayMaps={}; var overlayControl; var typeColumn=\"" + typeColumn
+					+ "\"; var markercollection=[];var epsg=\""+epsg+"\"; var invertXY="+invertXY+"; var cov=" + covjson.toString());
+			builder.append("</script>");
+			builder.append(htmlcovHeader);
+		}else {
 		ResultFormatter format = resultMap.get("geojson");
 		JSONObject geojson = new JSONObject(
 				format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,"",indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat,invertXY));
 		this.lastQueriedElemCount = format.lastQueriedElemCount;
 		// System.out.println(geojson);
-		StringBuilder builder = new StringBuilder();
+
 		if (!onlyproperty) {
 			builder.append("<script>var overlayMaps={}; var overlayControl; var typeColumn=\"" + typeColumn
 					+ "\"; var markercollection=[];var epsg=\""+epsg+"\"; var invertXY="+invertXY+"; var geojson=" + geojson.toString());
@@ -312,6 +352,7 @@ public class HTMLFormatter extends ResultFormatter {
 			builder.append("</tr>");
 		}
 		builder.append("</tbody></table></div></div>");
+		}
 		// System.out.println(builder.toString());
 		return builder.toString();
 	}
