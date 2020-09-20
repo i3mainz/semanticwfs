@@ -23,7 +23,8 @@ $( document ).ready(function() {
 	$('#queryres').DataTable({"scrollX":"100%","scrollCollapse": true});
 });
 
-var layer = C.dataLayer(cov, {parameter: 'salinity'}).on('afterAdd', function(e) {
+for(param of parameters){
+  var layer = C.dataLayer(cov, {"parameter":param}).on('afterAdd', function(e) {
   if (layer.palette) {
     C.legend(layer).addTo(map)
   }
@@ -34,4 +35,6 @@ var layer = C.dataLayer(cov, {parameter: 'salinity'}).on('afterAdd', function(e)
 
   map.fitBounds(layer.getBounds())
 }).addTo(map)
+}
+
 </script>
