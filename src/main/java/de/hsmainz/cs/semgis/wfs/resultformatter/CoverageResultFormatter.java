@@ -5,14 +5,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.apache.commons.math3.genetics.GeneticAlgorithm;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import de.hsmainz.cs.semgis.wfs.resultformatter.coverage.CovJSONFormatter;
-import de.hsmainz.cs.semgis.wfs.resultformatter.coverage.GMLCOVFormatter;
-import de.hsmainz.cs.semgis.wfs.resultformatter.coverage.GeoTIFFFormatter;
-import de.hsmainz.cs.semgis.wfs.resultformatter.coverage.XYZASCIIFormatter;
 import de.hsmainz.cs.semgis.wfs.util.Tuple;
 
 public abstract class CoverageResultFormatter extends ResultFormatter {
@@ -112,19 +107,47 @@ public abstract class CoverageResultFormatter extends ResultFormatter {
 	
 	public static JSONObject convertLiteralDataToCoverageJSON(String literalValue,String literalType) {
 		JSONObject result=new JSONObject();
+		JSONArray xarray,yarray,zarray;
+		String param;
 		switch(literalType) {
 		case "http://www.opengis.net/ont/geosparql#xyzLiteral":
 			result=generateCOVJSONForXY("Grid");
-			String param="altitude";
+			param="altitude";
 			result=addCovJSONParameterAndRange(result, param, "http://www.opengis.net/ont/geosparql#altitude", new LinkedList<>(), "float");
-			JSONArray xarray=result.getJSONObject("domain").getJSONObject("axes").getJSONObject("x").getJSONArray("values");
-			JSONArray yarray=result.getJSONObject("domain").getJSONObject("axes").getJSONObject("y").getJSONArray("values");
-			JSONArray zarray=result.getJSONObject("ranges").getJSONObject(param).getJSONArray("values");
+			xarray=result.getJSONObject("domain").getJSONObject("axes").getJSONObject("x").getJSONArray("values");
+			yarray=result.getJSONObject("domain").getJSONObject("axes").getJSONObject("y").getJSONArray("values");
+			zarray=result.getJSONObject("ranges").getJSONObject(param).getJSONArray("values");
 			for(String line:literalValue.split(System.lineSeparator())) {
 				String[] coord=line.split(" "); 
 				xarray.put(Double.valueOf(coord[0]));
 				yarray.put(Double.valueOf(coord[1]));
 				zarray.put(Double.valueOf(coord[2]));
+			}
+			break;
+		case "http://www.opengis.net/ont/geosparql#ascLiteral":
+			result=generateCOVJSONForXY("Grid");
+			param="altitude";
+			result=addCovJSONParameterAndRange(result, param, "http://www.opengis.net/ont/geosparql#altitude", new LinkedList<>(), "float");
+			xarray=result.getJSONObject("domain").getJSONObject("axes").getJSONObject("x").getJSONArray("values");
+			yarray=result.getJSONObject("domain").getJSONObject("axes").getJSONObject("y").getJSONArray("values");
+			zarray=result.getJSONObject("ranges").getJSONObject(param).getJSONArray("values");
+			String nodata="";
+			for(String line:literalValue.split(System.lineSeparator())) {
+				if(line.startsWith("[a-z]")) {
+					if(line.startsWith("ncols")) {
+						
+					}
+					if(line.startsWith("NODATA_value")) {
+						nodata=line.replace("NODATA_value", "").trim();
+					}
+				}
+				for(String val:line.split(" ")) {
+					if(val.equals(nodata)) {
+						zarray.put(JSONObject.NULL);
+					}else {
+						zarray.put(Double.valueOf(val));
+					}
+				}
 			}
 			break;
 		}

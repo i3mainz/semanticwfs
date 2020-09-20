@@ -255,6 +255,7 @@ public abstract class ResultFormatter {
 		vectorLiteralMap.add("http://www.opengis.net/ont/geosparql#geoJSONLiteral");
 		vectorLiteralMap.add("http://www.opengis.net/ont/geosparql#wkbLiteral");
 		vectorLiteralMap.add("http://www.opengis.net/ont/geosparql#gmlLiteral");
+		coverageLiteralMap.add("http://www.opengis.net/ont/geosparql#ascLiteral");
 		coverageLiteralMap.add("http://www.opengis.net/ont/geosparql#covJSONLiteral");
 		coverageLiteralMap.add("http://www.opengis.net/ont/geosparql#rastwkbLiteral");
 		coverageLiteralMap.add("http://www.opengis.net/ont/geosparql#xyzLiteral");
