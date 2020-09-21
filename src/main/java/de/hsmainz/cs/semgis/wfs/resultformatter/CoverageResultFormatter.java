@@ -164,18 +164,18 @@ public abstract class CoverageResultFormatter extends ResultFormatter {
 				} else if (line.startsWith("NODATA_value")) {
 					nodata = line.replace("NODATA_value", "").trim();
 				} else {
-					/*if (nxcols != null
+					if (nxcols != null
 							&& result.getJSONObject("domain").getJSONObject("axes").getJSONObject("x").has("start"))
 						result.getJSONObject("domain").getJSONObject("axes").getJSONObject("x").put("stop",
 								xllcorner + (cellsize * nxcols));
 					if (nycols != null
 							&& result.getJSONObject("domain").getJSONObject("axes").getJSONObject("y").has("start"))
 						result.getJSONObject("domain").getJSONObject("axes").getJSONObject("y").put("stop",
-								yllcorner + (cellsize * nycols));*/
+								yllcorner + (cellsize * nycols));
 					for (String val : line.split(" ")) {
 						if (val.equals(nodata)) {
 							zarray.put(JSONObject.NULL);
-						} else {
+						} else if(!val.trim().isEmpty()) {
 							zarray.put(Double.valueOf(val));
 						}
 					}
