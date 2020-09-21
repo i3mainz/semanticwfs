@@ -54,7 +54,7 @@
 "class":"http://www.ld.gdi-de.org/id/AltitudeModel",
 "namespaces":["http://www.xplanung.de/xplangml/4/1","http://www.opengis.net/gml/"],
 "namespacesmetadata":["http://www.w3.org/ns/prov#","http://www.w3.org/ns/dcat#"],
-"query":"SELECT ?item ?rel ?val ?the_geom WHERE{ ?item rdf:type <http://www.ld.gdi-de.org/id/AltitudeModel> . ?item ?rel ?val . OPTIONAL{?val geo:asXYZ ?the_geom .} }",
+"query":"SELECT ?item ?rel ?val ?the_geom WHERE{ ?item rdf:type <http://www.ld.gdi-de.org/id/AltitudeModel> . ?item ?rel ?val . OPTIONAL{?val geo:asASC ?the_geom .} }",
 "triplestore":"https://ld.gdi-de.org/graphdb/repositories/xyztest",
 "type":"WCS", 
 "name":"AltitudeModel"}
