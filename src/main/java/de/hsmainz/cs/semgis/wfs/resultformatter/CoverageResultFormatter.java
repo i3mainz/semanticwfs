@@ -154,14 +154,12 @@ public abstract class CoverageResultFormatter extends ResultFormatter {
 						continue;						
 					}
 					else if(line.startsWith("NODATA_value")) {
-						nodata=line.replace("NODATA_value", "").trim();
-					}
-					else if(nxcols!=null && result.getJSONObject("domain").getJSONObject("axes").getJSONObject("x").has("start")) {
-						result.getJSONObject("domain").getJSONObject("axes").getJSONObject("x").put("stop", Double.valueOf(line.replace("ncols", "").trim())+(cellsize*nxcols));
-					}
-					else if(nycols!=null && result.getJSONObject("domain").getJSONObject("axes").getJSONObject("y").has("start")) {
-						result.getJSONObject("domain").getJSONObject("axes").getJSONObject("y").put("stop", Double.valueOf(line.replace("ncols", "").trim())+(cellsize*nxcols));
+						nodata=line.replace("NODATA_value", "").trim();				
 				}else {
+					if(nxcols!=null && result.getJSONObject("domain").getJSONObject("axes").getJSONObject("x").has("start")) 
+						result.getJSONObject("domain").getJSONObject("axes").getJSONObject("x").put("stop", Double.valueOf(line.replace("ncols", "").trim())+(cellsize*nxcols));
+					if(nycols!=null && result.getJSONObject("domain").getJSONObject("axes").getJSONObject("y").has("start")) 
+						result.getJSONObject("domain").getJSONObject("axes").getJSONObject("y").put("stop", Double.valueOf(line.replace("ncols", "").trim())+(cellsize*nxcols));
 				for(String val:line.split(" ")) {
 					if(val.equals(nodata)) {
 						zarray.put(JSONObject.NULL);
@@ -171,6 +169,7 @@ public abstract class CoverageResultFormatter extends ResultFormatter {
 				}
 				}
 			}
+			
 			break;
 		}
 		return result;
