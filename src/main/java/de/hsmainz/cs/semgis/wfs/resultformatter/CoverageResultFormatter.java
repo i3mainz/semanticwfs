@@ -135,7 +135,7 @@ public abstract class CoverageResultFormatter extends ResultFormatter {
 			Double cellsize=1.;
 			Integer nxcols=null,nycols=null;
 			for(String line:literalValue.split(System.lineSeparator())) {
-				if(line.startsWith("[a-z]")) {
+				if(line.matches("^[A-z].*")) {
 					if(line.startsWith("ncols")) {
 						result.getJSONObject("domain").getJSONObject("axes").getJSONObject("x").put("num", Integer.valueOf(line.replace("ncols", "").trim()));
 						result.getJSONObject("domain").getJSONObject("axes").getJSONObject("y").put("num", Integer.valueOf(line.replace("ncols", "").trim()));
