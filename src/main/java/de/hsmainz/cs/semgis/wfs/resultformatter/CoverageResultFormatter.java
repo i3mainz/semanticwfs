@@ -150,6 +150,9 @@ public abstract class CoverageResultFormatter extends ResultFormatter {
 					else if(line.startsWith("cellsize")) {
 						cellsize=Double.valueOf(line.replace("cellsize", "").trim());						
 					}
+					else if(line.startsWith("nrows")) {
+						continue;						
+					}
 					else if(line.startsWith("NODATA_value")) {
 						nodata=line.replace("NODATA_value", "").trim();
 					}
