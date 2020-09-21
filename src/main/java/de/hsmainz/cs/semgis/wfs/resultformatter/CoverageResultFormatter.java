@@ -160,13 +160,14 @@ public abstract class CoverageResultFormatter extends ResultFormatter {
 					if(nycols!=null && result.getJSONObject("domain").getJSONObject("axes").getJSONObject("y").has("start")) {
 						result.getJSONObject("domain").getJSONObject("axes").getJSONObject("y").put("stop", Double.valueOf(line.replace("ncols", "").trim())+(cellsize*nxcols));
 					}
-				}
+				}else {
 				for(String val:line.split(" ")) {
 					if(val.equals(nodata)) {
 						zarray.put(JSONObject.NULL);
 					}else {
 						zarray.put(Double.valueOf(val));
 					}
+				}
 				}
 			}
 			break;
