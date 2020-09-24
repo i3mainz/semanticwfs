@@ -159,6 +159,7 @@ public class WebService {
 				+ "/config/js/leaflet_legend.js\"></script>\r\n"
 				+ "<script src=\"https://code.jquery.com/jquery-3.4.1.min.js\"></script>\r\n"
 				+ "<script src=\"https://unpkg.com/covutils@0.6/covutils.min.js\"></script>\r\n"
+				+ "<script src=\"https://cdn.jsdelivr.net/covjson-reader/0.16/covjson-reader.min.js\"></script>\r\n"
 				+ "<script src=\"https://unpkg.com/leaflet-coverage@0.7/leaflet-coverage.min.js\"></script>\r\n"
 				+ "<script src=\"https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.bundled.js\"></script>\r\n"
 				+ "<script src=\"https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js\"></script>\r\n"
