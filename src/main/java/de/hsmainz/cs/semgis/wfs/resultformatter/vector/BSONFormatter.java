@@ -38,7 +38,7 @@ public class BSONFormatter extends VectorResultFormatter {
 		lastQueriedElemCount=format.lastQueriedElemCount;
 		JsonNode jsonNodeTree;
 		try {
-			ObjectMapper mapper=new ObjectMapper(new BsonFactory());
+			ObjectMapper mapper=new ObjectMapper();
 			jsonNodeTree=mapper.readTree(geojson);
 			return WKBWriter.bytesToHex(mapper.writeValueAsBytes(jsonNodeTree));
 		} catch (JsonProcessingException e) {

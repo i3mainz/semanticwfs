@@ -17,7 +17,7 @@ public class ASCIIGridFormatter extends ResultFormatter {
 		this.urlformat="asc";
 		this.label="ARC/INFO ASCII GRID Format (ASC)";
 		this.fileextension="asc";
-		this.definition="https://gdal.org/drivers/raster/xyz.html";
+		this.definition="https://gdal.org/drivers/raster/aaigrid.html";
 	}
 	
 	@Override

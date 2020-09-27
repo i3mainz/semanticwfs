@@ -34,7 +34,7 @@ public class YAMLFormatter extends ResultFormatter {
 	public String formatter(ResultSet results, String startingElement, String featuretype, String propertytype,
 			String typeColumn, Boolean onlyproperty, Boolean onlyhits, String srsName, String indvar, String epsg,
 			List<String> eligiblenamespaces, List<String> noteligiblenamespaces, StyleObject mapstyle,
-			Boolean alternativeFormat, Boolean invertXY, Boolean coverage) throws XMLStreamException {
+			Boolean alternativeFormat, Boolean invertXY,Boolean coverage) throws XMLStreamException {
 		ResultFormatter format = resultMap.get("geojson");
 		String geojson=
 				format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,srsName,indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat,invertXY,coverage);
@@ -48,7 +48,6 @@ public class YAMLFormatter extends ResultFormatter {
 			e.printStackTrace();
 			return null;
 		}
-
 	}
 
 }

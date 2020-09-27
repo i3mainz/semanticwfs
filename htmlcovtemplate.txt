@@ -14,27 +14,24 @@ format: 'image/png',
  transparent: true,
 attribution: '&copy; Bundesamt f&uuml;r Kartographie und Geod&auml;sie 2017, <a href="http://sg.geodatenzentrum.de/web_public/Datenquellen_TopPlus_Open.pdf">Datenquellen</a>'
 }); 
+var layers = L.control.layers(null, null, {collapsed: false}).addTo(map)
 var layer=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',maxZoom: 20});
-var baseMaps = {"BKG":wmsLayer,"OSM": layer}; baseMaps["BKG"].addTo(map);	L.control.scale({
+var baseMaps = {"BKG":wmsLayer,"OSM": layer}; 
+baseMaps["BKG"].addTo(map);	
+L.control.scale({
 	position: 'bottomright',
 	imperial: false
 }).addTo(map);
 $( document ).ready(function() {
 	$('#queryres').DataTable({"scrollX":"100%","scrollCollapse": true});
 });
-
 for(param of parameters){
-  var covlayer = C.dataLayer(cov, {"parameter":param}).on('afterAdd', function(e) {
-  if (covlayer.palette) {
-    C.legend(layer).addTo(map)
-  }
-
-  if (covlayer.timeSlices) {
-      new C.TimeAxis(covlayer).addTo(map)
-  }
-
-  map.fitBounds(covlayer.getBounds())
-  }).addTo(map)
+  var covlayer = C.dataLayer(cov, {"parameter":param}).addTo(map)
+  layers.addOverlay(covlayer, param)
+  map.on('click', function (e) {
+  new C.DraggableValuePopup({
+    layers: [covlayer]
+  }).setLatLng(e.latlng).openOn(map)
+})
 }
-
 </script>
