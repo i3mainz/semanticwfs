@@ -3268,7 +3268,7 @@ layercontrol=L.control.layers(baseMaps,overlayMaps).addTo(mymap);
 
 $(document).ready( function () {
     
-	$.getJSON("https://www.i3mainz.de/projekte/bkg/semanticwfs/rest/service/getEndpoints", function(result){
+	$.getJSON( "../rest/service/getEndpoints", function(result){
         options=""
 		   for(featuretype in result["endpoints"]){
 			   options+="<option value=\""+result["endpoints"][featuretype]["endpoint"]+"\">"+result["endpoints"][featuretype]["name"]+"</option>"
