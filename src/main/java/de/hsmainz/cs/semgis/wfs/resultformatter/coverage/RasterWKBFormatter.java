@@ -1,19 +1,14 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter.coverage;
 
-import java.awt.image.Raster;
-import java.awt.image.SampleModel;
-import java.awt.image.WritableRaster;
 import java.util.List;
 
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.jena.query.ResultSet;
-import org.apache.sis.coverage.grid.GridCoverage;
 import org.geotoolkit.coverage.wkb.WKBRasterWriter;
 
 import de.hsmainz.cs.semgis.wfs.resultformatter.CoverageResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
-import de.hsmainz.cs.semgis.wfs.util.CovJSONCoverage;
 
 public class RasterWKBFormatter extends CoverageResultFormatter {
 
