@@ -18,11 +18,11 @@ Currently, there are two ways to deploy the SemanticWFS service.
 
 ### Installation using Docker
 
-To deploy the SemanticWFS using Docker, you can follow these steps:
+To deploy the SemanticWFS using [Docker](https://www.docker.com), you can follow these steps:
 
 * Clone the repository
 * Modify the triplestoreconf.json and wfsconf.json according to your needs
-* Build the application war file using Maven
+* Build the application war file using [Maven](https://maven.apache.org)
 * Build the Docker image
 * Deploy the Docker image
 
@@ -30,16 +30,16 @@ A Gitlab CI workflow is included in this repository.
 
 ### Installation as a web application using Tomcat
 
-To deploy the SemanticWFS as a web application in tomcat, you can follow these steps:
+To deploy the SemanticWFS as a web application in [Apache Tomcat](https://tomcat.apache.org), you can follow these steps:
 
-* Build the application using Maven
-* Copy and/or modify the following configuration files into the Tomcat root folder:
+* Build the application using [Maven](https://maven.apache.org)
+* Copy and/or modify the following configuration files into the [Tomcat](https://tomcat.apache.org) root folder:
   * htmltemplate.txt
   * htmltemplate2.txt
   * htmlcovtemplate.txt
   * triplestoreconf.json
   * wfsconf.json
-* Copy the resulting .war file into the tomcat webapps directory
+* Copy the resulting .war file into the [Tomcat](https://tomcat.apache.org) webapps directory
 
 A machine readable version of this installation process is documented in the included Dockerfile.
 
