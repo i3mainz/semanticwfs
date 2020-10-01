@@ -1,6 +1,5 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter.rdf;
 
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Collection;
@@ -13,7 +12,6 @@ import javax.xml.stream.XMLStreamException;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.sparql.resultset.RDFOutput;
 import org.locationtech.jts.geom.Geometry;
 
 import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;

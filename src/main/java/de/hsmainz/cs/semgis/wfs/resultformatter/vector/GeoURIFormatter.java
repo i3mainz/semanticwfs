@@ -1,6 +1,7 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter.vector;
 
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.Writer;
 import java.util.Iterator;
 import java.util.List;
@@ -33,9 +34,8 @@ public class GeoURIFormatter extends VectorResultFormatter {
 	public String formatter(ResultSet results, String startingElement, String featuretype, String propertytype,
 			String typeColumn, Boolean onlyproperty, Boolean onlyhits, String srsName, String indvar, String epsg,
 			List<String> eligiblenamespaces, List<String> noteligiblenamespaces, StyleObject mapstyle,
-			Boolean alternativeFormat, Boolean invertXY,Boolean coverage,Writer out) {
+			Boolean alternativeFormat, Boolean invertXY,Boolean coverage,Writer out) throws IOException {
 		List<QuerySolution> test = ResultSetFormatter.toList(results);
-		StringBuilder resultCSV = new StringBuilder();
 		String lastInd = "";
 		for (QuerySolution solu : test) {
 			Iterator<String> varnames = solu.varNames();
@@ -68,10 +68,10 @@ public class GeoURIFormatter extends VectorResultFormatter {
 							uricode = epsg;
 						}
 						if ("POINT".equalsIgnoreCase(geom.getGeometryType())) {
-							resultCSV.append("geo:" + geom.getCoordinate().x + "," + geom.getCoordinate().y + ";crs="
+							out.write("geo:" + geom.getCoordinate().x + "," + geom.getCoordinate().y + ";crs="
 									+ uricode + System.lineSeparator());
 						} else {
-							resultCSV.append("geo:" + geom.getCentroid().getCoordinate().x + ","
+							out.write("geo:" + geom.getCentroid().getCoordinate().x + ","
 									+ geom.getCentroid().getCoordinate().y + ";crs=" + uricode
 									+ System.lineSeparator());
 						}
@@ -79,7 +79,7 @@ public class GeoURIFormatter extends VectorResultFormatter {
 				}
 			}
 		}
-		return resultCSV.toString();
+		return "";
 	}
 
 }

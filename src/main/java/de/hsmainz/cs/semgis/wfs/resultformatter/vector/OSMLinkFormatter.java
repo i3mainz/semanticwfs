@@ -1,7 +1,6 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter.vector;
 
-import java.io.BufferedWriter;
-import java.io.OutputStream;
+import java.io.IOException;
 import java.io.Writer;
 import java.util.Iterator;
 import java.util.List;
@@ -37,8 +36,7 @@ public class OSMLinkFormatter extends VectorResultFormatter {
 	public String formatter(ResultSet results, String startingElement, String featuretype, String propertytype,
 			String typeColumn, Boolean onlyproperty, Boolean onlyhits, String srsName, String indvar, String epsg,
 			List<String> eligiblenamespaces, List<String> noteligiblenamespaces, StyleObject mapstyle,
-			Boolean alternativeFormat, Boolean invertXY, Boolean coverage,Writer out) throws XMLStreamException {
-		StringBuilder builder=new StringBuilder();
+			Boolean alternativeFormat, Boolean invertXY, Boolean coverage,Writer out) throws XMLStreamException, IOException {
 		String lastInd="",lat="",lon="";
 		while(results.hasNext()) {
 			QuerySolution solu=results.next();
@@ -53,15 +51,15 @@ public class OSMLinkFormatter extends VectorResultFormatter {
 							solu.get(name).toString().substring(solu.get(name).toString().indexOf("^^")+2), epsg, srsName);
 					if(geom!=null) {
 						Envelope env = geom.getEnvelopeInternal();
-			        	builder.append("http://www.openstreetmap.org/?");
-			        	builder.append("minlon=").append(env.getMinY());
-			        	builder.append("&minlat=").append(env.getMinX());
-			        	builder.append("&maxlon=").append(env.getMaxY());
-			        	builder.append("&maxlat=").append(env.getMaxX());
+			        	out.write("http://www.openstreetmap.org/?");
+			        	out.write("minlon="+env.getMinY());
+			        	out.write("&minlat="+env.getMinX());
+			        	out.write("&maxlon="+env.getMaxY());
+			        	out.write("&maxlat="+env.getMaxX());
 			        	Coordinate centre = env.centre();
-			        	builder.append("&mlat=").append(centre.x);
-			        	builder.append("&mlon=").append(centre.y);          
-			        	builder.append(System.lineSeparator());
+			        	out.write("&mlat="+centre.x);
+			        	out.write("&mlon="+centre.y);          
+			        	out.write(System.lineSeparator());
 					}
 				}else if(name.equalsIgnoreCase(indvar)){
 					continue;
@@ -79,16 +77,16 @@ public class OSMLinkFormatter extends VectorResultFormatter {
 				if(lon.contains("^^")) {
 					lon=lon.substring(0,lon.indexOf("^^"));
 				}
-				builder.append("http://www.openstreetmap.org/?");
-		        builder.append("&mlat=").append(lat);
-		        builder.append("&mlon=").append(lon);  
-				builder.append(System.lineSeparator());
+				out.write("http://www.openstreetmap.org/?");
+				out.write("&mlat="+lat);
+				out.write("&mlon="+lon);  
+				out.write(System.lineSeparator());
 				lat="";
 				lon="";
 			}
 			lastInd=solu.get(indvar).toString();
 		}
-		return builder.toString();
+		return "";
 	}
 
 }

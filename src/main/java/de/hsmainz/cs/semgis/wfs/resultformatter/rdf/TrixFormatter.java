@@ -1,6 +1,5 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter.rdf;
 
-import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
