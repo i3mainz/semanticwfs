@@ -1,6 +1,6 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter.vector;
 
-import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.Writer;
 import java.util.Iterator;
 import java.util.List;
@@ -58,8 +58,7 @@ public class LatLonTextFormatter extends VectorResultFormatter {
 	public String formatter(ResultSet results, String startingElement, String featuretype, String propertytype,
 			String typeColumn, Boolean onlyproperty, Boolean onlyhits, String srsName, String indvar, String epsg,
 			List<String> eligiblenamespaces, List<String> noteligiblenamespaces, StyleObject mapstyle,
-			Boolean alternativeFormat, Boolean invertXY,Boolean coverage,Writer out) throws XMLStreamException {
-		StringBuilder builder=new StringBuilder();
+			Boolean alternativeFormat, Boolean invertXY,Boolean coverage,Writer out) throws XMLStreamException, IOException {
 		String lastInd="",lat="",lon="";
 		while(results.hasNext()) {
 			QuerySolution solu=results.next();
@@ -73,7 +72,7 @@ public class LatLonTextFormatter extends VectorResultFormatter {
 					Geometry geom=this.parseVectorLiteral(solu.get(name).toString().substring(0,solu.get(name).toString().indexOf("^^")),
 							solu.get(name).toString().substring(solu.get(name).toString().indexOf("^^")+2), epsg, srsName);
 					if(geom!=null)
-						builder.append(convertDecimalToLatLonText(geom.getCentroid().getCoordinate().x,false)+" "+convertDecimalToLatLonText(geom.getCentroid().getCoordinate().getY(),true)+System.lineSeparator());
+						out.write(convertDecimalToLatLonText(geom.getCentroid().getCoordinate().x,false)+" "+convertDecimalToLatLonText(geom.getCentroid().getCoordinate().getY(),true)+System.lineSeparator());
 				}else if(name.equalsIgnoreCase(indvar)){
 					continue;
 				}else if("lat".equalsIgnoreCase(name)){
@@ -92,13 +91,13 @@ public class LatLonTextFormatter extends VectorResultFormatter {
 				}
 				Geometry geom=this.parseVectorLiteral("Point("+lon+" "+lat+")",WKTLiteral, epsg, srsName);
 				if(geom!=null)
-					builder.append(convertDecimalToLatLonText(geom.getCoordinate().x,false)+" "+convertDecimalToLatLonText(geom.getCoordinate().getY(),true)+System.lineSeparator());
+					out.write(convertDecimalToLatLonText(geom.getCoordinate().x,false)+" "+convertDecimalToLatLonText(geom.getCoordinate().getY(),true)+System.lineSeparator());
 				lat="";
 				lon="";
 			}
 			lastInd=solu.get(indvar).toString();
 		}
-		return builder.toString();
+		return "";
 	}
 	
 }

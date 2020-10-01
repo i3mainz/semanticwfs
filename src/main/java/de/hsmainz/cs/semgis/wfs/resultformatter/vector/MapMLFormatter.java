@@ -99,7 +99,12 @@ public class MapMLFormatter extends ResultFormatter {
 		lastQueriedElemCount=format.lastQueriedElemCount;
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();
 		StringWriter strwriter=new StringWriter();
-		XMLStreamWriter writer=new IndentingXMLStreamWriter(factory.createXMLStreamWriter(strwriter));
+		XMLStreamWriter writer=null;
+		if(out!=null) {
+			writer=new IndentingXMLStreamWriter(factory.createXMLStreamWriter(out));				
+		}else {
+			writer=new IndentingXMLStreamWriter(factory.createXMLStreamWriter(strwriter));			
+		}
 		//writer.writeStartDocument();
 		System.out.println(WebService.nameSpaceCache);
 		System.out.println(featuretype.toLowerCase());

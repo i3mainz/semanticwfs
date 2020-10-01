@@ -1,6 +1,7 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter.vector;
 
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.Writer;
 import java.util.Iterator;
 import java.util.List;
@@ -12,6 +13,10 @@ import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Literal;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import com.fasterxml.jackson.core.JsonEncoding;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerator;
 
 import de.hsmainz.cs.semgis.wfs.resultformatter.VectorResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
@@ -38,28 +43,31 @@ public class JSONFormatter extends VectorResultFormatter {
 			String typeColumn,Boolean onlyproperty,Boolean onlyhits,
 			String srsName,String indvar,String epsg,List<String> eligiblenamespaces,
 			List<String> noteligiblenamespaces,StyleObject mapstyle,
-			Boolean alternativeFormat,Boolean invertXY,Boolean coverage,Writer out) throws XMLStreamException {
-		JSONObject result=new JSONObject();
-	    JSONArray obj=new JSONArray();
-	    result.put("features",obj);
-	    while(results.hasNext()) {
+			Boolean alternativeFormat,Boolean invertXY,Boolean coverage,Writer out) throws XMLStreamException, IOException {
+		JsonFactory jfactory = new JsonFactory();
+		JsonGenerator jGenerator = jfactory.createGenerator(out);
+		jGenerator.writeStartObject();
+		jGenerator.writeNumberField("amount", this.lastQueriedElemCount);
+		jGenerator.writeStartArray();
+		while(results.hasNext()) {
 	    	this.lastQueriedElemCount++;
 	    	QuerySolution solu=results.next();
-	    	JSONObject jsonobj=new JSONObject();
+	    	jGenerator.writeStartObject();
 	    	Iterator<String> varnames = solu.varNames();
 	    	while(varnames.hasNext()) {
 	    		String name=varnames.next();
     			try {
     				Literal lit=solu.getLiteral(name);
-    				jsonobj.put(name,lit.getString());
+    				jGenerator.writeStringField(name, lit.getString());
     			}catch(Exception e) {
-    				jsonobj.put(name,solu.get(name));	
+    				jGenerator.writeStringField(name, solu.get(name).toString());
     			}  		
 	    	}
-    		obj.put(jsonobj);
-	    }	    	
-	    result.put("amount",this.lastQueriedElemCount);
-	    return result.toString(2);
+    		jGenerator.writeEndObject();
+	    }		
+		jGenerator.writeEndArray();
+		jGenerator.writeEndObject();
+	    return "";
 	}
 
 }

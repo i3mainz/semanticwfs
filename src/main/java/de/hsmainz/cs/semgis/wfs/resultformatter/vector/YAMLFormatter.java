@@ -1,8 +1,6 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter.vector;
 
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.Writer;
 import java.util.List;
 
@@ -47,8 +45,8 @@ public class YAMLFormatter extends ResultFormatter {
 		JsonNode jsonNodeTree;
 		try {
 			jsonNodeTree = new ObjectMapper().readTree(geojson);
-	        String jsonAsYaml = new YAMLMapper().writeValueAsString(jsonNodeTree);
-	        return jsonAsYaml;
+	        new YAMLMapper().writeValue(out,jsonNodeTree);
+	        return "";
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 			return null;

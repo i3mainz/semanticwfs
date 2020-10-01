@@ -1,6 +1,5 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter.vector;
 
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -120,8 +119,14 @@ public class KMLFormatter extends VectorResultFormatter {
 						mapstyle,alternativeFormat,invertXY,coverage,out));
 		lastQueriedElemCount=format.lastQueriedElemCount;
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();
-		StringWriter strwriter=new StringWriter();
-		XMLStreamWriter writer=new IndentingXMLStreamWriter(factory.createXMLStreamWriter(strwriter));
+		StringWriter strwriter=null;
+		XMLStreamWriter writer=null;
+		if(out!=null) {
+			writer=new IndentingXMLStreamWriter(factory.createXMLStreamWriter(out));
+		}else {
+			strwriter=new StringWriter();	
+			writer=new IndentingXMLStreamWriter(factory.createXMLStreamWriter(strwriter));
+		}
 		writer.writeStartDocument();
 		writer.writeStartElement("kml");
 		writer.writeDefaultNamespace("http://www.opengis.net/kml/2.2");
@@ -129,9 +134,15 @@ public class KMLFormatter extends VectorResultFormatter {
 		writer.writeStartElement("Style");
 		writer.writeCharacters("");
 		writer.flush();
-		strwriter.write(this.styleformatter.formatGeometry("LineString", mapstyle));
-		strwriter.write(this.styleformatter.formatGeometry("Polygon", mapstyle));
-		strwriter.write(this.styleformatter.formatGeometry("Point", mapstyle));
+		if(out!=null) {
+			out.write(this.styleformatter.formatGeometry("LineString", mapstyle));
+			out.write(this.styleformatter.formatGeometry("Polygon", mapstyle));
+			out.write(this.styleformatter.formatGeometry("Point", mapstyle));
+		}else {
+			strwriter.write(this.styleformatter.formatGeometry("LineString", mapstyle));
+			strwriter.write(this.styleformatter.formatGeometry("Polygon", mapstyle));
+			strwriter.write(this.styleformatter.formatGeometry("Point", mapstyle));			
+		}
 		writer.writeEndElement();
 		JSONArray features=geojson.getJSONArray("features");
 		for(int i=0;i<features.length();i++) {
@@ -157,12 +168,14 @@ public class KMLFormatter extends VectorResultFormatter {
 			writer.writeEndElement();
 			writer.writeEndElement();
 			writer.writeEndElement();
+			if(i%30==0)
+				writer.flush();
 		}
 		writer.writeEndElement();
 		writer.writeEndElement();
 		writer.writeEndDocument();
 		writer.flush();	
-		return strwriter.toString();
+		return "";
 	}
 
 }
