@@ -10,7 +10,6 @@ import javax.ws.rs.core.MediaType;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.jena.query.ResultSet;
-import org.json.JSONObject;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.io.ParseException;
 import org.locationtech.jts.io.WKBReader;

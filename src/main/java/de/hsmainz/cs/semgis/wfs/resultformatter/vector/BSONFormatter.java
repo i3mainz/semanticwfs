@@ -14,7 +14,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.VectorResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
-import de.undercouch.bson4jackson.BsonFactory;
 
 public class BSONFormatter extends VectorResultFormatter {
 
