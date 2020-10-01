@@ -1,6 +1,9 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter.vector;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.StringWriter;
+import java.io.Writer;
 import java.util.List;
 
 import javax.xml.stream.XMLOutputFactory;
@@ -9,6 +12,7 @@ import javax.xml.stream.XMLStreamWriter;
 
 import org.apache.jena.query.ResultSet;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
@@ -106,11 +110,14 @@ public class KMLFormatter extends VectorResultFormatter {
 			String featuretype,String propertytype,
 			String typeColumn,Boolean onlyproperty,Boolean onlyhits,
 			String srsName,String indvar,String epsg,List<String> eligiblenamespaces,
-			List<String> noteligiblenamespaces,StyleObject mapstyle,Boolean alternativeFormat,Boolean invertXY,Boolean coverage) throws XMLStreamException {
+			List<String> noteligiblenamespaces,StyleObject mapstyle,
+			Boolean alternativeFormat,Boolean invertXY,Boolean coverage,Writer out) throws XMLStreamException, JSONException, IOException {
 		ResultFormatter format = resultMap.get("geojson");
 		//try {
 		JSONObject geojson = new JSONObject(
-				format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,srsName,indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat,invertXY,coverage));
+				format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,
+						onlyhits,srsName,indvar,epsg,eligiblenamespaces,noteligiblenamespaces,
+						mapstyle,alternativeFormat,invertXY,coverage,out));
 		lastQueriedElemCount=format.lastQueriedElemCount;
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();
 		StringWriter strwriter=new StringWriter();

@@ -1,7 +1,11 @@
 package de.hsmainz.cs.semgis.wfs.webservice;
 
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.StringWriter;
+import java.io.BufferedWriter;
+import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -18,10 +22,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.StreamingOutput;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
@@ -846,59 +852,65 @@ public class WebService {
 				return this.createExceptionResponse(e, "");
 			}
 		} else if (format == null || format.contains("html")) {
-			StringBuilder builder = new StringBuilder();
-			builder.append(htmlHead);
-			builder.append("<header id=\"header\"><div class=\"page-header\"><h1 align=center>");
-			builder.append("FeatureCollection View");
-			builder.append("</h1></div></header>");
-			builder.append("<div class=\"sticky row crumbs\"><div class=\"col-sm-12 col-md-10 col-md-offset-1\">");
-			builder.append("<a href=\""+wfsconf.getString("baseurl")+"\">Landingpage</a> / <a href=\""+wfsconf.getString("baseurl")+"/collections/\">Collections</a>");
-		    builder.append("</div></div>");
-			builder.append(
-					"<div class=\"container-fluid\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\"><table class=\"description\" id=\"collectiontable\" width=100% border=1><thead><tr><th>Collection</th><th>Description</th><th>Schema</th></tr></thead><tbody>");
-			for (int i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
-				JSONObject curobj = wfsconf.getJSONArray("datasets").getJSONObject(i);
-				if(i%2==0){
-				    builder.append("<tr class=\"even\">");
-				}else{
-				    builder.append("<tr class=\"odd\">");
-				}
-				builder.append("<td align=center><a href=\"" + wfsconf.getString("baseurl") + "/collections/"
-						+ wfsconf.getJSONArray("datasets").getJSONObject(i).get("name") + "?f=html\">"
-						+ wfsconf.getJSONArray("datasets").getJSONObject(i).get("name") + "</a></td><td align=center>");
-				if (wfsconf.getJSONArray("datasets").getJSONObject(i).has("description")) {
-					builder.append(wfsconf.getJSONArray("datasets").getJSONObject(i).get("description"));
-				}
-				builder.append("</td><td align=center>");
-				if (wfsconf.getJSONArray("datasets").getJSONObject(i).has("schema")) {
-					builder.append("<a href=\"" + wfsconf.getJSONArray("datasets").getJSONObject(i).get("schema")
-							+ "\" target=\"_blank\">[Schema]</a>");
-				} else {
-					builder.append("<a href=\"" + wfsconf.getString("baseurl") + "/collections/"
-							+ curobj.getString("name") + "/schema\" target=\"_blank\">[XML Schema]</a><br/>");
-					builder.append("<a href=\"" + wfsconf.getString("baseurl") + "/collections/"
-							+ curobj.getString("name") + "/schema?f=json\" target=\"_blank\">[JSON Schema]</a>");
-				}
-				/*builder.append("</td><td align=center>");
-				Integer counter = 0;
-				for (ResultFormatter formatter : ResultFormatter.resultMap.values()) {
-					if (counter % 4 == 0) {
-						builder.append("<br>");
+			StreamingOutput stream = new StreamingOutput() {
+			    @Override
+			    public void write(OutputStream os) throws IOException,
+			    WebApplicationException {
+			      Writer writer = new BufferedWriter(new OutputStreamWriter(os));
+					writer.write(htmlHead);
+					writer.write("<header id=\"header\"><div class=\"page-header\"><h1 align=center>");
+					writer.write("FeatureCollection View");
+					writer.write("</h1></div></header>");
+					writer.write("<div class=\"sticky row crumbs\"><div class=\"col-sm-12 col-md-10 col-md-offset-1\">");
+					writer.write("<a href=\""+wfsconf.getString("baseurl")+"\">Landingpage</a> / <a href=\""+wfsconf.getString("baseurl")+"/collections/\">Collections</a>");
+					writer.write("</div></div>");
+					writer.write(
+							"<div class=\"container-fluid\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\"><table class=\"description\" id=\"collectiontable\" width=100% border=1><thead><tr><th>Collection</th><th>Description</th><th>Schema</th></tr></thead><tbody>");
+					for (int i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
+						JSONObject curobj = wfsconf.getJSONArray("datasets").getJSONObject(i);
+						if(i%2==0){
+							writer.write("<tr class=\"even\">");
+						}else{
+							writer.write("<tr class=\"odd\">");
+						}
+						writer.write("<td align=center><a href=\"" + wfsconf.getString("baseurl") + "/collections/"
+								+ wfsconf.getJSONArray("datasets").getJSONObject(i).get("name") + "?f=html\">"
+								+ wfsconf.getJSONArray("datasets").getJSONObject(i).get("name") + "</a></td><td align=center>");
+						if (wfsconf.getJSONArray("datasets").getJSONObject(i).has("description")) {
+							writer.write(wfsconf.getJSONArray("datasets").getJSONObject(i).get("description").toString());
+						}
+						writer.write("</td><td align=center>");
+						if (wfsconf.getJSONArray("datasets").getJSONObject(i).has("schema")) {
+							writer.write("<a href=\"" + wfsconf.getJSONArray("datasets").getJSONObject(i).get("schema")
+									+ "\" target=\"_blank\">[Schema]</a>");
+						} else {
+							writer.write("<a href=\"" + wfsconf.getString("baseurl") + "/collections/"
+									+ curobj.getString("name") + "/schema\" target=\"_blank\">[XML Schema]</a><br/>");
+							writer.write("<a href=\"" + wfsconf.getString("baseurl") + "/collections/"
+									+ curobj.getString("name") + "/schema?f=json\" target=\"_blank\">[JSON Schema]</a>");
+						}
+						/*builder.append("</td><td align=center>");
+						Integer counter = 0;
+						for (ResultFormatter formatter : ResultFormatter.resultMap.values()) {
+							if (counter % 4 == 0) {
+								builder.append("<br>");
+							}
+							builder.append("<a href=\"" + wfsconf.getString("baseurl") + "/collections/"
+									+ curobj.getString("name") + "/items?f=" + formatter.exposedType + "\">["
+									+ formatter.exposedType.toUpperCase() + "]</a>&nbsp;&nbsp;");
+							counter++;
+						}*/
+						writer.write("</td></tr>");
 					}
-					builder.append("<a href=\"" + wfsconf.getString("baseurl") + "/collections/"
-							+ curobj.getString("name") + "/items?f=" + formatter.exposedType + "\">["
-							+ formatter.exposedType.toUpperCase() + "]</a>&nbsp;&nbsp;");
-					counter++;
-				}*/
-				builder.append("</td></tr>");
-			}
-			builder.append("</tbody></table>");
-			builder.append("</div></div></div><footer id=\"footer\"><table width=100%><tbody><tr><td><a href=\"" + wfsconf.getString("baseurl")
-					+ "/?f=html\">Back to LandingPage</a></td><td align=right>This page in <a href=\""
-					+ wfsconf.getString("baseurl") + "/collections?f=gml\">[XML]</a> <a href=\""
-					+ wfsconf.getString("baseurl")
-					+ "/collections?f=json\">[JSON]</a></td></tr></table></footer><script>$('#collectiontable').DataTable();</script></body></html>");
-			return Response.ok(builder.toString()).type(ResultFormatter.getFormatter(format).mimeType).build();
+					writer.write("</tbody></table>");
+					writer.write("</div></div></div><footer id=\"footer\"><table width=100%><tbody><tr><td><a href=\"" + wfsconf.getString("baseurl")
+							+ "/?f=html\">Back to LandingPage</a></td><td align=right>This page in <a href=\""
+							+ wfsconf.getString("baseurl") + "/collections?f=gml\">[XML]</a> <a href=\""
+							+ wfsconf.getString("baseurl")
+							+ "/collections?f=json\">[JSON]</a></td></tr></table></footer><script>$('#collectiontable').DataTable();</script></body></html>");
+			    }
+			  };
+			return Response.ok(stream).type(ResultFormatter.getFormatter(format).mimeType).build();
 		} else {
 			throw new NotFoundException();
 		}
@@ -1015,13 +1027,16 @@ public class WebService {
 		String query = workingobj.getString("query");
 		String res = "";
 		try {
-			res = TripleStoreConnector.executeQuery(query, workingobj.getString("triplestore"), format, "0", "0",
-					"sf:featureMember", collectionid, featureid, workingobj, "", "", "","", "", style,false,(workingobj.has("invertXY")?workingobj.getBoolean("invertXY"):false));
+			res = TripleStoreConnector.executeQuery(query, workingobj.getString("triplestore"),
+					format, "0", "0",
+					"sf:featureMember", collectionid, featureid, workingobj,
+					"", "", "","", "", style,false,
+					(workingobj.has("invertXY")?workingobj.getBoolean("invertXY"):false),null);
 			System.out.println(res);
 			if (res == null || res.isEmpty()) {
 				throw new NotFoundException();
 			}
-		} catch (JSONException | XMLStreamException e1) {
+		} catch (JSONException | XMLStreamException | IOException e1) {
 			// TODO Auto-generated catch block
 			return this.createExceptionResponse(e1, "");
 		}
@@ -2111,7 +2126,8 @@ public class WebService {
 			@Parameter(description="The id of the collection") @PathParam("collectionid") String collectionid,
 			@Parameter(description="The format of the result") @DefaultValue("html") @QueryParam("f") String format, 
 			@DefaultValue("10") @QueryParam("limit") String limit,
-			@Parameter(description="The offset to consider when fetching items") @DefaultValue("0") @QueryParam("offset") String offset, @DefaultValue("") @QueryParam("bbox") String bbox,
+			@Parameter(description="The offset to consider when fetching items") @DefaultValue("0") @QueryParam("offset") String offset,
+			@DefaultValue("") @QueryParam("bbox") String bbox,
 			@Parameter(description="The styling of the item when returned")  @DefaultValue("") @QueryParam("style") String style,
 			@Parameter(description="The crs of the data to be returned") @DefaultValue("EPSG:4326") @QueryParam("crs") String crs,
 			@Parameter(description="The crs of a given bounding box") @DefaultValue("") @QueryParam("bbox-crs") String bboxcrs,
@@ -2134,7 +2150,7 @@ public class WebService {
 			}
 		}*/
 		System.out.println("FORMAT: "+format);
-		JSONObject workingobj = null;
+		JSONObject workingobj=null;
 		for (int i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
 			JSONObject curobj = wfsconf.getJSONArray("datasets").getJSONObject(i);
 			if (curobj.getString("name").equalsIgnoreCase(collectionid)) {
@@ -2160,19 +2176,24 @@ public class WebService {
 			workingobj.put("attcount", 1);
 		System.out.println("Attcount: " + workingobj.getInt("attcount"));
 		System.out.println(limit);
+		
 		try {
-			String res = TripleStoreConnector.executeQuery(workingobj.getString("query"),
-					workingobj.getString("triplestore"), format,
-					limit,
-					offset, "sf:featureMember", collectionid,
-					"", workingobj, filter, "", crs,bboxcrs, bbox, style,true,(workingobj.has("invertXY")?workingobj.getBoolean("invertXY"):false));
+			String res="";
+
 			// System.out.println(res);
-			if (res == null || res.isEmpty()) {
-				System.out.println("RES: "+res);
-				throw new NotFoundException();
-			}
+
 			// System.out.println(res);
 			if (format != null && format.contains("json") && !format.contains("covjson") && !format.contains("jsonp") && !format.contains("seq") && !format.equalsIgnoreCase("rdfjson")) {
+			    res = TripleStoreConnector.executeQuery(workingobj.getString("query"),
+							workingobj.getString("triplestore"), format,
+							limit,
+							offset, "sf:featureMember", collectionid,
+							"", workingobj, filter, "", crs,bboxcrs, bbox, 
+							style,true,(workingobj.has("invertXY")?workingobj.getBoolean("invertXY"):false),null);
+				if (res == null || res.isEmpty()) {
+					System.out.println("RES: "+res);
+					throw new NotFoundException();
+				}
 				JSONObject result = new JSONObject();
 				JSONArray links = new JSONArray();
 				for (ResultFormatter formatter : ResultFormatter.resultMap.values()) {
@@ -2211,6 +2232,16 @@ public class WebService {
 				result.put("features", features);
 				return Response.ok(result.toString(2),ResultFormatter.getFormatter(format).mimeType).build();
 			} else if (format != null && format.contains("gml")) {
+			    res = TripleStoreConnector.executeQuery(workingobj.getString("query"),
+							workingobj.getString("triplestore"), format,
+							limit,
+							offset, "sf:featureMember", collectionid,
+							"", workingobj, filter, "", crs,bboxcrs, bbox, 
+							style,true,(workingobj.has("invertXY")?workingobj.getBoolean("invertXY"):false),null);
+				if (res == null || res.isEmpty()) {
+					System.out.println("RES: "+res);
+					throw new NotFoundException();
+				}
 				StringWriter strwriter = new StringWriter();
 				XMLOutputFactory output = XMLOutputFactory.newInstance();
 				XMLStreamWriter writer;
@@ -2266,6 +2297,16 @@ public class WebService {
 					return this.createExceptionResponse(e, "");
 				}
 			} else if (format == null || format.contains("html")) {
+			    res = TripleStoreConnector.executeQuery(workingobj.getString("query"),
+							workingobj.getString("triplestore"), format,
+							limit,
+							offset, "sf:featureMember", collectionid,
+							"", workingobj, filter, "", crs,bboxcrs, bbox, 
+							style,true,(workingobj.has("invertXY")?workingobj.getBoolean("invertXY"):false),null);
+				if (res == null || res.isEmpty()) {
+					System.out.println("RES: "+res);
+					throw new NotFoundException();
+				}
 				StringBuilder builder = new StringBuilder();
 				builder.append(htmlHead);
 				builder.append("<body><header id=\"header\"><h1 align=\"center\">");
@@ -2297,9 +2338,36 @@ public class WebService {
 				builder.append("</body></html>");
 				return Response.ok(builder.toString(),ResultFormatter.getFormatter(format).mimeType).build();
 			} else {
-				return Response.ok(res,ResultFormatter.getFormatter(format).mimeType).header("Content-Disposition", "attachment; filename*=UTF-8''" + collectionid+"_items."+ResultFormatter.getFormatter(format).fileextension).build();
+				final JSONObject wko2=workingobj;
+				StreamingOutput stream = new StreamingOutput() {
+				    @Override
+				    public void write(OutputStream os) throws IOException,
+				    WebApplicationException {
+				      Writer writer = new BufferedWriter(new OutputStreamWriter(os));
+				      String res;
+					try {
+						res = TripleStoreConnector.executeQuery(wko2.getString("query"),
+								wko2.getString("triplestore"), format,
+									limit,
+									offset, "sf:featureMember", collectionid,
+									"", wko2, filter, "", crs,bboxcrs, bbox, 
+									style,true,(wko2.has("invertXY")?wko2.getBoolean("invertXY"):false),writer);
+					      if(res!=null && !res.isEmpty()) {
+					    	  writer.write(res);
+					      }
+					} catch (JSONException | XMLStreamException | IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					writer.close();
+				    }
+				  };
+				return Response.ok(stream,ResultFormatter.getFormatter(format).mimeType)
+						.header("Content-Disposition", "attachment; filename*=UTF-8''" + collectionid+"_items."
+								+ResultFormatter.getFormatter(format).fileextension)
+						.build();
 			}
-		} catch (JSONException | XMLStreamException e1) {
+		} catch (JSONException | XMLStreamException | IOException e1) {
 			e1.printStackTrace();
 			return Response.ok("",MediaType.TEXT_PLAIN).build();
 		}
@@ -3631,7 +3699,9 @@ public class WebService {
 						workingobj.getString("triplestore"), output,
 						"" + count,
 						"" + startindex, "gml:featureMember",
-						typename, resourceids, workingobj, filter, resultType, srsName,"", "", style,false,(workingobj.has("invertXY")?workingobj.getBoolean("invertXY"):false));
+						typename, resourceids, workingobj, filter, resultType, srsName,"",
+						"", style,false,
+						(workingobj.has("invertXY")?workingobj.getBoolean("invertXY"):false),null);
 				System.out.println(res);
 				if (res==null || res.isEmpty()) {
 					throw new NotFoundException();
@@ -3640,7 +3710,7 @@ public class WebService {
 					hitCache.put(typename.toLowerCase(),
 							new Tuple<Date, String>(new Date(System.currentTimeMillis()), res));
 				}
-			} catch (JSONException | XMLStreamException e1) {
+			} catch (JSONException | XMLStreamException | IOException e1) {
 				e1.printStackTrace();
 				return this.createExceptionResponse(e1, "");
 			}
@@ -3785,9 +3855,9 @@ public class WebService {
 		try {
 			res = TripleStoreConnector.executePropertyValueQuery(workingobj.getString("triplestore"), output,
 					propertyname, "gml:featureMember", typename, resourceids, workingobj, filter, count, resultType,
-					"");
+					"",null);
 			System.out.println(res);
-		} catch (JSONException | XMLStreamException e1) {
+		} catch (JSONException | XMLStreamException | IOException e1) {
 			e1.printStackTrace();
 			return this.createExceptionResponse(e1, "");
 		}

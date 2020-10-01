@@ -1,6 +1,9 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter.vector;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.StringWriter;
+import java.io.Writer;
 import java.util.List;
 
 import javax.xml.stream.XMLOutputFactory;
@@ -8,6 +11,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
 import org.apache.jena.query.ResultSet;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
@@ -35,11 +39,14 @@ public class SVGFormatter extends ResultFormatter {
 	@Override
 	public String formatter(ResultSet results, String startingElement, String featuretype, String propertytype,
 			String typeColumn, Boolean onlyproperty, Boolean onlyhits, String srsName, String indvar, String epsg,
-			List<String> eligiblenamespaces, List<String> noteligiblenamespaces, StyleObject mapstyle,Boolean alternativeRepresentation,Boolean invertXY, Boolean coverage)
-			throws XMLStreamException {
+			List<String> eligiblenamespaces, List<String> noteligiblenamespaces, StyleObject mapstyle,
+			Boolean alternativeRepresentation,Boolean invertXY, Boolean coverage,Writer out)
+			throws XMLStreamException, JSONException, IOException {
 		ResultFormatter format = resultMap.get("geojson");
 		JSONObject geojson = new JSONObject(
-				format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,srsName,indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeRepresentation,invertXY,coverage));
+				format.formatter(results,startingElement, featuretype,propertytype, typeColumn, 
+						onlyproperty,onlyhits,srsName,indvar,epsg,eligiblenamespaces,noteligiblenamespaces,
+						mapstyle,alternativeRepresentation,invertXY,coverage,out));
 		lastQueriedElemCount=format.lastQueriedElemCount;
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();
 		StringWriter strwriter=new StringWriter();

@@ -1,9 +1,11 @@
 package de.hsmainz.cs.semgis.wfs.triplestore;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.Writer;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -20,7 +22,9 @@ import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.query.QueryFactory;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
+import org.apache.jena.rdf.model.Model;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
@@ -181,7 +185,7 @@ public abstract class TripleStoreConnector {
 		QueryExecution qe = QueryExecutionFactory.sparqlService(endpoint, queryjena);
 			ResultSet rs = qe.execSelect();
 		GeoJSONFormatter form=new GeoJSONFormatter();
-		String res=form.formatter(rs, "", "item", "", "", false, false, "","item","",null,null,null,false,false,false);
+		String res=form.formatter(rs, "", "item", "", "", false, false, "","item","",null,null,null,false,false,false,null);
 		qe.close();
 		return res;
 	}
@@ -691,10 +695,13 @@ public abstract class TripleStoreConnector {
 	 * @param srsName
 	 * @return
 	 * @throws XMLStreamException
+	 * @throws IOException 
+	 * @throws JSONException 
 	 */
 	public static String executePropertyValueQuery(String queryurl,String output,String propertyValue,
 			String startingElement,String featuretype,
-			String resourceids,JSONObject workingobj,String filter,String count,String resultType,String srsName) throws XMLStreamException {
+			String resourceids,JSONObject workingobj,
+			String filter,String count,String resultType,String srsName,BufferedWriter out) throws XMLStreamException, JSONException, IOException {
 		String queryString="",indvar="item";
 		if(workingobj.has("indvar")) {
 			indvar=workingobj.getString("indvar");
@@ -744,7 +751,8 @@ public abstract class TripleStoreConnector {
 		String res=resformat.formatter(results,startingElement,featuretype.toLowerCase(),propertyValue,
 				(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""),true,false,
 				srsName,(workingobj.has("indvar")?workingobj.getString("indvar"):"item"),
-				(workingobj.has("targetCRS")?workingobj.getString("targetCRS"):""),null,null,null,false,false,workingobj.get("geometrytype").equals("Coverage"));
+				(workingobj.has("targetCRS")?workingobj.getString("targetCRS"):""),
+				null,null,null,false,false,workingobj.get("geometrytype").equals("Coverage"),out);
 		qexec.close();
 		if(resformat.lastQueriedElemCount==0) {
 			return "";
@@ -772,10 +780,14 @@ public abstract class TripleStoreConnector {
 	 * @param invertXY indicates whether to invert the XY axis on query
 	 * @return A string containing the query result. This String is empty if no result has been retrieved.
 	 * @throws XMLStreamException
+	 * @throws IOException 
+	 * @throws JSONException 
 	 */
 	public static String executeQuery(String queryString,String queryurl,String output,String count,
 			String offset,String startingElement,String featuretype,String resourceids,JSONObject workingobj,
-			String filter,String resultType,String srsName,String bboxcrs,String bbox,String mapstyle,Boolean alternativeFormat,Boolean invertXY) throws XMLStreamException {
+			String filter,String resultType,String srsName,
+			String bboxcrs,String bbox,String mapstyle,
+			Boolean alternativeFormat,Boolean invertXY,Writer out) throws XMLStreamException, JSONException, IOException {
 		if(invertXY==null) {
 			invertXY=false;
 		}
@@ -840,27 +852,53 @@ public abstract class TripleStoreConnector {
 		if(offsetval>0) {
 			queryString+=" OFFSET "+offsetval+System.lineSeparator();
 		}*/
+		ResultFormatter resformat=ResultFormatter.getFormatter(output);
+		//TODO Generate CONSTRUCT query from SELECT query for performance improvement
+		/*if(queryString.trim().startsWith("SELECT") && resformat!=null && resformat.constructQuery) {
+			queryString="CONSTRUCT "+queryString.substring(queryString.indexOf("SELECT")+6);
+		}*/
 		System.out.println("Final Query: "+prefixCollection+queryString);
 		System.out.println(resourceids);
 		Query query = QueryFactory.create(prefixCollection+queryString);
 		QueryExecution qexec = QueryExecutionFactory.sparqlService(queryurl, query);
-		ResultFormatter resformat=ResultFormatter.getFormatter(output);
+
 		if(resformat==null) {
 			return null;
 		}
-		ResultSet results = qexec.execSelect();
-		if(resultType.equalsIgnoreCase("hits")) {
-			if(results.hasNext()) {
-				String res=results.next().getLiteral("count").getString();
-				qexec.close();
-				return res;
+		String res="";
+		/*if(resformat!=null && resformat.constructQuery) {
+			Model results = qexec.execConstruct();
+			res=resformat.formatter(results,
+					startingElement,featuretype.toLowerCase(),"",
+					(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""),
+					false,false,
+					srsName,indvar,
+					(workingobj.has("targetCRS")?workingobj.getString("targetCRS"):"")
+					,null
+					,null,style,alternativeFormat,invertXY,
+					workingobj.get("geometrytype").equals("Coverage"),out);
+			qexec.close();
+		}else {*/
+			ResultSet results = qexec.execSelect();
+			if(resultType.equalsIgnoreCase("hits")) {
+				if(results.hasNext()) {
+					res=results.next().getLiteral("count").getString();
+					qexec.close();
+					return res;
+				}
 			}
-		}
-		String res=resformat.formatter(results,startingElement,featuretype.toLowerCase(),"",
-				(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""),false,false,
-				srsName,indvar,
-				(workingobj.has("targetCRS")?workingobj.getString("targetCRS"):""),null,null,style,alternativeFormat,invertXY,workingobj.get("geometrytype").equals("Coverage"));
-		qexec.close();
+			res=resformat.formatter(results,
+					startingElement,featuretype.toLowerCase(),"",
+					(workingobj.has("typeColumn")?workingobj.get("typeColumn").toString():""),
+					false,false,
+					srsName,indvar,
+					(workingobj.has("targetCRS")?workingobj.getString("targetCRS"):"")
+					,null
+					,null,style,alternativeFormat,invertXY,
+					workingobj.get("geometrytype").equals("Coverage"),out);
+			qexec.close();			
+		//}
+
 		if(resformat.lastQueriedElemCount==0) {
 			return "";
 		}

@@ -1,5 +1,8 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter.rdf;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -24,26 +27,27 @@ public class HexTuplesFormatter extends ResultFormatter {
 		this.label="HexTuples Format (RDF)";
 		this.fileextension="ndjson";
 		this.definition="https://github.com/ontola/hextuples";
+		this.constructQuery=false;
 	}
 	
 	@Override
 	public String formatter(ResultSet results, String startingElement, String featuretype, String propertytype,
 			String typeColumn, Boolean onlyproperty, Boolean onlyhits, String srsName, String indvar, String epsg,
 			List<String> eligiblenamespaces, List<String> noteligiblenamespaces, StyleObject mapstyle,
-			Boolean alternativeFormat, Boolean invertXY, Boolean coverage) throws XMLStreamException {
+			Boolean alternativeFormat, Boolean invertXY, Boolean coverage,Writer out) throws XMLStreamException, IOException {
 		StringBuilder builder=new StringBuilder();
 		List<String> rel=new LinkedList<>();
 		List<String> val=new LinkedList<>();
 		String lastInd="",geomLiteral="",lat="",lon="";
-		builder.append("[\"http://www.opengis.net/ont/geosparql#Geometry\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#type\", \"http://www.w3.org/2002/07/owl#Class\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#namedNode\",\"\", \"\"] "+System.lineSeparator());
-		builder.append("[\"http://www.opengis.net/ont/geosparql#Feature\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#type\", \"http://www.w3.org/2002/07/owl#Class\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#namedNode\",\"\", \"\"]"+System.lineSeparator());
-		builder.append("[\"http://www.opengis.net/ont/geosparql#SpatialObject\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#type\", \"http://www.w3.org/2002/07/owl#Class\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#namedNode\",\"\", \"\"]"+System.lineSeparator());
-		builder.append("[\"http://www.opengis.net/ont/geosparql#"+featuretype+"\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#type\", \"http://www.w3.org/2002/07/owl#Class\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#namedNode\",\"\", \"\"]"+System.lineSeparator());
-		builder.append("[\"http://www.opengis.net/ont/geosparql#Feature\", \"http://www.w3.org/2000/01/rdf-schema#subClassOf\", \"http://www.opengis.net/ont/geosparql#SpatialObject\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#namedNode\",\"\", \"\"]"+System.lineSeparator());
-		builder.append("[\"http://www.opengis.net/ont/geosparql#Geometry\", \"http://www.w3.org/2000/01/rdf-schema#subClassOf\", \"http://www.opengis.net/ont/geosparql#SpatialObject\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#namedNode\",\"\", \"\"]"+System.lineSeparator());
-		builder.append("[\"http://www.opengis.net/ont/geosparql#hasGeometry\", \"http://www.w3.org/2000/01/rdf-schema#type\", \"http://www.w3.org/2002/07/owl#ObjectProperty\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#namedNode\",\"\", \"\"]"+System.lineSeparator());
-		builder.append("[\"http://www.opengis.net/ont/geosparql#asWKT\", \"http://www.w3.org/2000/01/rdf-schema#type\", \"http://www.w3.org/2002/07/owl#DatatypeProperty\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#namedNode\",\"\", \"\"]"+System.lineSeparator());
-		builder.append("[\"http://www.opengis.net/ont/geosparql#"+featuretype+"\", \"http://www.w3.org/2000/01/rdf-schema#subClassOf\", \"http://www.w3.org/2002/07/owl#Feature\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#namedNode\",\"\", \"\"]"+System.lineSeparator());
+		out.write("[\"http://www.opengis.net/ont/geosparql#Geometry\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#type\", \"http://www.w3.org/2002/07/owl#Class\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#namedNode\",\"\", \"\"] "+System.lineSeparator());
+		out.write("[\"http://www.opengis.net/ont/geosparql#Feature\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#type\", \"http://www.w3.org/2002/07/owl#Class\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#namedNode\",\"\", \"\"]"+System.lineSeparator());
+		out.write("[\"http://www.opengis.net/ont/geosparql#SpatialObject\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#type\", \"http://www.w3.org/2002/07/owl#Class\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#namedNode\",\"\", \"\"]"+System.lineSeparator());
+		out.write("[\"http://www.opengis.net/ont/geosparql#"+featuretype+"\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#type\", \"http://www.w3.org/2002/07/owl#Class\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#namedNode\",\"\", \"\"]"+System.lineSeparator());
+		out.write("[\"http://www.opengis.net/ont/geosparql#Feature\", \"http://www.w3.org/2000/01/rdf-schema#subClassOf\", \"http://www.opengis.net/ont/geosparql#SpatialObject\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#namedNode\",\"\", \"\"]"+System.lineSeparator());
+		out.write("[\"http://www.opengis.net/ont/geosparql#Geometry\", \"http://www.w3.org/2000/01/rdf-schema#subClassOf\", \"http://www.opengis.net/ont/geosparql#SpatialObject\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#namedNode\",\"\", \"\"]"+System.lineSeparator());
+		out.write("[\"http://www.opengis.net/ont/geosparql#hasGeometry\", \"http://www.w3.org/2000/01/rdf-schema#type\", \"http://www.w3.org/2002/07/owl#ObjectProperty\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#namedNode\",\"\", \"\"]"+System.lineSeparator());
+		out.write("[\"http://www.opengis.net/ont/geosparql#asWKT\", \"http://www.w3.org/2000/01/rdf-schema#type\", \"http://www.w3.org/2002/07/owl#DatatypeProperty\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#namedNode\",\"\", \"\"]"+System.lineSeparator());
+		out.write("[\"http://www.opengis.net/ont/geosparql#"+featuretype+"\", \"http://www.w3.org/2000/01/rdf-schema#subClassOf\", \"http://www.w3.org/2002/07/owl#Feature\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#namedNode\",\"\", \"\"]"+System.lineSeparator());
 		while(results.hasNext()) {
 			QuerySolution solu=results.next();
 			Iterator<String> varnames=solu.varNames();
@@ -71,11 +75,11 @@ public class HexTuplesFormatter extends ResultFormatter {
 					lon=solu.get(name).toString();
 				}else {
 					if(val.get(val.size()-1).startsWith("http") || val.get(val.size()-1).startsWith("file:/")) {
-						builder.append("[\""+solu.get(indvar)+"\", \""+name+"\", \""+solu.get(name).toString()+"\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#namedNode\", \"\", \"\" ]"+System.lineSeparator());		
+						out.write("[\""+solu.get(indvar)+"\", \""+name+"\", \""+solu.get(name).toString()+"\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#namedNode\", \"\", \"\" ]"+System.lineSeparator());		
 					}else if(val.get(val.size()-1).contains("^^")) {
-						builder.append("[\""+solu.get(indvar)+"\", \""+name+"\", \""+solu.get(name).toString().substring(0,solu.get(name).toString().indexOf("^^"))+"\",\""+solu.get(name).toString().substring(solu.get(name).toString().indexOf("^^")+2)+"\", \"\", \"\" ]"+System.lineSeparator());
+						out.write("[\""+solu.get(indvar)+"\", \""+name+"\", \""+solu.get(name).toString().substring(0,solu.get(name).toString().indexOf("^^"))+"\",\""+solu.get(name).toString().substring(solu.get(name).toString().indexOf("^^")+2)+"\", \"\", \"\" ]"+System.lineSeparator());
 					}else {
-						builder.append("[\""+solu.get(indvar)+"\", \""+name+"\", \""+solu.get(name).toString()+"\",\"http://www.w3.org/2001/XMLSchema#string\", \"\", \"\" ]"+System.lineSeparator());
+						out.write("[\""+solu.get(indvar)+"\", \""+name+"\", \""+solu.get(name).toString()+"\",\"http://www.w3.org/2001/XMLSchema#string\", \"\", \"\" ]"+System.lineSeparator());
 					}
 	    		}
 			}
@@ -90,20 +94,20 @@ public class HexTuplesFormatter extends ResultFormatter {
 				Geometry geom=this.parseVectorLiteral("Point("+lon+" "+lat+")",VectorResultFormatter.WKTLiteral, epsg, srsName);
 				if(geom!=null) {
 					geomLiteral="\""+geom.toText()+"\", \"http://www.opengis.net/ont/geosparql#wktLiteral\", \"\", \"\" ]";
-					builder.append("[\""+solu.get(indvar)+"_geom\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#type\", \"http://www.opengis.net/ont/geosparql#Geometry\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#namedNode\",\"\", \"\"]"+System.lineSeparator());
-					builder.append("[\""+solu.get(indvar)+"\", \"http://www.opengis.net/ont/geosparql#hasGeometry\", \""+solu.get(indvar)+"_geom\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#namedNode\", \"\", \"\" ]"+System.lineSeparator());
-					builder.append("[\""+solu.get(indvar)+"_geom\", \"http://www.opengis.net/ont/geosparql#asWKT\", "+geomLiteral+System.lineSeparator());
+					out.write("[\""+solu.get(indvar)+"_geom\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#type\", \"http://www.opengis.net/ont/geosparql#Geometry\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#namedNode\",\"\", \"\"]"+System.lineSeparator());
+					out.write("[\""+solu.get(indvar)+"\", \"http://www.opengis.net/ont/geosparql#hasGeometry\", \""+solu.get(indvar)+"_geom\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#namedNode\", \"\", \"\" ]"+System.lineSeparator());
+					out.write("[\""+solu.get(indvar)+"_geom\", \"http://www.opengis.net/ont/geosparql#asWKT\", "+geomLiteral+System.lineSeparator());
 				}
 				lat="";
 				lon="";
 			}
 			if(!rel.isEmpty() && !val.isEmpty()) {
 				if(!geomLiteral.isEmpty()) {
-					builder.append("[\""+val.get(val.size()-1)+"\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#type\", \"http://www.opengis.net/ont/geosparql#Geometry\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#namedNode\",\"\", \"\" ]"+System.lineSeparator());
-					builder.append("[\""+solu.get(indvar)+"\", \"http://www.opengis.net/ont/geosparql#hasGeometry\", \""+val.get(val.size()-1)+"\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#namedNode\",\"\", \"\" ]"+System.lineSeparator());
-					builder.append("[\""+val.get(val.size()-1)+"\", \"http://www.opengis.net/ont/geosparql#asWKT\", \""+geomLiteral+System.lineSeparator());
+					out.write("[\""+val.get(val.size()-1)+"\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#type\", \"http://www.opengis.net/ont/geosparql#Geometry\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#namedNode\",\"\", \"\" ]"+System.lineSeparator());
+					out.write("[\""+solu.get(indvar)+"\", \"http://www.opengis.net/ont/geosparql#hasGeometry\", \""+val.get(val.size()-1)+"\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#namedNode\",\"\", \"\" ]"+System.lineSeparator());
+					out.write("[\""+val.get(val.size()-1)+"\", \"http://www.opengis.net/ont/geosparql#asWKT\", \""+geomLiteral+System.lineSeparator());
 				}else {
-					addKeyValList(solu.get(indvar).toString(), rel, val, builder);
+					addKeyValList(solu.get(indvar).toString(), rel, val, out);
 				}
 				rel.clear();
 				val.clear();
@@ -115,7 +119,7 @@ public class HexTuplesFormatter extends ResultFormatter {
 	}
 	
 	
-	public void addKeyValList(String item,Collection<String> rell,Collection<String> vall,StringBuilder builder) {
+	public void addKeyValList(String item,Collection<String> rell,Collection<String> vall,Writer out) throws IOException {
 		Iterator<String> reliter=rell.iterator();
 		Iterator<String> valiter=vall.iterator();
 		while(reliter.hasNext()) {
@@ -126,11 +130,11 @@ public class HexTuplesFormatter extends ResultFormatter {
 			item=item.replace("[","").replace("]", "");
 			if(item.startsWith("http")) {
 			if(val.startsWith("http") || val.startsWith("file:/")) {
-				builder.append("[\""+item+"\", \""+rel+"\", \""+val+"\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#namedNode\", \"\", \"\" ]"+System.lineSeparator());		
+				out.write("[\""+item+"\", \""+rel+"\", \""+val+"\", \"http://www.w3.org/1999/02/22-rdf-syntax-ns#namedNode\", \"\", \"\" ]"+System.lineSeparator());		
 			}else if(val.contains("^^")) {
-				builder.append("[\""+item+"\", \""+rel+"\", \""+val.substring(0,val.indexOf("^^"))+"\", \""+val.substring(val.indexOf("^^")+2)+"\", \"\", \"\" ]"+System.lineSeparator());
+				out.write("[\""+item+"\", \""+rel+"\", \""+val.substring(0,val.indexOf("^^"))+"\", \""+val.substring(val.indexOf("^^")+2)+"\", \"\", \"\" ]"+System.lineSeparator());
 			}else {
-				builder.append("[\""+item+"\", \""+rel+"\", \""+val+"\", \"http://www.w3.org/2001/XMLSchema#string\", \"\", \"\" ]"+System.lineSeparator());
+				out.write("[\""+item+"\", \""+rel+"\", \""+val+"\", \"http://www.w3.org/2001/XMLSchema#string\", \"\", \"\" ]"+System.lineSeparator());
 			}
 			item=val;
 			}
