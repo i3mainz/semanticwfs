@@ -852,65 +852,59 @@ public class WebService {
 				return this.createExceptionResponse(e, "");
 			}
 		} else if (format == null || format.contains("html")) {
-			StreamingOutput stream = new StreamingOutput() {
-			    @Override
-			    public void write(OutputStream os) throws IOException,
-			    WebApplicationException {
-			      Writer writer = new BufferedWriter(new OutputStreamWriter(os));
-					writer.write(htmlHead);
-					writer.write("<header id=\"header\"><div class=\"page-header\"><h1 align=center>");
-					writer.write("FeatureCollection View");
-					writer.write("</h1></div></header>");
-					writer.write("<div class=\"sticky row crumbs\"><div class=\"col-sm-12 col-md-10 col-md-offset-1\">");
-					writer.write("<a href=\""+wfsconf.getString("baseurl")+"\">Landingpage</a> / <a href=\""+wfsconf.getString("baseurl")+"/collections/\">Collections</a>");
-					writer.write("</div></div>");
-					writer.write(
-							"<div class=\"container-fluid\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\"><table class=\"description\" id=\"collectiontable\" width=100% border=1><thead><tr><th>Collection</th><th>Description</th><th>Schema</th></tr></thead><tbody>");
-					for (int i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
-						JSONObject curobj = wfsconf.getJSONArray("datasets").getJSONObject(i);
-						if(i%2==0){
-							writer.write("<tr class=\"even\">");
-						}else{
-							writer.write("<tr class=\"odd\">");
-						}
-						writer.write("<td align=center><a href=\"" + wfsconf.getString("baseurl") + "/collections/"
-								+ wfsconf.getJSONArray("datasets").getJSONObject(i).get("name") + "?f=html\">"
-								+ wfsconf.getJSONArray("datasets").getJSONObject(i).get("name") + "</a></td><td align=center>");
-						if (wfsconf.getJSONArray("datasets").getJSONObject(i).has("description")) {
-							writer.write(wfsconf.getJSONArray("datasets").getJSONObject(i).get("description").toString());
-						}
-						writer.write("</td><td align=center>");
-						if (wfsconf.getJSONArray("datasets").getJSONObject(i).has("schema")) {
-							writer.write("<a href=\"" + wfsconf.getJSONArray("datasets").getJSONObject(i).get("schema")
-									+ "\" target=\"_blank\">[Schema]</a>");
-						} else {
-							writer.write("<a href=\"" + wfsconf.getString("baseurl") + "/collections/"
-									+ curobj.getString("name") + "/schema\" target=\"_blank\">[XML Schema]</a><br/>");
-							writer.write("<a href=\"" + wfsconf.getString("baseurl") + "/collections/"
-									+ curobj.getString("name") + "/schema?f=json\" target=\"_blank\">[JSON Schema]</a>");
-						}
-						/*builder.append("</td><td align=center>");
-						Integer counter = 0;
-						for (ResultFormatter formatter : ResultFormatter.resultMap.values()) {
-							if (counter % 4 == 0) {
-								builder.append("<br>");
-							}
-							builder.append("<a href=\"" + wfsconf.getString("baseurl") + "/collections/"
-									+ curobj.getString("name") + "/items?f=" + formatter.exposedType + "\">["
-									+ formatter.exposedType.toUpperCase() + "]</a>&nbsp;&nbsp;");
-							counter++;
-						}*/
-						writer.write("</td></tr>");
+			StringBuilder builder = new StringBuilder();
+			builder.append(htmlHead);
+			builder.append("<header id=\"header\"><div class=\"page-header\"><h1 align=center>");
+			builder.append("FeatureCollection View");
+			builder.append("</h1></div></header>");
+			builder.append("<div class=\"sticky row crumbs\"><div class=\"col-sm-12 col-md-10 col-md-offset-1\">");
+			builder.append("<a href=\""+wfsconf.getString("baseurl")+"\">Landingpage</a> / <a href=\""+wfsconf.getString("baseurl")+"/collections/\">Collections</a>");
+		    builder.append("</div></div>");
+			builder.append(
+					"<div class=\"container-fluid\" role=\"main\"><div class=\"row\"><div class=\"col-sm-12\"><table class=\"description\" id=\"collectiontable\" width=100% border=1><thead><tr><th>Collection</th><th>Description</th><th>Schema</th></tr></thead><tbody>");
+			for (int i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
+				JSONObject curobj = wfsconf.getJSONArray("datasets").getJSONObject(i);
+				if(i%2==0){
+				    builder.append("<tr class=\"even\">");
+				}else{
+				    builder.append("<tr class=\"odd\">");
+				}
+				builder.append("<td align=center><a href=\"" + wfsconf.getString("baseurl") + "/collections/"
+						+ wfsconf.getJSONArray("datasets").getJSONObject(i).get("name") + "?f=html\">"
+						+ wfsconf.getJSONArray("datasets").getJSONObject(i).get("name") + "</a></td><td align=center>");
+				if (wfsconf.getJSONArray("datasets").getJSONObject(i).has("description")) {
+					builder.append(wfsconf.getJSONArray("datasets").getJSONObject(i).get("description"));
+				}
+				builder.append("</td><td align=center>");
+				if (wfsconf.getJSONArray("datasets").getJSONObject(i).has("schema")) {
+					builder.append("<a href=\"" + wfsconf.getJSONArray("datasets").getJSONObject(i).get("schema")
+							+ "\" target=\"_blank\">[Schema]</a>");
+				} else {
+					builder.append("<a href=\"" + wfsconf.getString("baseurl") + "/collections/"
+							+ curobj.getString("name") + "/schema\" target=\"_blank\">[XML Schema]</a><br/>");
+					builder.append("<a href=\"" + wfsconf.getString("baseurl") + "/collections/"
+							+ curobj.getString("name") + "/schema?f=json\" target=\"_blank\">[JSON Schema]</a>");
+				}
+				/*builder.append("</td><td align=center>");
+				Integer counter = 0;
+				for (ResultFormatter formatter : ResultFormatter.resultMap.values()) {
+					if (counter % 4 == 0) {
+						builder.append("<br>");
 					}
-					writer.write("</tbody></table>");
-					writer.write("</div></div></div><footer id=\"footer\"><table width=100%><tbody><tr><td><a href=\"" + wfsconf.getString("baseurl")
-							+ "/?f=html\">Back to LandingPage</a></td><td align=right>This page in <a href=\""
-							+ wfsconf.getString("baseurl") + "/collections?f=gml\">[XML]</a> <a href=\""
-							+ wfsconf.getString("baseurl")
-							+ "/collections?f=json\">[JSON]</a></td></tr></table></footer><script>$('#collectiontable').DataTable();</script></body></html>");
-			    }
-			  };
-			return Response.ok(stream).type(ResultFormatter.getFormatter(format).mimeType).build();
+					builder.append("<a href=\"" + wfsconf.getString("baseurl") + "/collections/"
+							+ curobj.getString("name") + "/items?f=" + formatter.exposedType + "\">["
+							+ formatter.exposedType.toUpperCase() + "]</a>&nbsp;&nbsp;");
+					counter++;
+				}*/
+				builder.append("</td></tr>");
+			}
+			builder.append("</tbody></table>");
+			builder.append("</div></div></div><footer id=\"footer\"><table width=100%><tbody><tr><td><a href=\"" + wfsconf.getString("baseurl")
+					+ "/?f=html\">Back to LandingPage</a></td><td align=right>This page in <a href=\""
+					+ wfsconf.getString("baseurl") + "/collections?f=gml\">[XML]</a> <a href=\""
+					+ wfsconf.getString("baseurl")
+					+ "/collections?f=json\">[JSON]</a></td></tr></table></footer><script>$('#collectiontable').DataTable();</script></body></html>");
+			return Response.ok(builder.toString()).type(ResultFormatter.getFormatter(format).mimeType).build();
 		} else {
 			throw new NotFoundException();
 		}
