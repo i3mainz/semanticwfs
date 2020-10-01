@@ -49,7 +49,12 @@ public class SVGFormatter extends ResultFormatter {
 		lastQueriedElemCount=format.lastQueriedElemCount;
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();
 		StringWriter strwriter=new StringWriter();
-		XMLStreamWriter writer=new IndentingXMLStreamWriter(factory.createXMLStreamWriter(strwriter));
+		XMLStreamWriter writer=null;
+		if(out!=null) {
+			writer=new IndentingXMLStreamWriter(factory.createXMLStreamWriter(out));
+		}else {
+			writer=new IndentingXMLStreamWriter(factory.createXMLStreamWriter(strwriter));
+		}
 		writer.writeStartDocument();
 		writer.writeStartElement("svg");
 		writer.writeAttribute("version", "1.1");
