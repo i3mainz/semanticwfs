@@ -1,6 +1,10 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter.vector;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.io.StringWriter;
+import java.io.Writer;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -10,6 +14,7 @@ import javax.xml.stream.XMLStreamWriter;
 
 import org.apache.jena.query.ResultSet;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
@@ -102,14 +107,20 @@ public class OSMFormatter extends ResultFormatter {
 	public String formatter(ResultSet results, String startingElement, String featuretype, String propertytype,
 			String typeColumn, Boolean onlyproperty, Boolean onlyhits, String srsName, String indvar, String epsg,
 			List<String> eligiblenamespaces, List<String> noteligiblenamespaces, StyleObject mapstyle,
-			Boolean alternativeFormat, Boolean invertXY, Boolean coverage) throws XMLStreamException {
+			Boolean alternativeFormat, Boolean invertXY, Boolean coverage,Writer out) throws XMLStreamException, JSONException, IOException {
 		ResultFormatter format = resultMap.get("geojson");
 		JSONObject geojson = new JSONObject(
-				format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,srsName,indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat,invertXY,coverage));
+				format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,srsName,
+						indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat,invertXY,coverage,out));
 		lastQueriedElemCount=format.lastQueriedElemCount;
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();
-		StringWriter strwriter=new StringWriter();
-		XMLStreamWriter writer=new IndentingXMLStreamWriter(factory.createXMLStreamWriter(strwriter));
+		XMLStreamWriter writer;
+		if(out!=null) {
+			writer=new IndentingXMLStreamWriter(factory.createXMLStreamWriter(out));
+		}else {
+			StringWriter strwriter=new StringWriter();
+			writer=new IndentingXMLStreamWriter(factory.createXMLStreamWriter(strwriter));
+		}
 		writer.writeStartDocument();
 		writer.writeStartElement("osm");
 		writer.writeAttribute("version", "0.6");
@@ -179,7 +190,7 @@ public class OSMFormatter extends ResultFormatter {
 		writer.writeEndElement();
 		writer.writeEndDocument();
 		writer.flush();
-		return strwriter.toString();
+		return null;
 	}
 
 	

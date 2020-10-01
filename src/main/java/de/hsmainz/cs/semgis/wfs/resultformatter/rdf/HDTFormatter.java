@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.util.List;
 
 import javax.xml.stream.XMLStreamException;
@@ -27,15 +28,17 @@ public class HDTFormatter extends ResultFormatter {
 		this.exposedType="text/hdt";
 		this.fileextension="hdt";
 		this.definition="https://www.w3.org/Submission/2011/03/";
+		this.constructQuery=false;
 	}
 	
 	@Override
 	public String formatter(ResultSet results, String startingElement, String featuretype, String propertytype,
 			String typeColumn, Boolean onlyproperty, Boolean onlyhits, String srsName, String indvar, String epsg,
 			List<String> eligiblenamespaces, List<String> noteligiblenamespaces, StyleObject mapstyle,
-			Boolean alternativeFormat, Boolean invertXY, Boolean coverage) throws XMLStreamException {
+			Boolean alternativeFormat, Boolean invertXY, Boolean coverage,Writer out) throws XMLStreamException, IOException {
 		ResultFormatter format = resultMap.get("ttl");
-		String ttl=format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,srsName,indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat,invertXY,coverage);
+		String ttl=format.formatter(results,startingElement, featuretype,propertytype, typeColumn, 
+				onlyproperty,onlyhits,srsName,indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat,invertXY,coverage,out);
 		this.lastQueriedElemCount = format.lastQueriedElemCount;
 		HDT hdt;
 		try {

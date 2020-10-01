@@ -1,5 +1,9 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.Writer;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -10,6 +14,7 @@ import javax.ws.rs.core.MediaType;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.jena.query.ResultSet;
+import org.apache.jena.rdf.model.Model;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.io.ParseException;
 import org.locationtech.jts.io.WKBReader;
@@ -82,6 +87,8 @@ public abstract class ResultFormatter {
 	public String definition="";
 	
 	public String fileextension="json";
+	
+	public Boolean constructQuery=false;
 	
 	public Map<String,String> contextMapper=new TreeMap<>();
 	
@@ -249,6 +256,14 @@ public abstract class ResultFormatter {
 		resultMap.put(format.mimeType, format);
 	}
 	
+	public String formatter(Model results, String startingElement, String featuretype, String propertytype,
+			String typeColumn, Boolean onlyproperty, Boolean onlyhits, String srsName, String indvar, String epsg,
+			List<String> eligiblenamespaces, List<String> noteligiblenamespaces, StyleObject mapstyle,
+			Boolean alternativeFormat, Boolean invertXY, Boolean coverage, Writer out)
+			throws XMLStreamException, IOException {
+		return null;
+	}
+	
 	static {
 		vectorLiteralMap.add("http://www.opengis.net/ont/geosparql#wktLiteral");
 		vectorLiteralMap.add("http://www.opengis.net/ont/geosparql#geoJSONLiteral");
@@ -356,6 +371,6 @@ public abstract class ResultFormatter {
 			String featuretype,String propertytype,String typeColumn,
 			Boolean onlyproperty,Boolean onlyhits,String srsName,String indvar,
 			String epsg,List<String> eligiblenamespaces,List<String> noteligiblenamespaces,
-			StyleObject mapstyle,Boolean alternativeFormat,Boolean invertXY,Boolean coverage) throws XMLStreamException;
+			StyleObject mapstyle,Boolean alternativeFormat,Boolean invertXY,Boolean coverage,Writer out) throws XMLStreamException, IOException;
 
 }

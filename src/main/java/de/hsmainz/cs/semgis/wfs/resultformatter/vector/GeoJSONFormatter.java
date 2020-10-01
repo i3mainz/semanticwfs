@@ -1,5 +1,7 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter.vector;
 
+import java.io.BufferedWriter;
+import java.io.Writer;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -57,7 +59,8 @@ public class GeoJSONFormatter extends VectorResultFormatter {
 			String typeColumn,Boolean onlyproperty,
 			Boolean onlyhits,String srsName,
 			String indvar,String epsg,List<String> eligiblenamespaces,
-			List<String> noteligiblenamespaces,StyleObject mapstyle,Boolean alternativeFormat,Boolean invertXY,Boolean coverage) {
+			List<String> noteligiblenamespaces,StyleObject mapstyle,
+			Boolean alternativeFormat,Boolean invertXY,Boolean coverage,Writer out) {
 		lastQueriedElemCount=0;
 		this.contextMapper.clear();
 		JSONObject geojsonresults = new JSONObject();

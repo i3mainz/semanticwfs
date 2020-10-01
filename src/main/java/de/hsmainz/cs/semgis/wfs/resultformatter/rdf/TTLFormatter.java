@@ -1,5 +1,8 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter.rdf;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -9,6 +12,8 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.sparql.resultset.RDFOutput;
 import org.locationtech.jts.geom.Geometry;
 
 import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
@@ -30,13 +35,26 @@ public class TTLFormatter extends ResultFormatter {
 		this.label="Turtle (TTL)";
 		this.definition="https://www.w3.org/TR/turtle/";
 		this.fileextension="ttl";
+		this.constructQuery=true;
+	}
+	
+	@Override
+	public String formatter(Model results, String startingElement, String featuretype, String propertytype,
+			String typeColumn, Boolean onlyproperty, Boolean onlyhits, String srsName, String indvar, String epsg,
+			List<String> eligiblenamespaces, List<String> noteligiblenamespaces, StyleObject mapstyle,
+			Boolean alternativeFormat, Boolean invertXY, Boolean coverage, Writer out)
+			throws XMLStreamException, IOException {
+		results.write(out,"TTL");
+		out.flush();
+		return "";
 	}
 	
 	@Override
 	public String formatter(ResultSet results, String startingElement, String featuretype,String propertytype,
 			String typeColumn,Boolean onlyproperty,Boolean onlyhits,String srsName,
 			String indvar,String epsg,List<String> eligiblenamespaces,
-			List<String> noteligiblenamespaces,StyleObject mapstyle,Boolean alternativeFormat,Boolean invertXY, Boolean coverage) throws XMLStreamException {
+			List<String> noteligiblenamespaces,StyleObject mapstyle,
+			Boolean alternativeFormat,Boolean invertXY, Boolean coverage,Writer out) throws XMLStreamException {
 		StringBuilder builder=new StringBuilder();
 		List<String> rel=new LinkedList<>();
 		List<String> val=new LinkedList<>();

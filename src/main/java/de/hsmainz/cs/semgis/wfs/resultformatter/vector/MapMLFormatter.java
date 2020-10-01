@@ -1,6 +1,8 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter.vector;
 
+import java.io.BufferedWriter;
 import java.io.StringWriter;
+import java.io.Writer;
 import java.util.List;
 
 import javax.xml.stream.XMLOutputFactory;
@@ -86,11 +88,14 @@ public class MapMLFormatter extends ResultFormatter {
 			String typeColumn,Boolean onlyproperty,Boolean onlyhits,String srsName,
 			String indvar,String epsg,
 			List<String> eligiblenamespaces,
-			List<String> noteligiblenamespaces,StyleObject mapstyle,Boolean alternativeFormat,Boolean invertXY,Boolean coverage)  {
+			List<String> noteligiblenamespaces,StyleObject mapstyle,
+			Boolean alternativeFormat,Boolean invertXY,Boolean coverage,Writer out)  {
 		ResultFormatter format = resultMap.get("geojson");
 		try {
 		JSONObject geojson = new JSONObject(
-				format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,srsName,indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat,invertXY,coverage));
+				format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,
+						onlyhits,srsName,indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,
+						alternativeFormat,invertXY,coverage,out));
 		lastQueriedElemCount=format.lastQueriedElemCount;
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();
 		StringWriter strwriter=new StringWriter();

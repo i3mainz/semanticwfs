@@ -1,5 +1,7 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter.vector;
 
+import java.io.BufferedWriter;
+import java.io.Writer;
 import java.util.Iterator;
 import java.util.List;
 
@@ -27,7 +29,7 @@ public class GeoHashFormatter extends VectorResultFormatter {
 			String featuretype,String propertytype,String typeColumn,
 			Boolean onlyproperty,Boolean onlyhits,String srsName,String indvar,
 			String epsg,List<String> eligiblenamespaces,List<String> noteligiblenamespace
-			,StyleObject mapstyle,Boolean alternativeFormat,Boolean invertXY,Boolean coverage) throws XMLStreamException {
+			,StyleObject mapstyle,Boolean alternativeFormat,Boolean invertXY,Boolean coverage,Writer out) throws XMLStreamException {
     	Boolean first=true;
     	StringBuilder resultCSV=new StringBuilder();
     	StringBuilder resultCSVHeader=new StringBuilder();

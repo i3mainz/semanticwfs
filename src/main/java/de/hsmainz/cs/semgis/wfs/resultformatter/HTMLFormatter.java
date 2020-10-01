@@ -1,6 +1,8 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -14,6 +16,7 @@ import javax.xml.stream.XMLStreamException;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
@@ -182,12 +185,14 @@ public class HTMLFormatter extends ResultFormatter {
 			String propertytype, 
 			String typeColumn, Boolean onlyproperty,Boolean onlyhits,
 			String srsName,String indvar,String epsg,List<String> eligiblenamespaces,
-			List<String> noteligiblenamespaces,StyleObject mapstyle,Boolean alternativeFormat,Boolean invertXY,Boolean coverage) throws XMLStreamException {
+			List<String> noteligiblenamespaces,StyleObject mapstyle,Boolean alternativeFormat,
+			Boolean invertXY,Boolean coverage,Writer out) throws XMLStreamException, JSONException, IOException {
 		StringBuilder builder = new StringBuilder();
 		if(coverage) {
 			ResultFormatter format = resultMap.get("covjson");
 			JSONObject covjson = new JSONObject(
-					format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,"",indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat,invertXY,coverage));
+					format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,"",
+							indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat,invertXY,coverage,out));
 			this.lastQueriedElemCount = format.lastQueriedElemCount;
 			builder.append("<script>var overlayMaps={}; var overlayControl; var typeColumn=\"" + typeColumn
 					+ "\"; var markercollection=[];var epsg=\""+epsg+"\"; var invertXY="+invertXY+"; var cov=" + covjson.toString()+"; "+"var parameters=[");
@@ -203,7 +208,8 @@ public class HTMLFormatter extends ResultFormatter {
 		}else {
 		ResultFormatter format = resultMap.get("geojson");
 		JSONObject geojson = new JSONObject(
-				format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,"",indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat,invertXY,coverage));
+				format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,"",
+						indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat,invertXY,coverage,out));
 		this.lastQueriedElemCount = format.lastQueriedElemCount;
 		// System.out.println(geojson);
 

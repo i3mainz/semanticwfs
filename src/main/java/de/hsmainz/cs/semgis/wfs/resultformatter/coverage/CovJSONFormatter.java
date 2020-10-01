@@ -1,5 +1,8 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter.coverage;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +15,7 @@ import javax.xml.stream.XMLStreamException;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
@@ -260,7 +264,8 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 			String featuretype,String propertytype,
 			String typeColumn,Boolean onlyproperty,Boolean onlyhits,
 			String srsName,String indvar,String epsg,List<String> eligiblenamespaces,
-			List<String> noteligiblenamespaces,StyleObject mapstyle,Boolean alternativeFormat,Boolean invertXY, Boolean coverage) throws XMLStreamException {	
+			List<String> noteligiblenamespaces,StyleObject mapstyle,
+			Boolean alternativeFormat,Boolean invertXY, Boolean coverage, Writer out) throws XMLStreamException, JSONException, IOException {	
 		JSONObject result=new JSONObject();
 		System.out.println("COVERAGEJSON Formatter: "+coverage);
 		if(coverage) {
@@ -288,7 +293,8 @@ public class CovJSONFormatter extends CoverageResultFormatter {
 		}else {
 			ResultFormatter format = resultMap.get("geojson");
 			JSONObject geojson = new JSONObject(
-					format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,srsName,indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat,invertXY,coverage));
+					format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,
+							srsName,indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat,invertXY,coverage,out));
 			lastQueriedElemCount=format.lastQueriedElemCount;
 			result=new JSONObject();
 			result.put("type", "Coverage");
