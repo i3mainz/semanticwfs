@@ -141,7 +141,7 @@ public class GPXFormatter extends VectorResultFormatter {
 		writer.writeEndElement();
 		writer.writeEndDocument();
 		writer.flush();
-		if(out==null)
+		if(out!=null)
 			return "";
 		return strwriter.toString();
 	}

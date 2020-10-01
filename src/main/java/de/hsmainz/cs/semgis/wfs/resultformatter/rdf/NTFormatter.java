@@ -62,6 +62,10 @@ public class NTFormatter extends ResultFormatter{
 		OntModel model=ModelFactory.createOntologyModel();
 		InputStream result = new ByteArrayInputStream(ttl.getBytes(StandardCharsets.UTF_8));
 		model.read(result, null, "TTL");
+		if(out!=null) {
+			model.write(out,"NT");
+			return "";
+		}else {
 		System.out.println("RDF Formatter!!!!");
 		ByteArrayOutputStream bOutput = new ByteArrayOutputStream(12);
 		model.write(bOutput,"NT");
@@ -71,6 +75,8 @@ public class NTFormatter extends ResultFormatter{
 			e.printStackTrace();
 			return "";
 		}
+		}
 	}
+		
 
 }

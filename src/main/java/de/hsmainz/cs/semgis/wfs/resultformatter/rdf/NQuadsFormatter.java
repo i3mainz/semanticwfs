@@ -57,14 +57,19 @@ public class NQuadsFormatter extends ResultFormatter {
 		OntModel model=ModelFactory.createOntologyModel();
 		InputStream result = new ByteArrayInputStream(ttl.getBytes(StandardCharsets.UTF_8));
 		model.read(result, null, "TTL");
-		System.out.println("RDF Formatter!!!!");
-		ByteArrayOutputStream bOutput = new ByteArrayOutputStream(12);
-		model.write(bOutput,"NQUADS");
-		try {
-			return new String(bOutput.toByteArray(), "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+		if(out!=null) {
+			model.write(out,"NQUADS");
 			return "";
+		}else {
+			System.out.println("RDF Formatter!!!!");
+			ByteArrayOutputStream bOutput = new ByteArrayOutputStream(12);
+			model.write(bOutput,"NQUADS");
+			try {
+				return new String(bOutput.toByteArray(), "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+				return "";
+			}
 		}
 	}
 

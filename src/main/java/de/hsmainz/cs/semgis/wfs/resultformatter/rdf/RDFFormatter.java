@@ -62,6 +62,10 @@ public class RDFFormatter extends ResultFormatter{
 		OntModel model=ModelFactory.createOntologyModel();
 		InputStream result = new ByteArrayInputStream(ttl.getBytes(StandardCharsets.UTF_8));
 		model.read(result, null, "TTL");
+		if(out!=null) {
+			model.write(out,"RDF/XML");
+			return "";
+		}else {
 		System.out.println("RDF Formatter!!!!");
 		ByteArrayOutputStream bOutput = new ByteArrayOutputStream(12);
 		model.write(bOutput,"RDF/XML");
@@ -70,6 +74,7 @@ public class RDFFormatter extends ResultFormatter{
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 			return "";
+		}
 		}
 	}
 
