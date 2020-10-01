@@ -1,6 +1,5 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter.vector;
 
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Iterator;
@@ -11,10 +10,7 @@ import javax.xml.stream.XMLStreamException;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Literal;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
-import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 
@@ -67,6 +63,7 @@ public class JSONFormatter extends VectorResultFormatter {
 	    }		
 		jGenerator.writeEndArray();
 		jGenerator.writeEndObject();
+		jGenerator.close();
 	    return "";
 	}
 
