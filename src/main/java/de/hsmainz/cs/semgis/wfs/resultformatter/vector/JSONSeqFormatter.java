@@ -1,6 +1,6 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter.vector;
 
-import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.Writer;
 import java.util.Iterator;
 import java.util.List;
@@ -35,8 +35,7 @@ public class JSONSeqFormatter extends ResultFormatter {
 			String typeColumn,Boolean onlyproperty,Boolean onlyhits,
 			String srsName,String indvar,String epsg,List<String> eligiblenamespaces,
 			List<String> noteligiblenamespaces,StyleObject mapstyle,
-			Boolean alternativeFormat,Boolean invertXY,Boolean coverage,Writer out) throws XMLStreamException {
-		StringBuilder builder=new StringBuilder();
+			Boolean alternativeFormat,Boolean invertXY,Boolean coverage,Writer out) throws XMLStreamException, IOException {
 		char record_separator = 0x1e;
 	    while(results.hasNext()) {
 	    	this.lastQueriedElemCount++;
@@ -52,9 +51,9 @@ public class JSONSeqFormatter extends ResultFormatter {
     				jsonobj.put(name,solu.get(name));	
     			}  		
 	    	}
-	    	builder.append(record_separator+jsonobj.toString()+System.lineSeparator());
+	    	out.write(record_separator+jsonobj.toString()+System.lineSeparator());
 	    }	    	
-		return builder.toString();
+		return "";
 	}
 
 }

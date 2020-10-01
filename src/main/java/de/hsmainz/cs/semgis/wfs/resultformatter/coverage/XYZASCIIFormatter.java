@@ -1,6 +1,6 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter.coverage;
 
-import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.Writer;
 import java.util.Iterator;
 import java.util.List;
@@ -31,8 +31,7 @@ public class XYZASCIIFormatter extends ResultFormatter {
 	public String formatter(ResultSet results, String startingElement, String featuretype, String propertytype,
 			String typeColumn, Boolean onlyproperty, Boolean onlyhits, String srsName, String indvar, String epsg,
 			List<String> eligiblenamespaces, List<String> noteligiblenamespaces, StyleObject mapstyle,
-			Boolean alternativeFormat, Boolean invertXY, Boolean coverage,Writer out) throws XMLStreamException {
-		StringBuilder builder=new StringBuilder();
+			Boolean alternativeFormat, Boolean invertXY, Boolean coverage,Writer out) throws XMLStreamException, IOException {
 		String lastInd="",lat="",lon="";
 		while(results.hasNext()) {
 			QuerySolution solu=results.next();
@@ -48,11 +47,11 @@ public class XYZASCIIFormatter extends ResultFormatter {
 					if(obj instanceof Geometry) {
 						Geometry geom=(Geometry)obj;
 						for(Coordinate coord:geom.getCoordinates()) {
-							builder.append(coord.getX()+" "+coord.getY());
+							out.write(coord.getX()+" "+coord.getY());
 							if(!Double.isNaN(coord.getZ())) {
-								builder.append(" "+coord.getZ()+System.lineSeparator());								
+								out.write(" "+coord.getZ()+System.lineSeparator());								
 							}else {
-								builder.append(System.lineSeparator());
+								out.write(System.lineSeparator());
 							}
 						}						
 					}
@@ -74,13 +73,13 @@ public class XYZASCIIFormatter extends ResultFormatter {
 				}
 				Geometry geom=this.parseVectorLiteral("Point("+lon+" "+lat+")", VectorResultFormatter.WKTLiteral, epsg, srsName);
 				if(geom!=null)
-					builder.append(geom.toText()+System.lineSeparator());
+					out.write(geom.toText()+System.lineSeparator());
 				lat="";
 				lon="";
 			}
 			lastInd=solu.get(indvar).toString();
 		}
-		return builder.toString();
+		return "";
 	}
 
 }
