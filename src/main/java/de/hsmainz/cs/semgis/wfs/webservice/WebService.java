@@ -176,7 +176,7 @@ public class WebService {
 	}
 				
 	@GET
-	@Produces(OpenAPIMediaType.OA3)
+	@Produces("application/vnd.oai.openapi+json;version=3.0")
 	@Path("/openapi")
 	public Response openapiJSON() {
 		CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -186,13 +186,14 @@ public class WebService {
 			response = httpClient.execute(request);
 			HttpEntity entity = response.getEntity();
 			String result = EntityUtils.toString(entity);
+			System.out.println(result);
 			response.close();
 			httpClient.close();
-			return Response.ok(result,OpenAPIMediaType.OA3).build();
+			return Response.ok(result,OpenAPIMediaType.OA3_TYPE).build();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return Response.ok(e.getMessage(),MediaType.TEXT_PLAIN).build();
+			return Response.ok(e.getMessage(),OpenAPIMediaType.OA3_TYPE).build();
 		}
 	}
 	
