@@ -185,7 +185,13 @@ public abstract class TripleStoreConnector {
 		QueryExecution qe = QueryExecutionFactory.sparqlService(endpoint, queryjena);
 			ResultSet rs = qe.execSelect();
 		GeoJSONFormatter form=new GeoJSONFormatter();
-		String res=form.formatter(rs, "", "item", "", "", false, false, "","item","",null,null,null,false,false,false,null);
+		String res="";
+		try {
+			res = form.formatter(rs, "", "item", "", "", false, false, "","item","",null,null,null,false,false,false,null);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		qe.close();
 		return res;
 	}
