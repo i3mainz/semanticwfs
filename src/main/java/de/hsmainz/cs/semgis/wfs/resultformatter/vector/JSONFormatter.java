@@ -44,7 +44,7 @@ public class JSONFormatter extends VectorResultFormatter {
 		JsonGenerator jGenerator = jfactory.createGenerator(out);
 		jGenerator.writeStartObject();
 		jGenerator.writeNumberField("amount", this.lastQueriedElemCount);
-		jGenerator.writeStartArray();
+		jGenerator.writeStartArray("features");
 		while(results.hasNext()) {
 	    	this.lastQueriedElemCount++;
 	    	QuerySolution solu=results.next();
