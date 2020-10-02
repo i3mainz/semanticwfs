@@ -1,6 +1,5 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter.vector;
 
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Iterator;
@@ -8,7 +7,6 @@ import java.util.List;
 
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
-import org.apache.jena.query.ResultSetFormatter;
 import org.locationtech.jts.geom.Geometry;
 
 import de.hsmainz.cs.semgis.wfs.resultformatter.VectorResultFormatter;
