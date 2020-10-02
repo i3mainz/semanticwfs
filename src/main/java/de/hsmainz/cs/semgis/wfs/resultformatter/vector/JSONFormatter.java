@@ -60,8 +60,8 @@ public class JSONFormatter extends VectorResultFormatter {
     			}  		
 	    	}
     		jGenerator.writeEndObject();
-			if(lastQueriedElemCount%FLUSHTHRESHOLD==0)
-				jGenerator.flush();
+			/*if(lastQueriedElemCount%FLUSHTHRESHOLD==0)
+				jGenerator.flush();*/
 	    }		
 		jGenerator.writeEndArray();
 		jGenerator.writeEndObject();
