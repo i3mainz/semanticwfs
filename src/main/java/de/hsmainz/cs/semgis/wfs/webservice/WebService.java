@@ -176,9 +176,10 @@ public class WebService {
 	}
 				
 	@GET
-	@Produces("application/vnd.oai.openapi+json;version=3.0")
-	@Path("/openapi")
+	@Produces({"application/vnd.oai.openapi+json;version=3.0"})
+	@Path("/openapi3")
 	public Response openapiJSON() {
+		System.out.println("OpenAPI JSON");
 		CloseableHttpClient httpClient = HttpClients.createDefault();
 		HttpGet request = new HttpGet(wfsconf.get("baseurl")+"/openapi.json");
 		CloseableHttpResponse response;
@@ -189,13 +190,41 @@ public class WebService {
 			System.out.println(result);
 			response.close();
 			httpClient.close();
-			return Response.ok(result,OpenAPIMediaType.OA3_TYPE).build();
+			Response res=Response.status(Response.Status.OK).entity(result).type(OpenAPIMediaType.OA3_TYPE).build();
+			return res;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return Response.ok(e.getMessage(),OpenAPIMediaType.OA3_TYPE).build();
+			return Response.ok("",OpenAPIMediaType.OA3_TYPE).build();
 		}
 	}
+
+	
+	@GET
+	@Produces({"application/vnd.oai.openapi+yaml;version=3.0"})
+	@Path("/openapi3y")
+	public Response openapiYAML() {
+		System.out.println("OpenAPI JSON");
+		CloseableHttpClient httpClient = HttpClients.createDefault();
+		HttpGet request = new HttpGet(wfsconf.get("baseurl")+"/openapi.yaml");
+		CloseableHttpResponse response;
+		try {
+			response = httpClient.execute(request);
+			HttpEntity entity = response.getEntity();
+			String result = EntityUtils.toString(entity);
+			System.out.println(result);
+			response.close();
+			httpClient.close();
+			Response res=Response.status(Response.Status.OK).entity(result).type("application/vnd.oai.openapi+yaml;version=3.0").build();
+			return res;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return Response.ok("","application/vnd.oai.openapi+yaml;version=3.0").build();
+		}
+	}
+	
+	
 	
 	/**
 	 * Generates OpenAPI definitions of the SemanticWFS services for the use with OGC API Features.
@@ -1348,13 +1377,13 @@ public class WebService {
 			link.put("title", "This document as HTML");
 			links.put(link);
 			link = new JSONObject();
-			link.put("href", wfsconf.getString("baseurl") + "/openapi");
+			link.put("href", wfsconf.getString("baseurl") + "/openapi3");
 			link.put("rel", "service-desc");
 			link.put("type", "application/vnd.oai.openapi+json;version=3.0");
 			link.put("title", "The API definition (JSON)");
 			links.put(link);
 			link = new JSONObject();
-			link.put("href", wfsconf.getString("baseurl") + "/openapi");
+			link.put("href", wfsconf.getString("baseurl") + "/openapi3y");
 			link.put("rel", "service-desc");
 			link.put("type", "application/vnd.oai.openapi+yaml;version=3.0");
 			link.put("title", "The API definition (YAML)");
@@ -1516,13 +1545,13 @@ public class WebService {
 				writer.writeAttribute("rel", "service-desc");
 				writer.writeAttribute("title", "The API definition (YAML)");
 				writer.writeAttribute("type", "application/vnd.oai.openapi+yaml;version=3.0");
-				writer.writeAttribute("href",  wfsconf.getString("baseurl") + "/openapi.yaml");
+				writer.writeAttribute("href",  wfsconf.getString("baseurl") + "/openapi3y");
 				writer.writeEndElement();
 				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
 				writer.writeAttribute("rel", "service-desc");
 				writer.writeAttribute("title", "The API defnition (JSON)");
 				writer.writeAttribute("type", "application/vnd.oai.openapi+json;version=3.0");
-				writer.writeAttribute("href",  wfsconf.getString("baseurl") + "/openapi.json");
+				writer.writeAttribute("href",  wfsconf.getString("baseurl") + "/openapi3");
 				writer.writeEndElement();			
 				writer.writeStartElement("http://www.w3.org/2005/Atom", "link");
 				writer.writeAttribute("rel", "conformance");
