@@ -78,6 +78,8 @@ public class XYZASCIIFormatter extends ResultFormatter {
 				lon="";
 			}
 			lastInd=solu.get(indvar).toString();
+			if(lastQueriedElemCount%FLUSHTHRESHOLD==0)
+				out.flush();
 		}
 		return "";
 	}

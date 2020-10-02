@@ -84,7 +84,8 @@ public class SVGFormatter extends ResultFormatter {
 				writer.writeAttribute("points", points);
 				writer.writeEndElement();
 			}
-
+			if(i%FLUSHTHRESHOLD==0)
+				writer.flush();
 		}
 		/*<svg xmlns="http://www.w3.org/2000/svg"
 			    xmlns:xlink="http://www.w3.org/1999/xlink"

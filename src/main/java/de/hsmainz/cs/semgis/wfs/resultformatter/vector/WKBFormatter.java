@@ -69,6 +69,8 @@ public class WKBFormatter extends VectorResultFormatter {
 				lon="";
 			}
 			lastInd=solu.get(indvar).toString();
+			if(lastQueriedElemCount%FLUSHTHRESHOLD==0)
+				out.flush();
 		}
 		return "";
 	}

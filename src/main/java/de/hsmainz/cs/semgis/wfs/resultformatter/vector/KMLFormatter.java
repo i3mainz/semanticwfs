@@ -168,7 +168,7 @@ public class KMLFormatter extends VectorResultFormatter {
 			writer.writeEndElement();
 			writer.writeEndElement();
 			writer.writeEndElement();
-			if(i%30==0)
+			if(i%FLUSHTHRESHOLD==0)
 				writer.flush();
 		}
 		writer.writeEndElement();

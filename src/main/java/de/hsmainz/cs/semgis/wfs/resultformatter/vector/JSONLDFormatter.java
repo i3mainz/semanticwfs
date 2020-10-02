@@ -1,6 +1,7 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter.vector;
 
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.Writer;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -11,8 +12,10 @@ import javax.xml.stream.XMLStreamException;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Literal;
-import org.json.JSONArray;
 import org.json.JSONObject;
+
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerator;
 
 import de.hsmainz.cs.semgis.wfs.resultformatter.VectorResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
@@ -41,16 +44,18 @@ public class JSONLDFormatter extends VectorResultFormatter {
 			String typeColumn,Boolean onlyproperty,Boolean onlyhits,
 			String srsName,String indvar,String epsg,List<String> eligiblenamespaces,
 			List<String> noteligiblenamespaces,StyleObject mapstyle
-			,Boolean alternativeFormat,Boolean invertXY,Boolean coverage,Writer out) throws XMLStreamException {
-	    JSONArray obj=new JSONArray();
+			,Boolean alternativeFormat,Boolean invertXY,Boolean coverage,Writer out) throws XMLStreamException, IOException {
+		JsonFactory jfactory = new JsonFactory();
+		JsonGenerator jGenerator = jfactory.createGenerator(out);
 	    JSONObject context=new JSONObject();
 	    Boolean first=true;
     	List<String> varnamesList=new LinkedList<String>();
+		jGenerator.writeStartArray();
 	    while(results.hasNext()) {
 	    	QuerySolution solu=results.next();
 	    	this.lastQueriedElemCount++;
-	    	JSONObject jsonobj=new JSONObject();
-		    jsonobj.put("@context",context);
+	    	jGenerator.writeStartObject();
+	    	jGenerator.writeObjectFieldStart("@context");
 		    if(first) {
 		    	Iterator<String> varnames = solu.varNames();
 		    	while(varnames.hasNext()) {
@@ -67,17 +72,18 @@ public class JSONLDFormatter extends VectorResultFormatter {
 		    	first=false;
 	    	}
 	    	for(String name:varnamesList) {
-	    		jsonobj.put("@context", context);
+	    		jGenerator.writeObject(context);
     			try {
-    				Literal lit=solu.getLiteral(name);
-    				jsonobj.put(name,lit.getString());
+    				Literal lit=solu.getLiteral(name);   		    	
+    		    	jGenerator.writeStringField(name, lit.getString());
     			}catch(Exception e) {
-    				jsonobj.put(name,solu.get(name));	
+    		    	jGenerator.writeStringField(name, solu.get(name).toString());	
     			}  		
 	    	}
-    		obj.put(jsonobj);
-	    }	    	
-	    return obj.toString(2);
+    		jGenerator.writeEndObject();
+	    }	  
+	    jGenerator.close();
+	    return "";
 	}
 
 }

@@ -163,6 +163,8 @@ public class GMLFormatter extends VectorResultFormatter {
 			writer.writeEndElement();
 			writer.writeEndElement();
 			writer.writeEndElement();
+			if(i%FLUSHTHRESHOLD==0)
+				writer.flush();
 		}
 		writer.flush();	
 		if(out==null) {

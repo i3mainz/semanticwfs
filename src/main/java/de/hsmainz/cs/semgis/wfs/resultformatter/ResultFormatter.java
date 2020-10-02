@@ -1,8 +1,6 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter;
 
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.Writer;
 import java.util.List;
 import java.util.Map;
@@ -105,6 +103,8 @@ public abstract class ResultFormatter {
 	public static Set<String> vectorLiteralMap=new TreeSet<>();
 	
 	public static Set<String> coverageLiteralMap=new TreeSet<>();
+	
+	public static final Integer FLUSHTHRESHOLD=20;
 
 	public static final String[] mediatypes= {
 			MediaType.TEXT_PLAIN, 

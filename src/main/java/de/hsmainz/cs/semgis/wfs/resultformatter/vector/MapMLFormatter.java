@@ -154,6 +154,8 @@ public class MapMLFormatter extends ResultFormatter {
 			writer.writeEndElement();
 			writer.writeEndElement();
 			writer.writeEndElement();
+			if(i%FLUSHTHRESHOLD==0)
+				writer.flush();
 		}
 		writer.writeEndElement();
 		writer.writeEndElement();

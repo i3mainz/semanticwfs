@@ -52,6 +52,8 @@ public class JSONSeqFormatter extends ResultFormatter {
     			}  		
 	    	}
 	    	out.write(record_separator+jsonobj.toString()+System.lineSeparator());
+			if(lastQueriedElemCount%FLUSHTHRESHOLD==0)
+				out.flush();
 	    }	    	
 		return "";
 	}

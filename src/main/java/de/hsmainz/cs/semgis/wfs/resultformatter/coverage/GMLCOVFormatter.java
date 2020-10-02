@@ -1,6 +1,5 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter.coverage;
 
-import java.io.BufferedWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.List;

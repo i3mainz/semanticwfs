@@ -19,6 +19,8 @@ import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 public class YAMLFormatter extends ResultFormatter {
 
 	
+	final YAMLMapper mapper=new YAMLMapper();
+	
 	/**
 	 * Constructor for this class.
 	 */
@@ -45,7 +47,7 @@ public class YAMLFormatter extends ResultFormatter {
 		JsonNode jsonNodeTree;
 		try {
 			jsonNodeTree = new ObjectMapper().readTree(geojson);
-	        new YAMLMapper().writeValue(out,jsonNodeTree);
+	        mapper.writeValue(out,jsonNodeTree);
 	        return "";
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();

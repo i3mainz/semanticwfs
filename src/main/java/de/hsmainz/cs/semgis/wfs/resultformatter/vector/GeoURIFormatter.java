@@ -35,9 +35,9 @@ public class GeoURIFormatter extends VectorResultFormatter {
 			String typeColumn, Boolean onlyproperty, Boolean onlyhits, String srsName, String indvar, String epsg,
 			List<String> eligiblenamespaces, List<String> noteligiblenamespaces, StyleObject mapstyle,
 			Boolean alternativeFormat, Boolean invertXY,Boolean coverage,Writer out) throws IOException {
-		List<QuerySolution> test = ResultSetFormatter.toList(results);
 		String lastInd = "";
-		for (QuerySolution solu : test) {
+		while(results.hasNext()) {
+			QuerySolution solu=results.next();
 			Iterator<String> varnames = solu.varNames();
 			while (varnames.hasNext()) {
 				String name = varnames.next();
@@ -78,6 +78,8 @@ public class GeoURIFormatter extends VectorResultFormatter {
 					}
 				}
 			}
+			if(lastQueriedElemCount%FLUSHTHRESHOLD==0)
+				out.flush();
 		}
 		return "";
 	}

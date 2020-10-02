@@ -349,14 +349,13 @@ public class HTMLFormatter extends ResultFormatter {
 							builder.append("<td align=\"center\"><a href=\"" + value + "\" target=\"_blank\">"
 									+ value.substring(value.lastIndexOf('#') + 1) + "</a></td>");
 						} else if (value.contains("@")) {
-							builder.append("<a href=\"mailto:" + value + "\" target=\"_blank\">"
-									+ value + "</a>");
+							builder.append("<a href=\"mailto:").append(value).append("\" target=\"_blank\">").append(value).append("</a>");
 						} else {
 							builder.append("<td align=\"center\"><a href=\"" + value + "\" target=\"_blank\">" + value.substring(value.lastIndexOf('/')+1)
 									+ "</a></td>");
 						}
 					} else {
-						builder.append("<td align=\"center\">" + value + "</td>");
+						builder.append("<td align=\"center\">").append(value).append("</td>");
 					}	
 				}
 				

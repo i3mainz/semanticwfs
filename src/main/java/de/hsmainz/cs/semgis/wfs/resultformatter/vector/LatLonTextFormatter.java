@@ -96,6 +96,8 @@ public class LatLonTextFormatter extends VectorResultFormatter {
 				lon="";
 			}
 			lastInd=solu.get(indvar).toString();
+			if(lastQueriedElemCount%FLUSHTHRESHOLD==0)
+				out.flush();
 		}
 		return "";
 	}

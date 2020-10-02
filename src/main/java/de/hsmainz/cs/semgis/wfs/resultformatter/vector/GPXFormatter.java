@@ -136,7 +136,8 @@ public class GPXFormatter extends VectorResultFormatter {
 				writer.writeEndElement();
 				writer.writeEndElement();				
 			}
-
+			if(i%FLUSHTHRESHOLD==0)
+				writer.flush();
 		}
 		writer.writeEndElement();
 		writer.writeEndDocument();

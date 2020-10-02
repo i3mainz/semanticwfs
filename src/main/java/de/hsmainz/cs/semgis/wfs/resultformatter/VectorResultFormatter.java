@@ -1,6 +1,5 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter;
 
-import org.json.JSONObject;
 
 
 public abstract class VectorResultFormatter extends ResultFormatter{

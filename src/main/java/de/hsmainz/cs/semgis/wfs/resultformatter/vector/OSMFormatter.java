@@ -184,6 +184,8 @@ public class OSMFormatter extends ResultFormatter {
 			}
 			addTagsFromJSONObject(feature.getJSONObject("properties"), writer,feature.get("id").toString(),"");
 			writer.writeEndElement();
+			if(i%FLUSHTHRESHOLD==0)
+				writer.flush();
 		}
 		writer.writeEndElement();
 		writer.writeEndDocument();
