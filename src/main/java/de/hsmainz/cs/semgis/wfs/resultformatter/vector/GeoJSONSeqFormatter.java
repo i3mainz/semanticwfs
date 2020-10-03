@@ -38,7 +38,7 @@ public class GeoJSONSeqFormatter extends ResultFormatter {
 		char record_separator = 0x1e;
 		JSONObject geojson=new JSONObject( 
 				format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,
-						onlyhits,srsName,indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat,invertXY,coverage,out));
+						onlyhits,srsName,indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat,invertXY,coverage,null));
 		this.lastQueriedElemCount = format.lastQueriedElemCount;
 		if(out!=null) {
 			for(int i=0;i<geojson.getJSONArray("features").length();i++) {

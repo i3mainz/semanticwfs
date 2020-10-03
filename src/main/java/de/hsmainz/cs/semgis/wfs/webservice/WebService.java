@@ -503,7 +503,7 @@ public class WebService {
 	 * @return The CSW service description as XML
 	 */
 	@GET
-	@Produces(MediaType.TEXT_XML)
+	@Produces({MediaType.TEXT_XML,MediaType.APPLICATION_XML})
 	@Path("/csw")
 	@Operation(
             summary = "CSW endpoint implementation",

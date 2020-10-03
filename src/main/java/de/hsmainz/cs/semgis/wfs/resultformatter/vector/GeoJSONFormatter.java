@@ -192,6 +192,7 @@ public class GeoJSONFormatter extends VectorResultFormatter {
 					geojsonobj.put("id",lastInd);
 					//allfeatures.get(geomcounter).put(geojsonobj);
 					features.put(geojsonobj);
+
 					//System.out.println(geojsonobj);
 					geomcounter++;
 				}
@@ -410,20 +411,23 @@ public class GeoJSONFormatter extends VectorResultFormatter {
 		
 	}
 	
-	public String formatJSONStreaming(ResultSet results, String startingElement, 
+	public JsonGenerator formatJSONStreaming(ResultSet results, String startingElement, 
 			String featuretype,String propertytype,
 			String typeColumn,Boolean onlyproperty,
 			Boolean onlyhits,String srsName,
 			String indvar,String epsg,List<String> eligiblenamespaces,
 			List<String> noteligiblenamespaces,StyleObject mapstyle,
-			Boolean alternativeFormat,Boolean invertXY,Boolean coverage,Writer out) throws IOException {
+			Boolean alternativeFormat,Boolean invertXY,Boolean coverage,Writer out,Boolean writeEnclosingObject) throws IOException {
 		lastQueriedElemCount=0;
 		this.contextMapper.clear();
-		/*JsonFactory jfactory = new JsonFactory();
+		JsonFactory jfactory = new JsonFactory();
 		JsonGenerator jGenerator = jfactory.createGenerator(out);
-		jGenerator.writeStartObject();
-		jGenerator.writeNumberField("amount", this.lastQueriedElemCount);
-		jGenerator.writeStartArray();*/
+		if(writeEnclosingObject) {
+			jGenerator.writeStartObject();
+			jGenerator.writeStringField("type", "FeatureCollection");
+			jGenerator.writeStringField("name", featuretype);
+		}
+		jGenerator.writeArrayFieldStart("features");
 		JSONObject geojsonresults = new JSONObject();
 		List<JSONArray> allfeatures = new LinkedList<JSONArray>();
 		JSONObject result = new JSONObject();
@@ -548,7 +552,8 @@ public class GeoJSONFormatter extends VectorResultFormatter {
 						geojsonobj.put("style", style);
 					geojsonobj.put("id",lastInd);
 					//allfeatures.get(geomcounter).put(geojsonobj);
-					features.put(geojsonobj);
+					writeAsStream(properties, style, geom, jGenerator);
+					//features.put(geojsonobj);
 					//System.out.println(geojsonobj);
 					geomcounter++;
 				}
@@ -572,6 +577,7 @@ public class GeoJSONFormatter extends VectorResultFormatter {
 						if(!geoms.isEmpty())
 							geojsonobj.put("geometry",geoms.get(0));
 						//allfeatures.get(geomcounter).put(geojsonobj);
+						writeAsStream(properties, style, geoms.get(0), jGenerator);
 						features.put(geojsonobj);
 				}
 				geomvars=0;
@@ -746,7 +752,8 @@ public class GeoJSONFormatter extends VectorResultFormatter {
 				geojsonobj.put("geometry", geom);
 				geojsonobj.put("id",lastInd);
 				//allfeatures.get(geomcounter).put(geojsonobj);
-				features.put(geojsonobj);
+				writeAsStream(properties, style, geom, jGenerator);
+				//features.put(geojsonobj);
 				//System.out.println(geojsonobj);
 			}
 		}else {
@@ -759,14 +766,29 @@ public class GeoJSONFormatter extends VectorResultFormatter {
 			if(!geoms.isEmpty())
 				geojsonobj.put("geometry",geoms.get(0));
 			//allfeatures.get(geomcounter).put(geojsonobj);
-			features.put(geojsonobj);
+			writeAsStream(properties, style, geoms.get(0), jGenerator);
+			//features.put(geojsonobj);
 		}
-		//System.out.println(obj);
-		//System.out.println(geojsonresults.toString(2));
-		return geojsonresults.toString(2);
-		
-		
+		jGenerator.writeEndArray();
+		if(writeEnclosingObject) {
+			jGenerator.writeNumberField("amount", this.lastQueriedElemCount);
+			jGenerator.writeEndObject();
+			jGenerator.close();
+			return null;
+		}
+		return jGenerator;
 	}
+	
+	public JsonGenerator formatter(ResultSet results, String startingElement, 
+			String featuretype,String propertytype,
+			String typeColumn,Boolean onlyproperty,
+			Boolean onlyhits,String srsName,
+			String indvar,String epsg,List<String> eligiblenamespaces,
+			List<String> noteligiblenamespaces,StyleObject mapstyle,
+			Boolean alternativeFormat,Boolean invertXY,Boolean coverage,Writer out,Boolean internal) throws IOException {
+		return this.formatJSONStreaming(results, startingElement, featuretype, propertytype, typeColumn, onlyproperty, onlyhits, srsName, indvar, epsg, eligiblenamespaces, noteligiblenamespaces, mapstyle, alternativeFormat, invertXY, coverage, out,false);
+	}
+	
 	
 	@Override
 	public String formatter(ResultSet results, String startingElement, 
@@ -777,9 +799,33 @@ public class GeoJSONFormatter extends VectorResultFormatter {
 			List<String> noteligiblenamespaces,StyleObject mapstyle,
 			Boolean alternativeFormat,Boolean invertXY,Boolean coverage,Writer out) throws IOException {
 		if(out!=null) {
-			return this.formatJSONStreaming(results, startingElement, featuretype, propertytype, typeColumn, onlyproperty, onlyhits, srsName, indvar, epsg, eligiblenamespaces, noteligiblenamespaces, mapstyle, alternativeFormat, invertXY, coverage, out);
+			this.formatJSONStreaming(results, startingElement, featuretype, propertytype, typeColumn, onlyproperty, onlyhits, srsName, indvar, epsg, eligiblenamespaces, noteligiblenamespaces, mapstyle, alternativeFormat, invertXY, coverage, out,true);
+			return "";
 		}
 		return this.formatJSONObject(results, startingElement, featuretype, propertytype, typeColumn, onlyproperty, onlyhits, srsName, indvar, epsg, eligiblenamespaces, noteligiblenamespaces, mapstyle, alternativeFormat, invertXY, coverage, out);
+	}
+	
+	public void writeAsStream(JSONObject properties, JSONObject style,JSONObject geom, JsonGenerator jGenerator) throws IOException {
+		jGenerator.writeStartObject();
+		jGenerator.writeStringField("type", "Feature");
+		jGenerator.writeObjectFieldStart("properties");
+		for(String key:properties.keySet()) {
+			jGenerator.writeStringField(key, properties.get(key).toString());
+		}
+		jGenerator.writeEndObject();
+		if(!style.isEmpty()) {
+			jGenerator.writeObjectFieldStart("style");
+			for(String key:style.keySet()) {
+				jGenerator.writeStringField(key, style.get(key).toString());
+			}
+			jGenerator.writeEndObject();
+		}
+		jGenerator.writeObjectFieldStart("geometry");
+		jGenerator.writeStringField("type", geom.getString("type"));
+		jGenerator.writeFieldName("coordinates");
+		jGenerator.writeRaw(":"+geom.getJSONArray("coordinates").toString());
+		jGenerator.writeEndObject();
+		jGenerator.writeEndObject();
 	}
 	
 	public void relToMap(String keyPath) {

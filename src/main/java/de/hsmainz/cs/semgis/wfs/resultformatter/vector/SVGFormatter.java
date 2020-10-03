@@ -45,7 +45,7 @@ public class SVGFormatter extends ResultFormatter {
 		JSONObject geojson = new JSONObject(
 				format.formatter(results,startingElement, featuretype,propertytype, typeColumn, 
 						onlyproperty,onlyhits,srsName,indvar,epsg,eligiblenamespaces,noteligiblenamespaces,
-						mapstyle,alternativeRepresentation,invertXY,coverage,out));
+						mapstyle,alternativeRepresentation,invertXY,coverage,null));
 		lastQueriedElemCount=format.lastQueriedElemCount;
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();
 		StringWriter strwriter=new StringWriter();

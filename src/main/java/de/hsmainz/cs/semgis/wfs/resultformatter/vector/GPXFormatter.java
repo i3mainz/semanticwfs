@@ -94,7 +94,7 @@ public class GPXFormatter extends VectorResultFormatter {
 		//try {
 		JSONObject geojson = new JSONObject(
 				format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,srsName,
-						indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat,invertXY,coverage,out));
+						indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat,invertXY,coverage,null));
 		lastQueriedElemCount=format.lastQueriedElemCount;
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();
 		XMLStreamWriter writer=null;

@@ -1,4 +1,4 @@
-package de.hsmainz.cs.semgis.wfs.resultformatter.vector;
+package de.hsmainz.cs.semgis.wfs.resultformatter.coverage;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -8,10 +8,18 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.jena.query.ResultSet;
 
-import de.hsmainz.cs.semgis.wfs.resultformatter.VectorResultFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.CoverageResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
-public class ESRIJSONFormatter extends VectorResultFormatter {
+public class GXFFormatter extends CoverageResultFormatter {
+
+	public GXFFormatter() {
+		this.mimeType="application/gxf";
+		this.exposedType="application/gxf";
+		this.urlformat="gxf";
+		this.label="Grid Exchange Format (GXF)";
+		this.fileextension="gxf";
+	}
 
 	@Override
 	public String formatter(ResultSet results, String startingElement, String featuretype, String propertytype,
@@ -19,16 +27,8 @@ public class ESRIJSONFormatter extends VectorResultFormatter {
 			List<String> eligiblenamespaces, List<String> noteligiblenamespaces, StyleObject mapstyle,
 			Boolean alternativeFormat, Boolean invertXY, Boolean coverage, Writer out)
 			throws XMLStreamException, IOException {
-		/*JsonFactory jfactory = new JsonFactory();
-		JsonGenerator jGenerator = jfactory.createGenerator(out);
-		jGenerator.writeStartObject();
-		jGenerator.writeNumberField("amount", this.lastQueriedElemCount);
-		jGenerator.writeStartArray();*/
-		while(results.hasNext()) {
-			results.next();
-		}
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 }
