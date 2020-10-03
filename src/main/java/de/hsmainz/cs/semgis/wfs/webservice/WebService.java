@@ -57,6 +57,7 @@ import de.hsmainz.cs.semgis.wfs.util.user.UserType;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterStyle;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
@@ -700,7 +701,7 @@ public class WebService {
             summary = "Returns a list of feature types/collections",
             description = "Returns a list of feature types/collections")
 	public Response collections(
-			@Parameter(description="Return format") @DefaultValue("html") @QueryParam("f") String format) {
+			@Parameter(description="Return format",style=ParameterStyle.FORM) @DefaultValue("html") @QueryParam("f") String format) {
 		System.out.println(format);
 		if (format != null && format.contains("json")) {
 			JSONObject result = new JSONObject();
@@ -2071,7 +2072,7 @@ public class WebService {
             description = "Returns items of a given collection which conform to certain criteria")
 	public Response collectionItemsJSON(@Context  HttpHeaders headers,@Parameter(description="The id of the collection") @PathParam("collectionid") String collectionid,
 			@Parameter(description="The format of the result") @DefaultValue("json") @QueryParam("f") String format, 
-			@DefaultValue("10") @QueryParam("limit") Integer limit,
+			@Parameter(description="The query limit",style=ParameterStyle.FORM) @DefaultValue("10") @QueryParam("limit") Integer limit,
 			@Parameter(description="The offset to consider when fetching items") @DefaultValue("0") @QueryParam("offset") Integer offset, @DefaultValue("") @QueryParam("bbox") String bbox,
 			@Parameter(description="The styling of the item when returned")  @DefaultValue("") @QueryParam("style") String style,
 			@Parameter(description="The crs of the data to be returned") @DefaultValue("EPSG:4326") @QueryParam("crs") String crs,
@@ -2091,7 +2092,7 @@ public class WebService {
             description = "Returns items of a given collection which conform to certain criteria")
 	public Response collectionItemsXML(@Context  HttpHeaders headers,@Parameter(description="The id of the collection") @PathParam("collectionid") String collectionid,
 			@Parameter(description="The format of the result") @DefaultValue("gml") @QueryParam("f") String format, 
-			@DefaultValue("10") @QueryParam("limit") Integer limit,
+			@Parameter(description="The query limit",style=ParameterStyle.FORM) @DefaultValue("10") @QueryParam("limit") Integer limit,
 			@Parameter(description="The offset to consider when fetching items") @DefaultValue("0") @QueryParam("offset") Integer offset, @DefaultValue("") @QueryParam("bbox") String bbox,
 			@Parameter(description="The styling of the item when returned")  @DefaultValue("") @QueryParam("style") String style,
 			@Parameter(description="The crs of the data to be returned") @DefaultValue("EPSG:4326") @QueryParam("crs") String crs,
@@ -2110,7 +2111,7 @@ public class WebService {
             description = "Returns items of a given collection which conform to certain criteria")
 	public Response collectionItemsHTML(@Context  HttpHeaders headers,@Parameter(description="The id of the collection") @PathParam("collectionid") String collectionid,
 			@Parameter(description="The format of the result") @DefaultValue("html") @QueryParam("f") String format, 
-			@DefaultValue("10") @QueryParam("limit") Integer limit,
+			@Parameter(description="The query limit",style=ParameterStyle.FORM) @DefaultValue("10") @QueryParam("limit") Integer limit,
 			@Parameter(description="The offset to consider when fetching items") @DefaultValue("0") @QueryParam("offset") Integer offset, @DefaultValue("") @QueryParam("bbox") String bbox,
 			@Parameter(description="The styling of the item when returned")  @DefaultValue("") @QueryParam("style") String style,
 			@Parameter(description="The crs of the data to be returned") @DefaultValue("") @QueryParam("crs") String crs,
@@ -2145,9 +2146,9 @@ public class WebService {
 	public Response collectionItems(@Context  HttpHeaders headers,
 			@Parameter(description="The id of the collection") @PathParam("collectionid") String collectionid,
 			@Parameter(description="The format of the result") @DefaultValue("html") @QueryParam("f") String format, 
-			@DefaultValue("10") @QueryParam("limit") Integer limit,
+			@Parameter(description="The query limit",style=ParameterStyle.FORM)@DefaultValue("10") @QueryParam("limit") Integer limit,
 			@Parameter(description="The offset to consider when fetching items") @DefaultValue("0") @QueryParam("offset") Integer offset,
-			@DefaultValue("") @QueryParam("bbox") String bbox,
+			@Parameter(description="The boundingbox to used for querying",style=ParameterStyle.FORM) @DefaultValue("") @QueryParam("bbox") String bbox,
 			@Parameter(description="The styling of the item when returned")  @DefaultValue("") @QueryParam("mapstyle") String style,
 			@Parameter(description="The crs of the data to be returned") @DefaultValue("EPSG:4326") @QueryParam("crs") String crs,
 			@Parameter(description="The crs of a given bounding box") @DefaultValue("") @QueryParam("bbox-crs") String bboxcrs,
