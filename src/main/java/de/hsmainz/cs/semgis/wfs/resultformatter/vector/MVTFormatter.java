@@ -37,7 +37,7 @@ public class MVTFormatter extends ResultFormatter {
 		ResultFormatter format = resultMap.get("geojson");
 		JSONObject geojson = new JSONObject(
 				format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,"",
-						indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat,invertXY,coverage,out));
+						indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat,invertXY,coverage,null));
 		this.lastQueriedElemCount = format.lastQueriedElemCount;
 		VectorTileEncoder encoder = new VectorTileEncoder();
 		GeoJSONReader reader=new GeoJSONReader();	

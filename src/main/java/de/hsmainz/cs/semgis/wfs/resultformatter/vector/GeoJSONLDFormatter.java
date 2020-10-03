@@ -44,7 +44,7 @@ public class GeoJSONLDFormatter extends VectorResultFormatter {
 		ResultFormatter format = resultMap.get("geojson");
 		String res = 
 				format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,
-						onlyhits,srsName,indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat,invertXY,coverage,out);
+						onlyhits,srsName,indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat,invertXY,coverage,null);
 		this.lastQueriedElemCount = format.lastQueriedElemCount;
 		JSONObject context=new JSONObject();	  
 	    context.put("geojson","https://purl.org/geojson/vocab#");

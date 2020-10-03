@@ -36,7 +36,7 @@ public class CSVFormatter extends VectorResultFormatter {
 			StyleObject mapstyle,Boolean alternativeFormat,Boolean invertXY,Boolean coverage,Writer out) throws IOException {
     	Boolean first=true;
     	StringBuilder resultCSV=new StringBuilder();
-    	StringBuilder resultCSVHeader=new StringBuilder();
+    	//StringBuilder resultCSVHeader=new StringBuilder();
 		String rel="",val="",lastInd="";
 	    while(results.hasNext()) {
 	    	QuerySolution solu=results.next();
@@ -59,13 +59,18 @@ public class CSVFormatter extends VectorResultFormatter {
 				}
 				if(!solu.get(indvar).toString().equals(lastInd) || lastInd.isEmpty()) {
 					lastQueriedElemCount++;
-					if(!first) {
-						out.write(resultCSV+System.lineSeparator());
+					if(resultCSV.length()>0) {
+						resultCSV.delete(resultCSV.length()-1, resultCSV.length());
+						resultCSV.append(System.lineSeparator());
+						out.write(resultCSV.toString());
+						out.flush();
 						resultCSV.delete(0, resultCSV.length());
 					}
-					if(resultCSV.length()>0) {
-						//resultCSV.delete(resultCSV.length()-1, resultCSV.length());
-						//resultCSV.append(System.lineSeparator());
+					if(!lastInd.isEmpty() && first) {
+						//resultCSVHeader.delete(resultCSVHeader.length()-1, resultCSVHeader.length());
+						out.write(System.lineSeparator());
+						//resultCSVHeader.append(System.lineSeparator());
+						first=false;
 					}
 				}
 			}
@@ -80,13 +85,25 @@ public class CSVFormatter extends VectorResultFormatter {
 						resultCSV.append(geom.toText()+",");
 					else
 						resultCSV.append(solu.get(name)+",");
+	    			if(first) {
+	    				out.write("the_geom,");
+	    				//resultCSVHeader.append("the_geom,");
+	    			}
 	    		}else if(name.equalsIgnoreCase(indvar)){
 					continue;
 				}else if("rel".equalsIgnoreCase(name) || name.contains("_rel")){
 					rel=solu.get(name).toString();
+		    		if(first) {
+		    			out.write(solu.get(name).toString()+",");
+		    		    //resultCSVHeader.append(solu.get(name).toString()+",");
+		    		}
 				}else if("val".equalsIgnoreCase(name) || name.contains("_val")){
 					val=solu.get(name).toString();
 				}else {
+		    		if(first) {
+		    			out.write(name+",");
+		    		    //resultCSVHeader.append(name+",");
+		    		}
 	    			try {
 	    				Literal lit=solu.getLiteral(name);
 	    				resultCSV.append(lit.getString()+",");
@@ -105,6 +122,9 @@ public class CSVFormatter extends VectorResultFormatter {
 				lastQueriedElemCount++;
 		    	resultCSV.delete(resultCSV.length()-1, resultCSV.length());
 			    resultCSV.append(System.lineSeparator());
+				out.write(resultCSV.toString());
+				out.flush();
+				resultCSV.delete(0, resultCSV.length());
 			}
 	    	
 	    	System.out.println(resultCSV.toString());

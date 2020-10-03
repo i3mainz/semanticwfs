@@ -33,7 +33,7 @@ public class JSONPFormatter extends ResultFormatter {
 		ResultFormatter format = resultMap.get("geojson");
 		String res = 
 				format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,
-						srsName,indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat,invertXY,coverage,out);
+						srsName,indvar,epsg,eligiblenamespaces,noteligiblenamespaces,mapstyle,alternativeFormat,invertXY,coverage,null);
 		this.lastQueriedElemCount = format.lastQueriedElemCount;
 		return "parseResponse("+res+")";
 	}

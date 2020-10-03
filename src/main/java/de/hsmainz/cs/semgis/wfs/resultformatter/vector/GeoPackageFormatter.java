@@ -1,6 +1,6 @@
 package de.hsmainz.cs.semgis.wfs.resultformatter.vector;
 
-import java.io.BufferedWriter;
+import java.io.File;
 import java.io.Writer;
 import java.util.List;
 
@@ -10,6 +10,25 @@ import org.apache.jena.query.ResultSet;
 
 import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
+import mil.nga.geopackage.GeoPackage;
+import mil.nga.geopackage.GeoPackageManager;
+import mil.nga.geopackage.contents.ContentsDao;
+import mil.nga.geopackage.extension.ExtensionsDao;
+import mil.nga.geopackage.extension.metadata.MetadataDao;
+import mil.nga.geopackage.extension.metadata.MetadataExtension;
+import mil.nga.geopackage.extension.metadata.reference.MetadataReferenceDao;
+import mil.nga.geopackage.extension.schema.SchemaExtension;
+import mil.nga.geopackage.extension.schema.columns.DataColumnsDao;
+import mil.nga.geopackage.extension.schema.constraints.DataColumnConstraintsDao;
+import mil.nga.geopackage.features.columns.GeometryColumnsDao;
+import mil.nga.geopackage.features.user.FeatureDao;
+import mil.nga.geopackage.features.user.FeatureResultSet;
+import mil.nga.geopackage.features.user.FeatureRow;
+import mil.nga.geopackage.geom.GeoPackageGeometryData;
+import mil.nga.geopackage.srs.SpatialReferenceSystemDao;
+import mil.nga.geopackage.tiles.matrix.TileMatrixDao;
+import mil.nga.geopackage.tiles.matrixset.TileMatrixSetDao;
+import mil.nga.sf.Geometry;
 
 public class GeoPackageFormatter extends ResultFormatter {
 
@@ -18,8 +37,8 @@ public class GeoPackageFormatter extends ResultFormatter {
 			String typeColumn, Boolean onlyproperty, Boolean onlyhits, String srsName, String indvar, String epsg,
 			List<String> eligiblenamespaces, List<String> noteligiblenamespaces, StyleObject mapstyle,
 			Boolean alternativeFormat, Boolean invertXY,Boolean coverage,Writer out) throws XMLStreamException {
-		/*
-		File createdGeoPackage = GeoPackageManager.create(newGeoPackage);
+		
+		/*File createdGeoPackage = GeoPackageManager.create("geopackage.tmp");
 
 		// Open a GeoPackage
 		GeoPackage geoPackage = GeoPackageManager.open(existingGeoPackage);
