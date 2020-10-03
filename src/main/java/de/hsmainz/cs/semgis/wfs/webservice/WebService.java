@@ -953,7 +953,7 @@ public class WebService {
 	public Response getFeatureByIdJSON(
 			@Parameter(description="The collection id") @PathParam("collectionid") String collectionid,
 			@Parameter(description="The feature id")@PathParam("featureid") String featureid, 
-			@Parameter(description="The style to be applied")  @DefaultValue("") @QueryParam("style") String style,
+			@Parameter(description="The style to be applied")  @DefaultValue("") @QueryParam("mapstyle") String style,
 			@Parameter(description="The format to be returned")  @DefaultValue("json") @QueryParam("f") String format) {
 		return getFeatureById(collectionid, featureid, style, format);
 	}
@@ -975,7 +975,7 @@ public class WebService {
 	public Response getFeatureByIdXML(
 			@Parameter(description="The collection id") @PathParam("collectionid") String collectionid,
 			@Parameter(description="The feature id")@PathParam("featureid") String featureid, 
-			@Parameter(description="The style to be applied")  @DefaultValue("") @QueryParam("style") String style,
+			@Parameter(description="The style to be applied")  @DefaultValue("") @QueryParam("mapstyle") String style,
 			@Parameter(description="The format to be returned")  @DefaultValue("gml") @QueryParam("f") String format) {
 		return getFeatureById(collectionid, featureid, style, format);
 	}
@@ -997,7 +997,7 @@ public class WebService {
 	public Response getFeatureByIdHTML(
 			@Parameter(description="The collection id") @PathParam("collectionid") String collectionid,
 			@Parameter(description="The feature id")@PathParam("featureid") String featureid, 
-			@Parameter(description="The style to be applied")  @DefaultValue("") @QueryParam("style") String style,
+			@Parameter(description="The style to be applied")  @DefaultValue("") @QueryParam("mapstyle") String style,
 			@Parameter(description="The format to be returned")  @DefaultValue("html") @QueryParam("f") String format) {
 		return getFeatureById(collectionid, featureid, style, format);
 	}
@@ -2148,7 +2148,7 @@ public class WebService {
 			@DefaultValue("10") @QueryParam("limit") Integer limit,
 			@Parameter(description="The offset to consider when fetching items") @DefaultValue("0") @QueryParam("offset") Integer offset,
 			@DefaultValue("") @QueryParam("bbox") String bbox,
-			@Parameter(description="The styling of the item when returned")  @DefaultValue("") @QueryParam("style") String style,
+			@Parameter(description="The styling of the item when returned")  @DefaultValue("") @QueryParam("mapstyle") String style,
 			@Parameter(description="The crs of the data to be returned") @DefaultValue("EPSG:4326") @QueryParam("crs") String crs,
 			@Parameter(description="The crs of a given bounding box") @DefaultValue("") @QueryParam("bbox-crs") String bboxcrs,
 			@Parameter(description="A filter expression") @DefaultValue("") @QueryParam("filter") String filter,
@@ -3672,7 +3672,7 @@ public class WebService {
 			@Parameter(description="The starting index of the WFS request") @DefaultValue("0") @QueryParam("startindex") String startindex,
 			@Parameter(description="The name of the CRS to be used") @DefaultValue("") @QueryParam("srsName") String srsName,
 			@Parameter(description="Indicates the sorting order") @DefaultValue("ASC") @QueryParam("sortBy") String sortBy,
-			@Parameter(description="The style to apply to the returned collection if any") @DefaultValue("") @QueryParam("styles") String style,
+			@Parameter(description="The style to apply to the returned collection if any") @DefaultValue("") @QueryParam("mapstyles") String style,
 			@Parameter(description="The version of the WFS",example="2.0.0") @DefaultValue("2.0.0") @QueryParam("version") String version,
 			@Parameter(description="Indicates a specific resource id to be queried") @DefaultValue("") @QueryParam("resourceid") String resourceids,
 			@Parameter(description="A WFS filter expression") @DefaultValue("") @QueryParam("filter") String filter,
