@@ -2071,8 +2071,8 @@ public class WebService {
             description = "Returns items of a given collection which conform to certain criteria")
 	public Response collectionItemsJSON(@Context  HttpHeaders headers,@Parameter(description="The id of the collection") @PathParam("collectionid") String collectionid,
 			@Parameter(description="The format of the result") @DefaultValue("json") @QueryParam("f") String format, 
-			@DefaultValue("10") @QueryParam("limit") String limit,
-			@Parameter(description="The offset to consider when fetching items") @DefaultValue("0") @QueryParam("offset") String offset, @DefaultValue("") @QueryParam("bbox") String bbox,
+			@DefaultValue("10") @QueryParam("limit") Integer limit,
+			@Parameter(description="The offset to consider when fetching items") @DefaultValue("0") @QueryParam("offset") Integer offset, @DefaultValue("") @QueryParam("bbox") String bbox,
 			@Parameter(description="The styling of the item when returned")  @DefaultValue("") @QueryParam("style") String style,
 			@Parameter(description="The crs of the data to be returned") @DefaultValue("EPSG:4326") @QueryParam("crs") String crs,
 			@Parameter(description="The crs of a given bounding box") @DefaultValue("") @QueryParam("bbox-crs") String bboxcrs,
@@ -2091,8 +2091,8 @@ public class WebService {
             description = "Returns items of a given collection which conform to certain criteria")
 	public Response collectionItemsXML(@Context  HttpHeaders headers,@Parameter(description="The id of the collection") @PathParam("collectionid") String collectionid,
 			@Parameter(description="The format of the result") @DefaultValue("gml") @QueryParam("f") String format, 
-			@DefaultValue("10") @QueryParam("limit") String limit,
-			@Parameter(description="The offset to consider when fetching items") @DefaultValue("0") @QueryParam("offset") String offset, @DefaultValue("") @QueryParam("bbox") String bbox,
+			@DefaultValue("10") @QueryParam("limit") Integer limit,
+			@Parameter(description="The offset to consider when fetching items") @DefaultValue("0") @QueryParam("offset") Integer offset, @DefaultValue("") @QueryParam("bbox") String bbox,
 			@Parameter(description="The styling of the item when returned")  @DefaultValue("") @QueryParam("style") String style,
 			@Parameter(description="The crs of the data to be returned") @DefaultValue("EPSG:4326") @QueryParam("crs") String crs,
 			@Parameter(description="The crs of a given bounding box") @DefaultValue("") @QueryParam("bbox-crs") String bboxcrs,
@@ -2110,8 +2110,8 @@ public class WebService {
             description = "Returns items of a given collection which conform to certain criteria")
 	public Response collectionItemsHTML(@Context  HttpHeaders headers,@Parameter(description="The id of the collection") @PathParam("collectionid") String collectionid,
 			@Parameter(description="The format of the result") @DefaultValue("html") @QueryParam("f") String format, 
-			@DefaultValue("10") @QueryParam("limit") String limit,
-			@Parameter(description="The offset to consider when fetching items") @DefaultValue("0") @QueryParam("offset") String offset, @DefaultValue("") @QueryParam("bbox") String bbox,
+			@DefaultValue("10") @QueryParam("limit") Integer limit,
+			@Parameter(description="The offset to consider when fetching items") @DefaultValue("0") @QueryParam("offset") Integer offset, @DefaultValue("") @QueryParam("bbox") String bbox,
 			@Parameter(description="The styling of the item when returned")  @DefaultValue("") @QueryParam("style") String style,
 			@Parameter(description="The crs of the data to be returned") @DefaultValue("") @QueryParam("crs") String crs,
 			@Parameter(description="The crs of a given bounding box") @DefaultValue("") @QueryParam("bbox-crs") String bboxcrs,
@@ -2145,8 +2145,8 @@ public class WebService {
 	public Response collectionItems(@Context  HttpHeaders headers,
 			@Parameter(description="The id of the collection") @PathParam("collectionid") String collectionid,
 			@Parameter(description="The format of the result") @DefaultValue("html") @QueryParam("f") String format, 
-			@DefaultValue("10") @QueryParam("limit") String limit,
-			@Parameter(description="The offset to consider when fetching items") @DefaultValue("0") @QueryParam("offset") String offset,
+			@DefaultValue("10") @QueryParam("limit") Integer limit,
+			@Parameter(description="The offset to consider when fetching items") @DefaultValue("0") @QueryParam("offset") Integer offset,
 			@DefaultValue("") @QueryParam("bbox") String bbox,
 			@Parameter(description="The styling of the item when returned")  @DefaultValue("") @QueryParam("style") String style,
 			@Parameter(description="The crs of the data to be returned") @DefaultValue("EPSG:4326") @QueryParam("crs") String crs,
@@ -2206,8 +2206,8 @@ public class WebService {
 			if (format != null && format.contains("json") && !format.contains("covjson") && !format.contains("jsonp") && !format.contains("seq") && !format.equalsIgnoreCase("rdfjson")) {
 			    res = TripleStoreConnector.executeQuery(workingobj.getString("query"),
 							workingobj.getString("triplestore"), format,
-							limit,
-							offset, "sf:featureMember", collectionid,
+							limit.toString(),
+							offset.toString(), "sf:featureMember", collectionid,
 							"", workingobj, filter, "", crs,bboxcrs, bbox, 
 							style,true,(workingobj.has("invertXY")?workingobj.getBoolean("invertXY"):false),null);
 				if (res == null || res.isEmpty()) {
@@ -2254,8 +2254,8 @@ public class WebService {
 			} else if (format != null && format.contains("gml")) {
 			    res = TripleStoreConnector.executeQuery(workingobj.getString("query"),
 							workingobj.getString("triplestore"), format,
-							limit,
-							offset, "sf:featureMember", collectionid,
+							limit.toString(),
+							offset.toString(), "sf:featureMember", collectionid,
 							"", workingobj, filter, "", crs,bboxcrs, bbox, 
 							style,true,(workingobj.has("invertXY")?workingobj.getBoolean("invertXY"):false),null);
 				if (res == null || res.isEmpty()) {
@@ -2319,8 +2319,8 @@ public class WebService {
 			} else if (format == null || format.contains("html")) {
 			    res = TripleStoreConnector.executeQuery(workingobj.getString("query"),
 							workingobj.getString("triplestore"), format,
-							limit,
-							offset, "sf:featureMember", collectionid,
+							limit.toString(),
+							offset.toString(), "sf:featureMember", collectionid,
 							"", workingobj, filter, "", crs,bboxcrs, bbox, 
 							style,true,(workingobj.has("invertXY")?workingobj.getBoolean("invertXY"):false),null);
 				if (res == null || res.isEmpty()) {
@@ -2368,8 +2368,8 @@ public class WebService {
 					try {
 						res = TripleStoreConnector.executeQuery(wko2.getString("query"),
 								wko2.getString("triplestore"), format,
-									limit,
-									offset, "sf:featureMember", collectionid,
+									limit.toString(),
+									offset.toString(), "sf:featureMember", collectionid,
 									"", wko2, filter, "", crs,bboxcrs, bbox, 
 									style,true,(wko2.has("invertXY")?wko2.getBoolean("invertXY"):false),writer);
 					      if(res!=null && !res.isEmpty()) {
@@ -2446,8 +2446,8 @@ public class WebService {
 			conforms.put("http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/geojson");
 			conforms.put("http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/gmlsf0");
 			result.put("conformsTo", conforms);
-			return Response.ok(result.toString(2)).type(ResultFormatter.getFormatter(format).mimeType).build();
-		} else if (format != null && format.contains("gml")) {
+			return Response.ok(result.toString(2)).type(MediaType.APPLICATION_JSON).build();
+		} else if (format != null && format.contains("xml")) {
 			StringWriter strwriter = new StringWriter();
 			XMLOutputFactory output = XMLOutputFactory.newInstance();
 			XMLStreamWriter writer;
@@ -2484,7 +2484,7 @@ public class WebService {
 				writer.writeEndElement();
 				writer.writeEndDocument();
 				writer.flush();
-				return Response.ok(strwriter.toString()).type(ResultFormatter.getFormatter(format).mimeType).build();
+				return Response.ok(strwriter.toString()).type(MediaType.APPLICATION_XML).build();
 			} catch (XMLStreamException e) {
 				e.printStackTrace();
 				return this.createExceptionResponse(e, "");
@@ -2509,7 +2509,7 @@ public class WebService {
 					+ "/?f=html\">Back to LandingPage</a></td><td align=right>This page in <a href=\""
 					+ wfsconf.getString("baseurl") + "/conformance?f=gml\">[GML]</a> <a href=\"" + wfsconf.getString("baseurl") 
 					+ "/conformance?f=geojson\">[JSON]</a></td></tr></tbody></table></footer></body></html>");
-			return Response.ok(builder.toString()).type(ResultFormatter.getFormatter(format).mimeType).build();
+			return Response.ok(builder.toString()).type(MediaType.TEXT_HTML).build();
 		} else {
 			throw new NotFoundException();
 		}
