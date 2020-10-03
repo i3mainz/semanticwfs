@@ -2154,7 +2154,7 @@ public class WebService {
 			@Parameter(description="The crs of a given bounding box") @DefaultValue("") @QueryParam("bbox-crs") String bboxcrs,
 			@Parameter(description="A filter expression") @DefaultValue("") @QueryParam("filter") String filter,
 			@Parameter(description="The language in which the filter expression is formulated") @DefaultValue("") @QueryParam("filter-lang") String filterlang,
-			@Parameter(description="A temporal filter expression") @DefaultValue("") @QueryParam("datetime") String datetime) {
+			@Parameter(description="A temporal filter expression",style=ParameterStyle.FORM) @DefaultValue("") @QueryParam("datetime") String datetime) {
 		System.out.println("Limit: " + limit);
 		System.out.println("FORMAT: "+format);
 		if (collectionid == null) {
