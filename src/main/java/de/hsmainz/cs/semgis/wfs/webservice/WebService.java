@@ -81,11 +81,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 				      name = "Datenlizenz Deutschland"
 				    )
 				  ),
-				  security = {
-				    @SecurityRequirement(
-				      name = "none"
-				    )
-}
+				  security = {}
 )
 @Path("/")
 public class WebService {
