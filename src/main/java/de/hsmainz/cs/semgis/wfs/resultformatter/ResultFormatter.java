@@ -208,6 +208,9 @@ public abstract class ResultFormatter {
 		if(formatString.contains("wkt")) {
 			return resultMap.get("wkt");
 		}
+		if(formatString.contains("ewkt")) {
+			return resultMap.get("ewkt");
+		}
 		if(formatString.contains("mvt")) {
 			return resultMap.get("mvt");
 		}
