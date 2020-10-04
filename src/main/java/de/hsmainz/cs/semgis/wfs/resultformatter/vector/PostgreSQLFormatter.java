@@ -58,6 +58,7 @@ public class PostgreSQLFormatter extends VectorResultFormatter {
 						out.write("ALTER TABLE \"public\".\""+featuretype+"\" ADD COLUMN \""+key+"\" VARCHAR;"+System.lineSeparator());
 					}
 				}
+				if(lastQueriedElemCount>0) {
 				out.write("INSERT INTO \"public\".\""+featuretype+"\" VALUES (");
 				out.write("'"+WKBWriter.toHex(writer.write(geom))+"',");
 				Iterator<String> iter=valmap.values().iterator();
@@ -68,6 +69,7 @@ public class PostgreSQLFormatter extends VectorResultFormatter {
 					}
 				}
 				out.write(");"+System.lineSeparator());
+				}
 				lastQueriedElemCount++;
 			}
 			while(varnames.hasNext()) {
