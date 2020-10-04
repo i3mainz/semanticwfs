@@ -35,6 +35,7 @@ import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.TrigFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.TrixFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.BSONFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.CSVFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.vector.EWKTFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.GMLFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.GPXFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.GeoHashFormatter;
@@ -205,11 +206,11 @@ public abstract class ResultFormatter {
 		if(formatString.contains("hdt")) {
 			return resultMap.get("hdt");
 		}
-		if(formatString.contains("wkt")) {
-			return resultMap.get("wkt");
-		}
 		if(formatString.contains("ewkt")) {
 			return resultMap.get("ewkt");
+		}
+		if(formatString.contains("wkt")) {
+			return resultMap.get("wkt");
 		}
 		if(formatString.contains("mvt")) {
 			return resultMap.get("mvt");
@@ -294,6 +295,7 @@ public abstract class ResultFormatter {
 		addToMaps("mapml", new MapMLFormatter());
 		addToMaps("osm", new OSMFormatter());
 		addToMaps("wkt", new WKTFormatter());
+		addToMaps("ewkt", new EWKTFormatter());
 		addToMaps("hexwkb", new HexWKBFormatter());
 		addToMaps("wkb", new WKBFormatter());
 		addToMaps("gpx", new GPXFormatter());
