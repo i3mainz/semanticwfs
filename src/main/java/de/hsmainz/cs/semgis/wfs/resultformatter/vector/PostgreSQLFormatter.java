@@ -44,8 +44,6 @@ public class PostgreSQLFormatter extends VectorResultFormatter {
 		out.write("DELETE FROM geometry_columns WHERE f_table_name = 'test2' AND f_table_schema = 'public';"+System.lineSeparator());
 		out.write("BEGIN;"+System.lineSeparator());
 		out.write("CREATE TABLE \"public\".\""+featuretype+"\" ( \"ogc_fid\" SERIAL, CONSTRAINT \""+featuretype+"_pk\" PRIMARY KEY (\"ogc_fid\") );"+System.lineSeparator());
-		out.write("SELECT AddGeometryColumn('public','"+featuretype+"','wkb_geometry',"+epsg+",'POLYGON',2);"+System.lineSeparator());
-		out.write("CREATE INDEX \""+featuretype+"_wkb_geometry_geom_idx\" ON \"public\".\""+featuretype+"\" USING GIST (\"wkb_geometry\");"+System.lineSeparator());
 		Map<String,String> valmap=new TreeMap<String,String>();
 		String lat="",lon="",lastInd="",rel="",val="";
 		Geometry geom=null;
@@ -54,6 +52,8 @@ public class PostgreSQLFormatter extends VectorResultFormatter {
 			Iterator<String> varnames=solu.varNames();
 			if(!solu.get(indvar).toString().equals(lastInd) || lastInd.isEmpty()) {
 				if(lastQueriedElemCount==1) {
+					out.write("SELECT AddGeometryColumn('public','"+featuretype+"','wkb_geometry',"+epsg.replace("EPSG:","")+",'"+geom.getGeometryType()+"',2);"+System.lineSeparator());
+					out.write("CREATE INDEX \""+featuretype+"_wkb_geometry_geom_idx\" ON \"public\".\""+featuretype+"\" USING GIST (\"wkb_geometry\");"+System.lineSeparator());
 					for(String key:valmap.keySet()) {
 						out.write("ALTER TABLE \"public\".\""+featuretype+"\" ADD COLUMN \""+key+"\" VARCHAR;"+System.lineSeparator());
 					}
