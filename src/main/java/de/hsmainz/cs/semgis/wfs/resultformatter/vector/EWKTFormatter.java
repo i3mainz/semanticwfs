@@ -46,14 +46,16 @@ public class EWKTFormatter extends VectorResultFormatter {
 						String uricode = "";
 						if (!srsName.isEmpty()) {
 							if (srsName.startsWith("http")) {
-								uricode = "EPSG:" + srsName.substring(srsName.lastIndexOf("/") + 1);
+								uricode = srsName.substring(srsName.lastIndexOf("/") + 1);
 							} else {
 								uricode = srsName;
 							}
+							
 						} else {
 							uricode = epsg;
 						}
-						out.write("SRID"+uricode+";"+geom.toText()+System.lineSeparator());
+						uricode=uricode.replace("EPSG:", "");
+						out.write("SRID="+uricode+";"+geom.toText()+System.lineSeparator());
 					}
 						
 				}else if(name.equalsIgnoreCase(indvar)){
@@ -73,8 +75,14 @@ public class EWKTFormatter extends VectorResultFormatter {
 					lon=lon.substring(0,lon.indexOf("^^"));
 				}
 				Geometry geom=this.parseVectorLiteral("Point("+lon+" "+lat+")",WKTLiteral, epsg, srsName);
-				if(geom!=null)
-					out.write("SRID"+epsg+";"+geom.toText()+System.lineSeparator());
+				if(geom!=null) {
+					String uricode=epsg;
+					if(epsg.contains("http")) {
+						uricode=uricode.substring(uricode.lastIndexOf('/')+1);
+					}
+					uricode=uricode.replace("EPSG:", "");
+					out.write("SRID="+uricode+";"+geom.toText()+System.lineSeparator());
+				}
 				lat="";
 				lon="";
 			}
