@@ -47,7 +47,7 @@ public class PostgreSQLFormatter extends VectorResultFormatter {
 		out.write("SELECT AddGeometryColumn('public','"+featuretype+"','wkb_geometry',"+epsg+",'POLYGON',2);"+System.lineSeparator());
 		out.write("CREATE INDEX \""+featuretype+"_wkb_geometry_geom_idx\" ON \"public\".\""+featuretype+"\" USING GIST (\"wkb_geometry\");"+System.lineSeparator());
 		Map<String,String> valmap=new TreeMap<String,String>();
-		String lat="",lon="",lastInd="";
+		String lat="",lon="",lastInd="",rel="",val="";
 		Geometry geom=null;
 		while(results.hasNext()) {
 			QuerySolution solu=results.next();
@@ -77,8 +77,10 @@ public class PostgreSQLFormatter extends VectorResultFormatter {
 				if(name.endsWith("_geom")) {
 					geom=this.parseVectorLiteral(solu.get(name).toString().substring(0,solu.get(name).toString().indexOf("^^")),
 							solu.get(name).toString().substring(solu.get(name).toString().indexOf("^^")+2), epsg, srsName);
+				}else if (name.endsWith("_rel") || name.equals("rel") || name.matches("rel[0-9]+$")) {
+					rel=solu.get(name).toString();
 				}else if (name.endsWith("_val") || name.equals("val") || name.matches("val[0-9]+$")) {
-					valmap.put(name,solu.get(name).toString());
+					val=solu.get(name).toString();
 				}else if(name.equalsIgnoreCase(indvar)){
 					continue;
 				}else if("lat".equalsIgnoreCase(name)){
@@ -88,6 +90,11 @@ public class PostgreSQLFormatter extends VectorResultFormatter {
 				}else {
 					valmap.put(name, solu.get(name).toString());
 				}
+			}
+			if(!rel.isEmpty() && !val.isEmpty()) {
+				valmap.put(rel, val);
+				rel="";
+				val="";
 			}
 			if(!lat.isEmpty() && !lon.isEmpty()) {
 				System.out.println("LatLon: "+lat+","+lon);
