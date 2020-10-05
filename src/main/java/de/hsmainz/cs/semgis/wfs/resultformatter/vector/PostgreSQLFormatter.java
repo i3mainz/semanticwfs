@@ -60,7 +60,11 @@ public class PostgreSQLFormatter extends VectorResultFormatter {
 				}
 				if(lastQueriedElemCount>0) {
 				out.write("INSERT INTO \"public\".\""+featuretype+"\" VALUES (");
-				out.write("'"+WKBWriter.toHex(writer.write(geom))+"',");
+				if(geom!=null) {
+					out.write("'"+WKBWriter.toHex(writer.write(geom))+"',");					
+				}else {
+					out.write("'',");
+				}
 				Iterator<String> iter=valmap.values().iterator();
 				while(iter.hasNext()) {
 					out.write("'"+iter.next()+"'");
