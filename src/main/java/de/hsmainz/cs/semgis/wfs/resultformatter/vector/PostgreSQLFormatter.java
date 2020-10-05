@@ -29,7 +29,7 @@ public class PostgreSQLFormatter extends VectorResultFormatter {
 		this.exposedType="text/psql";
 		this.urlformat="psql";
 		this.label="PostgreSQL (SQL)";
-		this.fileextension="psql";
+		this.fileextension="sql";
 		this.definition="https://www.iso.org/standard/40114.html";
 	}
 	
@@ -41,7 +41,7 @@ public class PostgreSQLFormatter extends VectorResultFormatter {
 			throws XMLStreamException, IOException {
 		out.write("SET standard_conforming_strings = OFF;"+System.lineSeparator());
 		out.write("DROP TABLE IF EXISTS \"public\".\""+featuretype+"\" CASCADE;"+System.lineSeparator());		
-		out.write("DELETE FROM geometry_columns WHERE f_table_name = 'test2' AND f_table_schema = 'public';"+System.lineSeparator());
+		out.write("DELETE FROM geometry_columns WHERE f_table_name = '"+featuretype+"' AND f_table_schema = 'public';"+System.lineSeparator());
 		out.write("BEGIN;"+System.lineSeparator());
 		out.write("CREATE TABLE \"public\".\""+featuretype+"\" ( \"ogc_fid\" SERIAL, CONSTRAINT \""+featuretype+"_pk\" PRIMARY KEY (\"ogc_fid\") );"+System.lineSeparator());
 		Map<String,String> valmap=new TreeMap<String,String>();
