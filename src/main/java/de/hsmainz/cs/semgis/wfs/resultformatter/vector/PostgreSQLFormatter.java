@@ -58,21 +58,17 @@ public class PostgreSQLFormatter extends VectorResultFormatter {
 						out.write("ALTER TABLE \"public\".\""+featuretype+"\" ADD COLUMN \""+key+"\" VARCHAR;"+System.lineSeparator());
 					}
 				}
-				if(lastQueriedElemCount>0) {
-				out.write("INSERT INTO \"public\".\""+featuretype+"\" VALUES (");
-				if(geom!=null) {
+				if(lastQueriedElemCount>0 && geom!=null && !valmap.isEmpty()) {
+					out.write("INSERT INTO \"public\".\""+featuretype+"\" VALUES (");
 					out.write("'"+WKBWriter.toHex(writer.write(geom))+"',");					
-				}else {
-					out.write("'',");
-				}
-				Iterator<String> iter=valmap.values().iterator();
-				while(iter.hasNext()) {
-					out.write("'"+iter.next()+"'");
-					if(iter.hasNext()) {
-						out.write(",");
+					Iterator<String> iter=valmap.values().iterator();
+					while(iter.hasNext()) {
+						out.write("'"+iter.next()+"'");
+						if(iter.hasNext()) {
+							out.write(",");
+						}
 					}
-				}
-				out.write(");"+System.lineSeparator());
+					out.write(");"+System.lineSeparator());
 				}
 				lastQueriedElemCount++;
 			}
