@@ -27,7 +27,7 @@
 "class":"http://pleiades.stoa.org/places/vocab#Place",
 "indvar":"item","description":"Pleiades Locations","geometrytype":"Point","targetCRS":"EPSG:4326","useorderby":true,
 "query":"SELECT ?item ?the_geom WHERE{ ?a rdf:type pleiades:Place . ?a pleiades:hasLocation ?item . ?item geo:asWKT ?the_geom . }",
-"triplestore":"https://digits2.mainzed.org/pleiades/sparql",
+"triplestore":"https://digits.mainzed.org/pleiades/sparql",
 "type":"WFS", "name":"PleiadesLocations"},
 {"namespace":"http://www.xplanung.de/xplangml/4/1#",
 "indvar":"item","description":"XPlanung Hamburg","geometrytype":"Point","targetCRS":"EPSG:25832","useorderby":true,
@@ -332,7 +332,7 @@
 "namespaces":["http://www.xplanung.de/xplangml/4/1","http://www.opengis.net/gml/"],
 "namespacesmetadata":["http://www.w3.org/ns/prov#","http://www.w3.org/ns/dcat#"],
 "query":"SELECT ?item ?rel ?val ?the_geom WHERE{ ?item rdf:type <http://www.opengis.net/ont/geosparql#Feature> . ?item ?rel ?val . OPTIONAL{?val geo:asWKT ?the_geom .} }",
-"triplestore":"https://digits2.mainzed.org/squirrels/sparql",
+"triplestore":"https://digits.mainzed.org/squirrels/sparql",
 "type":"WFS", 
 "name":"Limes"}
 ]
