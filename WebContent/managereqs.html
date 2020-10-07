@@ -1,0 +1,250 @@
+<html>
+<head>
+<title>Manage Requirement Profiles</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+<script src="js/list.min.js"></script>
+<script src="js/featurefunctions.js"></script>
+<script src="js/reqprofiles.js"></script>
+<style>
+ul.list {
+  padding: 0;
+  list-style: none;
+  width: 200px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 20px;
+}
+
+.list li {
+  padding: 10px 20px;
+}
+
+.list li + li {
+  border-top: 1px solid #ccc;
+}
+table td, table th {
+  padding:5px;
+}
+</style>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" 
+integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+</head>
+<body>
+<h2>Manage Requirement Profiles</h2>
+Requirement Profiles:<select id="reqprofiles">
+</select>
+<div id="contacts">
+  <table>
+    <thead>
+      <tr>
+        <th class="sort" data-sort="name">FeatureFunction</th>
+        <th class="sort" data-sort="age">Priority</th>
+        <th class="sort" data-sort="optimalvalue">OptimalValue</th>
+		<th class="sort" data-sort="category">Category</th>
+		<th class="sort" data-sort="metrictype">MetricType</th>
+		<th class="sort" data-sort="comment">Comment</th>
+                <th class="sort" data-sort="dealbreaker">Dealbreaker</th>
+        <th colspan="2">
+          <input type="text" class="search" placeholder="Search" />
+        </th>
+      </tr>
+    </thead>
+    <tbody class="list">
+      <tr>
+        <td class="id" style="display:none;">1</td>
+        <td class="name"></td>
+        <td class="age"></td>
+		<td class="optimalvalue"></td>
+		<td class="category"></td>
+		<td class="metrictype"></td>
+		<td class="comment"></td>
+		<td class="dealbreaker"></td>
+		<td class="edit"><button class="edit-item-btn">Edit</button></td>
+        <td class="remove"><button class="remove-item-btn">Remove</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<table>
+<tr>
+    <td class="featurefunct">
+		Featurefunction:<select id="featurefunct-field">
+		</select>
+      <input type="hidden" id="id-field" />
+    </td>
+    <td class="priority">
+	Priority:<select id="priority-field">
+		<option value="1">High Priority</option>
+		<option value="2">Medium Priority</option>
+		<option value="3">Low Priority</option>
+		<option value="4">Nonprioritized</option>
+		<option value="5">Nice to have</option>
+	</select>
+      <!--<input type="text" id="priority-field" placeholder="Priority" />-->
+    </td>
+	<td>
+		<table><tr><td>From: <input id="from-field" type="number" steps="0.1"/></td><td>To: <input id="to-field" type="number" steps="0.1"/></td></tr>
+		<tr><td>As big as possible:<input type="checkbox" id="asbigaspossible"></td><td>As small as possible:<input type="checkbox" id="assmallaspossible"></td></tr>
+		</table>
+	</td>
+    <td class="add">
+      <button id="add-btn">Add</button>
+      <button id="edit-btn">Edit</button>
+    </td>
+  </tr>
+  </table>
+  <button id="savecurprof" onClick="saveCurrentReqProfile()">Save Current Profile as JSON</button>
+   <button id="savecurprofswrl" onClick="saveCurrentReqProfileToSWRL()">Save Current Profile as RDF/SWRL</button>
+  <button type="button" id="savelist">Save List to Server</button>
+<script>
+str=""
+var curReqprof="Emergency"
+var curReqprofObj;
+var curReqprofColors={}
+for(obj in featurefunctions["featurefunctions"]){
+	str+="<option value=\""+featurefunctions["featurefunctions"][obj]["title"]+"\">"+featurefunctions["featurefunctions"][obj]["title"]+"</option>"
+}
+$("#featurefunct-field").html(str)
+str=""
+for(obj in reqprofiles["requirements"]){
+	str+="<option value=\""+Object.keys(reqprofiles["requirements"][obj])+"\">"+Object.keys(reqprofiles["requirements"][obj])+"</option>"
+}
+$("#reqprofiles").html(str)
+var options = {
+  valueNames: [ 'id', 'name', 'age','optimalvalue','category','metrictype','comment','dealbreaker']
+};
+var priohash={}
+priohash[1]="High Priority";
+priohash[2]="Medium Priority";
+priohash[3]="Low Priority";
+priohash[4]="Nonprioritized";
+priohash[5]="Nice to have";
+var values = [];
+// Init list
+var contactList = new List('contacts', options,values);
+
+var idField = $('#id-field'),
+    nameField = $('#featurefunct-field'),
+    ageField = $('#priority-field'),
+    cityField = $('#city-field'),
+    addBtn = $('#add-btn'),
+    editBtn = $('#edit-btn').hide(),
+    removeBtns = $('.remove-item-btn'),
+    editBtns = $('.edit-item-btn');
+refreshCallbacks();
+//updateReqs();
+// Sets callbacks to the buttons in the list
+
+
+addBtn.click(function() {
+  contactList.add({
+    id: Math.floor(Math.random()*110000),
+    name: nameField.val(),
+    age: ageField.val(),
+    optimalvalue: cityField.val()
+  });
+  clearFields();
+  refreshCallbacks();
+});
+
+editBtn.click(function() {
+  var item = contactList.get('id', idField.val())[0];
+  item.values({
+    id:idField.val(),
+    name: nameField.val(),
+    age: ageField.val(),
+    city: cityField.val()
+  });
+  clearFields();
+  editBtn.hide();
+  addBtn.show();
+});
+
+$("#reqprofiles").on('change',function(){
+contactList.clear()
+for(obj in reqprofiles["requirements"]){
+	for(metriccol in reqprofiles["requirements"][obj]){
+		if(metriccol==this.value){
+			curReqprofObj=reqprofiles["requirements"][obj][metriccol]
+			for(metric in reqprofiles["requirements"][obj][metriccol]){
+				reqprof=reqprofiles["requirements"][obj][metriccol][metric]									
+				//alert(JSON.stringify(reqprofiles["requirements"][obj][metriccol][metric]))
+				if("from" in reqprof && "to" in reqprof){
+					contactList.add({ "name":"<a href=\""+reqprof["uri"]+"\">"+reqprof["title"]+"</a>","age":priohash[reqprof["priority"]],"optimalvalue":"<a href=\""+reqprof["urival"]+"\">"+reqprof["from"]+" - "+reqprof["to"]+"</a> (<a href=\""+reqprof["unit"]+"\">"+reqprof["unit"].substring(reqprof["unit"].indexOf('#')+1)+"</a>)","category":reqprof["category"],"metrictype":reqprof["metrictype"],"comment":reqprof["comment"],"dealbreaker":("dealbreaker" in reqprof?reqprof["dealbreaker"]:"false")});
+				}else if("optimalValue" in reqprof){
+					contactList.add({ "name":"<a href=\""+reqprof["uri"]+"\">"+reqprof["title"]+"</a>","age":priohash[reqprof["priority"]],"optimalvalue":"<a href=\""+reqprof["urival"]+"\">"+reqprof["optimalValue"]+"</a> (<a href=\""+reqprof["unit"]+"\">"+reqprof["unit"].substring(reqprof["unit"].indexOf('#')+1)+"</a>)","category":reqprof["category"],"metrictype":reqprof["metrictype"],"comment":reqprof["comment"],"dealbreaker":("dealbreaker" in reqprof?reqprof["dealbreaker"]:"false")})
+				}
+			}
+		}
+	}
+	//alert(JSON.stringify(contactList))
+}});
+
+  function saveCurrentReqProfile(){
+		var myWindow=window.open('');
+		myWindow.document.write("<html><head><title>"+curReqprof+" Requirement Profile as JSON</title></head><body><pre>{ \""+curReqprof+"\":"+JSON.stringify(curReqprofObj,null, 4)+"}</pre></body></html>");
+  }
+  
+    function saveCurrentReqProfileToSWRL(){
+		var myWindow=window.open('');
+		strcollector="";
+		for(obj in reqprofiles["requirements"]){
+			//alert("Prof")
+			for(metriccol in reqprofiles["requirements"][obj]){
+					curReqprofObj=reqprofiles["requirements"][obj][metriccol]
+					for(metric in reqprofiles["requirements"][obj][metriccol]){
+						reqprof=reqprofiles["requirements"][obj][metriccol][metric]
+						if("ranges" in reqprof){
+							strcollector+="Feature(?x) & hasQualityMeasurement(?x,?y) & QualityMeasurement(?y) & isMeasurementOf(?y,?m) & "+reqprof["uri"]+"(?m)  &  value(?y,?z) "
+							for(rang in reqprof["ranges"]){
+								strcollector+="& swrlb:greaterThan(?z, "+reqprof["ranges"][rang]["to"]+") & swrlb:smallerThan(?z, "+reqprof["ranges"][rang]["from"]+") " 		
+							}
+							strcollector+="=> evalGood(?x,true) <br/>"	
+						}else if("optimalValue" in reqprof){
+							strcollector+="Feature(?x) & hasQualityMeasurement(?x,?y) & QualityMeasurement(?y) & isMeasurementOf(?y,?m) & "+reqprof["uri"]+"(?m) & value(?y,?z) & swrl:equal(?z,"+reqprof["optimalValue"]+") => evalGood(?x,true)<br/>" 
+						}
+						if("from" in reqprof && "to" in reqprof){
+							contactList.add({ "name":"<a href=\""+reqprof["uri"]+"\">"+reqprof["title"]+"</a>","age":priohash[reqprof["priority"]],"optimalvalue":"<a href=\""+reqprof["urival"]+"\">"+reqprof["from"]+" - "+reqprof["to"]+"</a> (<a href=\""+reqprof["unit"]+"\">"+reqprof["unit"].substring(reqprof["unit"].indexOf('#')+1)+"</a>)","category":reqprof["category"],"metrictype":reqprof["metrictype"],"comment":reqprof["comment"],"dealbreaker":("dealbreaker" in reqprof?reqprof["dealbreaker"]:"false")});
+						}else if("optimalValue" in reqprof){
+							contactList.add({ "name":"<a href=\""+reqprof["uri"]+"\">"+reqprof["title"]+"</a>","age":priohash[reqprof["priority"]],"optimalvalue":"<a href=\""+reqprof["urival"]+"\">"+reqprof["optimalValue"]+"</a> (<a href=\""+reqprof["unit"]+"\">"+reqprof["unit"].substring(reqprof["unit"].indexOf('#')+1)+"</a>)","category":reqprof["category"],"metrictype":reqprof["metrictype"],"comment":reqprof["comment"],"dealbreaker":("dealbreaker" in reqprof?reqprof["dealbreaker"]:"false")})
+						}
+					}
+			}
+		}
+		myWindow.document.write("<html><head></head><body>"+strcollector+"</body></html>");
+  }
+
+
+function refreshCallbacks() {
+  // Needed to add new buttons to jQuery-extended object
+  removeBtns = $(removeBtns.selector);
+  editBtns = $(editBtns.selector);
+  
+  removeBtns.click(function() {
+    var itemId = $(this).closest('tr').find('.id').text();
+    contactList.remove('id', itemId);
+  });
+  
+  editBtns.click(function() {
+    var itemId = $(this).closest('tr').find('.id').text();
+    var itemValues = contactList.get('id', itemId)[0].values();
+    idField.val(itemValues.id);
+    nameField.val(itemValues.name);
+    ageField.val(itemValues.age);
+    cityField.val(itemValues.city);
+    
+    editBtn.show();
+    addBtn.hide();
+  });
+}
+
+function clearFields() {
+  nameField.val('');
+  ageField.val('');
+  cityField.val('');
+}
+
+
+</script>
+</body>
+</html>

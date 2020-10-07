@@ -1,0 +1,1223 @@
+<html>
+<head><title>Requirement Profile Generation Example</title>
+<script src="https://cdn.jsdelivr.net/npm/d3-sparql@2.0.0/build/d3-sparql.min.js"></script>
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.js"></script>
+  <script src="config/js/leaflet_legend.js"/></script>
+  	 <script src="config/js/leaflet-search.js"></script>
+	   	 <script src="config/js/reqprofiles.js"></script>
+  	 <script src="config/js/featurefunctions.js"></script>
+  	   <script src="https://cdn.jsdelivr.net/npm/@turf/turf@5/turf.min.js"></script>
+  	 <script src="https://cdnjs.cloudflare.com/ajax/libs/wicket/1.3.5/wicket.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.css"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/leaflet_legend.css"/>
+  <link rel="stylesheet" href="https://cdn.bootcss.com/leaflet.fullscreen/1.5.1/Control.FullScreen.css"/>
+  <link rel="stylesheet" href="css/leaflet-search.css" />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-search@2.9.8/dist/leaflet-search.src.min.js"></script>
+         <script src="config/js/leaflet_fullscreen.js"></script>
+		 <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
+<link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' />
+    <style>
+	.TFtable{
+		width:100%; 
+		border-collapse:collapse; 
+		border:0px;
+	}
+	.TFtable td{ 
+		padding:0px; border:#4e95f4 0px solid;
+	}
+	/* provide some minimal visual accomodation for IE8 and below */
+	.TFtable tr{
+		background: #B6B6B4;
+	}
+	/*  Define the background color for all the ODD background rows  */
+	.TFtable tr:nth-child(odd){ 
+		background: #B6B6B4;
+	}
+	/*  Define the background color for all the EVEN background rows  */
+	.TFtable tr:nth-child(even){
+		background: #C2DFFF;
+	}
+	.ui-btn.my-tooltip-btn,
+.ui-btn.my-tooltip-btn:hover,
+.ui-btn.my-tooltip-btn:active {
+    background: none;
+    border: 0;
+}
+	div.scrollable {
+    width: 100%;
+    height: 93%;
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+}
+
+#mapid {height: 500px;}
+ body {
+  display: block;
+}
+.span3:focus ~ .//alert {
+  display: none;
+}
+.span2:focus ~ .//alert {
+  display: block;
+}
+</style>
+<script>
+var colors=["#e65c00","#0000ff","#8c66ff","#ff6666", "#4000ff", "#009933", "#4d004d","#4d004d","#ff0000","#4000ff","#00FF00","#CCEEFF","#0000A0","#800080","#F08080","#6A5ACD","#FFA500","#00FFFF","#C0C0C0","#808080","#FFFF00","#AAAAAA","#C1C1C1","#D4C3F1"]
+var htmlLegend1;
+var resultLayerCollection=[]
+var resultLayerGeoJSON=[]
+var situationBuffer=[]
+var situationMap={}
+  var featbbox;
+var reqprofile="Emergency"
+var currentproperty;
+var features;
+var wikidataUrl = 'https://query.wikidata.org/bigdata/namespace/wdq/sparql'
+function getThematicMapsForSpatialConcept(concept, inarea){
+    var query="select ?coord ?con WHERE { ?con wdt:P31 wd:Q3914 . ?con wdt:P625 ?coord . ?con wdt:P17 wd:Q183 .}"
+    d3.sparql(wikidataUrl, query).then((data) => {
+  console.log(data); // [{'developerName': 'Mike Bostock'}]
+})    
+}
+
+function extent(layer) {
+    var extent = [Infinity, Infinity, -Infinity, -Infinity];
+    turf.coordEach(layer,function(coord) {
+      if (extent[0] > coord[0]) extent[0] = coord[0];
+      if (extent[1] > coord[1]) extent[1] = coord[1];
+      if (extent[2] < coord[0]) extent[2] = coord[0];
+      if (extent[3] < coord[1]) extent[3] = coord[1];
+    });
+    return extent;
+};
+
+function generateRequirementProfileFromSituation(situationBuffer){
+	var thematicallyrelated={}
+	for(subject in subjectCategoryToSuperConcepts){
+			console.log("beep")
+			console.log(subjectCategoryToSuperConcepts[subject])		
+			for(sub2 in subjectCategoryToSuperConcepts){
+				if(subject!=sub2){
+				for(superconcept in subjectCategoryToSuperConcepts[sub2]){
+					console.log(subjectCategoryToSuperConcepts[sub2][superconcept]["class"])
+					for(supercon2 in subjectCategoryToSuperConcepts[subject]){
+					try{
+						if(subjectCategoryToSuperConcepts[sub2][superconcept]["class"]==subjectCategoryToSuperConcepts[subject][supercon2]["class"] && subjectCategoryToSuperConcepts[subject][supercon2]["class"]!=subject && subjectCategoryToSuperConcepts[sub2][supercon2]["class"]!=sub2){
+							console.log("match: "+subjectCategoryToSuperConcepts[sub2][superconcept]["label"]+" - "+subjectCategoryToSuperConcepts[subject][supercon2]["label"])
+							thematicallyrelated[subject]=subjectCategoryToSuperConcepts[sub2][superconcept];
+						}
+					}catch(error){}
+					}
+				}
+					//console.log(JSON.stringify(subjectCategoryToSuperConcepts[subject])+" - "+JSON.stringify(subjectCategoryToSuperConcepts[sub2]))
+				}
+			}
+	}
+	var htmlrep="<table border=1>"
+	htmlrep+="<tr><th>Criteria</th><th>Preferred Range</th><th>Priority</th><th>Dealbreaker</th></tr>"
+	htmlrep+="<tr><td><a href=\"http://www.i3mainz.de/projekte/semgis/statservice/rest/qualityservice/geometry/validity\">Geometry Validity</a></td><td></td><td>1</td><td>true</td></tr>"
+	console.log(situationBuffer)
+	for(sit in situationBuffer){
+		htmlrep+="<tr><td><a href=\""+situationBuffer[sit]["relation"]+"\">"+situationBuffer[sit]["rellabel"]+"</a></td><td></td><td>1</td><td>true</td></tr>"
+	}
+	for(theme in thematicallyrelated){
+		htmlrep+="<tr><td><a href=\""+thematicallyrelated[theme]["class"]+"\">"+subjectToProp[theme]+" - "+thematicallyrelated[theme]["label"]+"</a></td><td></td><td>2</td><td>false</td></tr>"
+	}
+    htmlrep+="<tr><td>Completeness</td><td>90-100%</td><td>3</td><td>false</td></tr>"
+    htmlrep+="</table>"
+	//$('#reqprof').html(htmlrep)
+    return htmlrep;
+}
+
+
+function generateRequirementProfile(concept,property,proplabel){
+    var htmlrep="<table border=1>"
+    htmlrep+="<tr><th>Criteria</th><th>Preferred Range</th><th>Priority</th><th>Dealbreaker</th></tr>"
+    htmlrep+="<tr><td><a href=\""+property+"\">"+proplabel+"</a></td><td></td><td>1</td><td>true</td></tr>"
+    htmlrep+="<tr><td>Completeness</td><td>90-100%</td><td>3</td><td>false</td></tr>"
+    htmlrep+="</table>"
+    return htmlrep;
+}
+
+function getLabelForQID(qid){
+	var wikiidregex=new RegExp("^[QP][0-9]+$|^[QP][0-9]+/.*$");
+	console.log(qid)
+	if(wikiidregex.test(qid)){
+queryString="https://www.wikidata.org/w/api.php?action=wbsearchentities&format=json&limit=50&continue=0&language=de&uselang=de&origin=*&search="+qid+"&type=item"
+$.ajax({
+    url: queryString,
+ 
+    // The name of the callback parameter, as specified by the YQL service
+    jsonp: "callback",
+	async: false,
+    // Tell jQuery we're expecting JSONP
+    dataType: "jsonp",
+ 
+    // Tell YQL what we want and that we want JSON
+    data: {
+        //q: "select title,abstract,url from search.news where query=\"cat\"",
+        //format: "json"
+    },
+ 
+    // Work with the response
+    success: function( result ) {
+		console.log(result["search"][0]["label"])
+		return result["search"][0]["label"]
+		//$('#'+qid).text(result["search"][0]["label"]+" ("+qid+")")   
+    }
+});
+}
+return "";
+	
+	//$.getJSON(queryString, function(result){
+	//	return result["search"][0]["label"]
+  //});
+}
+
+function getLabelForProperty(property,prop,labellang){
+    var query="select ?rel ?relLabel WHERE { ?rel wikibase:directClaim <"+property+"> . SERVICE wikibase:label { bd:serviceParam wikibase:language \""+labellang+"\" . }  }"
+    console.log(query)
+    d3.sparql(wikidataUrl, query).then((data) => {
+        console.log(data);
+        $('#'+prop).html(data[0]["relLabel"])
+    })
+}
+
+var queriesfinished=0
+
+function getThematicMapsAttributesForSpatialConcept(concept, inarea,labellang){
+    if(!concept){
+        console.log($('#topicsearch').val())
+        if($('#topicsearch').val().match(/Q[0-9]+/)){
+            concept="wd:"+$('#topicsearch').val();
+        }else{
+            concept="wd:Q3914"        
+        }
+
+    }
+    if(!inarea){
+        inarea="wd:Q183"
+    }
+    if(!labellang){
+        labellang=$('#labellang').val()
+    }
+    var query="select (COUNT(distinct ?con) AS ?countcon) (COUNT(?rel) AS ?countrel) (COUNT(distinct ?val) AS ?countval) ?rel ?relLabel WHERE { ?con wdt:P31 "+concept+" . ?con wdt:P625 ?coord . ?con wdt:P17 "+inarea+" . ?con ?rel ?val . SERVICE wikibase:label { bd:serviceParam wikibase:language \""+labellang+"\" . }  } GROUP BY ?rel ?relLabel ORDER BY ?relLabel"
+    console.log(query)
+    d3.sparql(wikidataUrl, query).then((data) => {
+        console.log(data);
+        var resultstring=""
+        eligiblecounter=0;
+		var conlabel=""
+        for(result in data){
+            var res=data[result]
+            if(res["rel"].includes("direct/") && (res["countval"]/res["countcon"])<10000){
+            eligiblecounter++;
+			resultstring+="<li><a href=\""+res["rel"]+"\" id=\""+res["relLabel"].substring(res["relLabel"].lastIndexOf('/')+1)+"\">"
+            +getLabelForProperty(res["relLabel"])+
+            "</a><br/><button onclick='generateThematicMapForProperty(\""+concept+"\",\""+inarea+"\",\""+res["rel"]+"\",\""+$('#labellang').val()+"\")'>Create Map</button><button onclick='addToSituation(\""+concept+"\",\""+inarea+"\",\""+res["rel"]+"\",\""+res["relLabel"]+"\",\""+$('#labellang').val()+"\")'>Add To Situation</button><span id=\""+res["rel"].substring(res["rel"].lastIndexOf('/')+1)+"_topic\"/></li>"
+            getLabelForProperty(res["relLabel"],res["relLabel"].substring(res["relLabel"].lastIndexOf('/')+1),labellang)
+           }
+        }
+		var conlabel=getLabelForQID(concept.substring(concept.indexOf(':')+1))
+		$('#thematicmapheading').html("Thematic Maps ("+conlabel+") <button id='showmap' onclick='generateThematicMapForProperty(\""+concept+"\",\""+inarea+"\",\"http://www.wikidata.org/prop/direct/P31\",\""+$('#labellang').val()+"\")'>Show</button>" )
+        $('#thematicmaps').html("Found "+eligiblecounter+" eligible properties<br/>"+resultstring)
+		 for(result in data){
+            var res=data[result]
+			getSubjectCategories(res["rel"].substring(res["rel"].lastIndexOf('/')+1)+"_topic",res["rel"])
+		}
+		console.log(subjectCategoryToSuperConcepts)
+        //console.log(data); // [{'developerName': 'Mike Bostock'}]
+    })
+}
+
+function addToSituation(concept,inarea,relation,rellabel,labellang){
+    situationBuffer.push({"concept":concept,"inarea":inarea,"relation":relation,"rellabel":relation,"labellang":labellang})
+	var opt=document.createElement("option")
+	opt.value=concept+";"+inarea
+	opt.innerHTML=concept.substring(concept.indexOf(':')+1)+" - "+$('#'+relation.substring(relation.lastIndexOf('/')+1)).html()
+	document.getElementById("usecasecontents").appendChild(opt)
+}
+
+function clearMap() {
+	hasSeen={}
+	for(i in resultLayerCollection){
+		//if(resultLayerCollection[i]._path != undefined) {
+            try {
+                map.removeLayer(resultLayerCollection[i]);
+				map.removeControl(htmlLegend1);
+            }
+            catch(e) {
+                console.log("problem with " + e + map._layers[i]);
+            }
+        //}
+	}
+    /*for(i in map._layers) {
+        if(map._layers[i]._path != undefined) {
+            try {
+                map.removeLayer(map._layers[i]);
+            }
+            catch(e) {
+                console.log("problem with " + e + map._layers[i]);
+            }
+        }
+    }*/
+	/*for(marker in markercollection){
+		map.removeLayer(markercollection[marker])
+	}
+	markercollection=[]
+        for(decorator in decorators){
+		map.removeLayer(decorators[decorator])
+	}
+	decorators=[]*/
+}
+
+ function sortNumber(a,b) {
+    return a - b;
+  }
+
+  function getObjectColorForValue(value){
+	  console.log(value)
+	  keys=[]
+	  curReqprofColors=reqprofiles["requirements"][0]["Emergency"][0]
+	  console.log(curReqprofColors)
+	  for (k in reqprofiles["requirements"][0]["Emergency"][0]) {
+	    if(k!="title"){
+			keys.push(parseInt(k))
+		}
+	  }
+	  keys.sort(sortNumber);
+	  len = keys.length;
+	  lastsmaller=true;
+	  lastkey=0
+	  for (i = 0; i < len; i++) {
+		k = keys[i];
+		console.log(k)
+		if(k>value){
+			if(lastkey==0){
+				//alert("Lastkey=0: "+percentageValue+" - "+curReqprofColors[k+""]);
+				return curReqprofColors[k+""];
+			}else{
+				//alert("Lastkey: "+lastkey+" - "+percentageValue+" - "+curReqprofColors[lastkey+""]);
+				return curReqprofColors[lastkey+""];
+			}
+		}else if(k==value){
+			//alert("ExactValue: "+percentageValue+" - "+curReqprofColors[k+""]);
+			return curReqprofColors[k+""];
+		}else{
+			lastkey=k+"";
+		}
+	  }
+	  return {"color":"gray","label":"unknown"};
+  }
+
+function detectDataType(literaldesc){
+    if(isNaN(literaldesc)){
+        return 2;
+    }else if(Number.isInteger(literaldesc)){
+        return 1;
+    }else if(literaldesc=="true" || literaldesc=="false"){
+        return 0;
+    }else if(new Date(literaldesc) !== "Invalid Date"){
+        return 3;
+    }
+    return 2;
+}
+
+function getMaxMin(data){
+    var max=0,min=2000000;
+    for(result in data){
+        if(data[result]["val"]>max){
+            max=data[result]["val"]
+        }
+        if(data[result]["val"]<min){
+            min=data[result]["val"]
+        }
+    }
+    return {"min":min,"max":max}
+}
+
+function getMaxMinDate(data){
+    var max=null,min=null;
+    for(result in data){
+        var curdate=new Date(data[result]["val"])
+        if(max==null || curdate>max){
+            max=curdate
+        }
+        if(min==null || curdate<min){
+            min=curdate
+        }
+    }
+    return {"min":min,"max":max}
+}
+
+
+function isCategoricStringData(data){
+    var resultset={}
+    for(result in data){
+        if(data[result]["valLabel"] in resultset){
+            resultset[data[result]["valLabel"]]=resultset[data[result]["valLabel"]]+1
+        }else{
+             resultset[data[result]["valLabel"]]=1
+        }
+    }
+    return resultset;
+}
+
+
+function reqProfToTTL(situationBuffer){
+    
+    for(sit in situationBuffer){
+        
+    }
+}
+
+var subjectCategoryToSuperConcepts={}
+var propToSubject={}
+var subjectToProp={}
+var currentDQProvider="https://www.i3mainz.de/projekte/semgis/statservice/rest/"
+
+//Get Properties for Priority 2
+function getSubjectCategories(prop,propuri){
+    var select="SELECT ?prop ?val ?valLabel ?super ?superLabel WHERE {?prop wikibase:directClaim <"+propuri+"> . ?prop wdt:P1629 ?val .  ?val wdt:P31* ?super .  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }}"
+	console.log(select)
+    d3.sparql(wikidataUrl, select).then((data) => {
+            console.log(data)
+			htmlres="<br/>Subjects: "
+			subjects={}
+			for(res in data){
+				if(!(data[res]["val"] in subjects)){
+					subjects[data[res]["val"]]=true;
+					htmlres+="<a href=\""+data[res]["val"]+"\">"+data[res]["valLabel"]+"</a>|"
+					if(!(data[res]["val"] in subjectToProp)){
+						subjectToProp[data[res]["val"]]=[]
+					}
+					subjectToProp[data[res]["val"]].push(prop)
+				}
+				if(!(data[res]["val"] in subjectCategoryToSuperConcepts)){
+					subjectCategoryToSuperConcepts[data[res]["val"]]=[]
+				}
+				subjectCategoryToSuperConcepts[data[res]["val"]].push({"class":data[res]["super"],"label":data[res]["superLabel"]});
+			}	
+			propToSubjects[prop]=subjects
+			queriesfinished++
+			return $('#'+prop).html(htmlres);
+    });
+}
+var ranges=[]
+var colormap={}
+function getPreferredRanges(prop,propuri){
+    var select="SELECT ?prop ?val ?valLabel ?super ?superLabel WHERE {?prop wikibase:directClaim <"+propuri+"> . ?prop wdt:P1629 ?val .  ?val wdt:P31* ?super .  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }}"
+	console.log(select)
+    d3.sparql(wikidataUrl, select).then((data) => {
+            console.log(data)
+			htmlres="<br/>Subjects: "
+			subjects={}
+			for(res in data){
+				if(!(data[res]["val"] in subjects)){
+					subjects[data[res]["val"]]=true;
+					htmlres+="<a href=\""+data[res]["val"]+"\">"+data[res]["valLabel"]+"</a>|"
+				}
+				if(!(data[res]["val"] in subjectCategoryToSuperConcepts)){
+					subjectCategoryToSuperConcepts[data[res]["val"]]=[]
+				}
+				subjectCategoryToSuperConcepts[data[res]["val"]].push({"class":data[res]["super"],"label":data[res]["superLabel"]});
+			}			
+			queriesfinished++
+			return $('#'+prop).html(htmlres);
+    });
+}
+
+//METRIC relevance filtering
+function filterMetricsForRelevance(metricarray){
+	$.getJSON( currentDQProvider+"/sparql/metricsFeasibleForArea?metrics="+encodeURIComponent(metricarray), function( data ) {
+	   var metrics="<option value=\"all\">All</option>";
+	   Object.keys(data).sort().forEach(function(metric) {
+			if(data[metric]){
+				metrics+="<option value=\""+metric+"\">"+metric+"</option>";
+			}
+		});
+	   result+="</table>";
+	   $('#dataqualitymetrics').html(metrics)
+	   $('#metriccount').html("["+Object.keys(data).length+"]")
+	 });
+}
+
+//METRIC filtering
+function filterMetricsForFeasibility(metricarray){
+	$.getJSON( currentDQProvider+"/qualityservice/metricsFeasibleForArea?metrics="+encodeURIComponent(metricarray), function( data ) {
+	   var metrics="<option value=\"all\">All</option>";
+	   Object.keys(data).sort().forEach(function(metric) {
+			if(data[metric]){
+				metrics+="<option value=\""+metric+"\">"+metric+"</option>";
+			}
+		});
+	   result+="</table>";
+	   $('#dataqualitymetrics').html(metrics)
+	   $('#metriccount').html("["+Object.keys(data).length+"]")
+	 });
+}
+
+
+function getRangesPerProperty(data){
+	for(i=0;("val"+i in data);i++){
+        var max=-1
+        var min=-1
+        var catstring=false;
+        ranges=[]
+        colormap={}
+        console.log(datatype)
+        if(datatype==1){
+            var maxmin=getMaxMin(data)
+            min=maxmin["min"]
+            max=maxmin["max"]
+            ranges=createRanges(min,max)
+        }else if(datatype==2){
+            resultset=isCategoricStringData(data)
+            console.log(resultset)
+            catstring=true
+                    for(res in resultset){
+                        if(res=="undefined"){
+                                colormap["undefined"]={"color":"black","amount":resultset[res]}
+                        }else{
+                                colormap[res]={"color":colors[colourcounter%colors.length],"amount":resultset[res]}                        
+                        }
+                        colourcounter++;
+                    }
+                    console.log("categoric string data")
+        }else if(datatype==3){
+            console.log("date")
+            var maxmin=getMaxMinDate(data)
+            min=maxmin["min"]
+            max=maxmin["max"]
+            console.log(maxmin)
+            ranges=createDateRanges(min,max)
+        }
+	}
+}
+
+
+function getThematicMapForProperties(situationBuffer,clearmap){
+	console.log(situationBuffer)
+	if(clearmap)
+        clearMap();
+    else{
+    try{
+        map.removeControl(htmlLegend1);
+    }catch(exception){
+    }
+    }
+
+    if(!labellang){
+        labellang=$('#labellang').val();
+    }
+	generateRequirementProfileFromSituation(situationBuffer)
+	var classToProperties={}
+	for(situation in situationBuffer){
+		if(!(situationBuffer[situation]["concept"] in classToProperties)){
+			classToProperties[situationBuffer[situation]["concept"]]=[]
+		}
+		classToProperties[situationBuffer[situation]["concept"]].push(situationBuffer[situation]["relation"])
+	}
+	for(classs in classToProperties){
+		//currentproperty=property
+		var colourcounter=0;
+		var queryintro="select distinct ?con ?conLabel ?coord";
+		var query=" ?propLabel WHERE { ?con wdt:P31 "+classs+" . ?con wdt:P625 ?coord . ?con wdt:P17 "+situationBuffer[0]["inarea"]+" . ";
+		var c=0;
+		var outputs="";
+		for(prop in classToProperties[classs]){
+			query+="OPTIONAL {?con <"+classToProperties[classs][prop]+"> ?val"+c+" . }"
+			outputs+=" ?val"+c+" ?val"+c+"Label ";
+			c++;
+		}
+		query=queryintro+outputs+query+" SERVICE wikibase:label { bd:serviceParam wikibase:language \""+situationBuffer[0]["labellang"]+"\" . }  }"
+		console.log(query)
+		d3.sparql(wikidataUrl, query).then((data) => {
+		console.log(data);
+        var geojsonresult={"type":"FeatureCollection","features":[]}
+        var resultstring=""
+        var datatype=detectDataType(data[0]["val"])
+        var max=-1
+        var min=-1
+        var catstring=false;
+        ranges=[]
+        colormap={}
+        console.log(datatype)
+        if(datatype==1){
+            var maxmin=getMaxMin(data)
+            min=maxmin["min"]
+            max=maxmin["max"]
+            ranges=createRanges(min,max)
+        }else if(datatype==2){
+            resultset=isCategoricStringData(data)
+            console.log(resultset)
+            catstring=true
+                    for(res in resultset){
+                        if(res=="undefined"){
+                                colormap["undefined"]={"color":"black","amount":resultset[res]}
+                        }else{
+                                colormap[res]={"color":colors[colourcounter%colors.length],"amount":resultset[res]}                        
+                        }
+                        colourcounter++;
+                    }
+                    console.log("categoric string data")
+        }else if(datatype==3){
+            console.log("date")
+            var maxmin=getMaxMinDate(data)
+            min=maxmin["min"]
+            max=maxmin["max"]
+            console.log(maxmin)
+            ranges=createDateRanges(min,max)
+        }
+		var property=classToProperties[classs][0]
+        for(result in data){
+            var res=data[result]
+            var feature={}
+            feature["type"]="Feature"
+            var wkt = new Wkt.Wkt();
+            // Read in any kind of WKT string
+            //console.log(res["coord"])
+            try{
+            wkt.read(res["coord"]);
+            
+			//console.log(wkt.toJson());
+            feature["geometry"]=wkt.toJson()
+            feature["properties"]={}
+            feature["properties"]["concept"]=res["con"]
+            feature["properties"]["name"]=res["conLabel"]
+			for(i=0;i<c;i++){
+				feature["properties"][classToProperties[classs][i]]=res["val"+i+"Label"]
+			}
+            //feature["properties"]["propuri"]=res["val"]
+            //feature["properties"]["proplabel"]=res["propLabel"]
+            geojsonresult["features"].push(feature)
+            }catch(error){
+				console.log(error)
+            }
+        }
+		console.log("Generated GeoJSON")
+		console.log(geojsonresult)
+        var curcolor="#000000"
+        var resultLayer = L.geoJson(geojsonresult, {
+            style: function (feature) {
+            var funcval=feature["properties"][property]
+            console.log(funcval)
+              if(ranges.length>0){
+                  for(range in ranges){
+                        if(funcval>ranges["range"]["min"] && funcval<ranges["range"]["max"]){
+                            curcolor=ranges["range"]["color"]
+                            return {color: ranges["range"]["color"]}
+                        }
+                  }
+              }
+              curcolor="#ff0000"
+              return {color: "#ff0000"};
+            },
+            filter: function (feature, layer) {			
+              return true;
+            },
+            pointToLayer: function(feature, latlng) {
+               // console.log(ranges)
+                var funcval=feature["properties"][property]
+                //console.log(catstring)
+                if(ranges.length>0){
+                  for(range in ranges){
+                        if(funcval>ranges[range]["min"] && funcval<=ranges[range]["max"]){
+                            curcolor=ranges[range]["color"]
+                            if(!("amount" in ranges[range])){
+                                ranges[range]["amount"]=1
+                            }
+                            ranges[range]["amount"]=ranges[range]["amount"]+1
+                        }
+                  }
+              }else if(property in feature["properties"] && feature["properties"][property] in colormap){
+                    //console.log(feature["properties"][property])
+                    //console.log(colormap)
+                    curcolor=colormap[feature["properties"][property]]["color"]
+              }
+              var found=false;
+              for(prop in feature["properties"]){
+                    if(typeof(feature["properties"][prop])=='undefined'){
+                        curcolor="red";
+                        found=true;
+                    }
+              }
+              if(!found){
+                curcolor="green"
+              }
+              //curcolor="#ff0000"
+            console.log(curcolor)
+            return L.marker(latlng, {icon: L.divIcon({
+						className: "my-custom-pin",
+						iconAnchor: [0, 24],
+						labelAnchor: [-6, 0],
+						popupAnchor: [0, -36],
+						html: "<span style=\""+"background-color: "+curcolor+";width: 1.5rem;height: 1.5rem;display: block;left: -1rem;top: 0rem;position: relative;border-radius: 3rem 3rem 0;transform: rotate(45deg);border: 1px solid #FFFFFF;"
++"\" color:white>"+funcval+"</span>"
+					})});
+            },
+            onEachFeature: function (feature, layer) {
+                var popup="<b><a href=\""+feature["properties"]["concept"]+"\">"+feature["properties"]["name"]+"</a></b><ul>"
+				for(prop in feature.properties){
+                    if(typeof(feature["properties"][prop])=='undefined'){
+                        popup+="<li><a style=\"color:red\" href=\""+prop+"\">"+prop+"</a> - <span style=\"color:red\">"+feature["properties"][prop]+"</span></li>"                    
+                    }else{
+                        popup+="<li><a href=\""+prop+"\">"+prop+"</a> - "+feature["properties"][prop]+"</li>"
+					}
+				}
+                popup+="</ul>"
+                layer.bindPopup(popup)
+               // console.log(feature["properties"]["proplabel"])
+                if(feature["properties"]["proplabel"])
+                    $('#'+property.substring(property.lastIndexOf('/')+1)).html(feature["properties"]["proplabel"])
+            }
+        }).addTo(map);
+		});
+	}
+	
+
+}
+
+function generateThematicMapForProperty(concept, inarea,property,labellang,clearmap){
+    if(clearmap)
+        clearMap();
+    else{
+    try{
+        map.removeControl(htmlLegend1);
+    }catch(exception){
+    }
+    }
+	currentproperty=property
+    if(!labellang){
+        labellang=$('#labellang').val();
+    }
+    var colourcounter=0;
+    var query="select distinct ?con ?conLabel ?coord ?val ?valLabel ?propLabel WHERE { ?con wdt:P31 "+concept+" . ?con wdt:P625 ?coord . ?con wdt:P17 "+inarea+" . OPTIONAL{?con <"+property+"> ?val . ?prop wikibase:directClaim <"+property+"> .} SERVICE wikibase:label { bd:serviceParam wikibase:language \""+labellang+"\" . }  }"
+    console.log(query)
+    d3.sparql(wikidataUrl, query).then((data) => {
+        console.log(data);
+        var geojsonresult={"type":"FeatureCollection","features":[]}
+        var resultstring=""
+        var datatype=detectDataType(data[0]["val"])
+        var max=-1
+        var min=-1
+        var catstring=false;
+        var ranges=[]
+        var colormap={}
+        console.log(datatype)
+        if(datatype==1){
+            var maxmin=getMaxMin(data)
+            min=maxmin["min"]
+            max=maxmin["max"]
+            ranges=createRanges(min,max)
+        }else if(datatype==2){
+            resultset=isCategoricStringData(data)
+            console.log(resultset)
+            catstring=true
+                    for(res in resultset){
+                        if(res=="undefined"){
+                                colormap["undefined"]={"color":"black","amount":resultset[res]}
+                        }else{
+                                colormap[res]={"color":colors[colourcounter%colors.length],"amount":resultset[res]}                        
+                        }
+                        colourcounter++;
+                    }
+                    console.log("categoric string data")
+        }else if(datatype==3){
+            console.log("date")
+            var maxmin=getMaxMinDate(data)
+            min=maxmin["min"]
+            max=maxmin["max"]
+            console.log(maxmin)
+            ranges=createDateRanges(min,max)
+        }
+        for(result in data){
+            var res=data[result]
+            var feature={}
+            feature["type"]="Feature"
+            var wkt = new Wkt.Wkt();
+            // Read in any kind of WKT string
+            //console.log(res["coord"])
+            try{
+            wkt.read(res["coord"]);
+            
+            //console.log(wkt.toJson());
+            feature["geometry"]=wkt.toJson()
+            feature["properties"]={}
+            feature["properties"]["concept"]=res["con"]
+            feature["properties"]["name"]=res["conLabel"]
+            feature["properties"][property]=res["valLabel"]
+            feature["properties"]["propuri"]=res["val"]
+            feature["properties"]["proplabel"]=res["propLabel"]
+            geojsonresult["features"].push(feature)
+            }catch(error){
+            }
+        }
+        var curcolor="#000000"
+        var resultLayer = L.geoJson(geojsonresult, {
+            style: function (feature) {
+            var funcval=feature["properties"][property]
+            console.log(funcval)
+              if(ranges.length>0){
+                  for(range in ranges){
+                        if(funcval>ranges["range"]["min"] && funcval<ranges["range"]["max"]){
+                            curcolor=ranges["range"]["color"]
+                            return {color: ranges["range"]["color"]}
+                        }
+                  }
+              }
+              curcolor="#ff0000"
+              return {color: "#ff0000"};
+            },
+            filter: function (feature, layer) {			
+              return true;
+            },
+            pointToLayer: function(feature, latlng) {
+               // console.log(ranges)
+                var funcval=feature["properties"][property]
+                //console.log(catstring)
+                if(ranges.length>0){
+                  for(range in ranges){
+                        if(funcval>ranges[range]["min"] && funcval<=ranges[range]["max"]){
+                            curcolor=ranges[range]["color"]
+                            if(!("amount" in ranges[range])){
+                                ranges[range]["amount"]=1
+                            }
+                            ranges[range]["amount"]=ranges[range]["amount"]+1
+                        }
+                  }
+              }else if(feature["properties"][property]){
+                    console.log(feature["properties"][property])
+                    console.log(colormap)
+                    curcolor=colormap[feature["properties"][property]]["color"]
+              }
+              //curcolor="#ff0000"
+            //console.log(curcolor)
+            return L.marker(latlng, {icon: L.divIcon({
+						className: "my-custom-pin",
+						iconAnchor: [0, 24],
+						labelAnchor: [-6, 0],
+						popupAnchor: [0, -36],
+						html: "<span style=\""+"background-color: "+curcolor+";width: 1.5rem;height: 1.5rem;display: block;left: -1rem;top: 0rem;position: relative;border-radius: 3rem 3rem 0;transform: rotate(45deg);border: 1px solid #FFFFFF;"
++"\" color:white>"+funcval+"</span>"
+					})});
+            },
+            onEachFeature: function (feature, layer) {
+                var popup="<b><a href=\""+feature["properties"]["concept"]+"\">"+feature["properties"]["name"]+"</a></b><ul>"
+                popup+="<li><a href=\""+property+"\">"+feature["properties"]["proplabel"]/*property.substring(property.lastIndexOf('/')+1)*/+"</a> - "+feature["properties"][property]+"</li>"
+                popup+="</ul>"
+                layer.bindPopup(popup)
+               // console.log(feature["properties"]["proplabel"])
+                if(feature["properties"]["proplabel"])
+                    $('#'+property.substring(property.lastIndexOf('/')+1)).html(feature["properties"]["proplabel"])
+            }
+        }).addTo(map);
+		features=geojsonresult
+        var reqprof=generateRequirementProfile(concept,property,feature["properties"]["proplabel"],colormap)
+        //$('#reqprof').html(reqprof)
+        resultLayerCollection.push(resultLayer)
+        resultLayerGeoJSON.push(geojsonresult)
+        if(datatype==1){
+            createLegend(resultLayer,ranges,(feature["properties"]["proplabel"]?feature["properties"]["proplabel"]:"Legend")) 
+        }else if(datatype==2){
+            createLegend2(resultLayer,colormap,(feature["properties"]["proplabel"]?feature["properties"]["proplabel"]:"Legend")) 
+        }
+        //console.log(data); // [{'developerName': 'Mike Bostock'}]
+		featbbox=turf.bboxPolygon(extent(geojsonresult))
+		tiles.redraw();
+    })
+
+    
+}
+
+function dateFromString(s) {
+  var bits = s.split(/[-T:]/g);
+  var d = new Date(bits[0], bits[1]-1, bits[2]);
+  d.setHours(bits[3], bits[4], bits[5]);
+
+  return d;
+}
+
+function createDateRanges(min,max,colors){
+    if(!colors){
+        colors=["darkred","red","#F08080","darkorange","orange","lightgreen","green","darkgreen"]
+    }
+    var rangesize=(max-min)/colors.length;
+    console.log(rangesize)
+    var returnval=[]
+    var i;
+    var currentval=min;
+    for (i = 0; i < colors.length; i++) {
+        returnval.push({"min":new Date(currentval),"max":new Date(currentval+rangesize),"color":colors[i]});
+        currentval+=rangesize;
+    }   
+    console.log(returnval)
+    return returnval;
+}
+
+function intervals(startString, endString) {
+    var start = moment(startString, 'YYYY-MM-DD hh:mm a');
+    var end = moment(endString, 'YYYY-MM-DD hh:mm a');
+
+    // round starting minutes up to nearest 15 (12 --> 15, 17 --> 30)
+    // note that 59 will round up to 60, and moment.js handles that correctly
+    start.minutes(Math.ceil(start.minutes() / 15) * 15);
+
+    var result = [];
+
+    var current = moment(start);
+
+    while (current <= end) {
+        result.push(current.format('YYYY-MM-DD HH:mm'));
+        current.add(15, 'minutes');
+    }
+
+    return result;
+}
+
+
+function createRanges(min,max,colors){
+    if(!colors){
+        colors=["darkred","red","#F08080","darkorange","orange","lightgreen","green","darkgreen"]
+    }
+    var rangesize=max/colors.length;
+    var returnval=[]
+    var i;
+    var currentval=min;
+    for (i = 0; i < colors.length; i++) {
+        returnval.push({"min":Math.round(currentval),"max":Math.round(currentval+rangesize),"color":colors[i]});
+        currentval+=rangesize;
+    }   
+    return returnval;
+}
+
+function createLegend(layer,ranges,legendname){
+    var elements=[]
+    for(range in ranges){
+        elements.push({"label":ranges[range]["min"]+" - "+ranges[range]["max"]+" ("+(ranges[range]["amount"]==='undefined'?"0":ranges[range]["amount"])+")","html":"","style":{"background-color":ranges[range]["color"],"width":"10px","height":"10px"}})
+    }
+	 htmlLegend1 =L.control.htmllegend({
+        position: 'bottomright',
+        legends: [{
+            name: legendname,
+            layer: layer,
+            elements: elements}],
+			collapseSimple:true,
+			detectStretched:true
+    });
+	console.log("legend")
+	console.log(htmlLegend1)
+		console.log(map)
+	htmlLegend1.addTo(map);
+}
+
+function createLegend2(layer,colormap,legendname){
+    var elements=[]
+    for(range in colormap){
+        elements.push({"label":range+" ("+colormap[range]["amount"]+")","html":"","style":{"background-color":colormap[range]["color"],"width":"10px","height":"10px"}})
+    }
+	 htmlLegend1 =L.control.htmllegend({
+        position: 'bottomright',
+        legends: [{
+            name: legendname,
+            layer: layer,
+            elements: elements}],
+			collapseSimple:true,
+			detectStretched:true
+    });
+	console.log("legend")
+	console.log(htmlLegend1)
+		console.log(map)
+	htmlLegend1.addTo(map);
+}
+
+function saveSituation(){
+	var situationname=$('#inputtext').val()
+	situationMap[situationname]=situationBuffer
+	situationBuffer=[]
+	var opt=document.createElement("option")
+	opt.value=situationname
+	opt.innerHTML=situationname
+	document.getElementById("usecases").appendChild(opt)
+}
+
+function evaluateSituation(){
+	var sitBuffer=situationMap[$('#usecases').val()]
+	console.log(sitBuffer)
+     getThematicMapForProperties(sitBuffer,true);
+	/*for(situation in sitBuffer){
+	
+        generateThematicMapForProperty(sitBuffer[situation]["concept"],sitBuffer[situation]["inarea"],sitBuffer[situation]["relation"],sitBuffer[situation]["labellang"],false)
+    }*/
+}
+
+
+function searchObjects(){
+	var availableTags = []
+$.get( "https://www.wikidata.org/w/api.php?action=wbsearchentities&origin=*&language=en&search="+$('#topicsearch').
+		val()+"&type=item&limit=7&format=json", function( data ) {
+	  jsonobj=data;
+	  collect=""
+	  for(obj in jsonobj["search"]){
+		  availableTags.push({"label":jsonobj["search"][obj]["label"]+" ("+jsonobj["search"][obj]["description"]+") "
+			  ,"value":"http:"+jsonobj["search"][obj]["url"]})
+		  collect+=jsonobj["search"][obj]["label"]+" ("+jsonobj["search"][obj]["description"]+") "+jsonobj["search"][obj]["url"]+"\n";
+	  }
+	    $( "#topicsearch" ).autocomplete({
+	        source: availableTags,
+	        select: function(event, ui) {
+	            if(ui.item){
+                                $('#topicsearch').val("");
+                                $('#topicsearch').val(ui.item.label);
+	          		$('#more2').attr("href",ui.item.value)	
+	          		$('#objuri').val(ui.item.value)	  
+                                event.preventDefault()
+	            }
+
+	        }
+	      });
+
+	});
+}
+
+function loadMetrics(){
+	$.getJSON( "https://www.i3mainz.de/projekte/semgis/statservice/rest/qualityservice/getCapabilities", function( data ) {
+	   var metrics="<option value=\"all\">All</option>";
+	   Object.keys(data).sort().forEach(function(metric) {
+		   metrics+="<option value=\""+metric+"\">"+metric+"</option>";
+		});
+	   result+="</table>";
+	   $('#dataqualitymetrics').html(metrics)
+	   $('#metriccount').html("["+Object.keys(data).length+"]")
+	 });
+}
+</script>
+</head>
+<body>
+<h1 align="center">Requirement Profile Generation</h1>
+<div class="container">
+  <div class="row">
+    <div class="left col-sm-9" id="mapid" style="border:5px solid black;">
+	<!--<div  style="height:500px;width:800px;border:5px solid black;">-->
+<script>
+var wikidataToOSMMap={}
+var osmToWikidataMap={}
+	var map = L.map('mapid',{fullscreenControl: true,fullscreenControlOptions: {position: 'topleft'}}).setView([49.998889, 8.274167], 16);
+	map.addControl( new L.Control.Search({
+		url: 'https://nominatim.openstreetmap.org/search?format=json&q={s}',
+		jsonpParam: 'json_callback',
+		propertyName: 'display_name',
+		propertyLoc: ['lat','lon'],
+		marker: L.circleMarker([0,0],{radius:30}),
+		autoCollapse: true,
+		autoType: false,
+		minLength: 2
+	}));
+
+/*map.on('moveend',function(){
+        map.eachLayer(function (layer) {
+            try{
+            map.removeLayer(layer);
+            }catch{}
+        });
+        if(loaded){
+            map.removeLayer(layer);		
+            loadItems();
+        }
+});*/
+
+var tiles = new L.GridLayer();
+tiles.createTile = function(coords) {
+  var tile = L.DomUtil.create('canvas', 'leaflet-tile');
+  var ctx = tile.getContext('2d');
+  var size = this.getTileSize()
+  tile.width = size.x
+  tile.height = size.y
+  coords2= this.getTileSize()
+  coords2["z"]=coords.z
+  coords2["y"]=coords.y+1
+  coords2["x"]=coords.x+1;
+  // calculate projection coordinates of top left tile pixel
+  var nwPoint = coords.scaleBy(size)
+   var nwPoint = coords.scaleBy(size)
+  var swPoint = coords2.scaleBy(size)
+  var nw = map.unproject(nwPoint, coords.z)
+  var sw = map.unproject(swPoint, coords.z)
+  ctx.fillStyle = 'white';
+  var bbox = [nw.lng, nw.lat, sw.lng, sw.lat];
+var poly = turf.bboxPolygon(bbox);
+  //console.log(poly)
+  var res=0;
+  var aggregation=0;
+  var countcontained=0;
+  for(reslayer in resultLayerGeoJSON){
+    console.log(features)
+    features=resultLayerGeoJSON[reslayer]
+	console.log(situationBuffer)
+	if(reslayer in situationBuffer)
+		currentproperty=situationBuffer[reslayer]["property"]
+    featbbox=turf.bboxPolygon(extent(features))
+    if(featbbox && turf.booleanWithin(poly,featbbox) || turf.booleanOverlap(poly,featbbox)){
+        for(feat in features["features"]){
+            geom=features["features"][feat]["geometry"]
+            turfgeom=turf.feature(geom)
+            //alert(JSON.stringify(bbox)+" - "+JSON.stringify(turfgeom))
+            if(turf.booleanWithin(turfgeom,poly)){
+                //alert(calculateObjectPercentage(features["features"][feat]))
+                console.log(features["features"][feat]["properties"])
+                console.log(currentproperty)
+                console.log(features["features"][feat]["properties"][currentproperty])
+                if(typeof(features["features"][feat]["properties"][currentproperty])=="undefined"){
+                    //res=getObjectColorForValue(0)
+                    aggregation+=0
+                }else{
+                    //res=getObjectColorForValue(100)
+                    aggregation+=100
+                }
+                //aggregation+=res
+                countcontained++;
+                //res=calculateObjectPercentage(features["features"][feat])
+                //aggregation+=res["percentageValue"]
+                //mergeJSON(res["criteriamap"],tilecriteriamap);
+                //alert(JSON.stringify(res["criteriamap"]))
+                //countcontained++;
+            }else{
+                //alert("NOT Within BoundingBox: "+JSON.stringify(poly))
+            }
+        }
+    }
+    console.log(aggregation+" - "+countcontained)
+    console.log(aggregation/countcontained)
+  }
+  paintColor={}
+  paintColor=getObjectColorForValue(aggregation/countcontained)
+  console.log(paintColor["color"])
+  if(isNaN(aggregation/countcontained)){
+    ctx.lineWidth=0;
+	ctx.globalAlpha = 0.0
+  }else{ 
+  	ctx.globalAlpha = 0.7
+    ctx.fillRect(0, 0, size.x, 25);
+	ctx.fillStyle = 'black';
+	if(countcontained==1){
+	    ctx.fillText('Aggregated Score: '+Math.round(aggregation/countcontained).toFixed(2)+"% ["+paintColor["label"]+"] ("+countcontained+" Geometry)" , 20, 20); 
+	}else{
+	    ctx.fillText('Aggregated Score: '+Math.round(aggregation/countcontained).toFixed(2)+"% ["+paintColor["label"]+"] ("+countcontained+" Geometries)" , 20, 20); 
+	}
+	ctx.globalAlpha = 0.4
+	ctx.fillStyle = paintColor["color"];
+	ctx.fillRect(0, 25, size.x, size.y);
+    ctx.lineWidth=5;
+	ctx.globalAlpha = 0.7
+  }
+
+  ctx.strokeStyle = paintColor["color"];
+  // calculate geographic coordinates of top left tile pixel
+  var nw = map.unproject(nwPoint, coords.z)
+  //ctx.fillStyle = 'white';
+  //ctx.fillRect(0, 0, size.x, 50);
+  ctx.fillStyle = 'black';
+  //ctx.fillText('x: ' + coords.x + ', y: ' + coords.y + ', zoom: ' + coords.z, 20, 20);
+  //ctx.fillText('lat: ' + nw.lat + ', lon: ' + nw.lng, 20, 40);
+  //ctx.strokeStyle = 'red';
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.lineTo(size.x-1, 0);
+  ctx.lineTo(size.x-1, size.y-1);
+  ctx.lineTo(0, size.y-1);
+  ctx.closePath();
+  ctx.stroke();
+  return tile;
+}
+var layer=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+   attribution: 'Map data &copy; <a href="http://www.osm.org">OpenStreetMap</a>'
+}).addTo(map)
+	
+tiles.addTo(map)
+		var wmsLayer = L.tileLayer.wms('https://sgx.geodatenzentrum.de/wms_topplus_web_open', {
+layers: 'web',
+format: 'image/png',
+ transparent: true,
+attribution: '&copy; Bundesamt f&uuml;r Kartographie und Geod&auml;sie 2017, <a href="https://sg.geodatenzentrum.de/web_public/Datenquellen_TopPlus_Open.pdf">Datenquellen</a>'
+});
+var overlayMaps={}
+	var baseMaps = {
+		"BKG": wmsLayer,
+        "OSM": layer,
+        "grid":tiles
+	};
+	baseMaps["OSM"].addTo(map);
+	L.control.scale({
+	position: 'bottomright',
+	imperial: false
+}).addTo(map);
+var layercontrol=L.control.layers(baseMaps,overlayMaps).addTo(map);
+loaded=true;
+
+</script>
+</div>
+    <div class="left col-sm-3" id="contentdesc" style="height:500px;overflow-y: scroll;">
+<h5 id="thematicmapheading">Thematic Maps</h5>
+<ul id="thematicmaps">
+</ul>
+</div>
+</div>
+<div class="row">
+<div class="left col-sm-3" id="options">
+Find Topic: <input type="text" id="topicsearch" onkeyup="searchObjects()"/><input type="hidden" id="objuri"/><input type="hidden" id="dateres"/><a href="#" id="more2" target="_blank">???</a><br/>
+In Area: <input type="text" id="areasearch" onkeyup="searchObjects()"/><input type="hidden" id="areauri"/><br/>
+<select id="labellang">
+<option value="de" selected="selected">German</option>
+<option value="en">English</option>
+</select>
+<button onclick="getThematicMapsAttributesForSpatialConcept()">Eligible Thematic Map Attributes</button><button onclick="generateRequirementProfile('','','')">Generate Reqprof</button>
+</div>
+<div class="left col-sm-6" id="reqprof">
+<table border=1>
+<tr><th>Criteria</th><th>Preferred Range</th><th>Priority</th><th>Dealbreaker</th></tr>
+<tr><td><a href="">Wheelchair</a></td><td></td><td>1</td><td>true</td></tr>
+<tr><td><a href="https://www.i3mainz.de/projekte/semgis/statservice/rest/qualityservice/geometry/validity">Geometry Validity</a></td><td></td><td>1</td><td>true</td></tr>
+<tr><td><a  href="">toilets:wheelchair</a></td><td></td><td>2</td><td>false</td></tr>
+<tr><td><a  href="">Freshness</a></td><td>&lt;365 days</td><td>3</td><td>false</td></tr>
+<tr><td><a  href="">Positional Accuracy</a></td><td>&gt;12</td><td>4</td><td>false</td></tr>
+</table>
+</div>
+<div class="left col-sm-3" id="dataquality">
+Available Data Quality Metrics:<span id="metriccount"></span><button onclick="loadMetrics()">Load</button><br/>
+<select id="dataqualitymetrics">
+<option value="posacc">Positional Accuracy</option>
+</select><br/>
+
+</div>
+</div>
+<div class="row">
+<div class="left col-sm-6" id="options">
+Usecase Composition:
+<select id="usecases">
+
+</select>
+<br/>
+UseCase Contents:
+<select id="usecasecontents">
+
+</select>
+<br/>
+<!--<button onclick="getThematicMapsForSpatialConcept()">Click</button>-->
+<input type="text" id="inputtext"/><button id="saveSituationButton" onclick="saveSituation()">Save Situation</button>
+<button id="evaluateSituationButton" onclick="evaluateSituation()">Evaluate Situation</button>
+
+<!--<button onclick="generateThematicMapForProperty()"></button>-->
+</div>
+</div>
+</body>
+</html>
+
