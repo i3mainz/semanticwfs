@@ -233,14 +233,14 @@ public class HTMLFormatter extends ResultFormatter {
 				}else {	
 					if (propertytype.startsWith("http")) {
 						if (propertytype.contains("#")) {
-								builder.append("<th align=\"center\"><a href=\"" + propertytype + "\" target=\"_blank\">"
+								builder.append("<th align=\"center\"><a href=\"" + propertytype + "\" target=\"_blank\" property=\""+propertytype+"\">"
 										+ propertytype.substring(propertytype.lastIndexOf('#') + 1) + "</a></td>");								
 						} else {
-								builder.append("<th align=\"center\"><a href=\"" + propertytype + "\" target=\"_blank\">"
+								builder.append("<th align=\"center\"><a href=\"" + propertytype + "\" target=\"_blank\" property=\""+propertytype+"\">"
 									+ propertytype.substring(propertytype.lastIndexOf('/') + 1) + "</a></td>");
 						}
 					} else {
-						builder.append("<th align=\"center\"><a href=\"" + propertytype + "\" target=\"_blank\">" + propertytype
+						builder.append("<th align=\"center\"><a href=\"" + propertytype + "\" target=\"_blank\" property=\""+propertytype+"\">" + propertytype
 								+ "</a></td>");
 					}
 				}
@@ -248,22 +248,22 @@ public class HTMLFormatter extends ResultFormatter {
 				first = false;
 			}
 			if(i%2==0){
-			    builder.append("<tr class=\"even\">");			    
+			    builder.append("<tr class=\"even\" about=\""+features.getJSONObject(i).get("id")+"\">");			    
 			}else{
-			    builder.append("<tr class=\"odd\">");			    
+			    builder.append("<tr class=\"odd\" about=\""+features.getJSONObject(i).get("id")+"\">");			    
 			}
-			builder.append("<td align=\"center\"><a href=\"" + features.getJSONObject(i).get("id") + "\" target=\"_blank\">");
+			builder.append("<td align=\"center\"><a href=\"" + features.getJSONObject(i).get("id") + "\" target=\"_blank\" about=\""+features.getJSONObject(i).get("id")+"\">");
 			String vall=features.getJSONObject(i).get("id").toString();
 			if (vall.contains("http")) {
 				if (vall.contains("^^")) {
-					builder.append("<a href=\"" + vall.substring(vall.lastIndexOf('^') +1) + "\" target=\"_blank\">"
+					builder.append("<a href=\"" + vall.substring(vall.lastIndexOf('^') +1) + "\" target=\"_blank\" dataType=\""+vall.substring(vall.lastIndexOf('^') +1)+"\">"
 							+ vall.substring(0, vall.lastIndexOf('^') - 1) + "</a>");
 				} else if (vall.contains("#")) {
 					if(alternativeFormat) {
 						builder.append("<a href=\"" +WebService.wfsconf.get("baseurl")+"/collections/"+featuretype+"/items/"+ vall.substring(vall.lastIndexOf('#')+1)+ "\">"
 								+  vall.substring(vall.lastIndexOf('#')+1) + "</a>");
 					}else {
-						builder.append("<a href=\"" + vall + "\" target=\"_blank\">"
+						builder.append("<a href=\"" + vall + "\" target=\"_blank\" about=\""+vall+"\">"
 								+ vall.substring(vall.lastIndexOf('#') + 1) + "</a>");
 					}
 					
@@ -319,16 +319,16 @@ public class HTMLFormatter extends ResultFormatter {
 						}
 						if (val.contains("http")) {
 							if (val.contains("^^")) {
-								builder.append("<a href=\"" + val.substring(val.lastIndexOf('^') +1) + "\" target=\"_blank\">"
+								builder.append("<a href=\"" + val.substring(val.lastIndexOf('^') +1) + "\" target=\"_blank\" property=\""+key+"\" dataType=\""+val.substring(val.lastIndexOf('^') +1)+"\" content=\""+val.substring(0, val.lastIndexOf('^') - 1)+"\">"
 										+ val.substring(0, val.lastIndexOf('^') - 1) + "</a>");
 							} else if (val.contains("#")) {
-								builder.append("<a href=\"" + val + "\" target=\"_blank\">"
+								builder.append("<a href=\"" + val + "\" target=\"_blank\" property=\""+key+"\" about=\""+val.toString()+"\">"
 										+ val.substring(val.lastIndexOf('#') + 1) + "</a>");
 							} else if (val.contains("@")) {
-								builder.append("<a href=\"mailto:" + val + "\" target=\"_blank\">"
+								builder.append("<a href=\"mailto:" + val + "\" target=\"_blank\" property=\""+key+"\" about=\""+val.toString()+"\">"
 										+ val + "</a>");
 							} else {
-								builder.append("<a href=\"" + val + "\" target=\"_blank\">" + val.substring(val.lastIndexOf('/')+1)
+								builder.append("<a href=\"" + val + "\" target=\"_blank\" property=\""+key+"\" about=\""+val.toString()+"\">" + val.substring(val.lastIndexOf('/')+1)
 										+ "</a>");
 							}
 						} else {
@@ -343,15 +343,15 @@ public class HTMLFormatter extends ResultFormatter {
 					}
 					if (value.contains("http")) {
 						if (value.contains("^^")) {
-							builder.append("<td align=\"center\"><a href=\"" + value.substring(value.lastIndexOf('^') +1) + "\" target=\"_blank\">"
+							builder.append("<td align=\"center\"><a href=\"" + value.substring(value.lastIndexOf('^') +1) + "\" target=\"_blank\" property=\""+key+"\" content=\""+value.substring(0, value.lastIndexOf('^') - 1)+"\" dataType=\""+value.substring(value.lastIndexOf('^') +1)+"\">"
 									+ value.substring(0, value.lastIndexOf('^') - 1) + "</a></td>");
 						} else if (value.contains("#")) {
-							builder.append("<td align=\"center\"><a href=\"" + value + "\" target=\"_blank\">"
+							builder.append("<td align=\"center\"><a href=\"" + value + "\" target=\"_blank\" property=\""+key+"\" about=\""+value.toString()+"\">"
 									+ value.substring(value.lastIndexOf('#') + 1) + "</a></td>");
 						} else if (value.contains("@")) {
-							builder.append("<a href=\"mailto:").append(value).append("\" target=\"_blank\">").append(value).append("</a>");
+							builder.append("<a href=\"mailto:").append(value).append("\" target=\"_blank\" property=\""+key+"\" about=\""+value.toString()+"\">").append(value).append("</a>");
 						} else {
-							builder.append("<td align=\"center\"><a href=\"" + value + "\" target=\"_blank\">" + value.substring(value.lastIndexOf('/')+1)
+							builder.append("<td align=\"center\"><a href=\"" + value + "\" target=\"_blank\" property=\""+key+"\" about=\""+value.toString()+"\">" + value.substring(value.lastIndexOf('/')+1)
 									+ "</a></td>");
 						}
 					} else {
