@@ -1048,7 +1048,7 @@ function loadFeatureCollection(){
 			}
 		 	popup+=" - "
 		 	if(feature.properties[prop].startsWith("http")){
-		 		popup+="<a href=\""+feature.properties[prop]+"\">"+features.properties[prop].substring(features.properties[prop].lastIndexOf('/'))+"</a>"
+		 		popup+="<a href=\""+feature.properties[prop]+"\">"+feature.properties[prop].substring(feature.properties[prop].lastIndexOf('/'))+"</a>"
 		 	}else{
 		 		popup+=prop
 		 	}
