@@ -223,7 +223,7 @@ if(!("official" in itemCount)){
 	itemCount["official"]={}
 }
 if(map.getZoom()>=minMapZoom){
-$.get(buildOverpassApiUrl(map,$('#osmkey').val(),$('#osmval').val()), function (osmDataAsJson) {
+$.get(buildOverpassApiUrl(map,$('#osmkey').val(),$('#osmtag').val()), function (osmDataAsJson) {
           var resultAsGeojson = osmtogeojson(osmDataAsJson);
 		  var adminLayer=null		  
 		  var officialdata;
