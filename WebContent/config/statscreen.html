@@ -1042,15 +1042,15 @@ function loadFeatureCollection(){
 		 for(prop in feature.properties){
 			popup+="<li>"
 			if(prop.startsWith("http")){
-				popup+="<a href=\""+prop+"\">"+prop.toString().substring(prop.toString().lastIndexOf('/'))+"</a>"
+				popup+="<a href=\""+prop+"\">"+prop.toString().substring(prop.toString().lastIndexOf('/')+1)+"</a>"
 			}else{
 				popup+=prop
 			}
 		 	popup+=" - "
-		 	if(feature.properties[prop].toString().startsWith("http")){
-		 		popup+="<a href=\""+feature.properties[prop]+"\">"+feature.properties[prop].toString().substring(feature.properties[prop].toString().lastIndexOf('/'))+"</a>"
+		 	if(feature.properties[prop].toString().trim().startsWith("http")){
+		 		popup+="<a href=\""+feature.properties[prop]+"\">"+feature.properties[prop].toString().substring(feature.properties[prop].toString().lastIndexOf('/')+1)+"</a>"
 		 	}else{
-		 		popup+=prop
+		 		popup+=feauture.properties[prop]
 		 	}
 		 	popup+="</li>"
 		 }
