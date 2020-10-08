@@ -109,7 +109,7 @@ function buildOverpassApiUrl(map, overpassQuery,overpassQueryVal) {
 }
 
 function matchGeometryInGeoJSONSet(geometry,geojsonset){
-	//console.log(geometry)
+	console.log(geojsonset)
 	if(geometry.type=="Polygon"){
 		var point=turf.polygon(geometry.coordinates);
 	}else if(geometry.type=="MultiPolygon"){
