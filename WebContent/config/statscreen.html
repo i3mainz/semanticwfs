@@ -284,8 +284,6 @@ $.get(buildOverpassApiUrl(map,$('#osmkey').val(),$('#osmtag').val()), function (
 						}
 						console.log(keys[prop])
 						console.log(officialdata.properties[keys[prop]])
-						var equivs=window[$('#schoolsetmenu').val()+"_equivs"]
-						console.log($('#schoolsetmenu').val()+"_equivs")
 						if(keys[prop] in equivs){	
 							console.log(equivs[keys[prop]]["osm"])						
 							console.log(feature.properties.tags[equivs[keys[prop]]["osm"]])
