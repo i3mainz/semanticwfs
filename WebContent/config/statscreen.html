@@ -1014,7 +1014,7 @@ function clearMap() {
 		map.removeLayer(decorators[decorator])
 	}
 	decorators=[]*/
-}
+} 
 
 
 function loadItems(){
@@ -1024,7 +1024,7 @@ function loadItems(){
 
 function loadFeatureCollection(){
 	$.getJSON( $('#featurecollectionmenu').val()+"?f=geojson&limit="+$('#limit').val(), function(result){		
-		var officiallayer=L.geoJSON(result,{
+		var officialdata=L.geoJSON(result,{
 		pointToLayer: function(feature, latlng){
 				 var greenIcon = new L.Icon({
 	                                        iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-orange.png',
@@ -1056,6 +1056,7 @@ function loadWDItems(){
 	width=distance/2
 	wikidataAroundQuery(map.getCenter(),width);
 }
+
 function zoomAndReload(){
 		if(map.getZoom()>=minMapZoom){
 			$('#mapid').css("border","5px solid green")
@@ -1186,7 +1187,10 @@ loaded=true;
 <button type="button" id="loadbutton" onClick="loadItems()">Load FeatureCollection Items</button>
 <button type="button" id="loadbutton2" onClick="loadWDItems()">Load Wikidata Equivalent Items</button>
 <button type="button" id="clearbutton" onClick="clearMap()">Clear Map</button><br/>
-Autoload<input type="checkbox" id="autoload"/>PopupMode<input type="checkbox" id="popupmode"/>Stats<input type="checkbox" id="statmode"/>StatPopUp<input type="checkbox" id="statpopup"/><br/>
+Autoload<input type="checkbox" id="autoload"/>
+PopupMode<input type="checkbox" id="popupmode"/>
+Stats<input type="checkbox" id="statmode"/>
+StatPopUp<input type="checkbox" id="statpopup"/><br/>
 FeatureCollection: <select id="featurecollectionmenu">
 </select><br/>
 Limit: <input type="number" id="limit" value="10"/><br/>
@@ -1197,8 +1201,13 @@ Highlighted Data Quality Aspect:
 </select>
 <br/>
 Legend: <table><tr><td style="background-color:red">&nbsp;&nbsp;</td><td>Only in OSM</td>
-<td style="background-color:green">&nbsp;&nbsp;</td><td>In OSM, Wikidata and Official</td><td style="background-color:black">&nbsp;&nbsp;</td><td>Only in Official</td></tr><tr>
-<td style="background-color:orange"></td><td>OSM and Official</td><td style="background-color:blue"></td><td>OSM and Wikidata, NOT in Official</td></tr></table>
+<td style="background-color:green">&nbsp;&nbsp;</td><td>In OSM, Wikidata and Official</td>
+<td style="background-color:black">&nbsp;&nbsp;</td><td>Only in Official</td></tr><tr>
+<td style="background-color:orange"></td>
+<td>OSM and Official</td>
+<td style="background-color:blue"></td>
+<td>OSM and Wikidata, NOT in Official</td>
+</tr></table>
 	</div>
 	</div>
 <div class="row">
