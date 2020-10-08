@@ -14,20 +14,13 @@
 <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"></script>
 <script src="https://unpkg.com/osmtogeojson@2.2.12/osmtogeojson.js"></script>
   <script src="js/leaflet.polylinedecorator.js"></script>
-  <script src="testdata/schulendeutschland.js"></script>
-   <script src="testdata/schulen_beruf.js"></script>
-     <script src="testdata/schulen_combined.js"></script>
   <script src="js/wicket.js" type="text/javascript"></script>
   <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.1/js/jquery.tablesorter.min.js"></script>
      <script src="js/leaflet.fullscreen.js"></script>
 	 <script src="js/leaflet-search.js"></script>
 	      <script src="js/numbermarkers.js"></script>
-	 <script src="testdata/brbschools.js"></script>
-	  <script src="testdata/brbschool_mapping.js"></script>
-	 <script src="testdata/schulendeutschland_mapping.js"></script>
    <script src="js/leaflet_legend.js"></script>
-      <script src="js/leaflet_easyprint.js"></script>
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   
 <script>
@@ -1114,7 +1107,7 @@ getMatchingWikiDataOSMAttributes();
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 });
 
-	var officiallayer=L.geoJSON(brbschools,{
+	/*var officiallayer=L.geoJSON(brbschools,{
 	pointToLayer: function(feature, latlng){
 			 var greenIcon = new L.Icon({
                                         iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-orange.png',
@@ -1134,7 +1127,7 @@ onEachFeature: function (feature, layer) {
 	 popup+="</ul>"
          layer.bindPopup(popup);
      }})
-	overlayMaps["Official Data"]=officiallayer;
+	overlayMaps["Official Data"]=officiallayer;*/
 		var wmsLayer = L.tileLayer.wms('https://sgx.geodatenzentrum.de/wms_topplus_web_open', {
 layers: 'web',
 format: 'image/png',
@@ -1152,17 +1145,6 @@ attribution: '&copy; Bundesamt f&uuml;r Kartographie und Geod&auml;sie 2017, <a 
 }).addTo(map);
 var layercontrol=L.control.layers(baseMaps,overlayMaps).addTo(map);
 loaded=true;
-$(document).ready( function () {
-    
-	$.getJSON( "../rest/service/queryConfigs", function(result){
-        options=""
-		   for(featuretype in result["datasets"]){
-			   options+="<option value=\""+result["datasets"][featuretype]["endpoint"]+"\">"+result["datasets"][featuretype]["name"]+"</option>"
-		   }
-        endpoints=result["datasets"]
-        $('#featurecollectionmenu').html(options);
-		});
-});
 </script>
 </div>
 <!--</div>-->
@@ -1173,15 +1155,11 @@ $(document).ready( function () {
 	  <div class="row">
     <div class="left col-sm-12" id="menu">
 
-<button type="button" id="loadbutton" onClick="loadItems()">Load OSM School Items</button>
-<button type="button" id="loadbutton2" onClick="loadWDItems()">Load Wikidata School Items</button>
+<button type="button" id="loadbutton" onClick="loadItems()">Load FeatureCollection Items</button>
+<button type="button" id="loadbutton2" onClick="loadWDItems()">Load Wikidata Equivalent Items</button>
 <button type="button" id="clearbutton" onClick="clearMap()">Clear Map</button><br/>
 Autoload<input type="checkbox" id="autoload"/>PopupMode<input type="checkbox" id="popupmode"/>Stats<input type="checkbox" id="statmode"/>StatPopUp<input type="checkbox" id="statpopup"/><br/>
 Dataset: <select id="featurecollectionmenu">
-	<option value="brbschools">Schulen Brandenburg</option>
-	<option value="deschools" selected="selected">Schulen Deutschland</option>
-	<option value="schulen_combined">Schulen Deutschland (All)</option>
-	<option value="schulen_beruf">Berufsschulen Deutschland</option>
 </select><br/>Highlighted Data Quality Aspect:
 <select id="dataqualityaspect">
 	<option value="distance">Distance</option>
@@ -1201,5 +1179,21 @@ Legend: <table><tr><td style="background-color:red">&nbsp;&nbsp;</td><td>Only in
 	    <div class="left col-sm-4" id="stats3">
 	</div>
 	</div>
+<script>
+$.getJSON( "../rest/service/queryConfigs", function(result){
+	console.log("got configs");
+    options=""
+	   for(featuretype in result){
+		   console.log(featuretype)
+		   for(elem in result[featuretype]){
+			   console.log(elem)
+			   options+="<option value=\""+result[featuretype][elem]["endpoint"]+"\">"+result[featuretype][elem]["name"]+"</option>"
+		   }
+		   
+	   }
+    endpoints=result["datasets"]
+    $('#featurecollectionmenu').html(options);
+	});
+</script>
 </body>
 </html>
