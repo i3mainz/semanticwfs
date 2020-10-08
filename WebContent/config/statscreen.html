@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html>
+<head><title>School Map</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" />
+<link rel="stylesheet" href="css/leaflet-search.css" />
+<link rel="stylesheet" href="css/numbermarkers.css"/>
+<link rel="stylesheet" href="https://cdn.bootcss.com/leaflet.fullscreen/1.5.1/Control.FullScreen.css"/>
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"></script>
+<script src="https://unpkg.com/osmtogeojson@2.2.12/osmtogeojson.js"></script>
+  <script src="js/leaflet.polylinedecorator.js"></script>
+  <script src="testdata/schulendeutschland.js"></script>
+   <script src="testdata/schulen_beruf.js"></script>
+     <script src="testdata/schulen_combined.js"></script>
+  <script src="js/wicket.js" type="text/javascript"></script>
+  <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.1/js/jquery.tablesorter.min.js"></script>
+     <script src="js/leaflet.fullscreen.js"></script>
+	 <script src="js/leaflet-search.js"></script>
+	      <script src="js/numbermarkers.js"></script>
+	 <script src="testdata/brbschools.js"></script>
+	  <script src="testdata/brbschool_mapping.js"></script>
+	 <script src="testdata/schulendeutschland_mapping.js"></script>
+   <script src="js/leaflet_legend.js"></script>
+      <script src="js/leaflet_easyprint.js"></script>
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  
+<script>
+var prefixlist="@prefix owl: <http://www.w3.org/2002/07/owl#> .\n @prefix foaf: <http://xmlns.com/foaf/0.1/> .\n @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> . @prefix xml: <http://www.w3.org/XML/1998/namespace> . \n @prefix xsd: <http://www.w3.org/2001/XMLSchema#> . \n @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> . \n"
+var overlayMaps=[]
+var ttlExport="";
+var minMapZoom=2;
+var resultLayerCollection=[]
+var markercollection=[]
+var itemCount={}
+var loaded=false;
+var schulen_combined_equivs=deschools_equivs;
+var schulen_beruf_equivs=deschools_equivs
+function saveToOWL(){
+    saveTextAsFile();
+}
+
+function saveTextAsFile()
+{
+    var blob = new Blob([prefixlist+"<http://semgis.i3mainz.de> rdf:type owl:Ontology . \n"+ttlExport], {type:'text/plain'});
+    var filename = "res.ttl";
+    var a = document.createElement('a');
+    a.style = "display: none";  
+    var url = window.URL.createObjectURL(blob);
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+        a.click();
+    setTimeout(function(){
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);  
+    }, 1000);
+    
+    
+}
+
+function editDistance(a, b){
+  if(a==null || b==null)
+	return "";
+  if(a.length == 0) return b.length; 
+  if(b.length == 0) return a.length; 
+  a=a.toLowerCase()
+  b=b.toLowerCase()
+  a=a.replace("\n"," ")
+  b=b.replace("\n"," ")
+  var matrix = [];
+
+  // increment along the first column of each row
+  var i;
+  for(i = 0; i <= b.length; i++){
+    matrix[i] = [i];
+  }
+
+  // increment each column in the first row
+  var j;
+  for(j = 0; j <= a.length; j++){
+    matrix[0][j] = j;
+  }
+
+  // Fill in the rest of the matrix
+  for(i = 1; i <= b.length; i++){
+    for(j = 1; j <= a.length; j++){
+      if(b.charAt(i-1) == a.charAt(j-1)){
+        matrix[i][j] = matrix[i-1][j-1];
+      } else {
+        matrix[i][j] = Math.min(matrix[i-1][j-1] + 1, // substitution
+                                Math.min(matrix[i][j-1] + 1, // insertion
+                                         matrix[i-1][j] + 1)); // deletion
+      }
+    }
+  }
+
+  return matrix[b.length][a.length];
+}
+
+function buildOverpassApiUrl(map, overpassQuery,overpassQueryVal) {
+        var bounds = map.getBounds().getSouth() + ',' + map.getBounds().getWest() + ',' + map.getBounds().getNorth() + ',' + map.getBounds().getEast();
+        var nodeQuery = 'node[' + (overpassQueryVal==""?overpassQuery:"'"+overpassQuery+"'='"+overpassQueryVal+"'") + '](' + bounds + ');';
+        var wayQuery = 'way[' + (overpassQueryVal==""?overpassQuery:"'"+overpassQuery+"'='"+overpassQueryVal+"'") + '](' + bounds + ');';
+        var relationQuery = 'relation[' + (overpassQueryVal==""?overpassQuery:"'"+overpassQuery+"'='"+overpassQueryVal+"'") + '](' + bounds + ');';
+        var query = '?data=[out:json][timeout:15];(' + nodeQuery + wayQuery + relationQuery + ');out geom;';
+        var baseUrl = 'https://overpass-api.de/api/interpreter';
+        var resultUrl = baseUrl + query;
+        return resultUrl;
+}
+
+function matchGeometryInGeoJSONSet(geometry,geojsonset){
+	//console.log(geometry)
+	if(geometry.type=="Polygon"){
+		var point=turf.polygon(geometry.coordinates);
+	}else if(geometry.type=="MultiPolygon"){
+		return null;
+	}else if(geometry.type=="LineString"){
+		var point=turf.lineString(geometry.coordinates);
+	}else if(geometry.type=="MultiLineString"){
+		return null;
+	}else if(geometry.type=="Point"){
+		var point=turf.point(geometry.coordinates);
+	}else if(geometry.type=="MultiPoint"){
+		return null;
+	}
+    //console.log(point)
+	var result=null
+	for(geojson in geojsonset){
+		//console.log(geojsonset[geojson])
+		if(geojsonset[geojson].type=="Polygon" || geojsonset[geojson].geometry.type=="Polygon"){
+			if(turf.booleanPointInPolygon(point,geojsonset[geojson])){
+				//console.log("Result: "+geojsonset[geojson])
+				return geojsonset[geojson];
+			}
+		}else if(geojsonset[geojson].geometry.type=="LineString"){
+			continue;
+		}else{
+			if(turf.booleanContains(point,geojsonset[geojson])){
+				//console.log("Result: "+geojsonset[geojson])
+				return geojsonset[geojson];
+			}
+		}
+	}
+	return null;
+}
+
+function isInBoundingBox(geometry,bboxgeom){
+	//console.log(geometry)
+	//console.log([bboxgeom._northEast.lng,bboxgeom._northEast.lat,bboxgeom._southWest.lng,bboxgeom._southWest.lat])
+	if(geometry.type=="Polygon"){
+		var point=turf.polygon(geometry.coordinates);
+	}else if(geometry.type=="MultiPolygon"){
+		return null;
+	}else if(geometry.type=="LineString"){
+		var point=turf.lineString(geometry.coordinates);
+	}else if(geometry.type=="MultiLineString"){
+		return null;
+	}else if(geometry.type=="Point"){
+		var point=turf.point(geometry.coordinates);
+	}else if(geometry.type=="MultiPoint"){
+		return null;
+	}
+	console.log(turf.bboxPolygon([bboxgeom._southWest.lat,bboxgeom._southWest.lng,bboxgeom._northEast.lat,bboxgeom._northEast.lng]))
+	var res= turf.booleanPointInPolygon(geometry,turf.bboxPolygon([bboxgeom._southWest.lat,bboxgeom._southWest.lng,bboxgeom._northEast.lat,bboxgeom._northEast.lng]).geometry);
+	console.log(res)
+	if(res){
+		console.log(geometry)
+		console.log([bboxgeom._southWest.lat,bboxgeom._southWest.lng,bboxgeom._northEast.lat,bboxgeom._northEast.lng])
+		console.log(res)
+	}
+	return res;
+}
+
+function filterItems(filtermode,featureid){
+	var itemsToFilter = document.querySelectorAll("#osm_"+featureid+" li");
+	doFiltering(itemsToFilter,filtermode)
+	var itemsToFilter = document.querySelectorAll("#wd_"+featureid+" li");
+	doFiltering(itemsToFilter,filtermode)
+	var itemsToFilter = document.querySelectorAll("#official_"+featureid+" li");
+	doFiltering(itemsToFilter,filtermode)
+}
+
+function doFiltering(itemsToFilter,filtermode){
+	for(item in itemsToFilter){
+		switch(filtermode){
+			case "all": itemsToFilter[item].style="";
+			break;
+			case "comp": if(itemsToFilter[item].className=="nomatch"){
+				itemsToFilter[item].style=""
+			}else{
+				itemsToFilter[item].style="display:none";
+			}
+			break;
+			case "conflict": if(itemsToFilter[item].className=="osmconflict" || itemsToFilter[item].className=="wdconflict"){
+				itemsToFilter[item].style=""
+			}else{
+				itemsToFilter[item].style="display:none";
+			}
+			break;
+			case "equiv": if(itemsToFilter[item].className=="equivfound"){
+				itemsToFilter[item].style=""
+			}else{
+				itemsToFilter[item].style="display:none";
+			}break;
+			case "match":if(itemsToFilter[item].className=="osmmatch" || itemsToFilter[item].className=="wdmatch"){
+				itemsToFilter[item].style=""
+			}else{
+				itemsToFilter[item].style="display:none";
+			}
+			break;
+		}
+	}
+}
+
+function getOSMAttributesForCoordinate(map){
+itemCount={}
+if(!("osm" in itemCount)){
+	itemCount["osm"]={}
+}
+if(!("wikidata" in itemCount)){
+	itemCount["wikidata"]={}
+}
+if(!("official" in itemCount)){
+	itemCount["official"]={}
+}
+if(map.getZoom()>=minMapZoom){
+$.get(buildOverpassApiUrl(map,"amenity","school"), function (osmDataAsJson) {
+          var resultAsGeojson = osmtogeojson(osmDataAsJson);
+		  var adminLayer=null		  
+		  var officialdata;
+		  var tooltiptext="";
+		  var numberofattributes=0;
+          var resultLayer = L.geoJson(resultAsGeojson, {
+            style: function (feature) {
+			  var officialdata=matchGeometryInGeoJSONSet(feature.geometry,window[$('#schoolsetmenu').val()])
+              if(feature.properties.tags["wikidata"]!== undefined && officialdata!=null){
+				return {color: "#008000"};
+			   }else if(feature.properties.tags["wikidata"]==undefined && officialdata!=null){
+					return {color: "orange"};
+			   }else if(feature.properties.tags["wikidata"]!==undefined && officialdata==null){
+					return {color: "blue"};
+			   }else{
+				return {color: "#ff0000"};
+			   } 
+            },
+            filter: function (feature, layer) {			
+				
+              return true;
+            },
+            onEachFeature: function (feature, layer) {
+			  //console.log(feature)
+			  //console.log(brbschools)
+			  tooltiptext="";
+			  			  var numberofconflicts=0;
+			  var officialdata=matchGeometryInGeoJSONSet(feature.geometry,window[$('#schoolsetmenu').val()])
+			  console.log(JSON.stringify(officialdata))
+              var popupContent = "<fieldset><input type=\"radio\" id=\"matching\" name=\"filtermode\" value=\"matching\" onclick=\"filterItems('match',"+feature.properties.id+")\"><label for=\"matching\">Match</label><input type=\"radio\" id=\"conflicting\" name=\"filtermode\" value=\"conflicting\" onclick=\"filterItems('conflict',"+feature.properties.id+")\"><label for=\"conflicting\">Conf</label><input type=\"radio\" id=\"complementary\" name=\"filtermode\" value=\"complementary\" onclick=\"filterItems('comp',"+feature.properties.id+")\"><label for=\"complementary\">Comp</label>"
+			  +"<input type=\"radio\" id=\"equiv\" name=\"filtermode\" value=\"equiv\" onclick=\"filterItems('equiv',"+feature.properties.id+")\"><label for=\"equiv\">EQ</label><input type=\"radio\" id=\"all\" checked=\"checked\" name=\"filtermode\" value=\"all\" onclick=\"filterItems('all',"+feature.properties.id+")\"><label for=\"all\">All</label></fieldset>";
+			  popupContent = popupContent + "<a href=\"https://www.openstreetmap.org/"+feature.properties.type+"/"+feature.properties.id+"\" target=\"_blank\">"+ feature.properties.type + "/" + feature.properties.id + "</b></a><br/>";
+			  coord="Coordinates: "+feature.geometry.type+"("+feature.geometry.coordinates[0]+" "+feature.geometry.coordinates[1]+")"
+			  wdkeyset={}
+              console.log("Wikidata: "+feature.properties.tags["wikidata"])
+              if(feature.properties.tags["wikidata"]!="" && feature.properties.tags["wikidata"]!=undefined){
+                    wdkeyset=getAttributesForWikidataID(feature.properties.tags["wikidata"])
+             }
+			  popupContent+=trimcoords(coord,90)+"<br/>"
+              var indid="<http://www.linkedgeodata.org/"+feature.properties.type+feature.properties.id+">";
+              if(officialdata!=null){
+				if(officialdata["properties"]!=null){
+					var keys = Object.keys(officialdata["properties"]).sort();
+					numberofattributes+=keys.length
+					popupContent+="<b>Official Data Attributes: </b><a href=\"#\" onclick=\"toggle_visibility('official_"+feature.properties.id+"')\">["+keys.length+"]</a><br/><ul id=\"official_"+feature.properties.id+"\" style=\"display:none\">"		
+					for(prop in keys){
+						if(!(keys[prop] in itemCount["official"])){
+							itemCount["official"][keys[prop]]={}
+							itemCount["official"][keys[prop]]["label"]=keys[prop]
+							itemCount["official"][keys[prop]]["count"]=1
+							itemCount["official"][keys[prop]]["conflict"]=0
+							itemCount["official"][keys[prop]]["match"]=0
+							itemCount["official"][keys[prop]]["nomatch"]=0
+						}else{
+							itemCount["official"][keys[prop]]["count"]+=1
+						}
+						console.log(keys[prop])
+						console.log(officialdata.properties[keys[prop]])
+						var equivs=window[$('#schoolsetmenu').val()+"_equivs"]
+						console.log($('#schoolsetmenu').val()+"_equivs")
+						if(keys[prop] in equivs){	
+							console.log(equivs[keys[prop]]["osm"])						
+							console.log(feature.properties.tags[equivs[keys[prop]]["osm"]])
+							osmkey=equivs[keys[prop]]["osm"]
+							wdkey=equivs[keys[prop]]["wikidata"]
+							valtocompare=feature.properties.tags[osmkey]
+							wdvaltocompare=wdkeyset[equivs[keys[prop]]["wikidata"]]
+							console.log(osmkey+" - "+wdkey+" - "+valtocompare+" - "+wdvaltocompare+" - "+officialdata.properties[keys[prop]])
+							console.log(osmkey+" - "+feature.properties.tags[osmkey])
+							if(osmkey in feature.properties.tags && officialdata.properties[keys[prop]]!=valtocompare){
+								numberofconflicts++;
+								itemCount["official"][keys[prop]]["conflict"]+=1
+								popupContent+="<li link=\""+osmkey+"\" class=\"osmconflict\"><span style=\"color:orange;text-decoration:underline;\">"+keys[prop]+"</span> - <span style=\"color:orange;text-decoration:underline;\">"+officialdata.properties[keys[prop]]+" | "+feature.properties.tags[osmkey]+" ["+editDistance(officialdata.properties[keys[prop]],feature.properties.tags[osmkey])+"] (OSM)</span></li>"
+							}else if(osmkey in feature.properties.tags && officialdata.properties[keys[prop]]==valtocompare){
+								itemCount["official"][keys[prop]]["match"]++
+								popupContent+="<li link=\""+osmkey+"\" class=\"osmmatch\"><span style=\"color:green;text-decoration:underline;\">"+keys[prop]+"</span> - <span style=\"color:green;text-decoration:underline;\">"+officialdata.properties[keys[prop]]+" (OSM)</span></li>"
+							}else if(wdkey in wdkeyset && officialdata.properties[keys[prop]]!=wdvaltocompare){
+								spl=Object.values(wdkeyset[wdkey])[0].split(";")
+								itemCount["official"][keys[prop]]["conflict"]+=1
+								numberofconflicts++;
+								popupContent+="<li link=\""+wdkey+"\" class=\"wdconflict\"><span style=\"color:green;text-decoration:underline;\">"+keys[prop]+"</span> - <span style=\"color:orange;text-decoration:underline;\">"+officialdata.properties[keys[prop]]+" | "+spl[1]+" ["+editDistance(officialdata.properties[keys[prop]],spl[1])+"] (Wikidata)</span></li>"
+							}else if(wdkey in wdkeyset && officialdata.properties[keys[prop]]==wdvaltocompare){
+								itemCount["official"][keys[prop]]["match"]++
+								popupContent+="<li link=\""+wdkey+"\" class=\"wdmatch\"><span style=\"color:green;text-decoration:underline;\">"+keys[prop]+"</span> - <span style=\"color:green;text-decoration:underline;\">"+officialdata.properties[keys[prop]]+" (Wikidata)</span></li>"
+							}else{
+								popupContent+="<li class=\"equivfound\"><span style=\"color:orange;text-decoration:underline;\">"+keys[prop]+"</span> - <span>"+officialdata.properties[keys[prop]]+"</span></li>"
+							}
+					}else{
+							itemCount["official"][keys[prop]]["nomatch"]++
+							popupContent+="<li link=\""+keys[prop]+"\" class=\"nomatch\"><span>"+keys[prop]+"</span> - "+officialdata.properties[keys[prop]]+"</li>"
+						}
+						
+					}
+					popupContent+="</ul>"
+				}
+			  }
+			  console.log(popupContent)
+			 var keys = Object.keys(feature.properties.tags);
+			 numberofattributes+=keys.length
+			  popupContent+="<b>OSM Attributes: </b><a href=\"#\" onclick=\"toggle_visibility('osm_"+feature.properties.id+"')\">["+keys.length+"]</a><br/><ul id=\"osm_"+feature.properties.id+"\">"
+              if(feature.properties.tags.length>0){
+					var wicket = new Wkt.Wkt();
+					wicket.read(JSON.stringify(feature["geometry"]));
+					var wkt = wicket.write();
+					ttlExport+="<http://www.linkedgeodata.org/"+feature.properties.type+feature.properties.id+"> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .\n"
+					ttlExport+="<http://www.linkedgeodata.org/"+feature.properties.type+feature.properties.id+"> <http://www.opengis.net/ont/geosparql#hasGeometry> \""+wkt+"\"^^<http://www.opengis.net/ont/geosparql#wktLiteral> .\n";
+					var isPolygon = (feature.geometry) && (feature.geometry.type !== undefined) && (feature.geometry.type === "Polygon");
+					if (isPolygon) {
+						feature.geometry.type = "Point";
+						var polygonCenter = L.latLngBounds(feature.geometry.coordinates[0]).getCenter();
+						feature.geometry.coordinates = [ polygonCenter.lat, polygonCenter.lng ];
+						var wicket = new Wkt.Wkt();
+						wicket.read(JSON.stringify(feature.geometry));
+						var wkt = wicket.write();
+						ttlExport+="<http://www.linkedgeodata.org/"+feature.properties.type+feature.properties.id+"> <http://www.opengis.net/ont/geosparql#hasGeometry> \""+wkt+"\"^^<http://www.opengis.net/ont/geosparql#wktLiteral> .\n";
+					}
+              }
+			  numberofattributes+=keys.length
+              keys.forEach(function (key) {
+			 if(!(key in itemCount["osm"])){
+							itemCount["osm"][key]={}
+							itemCount["osm"][key]["label"]=key
+							itemCount["osm"][key]["count"]=1
+							itemCount["osm"][key]["conflict"]=0
+							itemCount["osm"][key]["match"]=0
+							itemCount["osm"][key]["nomatch"]=0
+						}else{
+							itemCount["osm"][key]["count"]+=1
+						}
+              var ignorekeys=[]
+			  	listElem="<li>"
+				listElemContent=""
+                //popupContent = popupContent
+                                /*alert(JSON.stringify(wdkeyset))
+                                if(key in osmToWikidataMap)
+                                    alert(JSON.stringify(Object.keys(Object.values(osmToWikidataMap[key])[0])[0]))*/
+				if(key=="wikidata"){
+					listElem="<li class=\"wdmatch\">"
+					itemCount["osm"][key]["match"]++
+					listElemContent = "<a href=\"https://wiki.openstreetmap.org/wiki/Key:wikidata\" target=\"_blank\" style=\"color:#ff0000\">wikidata</a> - <a href=\"https://www.wikidata.org/entity/"+feature.properties.tags[key]+"\"  target=\"_blank\" style=\"color:#ff0000\">" + feature.properties.tags[key] + "</a></li>";
+					ttlExport+=indid+" <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.wikidata.org/entity/"+feature.properties.tags[key]+"> . \n"  
+				}else if(key=="wikipedia"){
+					if(feature.properties.tags[key].includes(":")){
+					   spll=feature.properties.tags[key].split(":")
+					   	itemCount["osm"][key]["conflict"]+=1
+					   listElem="<li class=\"wdmatch\">"
+					   listElemContent+= "<a href=\"https://wiki.openstreetmap.org/wiki/Key:wikipedia\" target=\"_blank\" style=\"color:#1103D9\">wikipedia</a> - <a href=\"https://"+spll[0]+".wikipedia.org/wiki/"+spll[1]+"\"  target=\"_blank\" style=\"color:#1103D9\">" + feature.properties.tags[key] + "</a></li>";
+					ttlExport+=indid+" <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.wikidata.org/entity/"+feature.properties.tags[key]+"> . \n"  
+
+					   }else{
+					   	itemCount["osm"][key]["match"]++
+					   listElem="<li class=\"wdmatch\">"
+					  listElemContent += "<a href=\"https://wiki.openstreetmap.org/wiki/Key:wikipedia\" target=\"_blank\" style=\"color:#1103D9\">wikipedia</a> - <a href=\"https://en.wikipedia.org/wiki/"+feature.properties.tags[key]+"\"  target=\"_blank\" style=\"color:#1103D9\">" + feature.properties.tags[key] + "</a></li>";
+					ttlExport+=indid+" <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.wikidata.org/entity/"+feature.properties.tags[key]+"> . \n"  
+
+					   }
+
+				}else if(key in osmToWikidataMap && (Object.keys(Object.values(osmToWikidataMap[key])[0])[0] in wdkeyset)){
+                        listElemContent+="<a style=\"color:green\" href=\""+Object.keys(osmToWikidataMap[key])[0]+"\"  target=\"_blank\">"+key+"</a>"
+						wdval=Object.values(wdkeyset[Object.keys(Object.values(osmToWikidataMap[key])[0])[0]])[0].split(";")[1]
+						if(feature.properties.tags[key].includes("http")){
+							ttlExport+=indid+(feature.properties.tags[key].includes("http")?"<"+feature.properties.tags[key]+">":"\""+feature.properties.tags[key]+"\"")+" "+(wdval.includes("http")?"<"+wdval+">":"\""+wdval+"\"")+" . \n"  
+                        }
+                        if(wdval==feature.properties.tags[key]){
+								itemCount["osm"][key]["match"]++
+								listElem="<li class=\"wdmatch\">"
+								if(feature.properties.tags[key].includes("http")){
+									listElemContent += " - <a href=\""+Object.keys(osmToWikidataMap[key])[0]+"\"  target=\"_blank\" style=\"color:green\">" + feature.properties.tags[key] + "</a></li>";
+								}else{
+									listElemContent += " - <span style=\"color:green\">" + feature.properties.tags[key] + "</span></li>";
+								}
+                                
+                        }else{
+							if(feature.properties.tags[key].includes("http")){
+								itemCount["osm"][key]["conflict"]+=1
+								listElem="<li class=\"wdconflict\">"
+								listElemContent += " - <a href=\""+Object.keys(osmToWikidataMap[key])[0]+"\"  target=\"_blank\" style=\"color:orange\">" + feature.properties.tags[key] + "</a>" 
+							}else{
+								itemCount["osm"][key]["conflict"]+=1
+								listElem="<li class=\"wdconflict\">"
+								listElemContent += " - <span style=\"color:orange\">" + feature.properties.tags[key] + "</span>";
+							}
+							if(wdval.includes("http")){
+								listElem="<li class=\"equivfound\">"
+								listElemContent +=" | <a href=\""+wdval+"\" target=\"_blank\">"+wdval+"</a></li>";
+							}else{
+								listElem="<li class=\"equivfound\">"
+								listElemContent +=" | <span style=\"color:orange\">"+wdval+"</span></li>";
+							}
+                   }
+                }else if(key in osmToWikidataMap && feature.properties.tags[key] in osmToWikidataMap[key] && "http://www.wikidata.org/entity/P31" in wdkeyset && Object.values(wdkeyset["http://www.wikidata.org/entity/P31"])[0].substring(0,Object.values(wdkeyset["http://www.wikidata.org/entity/P31"])[0].indexOf(";"))==Object.keys(osmToWikidataMap[key][feature.properties.tags[key]])[0]){
+					listElemContent+="<a style=\"color:green\" href=\""+Object.keys(osmToWikidataMap[key])[0]+"\"  target=\"_blank\">"+key+"</a>"
+					if(feature.properties.tags[key].includes("http")){
+						itemCount["osm"][key]["match"]++
+						listElem="<li class=\"wdmatch\">"
+						listElemContent += " - <a href=\""+Object.keys(osmToWikidataMap[key])[0]+"\"  target=\"_blank\" style=\"color:green\">" + feature.properties.tags[key] + "</a></li>";
+					}else{
+						itemCount["osm"][key]["match"]++
+						listElem="<li class=\"wdmatch\">"	
+						listElemContent += " - <a href=\""+Object.keys(osmToWikidataMap[key][feature.properties.tags[key]])[0]+"\" target=\"_blank\" style=\"color:green\">" + feature.properties.tags[key] + "</a></li>";
+					}
+				}else if(key in osmToWikidataMap){
+						var color="orange"
+						itemCount["osm"][key]["conflict"]+=1
+						listElem="<li class=\"conflict\">"
+                        listElemContent+="<a style=\"color:"+color+"\" href=\"https://wiki.openstreetmap.org/wiki/Key:"+key+"\" target=\"_blank\">"+key+"</a>"
+                  if(feature.properties.tags[key].includes(".jpg") || feature.properties.tags[key].includes(".JPG") || feature.properties.tags[key].includes(".svg") || feature.properties.tags[key].includes(".SVG")
+						|| feature.properties.tags[key].includes(".png") || feature.properties.tags[key].includes(".PNG") || feature.properties.tags[key].includes(".gif") || feature.properties.tags[key].includes(".GIF")){
+						listElemContent+=" - <a href=\""+feature.properties.tags[key]+"\" target=\"_blank\"><img src=\""+feature.properties.tags[key].replace("http","https")+"\" height=\"30\" width=\"30\"></a></li>"			
+					}else if(feature.properties.tags[key].includes("http")){
+						listElemContent += " - <a href=\""+feature.properties.tags[key]+"\" target=\"_blank\">" + feature.properties.tags[key] + "</a></li>";
+					}else if(feature.properties.tags[key].startsWith("www.")){
+						console.log(JSON.stringify(osmToWikidataMap))
+						console.log(Object.keys(osmToWikidataMap[key][""])[0])
+						listElemContent+=" - <a href=\"https://"+feature.properties.tags[key]+"\" target=\"_blank\" style=\"color:orange\">"+feature.properties.tags[key]+"</a> | <a href=\"https://"+wdkeyset[Object.keys(osmToWikidataMap[key][""])[0]]+"\" target=\"_blank\" style=\"color:orange\">"+wdkeyset[Object.keys(osmToWikidataMap[key][""])[0]]+"</a></li>"
+					}else{
+						listElemContent += " - " + feature.properties.tags[key] + "</li>";
+					}
+                }else{
+					itemCount["osm"][key]["nomatch"]++
+					listElem="<li class=\"nomatch\">"
+                    listElemContent+="<a href=\"https://wiki.openstreetmap.org/wiki/Key:"+key+"\" target=\"_blank\"style=\"color:black;text-decoration: none;\">"+key+"</a>"
+			if(feature.properties.tags[key].includes(".jpg") || feature.properties.tags[key].includes(".JPG") || feature.properties.tags[key].includes(".svg") || feature.properties.tags[key].includes(".SVG")
+				|| feature.properties.tags[key].includes(".png") || feature.properties.tags[key].includes(".PNG") || feature.properties.tags[key].includes(".gif") || feature.properties.tags[key].includes(".GIF")){
+			    	listElemContent+=" - <a href=\""+feature.properties.tags[key]+"\" target=\"_blank\"><img src=\""+feature.properties.tags[key].replace("http","https")+"\" height=\"30\" width=\"30\"></a></li>"			
+		    }else if(feature.properties.tags[key].includes("http")){
+					listElemContent += " - <a href=\""+feature.properties.tags[key]+"\" target=\"_blank\">" + feature.properties.tags[key] + "</a></li>";
+		    }else if(feature.properties.tags[key].startsWith("www.")){
+			    	listElemContent+="<a href=\"https://"+feature.properties.tags[key]+"\" target=\"_blank\">"+feature.properties.tags[key]+"</a></li>"
+			}else{
+					listElemContent += " - " + feature.properties.tags[key] + "</li>";
+		    }
+                     
+                }
+			popupContent+=listElem+listElemContent
+              });
+              popupContent += "</ul>"
+			  //alert(wdkeyset)
+			  numberofattributes+=Object.keys(wdkeyset).length
+			  if(feature.properties.tags["wikidata"]!== undefined){
+				popupContent+="<b>Wikidata Items:</b> <a href=\"#\" onclick=\"toggle_visibility('wd_"+feature.properties.id+"')\">["+Object.keys(wdkeyset).length+"]</a><br/><ul id=\"wd_"+feature.properties.id+"\" style=\"display:none\">"/*<b>"+Object.values(wdkeyset["rdfs:label"])[0]+"</b>*/
+			  }
+			  var wdcoords;
+			  wdcoords="";
+              for(key in wdkeyset){
+			  			 if(!(key in itemCount["wikidata"])){
+							itemCount["wikidata"][key]={}
+							itemCount["wikidata"][key]["label"]=Object.keys(wdkeyset[key])[0]
+							itemCount["wikidata"][key]["count"]=1
+							itemCount["wikidata"][key]["conflict"]=0
+							itemCount["wikidata"][key]["match"]=0
+							itemCount["wikidata"][key]["nomatch"]=0
+						}else{
+							itemCount["wikidata"][key]["count"]+=1
+						}
+					//if(key=="rdfs:label")
+					//	continue;
+					var isgreen=false;
+                    giventag=""
+				  listElem="<li "
+				  listElemContent=""
+				  if(key.includes("P625"))
+					wdcoords=wdkeyset[key]
+                  if(!(Object.values(wdkeyset[key])[0].includes("statement"))){
+                            spl=Object.values(wdkeyset[key])[0].split(";")
+							wdval=spl[1]
+							if(key.includes("P31")){
+								//alert("P31: "+spl[0])
+								if(spl[0] in wikidataToOSMMap){
+									tags=Object.keys(wikidataToOSMMap[spl[0]][0])[0].split("=")
+									//alert(JSON.stringify(tags))
+									if(tags[0] in feature.properties.tags && feature.properties.tags[tags[0]]==tags[1]){
+										listElem="<li link=\""+tags[0]+"\" "
+										listElemContent+="<a href=\""+key+"\" target=\"_blank\" style=\"color:green\">"+Object.keys(wdkeyset[key])[0]+"</a> - "
+										isgreen=true;
+									}
+								}
+								//alert(JSON.stringify(wikidataToOSMMap))
+							}
+							else if(key in wikidataToOSMMap){
+								//alert(JSON.stringify(wikidataToOSMMap[key]))
+								var finished=false;
+								for(equiv in Object.values(wikidataToOSMMap[key])[0]){
+								
+									if(feature.properties.tags[equiv]){
+										listElem="<li link=\""+equiv+"\" "
+										listElemContent+="<a href=\""+key+"\" target=\"_blank\" style=\"color:green\">"+Object.keys(wdkeyset[key])[0]+"</a> - "
+										giventag=feature.properties.tags[equiv]
+										finished=true;
+									}
+								}
+								if(!finished){
+									console.log(Object.keys(Object.values(wikidataToOSMMap[key])[0])[0])
+									listElem="<li link=\""+Object.keys(Object.values(wikidataToOSMMap[key])[0])[0]+"\" "
+									listElemContent+="<a href=\""+key+"\" target=\"_blank\" style=\"color:orange\">"+Object.keys(wdkeyset[key])[0]+"</a> - "
+								}
+							}else{
+									listElem="<li "
+                                    listElemContent+="<a href=\""+key+"\" target=\"_blank\">"+Object.keys(wdkeyset[key])[0]+"</a> - "
+                            }
+			    if(spl[0].includes(".jpg") || spl[0].includes(".JPG")|| spl[0].includes(".svg") || spl[0].includes(".SVG")
+				|| spl[0].includes(".png") || spl[0].includes(".PNG")){
+					listElem=listElem.trim();
+					listElem+=">"
+			    	listElemContent+="<a href=\""+spl[0]+"\" target=\"_blank\"";
+					if(!spl[1].includes("https")){
+						listElemContent+="><img src=\""+spl[1].replace("http","https")+"\" height=\"30\" width=\"30\"></a></li>"
+					}else{
+						listElemContent+="><img src=\""+spl[1]+"\" height=\"30\" width=\"30\"></a></li>"
+					}
+					ttlExport+=indid+" <"+key+"> <"+spl[0]+"> . \n"  
+			    }else if(spl[0].includes("http")){
+					if((finished && giventag==spl[1]) || isgreen){
+						itemCount["wikidata"][key]["match"]++
+						listElem+=" class=\"osmmatch\">"
+						listElemContent+="<a href=\""+spl[0]+"\" target=\"_blank\" style=\"color:green\">"+spl[1]+"</a></li>"
+					}else if(finished && giventag!=spl[1] && giventag!=""){
+						numberofconflicts++;
+						itemCount["wikidata"][key]["conflict"]+=1
+						listElem+=" class=\"osmconflict\">"
+						listElemContent+="<a href=\""+spl[0]+"\" target=\"_blank\" style=\"color:orange\">"+spl[1]+"</a> | "+(giventag.includes("http")?"<a href=\""+giventag+"\" style=\"color:orange\">"+giventag+"</a>":"<span style=\"color:orange\">"+giventag+"</span>")+"</li>"
+					}else{
+						listElem+=" class=\"nomatch\">"
+						listElemContent+="<a href=\""+spl[0]+"\" target=\"_blank\">"+spl[1]+"</a></li>"
+					}	
+					ttlExport+=indid+" <"+key+"> <"+spl[0]+"> . \n"  
+			    }else if(spl[0].startsWith("www.")){
+					if((finished && giventag==spl[1]) || isgreen){
+						itemCount["wikidata"][key]["match"]++
+						listElem+=" class=\"osmmatch\">"
+						listElemContent+="<a href=\"https://"+spl[0]+"\" target=\"_blank\" style=\"color:green\">"+spl[1]+"</a></li>"
+					}else if(finished && giventag!=spl[1] && giventag!=""){
+						numberofconflicts++;
+						itemCount["wikidata"][key]["conflict"]+=1
+						listElem+=" class=\"osmconflict\">"
+						listElemContent+="<a href=\"https://"+spl[0]+"\" target=\"_blank\" style=\"color:orange\">"+spl[1]+"</a> | "+(giventag.includes("http")?"<a href=\""+giventag+"\" style=\"color:orange\">"+giventag+"</a>":"<span style=\"color:orange\">"+giventag+"</span>")+"</li>"
+					}else{
+						listElem+=" class=\"nomatch\">"
+						listElemContent+="<a href=\"https://"+spl[0]+"\" target=\"_blank\">"+spl[1]+"</a></li>"
+					}		
+					ttlExport+=indid+" <"+key+"> <"+spl[0]+"> . \n"  
+			    }else{
+					if((finished && giventag==spl[1]) || isgreen){
+						listElem+=" class=\"osmmatch\">"
+						itemCount["wikidata"][key]["match"]++
+						listElemContent+="<span style=\"color:green\">"+spl[1]+"</span></li>"
+					}else if(finished && giventag!=spl[1] && giventag!=""){
+						itemCount["wikidata"][key]["conflict"]+=1
+						listElem+=" class=\"osmconflict\">"
+						listElemContent+="<span style=\"color:orange\">"+spl[1]+" | "+giventag+"</span></li>"
+					}else{
+						itemCount["wikidata"][key]["nomatch"]++
+						listElem+=" class=\"nomatch\">"
+						listElemContent+=spl[1]+"</li>"
+					}
+			    	ttlExport+=indid+" <"+key+">  \""+spl[0]+"\" . \n"  
+			    }
+                        }
+				popupContent+=listElem+listElemContent
+              }
+              popupContent+="</ul>"
+			  if(feature.properties.tags["wikidata"]!== undefined){
+						var greyIcon = new L.Icon({
+                                        iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-grey.png',
+                                        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                                        iconSize: [25, 41],
+                                        iconAnchor: [12, 41],
+                                        popupAnchor: [1, -34],
+                                        shadowSize: [41, 41]
+                                    });
+						
+						var centroid=turf.centroid(feature);
+											console.log(centroid)
+                        mark=L.marker(centroid.geometry.coordinates,{icon: greyIcon})
+						mark.addTo(map)
+			  }
+			  popupContent+="<b>Metrics:</b> <a href=\"#\" onclick=\"toggle_visibility('"+feature.properties.id+"_metrics')\">[x]</a><br/><ul id=\""+feature.properties.id+"_metrics\" style=\"display:none\">"/*<b>"+Object.values(wdkeyset["rdfs:label"])[0]+"</b>*/
+			 if(wdcoords!=""){
+				dist=getDistance(feature.geometry,wdcoords)
+				if(dist!=""){
+					popupContent+="<li>Distance: "+dist.toFixed(2)+"m</li>"
+				}	
+			  }  
+			  switch($('#dataqualityaspect').val()){
+				case "distance": 
+					tooltiptext=dist.toFixed(2)+"m"
+				break;
+				case "numberofconflicts":
+					tooltiptext=numberofconflicts+"("+(numberofconflicts/numberofattributes*100).toFixed(0)+"%)"
+				break;
+			  }
+			  popupContent+="<li>Number Of Conflicts: "+numberofconflicts+"</li>"
+			  popupContent+="</ul>"
+			  if(document.getElementById('popupmode').checked){
+				layer.bindPopup(popupContent,{maxWidth : 560});
+			  }else{
+				layer.on('click', function (e) {
+				$('#contentdesc').html(popupContent)
+				});
+				var bindcontent;
+				if(wdkeyset["http://www.wikidata.org/entity/P18"]){
+					spl=Object.values(wdkeyset["http://www.wikidata.org/entity/P18"])[0].split(";")
+					var imgurl=spl[1]
+					if(imgurl.includes("http://")){
+						imgurl=imgurl.replace("http://","https://")
+					}
+					bindcontent="<table><tr><td rowspan=\"2\"><img src=\""+imgurl+"\" width=\"100\" height=\"100\"/></td><td>OSM: <a href=\"https://www.openstreetmap.org/"+feature.properties.type+"/"+feature.properties.id+"\" target=\"_blank\">"+ feature.properties.type + "/" + feature.properties.id + "</b></a></td></tr>"
+				}else{
+					bindcontent="<table><tr><td rowspan=\"2\"></td><td>OSM: <a href=\"https://www.openstreetmap.org/"+feature.properties.type+"/"+feature.properties.id+"\" target=\"_blank\">"+ feature.properties.type + "/" + feature.properties.id + "</b></a></td></tr>"
+				}
+				if(feature.properties.tags["wikidata"]!== undefined){					
+					bindcontent+="<tr><td>Wikidata: <a href=\"https://www.wikidata.org/entity/"+feature.properties.tags["wikidata"]+"\" target=\"_blank\">"+feature.properties.tags["wikidata"]+"</b></a></td></tr>"
+				}
+				//label=new L.Label();
+				//label.setContent('Look revealing label!')
+				//label.setLatLng(geometry.getBounds().getCenter())
+				// map.showLabel(label)
+				if(document.getElementById('statpopup').checked){
+					if(!(layer.feature.geometry.type === "Point")){
+					var greenIcon = new L.AwesomeNumberMarkers({
+                      number: "<b>"+tooltiptext+"</b>", 
+                      markerColor: "orange"
+                  });
+					var mark=L.marker(layer.getBounds().getCenter(), {icon: greenIcon});
+					mark.addTo(map);				
+					markercollection.push(mark)
+				}
+			//markercollection.push(label)
+			//layer.setIcon(greenIcon);
+			}/*else{
+				var greenIcon = new L.AwesomeNumberMarkers({
+                      number: "<b>"+tooltiptext+"</b>", 
+                      markerColor: "orange"
+                  })
+				  layer.setIcon(greenIcon)
+			}*/
+				layer.bindPopup(bindcontent+"</table>",{maxWidth : 600});
+			  }
+             // console.log(ttlExport)
+            }
+          }).addTo(map);
+		  resultLayerCollection.push(resultLayer);
+		  				//resultLayer.bindTooltip(tooltiptext,{"permanent":true,"opacity":1}).openTooltip();
+		  console.log("NOW MATCHING SECOND LAYER")
+		  if(document.getElementById('statmode').checked)
+		  	createStatsTable();
+		 var officiallayer2=L.geoJSON(window[$('#schoolsetmenu').val()],{
+		filter: function(feature,layer){
+			console.log(feature.geometry)
+			if(map.getBounds().contains(L.latLng(feature.geometry.coordinates[1], feature.geometry.coordinates[0]))){
+				var res=matchGeometryInGeoJSONSet(feature.geometry,resultAsGeojson.features)
+				console.log("RES!")
+				console.log(res)
+				if(res==null){
+					return true;
+				}
+				return false;
+			}
+			//return false;
+		},
+		pointToLayer: function(feature, latlng){
+			 var greenIcon = new L.Icon({
+                                        iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-black.png',
+                                        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                                        iconSize: [25, 41],
+                                        iconAnchor: [12, 41],
+                                        popupAnchor: [1, -34],
+                                        shadowSize: [41, 41]
+                                    });
+            return L.marker(latlng,{icon: greenIcon})
+		},
+		onEachFeature: function (feature, layer) {
+	 var popup="Official Data<br/><ul>"
+	 for(prop in feature.properties){
+	 	popup+="<li>"+prop+" - "+feature.properties[prop]+"</li>"
+	 }
+	 popup+="</ul>"
+	 console.log(feature)
+         layer.bindPopup(popup);
+     }}).addTo(map);
+	 		 var officiallayer3=L.geoJSON(window[$('#schoolsetmenu').val()],{
+		filter: function(feature,layer){
+			console.log(feature.geometry)
+			if(map.getBounds().contains(L.latLng(feature.geometry.coordinates[1], feature.geometry.coordinates[0]))){
+				var res=matchGeometryInGeoJSONSet(feature.geometry,resultAsGeojson.features)
+				console.log("RES!")
+				console.log(res)
+				if(res==null){
+					return false;
+				}
+				return true;
+			}
+			//return false;
+		},
+		pointToLayer: function(feature, latlng){
+			 var greenIcon = new L.Icon({
+                                        iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-yellow.png',
+                                        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                                        iconSize: [25, 41],
+                                        iconAnchor: [12, 41],
+                                        popupAnchor: [1, -34],
+                                        shadowSize: [41, 41]
+                                    });
+            return L.marker(latlng,{icon: greenIcon})
+		},
+		onEachFeature: function (feature, layer) {
+	 var popup="Official Data<br/><ul>"
+	 for(prop in feature.properties){
+	 	popup+="<li>"+prop+" - "+feature.properties[prop]+"</li>"
+	 }
+	 popup+="</ul>"
+	 console.log(feature)
+         layer.bindPopup(popup);
+     }}).addTo(map);
+	 	resultLayerCollection.push(officiallayer3)
+        });
+				  
+
+    }
+
+}
+
+function trimcoords(coords,length){
+	return coords.length > length ? coords.replace("undefined,","").substring(0, length - 3) + "...)" : coords;	
+}
+
+function getDistance(origin, destination) {
+    console.log("Distance: "+JSON.stringify(origin))
+    console.log("Distance2: "+JSON.stringify(destination))
+	try{
+	var fromm;
+	if(origin.type=="Polygon"){
+		var polygon=turf.polygon(origin.coordinates)
+		fromm=turf.centroid(polygon);
+	}else{
+		fromm=turf.point(origin.coordinates);
+	}
+	if("coordinate location" in destination && destination["coordinate location"].includes("Polygon")){
+		var polygon=turf.polygon(destination["coordinate location"])
+		to=turf.centroid(polygon);
+	}else if("coordinate location" in destination && destination["coordinate location"].includes(";")){
+		var array=JSON.parse("{\"type\":\"Point\",  \"coordinates\":["+destination["coordinate location"].split(";")[0].replace("Point(","").replace(")","").replace(" ",",")+"]}")
+		to=turf.point(array.coordinates);
+	}else{
+		to=turf.point(destination["coordinates"]);
+	}
+	var options={units: 'kilometers'}
+	var dest=turf.distance(fromm,to,options)*1000
+	return dest
+	}catch(e){
+	    console.log(e)
+		return "";
+	}
+}
+
+	
+function wikidataAroundQuery(coord,width){
+console.log(width)
+if(map.getZoom()>=minMapZoom){
+var markers=[]
+var wikidatagroup=L.layerGroup().addTo(map)
+var query = [ "PREFIX bd: <http://www.bigdata.com/rdf#>\n",
+ "PREFIX wikibase: <http://wikiba.se/ontology#>\n",
+ "PREFIX wdt: <http://www.wikidata.org/prop/direct/>\n",
+ "PREFIX wd: <http://www.wikidata.org/entity/>\n",
+ "PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n",
+ "SELECT ?item ?itemLabel ?location ?rel ?relLabel ?val ?valLabel  WHERE\n",
+ "{\n",
+  " ?item wdt:P31 wd:Q3914 . \n",
+ "SERVICE wikibase:around { 	\n",
+  " ?item wdt:P625  ?location .\n",
+   "bd:serviceParam wikibase:center \"Point("+coord.lng+" "+coord.lat+")\"^^geo:wktLiteral. \n",
+  " bd:serviceParam wikibase:radius \""+width/1000+"\".\n",
+ "}\n",
+      "?item ?rell ?val .\n",
+      " ?rel wikibase:directClaim ?rell .\n",
+ 	"SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\" }\n",
+" }\n",
+ "ORDER BY ?itemLabel\n",
+    ].join(" ");
+	console.log(query)
+	var queryUrl = "https://query.wikidata.org/sparql?query="+ encodeURIComponent(query) +"&format=json";
+  var res={}
+//var queryUrl = encodeURI( "https://query.wikidata.org/sparql?query="+query+"&format=json" );
+    $.ajax({
+        dataType: "json",  
+        url: queryUrl,
+        async:false,
+        success: function( _data ) {
+            var wicket = new Wkt.Wkt();
+            var myLayer = L.geoJSON().addTo(map);
+            var results = _data.results.bindings;
+            var mark;
+            lastcoord=""
+            popupBuffer="<ul>"
+            var popupMap={}
+             for ( var i in results ) {
+                                //alert(results[i]["location"]["value"])
+                                if(lastcoord!=results[i]["location"]["value"]){
+                                    if(lastcoord!=""){
+                                       Object.keys(popupMap).sort().map(function(cls) {
+                                                    popupBuffer+=popupMap[cls]
+                                       });
+                                        popupBuffer+="</ul>";
+                                        mark.bindPopup(popupBuffer);
+                                        popupBuffer="<ul>";
+                                        popupMap={}
+                                    }
+                                    popupBuffer+="<b><a href=\""+results[i]["item"]["value"]+"\" target=\"_blank\">"+results[i]["itemLabel"]["value"]+"</a></b>"
+                                    popupMap[results[i]["relLabel"]["value"]+results[i]["valLabel"]["value"]]="<li><a href=\""+results[i]["rel"]["value"]+"\" target=\"_blank\">"+results[i]["relLabel"]["value"]+"</a> - <a href=\""+results[i]["val"]["value"]+"\">"+results[i]["valLabel"]["value"]+"</a></li>";
+                                    wicket.read(results[i]["location"]["value"].replace("Point","POINT"));
+                                    // "greenIcon from official documentation noted above.
+                                    var feature = wicket.toJson();
+                                    //alert(JSON.stringify(feature.coordinates))
+                                    var greenIcon = new L.Icon({
+                                        iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-orange.png',
+                                        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                                        iconSize: [25, 41],
+                                        iconAnchor: [12, 41],
+                                        popupAnchor: [1, -34],
+                                        shadowSize: [41, 41]
+                                    });
+                                    mark=L.marker([feature.coordinates[1],feature.coordinates[0]],{icon: greenIcon})
+                                    wikidatagroup.addLayer(mark)
+                                    lastcoord=results[i]["location"]["value"]
+                                }else{
+                                   if(results[i]["val"]["value"].includes(".jpg") || results[i]["val"]["value"].includes(".JPG") || results[i]["val"]["value"].includes(".svg") || results[i]["val"]["value"].includes(".SVG")
+						|| results[i]["val"]["value"].includes(".png") || results[i]["val"]["value"].includes(".PNG") || results[i]["val"]["value"].includes(".gif") || results[i]["val"]["value"].includes(".GIF")){
+						popupMap[results[i]["relLabel"]["value"]+results[i]["valLabel"]["value"]]="<a href=\""+results[i]["rel"]["value"]+"\" target=\"_blank\">"+results[i]["relLabel"]["value"]+"</a> - <a href=\""+results[i]["val"]["value"]+"\" target=\"_blank\"><img src=\""+results[i]["val"]["value"].replace("http","https")+"\" height=\"30\" width=\"30\"></a></li>"	
+                                    
+                                    }else{
+                                         popupMap[results[i]["relLabel"]["value"]+results[i]["valLabel"]["value"]]="<li><a href=\""+results[i]["rel"]["value"]+"\" target=\"_blank\">"+results[i]["relLabel"]["value"]+"</a> - <a href=\""+results[i]["val"]["value"]+"\">"+results[i]["valLabel"]["value"]+"</a></li>";
+                                    }
+                                }
+            }
+        }
+    });  
+
+    //layercontrol.addBaseLayer(wikidatagroup, 'wikidata');
+	resultLayerCollection.push(wikidatagroup);
+    return res;
+	}
+	return "";
+}
+
+function getAttributesForWikidataID(qid){
+var query = [ "PREFIX bd: <http://www.bigdata.com/rdf#>\n",
+                "PREFIX wikibase: <http://wikiba.se/ontology#>\n",
+                "PREFIX wdt: <http://www.wikidata.org/prop/direct/>\n",
+                "PREFIX wd: <http://www.wikidata.org/entity/>\n",
+                "PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n",          
+                "SELECT DISTINCT ?itemLabel ?rel ?relLabel ?val ?valLabel\n",
+                "WHERE\n",
+                "{\n",
+				"\twd:"+qid+" rdfs:label ?itemLabel .",
+                "\twd:"+qid+" ?rell ?val .\n",
+                "\t?rel wikibase:directClaim ?rell .\n",
+                "\tSERVICE wikibase:label { bd:serviceParam wikibase:language \"en\" }\n",
+                "}\n",
+                "ORDER BY ?relLabel"
+    ].join(" ");
+  var queryUrl = "https://query.wikidata.org/sparql?query="+ encodeURIComponent(query) +"&format=json";
+  var res={}
+//var queryUrl = encodeURI( "https://query.wikidata.org/sparql?query="+query+"&format=json" );
+    $.ajax({
+        dataType: "json",  
+        url: queryUrl,
+        async:false,
+        success: function( _data ) {
+            //console.log(JSON.stringify(_data))
+            var results = _data.results.bindings;
+             for ( var i in results ) {
+                 if(results[i]["rel"]["value"]!=undefined && results[i]["valLabel"]["value"]!=undefined){
+                        res[results[i]["rel"]["value"]]=JSON.parse("{\""+results[i]["relLabel"]["value"]+"\":\""+results[i]["val"]["value"]+";"+results[i]["valLabel"]["value"]+"\"}")
+                 }
+            }
+			res["rdfs:label"]=JSON.parse("{\"rdfs:label\":\"http://www.wikidata.org/entity/"+qid+";"+results[i]["itemLabel"]["value"]+"\"}")
+            //alert(JSON.stringify(res))
+        }
+    });  
+    return res;
+}
+
+function getMatchingWikiDataOSMAttributes(){
+var query = [
+"PREFIX bd: <http://www.bigdata.com/rdf#>\n" ,
+                "PREFIX wikibase: <http://wikiba.se/ontology#>\n" ,
+                "PREFIX wdt: <http://www.wikidata.org/prop/direct/>\n" ,
+                "PREFIX wd: <http://www.wikidata.org/entity/>\n" ,
+                "SELECT DISTINCT ?wdclass ?wdclassLabel ?osm\n" ,
+                "WHERE\n" ,
+                "{\n" ,
+                "\t?wdclass wdt:P1282 ?osm .\n" ,
+                "\tSERVICE wikibase:label { bd:serviceParam wikibase:language \"en\" }\n" ,
+                "}\n" ,
+                "ORDER BY ?wdclassLabel"
+].join(" ");
+var queryUrl = "https://query.wikidata.org/sparql?query="+ encodeURIComponent(query) +"&format=json";
+//var queryUrl = encodeURI( "https://query.wikidata.org/sparql?query="+query+"&format=json" );
+    $.ajax({
+        dataType: "json",  
+        async: false,
+        url: queryUrl,
+        success: function( _data ) {
+            var results = _data.results.bindings;
+            for ( var i in results ) {
+                 if(results[i]["wdclass"]["value"]!=undefined && results[i]["osm"]["value"]!=undefined){
+                  osmval=results[i]["osm"]["value"].replace("Key:","").replace("Tag:","");
+                  if(osmval.includes("=")){
+                        if(!osmToWikidataMap[osmval.substring(0,osmval.indexOf('='))]){
+                            osmToWikidataMap[osmval.substring(0,osmval.indexOf('='))]={}
+                        }
+                        osmToWikidataMap[osmval.substring(0,osmval.indexOf('='))][osmval.substring(osmval.indexOf('=')+1)]=JSON.parse("{\""+results[i]["wdclass"]["value"]+"\":\""+("wdclassLabel" in results[i]?results[i]["wdclassLabel"]["value"]:"")+"\"}")
+                  }else{
+                        if(!osmToWikidataMap[osmval]){
+                            osmToWikidataMap[osmval]={}
+                        }
+                        osmToWikidataMap[osmval][""]=JSON.parse("{\""+results[i]["wdclass"]["value"]+"\":\""+("wdclassLabel" in results[i]?results[i]["wdclassLabel"]["value"]:"")+"\"}")
+
+                  }
+                  				    if(!(wikidataToOSMMap[results[i]["wdclass"]["value"]])){
+						 wikidataToOSMMap[results[i]["wdclass"]["value"]]=[]
+					}
+					wikidataToOSMMap[results[i]["wdclass"]["value"]].push(JSON.parse("{\""+osmval+"\":\""+("wdclassLabel" in results[i]?results[i]["wdclassLabel"]["value"]:"")+"\"}"));
+                 }
+            }
+            wikidataToOSMMap["http://www.w3.org/2000/01/rdf-schema#label"]={}
+            wikidataToOSMMap["http://www.w3.org/2000/01/rdf-schema#label"][""]="name"
+            osmToWikidataMap["name"]={}
+            osmToWikidataMap["name"][""]="http://www.w3.org/2000/01/rdf-schema#label"
+            console.log("osmToWikidataMap: "+JSON.stringify(osmToWikidataMap))
+            console.log("wikidataToOSMMap: "+JSON.stringify(wikidataToOSMMap))
+        }
+    });
+}
+
+function createStatsTable(){
+	var res=""
+	counter=1;
+	for(item in itemCount){
+		var resultTable="<h5>"+item+"</h5><small><table border=1 class=\"tablesorter\" id=\"stattable"+counter+"\"><tr><th>Item</th><th>Amount</th><th>Match</th><th>Conflict</th><th>No Match</th></tr>"
+		console.log(Object.keys(itemCount[item]))
+		var keys = Object.keys(itemCount[item]).sort();
+		for(att in keys){
+				if(item=="wikidata"){
+					resultTable+="<tr><td><a href=\""+keys[att]+"\">"+itemCount[item][keys[att]]["label"]+"</a></td>"
+				}else if(item=="osm"){
+					resultTable+="<tr><td><a href=\"https://wiki.openstreetmap.org/wiki/Key:"+keys[att]+"\">"+itemCount[item][keys[att]]["label"]+"</a></td>"
+				}else{
+					resultTable+="<tr><td>"+itemCount[item][keys[att]]["label"]+"</td>"
+				}
+				resultTable+="<td>"+itemCount[item][keys[att]]["count"]+"</td><td>"+itemCount[item][keys[att]]["match"]+"("+((itemCount[item][keys[att]]["match"]/itemCount[item][keys[att]]["count"])*100).toFixed(0)+"%)</td><td>"+itemCount[item][keys[att]]["conflict"]+"("+((itemCount[item][keys[att]]["conflict"]/itemCount[item][keys[att]]["count"])*100).toFixed(0)+"%)</td><td>"+itemCount[item][keys[att]]["nomatch"]+"("+((itemCount[item][keys[att]]["nomatch"]/itemCount[item][keys[att]]["count"])*100).toFixed(0)+"%)</td></tr>"
+		}
+		resultTable+="</table></small>"
+		$('#stats'+counter++).html(resultTable)
+		$("#stattable"+(counter-1)).tablesorter(); 
+	}
+
+}
+
+function clearMap() {
+	for(i in resultLayerCollection){
+		//if(resultLayerCollection[i]._path != undefined) {
+            try {
+                map.removeLayer(resultLayerCollection[i]);
+            }
+            catch(e) {
+                console.log("problem with " + e + map._layers[i]);
+            }
+        //}
+	}
+    /*for(i in map._layers) {
+        if(map._layers[i]._path != undefined) {
+            try {
+                map.removeLayer(map._layers[i]);
+            }
+            catch(e) {
+                console.log("problem with " + e + map._layers[i]);
+            }
+        }
+    }*/
+	for(marker in markercollection){
+		map.removeLayer(markercollection[marker])
+	}
+	markercollection=[]
+		/*
+    for(decorator in decorators){
+		map.removeLayer(decorators[decorator])
+	}
+	decorators=[]*/
+}
+
+
+function loadItems(){
+    getOSMAttributesForCoordinate(map);
+}
+
+function loadWDItems(){
+	console.log([map.getBounds().getSouth(), map.getBounds().getWest()],[map.getBounds().getNorth(),map.getBounds().getEast()])
+	var distance = getDistance([map.getBounds().getSouth(), map.getBounds().getWest()],[map.getBounds().getNorth(),map.getBounds().getEast()])
+    console.log(distance)
+	width=distance/2
+	wikidataAroundQuery(map.getCenter(),width);
+}
+function zoomAndReload(){
+		if(map.getZoom()>=minMapZoom){
+			$('#mapid').css("border","5px solid green")
+		}else{
+			$('#mapid').css("border","5px solid black")
+		}
+          if(loaded && document.getElementById('autoload').checked){
+            clearMap();	
+            loadItems();
+			loadWDItems();
+        }
+}
+
+function toggle_visibility(id) 
+  {
+      var e = document.getElementById(id);
+      if (e.style.display == 'block' || e.style.display=='')
+      {
+          e.style.display = 'none';
+      }
+      else 
+      {
+          e.style.display = 'block';
+      }
+  }
+</script>
+<style>
+#mapid { height: 500px;}
+</style>
+</head>
+<body>
+<h2 align="center">School Mapview</h2>
+<div class="container">
+  <div class="row">
+    <div class="left col-sm-9" id="mapid">
+	<!--<div  style="height:500px;width:800px;border:5px solid black;">-->
+<script>
+var wikidataToOSMMap={}
+var osmToWikidataMap={}
+	var map = L.map('mapid',{fullscreenControl: true,fullscreenControlOptions: {position: 'topleft'}}).setView([52.403911, 13.059339], 15);//.locate({setView: true, maxZoom: 22});
+	map.addControl( new L.Control.Search({
+		url: 'https://nominatim.openstreetmap.org/search?format=json&q={s}',
+		jsonpParam: 'json_callback',
+		propertyName: 'display_name',
+		propertyLoc: ['lat','lon'],
+		marker: L.circleMarker([0,0],{radius:30}),
+		autoCollapse: true,
+		autoType: false,
+		minLength: 2
+	}));
+        
+getMatchingWikiDataOSMAttributes();
+		
+    map.on('dragend', function() {
+		if(document.getElementById('autoload').checked)
+	        clearMap();
+        zoomAndReload();
+	});
+	    map.on('zoomend', function() {
+		if(document.getElementById('autoload').checked)
+		      clearMap();
+        zoomAndReload();
+	});
+/*map.on('moveend',function(){
+        map.eachLayer(function (layer) {
+            try{
+            map.removeLayer(layer);
+            }catch{}
+        });
+        if(loaded){
+            map.removeLayer(layer);		
+            loadItems();
+        }
+});*/
+
+	var layer=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+});
+
+	var officiallayer=L.geoJSON(brbschools,{
+	pointToLayer: function(feature, latlng){
+			 var greenIcon = new L.Icon({
+                                        iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-orange.png',
+                                        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                                        iconSize: [25, 41],
+                                        iconAnchor: [12, 41],
+                                        popupAnchor: [1, -34],
+                                        shadowSize: [41, 41]
+                                    });
+            return L.marker(latlng,{icon: greenIcon})
+	},
+onEachFeature: function (feature, layer) {
+	 var popup="Official Data<br/><ul>"
+	 for(prop in feature.properties){
+	 	popup+="<li>"+prop+" - "+feature.properties[prop]+"</li>"
+	 }
+	 popup+="</ul>"
+         layer.bindPopup(popup);
+     }})
+	overlayMaps["Official Data"]=officiallayer;
+		var wmsLayer = L.tileLayer.wms('https://sgx.geodatenzentrum.de/wms_topplus_web_open', {
+layers: 'web',
+format: 'image/png',
+ transparent: true,
+attribution: '&copy; Bundesamt f&uuml;r Kartographie und Geod&auml;sie 2017, <a href="http://sg.geodatenzentrum.de/web_public/Datenquellen_TopPlus_Open.pdf">Datenquellen</a>'
+});
+	var baseMaps = {
+		"BKG": wmsLayer,
+        "OSM": layer
+	};
+	baseMaps["OSM"].addTo(map);
+	L.control.scale({
+	position: 'bottomright',
+	imperial: false
+}).addTo(map);
+var layercontrol=L.control.layers(baseMaps,overlayMaps).addTo(map);
+loaded=true;
+$(document).ready( function () {
+    
+	$.getJSON( "../rest/service/queryConfigs", function(result){
+        options=""
+		   for(featuretype in result["datasets"]){
+			   options+="<option value=\""+result["datasets"][featuretype]["endpoint"]+"\">"+result["datasets"][featuretype]["name"]+"</option>"
+		   }
+        endpoints=result["datasets"]
+        $('#featurecollectionmenu').html(options);
+		});
+});
+</script>
+</div>
+<!--</div>-->
+
+    <div class="left col-sm-3" id="contentdesc" style="height:500px;overflow-y: scroll;">
+	</div>
+	</div>
+	  <div class="row">
+    <div class="left col-sm-12" id="menu">
+
+<button type="button" id="loadbutton" onClick="loadItems()">Load OSM School Items</button>
+<button type="button" id="loadbutton2" onClick="loadWDItems()">Load Wikidata School Items</button>
+<button type="button" id="clearbutton" onClick="clearMap()">Clear Map</button><br/>
+Autoload<input type="checkbox" id="autoload"/>PopupMode<input type="checkbox" id="popupmode"/>Stats<input type="checkbox" id="statmode"/>StatPopUp<input type="checkbox" id="statpopup"/><br/>
+Dataset: <select id="featurecollectionmenu">
+	<option value="brbschools">Schulen Brandenburg</option>
+	<option value="deschools" selected="selected">Schulen Deutschland</option>
+	<option value="schulen_combined">Schulen Deutschland (All)</option>
+	<option value="schulen_beruf">Berufsschulen Deutschland</option>
+</select><br/>Highlighted Data Quality Aspect:
+<select id="dataqualityaspect">
+	<option value="distance">Distance</option>
+	<option value="numberofconflicts" selected="selected">Percentage Of Conflicts</option>
+</select>
+<br/>
+Legend: <table><tr><td style="background-color:red">&nbsp;&nbsp;</td><td>Only in OSM</td>
+<td style="background-color:green">&nbsp;&nbsp;</td><td>In OSM, Wikidata and Official</td><td style="background-color:black">&nbsp;&nbsp;</td><td>Only in Official</td></tr><tr>
+<td style="background-color:orange"></td><td>OSM and Official</td><td style="background-color:blue"></td><td>OSM and Wikidata, NOT in Official</td></tr></table>
+	</div>
+	</div>
+<div class="row">
+    <div class="left col-sm-4" id="stats1" >
+	</div>
+	    <div class="left col-sm-4" id="stats2" >
+	</div>
+	    <div class="left col-sm-4" id="stats3">
+	</div>
+	</div>
+</body>
+</html>
