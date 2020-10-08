@@ -496,7 +496,7 @@ $.get(buildOverpassApiUrl(map,$('#osmkey').val(),$('#osmtag').val()), function (
               for(key in wdkeyset){
 			  			 if(!(key in itemCount["wikidata"])){
 							itemCount["wikidata"][key]={}
-							itemCount["wikidata"][key]["label"]=Object.keys(wdkeyset[key])[0]
+							itemCount["wikidata"][key]["label"]=Object.keys(wdkeyset[key])[0]+" ("+key.toString().substring(key.lastIndexOf('/')+1)+")"
 							itemCount["wikidata"][key]["count"]=1
 							itemCount["wikidata"][key]["conflict"]=0
 							itemCount["wikidata"][key]["match"]=0
