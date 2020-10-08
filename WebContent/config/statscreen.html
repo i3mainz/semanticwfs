@@ -328,7 +328,7 @@ $.get(buildOverpassApiUrl(map,$('#osmkey').val(),$('#osmtag').val()), function (
 							if(keys[prop].toString().startsWith("http")){
 								popupContent+="<li link=\""+keys[prop]+"\" class=\"nomatch\"><a href=\""+keys[prop]+"\">"+keys[prop].substring(keys[prop].lastIndexOf('/')+1)+"</a>"
 							}else{
-								popupContent+="<li link=\""+keys[prop]+"\" class=\"nomatch\"><span>"+keys[prop]+"</span>
+								popupContent+="<li link=\""+keys[prop]+"\" class=\"nomatch\"><span>"+keys[prop]+"</span>"
 							}
 							popupContent+=" - "
 							if(officialdata.properties[keys[prop]].toString().startsWith("http")){
