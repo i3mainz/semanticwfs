@@ -1021,6 +1021,33 @@ function loadItems(){
     getOSMAttributesForCoordinate(map);
 }
 
+function loadFeatureCollection(){
+	$.getJSON( $('#featurecollectionmenu').value(), function(result){		
+		var officiallayer=L.geoJSON(result,{
+		pointToLayer: function(feature, latlng){
+				 var greenIcon = new L.Icon({
+	                                        iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-orange.png',
+	                                        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+	                                        iconSize: [25, 41],
+	                                        iconAnchor: [12, 41],
+	                                        popupAnchor: [1, -34],
+	                                        shadowSize: [41, 41]
+	                                    });
+	            return L.marker(latlng,{icon: greenIcon})
+		},
+	onEachFeature: function (feature, layer) {
+		 var popup="FeatureCollection Data<br/><ul>"
+		 for(prop in feature.properties){
+		 	popup+="<li>"+prop+" - "+feature.properties[prop]+"</li>"
+		 }
+		 popup+="</ul>"
+	         layer.bindPopup(popup);
+	     }});
+	    textt="FeatureCollection "+$('#featurecollectionmenu').text();
+		overlayMaps["FeatureCollection Data"]=officiallayer;
+		});
+}
+
 function loadWDItems(){
 	console.log([map.getBounds().getSouth(), map.getBounds().getWest()],[map.getBounds().getNorth(),map.getBounds().getEast()])
 	var distance = getDistance([map.getBounds().getSouth(), map.getBounds().getWest()],[map.getBounds().getNorth(),map.getBounds().getEast()])
@@ -1160,7 +1187,9 @@ loaded=true;
 <button type="button" id="clearbutton" onClick="clearMap()">Clear Map</button><br/>
 Autoload<input type="checkbox" id="autoload"/>PopupMode<input type="checkbox" id="popupmode"/>Stats<input type="checkbox" id="statmode"/>StatPopUp<input type="checkbox" id="statpopup"/><br/>
 Dataset: <select id="featurecollectionmenu">
-</select><br/>Highlighted Data Quality Aspect:
+</select><br/>
+Limit: <input type="number" id="limit" value="10"/><br/>
+Highlighted Data Quality Aspect:
 <select id="dataqualityaspect">
 	<option value="distance">Distance</option>
 	<option value="numberofconflicts" selected="selected">Percentage Of Conflicts</option>
@@ -1187,7 +1216,7 @@ $.getJSON( "../rest/service/queryConfigs", function(result){
 		   console.log(featuretype)
 		   for(elem in result[featuretype]){
 			   console.log(elem)
-			   options+="<option value=\""+result[featuretype][elem]["endpoint"]+"\">"+result[featuretype][elem]["name"]+"</option>"
+			   options+="<option value=\"../collections/"+result[featuretype][elem]["name"]+"/items\">"+result[featuretype][elem]["name"]+"</option>"
 		   }
 		   
 	   }
