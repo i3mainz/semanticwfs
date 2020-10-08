@@ -1049,7 +1049,7 @@ function loadFeatureCollection(){
 		 	popup+=" - "
 		 	if(feature.properties[prop].toString().trim().startsWith("http")){
 		 		popup+="<a href=\""+feature.properties[prop]+"\">"+feature.properties[prop].toString().substring(feature.properties[prop].toString().lastIndexOf('/')+1)+"</a>"
-		 	}else if(feature.properties[prop].toString().trim().contains("^^")){
+		 	}else if(feature.properties[prop].toString().trim().includes("^^")){
 		 		popup+="<a href=\""+feature.properties[prop].toString().substring(feature.properties[prop].toString().lastIndexOf("^")+1)+"\">"+feature.properties[prop].toString().substring(feature.properties[prop].toString().indexOf("^"))+"</a>"
 		 	}else{
 		 		popup+=feature.properties[prop]
