@@ -1023,7 +1023,7 @@ function loadItems(){
 }
 
 function loadFeatureCollection(){
-	$.getJSON( $('#featurecollectionmenu').value(), function(result){		
+	$.getJSON( $('#featurecollectionmenu').val()+"?f=geojson&limit="+$('#limit').val(), function(result){		
 		var officiallayer=L.geoJSON(result,{
 		pointToLayer: function(feature, latlng){
 				 var greenIcon = new L.Icon({
@@ -1187,7 +1187,7 @@ loaded=true;
 <button type="button" id="loadbutton2" onClick="loadWDItems()">Load Wikidata Equivalent Items</button>
 <button type="button" id="clearbutton" onClick="clearMap()">Clear Map</button><br/>
 Autoload<input type="checkbox" id="autoload"/>PopupMode<input type="checkbox" id="popupmode"/>Stats<input type="checkbox" id="statmode"/>StatPopUp<input type="checkbox" id="statpopup"/><br/>
-Dataset: <select id="featurecollectionmenu">
+FeatureCollection: <select id="featurecollectionmenu">
 </select><br/>
 Limit: <input type="number" id="limit" value="10"/><br/>
 Highlighted Data Quality Aspect:
