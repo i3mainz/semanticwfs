@@ -296,7 +296,19 @@ $.get(buildOverpassApiUrl(map,$('#osmkey').val(),$('#osmtag').val()), function (
 							if(osmkey in feature.properties.tags && officialdata.properties[keys[prop]]!=valtocompare){
 								numberofconflicts++;
 								itemCount["official"][keys[prop]]["conflict"]+=1
-								popupContent+="<li link=\""+osmkey+"\" class=\"osmconflict\"><span style=\"color:orange;text-decoration:underline;\">"+keys[prop]+"</span> - <span style=\"color:orange;text-decoration:underline;\">"+officialdata.properties[keys[prop]]+" | "+feature.properties.tags[osmkey]+" ["+editDistance(officialdata.properties[keys[prop]],feature.properties.tags[osmkey])+"] (OSM)</span></li>"
+								popupContent+="<li link=\""+osmkey+"\" class=\"osmconflict\"><span style=\"color:orange;text-decoration:underline;\">"
+								if(osmkey.toString().startsWith("http")){
+									popupContent+="<a href=\""+keys[prop]+"\">"+keys[prop].toString().substring(keys[prop].toString().lastIndexOf('/')+1)+"</a>"
+								}else{
+									popupContent+=keys[prop]
+								}
+								popupContent+="</span> - <span style=\"color:orange;text-decoration:underline;\">"
+								if(officialdata.properties[keys[prop]].toString().startsWith("http")){
+									popupContent+="<a href=\""+officialdata.properties[keys[prop]]+"\">"+kofficialdata.properties[keys[prop]].toString().substring(officialdata.properties[keys[prop]].toString().lastIndexOf('/')+1)+"</a>"
+								}else{
+									popupContent+=officialdata.properties[keys[prop]]
+								}
+								popupContent+=" | "+feature.properties.tags[osmkey]+" ["+editDistance(officialdata.properties[keys[prop]],feature.properties.tags[osmkey])+"] (OSM)</span></li>"									
 							}else if(osmkey in feature.properties.tags && officialdata.properties[keys[prop]]==valtocompare){
 								itemCount["official"][keys[prop]]["match"]++
 								popupContent+="<li link=\""+osmkey+"\" class=\"osmmatch\"><span style=\"color:green;text-decoration:underline;\">"+keys[prop]+"</span> - <span style=\"color:green;text-decoration:underline;\">"+officialdata.properties[keys[prop]]+" (OSM)</span></li>"
@@ -313,7 +325,18 @@ $.get(buildOverpassApiUrl(map,$('#osmkey').val(),$('#osmtag').val()), function (
 							}
 					}else{
 							itemCount["official"][keys[prop]]["nomatch"]++
-							popupContent+="<li link=\""+keys[prop]+"\" class=\"nomatch\"><span>"+keys[prop]+"</span> - "+officialdata.properties[keys[prop]]+"</li>"
+							if(keys[prop].toString().startsWith("http")){
+								popupContent+="<li link=\""+keys[prop]+"\" class=\"nomatch\"><a href=\""+keys[prop]+"\">"+keys[prop].substring(keys[prop].lastIndexOf('/')+1)+"</a>"
+							}else{
+								popupContent+="<li link=\""+keys[prop]+"\" class=\"nomatch\"><span>"+keys[prop]+"</span>
+							}
+							popupContent+=" - "
+							if(officialdata.properties[keys[prop]].toString().startsWith("http")){
+								popupContent+="<a href=\""+officialdata.properties[keys[prop]]+"\">"+officialdata.properties[keys[prop]].substring(0,officialdata.properties[keys[prop]].lastIndexOf('/'))+"</a>"
+							}else{
+								popupContent+=officialdata.properties[keys[prop]]
+							}							
+							popupContent+="</li>"
 						}
 						
 					}
