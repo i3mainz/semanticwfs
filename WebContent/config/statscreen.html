@@ -232,7 +232,7 @@ $.get(buildOverpassApiUrl(map,$('#osmkey').val(),$('#osmtag').val()), function (
 		  var numberofattributes=0;
           var resultLayer = L.geoJson(resultAsGeojson, {
             style: function (feature) {
-			  var officialdata=matchGeometryInGeoJSONSet(feature.geometry,officialset)
+			  var officialdata=matchGeometryInGeoJSONSet(feature.geometry,officialset["features"])
               if(feature.properties.tags["wikidata"]!== undefined && officialdata!=null){
 				return {color: "#008000"};
 			   }else if(feature.properties.tags["wikidata"]==undefined && officialdata!=null){
@@ -252,7 +252,7 @@ $.get(buildOverpassApiUrl(map,$('#osmkey').val(),$('#osmtag').val()), function (
 			  //console.log(brbschools)
 			  tooltiptext="";
 			  var numberofconflicts=0;
-			  var officialdata=matchGeometryInGeoJSONSet(feature.geometry,window[$('#schoolsetmenu').val()])
+			  var officialdata=matchGeometryInGeoJSONSet(feature.geometry,officialset["features"])
 			  console.log(JSON.stringify(officialdata))
               var popupContent = "<fieldset><input type=\"radio\" id=\"matching\" name=\"filtermode\" value=\"matching\" onclick=\"filterItems('match',"+feature.properties.id+")\"><label for=\"matching\">Match</label><input type=\"radio\" id=\"conflicting\" name=\"filtermode\" value=\"conflicting\" onclick=\"filterItems('conflict',"+feature.properties.id+")\"><label for=\"conflicting\">Conf</label><input type=\"radio\" id=\"complementary\" name=\"filtermode\" value=\"complementary\" onclick=\"filterItems('comp',"+feature.properties.id+")\"><label for=\"complementary\">Comp</label>"
 			  +"<input type=\"radio\" id=\"equiv\" name=\"filtermode\" value=\"equiv\" onclick=\"filterItems('equiv',"+feature.properties.id+")\"><label for=\"equiv\">EQ</label><input type=\"radio\" id=\"all\" checked=\"checked\" name=\"filtermode\" value=\"all\" onclick=\"filterItems('all',"+feature.properties.id+")\"><label for=\"all\">All</label></fieldset>";
