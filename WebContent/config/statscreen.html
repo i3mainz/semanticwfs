@@ -994,11 +994,11 @@ function createStatsTable(){
 		var keys = Object.keys(itemCount[item]).sort();
 		for(att in keys){
 				if(item=="wikidata"){
-					resultTable+="<tr><td><a href=\""+keys[att]+"\">"+itemCount[item][keys[att]]["label"]+"</a></td>"
+					resultTable+="<tr><td><a href=\""+keys[att]+"\" target=\"_blank\">"+itemCount[item][keys[att]]["label"]+"</a></td>"
 				}else if(item=="osm"){
-					resultTable+="<tr><td><a href=\"https://wiki.openstreetmap.org/wiki/Key:"+keys[att]+"\">"+itemCount[item][keys[att]]["label"]+"</a></td>"
+					resultTable+="<tr><td><a href=\"https://wiki.openstreetmap.org/wiki/Key:"+keys[att]+"\" target=\"_blank\">"+itemCount[item][keys[att]]["label"]+"</a></td>"
 				}else{
-					resultTable+="<tr><td>"+itemCount[item][keys[att]]["label"]+"</td>"
+					resultTable+="<tr><td><a href=\""+keys[att]+"\">"+itemCount[item][keys[att]]["label"]+"</a></td>"
 				}
 				resultTable+="<td>"+itemCount[item][keys[att]]["count"]+"</td><td>"+itemCount[item][keys[att]]["match"]+"("+((itemCount[item][keys[att]]["match"]/itemCount[item][keys[att]]["count"])*100).toFixed(0)+"%)</td><td>"+itemCount[item][keys[att]]["conflict"]+"("+((itemCount[item][keys[att]]["conflict"]/itemCount[item][keys[att]]["count"])*100).toFixed(0)+"%)</td><td>"+itemCount[item][keys[att]]["nomatch"]+"("+((itemCount[item][keys[att]]["nomatch"]/itemCount[item][keys[att]]["count"])*100).toFixed(0)+"%)</td></tr>"
 		}
