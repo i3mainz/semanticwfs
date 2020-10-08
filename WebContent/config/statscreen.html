@@ -1040,7 +1040,19 @@ function loadFeatureCollection(){
 	onEachFeature: function (feature, layer) {
 		 var popup="FeatureCollection Data<br/><ul>"
 		 for(prop in feature.properties){
-		 	popup+="<li>"+prop+" - "+feature.properties[prop]+"</li>"
+			popup+="<li>"
+			if(prop.startsWith("http")){
+				popup+="<a href=\""+prop+"\">"+prop.substring(prop.lastIndexOf('/'))+"</a>"
+			}else{
+				popup+=prop
+			}
+		 	popup+=" - "
+		 	if(feature.properties[prop].startsWith("http")){
+		 		popup+="<a href=\""+feature.properties[prop]+"\">"+features.properties[prop].substring(features.properties[prop].lastIndexOf('/'))+"</a>"
+		 	}else{
+		 		popup+=prop
+		 	}
+		 	popup+="</li>"
 		 }
 		 popup+="</ul>"
 	         layer.bindPopup(popup);
