@@ -61,7 +61,6 @@ import io.swagger.v3.oas.annotations.enums.ParameterStyle;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 
 /**
@@ -4137,6 +4136,7 @@ public class WebService {
 			instance.put("triplestore", curjson.getString("triplestore"));
 			instance.put("query", curjson.getString("query"));
 			instance.put("name", curjson.getString("name"));
+			instance.put("class", curjson.getString("class"));
 		}
 		return Response.ok(res.toString(2)).type(MediaType.APPLICATION_JSON).build();
 	}
