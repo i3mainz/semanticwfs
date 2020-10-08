@@ -1050,7 +1050,7 @@ function loadFeatureCollection(){
 		 	if(feature.properties[prop].toString().trim().startsWith("http")){
 		 		popup+="<a href=\""+feature.properties[prop]+"\">"+feature.properties[prop].toString().substring(feature.properties[prop].toString().lastIndexOf('/')+1)+"</a>"
 		 	}else{
-		 		popup+=feauture.properties[prop]
+		 		popup+=feature.properties[prop]
 		 	}
 		 	popup+="</li>"
 		 }
