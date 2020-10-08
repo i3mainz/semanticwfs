@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head><title>School Map</title>
+<head><title>Statistic View</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" />
@@ -1023,8 +1023,9 @@ function loadItems(){
 }
 
 function loadFeatureCollection(){
-	$.getJSON( $('#featurecollectionmenu').val()+"?f=geojson&limit="+$('#limit').val(), function(result){		
-		var officialdata=L.geoJSON(result,{
+	$.getJSON( $('#featurecollectionmenu').val()+"?f=geojson&limit="+$('#limit').val(), function(result){	
+		var officialdata=result
+		var officiallayer=L.geoJSON(result,{
 		pointToLayer: function(feature, latlng){
 				 var greenIcon = new L.Icon({
 	                                        iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-orange.png',
@@ -1202,12 +1203,12 @@ Highlighted Data Quality Aspect:
 OSM Equivalent: Key: <input type="text" value="amenity" value="osmkey"> Tag: <input type="text" value="school" value="osmtag"/>
 <br/>
 Legend: <table><tr><td style="background-color:red">&nbsp;&nbsp;</td><td>Only in OSM</td>
-<td style="background-color:green">&nbsp;&nbsp;</td><td>In OSM, Wikidata and Official</td>
-<td style="background-color:black">&nbsp;&nbsp;</td><td>Only in Official</td></tr><tr>
+<td style="background-color:green">&nbsp;&nbsp;</td><td>In OSM, Wikidata and FeatureCollection</td>
+<td style="background-color:black">&nbsp;&nbsp;</td><td>Only in FeatureCollection</td></tr><tr>
 <td style="background-color:orange"></td>
-<td>OSM and Official</td>
+<td>OSM and FeatureCollection</td>
 <td style="background-color:blue"></td>
-<td>OSM and Wikidata, NOT in Official</td>
+<td>OSM and Wikidata, NOT in FeatureCollection</td>
 </tr></table>
 	</div>
 	</div>
