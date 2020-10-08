@@ -1042,13 +1042,13 @@ function loadFeatureCollection(){
 		 for(prop in feature.properties){
 			popup+="<li>"
 			if(prop.startsWith("http")){
-				popup+="<a href=\""+prop+"\">"+prop.substring(prop.lastIndexOf('/'))+"</a>"
+				popup+="<a href=\""+prop+"\">"+prop.toString().substring(prop.toString().lastIndexOf('/'))+"</a>"
 			}else{
 				popup+=prop
 			}
 		 	popup+=" - "
-		 	if(feature.properties[prop].startsWith("http")){
-		 		popup+="<a href=\""+feature.properties[prop]+"\">"+feature.properties[prop].substring(feature.properties[prop].lastIndexOf('/'))+"</a>"
+		 	if(feature.properties[prop].toString().startsWith("http")){
+		 		popup+="<a href=\""+feature.properties[prop]+"\">"+feature.properties[prop].toString().substring(feature.properties[prop].toString().lastIndexOf('/'))+"</a>"
 		 	}else{
 		 		popup+=prop
 		 	}
@@ -1101,7 +1101,7 @@ function toggle_visibility(id)
 </style>
 </head>
 <body>
-<h2 align="center">School Mapview</h2>
+<h2 align="center">Statistic View</h2>
 <div class="container">
   <div class="row">
     <div class="left col-sm-9" id="mapid">
