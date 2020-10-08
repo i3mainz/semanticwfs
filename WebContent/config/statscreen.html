@@ -31,6 +31,7 @@ var minMapZoom=2;
 var resultLayerCollection=[]
 var markercollection=[]
 var itemCount={}
+var officialset={};
 var loaded=false;
 var schulen_combined_equivs=deschools_equivs;
 var schulen_beruf_equivs=deschools_equivs
@@ -231,7 +232,7 @@ $.get(buildOverpassApiUrl(map,$('#osmkey').val(),$('#osmtag').val()), function (
 		  var numberofattributes=0;
           var resultLayer = L.geoJson(resultAsGeojson, {
             style: function (feature) {
-			  var officialdata=matchGeometryInGeoJSONSet(feature.geometry,window[$('#schoolsetmenu').val()])
+			  var officialdata=matchGeometryInGeoJSONSet(feature.geometry,officialset)
               if(feature.properties.tags["wikidata"]!== undefined && officialdata!=null){
 				return {color: "#008000"};
 			   }else if(feature.properties.tags["wikidata"]==undefined && officialdata!=null){
@@ -250,7 +251,7 @@ $.get(buildOverpassApiUrl(map,$('#osmkey').val(),$('#osmtag').val()), function (
 			  //console.log(feature)
 			  //console.log(brbschools)
 			  tooltiptext="";
-			  			  var numberofconflicts=0;
+			  var numberofconflicts=0;
 			  var officialdata=matchGeometryInGeoJSONSet(feature.geometry,window[$('#schoolsetmenu').val()])
 			  console.log(JSON.stringify(officialdata))
               var popupContent = "<fieldset><input type=\"radio\" id=\"matching\" name=\"filtermode\" value=\"matching\" onclick=\"filterItems('match',"+feature.properties.id+")\"><label for=\"matching\">Match</label><input type=\"radio\" id=\"conflicting\" name=\"filtermode\" value=\"conflicting\" onclick=\"filterItems('conflict',"+feature.properties.id+")\"><label for=\"conflicting\">Conf</label><input type=\"radio\" id=\"complementary\" name=\"filtermode\" value=\"complementary\" onclick=\"filterItems('comp',"+feature.properties.id+")\"><label for=\"complementary\">Comp</label>"
@@ -1024,7 +1025,7 @@ function loadItems(){
 
 function loadFeatureCollection(){
 	$.getJSON( $('#featurecollectionmenu').val()+"?f=geojson&limit="+$('#limit').val(), function(result){	
-		var officialdata=result
+		officialset=result
 		var officiallayer=L.geoJSON(result,{
 		pointToLayer: function(feature, latlng){
 				 var greenIcon = new L.Icon({
@@ -1050,7 +1051,7 @@ function loadFeatureCollection(){
 		 	if(feature.properties[prop].toString().trim().startsWith("http")){
 		 		popup+="<a href=\""+feature.properties[prop]+"\">"+feature.properties[prop].toString().substring(feature.properties[prop].toString().lastIndexOf('/')+1)+"</a>"
 		 	}else if(feature.properties[prop].toString().trim().includes("^^")){
-		 		popup+="<a href=\""+feature.properties[prop].toString().substring(feature.properties[prop].toString().lastIndexOf("^")+1)+"\">"+feature.properties[prop].toString().substring(feature.properties[prop].toString().indexOf("^"))+"</a>"
+		 		popup+="<a href=\""+feature.properties[prop].toString().substring(0,feature.properties[prop].toString().lastIndexOf("^")+1)+"\">"+feature.properties[prop].toString().substring(feature.properties[prop].toString().indexOf("^"))+"</a>"
 		 	}else{
 		 		popup+=feature.properties[prop]
 		 	}
