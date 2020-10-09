@@ -24,6 +24,7 @@
  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css">
   <link rel="stylesheet" href="css/csstree.css">
+    <link rel="stylesheet" href="css/style.css"/>
     <link rel="stylesheet" href="css/leaflet_legend.css">
  
 <style type="text/css">
@@ -993,7 +994,13 @@ for(item in sortable.slice(0,5)){
 
   
 </head>
-<body><table width=100% height=100%>
+<body>
+<header>
+<div id="header">
+<h1 align="center">SemanticWFS Data Quality View</h1>
+</div>
+</header>
+<table width=100% height=100%>
 <tr>
 <td width="85%"  id="mapid" rowspan="2">
 </td><td width=8% valign=top align="right"><table border="0"><tr><td colspan="2">Dataset:</td><td colspan="2"><select id="datasetselect"><option value="graveyard">Graveyard</option><option value="hospital" selected="selected">Hospital</option><option value="kita">Kita</option><option value="museum">Museum</option><option value="sights">Sights</option></select></td></tr><tr><td  colspan="2">ReqProfiles:</td><td colspan="2"><select id="reqprofilesel"></select></td></tr>
@@ -1241,5 +1248,8 @@ var myChart = new Chart(ctx, {
     }
 });
 </script>
+<div id="footer">
+<a href="../">Back to Landingpage</a>
+</div>
 </body>
 </html>

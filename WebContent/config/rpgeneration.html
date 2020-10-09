@@ -17,6 +17,7 @@
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.css"/>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="css/leaflet_legend.css"/>
+  <link rel="stylesheet" href="css/style.css"/>
   <link rel="stylesheet" href="https://cdn.bootcss.com/leaflet.fullscreen/1.5.1/Control.FullScreen.css"/>
   <link rel="stylesheet" href="css/leaflet-search.css" />
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
@@ -1003,8 +1004,12 @@ function loadMetrics(){
 </script>
 </head>
 <body>
-<h1 align="center">Requirement Profile Generation</h1>
-<div class="container">
+<header>
+<div id="header">
+<h1 align="center">SemanticWFS Requirement Profile Generation</h1>
+</div>
+</header>
+<div class="container-fluid">
   <div class="row">
     <div class="left col-sm-9" id="mapid" style="border:5px solid black;">
 	<!--<div  style="height:500px;width:800px;border:5px solid black;">-->
@@ -1218,6 +1223,11 @@ UseCase Contents:
 <!--<button onclick="generateThematicMapForProperty()"></button>-->
 </div>
 </div>
+</div>
+<div id="footer">
+<a href="../">Back to Landingpage</a>
+</div>
+<script src="js/utils.js"></script>
 </body>
 </html>
 
