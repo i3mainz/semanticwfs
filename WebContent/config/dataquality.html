@@ -1,0 +1,1245 @@
+<html>
+<head>
+<title>OpenStreetMap Quality Assessment Tool</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.min.js"></script>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.min.js"></script>
+<!--<script src='https://api.mapbox.com/mapbox.js/plugins/geojson-extent/v0.0.1/geojson-extent.js'></script>-->
+  <!--<script src="leafletjsonresult.json"></script>-->
+ <script src="js/hospital_reference.json"></script>
+  <script src="js/reqprofiles.js"></script>
+  <script src="js/evaluation.js"></script>
+   <script src="js/leaflet_fullscreen.js"></script>
+   <script src="js/leaflet_legend.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/leaflet-easyprint@2.1.9/dist/bundle.js"></script>
+  <!--<script src="js/turf-meta.js"></script>-->
+  <script src="https://cdn.jsdelivr.net/npm/@turf/turf@5/turf.min.js"></script>
+    <!--<script src="https://cdn.jsdelivr.net/npm/turf@3.0.14/turf.min.js"></script>-->
+  <script src="js/hospital.json"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" />
+ <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css">
+ <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+ <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css">
+  <link rel="stylesheet" href="css/csstree.css">
+    <link rel="stylesheet" href="css/leaflet_legend.css">
+ 
+<style type="text/css">
+	.TFtable{
+		width:100%; 
+		border-collapse:collapse; 
+		border:0px;
+	}
+	.TFtable td{ 
+		padding:0px; border:#4e95f4 0px solid;
+	}
+	/* provide some minimal visual accomodation for IE8 and below */
+	.TFtable tr{
+		background: #B6B6B4;
+	}
+	/*  Define the background color for all the ODD background rows  */
+	.TFtable tr:nth-child(odd){ 
+		background: #B6B6B4;
+	}
+	/*  Define the background color for all the EVEN background rows  */
+	.TFtable tr:nth-child(even){
+		background: #C2DFFF;
+	}
+	.ui-btn.my-tooltip-btn,
+.ui-btn.my-tooltip-btn:hover,
+.ui-btn.my-tooltip-btn:active {
+    background: none;
+    border: 0;
+}
+	div.scrollable {
+    width: 100%;
+    height: 93%;
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+}
+
+ #mapid { height: 100%; width:50% }
+ body {
+  display: block;
+}
+.span3:focus ~ .//alert {
+  display: none;
+}
+.span2:focus ~ .//alert {
+  display: block;
+}
+</style>
+  <script>
+  var resultLayerCollection=[]
+  var allChecked=true;
+  var mymap;
+  var featureCounter=0,refFeatureCounter=0;
+  var checkboxesGenerated=false;
+  var consideredQualityMethods={};
+  var curReqprof="Emergency"
+  var curReqprofObj;
+  var curReqprofColors={}
+  var hideNonActiveMetrics=true;
+  var dealbreaker=false;
+  var evaluationprofile="percentage";
+  var featbbox;
+  var badmetriccount={}
+  var badmetricgridcount={}
+  var geometriespergrid={}
+  var popup;
+  
+  function extent(layer) {
+    var extent = [Infinity, Infinity, -Infinity, -Infinity];
+    turf.coordEach(layer,function(coord) {
+      if (extent[0] > coord[0]) extent[0] = coord[0];
+      if (extent[1] > coord[1]) extent[1] = coord[1];
+      if (extent[2] < coord[0]) extent[2] = coord[0];
+      if (extent[3] < coord[1]) extent[3] = coord[1];
+    });
+    return extent;
+};
+  
+  function loadDataSets(name){
+  clearMap();
+  jQuery.get("js/"+name+".json", function(data) {
+   ////alert(data);
+   features = JSON.parse(data)
+   const layer = L.geoJson(features,{style: function(feature) {
+        return {color: calculateObjectColor(feature),weight: 2,
+                opacity: 1,
+                fillOpacity: 0.3,
+                fillColor: '#99ccff'}
+    },pointToLayer: function (feature,latlng) {  
+    	gicon=L.AwesomeMarkers.icon({icon: 'star',  prefix: 'glyphicon',markerColor:  calculateObjectColor(feature)});
+        return new L.marker(latlng,{icon:gicon});
+    },onEachFeature: function (feature, layer) {
+		  generateElements(layer,feature);
+       }}).addTo(mymap);
+});
+  jQuery.get("js/"+name+"_reference.json", function(data) {
+   ////alert(data);
+   featureReference = JSON.parse(data)
+   const layerRef = L.geoJson(featureReference,{style: function(feature) {
+        return {color: calculateObjectColor(feature),weight: 2,
+                opacity: 0.2,
+                fillOpacity: 0.3,
+                fillColor: '#FFD000'};
+    },pointToLayer: function (feature,latlng) {  
+    	color=calculateObjectColor(feature);
+    	gicon=L.AwesomeMarkers.icon({icon: 'star', markerColor: color, prefix: 'fa'});
+        return new L.marker(latlng,{icon:gicon});
+    },onEachFeature: function (feature, layer) {
+		generateElements(layer,feature);
+     }}).addTo(mymap);
+});
+  featbbox=turf.bboxPolygon(extent(features))
+  updateLayerColors()
+  }
+  str=""
+
+  
+  function showHideTrs(showOrHide){
+  		for(qual in qualityCriteriaList["quality"]){
+			if(!showOrHide){
+				$('#'+qual.toLowerCase()+"_tr").prop('style','')
+			}else{
+				$('#'+qual.toLowerCase()+"_tr").prop('style','display:none')
+			}
+		}
+		if(showOrHide){
+			for(obj in reqprofiles["requirements"]){
+				for(metriccol in reqprofiles["requirements"][obj]){
+					////alert(metriccol+" - "+reqproflabel)
+					if(metriccol==curReqprof){
+												//curReqprofObj=reqprofiles["requirements"][obj]
+						for(metric in reqprofiles["requirements"][obj][metriccol]){
+							reqprof=reqprofiles["requirements"][obj][metriccol][metric]
+							$('#'+reqprof["title"].toLowerCase()+"_tr").prop('style','')
+						}
+					}
+				}
+			}
+		}
+		$('#').prop('style','')
+  }
+  
+  function setReqProf(reqproflabel){
+	curReqprof=reqproflabel;	
+	consideredQualityMethods={};
+	if(reqproflabel=="All"){
+		for(qual in qualityCriteriaList["quality"]){
+			consideredQualityMethods[qual.toLowerCase()]=true
+			$('#'+qual.toLowerCase()+"_check").prop('checked', true)
+			$('#'+qual.toLowerCase()+"_tr").prop('style','')
+		}
+	}else{
+		for(qual in qualityCriteriaList["quality"]){
+			consideredQualityMethods[qual.toLowerCase()]=false
+			$('#'+qual.toLowerCase()+"_check").prop('checked', false)
+			$('#'+qual.toLowerCase()+"_optimal").val("")
+			$('#'+qual.toLowerCase()+"_priority").val("")
+			if(hideNonActiveMetrics)
+				$('#'+qual.toLowerCase()+"_tr").prop('style','display:none;')
+		}
+		for(obj in reqprofiles["requirements"]){
+			for(metriccol in reqprofiles["requirements"][obj]){
+				////alert(metriccol+" - "+reqproflabel)
+				if(metriccol==reqproflabel){
+					curReqprofObj=reqprofiles["requirements"][obj][metriccol]
+					for(metric in reqprofiles["requirements"][obj][metriccol]){
+						reqprof=reqprofiles["requirements"][obj][metriccol][metric]
+						consideredQualityMethods[reqprof["title"].toLowerCase()]=true
+						$('#'+reqprof["title"].toLowerCase()+"_check").prop('checked', true)
+						$('#'+reqprof["title"].toLowerCase()+"_optimal").val(reqprof["optimalValue"])
+						$('#'+reqprof["title"].toLowerCase()+"_priority").val(reqprof["priority"])
+						$('#'+reqprof["title"].toLowerCase()+"_tr").prop('style','')
+					}
+				}
+			}
+		}		
+	}
+	updateLayerColors();
+}
+  
+  
+  function checkAll()
+  {
+    var checkboxes = new Array(); 
+    checkboxes = document.getElementsByTagName('input');   
+    for (var i=0; i<checkboxes.length; i++)  {
+      if (checkboxes[i].type == 'checkbox' && allChecked)   {
+        checkboxes[i].checked = '';
+      }else if(checkboxes[i].type == 'checkbox' && !allChecked){
+          checkboxes[i].checked = 'checked';
+          //consideredQualityMethods[checkboxes[i].id]=true;
+      }
+    }
+    allChecked=!allChecked;
+    updateLayerColors()
+  }
+  
+  function addTask(value,checkboxid) {
+		consideredQualityMethods[value.toLowerCase()]=true;
+		var tr=document.createElement("tr");
+		tr.setAttribute("id",value.toLowerCase()+"_tr");
+		if("category" in qualityCriteriaList["quality"][value] && qualityCriteriaList["quality"][value]["category"]!=null){
+		    document.getElementById(qualityCriteriaList["quality"][value]["category"]).appendChild(tr);
+		}else{
+			document.getElementById("Other").appendChild(tr);
+		}
+		var td=document.createElement("td");
+		//tabletr.appendChild(td);
+		tr.appendChild(td)
+	    //var td=tr;//document.createElement("span");
+	    //tr.appendChild(td);
+	    var newCheckbox = document.createElement("input");
+	    newCheckbox.type = "checkbox";
+	    newCheckbox.value = true;
+	    newCheckbox.setAttribute("id",value.toLowerCase()+"_check");
+	    newCheckbox.setAttribute("checked","checked");
+	    td.appendChild(newCheckbox);
+
+		app="<input type=\"checkbox\" checked=\"checked\" id=\""+value.toLowerCase()+"_check\" value=\"true\"/><a style=\"font-color:black\" href=\""
+	    var label = document.createElement('a');
+	    label.htmlFor = value;
+	    label.style="font-color:black"
+		//alert(curReqprof+" - "+JSON.stringify(reqprofiles["requirements"]))
+		set=false;
+			for(obj in reqprofiles["requirements"]){
+				for(metriccol in reqprofiles["requirements"][obj]){
+					if(metriccol==curReqprof){
+						for(metric in reqprofiles["requirements"][obj][metriccol]){
+							if(reqprofiles["requirements"][obj][metriccol][metric]["title"]==value){
+							reqprof=reqprofiles["requirements"][obj][metriccol][metric]
+							label.href=reqprof["uri"]
+							app+=reqprof["uri"]
+							tt='<a href="#popupInfo" data-rel="popup" data-transition="pop" class="my-tooltip-btn ui-btn ui-alt-icon ui-nodisc-icon ui-btn-inline ui-icon-info ui-btn-icon-notext" title="Learn more">Learn more</a>'
+							app+='">'+value+'</a><p></p><div data-role="popup" id="popupInfo" class="ui-content" data-theme="a" style="max-width:350px;">'
+							app+=reqprof["comment"]
+							set=true;
+							}
+						}
+					}
+				}
+			}
+
+		if(!set){
+			app+=qualityCriteriaList["quality"][value]["uri"]
+			tt='<a href="#popupInfo" data-rel="popup" data-transition="pop" class="my-tooltip-btn ui-btn ui-alt-icon ui-nodisc-icon ui-btn-inline ui-icon-info ui-btn-icon-notext" title="Learn more">Learn more</a>'
+			app+='">'+value+'</a><p></p><div data-role="popup" id="popupInfo" class="ui-content" data-theme="a" style="max-width:350px;">'
+			app+=qualityCriteriaList["quality"][value]["comment"]
+			label.href=qualityCriteriaList["quality"][value]["uri"]
+		}
+	    label.appendChild(document.createTextNode(value));
+		app+="</div>";
+		td.innerHTML=app
+		$("#"+value.toLowerCase()+"_check").click(function() {
+			  if(value.toLowerCase() in consideredQualityMethods && consideredQualityMethods[value.toLowerCase()]==true){
+				  consideredQualityMethods[value.toLowerCase()]=false;
+			  }else{
+				  consideredQualityMethods[value.toLowerCase()]=true;
+			  }
+			  updateLayerColors();
+		  });
+		var td2=document.createElement("td");
+		td2.align="right"
+		tr.appendChild(td2);
+	    if(value in qualityCriteriaList["quality"] && "metrictype" in qualityCriteriaList["quality"][value] && qualityCriteriaList["quality"][value]["metrictype"]=="BINARYMETRIC"){   
+	    var newCheckbox2 = document.createElement("input");
+	    newCheckbox2.type = "checkbox";
+	    newCheckbox2.value = true;
+	    newCheckbox2.setAttribute("id",value.toLowerCase()+"_revert");
+	    var label2 = document.createElement('label');
+	    label2.htmlFor = value.toLowerCase()+"_revert";
+	    label2.appendChild(document.createTextNode("Reversed"));
+	    td2.appendChild(newCheckbox2);
+	    td2.appendChild(label2); 
+		  $("#"+value.toLowerCase()+"_revert").click(function() {
+			  if(value.toLowerCase() in consideredQualityMethods && consideredQualityMethods[value.toLowerCase()]==true){
+				  consideredQualityMethods[value.toLowerCase()]=false
+				  updateLayerColors();
+			  }else if(value.toLowerCase() in consideredQualityMethods){
+				  consideredQualityMethods[value.toLowerCase()]=true
+				  updateLayerColors();
+			  } 
+		  });
+	    }else if(value in qualityCriteriaList["quality"] && "metrictype" in qualityCriteriaList["quality"][value] && qualityCriteriaList["quality"][value]["metrictype"]=="OPTIMALVALUEMETRIC"){
+		    var newCheckbox2 = document.createElement("input");
+		    newCheckbox2.type = "number";
+		    newCheckbox2.size = "3";
+		    newCheckbox2.style = "width:60px";
+			if(curReqprof in reqprofiles["requirements"] && value in reqprofiles["requirements"][curReqprof] && "optimalValue" in reqprofiles["requirements"][curReqprof][value]){
+				//alert(curReqprof+" - "+reqprofiles["requirements"][curReqprof])
+				newCheckbox2.value = reqprofiles["requirements"][curReqprof][value]["optimalValue"];//qualityCriteriaList["quality"][value]["optimalValue"];
+				//alert(reqprofiles["requirements"][curReqprof][value]["optimalValue"])
+			}
+		    newCheckbox2.setAttribute("id",value.toLowerCase()+"_optimal");
+		    var label2 = document.createElement('label');
+		    label2.htmlFor = value.toLowerCase()+"_revert";
+		    label2.appendChild(document.createTextNode("Opt"));
+		    td2.appendChild(newCheckbox2);
+		    td2.appendChild(label2);	 
+			  $("#"+value.toLowerCase()+"_optimal").on('input',function() {
+				  console.log("Optimal Log");
+			for(metric in curReqprofObj){
+				if(curReqprofObj[metric]["title"].toLowerCase()==value.toLowerCase()){
+					//alert(JSON.stringify(curReqprofObj[metric]))
+					curReqprofObj[metric]["optimalValue"]=$("#"+value.toLowerCase()+"_optimal").val();
+				}
+			}
+			updateLayerColors();
+			  });
+	    }else if(value in qualityCriteriaList["quality"] && "metrictype" in qualityCriteriaList["quality"][value] && qualityCriteriaList["quality"][value]["metrictype"]=="OPTIMALRANGEMETRIC"){
+		    var newCheckbox2 = document.createElement("input");
+		    newCheckbox2.type = "number";
+		    newCheckbox2.size = "3";
+		    newCheckbox2.style = "width:60px";
+		    newCheckbox2.value = curReqprof[value]["from"];//qualityCriteriaList["quality"][value]["optimalValue"];
+		    newCheckbox2.setAttribute("id",value.toLowerCase()+"_optimal");
+		    var newCheckbox3 = document.createElement("input");
+		    newCheckbox3.type = "number";
+		    newCheckbox3.size = "3";
+		    newCheckbox3.style = "width:60px";
+		    newCheckbox3.value = curReqprof[value]["to"];//qualityCriteriaList["quality"][value]["optimalValue2"];
+		    newCheckbox3.setAttribute("id",value.toLowerCase()+"_optimal2");
+		    var label2 = document.createElement('label');
+		    label2.htmlFor = value.toLowerCase()+"_revert";
+		    label2.appendChild(document.createTextNode("to"));
+		    td2.appendChild(newCheckbox2);
+		    td2.appendChild(label2);	
+		    td2.appendChild(newCheckbox3);
+			  $("#"+value.toLowerCase()+"_optimal").on('input',function() {
+				  console.log("Optimal Log");
+			for(metric in curReqprofObj){
+				if(curReqprofObj[metric]["title"].toLowerCase()==value.toLowerCase()){
+					//alert(JSON.stringify(curReqprofObj[metric]))
+					curReqprofObj[metric]["optimalValue"]=$("#"+value.toLowerCase()+"_optimal").val();
+				}
+			}
+			updateLayerColors();
+			  });
+	    }else if(value in qualityCriteriaList["quality"] && "metrictype" in qualityCriteriaList["quality"][value] && qualityCriteriaList["quality"][value]["metrictype"]=="RELATIVEMETRIC"){
+		    var newCheckbox2 = document.createElement("input");
+		    newCheckbox2.type = "number";
+		    newCheckbox2.size = "2";
+		    newCheckbox2.style = "width:60px";
+			var newCheckbox3 = document.createElement("input");
+		    newCheckbox3.type = "number";
+		    newCheckbox3.size = "2";
+		    newCheckbox3.style = "width:60px";
+			if(curReqprof in reqprofiles["requirements"] && value in reqprofiles["requirements"][curReqprof] && "to" in reqprofiles["requirements"][curReqprof][value]){
+				//alert(curReqprof+" - "+reqprofiles["requirements"][curReqprof][value])
+				newCheckbox2.value = reqprofiles["requirements"][curReqprof][value]["from"];
+			}
+		    newCheckbox2.setAttribute("id",value.toLowerCase()+"_from");
+			if(curReqprof in reqprofiles["requirements"] && value in reqprofiles["requirements"][curReqprof] && "to" in reqprofiles["requirements"][curReqprof][value]){
+				//alert(curReqprof+" - "+reqprofiles["requirements"][curReqprof][value])
+				newCheckbox3.value = reqprofiles["requirements"][curReqprof][value]["to"];
+			}
+		    newCheckbox3.setAttribute("id",value.toLowerCase()+"_to");
+		    var label2 = document.createElement('label');
+		    label2.htmlFor = value.toLowerCase()+"_from";
+		    label2.appendChild(document.createTextNode("From"));
+			var label3 = document.createElement('label');
+		    label3.htmlFor = value.toLowerCase()+"_to";
+		    label3.appendChild(document.createTextNode("To"));
+			td2.appendChild(label2);
+		    td2.appendChild(newCheckbox2);
+			td2.appendChild(label3);
+			td2.appendChild(newCheckbox3);
+	 
+			  $("#"+value.toLowerCase()+"_optimal").on('input',function() {
+				  console.log("Optimal Log");
+			for(metric in curReqprofObj){
+				if(curReqprofObj[metric]["title"].toLowerCase()==value.toLowerCase()){
+					//alert(JSON.stringify(curReqprofObj[metric]))
+					curReqprofObj[metric]["optimalValue"]=$("#"+value.toLowerCase()+"_optimal").val();
+				}
+			}
+			updateLayerColors();
+			  });
+	    }
+		var label3 = document.createElement('label');
+		label3.htmlFor = value.toLowerCase()+"_priority";
+		label3.appendChild(document.createTextNode("Prio"));
+		var newCheckbox2 = document.createElement("input");
+		newCheckbox2.type = "number";
+		newCheckbox2.size = "3";
+		newCheckbox2.style = "width:50px";
+		newCheckbox2.setAttribute("id",value.toLowerCase()+"_priority");
+		td2.appendChild(label3);
+		td2.appendChild(newCheckbox2);	
+		$("#"+value.toLowerCase()+"_priority").on('input',function() {
+			console.log("Optimal Log");
+			//alert("mouse up")
+			//alert(value+" - "+JSON.stringify(curReqprofObj))
+			for(metric in curReqprofObj){
+				if(curReqprofObj[metric]["title"].toLowerCase()==value.toLowerCase()){
+					//alert(JSON.stringify(curReqprofObj[metric]))
+					curReqprofObj[metric]["priority"]=$("#"+value.toLowerCase()+"_priority").val();
+				}
+			}
+			updateLayerColors();
+		});
+	
+  }
+  
+  function toggle_visibility(id) 
+  {
+      var e = document.getElementById(id);
+      if (e.style.display == 'block' || e.style.display=='')
+      {
+          e.style.display = 'none';
+      }
+      else 
+      {
+          e.style.display = 'block';
+      }
+  }
+  
+  function calculateDQColorFromReqProfile(key, qualityParams){
+                dealbreaker=false;
+		for(obj in reqprofiles["requirements"]){
+				for(metriccol in reqprofiles["requirements"][obj]){
+					if(metriccol==curReqprof){
+						for(metric in reqprofiles["requirements"][obj][metriccol]){
+							reqprof=reqprofiles["requirements"][obj][metriccol][metric]
+							if(reqprof["title"].toLowerCase()==key.toLowerCase()){
+								if("from" in reqprof && "to" in reqprof || "ranges" in reqprof){
+									from=reqprof["from"]
+									to=reqprof["to"]
+									if("ranges" in reqprof){
+										for(jsobj in reqprof["ranges"]){
+											if(parseFloat(qualityParams[key]["value"])>=parseFloat(reqprof["ranges"][jsobj]["from"]) && parseFloat(qualityParams[key]["value"])<parseFloat(reqprof["ranges"][jsobj]["to"])){
+												return "green"
+											}
+										}
+										if(reqprof["title"] in badmetriccount){
+											badmetriccount[reqprof["title"]]=badmetriccount[reqprof["title"]]+1;
+										}else{
+											badmetriccount[reqprof["title"]]=1;
+										}
+										if("dealbreaker" in reqprof && reqprof["dealbreaker"]=="true"){
+                                            dealbreaker=true;
+                                            return "dealbreaker";
+                                        }
+										return "red";
+									}
+								}else if("optimalValue" in reqprof){
+									optimalValue=reqprof["optimalValue"]
+									if(reqprof["optimalValue"].toString().replace(",",".")==qualityParams[key]["value"].toString().replace(",",".") ||
+										(reqprof["optimalValue"].toString()=="true" && (qualityParams[key]["value"]=="1.0" || qualityParams[key]["value"]=="1"))
+										|| (reqprof["optimalValue"].toString()=="false" && (qualityParams[key]["value"]=="0.0" || qualityParams[key]["value"]=="0"))){
+										return "green"
+									}else{
+										if(reqprof["title"] in badmetriccount){
+											badmetriccount[reqprof["title"]]=badmetriccount[reqprof["title"]]+1;
+										}else{
+											badmetriccount[reqprof["title"]]=1;
+										}
+                                        if("dealbreaker" in reqprof && reqprof["dealbreaker"]==true){
+                                            dealbreaker=true;
+                                            return "dealbreaker";
+                                        }
+										return "red"
+									}
+								}
+							}
+						}
+						return "lightgray"
+					}
+				}
+			}
+			
+  }
+  
+  function saveCurrentReqProfile(){
+		var myWindow=window.open('');
+		myWindow.document.write("<html><head><title>"+curReqprof+" Requirement Profile as JSON</title></head><body><pre>{ \""+curReqprof+"\":"+JSON.stringify(curReqprofObj,null, 4)+"}</pre></body></html>");
+  }
+  
+  function updateLayerColors(){
+		featureCounter=0;
+		refFeatureCounter=0;
+		layer.setStyle(function(feature) {
+	        return {color: calculateObjectColor(feature),weight: 2,
+                opacity: 1,
+                fillOpacity: 0.3,
+                fillColor: '#99ccff'}})
+		counter=0;
+		layer.eachLayer(function (layer) {	
+				//alert(JSON.stringify(features["features"][counter]))
+				generateElements(layer,features["features"][counter++]);
+	       });
+		layerRef.setStyle(function(feature) {
+	        return {color: calculateObjectColor(feature),weight: 2,
+                opacity: 0.2,
+                fillOpacity: 0.3,
+                fillColor: '#FFD000'}});
+		counter=0;
+		layerRef.eachLayer(function (layer) {	
+			generateElements(layer,featureReference["features"][counter++]);
+	    });
+		var tileid=0;
+		badmetricgridcount={}
+		geometriespergrid={}
+		tiles.redraw();
+		/*mymap.removeControl(htmlLegend1)
+		//htmlLegend1.removeFrom(mymap);
+ var htmlLegend1 =L.control.htmllegend({
+        position: 'bottomright',
+        legends: [{
+            name: 'Map Legend ['+curReqprof+']',
+            layer: baseMap,
+            elements: createColorLegendForLayer()}],
+			collapseSimple:true,
+			detectStretched:true
+    });
+	htmlLegend1.addTo(mymap);
+		//layerscontrol.removeFrom(map);
+		//htmlLegend1.setContent(createColorLegendForLayer())
+		//htmlLegend1.refresh();*/
+  }
+  
+  function create_UUID(){
+    var dt = new Date().getTime();
+    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = (dt + Math.random()*16)%16 | 0;
+        dt = Math.floor(dt/16);
+        return (c=='x' ? r :(r&0x3|0x8)).toString(16);
+    });
+    return uuid;
+}
+  
+  function generateElements(layer,feature){
+  	    	 if(!checkboxesGenerated){
+	         	qualityCriteriaList=feature;
+	            generateCheckBoxes(qualityCriteriaList);
+	         }
+	         keys = Object.keys(feature.properties);
+	         i=0;
+	         len = keys.length;
+	         keys.sort();
+	         var str = "Quality Score: "+calculateObjectPercentage(feature)["percentageValue"]+"%<br>---Properties---<a href=# onclick=\"toggle_visibility('ref_prop_"+feature.id+"')\" id=\"clicker_osm_1\">["+len+"]</a><br><span id=\"ref_prop_"+feature.id+"\" style=\"display:none\">";
+	         for (i = 0; i < len; i++) {
+	         	  key = keys[i];
+	   			if("color" in feature.properties[key]){
+	   				if("uri" in feature.properties[key]){
+	   					str+="<a href=\""+feature.properties[key]["uri"]+"\" target=\"_blank\"><font color="+feature.properties[key]["color"]+">"+key+"</font></a> = ";
+	   				}else{
+	   					str+="<font color="+feature.properties[key]["color"]+">"+key+"</font> = ";
+	   				}
+	   				if("urival" in feature.properties[key]){
+	   					str+="<a href=\""+feature.properties[key]["urival"]+"\" target=\"_blank\"><font color="+feature.properties[key]["color"]+">"+feature.properties[key]["value"]+"</font></a><br>";
+	   				}else{
+	   					str+="<font color="+feature.properties[key]["color"]+">"+feature.properties[key]["value"]+"</font><br>";
+	   				}
+	 	 		}else{
+	   				if("uri" in feature.properties[key]){
+	   					str+="<a href=\""+feature.properties[key]["uri"]+"\" target=\"_blank\">"+key+"</a> = ";
+	   				}else{
+	   					str+=key+" = ";
+	   				}
+	 	 			if("urival" in feature.properties[key]){
+	 	 				str+="<a href=\""+feature.properties[key]["urival"]+"\" target=\"_blank\">"+feature.properties[key]["value"]+"</a><br>";	
+	 	 			}else{
+	 	 				str+=feature.properties[key]["value"]+"<br>";	
+	 	 			}			
+	 			}        
+	         }
+	                  keys = Object.keys(feature.quality);
+	         i=0;
+	         len = keys.length;
+	         keys.sort();
+	         str+="</span>---Quality Parameters---<a href=# onclick=\"toggle_visibility('ref_quality_"+feature.id+"')\" id=\"clicker_osm_2\">["+len+"]</a><br><span id=\"ref_quality_"+feature.id+"\">";
+	         for (i = 0; i < len; i++) {
+	         	  key = keys[i];
+	   			if(key.toLowerCase() in consideredQualityMethods && consideredQualityMethods[key.toLowerCase()]==true){
+					color=calculateDQColorFromReqProfile(key,feature.quality)
+					//alert("CalculatedColor: "+color)
+     				//color=feature.quality[key]["color"];
+     				if(!consideredQualityMethods[key.toLowerCase()]){
+						color="gray"
+     					//color=features.features[refFeatureCounter].quality[key]["color"];
+     				}
+	   				if("uri" in feature.quality[key]){
+	   					str+="<a href=\""+feature.quality[key]["uri"]+"\" target=\"_blank\"><font color="+color+">"+key+"</font></a> = ";
+	   				}else{
+	   					str+="<font color="+color+">"+key+"</font> = ";
+	   				}
+					
+	   				if("urival" in feature.quality[key]){
+						str+="<a href=\""+feature.quality[key]["urival"]+"\" target=\"_blank\"><font color="+color+">";
+								if(feature.quality[key]["value"]=="1.0" || feature.quality[key]["value"]=="1"){
+									str+="true</font></a>";
+								}else if(feature.quality[key]["value"]=="0.0" || feature.quality[key]["value"]=="0"){
+									str+="false</font></a>";
+								}else{
+                                    str+=feature.quality[key]["value"]+"</font></a>";
+								}
+	   					//str+="<a href=\""+feature.quality[key]["urival"]+"\" target=\"_blank\"><font color="+color+">"+feature.quality[key]["value"]+"</font></a>";
+	   				}else{
+	   					str+="<font color="+color+">"+feature.quality[key]["value"]+"</font>";
+	   				}
+	   				if("unit" in feature.quality[key] && !feature.quality[key]["unit"].includes("Unitless")){
+	   					str+="<font color="+color+"> (<a href=\""+feature.quality[key]["unit"]+"\" target=\"_blank\">"+feature.quality[key]["unit"].substring(feature.quality[key]["unit"].lastIndexOf('#')+1)+"</a>)</font>"
+	   				}
+						for(obj in curReqprofObj){							
+							if("priority" in curReqprofObj[obj] && curReqprofObj[obj]["title"]==key){
+								str+="<font color=\"blue\"> (P"+curReqprofObj[obj]["priority"]+")</font>"
+                                    if("dealbreaker" in curReqprofObj[obj] && curReqprofObj[obj]["dealbreaker"]==true){
+                                        str+="<font color=\"blue\"> (DB)</font>"
+								}
+							}							
+		   				}
+	   				str+="<br>"
+	 			}     
+	         }        
+	         keys = Object.keys(feature.metadata);
+	             i=0;
+	             len = keys.length;
+	             keys.sort();
+	             str+="</span>---Metainformation---<a href=# onclick=\"toggle_visibility('ref_meta_"+feature.id+"')\" id=\"clicker_osm_3\">["+len+"]</a><br><span id=\"ref_meta_"+feature.id+"\" style=\"display:none\">";
+	             for (i = 0; i < len; i++) {
+	             	  key = keys[i];
+	       			if("color" in feature.metadata[key]){
+	       				if("uri" in feature.metadata[key]){
+	       					str+="<a href=\""+feature.metadata[key]["uri"]+"\" target=\"_blank\"><font color="+feature.metadata[key]["color"]+">"+key+"</font></a> = ";
+	       				}else{
+	       					str+="<font color="+feature.metadata[key]["color"]+">"+key+"</font> = ";
+	       				}
+	       				if("urival" in feature.metadata[key]){
+	       					str+="<a href=\""+feature.metadata[key]["urival"]+"\"><font color="+feature.metadata[key]["color"]+">"+feature.metadata[key]["value"]+"</font></a><br>";
+	       				}else{
+	       					str+="<font color="+feature.metadata[key]["color"]+">"+feature.metadata[key]["value"]+"</font><br>";
+	       				}
+	     			}else{
+	     				if("uri" in feature.metadata[key]){
+	       					str+="<a href=\""+feature.metadata[key]["uri"]+"\" target=\"_blank\">"+key+"</a> = ";
+	       				}else{
+	       					str+=key+" = ";
+	       				}
+	     				if("urival" in feature.metadata[key]){
+	     	 				str+="<a href=\""+feature.metadata[key]["urival"]+"\" target=\"_blank\">"+feature.metadata[key]["value"]+"</a><br>";	
+	     	 			}else{
+	     	 				str+=feature.metadata[key]["value"]+"<br>";	
+	     	 			}				
+	     			}        
+	             }
+	             str+="</span>";
+	       layer.bindPopup(str);
+  }
+  
+  function sortNumber(a,b) {
+    return a - b;
+  }
+  
+  
+  function getObjectColorForValue(value){
+	  keys=[]
+	  for (k in curReqprofColors) {
+	    if(k!="title"){
+			keys.push(parseInt(k))
+		}
+	  }
+	  keys.sort(sortNumber);
+	  len = keys.length;
+	  lastsmaller=true;
+	  lastkey=0
+	  for (i = 0; i < len; i++) {
+		k = keys[i];
+		if(k>value){
+			if(lastkey==0){
+				//alert("Lastkey=0: "+percentageValue+" - "+curReqprofColors[k+""]);
+				return curReqprofColors[k+""];
+			}else{
+				//alert("Lastkey: "+lastkey+" - "+percentageValue+" - "+curReqprofColors[lastkey+""]);
+				return curReqprofColors[lastkey+""];
+			}
+		}else if(k==value){
+			//alert("ExactValue: "+percentageValue+" - "+curReqprofColors[k+""]);
+			return curReqprofColors[k+""];
+		}else{
+			lastkey=k+"";
+		}
+	  }
+	  return {"color":"gray","label":"unknown"};
+  }
+
+  function getReqProfForName(reqprofname){
+		reqprof="";
+  		for(obj in reqprofiles["requirements"]){
+			for(metriccol in reqprofiles["requirements"][obj]){
+				if(metriccol==curReqprof){
+					reqprof=reqprofiles["requirements"][obj][metriccol]
+				}
+			}
+		}
+		return reqprof;
+  }
+  
+  function calculateObjectColor(qualityCriteriaList){
+	  percentageValue=calculateObjectPercentage(qualityCriteriaList)["percentageValue"]
+		for(obj in reqprofiles["requirements"]){
+			for(metriccol in reqprofiles["requirements"][obj]){
+				if(metriccol==curReqprof){
+					for(metric in reqprofiles["requirements"][obj][metriccol]){
+						if(reqprofiles["requirements"][obj][metriccol][metric]["title"]=="color"){
+							curReqprofColors=reqprofiles["requirements"][obj][metriccol][metric];
+						}
+					}
+				}
+			}
+	  }
+	  return getObjectColorForValue(percentageValue)["color"]
+  }
+  
+  function calculateObjectPercentage(qualityCriteriaList){
+          criteriamap={}
+	  evaluationprofile=$('#evaluationsel').val()
+	  factor=0
+	  useprio=false;
+	  for(evl in evaluation){
+	  	  if(evl==evaluationprofile){
+				factor=parseInt(evaluation[evl]["factor"])
+				useprio=evaluation[evl]["usePriority"]
+		  }	  
+	  }
+	  reqprof=getReqProfForName(curReqprof);
+	  //alert(JSON.stringify(reqprof))
+  	  positiveCriteria=0,criteria=0;
+	  for(var obj in qualityCriteriaList["quality"]){
+          if(obj.toLowerCase() in consideredQualityMethods
+				  && consideredQualityMethods[obj.toLowerCase()] && calculateDQColorFromReqProfile(obj,qualityCriteriaList["quality"])=="dealbreaker" && qualityCriteriaList["quality"][obj]!=undefined){
+			  return {"percentageValue":0,"criteriamap":criteriamap};
+		  }
+		  if(obj.toLowerCase() in consideredQualityMethods
+				  && consideredQualityMethods[obj.toLowerCase()] && calculateDQColorFromReqProfile(obj,qualityCriteriaList["quality"])=="green" && qualityCriteriaList["quality"][obj]!=undefined){
+			  if(useprio){
+			  	positiveCriteria+=(1*factor*reqprof["priority"]);			  
+				criteria+=(1*factor*reqprof["priority"]);
+			  }else{
+					positiveCriteria+=(1*factor);			  
+					criteria+=(1*factor);
+			  }
+		  }else if(qualityCriteriaList["quality"][obj]!=undefined  && obj.toLowerCase() in consideredQualityMethods
+				  && consideredQualityMethods[obj.toLowerCase()]) {
+			  if(obj in criteriamap){
+                                citeriamap[obj]=criteriamap[obj]+1
+			  }else{
+                                criteriamap[obj]=1
+			  }
+			  if(useprio){
+				criteria+=(1*factor*reqprof["priority"]);			  
+			  }else{
+				criteria+=(1*factor);
+			  }
+		  }
+	  }
+	  if(positiveCriteria==0 && criteria==0){
+		  percentageValue=0;
+	  }else{
+		  percentageValue=(positiveCriteria/criteria)*100;
+	  }
+	  return {"percentageValue":percentageValue,"criteriamap":criteriamap};
+  }
+  
+  
+  function onClick(e) {
+	    alert(this.getLatLng());
+  }
+  function createColorLegendForLayer(){
+		elements=[]
+		reqprof=getReqProfForName(curReqprof)
+		colors=""
+		for(obj in reqprof){
+			if(reqprof[obj]["title"]=="color"){
+				colors=reqprof[obj]
+			}
+		}
+		for(number in colors){
+			elements.push({"label":colors[number]["label"],"html":"","style":{"background-color":colors[number]["color"],"width":"10px","height":"10px"}})
+		}
+		return elements;
+  }
+  
+  function generateCheckBoxes(qualityCriteriaList){
+      selectfill=""
+  	  for(evl in evaluation){
+	      if(evl=="percentage"){
+		  	  	  selectfill+="<option value=\""+evl+"\" selected=\"selected\">"+evl+"</option>" 
+		  }else{
+		  	  	  selectfill+="<option value=\""+evl+"\">"+evl+"</option>" 
+		  }
+	  }
+	  $('#evaluationsel').html(selectfill);
+	  $( "#evaluationsel" ).change(function () {
+			evaluationprofile=this.value;
+			updateLayerColors();
+	  });
+	  if(!checkboxesGenerated && qualityCriteriaList!=null){
+	        keys = Object.keys(qualityCriteriaList["quality"]);
+	        i=0;
+	        len = keys.length;
+	        keys.sort();
+	        qualityCategories={}
+	        for(i=0;i<len;i++){
+	        	key = keys[i];
+	        	if("category" in qualityCriteriaList["quality"][key]){
+	        		qualityCategories[qualityCriteriaList["quality"][key]["category"]]=true;
+	        	}
+	        }
+	        keys = Object.keys(qualityCategories);
+	        i=0;
+	        len = keys.length;
+	        keys.sort();
+	        for(i=0;i<len;i++){
+	        	key = keys[i];
+	        	var li=document.createElement("li");
+	        	var li2=document.createElement("li");
+	        	var ol=document.createElement("ol");
+	        	li.className="inp"
+	        	var input=document.createElement("input");
+	        	input.type="checkbox";
+	        	input.id=key+"_input";
+        		input.className="nav";
+	    	    var label = document.createElement('label');
+	    	    label.htmlFor=key+"_input"
+	    	    label.appendChild(document.createTextNode(key));
+	    	    li.appendChild(label)
+	    	    li.appendChild(input)
+        		var table=document.createElement("table");
+	        	table.id=key;
+        		table.style="width:90%"
+                table.className="TFtable"
+    	    	ol.appendChild(li2)
+        		li.appendChild(ol);
+    	    	li2.appendChild(table)
+	    	    document.getElementById("checkboxgroup").appendChild(li);
+	        }
+	        if(!("Other" in qualityCategories)){
+	        	var li=document.createElement("li");
+	        	var li2=document.createElement("li");
+	        	var ol=document.createElement("ol");
+        		var input=document.createElement("input");
+        		input.type="checkbox";
+        		input.id=key+"_input";
+        		input.className="nav";
+          		li.className="inp"
+    	    	var label = document.createElement('label');
+    	    	label.htmlFor=key+"_input"
+    	    	label.appendChild(document.createTextNode("Other"));
+    	    	li.appendChild(label)
+    	    	li.appendChild(input)
+        		var table=document.createElement("table");
+        		table.id="Other";
+        		table.width="90%"
+            	table.className="TFtable"
+    	    	ol.appendChild(li2)
+        		li.appendChild(ol);
+    	    	li2.appendChild(table)
+    	    	document.getElementById("checkboxgroup").appendChild(li);
+	  		}
+	        keys = Object.keys(qualityCriteriaList["quality"]);
+	        i=0;
+	        len = keys.length;
+	        keys.sort();
+	        for (i = 0; i < len; i++) {
+	        	  key = keys[i];
+	        	  addTask(key,key);
+	        }
+			checkboxesGenerated=true;
+	  }
+  }
+  
+  function mergeJSON(tomerge,merger){
+		for(key in tomerge){
+			if(key in merger){
+				merger[key]+=tomerge[key]
+			}
+			else{
+				merger[key]=tomerge[key]
+			}
+		}
+		return merger;
+  }
+  
+  function clearMap() {
+	for(i in resultLayerCollection){
+            try {
+                mymap.removeLayer(resultLayerCollection[i]);
+            }
+            catch(e) {
+                console.log("problem with " + e + mymap._layers[i]);
+            }
+	}
+}
+  
+    function createStatPopup(badmetric,amountgeoms,popLocation){
+	//var div = $('<div style="width: 400px; height: 200px;"><canvas  id="chat_"'+create_UUID()+'"></canvas>'+JSON.stringify(badmetric)+'</div>')[0];
+	uuid=create_UUID();
+	var div_chart = $('<div style="width: 300px; height: 200px;"><canvas  id="chat_'+uuid+'"></canvas></div>');
+	var div_text = $('<div>'+JSON.stringify(badmetric)+'</div>');
+	var div_title = $('<div>Worst Performing Metrics for Area containing '+amountgeoms+' Geometries</div>');
+	var div_img = $('<div><img src="http://www.w3schools.com/html/pic_mountain.jpg" alt="Sample image" height="100" width="100"></div>');
+	var div_main = $('<div></div>');
+	//div_main.append(div_img);
+		div_main.append(div_title);
+	div_main.append(div_chart);
+		//div_main.append(div_text);
+	//m.bindPopup(div_main[0]);
+	//m.openPopup();
+	popup=L.popup().setLatLng(popLocation).setContent(div_main[0]).openOn(mymap)  	
+	ctxx = document.getElementById("chat_"+uuid).getContext('2d');
+var sortable = [];
+for (var metric in badmetric) {
+    sortable.push([metric, badmetric[metric]]);
+}
+
+sortable.sort(function(a, b) {
+    return b[1]-a[1];
+});
+labels=[]
+for(item in sortable.slice(0,5)){
+	labels.push(sortable[item[0]][0])
+}
+data=[]
+for(item in sortable.slice(0,5)){
+	data.push(sortable[item[0]][1])
+}
+	chart = new Chart(ctxx, {
+    type: 'bar',
+    data: {
+        labels: labels,//["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        datasets: [{
+            label: 'Worst Performing Metrics',
+            data: data,//[12, 19, 3, 5, 2, 3],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+  }
+  
+  </script>
+
+
+  
+</head>
+<body><table width=100% height=100%>
+<tr>
+<td width="85%"  id="mapid" rowspan="2">
+</td><td width=8% valign=top align="right"><table border="0"><tr><td colspan="2">Dataset:</td><td colspan="2"><select id="datasetselect"><option value="graveyard">Graveyard</option><option value="hospital" selected="selected">Hospital</option><option value="kita">Kita</option><option value="museum">Museum</option><option value="sights">Sights</option></select></td></tr><tr><td  colspan="2">ReqProfiles:</td><td colspan="2"><select id="reqprofilesel"></select></td></tr>
+<tr><td colspan="2">HideMetrics:</td><td colspan="2"><input type="checkbox" id="hidenonrelmetrics" checked="checked"/></td></tr>
+<tr><td colspan="2">Evaluation: </td><td colspan="2"><select id="evaluationsel"></select></td></tr>
+<tr><td>OSM:</td><td><select id="revisionosm"><option value="rev1">Rev 1</option><option value="rev2">Rev 2</option></select></td><td>Reference:</td><td><select id="revisionref"><option value="rev1">Rev 1</option><option value="rev2">Rev 2</option></select></td></tr><tr><td colspan="2"><a href="managereqs.html" target="_blank">Manage ReqProfs</a><br/><a href="#" target="_blank">Ontology View (TBA)</a></td><td colspan="2"><form><button id="savecurprof" onClick="saveCurrentReqProfile()">Save Current Profile</button></form></td></tr></table>
+
+<h3 id="header" onclick="checkAll()">Quality Parameters<a href="jowl.html">
+<img width="20" height="20" src="ontology.png"></a></h3>
+<div class="scrollable" style="margin-left: 0px;">
+<table id="checkboxgroup" class="tree" style="margin-left: 2px;"></table>
+</div>
+</td></tr><tr><td><canvas id="myChart" ></canvas></td></tr></table>
+
+<script>
+featbbox=turf.bboxPolygon(extent(features))
+	 mymap = L.map('mapid',{ zoomControl:false }).setView([51.505, -0.09], 13)
+var zoomFS = new L.Control.ZoomFS(); 
+mymap.addControl(zoomFS);
+//https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw
+	const baseMap=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+	}).addTo(mymap);
+	const layer = L.geoJson(features,{style: function(feature) {
+        return {color: calculateObjectColor(feature),weight: 2,
+                opacity: 1,
+                fillOpacity: 0.3,
+                fillColor: '#99ccff'}
+    },pointToLayer: function (feature,latlng) {  
+    	gicon=L.AwesomeMarkers.icon({icon: 'star',  prefix: 'glyphicon',markerColor:  calculateObjectColor(feature)});
+        return new L.marker(latlng,{icon:gicon});
+    },onEachFeature: function (feature, layer) {
+		  generateElements(layer,feature);
+       }}).addTo(mymap);
+    resultLayerCollection.push(layer)
+	const layerRef = L.geoJson(featureReference,{style: function(feature) {
+        return {color: calculateObjectColor(feature),weight: 2,
+                opacity: 0.2,
+                fillOpacity: 0.3,
+                fillColor: '#FFD000'};
+    },pointToLayer: function (feature,latlng) {  
+    	color=calculateObjectColor(feature);
+    	gicon=L.AwesomeMarkers.icon({icon: 'star', markerColor: color, prefix: 'fa'});
+        return new L.marker(latlng,{icon:gicon});
+    },onEachFeature: function (feature, layer) {
+		generateElements(layer,feature);
+     }}).addTo(mymap);
+     resultLayerCollection.push(layerRef);
+	mymap.fitBounds(layer.getBounds());
+	mymap.on('click', function(e) {  
+        var popLocation= e.latlng;
+		geom=turf.point([e.latlng.lng,e.latlng.lat]);
+		//alert(JSON.stringify(geom))
+		//alert(JSON.stringify(badmetricgridcount))
+		for(key in badmetricgridcount){
+						
+			//alert(JSON.stringify(geom)+" - "+JSON.stringify(JSON.parse("[" +key+ "]")))
+			if(turf.booleanWithin(geom,turf.bboxPolygon(JSON.parse("[" + key + "]"))) && geometriespergrid[key]>0 ){
+			createStatPopup(badmetricgridcount[key],geometriespergrid[key],popLocation);
+				//var popup = L.popup().setLatLng(popLocation).setContent(createStatPopup(badmetricgridcount[key],popLocation)).openOn(mymap);  
+			}
+		}
+      
+    });
+	var tileid=0;
+		  var tiles = new L.GridLayer()
+tiles.createTile = function(coords) {
+  //alert("Grid Redraw")
+  var tile = L.DomUtil.create('canvas', 'leaflet-tile');
+
+  var ctx = tile.getContext('2d');
+
+  var size = this.getTileSize()
+  tile.width = size.x
+  tile.height = size.y
+  coords2= this.getTileSize()
+  coords2["z"]=coords.z
+  coords2["y"]=coords.y+1
+  coords2["x"]=coords.x+1;
+  // calculate projection coordinates of top left tile pixel
+  var nwPoint = coords.scaleBy(size)
+  var swPoint = coords2.scaleBy(size)
+  var nw = mymap.unproject(nwPoint, coords.z)
+  var sw = mymap.unproject(swPoint, coords.z)
+  ctx.fillStyle = 'white';
+  var bbox = [nw.lng, nw.lat, sw.lng, sw.lat];
+var poly = turf.bboxPolygon(bbox);
+var aggregation=0
+var countcontained=0;
+tilecriteriamap={}
+if(turf.booleanWithin(poly,featbbox) || turf.booleanOverlap(poly,featbbox)){
+  for(feat in features["features"]){
+		geom=features["features"][feat]["geometry"]
+		turfgeom=turf.feature(geom)
+		//alert(JSON.stringify(bbox)+" - "+JSON.stringify(turfgeom))
+		if(turf.booleanWithin(turfgeom,poly)){
+			//alert(calculateObjectPercentage(features["features"][feat]))
+			res=calculateObjectPercentage(features["features"][feat])
+			aggregation+=res["percentageValue"]
+			mergeJSON(res["criteriamap"],tilecriteriamap);
+			//alert(JSON.stringify(res["criteriamap"]))
+			countcontained++;
+		}else{
+			//alert("NOT Within BoundingBox: "+JSON.stringify(poly))
+		}
+  }
+  }
+  badmetricgridcount[bbox]=tilecriteriamap;
+  geometriespergrid[bbox]=countcontained;
+    paintColor=getObjectColorForValue(aggregation/countcontained);
+  if(isNaN(aggregation/countcontained)){
+    ctx.lineWidth=0;
+	ctx.globalAlpha = 0.0
+  }else{ 
+  	ctx.globalAlpha = 0.7
+    ctx.fillRect(0, 0, size.x, 25);
+	ctx.fillStyle = 'black';
+	if(countcontained==1){
+	    ctx.fillText('Aggregated Score: '+Math.round(aggregation/countcontained).toFixed(2)+"% ["+paintColor["label"]+"] ("+countcontained+" Geometry)  <a href=# >Link</a>" , 20, 20); 
+	}else{
+	    ctx.fillText('Aggregated Score: '+Math.round(aggregation/countcontained).toFixed(2)+"% ["+paintColor["label"]+"] ("+countcontained+" Geometries)" , 20, 20); 
+	}
+	ctx.globalAlpha = 0.4
+	ctx.fillStyle = paintColor["color"];
+	ctx.fillRect(0, 25, size.x, size.y);
+    ctx.lineWidth=5;
+	ctx.globalAlpha = 0.7
+  }
+
+  ctx.strokeStyle = paintColor["color"];
+
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.lineTo(size.x-1, 0);
+  ctx.lineTo(size.x-1, size.y-1);
+  ctx.lineTo(0, size.y-1);
+  ctx.closePath();
+  ctx.stroke();
+  return tile;
+}
+	tiles.addTo(mymap);
+	L.easyPrint({
+	title: 'Print',
+	position: 'topleft',
+	sizeModes: ['A4Portrait', 'A4Landscape']
+}).addTo(mymap)
+	var overlayMaps = {
+    "osm": layer,"reference":layerRef,"grid":tiles
+};
+var baseMaps = {
+    "baseMap": baseMap
+};
+L.control.layers(baseMaps,overlayMaps).addTo(mymap);
+ var htmlLegend1 =L.control.htmllegend({
+        position: 'bottomright',
+        legends: [{
+            name: 'Map Legend ['+curReqprof+']',
+            layer: baseMap,
+            elements: createColorLegendForLayer()}],
+			collapseSimple:true,
+			detectStretched:true
+    });
+	htmlLegend1.addTo(mymap);
+L.control.scale({
+	position: 'bottomright',
+	imperial: false
+}).addTo(mymap);
+
+$(function() {
+str+="<option value=\"all\">All</option>"
+for(obj in reqprofiles["requirements"]){
+	str+="<option value=\""+Object.keys(reqprofiles["requirements"][obj])+"\">"+Object.keys(reqprofiles["requirements"][obj])+"</option>"
+}
+$("#reqprofilesel").html(str)
+	setReqProf("Emergency")
+	$( "#reqprofilesel" ).val("Emergency")
+$( "#reqprofilesel" ).change(function () {
+	setReqProf($( this ).val())
+ })
+$( "#datasetselect" ).change(function () {
+	loadDataSets($( this ).val())
+  })
+  $( "#hidenonrelmetrics" ).change(function () {
+	hideNonActiveMetrics=$( "#hidenonrelmetrics" ).is(':checked')
+	showHideTrs(hideNonActiveMetrics);
+  })
+
+});
+//createStatPopup();
+</script>
+
+<script>
+var ctx = document.getElementById("myChart").getContext('2d');
+var sortable = [];
+for (var metric in badmetriccount) {
+    sortable.push([metric, badmetriccount[metric]]);
+}
+
+sortable.sort(function(a, b) {
+    return b[1]-a[1];
+});
+labels=[]
+for(item in sortable.slice(0,5)){
+	labels.push(sortable[item[0]][0])
+}
+data=[]
+for(item in sortable.slice(0,5)){
+	data.push(sortable[item[0]][1])
+}
+
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: labels,//["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        datasets: [{
+            label: 'Worst Performing Metrics',
+            data: data,//[12, 19, 3, 5, 2, 3],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+</script>
+</body>
+</html>
