@@ -1049,7 +1049,7 @@ function loadItems(){
 }
 
 function loadFeatureCollection(){
-	$.getJSON( $('#featurecollectionmenu').val()+"?f=geojson&limit="+$('#limit').val(), function(result){	
+	$.getJSON( $('#featurecollectionmenu').val()+"?f=geojson&limit="+$('#limit').val()+"&bbox="  + map.getBounds().getWest() +","+ map.getBounds().getSouth() + "," + map.getBounds().getEast() + "," + map.getBounds().getNorth(), function(result){	
 		officialset=result
 		var officiallayer=L.geoJSON(result,{
 		pointToLayer: function(feature, latlng){
