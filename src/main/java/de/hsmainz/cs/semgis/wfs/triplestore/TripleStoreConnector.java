@@ -26,10 +26,13 @@ import org.apache.jena.rdf.model.Model;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.Point;
 
 import de.hsmainz.cs.semgis.wfs.resultformatter.ResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.GeoJSONFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
+import de.hsmainz.cs.semgis.wfs.util.ReprojectionUtils;
 import de.hsmainz.cs.semgis.wfs.webservice.WebService;
 
 /**
@@ -603,7 +606,7 @@ public abstract class TripleStoreConnector {
 	 * @param indvar the variable indicating the individual queried
 	 * @return A String containing the modified SPARQL query
 	 */
-	public static String CQLfilterStringToSPARQLQuery(String filter,String bbox,String curquery,String queryurl,String featuretype,String indvar) {
+	public static String CQLfilterStringToSPARQLQuery(String filter,String bbox,String curquery,String queryurl,String featuretype,String indvar,String bboxcrs,String targetCRS) {
 		if(filter.isEmpty() && bbox.isEmpty())
 			return curquery;
 		StringBuilder additionaltriples=new StringBuilder();
@@ -611,6 +614,14 @@ public abstract class TripleStoreConnector {
 		System.out.println("Curquery: "+curquery);
 		if(!bbox.isEmpty()) {
 			String[] bboxcoords=bbox.split(",");
+			if(bboxcrs!=null && targetCRS!=null && !bboxcrs.isEmpty() && !targetCRS.isEmpty()) {
+				Coordinate p=ReprojectionUtils.reproject(Double.valueOf(bboxcoords[0]), Double.valueOf(bboxcoords[1]), bboxcrs, targetCRS);
+				Coordinate p2=ReprojectionUtils.reproject(Double.valueOf(bboxcoords[0]), Double.valueOf(bboxcoords[1]), bboxcrs, targetCRS);
+				bboxcoords[0]=p.x+"";
+				bboxcoords[1]=p.y+"";
+				bboxcoords[2]=p2.x+"";
+				bboxcoords[3]=p2.x+"";				
+			}
 			if(queryurl.contains("wikidata")) {
 				String newcurquery="";
 				String the_geomline="";
@@ -733,7 +744,7 @@ public abstract class TripleStoreConnector {
 		}
 		queryString+="?"+workingobj.getString("indvar")+" <"+propertyValue+"> ?member ."+System.lineSeparator();
 		queryString=queryString.substring(0,queryString.lastIndexOf('}'));
-		queryString=CQLfilterStringToSPARQLQuery(filter,"",queryString,queryurl,featuretype,indvar);
+		queryString=CQLfilterStringToSPARQLQuery(filter,"",queryString,queryurl,featuretype,indvar,"","");
 		queryString+="}"+System.lineSeparator();
 		if(!resultType.equalsIgnoreCase("hits") && workingobj.has("useorderby") && workingobj.getBoolean("useorderby"))
 			queryString+=" ORDER BY ?"+indvar+System.lineSeparator();
@@ -847,7 +858,7 @@ public abstract class TripleStoreConnector {
 		}	
 		System.out.println("PreCurQuery: "+queryString);
 		queryString=queryString.substring(0,queryString.lastIndexOf('}'));
-		queryString=CQLfilterStringToSPARQLQuery(filter,bbox,queryString,queryurl,featuretype,indvar)+"}";
+		queryString=CQLfilterStringToSPARQLQuery(filter,bbox,queryString,queryurl,featuretype,indvar,bboxcrs,srsName)+"}";
 		if(!resultType.equalsIgnoreCase("hits") && workingobj.has("useorderby") && workingobj.getBoolean("useorderby"))
 			queryString+=System.lineSeparator()+"ORDER BY ?"+indvar+System.lineSeparator();
 
