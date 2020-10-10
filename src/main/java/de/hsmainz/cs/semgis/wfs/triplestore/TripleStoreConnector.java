@@ -861,7 +861,7 @@ public abstract class TripleStoreConnector {
 		}	
 		System.out.println("PreCurQuery: "+queryString);
 		queryString=queryString.substring(0,queryString.lastIndexOf('}'));
-		queryString=CQLfilterStringToSPARQLQuery(filter,bbox,queryString,queryurl,featuretype,indvar,bboxcrs,srsName)+"}";
+		queryString=CQLfilterStringToSPARQLQuery(filter,bbox,queryString,queryurl,featuretype,indvar,bboxcrs,workingobj.getString("targetCRS"))+"}";
 		if(!resultType.equalsIgnoreCase("hits") && workingobj.has("useorderby") && workingobj.getBoolean("useorderby"))
 			queryString+=System.lineSeparator()+"ORDER BY ?"+indvar+System.lineSeparator();
 
