@@ -1049,7 +1049,11 @@ function loadItems(){
 }
 
 function loadFeatureCollection(){
-	$.getJSON( $('#featurecollectionmenu').val()+"?f=geojson&limit="+$('#limit').val()+"&bbox="  + map.getBounds().getWest() +","+ map.getBounds().getSouth() + "," + map.getBounds().getEast() + "," + map.getBounds().getNorth(), function(result){	
+	queryString=$('#featurecollectionmenu').val()+"?f=geojson&limit="+$('#limit').val()
+	if(document.getElementById('bbox').checked){
+		queryString+="&bbox="  + map.getBounds().getWest() +","+ map.getBounds().getSouth() + "," + map.getBounds().getEast() + "," + map.getBounds().getNorth()
+	}
+	$.getJSON(queryString, function(result){	
 		officialset=result
 		var officiallayer=L.geoJSON(result,{
 		pointToLayer: function(feature, latlng){
@@ -1231,7 +1235,7 @@ loaded=true;
 
 <button type="button" id="loadbutton" onClick="loadItems()">Load FeatureCollection Items</button>
 <button type="button" id="loadbutton2" onClick="loadWDItems()">Load Wikidata Equivalent Items</button>
-<button type="button" id="clearbutton" onClick="clearMap()">Clear Map</button><br/>
+<button type="button" id="clearbutton" onClick="clearMap()">Clear Map</button>BBOX Query: <input type="checkbox" id="bbox"/><br/>
 Autoload<input type="checkbox" id="autoload"/>
 PopupMode<input type="checkbox" id="popupmode"/>
 Stats<input type="checkbox" id="statmode"/>
