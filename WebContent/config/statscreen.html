@@ -1051,7 +1051,7 @@ function loadItems(){
 function loadFeatureCollection(){
 	queryString=$('#featurecollectionmenu').val()+"?f=geojson&limit="+$('#limit').val()
 	if(document.getElementById('bbox').checked){
-		queryString+="&bbox="  + map.getBounds().getWest() +","+ map.getBounds().getSouth() + "," + map.getBounds().getEast() + "," + map.getBounds().getNorth()
+		queryString+="&bbox="  + map.getBounds().getWest() +","+ map.getBounds().getSouth() + "," + map.getBounds().getEast() + "," + map.getBounds().getNorth()+"&bbox-crs=EPSG:4326"
 	}
 	$.getJSON(queryString, function(result){	
 		officialset=result
