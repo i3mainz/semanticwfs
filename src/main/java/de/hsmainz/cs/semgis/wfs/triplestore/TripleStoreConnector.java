@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -607,6 +608,7 @@ public abstract class TripleStoreConnector {
 	 * @return A String containing the modified SPARQL query
 	 */
 	public static String CQLfilterStringToSPARQLQuery(String filter,String bbox,String curquery,String queryurl,String featuretype,String indvar,String bboxcrs,String targetCRS) {
+		System.out.println("BBOX: "+bbox.toString()+" BBOX-CRS: "+bboxcrs+" - TargetCRS: "+targetCRS);
 		if(filter.isEmpty() && bbox.isEmpty())
 			return curquery;
 		StringBuilder additionaltriples=new StringBuilder();
@@ -622,6 +624,7 @@ public abstract class TripleStoreConnector {
 				bboxcoords[2]=p2.x+"";
 				bboxcoords[3]=p2.x+"";				
 			}
+			System.out.println(Arrays.toString(bboxcoords));
 			if(queryurl.contains("wikidata")) {
 				String newcurquery="";
 				String the_geomline="";
