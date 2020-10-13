@@ -11,6 +11,8 @@ import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.locationtech.geowave.core.geotime.util.TWKBWriter;
 import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.io.WKBWriter;
+
 import de.hsmainz.cs.semgis.wfs.resultformatter.VectorResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
 
@@ -64,7 +66,7 @@ public class TWKBFormatter extends VectorResultFormatter {
 				}
 				Geometry geom=this.parseVectorLiteral("Point("+lon+" "+lat+")",WKTLiteral, epsg, srsName);
 				if(geom!=null)
-					out.write(writer.write(geom)+System.lineSeparator());
+					out.write(WKBWriter.toHex(writer.write(geom))+System.lineSeparator());
 				lat="";
 				lon="";
 			}
