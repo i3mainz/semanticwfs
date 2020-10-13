@@ -77,6 +77,13 @@
 		<artifactId>fastods</artifactId>
 		<version>0.7.2</version>
 </dependency>
+<!-- https://mvnrepository.com/artifact/com.clearspring.analytics/stream -->
+<dependency>
+    <groupId>com.clearspring.analytics</groupId>
+    <artifactId>stream</artifactId>
+    <version>2.9.8</version>
+</dependency>
+
 <dependency>
 		<groupId>org.projectlombok</groupId>
 		<artifactId>lombok</artifactId>
