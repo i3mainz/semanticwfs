@@ -57,6 +57,7 @@ import de.hsmainz.cs.semgis.wfs.resultformatter.vector.OSMFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.OSMLinkFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.PostgreSQLFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.SVGFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.vector.TWKBFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.WKBFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.WKTFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.XLSFormatter;
@@ -299,6 +300,7 @@ public abstract class ResultFormatter {
 		addToMaps("ewkt", new EWKTFormatter());
 		addToMaps("hexwkb", new HexWKBFormatter());
 		addToMaps("wkb", new WKBFormatter());
+		addToMaps("twkb", new TWKBFormatter());
 		addToMaps("gpx", new GPXFormatter());
 		addToMaps("psql", new PostgreSQLFormatter());
 		addToMaps("rdf", new RDFFormatter());
