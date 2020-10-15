@@ -640,7 +640,7 @@ public abstract class TripleStoreConnector {
 				builder.append("FILTER(");
 			}else {
 				builder.append("FILTER(");
-				builder.append(" geof:sfIntersects(\"POLYGON(("+bboxcoords[1].replace("\"", "")+" "+bboxcoords[0].replace("\"", "")+","+bboxcoords[1].replace("\"", "")+" "+bboxcoords[2].replace("\"", "")+","+bboxcoords[3].replace("\"", "")+" "+bboxcoords[2].replace("\"", "")+","+bboxcoords[3].replace("\"", "")+" "+bboxcoords[0].replace("\"", "")+","+bboxcoords[1].replace("\"", "")+" "+bboxcoords[0].replace("\"", "")+"))\"^^geo:wktLiteral,?the_geom) ");
+				builder.append("!geof:sfIntersects(\"POLYGON(("+bboxcoords[1].replace("\"", "")+" "+bboxcoords[0].replace("\"", "")+","+bboxcoords[1].replace("\"", "")+" "+bboxcoords[2].replace("\"", "")+","+bboxcoords[3].replace("\"", "")+" "+bboxcoords[2].replace("\"", "")+","+bboxcoords[3].replace("\"", "")+" "+bboxcoords[0].replace("\"", "")+","+bboxcoords[1].replace("\"", "")+" "+bboxcoords[0].replace("\"", "")+"))\"^^geo:wktLiteral,?the_geom) ");
 			}
 		}else {
 			builder.append("FILTER(");
