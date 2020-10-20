@@ -114,6 +114,9 @@ public abstract class CoverageResultFormatter extends ResultFormatter {
 		JSONObject result = new JSONObject();
 		JSONArray xarray, yarray, zarray;
 		String param;
+		String nodata = "";
+		Double cellsize = 1., xllcorner = 1., yllcorner = 1.;
+		Integer nxcols = null, nycols = null;
 		switch (literalType) {
 		case "http://www.opengis.net/ont/geosparql#xyzLiteral":
 			result = generateCOVJSONForXY("Grid");
@@ -130,6 +133,21 @@ public abstract class CoverageResultFormatter extends ResultFormatter {
 				zarray.put(Double.valueOf(coord[2]));
 			}
 			break;
+		case "http://www.opengis.net/ont/geosparql#gxfLiteral":
+			result = generateCOVJSONForXY("Grid");
+			param = "altitude";
+			result = addCovJSONParameterAndRange(result, param, "http://www.opengis.net/ont/geosparql#altitude",
+					new LinkedList<>(), "float");
+			result.getJSONObject("domain").getJSONObject("axes").getJSONObject("x").remove("values");
+			result.getJSONObject("domain").getJSONObject("axes").getJSONObject("y").remove("values");
+			zarray = result.getJSONObject("ranges").getJSONObject(param).getJSONArray("values");
+			for (String line : literalValue.split(System.lineSeparator())) {
+				if (line.startsWith("ncols")) {
+					
+				}
+			}
+			
+			break;
 		case "http://www.opengis.net/ont/geosparql#ascLiteral":
 			result = generateCOVJSONForXY("Grid");
 			param = "altitude";
@@ -138,9 +156,6 @@ public abstract class CoverageResultFormatter extends ResultFormatter {
 			result.getJSONObject("domain").getJSONObject("axes").getJSONObject("x").remove("values");
 			result.getJSONObject("domain").getJSONObject("axes").getJSONObject("y").remove("values");
 			zarray = result.getJSONObject("ranges").getJSONObject(param).getJSONArray("values");
-			String nodata = "";
-			Double cellsize = 1., xllcorner = 1., yllcorner = 1.;
-			Integer nxcols = null, nycols = null;
 			for (String line : literalValue.split(System.lineSeparator())) {
 				if (line.startsWith("ncols")) {
 					result.getJSONObject("domain").getJSONObject("axes").getJSONObject("x").put("num",
