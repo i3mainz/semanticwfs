@@ -9,12 +9,19 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import de.hsmainz.cs.semgis.wfs.util.Tuple;
+import uk.ac.rdg.resc.edal.covjson.CoverageJsonConverterImpl;
+import uk.ac.rdg.resc.edal.covjson.writers.Coverage;
 
 public abstract class CoverageResultFormatter extends ResultFormatter {
 
+	static Coverage cov=new Coverage(null);
+	
+	
 	public static Map<String, Map<String, Integer>> columnsval;
 
 	public static Map<String, Tuple<Boolean, String>> extractObservableColumns(JSONObject geojson) {
+		CoverageJsonConverterImpl impl;
+		
 		Map<String, Tuple<Boolean, String>> columns = new TreeMap<String, Tuple<Boolean, String>>();
 		columnsval = new TreeMap<String, Map<String, Integer>>();
 		JSONArray features = geojson.getJSONArray("features");
