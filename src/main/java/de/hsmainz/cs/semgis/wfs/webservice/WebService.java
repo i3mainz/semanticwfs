@@ -1795,10 +1795,27 @@ public class WebService {
             description = "Returns a list of feature types/collections")
 	public Response docCollectionJSON(
 			@Parameter(description="The id of the collection to be considered") @PathParam("collectionid") String collectionid,
-			@Parameter(description="The format in which the collection should be returned",example="geojson") @DefaultValue("html") @QueryParam("f") String format,  
-			@Parameter(description="The maximum amount of features to be returned", example="10") @DefaultValue("10") @QueryParam("limit") String limit,
+			@Parameter(description="The format in which the collection should be returned",example="geojson") @DefaultValue("") @QueryParam("_format") String format,  
+			@Parameter(description="The maximum amount of features to be returned", example="10") @DefaultValue("10") @QueryParam("_pageSize") String limit,
+			@Parameter(description="An optional where statement to be used in the SPARQL query", example="10") @DefaultValue("10") @QueryParam("_where") String where,
 			@Parameter(description="The page of the Linked Data API resource to return", example="1") @DefaultValue("1") @QueryParam("_page") String page,
+			@Parameter(description="Detailed or minimized view to be returned") @DefaultValue("") @QueryParam("_view") String view,
+			@Parameter(description="The sorting of the given results") @DefaultValue("") @QueryParam("_sort") String sort,
+			@Parameter(description="An optional orderBy statement to be used in the SPARQL query") @DefaultValue("") @QueryParam("_orderBy") String orderBy,
+			@Parameter(description="A subclass definition of the class defining the featurecollection") @DefaultValue("") @QueryParam("type") String[] type,
+			@Parameter(description="Defines resources with a specified parameter value to be returned") @DefaultValue("") @QueryParam("param") String paramval,
+			@Parameter(description="Defines resources with a specified parameter value greater or equal the given value to be returned") @DefaultValue("") @QueryParam("max-param") String maxparamval,
+			@Parameter(description="Defines resources with a specified parameter value smaller or equal the given value to be returned") @DefaultValue("") @QueryParam("min-param") String minparamval,
+			@Parameter(description="Defines resources with a specified parameter value greater than the given value to be returned") @DefaultValue("") @QueryParam("maxEx-param") String maxExparamval,
+			@Parameter(description="Defines resources with a specified parameter value smaller than the given value to be returned") @DefaultValue("") @QueryParam("minEx-param") String minExparamval,
+			@Parameter(description="Returns only resources with the specified parameter") @DefaultValue("") @QueryParam("exists-param") String existsparam,
 			@Parameter(description="An offset to be considered when returning features",example="10") @DefaultValue("0") @QueryParam("offset") String offset) {
+		if(collectionid.contains(".")) {
+			if(format.isEmpty()) {
+				format=collectionid.substring(collectionid.lastIndexOf('.')+1);
+			}
+			collectionid=collectionid.substring(0,collectionid.lastIndexOf('.'));
+		}
 		return collectionInformation(collectionid,format,limit,offset,null);
 	}	
 	
