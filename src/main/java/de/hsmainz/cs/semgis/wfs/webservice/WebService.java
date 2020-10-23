@@ -194,7 +194,6 @@ public class WebService {
 			return Response.ok("",OpenAPIMediaType.OA3_TYPE).build();
 		}
 	}
-
 	
 	@GET
 	@Produces({"application/vnd.oai.openapi+yaml;version=3.0"})
@@ -400,7 +399,6 @@ public class WebService {
 			}
 
 		}
-
 		return null;
 	}
 
@@ -654,6 +652,17 @@ public class WebService {
 		}
 		return Response.ok("").type(MediaType.TEXT_PLAIN).build();
 	}
+	
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON})
+	@Path("/doc")
+	@Operation(
+            summary = "Returns a list of feature types/collections",
+            description = "Returns a list of feature types/collections")
+	public Response docJSON(
+			@Parameter(description="Return format") @DefaultValue("json") @QueryParam("f") String format) {
+		return collections(format);
+	}	
 	
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON})
@@ -935,7 +944,7 @@ public class WebService {
 			throw new NotFoundException();
 		}
 	}
-
+	
 	/**
 	 * Returns a feature given its feature id.
 	 * @param collectionid The feature type
@@ -1777,6 +1786,21 @@ public class WebService {
 			@Parameter(description="Defines a bounding box from which to return the given features") @QueryParam("bbox") String bbox) {
 		return collectionInformation(collectionid, format, limit, offset, bbox);
 	}
+	
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON})
+	@Path("/doc/{collectionid}")
+	@Operation(
+            summary = "Returns a list of feature types/collections",
+            description = "Returns a list of feature types/collections")
+	public Response docCollectionJSON(
+			@Parameter(description="The id of the collection to be considered") @PathParam("collectionid") String collectionid,
+			@Parameter(description="The format in which the collection should be returned",example="geojson") @DefaultValue("html") @QueryParam("f") String format,  
+			@Parameter(description="The maximum amount of features to be returned", example="10") @DefaultValue("10") @QueryParam("limit") String limit,
+			@Parameter(description="The page of the Linked Data API resource to return", example="1") @DefaultValue("1") @QueryParam("_page") String page,
+			@Parameter(description="An offset to be considered when returning features",example="10") @DefaultValue("0") @QueryParam("offset") String offset) {
+		return collectionInformation(collectionid,format,limit,offset,null);
+	}	
 	
 	/**
 	 * Returns a given collection description or parts of it.
