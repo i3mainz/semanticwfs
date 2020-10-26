@@ -56,12 +56,6 @@
     <artifactId>jena-arq</artifactId>
     <version>${jena.version}</version>
 </dependency>
-<!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
-<dependency>
-    <groupId>org.apache.poi</groupId>
-    <artifactId>poi</artifactId>
-    <version>4.1.2</version>
-</dependency>
 <dependency>
    <groupId>com.siemens.ct.exi</groupId>
    <artifactId>exificient</artifactId>
@@ -242,14 +236,6 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
-			<plugin>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>${maven-war-plugin.version}</version>
-                <configuration>
-                    <warSourceDirectory>WebContent</warSourceDirectory>
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
-                </configuration>
-            </plugin>
             <plugin>
                 <!-- Download Swagger UI webjar. -->
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -279,6 +265,8 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>${maven-war-plugin.version}</version>
                 <configuration>
+                    <warSourceDirectory>WebContent</warSourceDirectory>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
                     <webResources combine.children="append">
                         <resource>
                             <directory>${project.build.directory}/swagger-ui/META-INF/resources/webjars/swagger-ui/${swagger-ui.version}</directory>
