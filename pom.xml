@@ -14,10 +14,6 @@
 			<name>Java.net Repository for Maven</name>
 			<url>http://repo1.maven.org/maven2/</url>
 		</repository>
-		<repository>
-		    <id>jitpack.io</id>
-		    <url>https://jitpack.io</url>
-		</repository>
 <repository>
     <id>ECC</id>
     <name>ECC</name>
@@ -52,13 +48,13 @@
 <dependency>
     <groupId>org.apache.jena</groupId>
     <artifactId>jena-core</artifactId>
-    <version>3.14.0</version>
+    <version>${jena.version}</version>
 </dependency>
 <!-- https://mvnrepository.com/artifact/org.apache.jena/jena-arq -->
 <dependency>
     <groupId>org.apache.jena</groupId>
     <artifactId>jena-arq</artifactId>
-    <version>3.14.0</version>
+    <version>${jena.version}</version>
 </dependency>
 <!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
 <dependency>
@@ -86,7 +82,7 @@
 <dependency>
     <groupId>uk.ac.rdg.resc</groupId>
     <artifactId>edal-coveragejson</artifactId>
-    <version>1.5.0</version>
+    <version>1.4.0</version>
 </dependency>
 
 <dependency>
@@ -227,12 +223,13 @@
     <artifactId>jackson-core</artifactId>
     <version>2.11.0</version>
 </dependency>
-<!-- https://mvnrepository.com/artifact/com.github.jsonld-java/jsonld-java -->
+<!-- https://mvnrepository.com/artifact/com.github.jsonld-java/jsonld-java 
 <dependency>
     <groupId>com.github.jsonld-java</groupId>
     <artifactId>jsonld-java</artifactId>
     <version>0.12.5</version>
-</dependency>
+    <type>jar</type>
+</dependency>-->
 	</dependencies>
 
 	<build>

@@ -1804,13 +1804,13 @@ public class WebService {
 			@Parameter(description="Detailed or minimized view to be returned") @DefaultValue("") @QueryParam("_view") String view,
 			@Parameter(description="The sorting of the given results") @DefaultValue("") @QueryParam("_sort") String sort,
 			@Parameter(description="An optional orderBy statement to be used in the SPARQL query") @DefaultValue("") @QueryParam("_orderBy") String orderBy,
-			@Parameter(description="A subclass definition of the class defining the featurecollection") @DefaultValue("") @QueryParam("type") String[] type,
+			@Parameter(description="A subclass definition of the class defining the featurecollection") @DefaultValue("") @QueryParam("type") String type,
 			@Parameter(description="Defines resources with a specified parameter value to be returned") @DefaultValue("") @QueryParam("param") List<String> paramval,
 			@Parameter(description="Defines resources with a specified parameter value greater or equal the given value to be returned") @DefaultValue("") @QueryParam("max-param") String maxparamval,
 			@Parameter(description="Defines resources with a specified parameter value smaller or equal the given value to be returned") @DefaultValue("") @QueryParam("min-param") String minparamval,
 			@Parameter(description="Defines resources with a specified parameter value greater than the given value to be returned") @DefaultValue("") @QueryParam("maxEx-param") String maxExparamval,
 			@Parameter(description="Defines resources with a specified parameter value smaller than the given value to be returned") @DefaultValue("") @QueryParam("minEx-param") String minExparamval,
-			@Parameter(description="Returns only resources with the specified parameter") @QueryParam("exists-param") List<String> existsparam,
+			@Parameter(description="Returns only resources with the specified parameter") @QueryParam("exists-param") String existsparam,
 			@Parameter(description="An offset to be considered when returning features",example="10") @DefaultValue("0") @QueryParam("offset") String offset) {
 		String queryString="",additionalwhereclauses="";
 		if(!select.isEmpty()) {
@@ -1823,7 +1823,7 @@ public class WebService {
 			queryString+="WHERE {\n"+where+"\n}";
 		}
 		Integer addvarcounter=0;
-		if(existsparam!=null) {
+		/*if(existsparam!=null) {
 			for(String str:existsparam) {
 				additionalwhereclauses+=triplestoreconf.getJSONObject(collectionid.toLowerCase()).getString("indvar")+" "+str+" ?var"+addvarcounter+++System.lineSeparator();
 			}
@@ -1832,7 +1832,7 @@ public class WebService {
 			for(String str:type) {
 				additionalwhereclauses+=triplestoreconf.getJSONObject(collectionid.toLowerCase()).getString("indvar")+" rdf:type "+str+System.lineSeparator();
 			}			
-		}
+		}*/
 		if(!orderBy.isEmpty()) {
 			queryString+=System.lineSeparator()+orderBy;
 		}
