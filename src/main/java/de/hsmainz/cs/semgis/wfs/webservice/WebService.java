@@ -1035,7 +1035,11 @@ public class WebService {
 		}else {
 			queryString=workingobj.getString("query");
 		}
-		queryString=queryString.replace("WHERE {", "WHERE {\n BIND( <"+workingobj.getString("namespace")+featureid+"> AS ?item)\n");
+		if(queryString.contains("WHERE {")) {
+			queryString=queryString.replace("WHERE {", "WHERE {\n BIND( <"+workingobj.getString("namespace")+featureid+"> AS ?item)\n");			
+		}else if(queryString.contains("WHERE {")) {
+			queryString=queryString.replace("WHERE{", "WHERE{\n BIND( <"+workingobj.getString("namespace")+featureid+"> AS ?item)\n");			
+		}
 		if(!where.isEmpty() && select.isEmpty()) {
 			queryString=queryString.substring(0,queryString.indexOf("WHERE"));
 			queryString+="WHERE {\n"+where+"\n}";
