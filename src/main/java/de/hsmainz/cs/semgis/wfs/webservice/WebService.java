@@ -1896,12 +1896,13 @@ public class WebService {
 	
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON})
-	@Path("/doc/{collectionid:([A-z0-9]+(\\.[a-z]+)?)}")
+	@Path("doc/{collectionid}{ext:(.[a-z]+)*}")
 	@Operation(
             summary = "Returns a list of feature types/collections",
             description = "Returns a list of feature types/collections")
 	public Response docCollectionJSON(
 			@Parameter(description="The id of the collection to be considered") @PathParam("collectionid") String collectionid,
+			@Parameter(description="The format if given as a file extension") @DefaultValue("") @PathParam("ext") String ext,
 			@Parameter(description="The format in which the collection should be returned",example="ttl") @DefaultValue("ttl") @QueryParam("_format") String format,  
 			@Parameter(description="The maximum amount of features to be returned", example="10") @DefaultValue("10") @QueryParam("_pageSize") Integer limit,
 			@Parameter(description="An optional where statement to be used in the SPARQL query", example="10") @DefaultValue("") @QueryParam("_select") String select,
@@ -1970,13 +1971,12 @@ public class WebService {
 		if(page>1) {
 			queryString+=System.lineSeparator()+"OFFSET "+page*limit;			
 		}*/
-		if(collectionid.contains(".")) {
+		if(!ext.isEmpty()) {
 			if(format.isEmpty()) {
-				format=collectionid.substring(collectionid.lastIndexOf('.')+1);
+				format=ext;
 			}
 			collectionid=collectionid.substring(0,collectionid.lastIndexOf('.'));
 		}
-
 		final String qs=queryString;
 		final String formatt=format;
 		final JSONObject workingobjj=workingobj;
