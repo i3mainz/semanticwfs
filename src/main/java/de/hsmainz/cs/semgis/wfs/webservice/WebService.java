@@ -1003,7 +1003,7 @@ public class WebService {
 			@Parameter(description="The id of the collection to be considered") @PathParam("collectionid") String collectionid,
 			@Parameter(description="The id of the feature to be considered") @PathParam("ext") String ext,
 			@Parameter(description="The id of the feature to be considered") @PathParam("featureid") String featureid,
-			@Parameter(description="The format in which the collection should be returned",example="geojson") @DefaultValue("ttl") @QueryParam("_format") String format,  
+			@Parameter(description="The format in which the collection should be returned",example="geojson") @DefaultValue("ldapi") @QueryParam("_format") String format,  
 			@Parameter(description="The maximum amount of features to be returned", example="10") @DefaultValue("10") @QueryParam("_pageSize") Integer limit,
 			@Parameter(description="An optional where statement to be used in the SPARQL query", example="10") @DefaultValue("") @QueryParam("_select") String select,
 			@Parameter(description="An optional where statement to be used in the SPARQL query", example="10") @DefaultValue("") @QueryParam("_where") String where,
@@ -1904,7 +1904,7 @@ public class WebService {
 	public Response docCollectionJSON(
 			@Parameter(description="The id of the collection to be considered") @PathParam("collectionid") String collectionid,
 			@Parameter(description="The format if given as a file extension") @DefaultValue("") @PathParam("ext") String ext,
-			@Parameter(description="The format in which the collection should be returned",example="ttl") @DefaultValue("ttl") @QueryParam("_format") String format,  
+			@Parameter(description="The format in which the collection should be returned",example="ttl") @DefaultValue("ldapi") @QueryParam("_format") String format,  
 			@Parameter(description="The maximum amount of features to be returned", example="10") @DefaultValue("10") @QueryParam("_pageSize") Integer limit,
 			@Parameter(description="An optional where statement to be used in the SPARQL query", example="10") @DefaultValue("") @QueryParam("_select") String select,
 			@Parameter(description="An optional where statement to be used in the SPARQL query", example="10") @DefaultValue("") @QueryParam("_where") String where,
