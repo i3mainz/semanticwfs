@@ -1,3 +1,5 @@
-<map id="User" name="User">
-<area shape="rect" id="node3" href="$a00488.html" title="Enumeration type including user levels which may be applied in the SemanticWFS. " alt="" coords="125,111,203,137"/>
+<map id="GMLFormatter" name="GMLFormatter">
+<area shape="rect" id="node2" href="$a00572.html" title="VectorResultFormatter" alt="" coords="1569,181,1724,208"/>
+<area shape="rect" id="node3" href="$a00424.html" title="Abstract class to downlift query results. " alt="" coords="1404,371,1520,397"/>
+<area shape="rect" id="node8" href="$a00604.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="1096,421,1243,448"/>
 </map>

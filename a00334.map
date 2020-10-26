@@ -1,5 +1,5 @@
-<map id="JSONFormatter" name="JSONFormatter">
-<area shape="rect" id="node2" href="$a00408.html" title="WFSResultFormatter" alt="" coords="1541,75,1688,101"/>
-<area shape="rect" id="node3" href="$a00292.html" title="Abstract class to downlift query results. " alt="" coords="1376,212,1492,239"/>
-<area shape="rect" id="node7" href="$a00440.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="1096,212,1243,239"/>
+<map id="CovJSONFormatter" name="CovJSONFormatter">
+<area shape="rect" id="node2" href="$a00368.html" title="CoverageResultFormatter" alt="" coords="1656,472,1828,499"/>
+<area shape="rect" id="node3" href="$a00424.html" title="Abstract class to downlift query results. " alt="" coords="1467,375,1583,401"/>
+<area shape="rect" id="node8" href="$a00604.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="1096,207,1243,233"/>
 </map>
