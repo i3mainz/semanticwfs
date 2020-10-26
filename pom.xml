@@ -232,7 +232,7 @@
     <groupId>com.github.jsonld-java</groupId>
     <artifactId>jsonld-java</artifactId>
     <version>0.12.5</version>
-    <type>bundle</type>
+    <type>jar</type>
 </dependency>
 	</dependencies>
 
