@@ -1896,7 +1896,7 @@ public class WebService {
 	
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON})
-	@Path("/doc/{collectionid:(\\.[a-z]+)?}")
+	@Path("/doc/{collectionid:([A-z0-9]+(\\.[a-z]+)?)}")
 	@Operation(
             summary = "Returns a list of feature types/collections",
             description = "Returns a list of feature types/collections")
