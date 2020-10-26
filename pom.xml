@@ -32,7 +32,7 @@
 		  <!-- <sis.version>0.8-jdk7-M1</sis.version>-->
 		  <sis.version>2.0-SNAPSHOT</sis.version>
 		  <geoapi.version>4.0-M05</geoapi.version>
-		  <jena.version>3.10.0</jena.version>
+		  <jena.version>3.14.0</jena.version>
         <mvn-compiler-plugin.version>3.7.0</mvn-compiler-plugin.version>
         <maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
         <maven-war-plugin.version>3.2.2</maven-war-plugin.version>
@@ -52,13 +52,13 @@
 <dependency>
     <groupId>org.apache.jena</groupId>
     <artifactId>jena-core</artifactId>
-    <version>3.16.0</version>
+    <version>${jena.version}</version>
 </dependency>
 <!-- https://mvnrepository.com/artifact/org.apache.jena/jena-arq -->
 <dependency>
     <groupId>org.apache.jena</groupId>
     <artifactId>jena-arq</artifactId>
-    <version>3.16.0</version>
+    <version>${jena.version}</version>
 </dependency>
 <!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
 <dependency>
