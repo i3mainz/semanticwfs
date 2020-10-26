@@ -32,7 +32,7 @@ var a00664 =
     [ "describeScalarCapabilities", "a00664.html#a861ccbf29e313388b7b887f247644c2e", null ],
     [ "describeSpatialCapabilities", "a00664.html#ad165877472c415f9bfdbad811c99f754", null ],
     [ "describeSpatialCapabilitiesWFS10", "a00664.html#a6196d8576a3809e04288c34d85b3c6bf", null ],
-    [ "docCollectionJSON", "a00664.html#abe80cb51b40ba90eae98ba9ff45278f4", null ],
+    [ "docCollectionJSON", "a00664.html#a54a8792922b58d57e2c46ae945c0900d", null ],
     [ "docJSON", "a00664.html#a2f9e3aebf6c228854cf1ea25f159c893", null ],
     [ "entryPoint", "a00664.html#a19a39706b885311cee8e00fc213095e3", null ],
     [ "entryPointCSW", "a00664.html#ac4b707fdc3105259a833785abfae0d5e", null ],
