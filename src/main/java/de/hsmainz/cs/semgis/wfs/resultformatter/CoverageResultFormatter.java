@@ -14,7 +14,7 @@ import uk.ac.rdg.resc.edal.covjson.writers.Coverage;
 
 public abstract class CoverageResultFormatter extends ResultFormatter {
 
-	static Coverage cov=new Coverage(null);
+	//static Coverage cov=new Coverage(null);
 	
 	
 	public static Map<String, Map<String, Integer>> columnsval;
