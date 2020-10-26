@@ -16,7 +16,6 @@ var a00340 =
     [ "columnsval", "a00340.html#a9d91c23f59b2d5718ca3c3e985274766", null ],
     [ "constructQuery", "a00340.html#a1768d12b7ee6351da308da80587f7b45", null ],
     [ "contextMapper", "a00340.html#ae7316c0c7550712f915cc3cd353cd981", null ],
-    [ "cov", "a00340.html#a50ee940e3462e3f684f58f40cc4ef5c3", null ],
     [ "coverageLiteralMap", "a00340.html#aaa33420e808716d2e38bdafd89b3a514", null ],
     [ "definition", "a00340.html#a204475833916aa852ab5ea580cad92a8", null ],
     [ "exposedType", "a00340.html#aa6a844c9b01d97aca583be867a1c5413", null ],
