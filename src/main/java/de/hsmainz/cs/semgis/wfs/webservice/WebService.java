@@ -1813,10 +1813,21 @@ public class WebService {
 			@Parameter(description="Returns only resources with the specified parameter") @QueryParam("exists-param") String existsparam,
 			@Parameter(description="An offset to be considered when returning features",example="10") @DefaultValue("0") @QueryParam("offset") String offset) {
 		String queryString="",additionalwhereclauses="";
+		JSONObject workingobj=null;
+		for (int i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
+			JSONObject curobj = wfsconf.getJSONArray("datasets").getJSONObject(i);
+			if (curobj.getString("name").equalsIgnoreCase(collectionid)) {
+				workingobj = curobj;
+				break;
+			}
+		}
+		if (workingobj == null) {
+			throw new NotFoundException();
+		}
 		if(!select.isEmpty()) {
 			queryString=select;
 		}else {
-			queryString=triplestoreconf.getJSONObject(collectionid.toLowerCase()).getString("query");
+			queryString=workingobj.getString("query");
 		}
 		if(!where.isEmpty() && select.isEmpty()) {
 			queryString=queryString.substring(0,queryString.indexOf("WHERE"));
@@ -1846,17 +1857,7 @@ public class WebService {
 			}
 			collectionid=collectionid.substring(0,collectionid.lastIndexOf('.'));
 		}
-		JSONObject workingobj=null;
-		for (int i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
-			JSONObject curobj = wfsconf.getJSONArray("datasets").getJSONObject(i);
-			if (curobj.getString("name").equalsIgnoreCase(collectionid)) {
-				workingobj = curobj;
-				break;
-			}
-		}
-		if (workingobj == null) {
-			throw new NotFoundException();
-		}
+
 		final String qs=queryString;
 		final String formatt=format;
 		final JSONObject workingobjj=workingobj;
