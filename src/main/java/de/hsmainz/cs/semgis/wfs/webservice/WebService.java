@@ -1868,7 +1868,7 @@ public class WebService {
 		      Writer writer = new BufferedWriter(new OutputStreamWriter(os));
 		      String res;
 			try {
-				res = TripleStoreConnector.executeLDAPIQuery(qs, formatt,null, workingobjj.getString("endpoint"), workingobjj,writer);
+				res = TripleStoreConnector.executeLDAPIQuery(qs, formatt,null, workingobjj.getString("triplestore"), workingobjj,writer);
 			      if(res!=null && !res.isEmpty()) {
 			    	  writer.write(res);
 			      }
