@@ -230,7 +230,7 @@
 <!-- https://mvnrepository.com/artifact/com.github.jsonld-java/jsonld-java -->
 <dependency>
     <groupId>com.github.jsonld-java</groupId>
-    <artifactId>jsonld-java</artifactId>
+    <artifactId>jsonld-java-parent</artifactId>
     <version>0.12.5</version>
 </dependency>
 	</dependencies>
