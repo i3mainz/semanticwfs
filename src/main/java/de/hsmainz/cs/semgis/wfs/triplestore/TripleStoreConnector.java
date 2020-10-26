@@ -200,6 +200,25 @@ public abstract class TripleStoreConnector {
 		return res;
 	}
 	
+	public static String executeLDAPIQuery(String query,String formatter,String crs,String endpoint,JSONObject currentobj,Writer writer) {
+		ResultFormatter resformat=ResultFormatter.getFormatter(formatter);
+		query = prefixCollection + query;
+		System.out.println(query);
+		Query queryjena = QueryFactory.create(query);
+		//"http://localhost:8080/rdf4j-server/repositories/pleiades"
+		QueryExecution qe = QueryExecutionFactory.sparqlService(endpoint, queryjena);
+		ResultSet rs = qe.execSelect();
+		String res;
+		try {
+			res = resformat.formatter(rs, "", "item", "", "", false, false, "","item","",null,null,null,false,false,false,writer);
+			return res;
+		} catch (XMLStreamException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	/**
 	 * May execute a SPARQL query to indicate a temporal extent of the given dataset.
 	 * This feature is currently not yet implemented and would need to be configured on a feature by feature basis as no standard to represent times is available.

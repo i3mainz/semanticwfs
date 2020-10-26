@@ -1846,7 +1846,42 @@ public class WebService {
 			}
 			collectionid=collectionid.substring(0,collectionid.lastIndexOf('.'));
 		}
-		return null;
+		JSONObject workingobj=null;
+		for (int i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
+			JSONObject curobj = wfsconf.getJSONArray("datasets").getJSONObject(i);
+			if (curobj.getString("name").equalsIgnoreCase(collectionid)) {
+				workingobj = curobj;
+				break;
+			}
+		}
+		if (workingobj == null) {
+			throw new NotFoundException();
+		}
+		final String qs=queryString;
+		final String formatt=format;
+		final JSONObject workingobjj=workingobj;
+		StreamingOutput stream = new StreamingOutput() {
+		    @Override
+		    public void write(OutputStream os) throws IOException,
+		    WebApplicationException {
+		      Writer writer = new BufferedWriter(new OutputStreamWriter(os));
+		      String res;
+			try {
+				res = TripleStoreConnector.executeLDAPIQuery(qs, formatt,null, workingobjj.getString("endpoint"), workingobjj,writer);
+			      if(res!=null && !res.isEmpty()) {
+			    	  writer.write(res);
+			      }
+			} catch (JSONException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			writer.close();
+		    }
+		  };
+		return Response.ok(stream,ResultFormatter.getFormatter(format).mimeType)
+				.header("Content-Disposition", "attachment; filename*=UTF-8''" + collectionid+"_items."
+						+ResultFormatter.getFormatter(format).fileextension)
+				.build();
 	}	
 	
 	/**
