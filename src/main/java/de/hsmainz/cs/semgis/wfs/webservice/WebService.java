@@ -1038,7 +1038,7 @@ public class WebService {
 		}
 		if(queryString.contains("WHERE {")) {
 			queryString=queryString.replace("WHERE {", "WHERE {\n BIND( <"+workingobj.getString("namespace")+featureid+"> AS ?item)\n");			
-		}else if(queryString.contains("WHERE {")) {
+		}else if(queryString.contains("WHERE{")) {
 			queryString=queryString.replace("WHERE{", "WHERE{\n BIND( <"+workingobj.getString("namespace")+featureid+"> AS ?item)\n");			
 		}
 		if(!where.isEmpty() && select.isEmpty()) {
