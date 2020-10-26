@@ -23,6 +23,7 @@ import de.hsmainz.cs.semgis.wfs.resultformatter.coverage.CovJSONFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.coverage.XYZASCIIFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.HDTFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.HexTuplesFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.LDAPIJSONFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.N3Formatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.NQuadsFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.NTFormatter;
@@ -138,6 +139,9 @@ public abstract class ResultFormatter {
 		}
 		if(formatString.contains("csv")) {
 			return resultMap.get("csv");
+		}
+		if(formatString.contains("ldapi")) {
+			return resultMap.get("ldapi");
 		}
 		if(formatString.contains("gpx")) {
 			return resultMap.get("gpx");
@@ -290,6 +294,7 @@ public abstract class ResultFormatter {
 		addToMaps("trix", new TrixFormatter());
 		addToMaps("kml", new KMLFormatter());
 		addToMaps("gml", new GMLFormatter());
+		addToMaps("ldapi", new LDAPIJSONFormatter());
 		addToMaps("n3", new N3Formatter());
 		addToMaps("nq", new NQuadsFormatter());
 		addToMaps("nt", new NTFormatter());
