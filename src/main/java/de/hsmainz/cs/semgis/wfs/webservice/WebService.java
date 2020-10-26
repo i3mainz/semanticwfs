@@ -1917,7 +1917,7 @@ public class WebService {
 			@Parameter(description="Defines resources with a specified parameter value greater than the given value to be returned") @DefaultValue("") @QueryParam("maxEx-param") String maxExparamval,
 			@Parameter(description="Defines resources with a specified parameter value smaller than the given value to be returned") @DefaultValue("") @QueryParam("minEx-param") String minExparamval,
 			@Parameter(description="Returns only resources with the specified parameter") @QueryParam("exists-param") String existsparam,
-			@Parameter(description="An offset to be considered when returning features",example="10") @DefaultValue("0") @QueryParam("offset") String offset) {
+			@Parameter(description="An offset to be considered when returning features",example="10") @DefaultValue("0") @QueryParam("offset") Integer offset) {
 		String queryString="",additionalwhereclauses="";
 		JSONObject workingobj=null;
 		for (int i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
@@ -1935,10 +1935,23 @@ public class WebService {
 		}else {
 			queryString=workingobj.getString("query");
 		}
+		if(limit>=1 || offset>0) {
+			StringBuilder toreplace=new StringBuilder();
+			toreplace.append("WHERE{ { SELECT ?"+workingobj.getString("indvar")+" WHERE { ?"+workingobj.getString("indvar")+" <"+WebService.triplestoreconf.getJSONObject("endpoints").getJSONObject(workingobj.getString("triplestore")).getString("type")+"> <"+workingobj.getString("class")+"> . }"+System.lineSeparator());
+			if(limit>=1) {
+				toreplace.append(" LIMIT "+limit+System.lineSeparator());
+			}
+			if(offset>0) {
+				toreplace.append(" OFFSET "+offset+System.lineSeparator());
+			}
+			toreplace.append(" } "+System.lineSeparator());
+			queryString=queryString.replace("WHERE{", toreplace);
+		}	
 		if(!where.isEmpty() && select.isEmpty()) {
 			queryString=queryString.substring(0,queryString.indexOf("WHERE"));
 			queryString+="WHERE {\n"+where+"\n}";
 		}
+		
 		Integer addvarcounter=0;
 		/*if(existsparam!=null) {
 			for(String str:existsparam) {
@@ -1953,10 +1966,10 @@ public class WebService {
 		if(!orderBy.isEmpty()) {
 			queryString+=System.lineSeparator()+orderBy;
 		}
-		queryString+=System.lineSeparator()+"LIMIT "+limit;
+		/*queryString+=System.lineSeparator()+"LIMIT "+limit;
 		if(page>1) {
 			queryString+=System.lineSeparator()+"OFFSET "+page*limit;			
-		}
+		}*/
 		if(collectionid.contains(".")) {
 			if(format.isEmpty()) {
 				format=collectionid.substring(collectionid.lastIndexOf('.')+1);
