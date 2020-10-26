@@ -10,6 +10,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -1796,27 +1797,56 @@ public class WebService {
 	public Response docCollectionJSON(
 			@Parameter(description="The id of the collection to be considered") @PathParam("collectionid") String collectionid,
 			@Parameter(description="The format in which the collection should be returned",example="geojson") @DefaultValue("") @QueryParam("_format") String format,  
-			@Parameter(description="The maximum amount of features to be returned", example="10") @DefaultValue("10") @QueryParam("_pageSize") String limit,
+			@Parameter(description="The maximum amount of features to be returned", example="10") @DefaultValue("10") @QueryParam("_pageSize") Integer limit,
+			@Parameter(description="An optional where statement to be used in the SPARQL query", example="10") @DefaultValue("") @QueryParam("_select") String select,
 			@Parameter(description="An optional where statement to be used in the SPARQL query", example="10") @DefaultValue("10") @QueryParam("_where") String where,
-			@Parameter(description="The page of the Linked Data API resource to return", example="1") @DefaultValue("1") @QueryParam("_page") String page,
+			@Parameter(description="The page of the Linked Data API resource to return", example="1") @DefaultValue("1") @QueryParam("_page") Integer page,
 			@Parameter(description="Detailed or minimized view to be returned") @DefaultValue("") @QueryParam("_view") String view,
 			@Parameter(description="The sorting of the given results") @DefaultValue("") @QueryParam("_sort") String sort,
 			@Parameter(description="An optional orderBy statement to be used in the SPARQL query") @DefaultValue("") @QueryParam("_orderBy") String orderBy,
 			@Parameter(description="A subclass definition of the class defining the featurecollection") @DefaultValue("") @QueryParam("type") String[] type,
-			@Parameter(description="Defines resources with a specified parameter value to be returned") @DefaultValue("") @QueryParam("param") String paramval,
+			@Parameter(description="Defines resources with a specified parameter value to be returned") @DefaultValue("") @QueryParam("param") List<String> paramval,
 			@Parameter(description="Defines resources with a specified parameter value greater or equal the given value to be returned") @DefaultValue("") @QueryParam("max-param") String maxparamval,
 			@Parameter(description="Defines resources with a specified parameter value smaller or equal the given value to be returned") @DefaultValue("") @QueryParam("min-param") String minparamval,
 			@Parameter(description="Defines resources with a specified parameter value greater than the given value to be returned") @DefaultValue("") @QueryParam("maxEx-param") String maxExparamval,
 			@Parameter(description="Defines resources with a specified parameter value smaller than the given value to be returned") @DefaultValue("") @QueryParam("minEx-param") String minExparamval,
-			@Parameter(description="Returns only resources with the specified parameter") @DefaultValue("") @QueryParam("exists-param") String existsparam,
+			@Parameter(description="Returns only resources with the specified parameter") @QueryParam("exists-param") List<String> existsparam,
 			@Parameter(description="An offset to be considered when returning features",example="10") @DefaultValue("0") @QueryParam("offset") String offset) {
+		String queryString="",additionalwhereclauses="";
+		if(!select.isEmpty()) {
+			queryString=select;
+		}else {
+			queryString=triplestoreconf.getJSONObject(collectionid.toLowerCase()).getString("query");
+		}
+		if(!where.isEmpty() && select.isEmpty()) {
+			queryString=queryString.substring(0,queryString.indexOf("WHERE"));
+			queryString+="WHERE {\n"+where+"\n}";
+		}
+		Integer addvarcounter=0;
+		if(existsparam!=null) {
+			for(String str:existsparam) {
+				additionalwhereclauses+=triplestoreconf.getJSONObject(collectionid.toLowerCase()).getString("indvar")+" "+str+" ?var"+addvarcounter+++System.lineSeparator();
+			}
+		}
+		if(type!=null) {
+			for(String str:type) {
+				additionalwhereclauses+=triplestoreconf.getJSONObject(collectionid.toLowerCase()).getString("indvar")+" rdf:type "+str+System.lineSeparator();
+			}			
+		}
+		if(!orderBy.isEmpty()) {
+			queryString+=System.lineSeparator()+orderBy;
+		}
+		queryString+=System.lineSeparator()+"LIMIT "+limit;
+		if(page>1) {
+			queryString+=System.lineSeparator()+"OFFSET "+page*limit;			
+		}
 		if(collectionid.contains(".")) {
 			if(format.isEmpty()) {
 				format=collectionid.substring(collectionid.lastIndexOf('.')+1);
 			}
 			collectionid=collectionid.substring(0,collectionid.lastIndexOf('.'));
 		}
-		return collectionInformation(collectionid,format,limit,offset,null);
+		return null;
 	}	
 	
 	/**
