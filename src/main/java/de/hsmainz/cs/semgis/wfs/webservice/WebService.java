@@ -1799,7 +1799,7 @@ public class WebService {
 			@Parameter(description="The format in which the collection should be returned",example="geojson") @DefaultValue("") @QueryParam("_format") String format,  
 			@Parameter(description="The maximum amount of features to be returned", example="10") @DefaultValue("10") @QueryParam("_pageSize") Integer limit,
 			@Parameter(description="An optional where statement to be used in the SPARQL query", example="10") @DefaultValue("") @QueryParam("_select") String select,
-			@Parameter(description="An optional where statement to be used in the SPARQL query", example="10") @DefaultValue("10") @QueryParam("_where") String where,
+			@Parameter(description="An optional where statement to be used in the SPARQL query", example="10") @DefaultValue("") @QueryParam("_where") String where,
 			@Parameter(description="The page of the Linked Data API resource to return", example="1") @DefaultValue("1") @QueryParam("_page") Integer page,
 			@Parameter(description="Detailed or minimized view to be returned") @DefaultValue("") @QueryParam("_view") String view,
 			@Parameter(description="The sorting of the given results") @DefaultValue("") @QueryParam("_sort") String sort,
