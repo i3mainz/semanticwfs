@@ -1,5 +1,4 @@
 var a00303 =
 [
-    [ "coverage", "a00301.html", "a00301" ],
-    [ "io", "a00305.html", "a00305" ]
+    [ "WebService", "a00671.html", "a00671" ]
 ];
