@@ -995,12 +995,13 @@ public class WebService {
 	
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON})
-	@Path("/doc/{collectionid}/{featureid}")
+	@Path("doc/{collectionid}{ext:(\\.[a-z]+)*}/{featureid}")
 	@Operation(
             summary = "Returns a list of feature types/collections",
             description = "Returns a list of feature types/collections")
 	public Response docCollectionItemJSON(
 			@Parameter(description="The id of the collection to be considered") @PathParam("collectionid") String collectionid,
+			@Parameter(description="The id of the feature to be considered") @PathParam("ext") String ext,
 			@Parameter(description="The id of the feature to be considered") @PathParam("featureid") String featureid,
 			@Parameter(description="The format in which the collection should be returned",example="geojson") @DefaultValue("ttl") @QueryParam("_format") String format,  
 			@Parameter(description="The maximum amount of features to be returned", example="10") @DefaultValue("10") @QueryParam("_pageSize") Integer limit,
@@ -1896,7 +1897,7 @@ public class WebService {
 	
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON})
-	@Path("doc/{collectionid}{ext:(.[a-z]+)*}")
+	@Path("doc/{collectionid}{ext:(\\.[a-z]+)*}")
 	@Operation(
             summary = "Returns a list of feature types/collections",
             description = "Returns a list of feature types/collections")
