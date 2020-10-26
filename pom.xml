@@ -32,7 +32,7 @@
 		  <!-- <sis.version>0.8-jdk7-M1</sis.version>-->
 		  <sis.version>2.0-SNAPSHOT</sis.version>
 		  <geoapi.version>4.0-M05</geoapi.version>
-		  <jena.version>3.14.0</jena.version>
+		  <jena.version>3.10.0</jena.version>
         <mvn-compiler-plugin.version>3.7.0</mvn-compiler-plugin.version>
         <maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
         <maven-war-plugin.version>3.2.2</maven-war-plugin.version>
@@ -173,11 +173,6 @@
 	<artifactId>saxon-dom</artifactId>
 	<version>8.7</version>
 </dependency>
-<dependency>
-            <groupId>com.github.jsonld-java.jsonld-java</groupId>
-            <artifactId>jsonld-java</artifactId>
-            <version>0.12.5</version>
-        </dependency>
 <dependency>
       <groupId>io.swagger.core.v3</groupId>
       <artifactId>swagger-jaxrs2</artifactId>
