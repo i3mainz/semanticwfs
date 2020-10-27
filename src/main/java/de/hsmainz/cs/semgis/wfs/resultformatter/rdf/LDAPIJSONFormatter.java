@@ -177,7 +177,8 @@ public class LDAPIJSONFormatter extends ResultFormatter {
 	    	if(!rel.isEmpty() && !val.isEmpty()) {
 	    		int i=0;
 	    		for(;i<rel.size();i++) {
-	    			addKeyVal(properties, rel.get(i), val.get(i));	    			
+	    			if(i<val.size())
+	    				addKeyVal(properties, rel.get(i), val.get(i));	    			
 	    		}
 	    		rel.clear();
 	    		val.clear();
