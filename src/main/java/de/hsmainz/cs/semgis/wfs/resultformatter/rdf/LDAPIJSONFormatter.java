@@ -151,9 +151,9 @@ public class LDAPIJSONFormatter extends ResultFormatter {
 	    	while(varnames.hasNext()) {
 	    		String name=varnames.next();
 	    		if(name.contains("rel")) {
-	    			if("http://www.w3.org/1999/02/22-rdf-syntax-ns#type".equals(name)) {
+	    			if("http://www.w3.org/1999/02/22-rdf-syntax-ns#type".equals(solu.get(name).toString())) {
 	    				rel.add("type");
-	    			}else if("http://www.w3.org/2000/01/rdf-schema#label".equals(name)) {
+	    			}else if("http://www.w3.org/2000/01/rdf-schema#label".equals(solu.get(name).toString())) {
 	    				rel.add("name");
 	    			}
 	    			rel.add(solu.get(name).toString());
@@ -186,7 +186,16 @@ public class LDAPIJSONFormatter extends ResultFormatter {
 				jGenerator.flush();*/
 	    }	
 		for(String key:properties.keySet()) {
-			jGenerator.writeStringField(key, properties.get(key).toString());
+			try {
+				JSONArray arr=properties.getJSONArray(key);
+				jGenerator.writeArrayFieldStart(key);
+				for(int i=0;i<arr.length();i++) {
+					jGenerator.writeString(arr.get(i).toString());
+				}
+				jGenerator.writeEndArray();
+			}catch(Exception e) {
+				jGenerator.writeStringField(key, properties.get(key).toString());
+			}
 		}
 		jGenerator.writeEndObject();
 		jGenerator.writeEndArray();
