@@ -72,9 +72,9 @@ public class LDAPIJSONFormatter extends ResultFormatter {
 	    		}else if(name.endsWith("val")) {
 	       			try {
 	    				Literal lit=solu.getLiteral(name);
-	    				jGenerator.writeStringField(name, lit.getString());
+	    				val=lit.getString();
 	    			}catch(Exception e) {
-	    				jGenerator.writeStringField(name, solu.get(name).toString());
+	    				val=solu.get(name).toString();
 	    			}  	
 	    		}else if(!name.equalsIgnoreCase(indvar)) {
 	       			try {
