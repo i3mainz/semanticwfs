@@ -51,11 +51,19 @@ public class LDAPIJSONFormatter extends ResultFormatter {
 		jGenerator.writeStringField("first", featuretype);
 		jGenerator.writeNumberField("page", 0);
 		jGenerator.writeNumberField("pageSize", 10);	
-		jGenerator.writeArrayFieldStart("contains");		
+		jGenerator.writeArrayFieldStart("contains");
+		String indid="";
 		while(results.hasNext()) {
 	    	this.lastQueriedElemCount++;
 	    	QuerySolution solu=results.next();
-	    	jGenerator.writeStartObject();
+	    	if(indid.isEmpty() || !indid.equals(solu.get(indvar).toString())) {
+	    		if(!indid.isEmpty()) {
+	        		jGenerator.writeEndObject();	    			
+	    		}
+	    		indid=solu.get(indvar).toString();
+		    	jGenerator.writeStartObject();	
+		    	jGenerator.writeStringField("_about", indid);
+	    	}
 	    	Iterator<String> varnames = solu.varNames();
 	    	while(varnames.hasNext()) {
 	    		String name=varnames.next();
@@ -66,10 +74,11 @@ public class LDAPIJSONFormatter extends ResultFormatter {
     				jGenerator.writeStringField(name, solu.get(name).toString());
     			}  		
 	    	}
-    		jGenerator.writeEndObject();
+
 			/*if(lastQueriedElemCount%FLUSHTHRESHOLD==0)
 				jGenerator.flush();*/
 	    }		
+		jGenerator.writeEndObject();
 		jGenerator.writeEndArray();
 		jGenerator.writeEndObject();
 		jGenerator.writeEndObject();
