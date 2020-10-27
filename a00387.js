@@ -2,6 +2,7 @@ var a00387 =
 [
     [ "LDAPIJSONFormatter", "a00387.html#a37e1bbbbee7b31f362322f93b4421bbb", null ],
     [ "[static initializer]", "a00387.html#a2e87c5ede6b7235170d287cd2e254454", null ],
+    [ "addKeyVal", "a00387.html#a27be913e283c12148e2df87e2457d60f", null ],
     [ "addToMaps", "a00387.html#adad0a041d664c8a27731906f2740cf2f", null ],
     [ "formatter", "a00387.html#ab70cdb30f88d304ec07a4b15a33c6276", null ],
     [ "formatter", "a00387.html#ad4ae2ae73dc25c4ffa0b1a5656439547", null ],
@@ -9,6 +10,8 @@ var a00387 =
     [ "parseCoverageLiteral", "a00387.html#a86325514a24f91c346ad790447b897d5", null ],
     [ "parseLiteral", "a00387.html#a0ee6491f4e8399d7ecba40307f66b487", null ],
     [ "parseVectorLiteral", "a00387.html#a7ea6f946e6621912a1d7a16b03f029ad", null ],
+    [ "relToMap", "a00387.html#ae458c13836e579ad08a834f4bb507934", null ],
+    [ "writeAsStream", "a00387.html#a68d932cca64c4f9c55bb365a342ee1cf", null ],
     [ "constructQuery", "a00387.html#a1768d12b7ee6351da308da80587f7b45", null ],
     [ "contextMapper", "a00387.html#ae7316c0c7550712f915cc3cd353cd981", null ],
     [ "coverageLiteralMap", "a00387.html#aaa33420e808716d2e38bdafd89b3a514", null ],
