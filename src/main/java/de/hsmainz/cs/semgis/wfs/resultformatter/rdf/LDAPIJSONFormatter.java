@@ -52,7 +52,7 @@ public class LDAPIJSONFormatter extends ResultFormatter {
 		jGenerator.writeNumberField("page", 0);
 		jGenerator.writeNumberField("pageSize", 10);	
 		jGenerator.writeArrayFieldStart("contains");
-		String indid="";
+		String indid="",rel="",val="";
 		while(results.hasNext()) {
 	    	this.lastQueriedElemCount++;
 	    	QuerySolution solu=results.next();
@@ -67,14 +67,30 @@ public class LDAPIJSONFormatter extends ResultFormatter {
 	    	Iterator<String> varnames = solu.varNames();
 	    	while(varnames.hasNext()) {
 	    		String name=varnames.next();
-    			try {
-    				Literal lit=solu.getLiteral(name);
-    				jGenerator.writeStringField(name, lit.getString());
-    			}catch(Exception e) {
-    				jGenerator.writeStringField(name, solu.get(name).toString());
-    			}  		
+	    		if(name.endsWith("rel")) {
+	    			rel=solu.get(name).toString();
+	    		}else if(name.endsWith("val")) {
+	       			try {
+	    				Literal lit=solu.getLiteral(name);
+	    				jGenerator.writeStringField(name, lit.getString());
+	    			}catch(Exception e) {
+	    				jGenerator.writeStringField(name, solu.get(name).toString());
+	    			}  	
+	    		}else if(!name.equalsIgnoreCase(indvar)) {
+	       			try {
+	    				Literal lit=solu.getLiteral(name);
+	    				jGenerator.writeStringField(name, lit.getString());
+	    			}catch(Exception e) {
+	    				jGenerator.writeStringField(name, solu.get(name).toString());
+	    			}  	
+	    		}
+ 	
 	    	}
-
+	    	if(!rel.isEmpty() && !val.isEmpty()) {
+	    		jGenerator.writeStringField(rel, val);
+	    		rel="";
+	    		val="";
+	    	}
 			/*if(lastQueriedElemCount%FLUSHTHRESHOLD==0)
 				jGenerator.flush();*/
 	    }		
