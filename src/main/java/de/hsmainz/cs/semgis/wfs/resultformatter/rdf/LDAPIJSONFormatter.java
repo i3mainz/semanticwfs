@@ -3,6 +3,7 @@ package de.hsmainz.cs.semgis.wfs.resultformatter.rdf;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.xml.stream.XMLStreamException;
@@ -52,7 +53,9 @@ public class LDAPIJSONFormatter extends ResultFormatter {
 		jGenerator.writeNumberField("page", 0);
 		jGenerator.writeNumberField("pageSize", 10);	
 		jGenerator.writeArrayFieldStart("contains");
-		String indid="",rel="",val="";
+		String indid="";
+		List<String> rel=new LinkedList<String>();
+		List<String> val=new LinkedList<String>();
 		while(results.hasNext()) {
 	    	this.lastQueriedElemCount++;
 	    	QuerySolution solu=results.next();
@@ -67,14 +70,14 @@ public class LDAPIJSONFormatter extends ResultFormatter {
 	    	Iterator<String> varnames = solu.varNames();
 	    	while(varnames.hasNext()) {
 	    		String name=varnames.next();
-	    		if(name.endsWith("rel")) {
-	    			rel=solu.get(name).toString();
-	    		}else if(name.endsWith("val")) {
+	    		if(name.contains("rel")) {
+	    			rel.add(solu.get(name).toString());
+	    		}else if(name.contains("val")) {
 	       			try {
 	    				Literal lit=solu.getLiteral(name);
-	    				val=lit.getString();
+	    				val.add(lit.getString());
 	    			}catch(Exception e) {
-	    				val=solu.get(name).toString();
+	    				val.add(solu.get(name).toString());
 	    			}  	
 	    		}else if(!name.equalsIgnoreCase(indvar)) {
 	       			try {
@@ -87,9 +90,12 @@ public class LDAPIJSONFormatter extends ResultFormatter {
  	
 	    	}
 	    	if(!rel.isEmpty() && !val.isEmpty()) {
-	    		jGenerator.writeStringField(rel, val);
-	    		rel="";
-	    		val="";
+	    		int i=0;
+	    		for(;i<rel.size();i++) {
+		    		jGenerator.writeStringField(rel.get(i), val.get(i));	    			
+	    		}
+	    		rel.clear();
+	    		val.clear();
 	    	}
 			/*if(lastQueriedElemCount%FLUSHTHRESHOLD==0)
 				jGenerator.flush();*/
