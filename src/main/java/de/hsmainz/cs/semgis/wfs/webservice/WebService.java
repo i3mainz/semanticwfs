@@ -134,7 +134,7 @@ public class WebService {
 		for (Integer i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
 			JSONObject featuretype = wfsconf.getJSONArray("datasets").getJSONObject(i);
 			System.out.println("Featuretype: "+featuretype);
-			if (!bboxCache.containsKey(featuretype.getString("name").toLowerCase())) {
+			if (featuretype.has("name") && !bboxCache.containsKey(featuretype.getString("name").toLowerCase())) {
 				try {
 				bboxCache.put(featuretype.getString("name").toLowerCase(),
 						TripleStoreConnector.getBoundingBoxFromTripleStoreData(featuretype.getString("triplestore"),
