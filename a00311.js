@@ -1,4 +1,4 @@
 var a00311 =
 [
-    [ "core", "a00312.html", "a00312" ]
+    [ "LEDataOutputStream", "a00694.html", "a00694" ]
 ];

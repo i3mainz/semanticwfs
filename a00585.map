@@ -1,3 +1,28 @@
-<map id="GMDFormatter" name="GMDFormatter">
-<area shape="rect" id="node2" href="$a00591.html" title="ResultMetadataFormatter" alt="" coords="935,81,1105,108"/>
+<map id="VectorResultFormatter" name="VectorResultFormatter">
+<area shape="rect" id="node3" href="$a00438.html" title="BSONFormatter" alt="" coords="409,5,525,32"/>
+<area shape="rect" id="node4" href="$a00442.html" title="Formats a query result to CSV. " alt="" coords="413,56,520,83"/>
+<area shape="rect" id="node5" href="$a00446.html" title="ESRIJSONFormatter" alt="" coords="393,107,540,133"/>
+<area shape="rect" id="node6" href="$a00450.html" title="EWKTFormatter" alt="" coords="408,157,525,184"/>
+<area shape="rect" id="node7" href="$a00458.html" title="GeoHashFormatter" alt="" coords="400,208,533,235"/>
+<area shape="rect" id="node8" href="$a00462.html" title="Formats a query result to GeoJSON. " alt="" coords="397,259,536,285"/>
+<area shape="rect" id="node9" href="$a00466.html" title="Formats a query result to GeoJSON&#45;LD. " alt="" coords="389,309,544,336"/>
+<area shape="rect" id="node10" href="$a00482.html" title="Formats a query result to GeoURI. " alt="" coords="403,360,530,387"/>
+<area shape="rect" id="node11" href="$a00486.html" title="Formats a query result to GML. " alt="" coords="413,411,520,437"/>
+<area shape="rect" id="node12" href="$a00490.html" title="Formats a query result to GPX. " alt="" coords="413,461,520,488"/>
+<area shape="rect" id="node13" href="$a00494.html" title="HexWKBFormatter" alt="" coords="400,512,533,539"/>
+<area shape="rect" id="node14" href="$a00498.html" title="Formats a query result to JSON. " alt="" coords="409,563,524,589"/>
+<area shape="rect" id="node15" href="$a00502.html" title="Formats a query result to JSON&#45;LD. " alt="" coords="401,613,532,640"/>
+<area shape="rect" id="node16" href="$a00514.html" title="Formats a query result to KML. " alt="" coords="414,664,519,691"/>
+<area shape="rect" id="node17" href="$a00518.html" title="LatLonTextFormatter" alt="" coords="395,715,538,741"/>
+<area shape="rect" id="node18" href="$a00534.html" title="OpenLocationCodeFormatter" alt="" coords="372,765,561,792"/>
+<area shape="rect" id="node19" href="$a00542.html" title="OSMLinkFormatter" alt="" coords="401,816,533,843"/>
+<area shape="rect" id="node20" href="$a00546.html" title="PolyshapeFormatter" alt="" coords="397,867,536,893"/>
+<area shape="rect" id="node21" href="$a00550.html" title="PostgreSQLFormatter" alt="" coords="392,917,541,944"/>
+<area shape="rect" id="node22" href="$a00558.html" title="Formats a query result to TopoJSON. " alt="" coords="395,968,538,995"/>
+<area shape="rect" id="node23" href="$a00562.html" title="TWKBFormatter" alt="" coords="408,1019,525,1045"/>
+<area shape="rect" id="node24" href="$a00566.html" title="WKBFormatter" alt="" coords="412,1069,521,1096"/>
+<area shape="rect" id="node25" href="$a00570.html" title="WKTFormatter" alt="" coords="413,1120,521,1147"/>
+<area shape="rect" id="node26" href="$a00574.html" title="XLSFormatter" alt="" coords="415,1171,518,1197"/>
+<area shape="rect" id="node27" href="$a00578.html" title="XLSXFormatter" alt="" coords="411,1221,523,1248"/>
+<area shape="rect" id="node2" href="$a00434.html" title="Abstract class to downlift query results. " alt="" coords="5,613,121,640"/>
 </map>
