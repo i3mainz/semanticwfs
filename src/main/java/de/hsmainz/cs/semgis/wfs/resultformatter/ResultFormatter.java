@@ -56,6 +56,7 @@ import de.hsmainz.cs.semgis.wfs.resultformatter.vector.MapMLFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.ODSFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.OSMFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.OSMLinkFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.vector.OpenLocationCodeFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.PostgreSQLFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.SVGFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.TWKBFormatter;
@@ -175,6 +176,9 @@ public abstract class ResultFormatter {
 		}
 		if(formatString.contains("nt")) {
 			return resultMap.get("nt");
+		}
+		if(formatString.contains("olc")) {
+			return resultMap.get("olc");
 		}
 		if(formatString.contains("rt")) {
 			return resultMap.get("rt");
@@ -298,6 +302,7 @@ public abstract class ResultFormatter {
 		addToMaps("n3", new N3Formatter());
 		addToMaps("nq", new NQuadsFormatter());
 		addToMaps("nt", new NTFormatter());
+		addToMaps("olc", new OpenLocationCodeFormatter());
 		addToMaps("rt", new RDFThriftFormatter());
 		addToMaps("mapml", new MapMLFormatter());
 		addToMaps("osm", new OSMFormatter());

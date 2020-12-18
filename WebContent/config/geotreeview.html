@@ -3241,8 +3241,8 @@ function originQuery(){
 <div class="sticky row crumbs">
 <div class="container-fluid" role="main"><div class="row">
 <div class="col-sm-12 col-md-10 col-md-offset-1">-->
-<table border=0 height="85%" width="100%" align="top" valign="top"><tr><td width="80%" height="70%" align="top" valign="top" >
-<div id="mapid" style="height:100%" width="80%">
+<table border=0 height="85%" width="100%" align="center" valign="top"><tr><td width="80%" height="70%" align="center" valign="top" >
+<div id="mapid" style="height:100%;width:80%">
 <script>
 
 	var mymap = L.map('mapid',{fullscreenControl: true,fullscreenControlOptions: {position: 'topleft'}}).setView([51.505, -0.09], 13);
@@ -3278,12 +3278,12 @@ $(document).ready( function () {
 		});
 });
 </script>
-</div></td><td align="top" valign="top" width="20%" height="100%" ><table height="100%"><tr  valign="top" align="top">
+</div></td><td align="center" valign="top" width="20%" height="100%" ><table height="100%"><tr valign="top" align="center">
 <td>WHAT? </td><td>Search:<input type="text" id="classsearch"/></td><tr><td colspan="2" valign="top" height="100%"><div class="myScrollableBlock">
 <div id="jstree"></div>
 </div><!--<select id="classeslist" multiple  size=15 ></select>--></td></tr>
 
-<tr  valign="top" align="top"><td>Query: </td><td><button id="querybutton" onclick="uiQuery()">Query</button>
+<tr valign="top" align="center"><td>Query: </td><td><button id="querybutton" onclick="uiQuery()">Query</button>
 <!--<button id="classhierarchy" onclick="getClassHierarchy({})">Class Hierarchy</button><button id="originQuery" onclick="originQuery()">Origin Query</button>--> </td></tr>
 </table>
 </td></tr></table>
@@ -3291,7 +3291,8 @@ $(document).ready( function () {
 
 </select>
 <button id="explore" onclick="getClassHierarchy([])">Explore</button><button id="explore" onclick="getGeoClasses()">GeoExplore</button><br/>
-Instances Limit: <input type="number" min="1" step="1" id="limit" value="100"/><br/>Maximum Depth: <input type="depth" min="1" step="1" id="maxdepth" value="1"/>
+Instances Limit: <input type="number" min="1" step="1" id="limit" value="100"/><br/>
+Maximum Depth: <input type="number" min="1" step="1" id="maxdepth" value="1"/>
 <br/>
 Export as Format: <select id="queryimportformat">
 <option value="ttl" selected="selected">TTL</option>
