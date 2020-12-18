@@ -81,9 +81,6 @@ public class LDAPIJSONFormatter extends ResultFormatter {
 	}
 	
 	public void relToMap(String keyPath) {
-		if(keyPath.equalsIgnoreCase("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")) {
-			return;
-		}
 		if(!keyPath.contains(";")) {
 			if (keyPath.contains("#")) {
 				this.contextMapper.put(keyPath,keyPath.substring(keyPath.lastIndexOf('#') + 1));
@@ -155,8 +152,9 @@ public class LDAPIJSONFormatter extends ResultFormatter {
 	    				rel.add("type");
 	    			}else if("http://www.w3.org/2000/01/rdf-schema#label".equals(solu.get(name).toString())) {
 	    				rel.add("name");
+	    			}else {
+		    			rel.add(solu.get(name).toString());	    				
 	    			}
-	    			rel.add(solu.get(name).toString());
 	    		}else if(name.contains("val")) {
 	       			try {
 	    				Literal lit=solu.getLiteral(name);
@@ -177,7 +175,8 @@ public class LDAPIJSONFormatter extends ResultFormatter {
 	    	if(!rel.isEmpty() && !val.isEmpty()) {
 	    		int i=0;
 	    		for(;i<rel.size();i++) {
-	    			addKeyVal(properties, rel.get(i), val.get(i));	    			
+	    			if(i<val.size())
+	    				addKeyVal(properties, rel.get(i), val.get(i));	    			
 	    		}
 	    		rel.clear();
 	    		val.clear();
