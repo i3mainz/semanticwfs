@@ -21,6 +21,7 @@ import org.wololo.jts2geojson.GeoJSONReader;
 
 import de.hsmainz.cs.semgis.wfs.resultformatter.coverage.CovJSONFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.coverage.XYZASCIIFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.CypherFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.HDTFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.HexTuplesFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.LDAPIJSONFormatter;
@@ -149,6 +150,9 @@ public abstract class ResultFormatter {
 		}
 		if(formatString.contains("svg")) {
 			return resultMap.get("svg");
+		}
+		if(formatString.contains("cypher")) {
+			return resultMap.get("cypher");
 		}
 		if(formatString.contains("osmlink")) {
 			return resultMap.get("osmlink");
@@ -296,6 +300,7 @@ public abstract class ResultFormatter {
 		addToMaps("geouri", new GeoURIFormatter());
 		addToMaps("trig", new TrigFormatter());
 		addToMaps("trix", new TrixFormatter());
+		addToMaps("cypher", new CypherFormatter());
 		addToMaps("kml", new KMLFormatter());
 		addToMaps("gml", new GMLFormatter());
 		addToMaps("ldapi", new LDAPIJSONFormatter());
