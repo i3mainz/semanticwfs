@@ -1,4 +1,7 @@
 var a00294 =
 [
-    [ "semgis", "a00295.html", "a00295" ]
+    [ "ASCIIGridReader", "a00325.html", "a00325" ],
+    [ "CoverageJSONReader", "a00329.html", null ],
+    [ "CoverageReader", "a00333.html", "a00333" ],
+    [ "XYZReader", "a00337.html", "a00337" ]
 ];

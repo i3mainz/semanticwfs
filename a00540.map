@@ -1,5 +1,4 @@
-<map id="OSMLinkFormatter" name="OSMLinkFormatter">
-<area shape="rect" id="node2" href="$a00586.html" title="VectorResultFormatter" alt="" coords="1609,592,1764,619"/>
-<area shape="rect" id="node3" href="$a00434.html" title="Abstract class to downlift query results. " alt="" coords="1404,417,1520,444"/>
-<area shape="rect" id="node8" href="$a00618.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="1096,227,1243,253"/>
+<map id="OpenLocationCodeFormatter" name="OpenLocationCodeFormatter">
+<area shape="rect" id="node2" href="$a00593.html" title="VectorResultFormatter" alt="" coords="23,80,177,107"/>
+<area shape="rect" id="node3" href="$a00441.html" title="Abstract class to downlift query results. " alt="" coords="42,5,158,32"/>
 </map>

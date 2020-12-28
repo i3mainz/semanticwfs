@@ -1,6 +1,11 @@
 var a00305 =
 [
-    [ "User", "a00658.html", "a00658" ],
-    [ "UserManagementConnection", "a00662.html", "a00662" ],
-    [ "UserType", "a00670.html", "a00670" ]
+    [ "CartoCSSFormatter", "a00609.html", "a00609" ],
+    [ "GeoJSONCSSFormatter", "a00613.html", "a00613" ],
+    [ "KMLStyleFormatter", "a00617.html", "a00617" ],
+    [ "MapCSSFormatter", "a00621.html", "a00621" ],
+    [ "ResultStyleFormatter", "a00625.html", "a00625" ],
+    [ "SimpleStyleFormatter", "a00629.html", "a00629" ],
+    [ "SLDFormatter", "a00633.html", "a00633" ],
+    [ "StyleObject", "a00637.html", "a00637" ]
 ];

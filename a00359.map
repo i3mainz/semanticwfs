@@ -1,0 +1,6 @@
+<map id="HexRasterWKBFormatter" name="HexRasterWKBFormatter">
+<area shape="rect" id="node2" href="$a00377.html" title="CoverageResultFormatter" alt="" coords="1632,588,1804,615"/>
+<area shape="rect" id="node3" href="$a00441.html" title="Abstract class to downlift query results. " alt="" coords="1467,477,1583,504"/>
+<area shape="rect" id="node8" href="$a00625.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="1096,260,1243,287"/>
+<area shape="rect" id="node18" href="$a00697.html" title="WKB Raster Writer, used in postGIS 2 but can be used elsewhere. " alt="" coords="1655,639,1781,665"/>
+</map>

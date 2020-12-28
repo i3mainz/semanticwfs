@@ -1,3 +1,4 @@
-<map id="XYZReader" name="XYZReader">
-<area shape="rect" id="node2" href="$a00330.html" title="CoverageReader" alt="" coords="5,5,125,32"/>
+<map id="CoverageReader" name="CoverageReader">
+<area shape="rect" id="node2" href="$a00325.html" title="ASCIIGridReader" alt="" coords="5,80,129,107"/>
+<area shape="rect" id="node3" href="$a00337.html" title="XYZReader" alt="" coords="154,80,245,107"/>
 </map>

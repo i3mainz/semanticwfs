@@ -1,5 +1,6 @@
 var a00308 =
 [
-    [ "geotoolkit", "a00309.html", "a00309" ],
-    [ "locationtech", "a00313.html", "a00313" ]
+    [ "User", "a00665.html", "a00665" ],
+    [ "UserManagementConnection", "a00669.html", "a00669" ],
+    [ "UserType", "a00677.html", "a00677" ]
 ];
