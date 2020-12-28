@@ -47,7 +47,7 @@ public class CypherFormatter extends ResultFormatter {
 			List<String> eligiblenamespaces, List<String> noteligiblenamespaces, StyleObject mapstyle,
 			Boolean alternativeFormat, Boolean invertXY, Boolean coverage, Writer out)
 			throws XMLStreamException, IOException {
-		namespacecounter=null;
+		namespacecounter=0;
 		namespaceToPrefix.clear();
 		ResultFormatter format = resultMap.get("ttl");
 		String ttl=format.formatter(results,startingElement, featuretype,propertytype, typeColumn, onlyproperty,onlyhits,
