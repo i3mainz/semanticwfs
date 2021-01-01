@@ -340,7 +340,7 @@
 "class":"http://ontology.ogham.link/Stone",
 "namespaces":["http://ontology.ogham.link/","http://www.opengis.net/gml/"],
 "namespacesmetadata":[],
-"query":"SELECT ?item ?rel ?val ?the_geom WHERE{ ?item rdf:type <http://ontology.ogham.link/Stone> . ?item ?rel ?val . OPTIONAL{?val geo:asWKT ?the_geom .} }",
+"query":"SELECT ?item ?rel ?val ?the_geom WHERE{ ?item rdf:type <http://ontology.ogham.link/Stone> . ?item ?rel ?val . OPTIONAL{?val <http://www.opengis.net/ont/geosparql#asWKT> ?the_geom .} }",
 "triplestore":"https://digits.mainzed.org/ogham/sparql",
 "type":"WFS", 
 "name":"OghamStones"}
