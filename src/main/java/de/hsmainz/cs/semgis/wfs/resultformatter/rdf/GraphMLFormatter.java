@@ -17,6 +17,7 @@ import javax.xml.stream.XMLStreamWriter;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
@@ -38,6 +39,33 @@ public class GraphMLFormatter extends ResultFormatter {
 		this.definition="http://graphml.graphdrawing.org";
 		this.constructQuery=false;
 	}
+	
+	
+	public String getColorForResource(OntModel model, Resource res,String defaultColor) {
+		Property scof=model.createProperty("http://www.w3.org/2000/01/rdf-schema#subClassOf");
+		Property spof=model.createProperty("http://www.w3.org/2000/01/rdf-schema#subPropertyOf");
+		Property rdftype=model.createProperty("http://www.w3.org/2000/01/rdf-schema#subClassOf");
+		if(res.getURI().contains("http://www.w3.org/2000/01/rdf-schema#")) {
+			return "#F08080";
+		}else if(res.listProperties(scof).hasNext()){
+			return "#F0F8FF";	
+		}else if(res.listProperties(spof).hasNext()){
+			return "#ffa500";	
+		}else if(res.listProperties(rdftype).hasNext()) {
+			StmtIterator it=res.listProperties(rdftype);
+			while(it.hasNext()) {
+				Statement st=it.next();
+				if(st.getObject().isURIResource() && st.getObject().asResource().getURI().equals("http://www.w3.org/2002/07/owl#Class")) {
+					return "#ffa500";
+				}
+				if(st.getObject().isURIResource() && st.getObject().asResource().getURI().equals("http://www.w3.org/2002/07/owl#Property")) {
+					return "#F0F8FF";
+				}
+			}
+		}
+		return defaultColor;
+	}
+	
 
 	@Override
 	public String formatter(ResultSet results, String startingElement, String featuretype, String propertytype,
@@ -104,7 +132,7 @@ public class GraphMLFormatter extends ResultFormatter {
 					writer.writeAttribute("shape", "ellipse");
 					writer.writeEndElement();
 					writer.writeStartElement("y:Fill");
-					writer.writeAttribute("color", "#800080");
+					writer.writeAttribute("color", this.getColorForResource(model, res, "#800080"));
 					writer.writeAttribute("transparent", "false");
 					writer.writeEndElement();
 					writer.writeStartElement("y:NodeLabel");
@@ -131,7 +159,7 @@ public class GraphMLFormatter extends ResultFormatter {
 				while (propiter.hasNext()) {
 					Statement curst = propiter.next();
 					if (curst.getObject().isURIResource()) {
-						if (!uriToNodeId.contains(res.getURI())) {
+						if (!uriToNodeId.contains(curst.getObject().asResource().getURI())) {
 							writer.writeStartElement("node");
 							writer.writeAttribute("id", curst.getObject().asResource().getURI());
 							writer.writeAttribute("value", curst.getObject().asResource().getLocalName());
@@ -144,17 +172,7 @@ public class GraphMLFormatter extends ResultFormatter {
 							writer.writeAttribute("shape", "ellipse");
 							writer.writeEndElement();
 							writer.writeStartElement("y:Fill");
-							if (curst.getPredicate().getURI() != null && (curst.getPredicate().getURI()
-									.equals("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")
-									|| curst.getPredicate().getURI()
-											.equals("http://www.w3.org/2000/01/rdf-schema#subClassOf"))) {
-								writer.writeAttribute("color", "#ffa500");
-							} else if (curst.getPredicate().getURI() != null && curst.getPredicate().getURI()
-									.startsWith("http://www.w3.org/2000/01/rdf-schema#")) {
-								writer.writeAttribute("color", "#F08080");
-							} else {
-								writer.writeAttribute("color", "#800080");
-							}
+							writer.writeAttribute("color", this.getColorForResource(model, curst.getObject().asResource(), "#800080"));
 							writer.writeAttribute("transparent", "false");
 							writer.writeEndElement();
 							writer.writeStartElement("y:NodeLabel");
