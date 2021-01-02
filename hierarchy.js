@@ -1,7 +1,7 @@
 var hierarchy =
 [
     [ "AbstractTransformer", "a00659.html", null ],
-    [ "Comparable", "a01711.html", [
+    [ "Comparable", "a01715.html", [
       [ "Tuple< T, T2 >", "a00675.html", null ]
     ] ],
     [ "CoverageJSONReader", "a00335.html", null ],
