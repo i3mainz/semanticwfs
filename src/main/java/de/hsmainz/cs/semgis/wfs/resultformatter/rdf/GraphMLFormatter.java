@@ -16,6 +16,7 @@ import javax.xml.stream.XMLStreamWriter;
 
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.query.ResultSet;
+import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFNode;
@@ -41,21 +42,25 @@ public class GraphMLFormatter extends ResultFormatter {
 	}
 	
 	
-	public String getColorForResource(OntModel model, Resource res,String defaultColor) {
+	public String getColorForResource(Model model, Resource res,String defaultColor) {
 		Property scof=model.createProperty("http://www.w3.org/2000/01/rdf-schema#subClassOf");
 		Property spof=model.createProperty("http://www.w3.org/2000/01/rdf-schema#subPropertyOf");
 		Property rdftype=model.createProperty("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-		if(res.getURI().contains("http://www.w3.org/2000/01/rdf-schema#")) {
+		if(res.getURI().equals("http://www.w3.org/2002/07/owl#Class") || res.getURI().equals("http://www.w3.org/2000/01/rdf-schema#Class")) {
+			return "#ffa500";
+		}else if(res.getURI().contains("http://www.w3.org/2000/01/rdf-schema#")) {
 			return "#F08080";
 		}else if(res.listProperties(spof).hasNext()){
 			return "#F0F8FF";	
 		}else if(res.listProperties(scof).hasNext()){
-			return "#ffa500";
+			return "#ffa500";	
 		}else if(res.listProperties(rdftype).hasNext()) {
 			StmtIterator it=res.listProperties(rdftype);
 			while(it.hasNext()) {
 				Statement st=it.next();
-				if(st.getObject().isURIResource() && st.getObject().asResource().getURI().equals("http://www.w3.org/2002/07/owl#Class")) {
+				if(st.getObject().isURIResource() 
+						&& (st.getObject().asResource().getURI().equals("http://www.w3.org/2002/07/owl#Class") 
+								|| res.getURI().equals("http://www.w3.org/2000/01/rdf-schema#Class"))) {
 					return "#ffa500";
 				}
 				if(st.getObject().isURIResource() && st.getObject().asResource().getURI().equals("http://www.w3.org/2002/07/owl#Property")) {
