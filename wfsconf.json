@@ -334,6 +334,15 @@
 "query":"SELECT ?item ?rel ?val ?the_geom WHERE{ ?item rdf:type <http://www.opengis.net/ont/geosparql#Feature> . ?item ?rel ?val . OPTIONAL{?val geo:asWKT ?the_geom .} }",
 "triplestore":"https://digits.mainzed.org/squirrels/sparql",
 "type":"WFS", 
-"name":"Limes"}
+"name":"Limes"},
+{"namespace":"http://ontology.ogham.link/",
+"indvar":"item","description":"Ogham Stones from Ogham.link","geometrytype":"Point","targetCRS":"EPSG:4326","useorderby":true,
+"class":"http://ontology.ogham.link/Stone",
+"namespaces":["http://ontology.ogham.link/","http://www.opengis.net/gml/"],
+"namespacesmetadata":[],
+"query":"SELECT ?item ?rel ?val ?the_geom WHERE{ ?item rdf:type <http://ontology.ogham.link/Stone> . ?item ?rel ?val . OPTIONAL{?val <http://www.opengis.net/ont/geosparql#asWKT> ?the_geom .} }",
+"triplestore":"https://digits.mainzed.org/ogham/sparql",
+"type":"WFS", 
+"name":"OghamStones"}
 ]
 }
