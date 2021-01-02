@@ -265,7 +265,7 @@ public class GraphMLFormatter extends ResultFormatter {
 						typecounter++;
 						writer.writeCharacters(curst.getObject().asLiteral().getDatatypeURI());
 						writer.writeEndElement();
-						if (curst.getObject().asLiteral().getLanguage() != null) {
+						if (curst.getObject().asLiteral().getLanguage() != null && !curst.getObject().asLiteral().getLanguage().isEmpty()) {
 							writer.writeStartElement("data");
 							writer.writeAttribute("key", "lang" + langcounter);
 							langcounter++;
