@@ -61,6 +61,12 @@
    <artifactId>exificient</artifactId>
    <version>1.0.4</version>
 </dependency>
+<!-- https://mvnrepository.com/artifact/com.google.openlocationcode/openlocationcode -->
+<dependency>
+    <groupId>com.google.openlocationcode</groupId>
+    <artifactId>openlocationcode</artifactId>
+    <version>1.0.4</version>
+</dependency>
 <dependency>
 		<groupId>com.github.jferard</groupId>
 		<artifactId>fastods</artifactId>

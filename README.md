@@ -57,8 +57,9 @@ The SemanticWFS currently supports reading the following literal types found in 
 The SemanticWFS currently supports the following formats for export:
 
   * RDF Serizalizations:  [HexTuples](https://github.com/ontola/hextuples), [JSON-LD](https://json-ld.org/spec/latest/json-ld/), [N-Triples](https://www.w3.org/TR/n-triples/), [Notation3](https://www.w3.org/TeamSubmission/n3/), [NQuads](https://www.w3.org/TR/n-quads/), [RDF/JSON](https://www.w3.org/TR/rdf-json/), [RDF/XML](https://www.w3.org/TR/rdf-syntax-grammar/), [TriG](https://www.w3.org/TR/trig/), [TriX](https://www.hpl.hp.com/techreports/2004/HPL-2004-56.html), [TTL](https://www.w3.org/TR/turtle/)
+  * Graph serializations: [GraphML](http://graphml.graphdrawing.org/), [Neo4J Cypher](https://neo4j.com/developer/cypher/), [Trivial Graph Format](https://docs.yworks.com/yfiles/doc/developers-guide/tgf.html)
   * Vector geometry formats: [GeoJSON](https://geojson.org/), [GeoJSON-LD](https://geojson.org/geojson-ld/), [GeoURI](https://geouri.org), [GML](https://www.ogc.org/standards/gml), 
-  [GPX](https://www.topografix.com/gpx.asp), [KML](https://www.ogc.org/standards/kml/), LatLonText, [MapML](https://maps4html.org/MapML/spec/), [OSM/XML](https://wiki.openstreetmap.org/wiki/OSM_XML), PostgreSQL Dump, [SVG](https://www.w3.org/Graphics/SVG/), EWKT, [WKT](https://www.ogc.org/standards/sfa), [HexWKB](https://www.iso.org/standard/40114.html)
+  [GPX](https://www.topografix.com/gpx.asp), [KML](https://www.ogc.org/standards/kml/), LatLonText, [MapML](https://maps4html.org/MapML/spec/), [Open Location Code (OLC)](https://github.com/google/open-location-code/blob/master/docs/specification.md), [OSM/XML](https://wiki.openstreetmap.org/wiki/OSM_XML), PostgreSQL Dump, [SVG](https://www.w3.org/Graphics/SVG/), EWKT, [WKT](https://www.ogc.org/standards/sfa), [HexWKB](https://www.iso.org/standard/40114.html)
   * Coverage-centric formats:
      * [CoverageJSON](https://covjson.org) to display Points, LineStrings, Polygons and GridCoverages
      * [XYZASCII](https://gdal.org/drivers/raster/xyz.html) to display coverage data or simply a list of points

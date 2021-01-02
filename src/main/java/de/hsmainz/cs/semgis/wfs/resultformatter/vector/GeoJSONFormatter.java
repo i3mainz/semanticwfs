@@ -421,11 +421,9 @@ public class GeoJSONFormatter extends VectorResultFormatter {
 		this.contextMapper.clear();
 		JsonFactory jfactory = new JsonFactory();
 		JsonGenerator jGenerator = jfactory.createGenerator(out);
-		if(writeEnclosingObject) {
-			jGenerator.writeStartObject();
-			jGenerator.writeStringField("type", "FeatureCollection");
-			jGenerator.writeStringField("name", featuretype);
-		}
+		jGenerator.writeStartObject();
+		jGenerator.writeStringField("type", "FeatureCollection");
+		jGenerator.writeStringField("name", featuretype);
 		jGenerator.writeArrayFieldStart("features");
 		JSONObject geojsonresults = new JSONObject();
 		List<JSONArray> allfeatures = new LinkedList<JSONArray>();

@@ -21,6 +21,9 @@ import org.wololo.jts2geojson.GeoJSONReader;
 
 import de.hsmainz.cs.semgis.wfs.resultformatter.coverage.CovJSONFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.coverage.XYZASCIIFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.CypherFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.GDFFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.GraphMLFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.HDTFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.HexTuplesFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.LDAPIJSONFormatter;
@@ -31,6 +34,7 @@ import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.RDFEXIFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.RDFFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.RDFJSONFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.RDFThriftFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.TGFFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.TTLFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.TrigFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.TrixFormatter;
@@ -56,6 +60,7 @@ import de.hsmainz.cs.semgis.wfs.resultformatter.vector.MapMLFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.ODSFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.OSMFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.OSMLinkFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.vector.OpenLocationCodeFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.PostgreSQLFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.SVGFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.vector.TWKBFormatter;
@@ -149,6 +154,9 @@ public abstract class ResultFormatter {
 		if(formatString.contains("svg")) {
 			return resultMap.get("svg");
 		}
+		if(formatString.contains("cypher")) {
+			return resultMap.get("cypher");
+		}
 		if(formatString.contains("osmlink")) {
 			return resultMap.get("osmlink");
 		}
@@ -175,6 +183,9 @@ public abstract class ResultFormatter {
 		}
 		if(formatString.contains("nt")) {
 			return resultMap.get("nt");
+		}
+		if(formatString.contains("olc")) {
+			return resultMap.get("olc");
 		}
 		if(formatString.contains("rt")) {
 			return resultMap.get("rt");
@@ -251,6 +262,9 @@ public abstract class ResultFormatter {
 		if(formatString.contains("covjson")) {
 			return resultMap.get("covjson");
 		}
+		if(formatString.contains("tgf")) {
+			return resultMap.get("tgf");
+		}
 		if(formatString.contains("polyshape")) {
 			return resultMap.get("polyshape");
 		}
@@ -292,12 +306,17 @@ public abstract class ResultFormatter {
 		addToMaps("geouri", new GeoURIFormatter());
 		addToMaps("trig", new TrigFormatter());
 		addToMaps("trix", new TrixFormatter());
+		addToMaps("cypher", new CypherFormatter());
+		addToMaps("gdf", new GDFFormatter());
+		addToMaps("tgf", new TGFFormatter());
 		addToMaps("kml", new KMLFormatter());
+		addToMaps("graphml", new GraphMLFormatter());
 		addToMaps("gml", new GMLFormatter());
 		addToMaps("ldapi", new LDAPIJSONFormatter());
 		addToMaps("n3", new N3Formatter());
 		addToMaps("nq", new NQuadsFormatter());
 		addToMaps("nt", new NTFormatter());
+		addToMaps("olc", new OpenLocationCodeFormatter());
 		addToMaps("rt", new RDFThriftFormatter());
 		addToMaps("mapml", new MapMLFormatter());
 		addToMaps("osm", new OSMFormatter());
@@ -336,10 +355,22 @@ public abstract class ResultFormatter {
 	public Geometry parseVectorLiteral(String literalValue, String literalType, String epsg, String srsName) {
 		Geometry geom=null;
 		if(literalType.toLowerCase().contains("wkt")) {
-			try {
-				geom=this.wktreader.read(literalValue);
-			} catch (ParseException e) {
-				return null;
+			if(literalValue.trim().startsWith("<http")) {
+				try {
+					geom=this.wktreader.read(literalValue.substring(literalValue.lastIndexOf(">")+1));
+					epsg=literalValue.substring(literalValue.indexOf("<")+1,literalValue.lastIndexOf(">"));
+					Integer srid=Integer.valueOf(epsg.substring(epsg.lastIndexOf("/")+1));
+					geom.setSRID(srid);
+					epsg="EPSG:"+srid;
+				} catch (ParseException e) {
+					return null;
+				}
+			}else {
+				try {
+					geom=this.wktreader.read(literalValue);
+				} catch (ParseException e) {
+					return null;
+				}
 			}
 		}
 		else if(literalType.toLowerCase().contains("geojson")) {
