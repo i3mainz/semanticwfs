@@ -121,7 +121,6 @@ public class GraphMLFormatter extends ResultFormatter {
 					} else {
 						writer.writeCharacters(res.getLocalName());
 					}
-					writer.writeCharacters(res.getLocalName());
 					writer.writeEndElement();
 					writer.writeEndElement();
 					writer.writeEndElement();
@@ -212,7 +211,7 @@ public class GraphMLFormatter extends ResultFormatter {
 							writer.writeAttribute("hasText", "true");
 							writer.writeAttribute("visible", "true");
 							writer.writeAttribute("width", "4.0");
-							writer.writeCharacters(curst.getObject().asLiteral().getValue().toString() + " (xsd:"
+							writer.writeCharacters(curst.getObject().asLiteral().getLexicalForm() + " (xsd:"
 									+ curst.getObject().asLiteral().getDatatype().getURI().substring(
 											curst.getObject().asLiteral().getDatatype().getURI().lastIndexOf('#') + 1)
 									+ ")");
