@@ -22,6 +22,7 @@ import org.wololo.jts2geojson.GeoJSONReader;
 import de.hsmainz.cs.semgis.wfs.resultformatter.coverage.CovJSONFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.coverage.XYZASCIIFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.CypherFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.GDFFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.GraphMLFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.HDTFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.HexTuplesFormatter;
@@ -306,6 +307,7 @@ public abstract class ResultFormatter {
 		addToMaps("trig", new TrigFormatter());
 		addToMaps("trix", new TrixFormatter());
 		addToMaps("cypher", new CypherFormatter());
+		addToMaps("gdf", new GDFFormatter());
 		addToMaps("tgf", new TGFFormatter());
 		addToMaps("kml", new KMLFormatter());
 		addToMaps("graphml", new GraphMLFormatter());
