@@ -201,6 +201,28 @@ public class GraphMLFormatter extends ResultFormatter {
 						writer.writeAttribute("uri", curst.getPredicate().getURI());
 						writer.writeAttribute("source", curst.getSubject().getURI());
 						writer.writeAttribute("target", curst.getObject().asResource().getURI());
+						writer.writeStartElement("data");
+						writer.writeAttribute("key", "edgekey");
+						literalcounter++;
+						writer.writeStartElement("y:PolyLineEdge");
+						writer.writeStartElement("y:EdgeLabel");
+						writer.writeAttribute("alignment", "center");
+						writer.writeAttribute("configuration", "AutoFlippingLabel");
+						writer.writeAttribute("fontSize", "12");
+						writer.writeAttribute("fontStyle", "plain");
+						writer.writeAttribute("hasText", "true");
+						writer.writeAttribute("visible", "true");
+						writer.writeAttribute("width", "4.0");
+						subprefix = curst.getPredicate().asResource().getModel()
+								.getNsURIPrefix(curst.getPredicate().asResource().getNameSpace());
+						if (subprefix != null) {
+							writer.writeCharacters(subprefix + ":" + curst.getPredicate().getLocalName());
+						} else {
+							writer.writeCharacters(curst.getPredicate().getLocalName());
+						}
+						writer.writeEndElement();
+						writer.writeEndElement();
+						writer.writeEndElement();
 						writer.writeEndElement();
 					} else if (curst.getObject().isLiteral()) {
 						writer.writeStartElement("node");
