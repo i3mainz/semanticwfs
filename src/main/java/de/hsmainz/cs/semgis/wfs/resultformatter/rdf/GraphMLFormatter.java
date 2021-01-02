@@ -44,7 +44,7 @@ public class GraphMLFormatter extends ResultFormatter {
 	public String getColorForResource(OntModel model, Resource res,String defaultColor) {
 		Property scof=model.createProperty("http://www.w3.org/2000/01/rdf-schema#subClassOf");
 		Property spof=model.createProperty("http://www.w3.org/2000/01/rdf-schema#subPropertyOf");
-		Property rdftype=model.createProperty("http://www.w3.org/2000/01/rdf-schema#subClassOf");
+		Property rdftype=model.createProperty("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
 		if(res.getURI().contains("http://www.w3.org/2000/01/rdf-schema#")) {
 			return "#F08080";
 		}else if(res.listProperties(scof).hasNext()){
