@@ -1,10 +1,10 @@
 var a00307 =
 [
-    [ "user", "a00308.html", "a00308" ],
-    [ "AbstractTransformer", "a00645.html", "a00645" ],
-    [ "CovJSONCoverage", "a00649.html", "a00649" ],
-    [ "OpenAPIMediaType", "a00653.html", "a00653" ],
-    [ "ReprojectionUtils", "a00657.html", "a00657" ],
-    [ "Tuple", "a00661.html", "a00661" ],
-    [ "XSLTTransformer", "a00681.html", "a00681" ]
+    [ "coverage", "a00306.html", "a00306" ],
+    [ "rdf", "a00308.html", "a00308" ],
+    [ "vector", "a00309.html", "a00309" ],
+    [ "CoverageResultFormatter", "a00383.html", "a00383" ],
+    [ "HTMLFormatter", "a00387.html", "a00387" ],
+    [ "ResultFormatter", "a00455.html", "a00455" ],
+    [ "VectorResultFormatter", "a00607.html", "a00607" ]
 ];

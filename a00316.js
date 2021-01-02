@@ -1,4 +1,5 @@
 var a00316 =
 [
-    [ "geowave", "a00317.html", "a00317" ]
+    [ "wkb", "a00319.html", "a00319" ],
+    [ "SampleDimensionType", "a00703.html", "a00703" ]
 ];

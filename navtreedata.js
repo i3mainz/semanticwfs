@@ -1,7 +1,7 @@
 var NAVTREE =
 [
   [ "semanticwfs", "index.html", [
-    [ "Deprecated List", "a00293.html", null ],
+    [ "Deprecated List", "a00299.html", null ],
     [ "Packages", null, [
       [ "Packages", "namespaces.html", "namespaces" ]
     ] ],
@@ -24,16 +24,17 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "a00002.html",
-"a00349.html#ad4ae2ae73dc25c4ffa0b1a5656439547",
-"a00381.html#a385b5e71821f5098a6ea37a2a2a62272",
-"a00413.html#a8ad74128a4ab97bd40b8657ee20db9be",
-"a00449.html",
-"a00481.html",
-"a00513.html#a0ee6491f4e8399d7ecba40307f66b487",
-"a00545.html#a7e76818e36c37f7e60b97c69d30b8285",
-"a00577.html#a33867e8c7c6858d77a4d06fabe01433e",
-"a00629.html#a54c9d791b2138017b960a7cf457b5fd2",
-"a00693.html#a0cdacc5ebe7f3d956f9199c25a1d56b0"
+"a00355.html#abbb8a130249100f0ed28115cca5c8928",
+"a00387.html#a204475833916aa852ab5ea580cad92a8",
+"a00419.html#a84e00e247359df2d27d038f5d2df0db8",
+"a00451.html#afce25d64087d96d66b6b5535660a8ddb",
+"a00487.html",
+"a00519.html#a14d1ce48bd0e594876a2b07819ade35d",
+"a00551.html#a84e00e247359df2d27d038f5d2df0db8",
+"a00583.html#a84e00e247359df2d27d038f5d2df0db8",
+"a00623.html#af149b280d2c9bcc76f05c6a1c291d30f",
+"a00699.html#a818e38edc96438ef69a081e9c67e3ead",
+"functions_l.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

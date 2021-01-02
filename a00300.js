@@ -1,12 +1,7 @@
 var a00300 =
 [
-    [ "ASCIIGridFormatter", "a00341.html", "a00341" ],
-    [ "CovJSONFormatter", "a00345.html", "a00345" ],
-    [ "GeoTIFFFormatter", "a00349.html", "a00349" ],
-    [ "GMLCOVFormatter", "a00353.html", "a00353" ],
-    [ "GXFFormatter", "a00357.html", "a00357" ],
-    [ "HexRasterWKBFormatter", "a00361.html", "a00361" ],
-    [ "RasterWKBFormatter", "a00365.html", "a00365" ],
-    [ "X3DFormatter", "a00369.html", "a00369" ],
-    [ "XYZASCIIFormatter", "a00373.html", "a00373" ]
+    [ "ASCIIGridReader", "a00331.html", "a00331" ],
+    [ "CoverageJSONReader", "a00335.html", null ],
+    [ "CoverageReader", "a00339.html", "a00339" ],
+    [ "XYZReader", "a00343.html", "a00343" ]
 ];

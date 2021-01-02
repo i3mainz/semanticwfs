@@ -1,5 +1,6 @@
 var a00310 =
 [
-    [ "wkb", "a00313.html", "a00313" ],
-    [ "SampleDimensionType", "a00689.html", "a00689" ]
+    [ "DCATFormatter", "a00611.html", "a00611" ],
+    [ "GMDFormatter", "a00615.html", "a00615" ],
+    [ "ResultMetadataFormatter", "a00619.html", "a00619" ]
 ];

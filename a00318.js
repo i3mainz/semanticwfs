@@ -1,4 +1,5 @@
 var a00318 =
 [
-    [ "geotime", "a00319.html", "a00319" ]
+    [ "coverage", "a00316.html", "a00316" ],
+    [ "io", "a00320.html", "a00320" ]
 ];

@@ -1,4 +1,5 @@
 var a00319 =
 [
-    [ "util", "a00315.html", "a00315" ]
+    [ "WKBRasterConstants", "a00707.html", "a00707" ],
+    [ "WKBRasterWriter", "a00711.html", "a00711" ]
 ];

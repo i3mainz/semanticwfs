@@ -1,4 +1,5 @@
 var a00317 =
 [
-    [ "core", "a00318.html", "a00318" ]
+    [ "geotoolkit", "a00318.html", "a00318" ],
+    [ "locationtech", "a00322.html", "a00322" ]
 ];
