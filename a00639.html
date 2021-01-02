@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>semanticwfs: ResultStyleFormatter Class Reference</title>
+<title>semanticwfs: Member List</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -56,376 +56,34 @@ $(function() {
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('a00639.html','');});
+$(document).ready(function(){initNavTree('a00642.html','');});
 </script>
 <div id="doc-content">
 <div class="header">
-  <div class="summary">
-<a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a> &#124;
-<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
-<a href="#pac-static-methods">Static Package Functions</a> &#124;
-<a href="a00636.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">ResultStyleFormatter Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
+<div class="title">MapCSSFormatter Member List</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Abstract class to describe a class applying a style to a downlifted dataset.  
- <a href="a00639.html#details">More...</a></p>
-<div class="dynheader">
-Inheritance diagram for ResultStyleFormatter:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00638.png" border="0" usemap="#ResultStyleFormatter_inherit__map" alt="Inheritance graph"/></div>
-<map name="ResultStyleFormatter_inherit__map" id="ResultStyleFormatter_inherit__map">
-<area shape="rect" id="node2" href="a00623.html" title="Reads an ontological style description and formats it to CartoCSS. " alt="" coords="214,5,353,32"/>
-<area shape="rect" id="node3" href="a00627.html" title="Reads an ontological style description and formats it to GeoJSONCSS. " alt="" coords="200,56,367,83"/>
-<area shape="rect" id="node4" href="a00631.html" title="Reads an ontological style description and formats it to KML Styles. " alt="" coords="216,107,351,133"/>
-<area shape="rect" id="node5" href="a00635.html" title="Reads an ontological style description and formats it to OSM Map CSS. " alt="" coords="218,157,349,184"/>
-<area shape="rect" id="node6" href="a00643.html" title="Reads an ontological style description and formats it according to the mapbox simple style specificat..." alt="" coords="209,208,357,235"/>
-<area shape="rect" id="node7" href="a00647.html" title="Formats styles according to the styled layer description definition. " alt="" coords="231,259,335,285"/>
-</map>
-<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
-<div class="dynheader">
-Collaboration diagram for ResultStyleFormatter:</div>
-<div class="dyncontent">
-<div class="center"><img src="a00637.png" border="0" usemap="#ResultStyleFormatter_coll__map" alt="Collaboration graph"/></div>
-<map name="ResultStyleFormatter_coll__map" id="ResultStyleFormatter_coll__map">
-</map>
-<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:aa231f1de0281037224372f0afb1f0fe1"><td class="memItemLeft" align="right" valign="top">abstract String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00639.html#aa231f1de0281037224372f0afb1f0fe1">formatter</a> (ResultSet results, String featuretype)  throws XMLStreamException</td></tr>
-<tr class="separator:aa231f1de0281037224372f0afb1f0fe1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abaa077ed79fcfd5a2279597e3f324c64"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00639.html#abaa077ed79fcfd5a2279597e3f324c64">formatHeader</a> ()</td></tr>
-<tr class="separator:abaa077ed79fcfd5a2279597e3f324c64"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af149b280d2c9bcc76f05c6a1c291d30f"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00639.html#af149b280d2c9bcc76f05c6a1c291d30f">formatFooter</a> ()</td></tr>
-<tr class="separator:af149b280d2c9bcc76f05c6a1c291d30f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3770f80b7c98a8315479f697590303a3"><td class="memItemLeft" align="right" valign="top">abstract String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00639.html#a3770f80b7c98a8315479f697590303a3">formatGeometry</a> (String geometrytype, <a class="el" href="a00651.html">StyleObject</a> styleobj)</td></tr>
-<tr class="memdesc:a3770f80b7c98a8315479f697590303a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Formats a geometry according to a given geometrytype using information from a given styleobj.  <a href="#a3770f80b7c98a8315479f697590303a3">More...</a><br /></td></tr>
-<tr class="separator:a3770f80b7c98a8315479f697590303a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a91715aa5eef12ebcf3ea95d7493b9084"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="a00639.html">ResultStyleFormatter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00639.html#a91715aa5eef12ebcf3ea95d7493b9084">getFormatter</a> (String formatString)</td></tr>
-<tr class="memdesc:a91715aa5eef12ebcf3ea95d7493b9084"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a style formatter for a chosen style type.  <a href="#a91715aa5eef12ebcf3ea95d7493b9084">More...</a><br /></td></tr>
-<tr class="separator:a91715aa5eef12ebcf3ea95d7493b9084"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:a1ce6ef499b64cec5981912a236baa199"><td class="memItemLeft" align="right" valign="top">Integer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00639.html#a1ce6ef499b64cec5981912a236baa199">lastQueriedElemCount</a> =0</td></tr>
-<tr class="separator:a1ce6ef499b64cec5981912a236baa199"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a09c78e464072ccab667894f0d179fbdf"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00639.html#a09c78e464072ccab667894f0d179fbdf">mimeType</a> =&quot;text/plain&quot;</td></tr>
-<tr class="separator:a09c78e464072ccab667894f0d179fbdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa6a844c9b01d97aca583be867a1c5413"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00639.html#aa6a844c9b01d97aca583be867a1c5413">exposedType</a> =&quot;application/vnd.geo+json&quot;</td></tr>
-<tr class="separator:aa6a844c9b01d97aca583be867a1c5413"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8e9232fc24a04d17c4a31141d78cb0ca"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00639.html#a8e9232fc24a04d17c4a31141d78cb0ca">styleAttribute</a> =&quot;&quot;</td></tr>
-<tr class="separator:a8e9232fc24a04d17c4a31141d78cb0ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
-Static Public Attributes</h2></td></tr>
-<tr class="memitem:a54c9d791b2138017b960a7cf457b5fd2"><td class="memItemLeft" align="right" valign="top">static Map&lt; String, <a class="el" href="a00639.html">ResultStyleFormatter</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00639.html#a54c9d791b2138017b960a7cf457b5fd2">resultMap</a> =new TreeMap&lt;String, <a class="el" href="a00639.html">ResultStyleFormatter</a>&gt;()</td></tr>
-<tr class="separator:a54c9d791b2138017b960a7cf457b5fd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pac-static-methods"></a>
-Static Package Functions</h2></td></tr>
-<tr class="memitem:a2e87c5ede6b7235170d287cd2e254454"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00639.html#a2e87c5ede6b7235170d287cd2e254454">[static initializer]</a></td></tr>
-<tr class="separator:a2e87c5ede6b7235170d287cd2e254454"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Abstract class to describe a class applying a style to a downlifted dataset. </p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a2e87c5ede6b7235170d287cd2e254454"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2e87c5ede6b7235170d287cd2e254454">&#9670;&nbsp;</a></span>[static initializer]()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">[static initializer] </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">package</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="af149b280d2c9bcc76f05c6a1c291d30f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af149b280d2c9bcc76f05c6a1c291d30f">&#9670;&nbsp;</a></span>formatFooter()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">String formatFooter </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="reference">References <a class="el" href="a00639.html#a3770f80b7c98a8315479f697590303a3">ResultStyleFormatter.formatGeometry()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                                     {</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                <span class="keywordflow">return</span> <span class="stringliteral">&quot;&quot;</span>;</div><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        }</div></div><!-- fragment -->
-</div>
-</div>
-<a id="a3770f80b7c98a8315479f697590303a3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3770f80b7c98a8315479f697590303a3">&#9670;&nbsp;</a></span>formatGeometry()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">abstract String formatGeometry </td>
-          <td>(</td>
-          <td class="paramtype">String&#160;</td>
-          <td class="paramname"><em>geometrytype</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="a00651.html">StyleObject</a>&#160;</td>
-          <td class="paramname"><em>styleobj</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">abstract</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Formats a geometry according to a given geometrytype using information from a given styleobj. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">geometrytype</td><td>the geometry </td></tr>
-    <tr><td class="paramname">styleobj</td><td>the styleobject to use for formatting </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>the formatString to use for styling </dd></dl>
-
-<p class="reference">Referenced by <a class="el" href="a00639.html#af149b280d2c9bcc76f05c6a1c291d30f">ResultStyleFormatter.formatFooter()</a>, <a class="el" href="a00483.html#ae57596773bf8a703ef14acd22c850ff8">GeoJSONFormatter.formatJSONObject()</a>, <a class="el" href="a00483.html#a075520e54cf374078a8ec75949da1ebe">GeoJSONFormatter.formatJSONStreaming()</a>, and <a class="el" href="a00535.html#ab70cdb30f88d304ec07a4b15a33c6276">KMLFormatter.formatter()</a>.</p>
-
-</div>
-</div>
-<a id="abaa077ed79fcfd5a2279597e3f324c64"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abaa077ed79fcfd5a2279597e3f324c64">&#9670;&nbsp;</a></span>formatHeader()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">String formatHeader </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                                     {</div><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                <span class="keywordflow">return</span> <span class="stringliteral">&quot;&quot;</span>;</div><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        }</div></div><!-- fragment -->
-</div>
-</div>
-<a id="aa231f1de0281037224372f0afb1f0fe1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa231f1de0281037224372f0afb1f0fe1">&#9670;&nbsp;</a></span>formatter()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">abstract String formatter </td>
-          <td>(</td>
-          <td class="paramtype">ResultSet&#160;</td>
-          <td class="paramname"><em>results</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">String&#160;</td>
-          <td class="paramname"><em>featuretype</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> throws XMLStreamException</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">abstract</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">results</td><td></td></tr>
-    <tr><td class="paramname">featuretype</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">XMLStreamException</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p class="reference">Referenced by <a class="el" href="a00639.html#a91715aa5eef12ebcf3ea95d7493b9084">ResultStyleFormatter.getFormatter()</a>.</p>
-
-</div>
-</div>
-<a id="a91715aa5eef12ebcf3ea95d7493b9084"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a91715aa5eef12ebcf3ea95d7493b9084">&#9670;&nbsp;</a></span>getFormatter()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static <a class="el" href="a00639.html">ResultStyleFormatter</a> getFormatter </td>
-          <td>(</td>
-          <td class="paramtype">String&#160;</td>
-          <td class="paramname"><em>formatString</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Gets a style formatter for a chosen style type. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">formatString</td><td>the formatString indicating a given style type </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>a <a class="el" href="a00639.html" title="Abstract class to describe a class applying a style to a downlifted dataset. ">ResultStyleFormatter</a> generating the chosen style type </dd></dl>
-
-<p class="reference">References <a class="el" href="a00639.html#aa231f1de0281037224372f0afb1f0fe1">ResultStyleFormatter.formatter()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                                                                             {</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                formatString=formatString.toLowerCase();</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                <span class="keywordflow">if</span>(<a class="code" href="a00639.html#a54c9d791b2138017b960a7cf457b5fd2">resultMap</a>.containsKey(formatString)) {</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                        <span class="keywordflow">return</span> <a class="code" href="a00639.html#a54c9d791b2138017b960a7cf457b5fd2">resultMap</a>.get(formatString);</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                }</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                formatString=formatString.replace(<span class="stringliteral">&quot;+&quot;</span>,<span class="stringliteral">&quot;&quot;</span>);</div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                <span class="keywordflow">if</span>(formatString.contains(<span class="stringliteral">&quot;mapcss&quot;</span>)) {</div><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                        <span class="keywordflow">return</span> <a class="code" href="a00639.html#a54c9d791b2138017b960a7cf457b5fd2">resultMap</a>.get(<span class="stringliteral">&quot;mapcss&quot;</span>);</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                }</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                <span class="keywordflow">if</span>(formatString.contains(<span class="stringliteral">&quot;geojsoncss&quot;</span>)) {</div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                        <span class="keywordflow">return</span> <a class="code" href="a00639.html#a54c9d791b2138017b960a7cf457b5fd2">resultMap</a>.get(<span class="stringliteral">&quot;geojsoncss&quot;</span>);</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                }</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                <span class="keywordflow">if</span>(formatString.contains(<span class="stringliteral">&quot;sld&quot;</span>)) {</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                        <span class="keywordflow">return</span> <a class="code" href="a00639.html#a54c9d791b2138017b960a7cf457b5fd2">resultMap</a>.get(<span class="stringliteral">&quot;sld&quot;</span>);</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                }</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                <span class="keywordflow">return</span> null;</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        }</div><div class="ttc" id="a00639_html_a54c9d791b2138017b960a7cf457b5fd2"><div class="ttname"><a href="a00639.html#a54c9d791b2138017b960a7cf457b5fd2">de.hsmainz.cs.semgis.wfs.resultstyleformatter.ResultStyleFormatter.resultMap</a></div><div class="ttdeci">static Map&lt; String, ResultStyleFormatter &gt; resultMap</div><div class="ttdef"><b>Definition:</b> ResultStyleFormatter.java:16</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="aa6a844c9b01d97aca583be867a1c5413"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa6a844c9b01d97aca583be867a1c5413">&#9670;&nbsp;</a></span>exposedType</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">String exposedType =&quot;application/vnd.geo+json&quot;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="reference">Referenced by <a class="el" href="a00647.html#a6561dcf48f63c199d693d5ed6c739dc0">SLDFormatter.formatter()</a>.</p>
-
-</div>
-</div>
-<a id="a1ce6ef499b64cec5981912a236baa199"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1ce6ef499b64cec5981912a236baa199">&#9670;&nbsp;</a></span>lastQueriedElemCount</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Integer lastQueriedElemCount =0</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a09c78e464072ccab667894f0d179fbdf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a09c78e464072ccab667894f0d179fbdf">&#9670;&nbsp;</a></span>mimeType</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">String mimeType =&quot;text/plain&quot;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a54c9d791b2138017b960a7cf457b5fd2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a54c9d791b2138017b960a7cf457b5fd2">&#9670;&nbsp;</a></span>resultMap</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">Map&lt;String,<a class="el" href="a00639.html">ResultStyleFormatter</a>&gt; resultMap =new TreeMap&lt;String, <a class="el" href="a00639.html">ResultStyleFormatter</a>&gt;()</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a8e9232fc24a04d17c4a31141d78cb0ca"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8e9232fc24a04d17c4a31141d78cb0ca">&#9670;&nbsp;</a></span>styleAttribute</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">String styleAttribute =&quot;&quot;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="reference">Referenced by <a class="el" href="a00483.html#ae57596773bf8a703ef14acd22c850ff8">GeoJSONFormatter.formatJSONObject()</a>, <a class="el" href="a00483.html#a075520e54cf374078a8ec75949da1ebe">GeoJSONFormatter.formatJSONStreaming()</a>, <a class="el" href="a00627.html#a260286963b4c3e8010ecc3d97c9712a6">GeoJSONCSSFormatter.GeoJSONCSSFormatter()</a>, and <a class="el" href="a00643.html#a922d460a9ab0aa5a7a7b70ad8bd3868a">SimpleStyleFormatter.SimpleStyleFormatter()</a>.</p>
-
-</div>
-</div>
-</div><!-- contents -->
+<p>This is the complete list of members for <a class="el" href="a00642.html">MapCSSFormatter</a>, including all inherited members.</p>
+<table class="directory">
+  <tr class="even"><td class="entry"><a class="el" href="a00646.html#a2e87c5ede6b7235170d287cd2e254454">[static initializer]</a></td><td class="entry"><a class="el" href="a00646.html">ResultStyleFormatter</a></td><td class="entry"><span class="mlabel">package</span><span class="mlabel">static</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00646.html#aa6a844c9b01d97aca583be867a1c5413">exposedType</a></td><td class="entry"><a class="el" href="a00646.html">ResultStyleFormatter</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00646.html#af149b280d2c9bcc76f05c6a1c291d30f">formatFooter</a>()</td><td class="entry"><a class="el" href="a00646.html">ResultStyleFormatter</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="a00642.html#a399873993b7ab0c34a034702639a6cad">formatGeometry</a>(String geometrytype, StyleObject styleobj)</td><td class="entry"><a class="el" href="a00642.html">MapCSSFormatter</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00646.html#abaa077ed79fcfd5a2279597e3f324c64">formatHeader</a>()</td><td class="entry"><a class="el" href="a00646.html">ResultStyleFormatter</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="a00642.html#a6561dcf48f63c199d693d5ed6c739dc0">formatter</a>(ResultSet results, String featuretype)</td><td class="entry"><a class="el" href="a00642.html">MapCSSFormatter</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00646.html#a91715aa5eef12ebcf3ea95d7493b9084">getFormatter</a>(String formatString)</td><td class="entry"><a class="el" href="a00646.html">ResultStyleFormatter</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr><td class="entry"><a class="el" href="a00646.html#a1ce6ef499b64cec5981912a236baa199">lastQueriedElemCount</a></td><td class="entry"><a class="el" href="a00646.html">ResultStyleFormatter</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00646.html#a09c78e464072ccab667894f0d179fbdf">mimeType</a></td><td class="entry"><a class="el" href="a00646.html">ResultStyleFormatter</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="a00646.html#a54c9d791b2138017b960a7cf457b5fd2">resultMap</a></td><td class="entry"><a class="el" href="a00646.html">ResultStyleFormatter</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="a00646.html#a8e9232fc24a04d17c4a31141d78cb0ca">styleAttribute</a></td><td class="entry"><a class="el" href="a00646.html">ResultStyleFormatter</a></td><td class="entry"></td></tr>
+</table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.13-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="a00301.html">de</a></li><li class="navelem"><a class="el" href="a00302.html">hsmainz</a></li><li class="navelem"><a class="el" href="a00303.html">cs</a></li><li class="navelem"><a class="el" href="a00304.html">semgis</a></li><li class="navelem"><a class="el" href="a00305.html">wfs</a></li><li class="navelem"><a class="el" href="a00311.html">resultstyleformatter</a></li><li class="navelem"><a class="el" href="a00639.html">ResultStyleFormatter</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>

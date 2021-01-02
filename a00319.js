@@ -1,5 +1,5 @@
 var a00319 =
 [
-    [ "WKBRasterConstants", "a00707.html", "a00707" ],
-    [ "WKBRasterWriter", "a00711.html", "a00711" ]
+    [ "wkb", "a00322.html", "a00322" ],
+    [ "SampleDimensionType", "a00710.html", "a00710" ]
 ];

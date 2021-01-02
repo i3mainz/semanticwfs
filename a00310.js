@@ -1,6 +1,10 @@
 var a00310 =
 [
-    [ "DCATFormatter", "a00611.html", "a00611" ],
-    [ "GMDFormatter", "a00615.html", "a00615" ],
-    [ "ResultMetadataFormatter", "a00619.html", "a00619" ]
+    [ "coverage", "a00309.html", "a00309" ],
+    [ "rdf", "a00311.html", "a00311" ],
+    [ "vector", "a00312.html", "a00312" ],
+    [ "CoverageResultFormatter", "a00386.html", "a00386" ],
+    [ "HTMLFormatter", "a00390.html", "a00390" ],
+    [ "ResultFormatter", "a00462.html", "a00462" ],
+    [ "VectorResultFormatter", "a00614.html", "a00614" ]
 ];

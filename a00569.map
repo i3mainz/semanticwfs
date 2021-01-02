@@ -1,5 +1,4 @@
-<map id="PostgreSQLFormatter" name="PostgreSQLFormatter">
-<area shape="rect" id="node2" href="$a00607.html" title="VectorResultFormatter" alt="" coords="1569,97,1724,124"/>
-<area shape="rect" id="node3" href="$a00455.html" title="Abstract class to downlift query results. " alt="" coords="1404,373,1520,400"/>
-<area shape="rect" id="node8" href="$a00639.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="1096,424,1243,451"/>
+<map id="OSMLinkFormatter" name="OSMLinkFormatter">
+<area shape="rect" id="node2" href="$a00614.html" title="VectorResultFormatter" alt="" coords="5,80,160,107"/>
+<area shape="rect" id="node3" href="$a00462.html" title="Abstract class to downlift query results. " alt="" coords="25,5,141,32"/>
 </map>
