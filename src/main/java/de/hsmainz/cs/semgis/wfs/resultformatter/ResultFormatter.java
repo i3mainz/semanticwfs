@@ -356,7 +356,7 @@ public abstract class ResultFormatter {
 			if(literalValue.trim().startsWith("<http")) {
 				try {
 					geom=this.wktreader.read(literalValue.substring(literalValue.lastIndexOf(">")+1));
-					epsg=literalValue.substring(literalValue.indexOf("<")+1,literalValue.lastIndexOf(">")-1);
+					epsg=literalValue.substring(literalValue.indexOf("<")+1,literalValue.lastIndexOf(">"));
 					Integer srid=Integer.valueOf(epsg.substring(epsg.lastIndexOf("/")+1));
 					geom.setSRID(srid);
 					epsg="EPSG:"+srid;
