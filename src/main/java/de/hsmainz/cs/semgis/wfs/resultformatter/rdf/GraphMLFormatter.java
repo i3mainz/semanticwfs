@@ -33,7 +33,7 @@ public class GraphMLFormatter extends ResultFormatter {
 
 	public GraphMLFormatter() {
 		this.urlformat="graphml";
-		this.label="GraphML";
+		this.label="Graph Markup Language (GraphML)";
 		this.mimeType="text/graphml";
 		this.exposedType="text/graphml";
 		this.fileextension="graphml";
@@ -120,7 +120,7 @@ public class GraphMLFormatter extends ResultFormatter {
 			writer.writeEndElement();
 			writer.writeStartElement("graph");
 			writer.writeAttribute("id", "G");
-			writer.writeAttribute("edgedefault", "undirected");
+			writer.writeAttribute("edgedefault", "directed");
 			for (Resource res : resources) {
 				if (!res.isURIResource())
 					continue;

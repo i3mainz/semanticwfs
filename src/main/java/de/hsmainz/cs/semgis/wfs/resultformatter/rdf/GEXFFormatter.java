@@ -124,7 +124,7 @@ public class GEXFFormatter extends ResultFormatter {
 			}
 			writer.writeEndElement();
 			writer.flush();
-			strwriter.write(builder.toString());
+			strwriter.write(builder.toString()+"</edges>"+System.lineSeparator());
 			strwriter.flush();
 			writer.writeEndElement();
 			writer.writeEndDocument();
