@@ -23,6 +23,7 @@ import de.hsmainz.cs.semgis.wfs.resultformatter.coverage.CovJSONFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.coverage.XYZASCIIFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.CypherFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.GDFFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.GEXFFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.GraphMLFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.HDTFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.HexTuplesFormatter;
@@ -259,6 +260,9 @@ public abstract class ResultFormatter {
 		if(formatString.contains("xyz")) {
 			return resultMap.get("xyz");
 		}
+		if(formatString.contains("gexf")) {
+			return resultMap.get("gexf");
+		}
 		if(formatString.contains("covjson")) {
 			return resultMap.get("covjson");
 		}
@@ -308,6 +312,7 @@ public abstract class ResultFormatter {
 		addToMaps("trix", new TrixFormatter());
 		addToMaps("cypher", new CypherFormatter());
 		addToMaps("gdf", new GDFFormatter());
+		addToMaps("gexf", new GEXFFormatter());
 		addToMaps("tgf", new TGFFormatter());
 		addToMaps("kml", new KMLFormatter());
 		addToMaps("graphml", new GraphMLFormatter());
