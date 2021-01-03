@@ -1,5 +1,4 @@
-<map id="HexWKBFormatter" name="HexWKBFormatter">
-<area shape="rect" id="node2" href="$a00614.html" title="VectorResultFormatter" alt="" coords="1569,97,1724,124"/>
-<area shape="rect" id="node3" href="$a00462.html" title="Abstract class to downlift query results. " alt="" coords="1404,373,1520,400"/>
-<area shape="rect" id="node8" href="$a00646.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="1096,424,1243,451"/>
+<map id="GMLFormatter" name="GMLFormatter">
+<area shape="rect" id="node2" href="$a00621.html" title="VectorResultFormatter" alt="" coords="5,80,160,107"/>
+<area shape="rect" id="node3" href="$a00469.html" title="Abstract class to downlift query results. " alt="" coords="25,5,141,32"/>
 </map>

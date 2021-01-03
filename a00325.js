@@ -1,4 +1,5 @@
 var a00325 =
 [
-    [ "geowave", "a00326.html", "a00326" ]
+    [ "WKBRasterConstants", "a00721.html", "a00721" ],
+    [ "WKBRasterWriter", "a00725.html", "a00725" ]
 ];

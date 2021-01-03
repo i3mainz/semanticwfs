@@ -1,4 +1,6 @@
 var a00327 =
 [
-    [ "geotime", "a00328.html", "a00328" ]
+    [ "TWKBReader", "a00733.html", "a00733" ],
+    [ "TWKBUtils", "a00749.html", "a00749" ],
+    [ "TWKBWriter", "a00753.html", "a00753" ]
 ];
