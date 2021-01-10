@@ -94,9 +94,7 @@ public class TGFFormatter extends ResultFormatter {
         out.write("#"+System.lineSeparator());
         out.write(edgebuilder.toString());
         out.close();
-        return "";
-        
+        return ""; 
 	}
-	
 
 }

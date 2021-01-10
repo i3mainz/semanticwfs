@@ -17,6 +17,7 @@ import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.io.ParseException;
 import org.locationtech.jts.io.WKBReader;
 import org.locationtech.jts.io.WKTReader;
+import org.locationtech.jts.io.kml.KMLReader;
 import org.wololo.jts2geojson.GeoJSONReader;
 
 import de.hsmainz.cs.semgis.wfs.resultformatter.coverage.CovJSONFormatter;
@@ -24,6 +25,7 @@ import de.hsmainz.cs.semgis.wfs.resultformatter.coverage.XYZASCIIFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.CypherFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.GDFFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.GEXFFormatter;
+import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.GXLFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.GraphMLFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.HDTFormatter;
 import de.hsmainz.cs.semgis.wfs.resultformatter.rdf.HexTuplesFormatter;
@@ -105,6 +107,8 @@ public abstract class ResultFormatter {
 	public WKTReader wktreader=new WKTReader();
 	
 	public WKBReader wkbreader=new WKBReader();
+	
+	public KMLReader kmlreader=new KMLReader();
 	
 	public GeoJSONReader geojsonreader=new GeoJSONReader();
 	
@@ -260,6 +264,9 @@ public abstract class ResultFormatter {
 		if(formatString.contains("xyz")) {
 			return resultMap.get("xyz");
 		}
+		if(formatString.contains("gxl")) {
+			return resultMap.get("gxl");
+		}
 		if(formatString.contains("gexf")) {
 			return resultMap.get("gexf");
 		}
@@ -331,6 +338,7 @@ public abstract class ResultFormatter {
 		addToMaps("wkb", new WKBFormatter());
 		addToMaps("twkb", new TWKBFormatter());
 		addToMaps("gpx", new GPXFormatter());
+		addToMaps("gxl", new GXLFormatter());
 		addToMaps("psql", new PostgreSQLFormatter());
 		addToMaps("rdf", new RDFFormatter());
 		addToMaps("hdt", new HDTFormatter());
@@ -380,6 +388,14 @@ public abstract class ResultFormatter {
 		}
 		else if(literalType.toLowerCase().contains("geojson")) {
 			geom=this.geojsonreader.read(literalValue);
+		}
+		else if(literalType.toLowerCase().contains("kml")) {
+			try {
+				geom=this.kmlreader.read(literalValue);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		else if(literalType.toLowerCase().contains("wkb")) {
 			try {
