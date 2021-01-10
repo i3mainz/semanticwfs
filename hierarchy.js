@@ -1,131 +1,133 @@
 var hierarchy =
 [
-    [ "AbstractTransformer", "a00673.html", null ],
-    [ "Comparable", "a01729.html", [
-      [ "Tuple< T, T2 >", "a00689.html", null ]
+    [ "AbstractTransformer", "a00687.html", null ],
+    [ "Comparable", "a01747.html", [
+      [ "Tuple< T, T2 >", "a00703.html", null ]
     ] ],
-    [ "CoverageJSONReader", "a00341.html", null ],
-    [ "CoverageReader", "a00345.html", [
-      [ "ASCIIGridReader", "a00337.html", null ],
-      [ "XYZReader", "a00349.html", null ]
+    [ "CoverageJSONReader", "a00347.html", null ],
+    [ "CoverageReader", "a00351.html", [
+      [ "ASCIIGridReader", "a00343.html", null ],
+      [ "XYZReader", "a00355.html", null ]
     ] ],
-    [ "CovJSONCoverage", "a00677.html", null ],
-    [ "OpenAPIMediaType", "a00681.html", null ],
-    [ "TWKBReader.PrecisionReader", "a00741.html", [
-      [ "TWKBReader.ExtendedPrecisionReader", "a00745.html", null ]
+    [ "CovJSONCoverage", "a00691.html", null ],
+    [ "OpenAPIMediaType", "a00695.html", null ],
+    [ "TWKBReader.PrecisionReader", "a00755.html", [
+      [ "TWKBReader.ExtendedPrecisionReader", "a00759.html", null ]
     ] ],
-    [ "TWKBWriter.PrecisionWriter", "a00757.html", [
-      [ "TWKBWriter.ExtendedPrecisionWriter", "a00761.html", null ]
+    [ "TWKBWriter.PrecisionWriter", "a00771.html", [
+      [ "TWKBWriter.ExtendedPrecisionWriter", "a00775.html", null ]
     ] ],
-    [ "ReprojectionUtils", "a00685.html", null ],
-    [ "ResultFormatter", "a00469.html", [
-      [ "ASCIIGridFormatter", "a00353.html", null ],
-      [ "XYZASCIIFormatter", "a00385.html", null ],
-      [ "CoverageResultFormatter", "a00389.html", [
-        [ "CovJSONFormatter", "a00357.html", null ],
-        [ "GeoTIFFFormatter", "a00361.html", null ],
-        [ "GMLCOVFormatter", "a00365.html", null ],
-        [ "GXFFormatter", "a00369.html", null ],
-        [ "HexRasterWKBFormatter", "a00373.html", null ],
-        [ "RasterWKBFormatter", "a00377.html", null ],
-        [ "X3DFormatter", "a00381.html", null ]
+    [ "ReprojectionUtils", "a00699.html", null ],
+    [ "ResultFormatter", "a00483.html", [
+      [ "ASCIIGridFormatter", "a00359.html", null ],
+      [ "XYZASCIIFormatter", "a00391.html", null ],
+      [ "CoverageResultFormatter", "a00395.html", [
+        [ "CovJSONFormatter", "a00363.html", null ],
+        [ "GeoTIFFFormatter", "a00367.html", null ],
+        [ "GMLCOVFormatter", "a00371.html", null ],
+        [ "GXFFormatter", "a00375.html", null ],
+        [ "HexRasterWKBFormatter", "a00379.html", null ],
+        [ "RasterWKBFormatter", "a00383.html", null ],
+        [ "X3DFormatter", "a00387.html", null ]
       ] ],
-      [ "HTMLFormatter", "a00393.html", null ],
-      [ "CypherFormatter", "a00397.html", null ],
-      [ "GDFFormatter", "a00401.html", null ],
-      [ "GEXFFormatter", "a00405.html", null ],
-      [ "GraphMLFormatter", "a00409.html", null ],
-      [ "HDTFormatter", "a00413.html", null ],
-      [ "HexTuplesFormatter", "a00417.html", null ],
-      [ "LDAPIJSONFormatter", "a00421.html", null ],
-      [ "N3Formatter", "a00425.html", null ],
-      [ "NQuadsFormatter", "a00429.html", null ],
-      [ "NTFormatter", "a00433.html", null ],
-      [ "RDFEXIFormatter", "a00437.html", null ],
-      [ "RDFFormatter", "a00441.html", null ],
-      [ "RDFJSONFormatter", "a00445.html", null ],
-      [ "RDFThriftFormatter", "a00449.html", null ],
-      [ "TGFFormatter", "a00453.html", null ],
-      [ "TrigFormatter", "a00457.html", null ],
-      [ "TrixFormatter", "a00461.html", null ],
-      [ "TTLFormatter", "a00465.html", null ],
-      [ "GeobufFormatter", "a00489.html", null ],
-      [ "GeoJSONSeqFormatter", "a00505.html", null ],
-      [ "GeoPackageFormatter", "a00509.html", null ],
-      [ "GeoRSSFormatter", "a00513.html", null ],
-      [ "JSONPFormatter", "a00541.html", null ],
-      [ "JSONSeqFormatter", "a00545.html", null ],
-      [ "MapMLFormatter", "a00557.html", null ],
-      [ "MVTFormatter", "a00561.html", null ],
-      [ "ODSFormatter", "a00565.html", null ],
-      [ "OSMFormatter", "a00573.html", null ],
-      [ "SVGFormatter", "a00589.html", null ],
-      [ "YAMLFormatter", "a00617.html", null ],
-      [ "VectorResultFormatter", "a00621.html", [
-        [ "BSONFormatter", "a00473.html", null ],
-        [ "CSVFormatter", "a00477.html", null ],
-        [ "ESRIJSONFormatter", "a00481.html", null ],
-        [ "EWKTFormatter", "a00485.html", null ],
-        [ "GeoHashFormatter", "a00493.html", null ],
-        [ "GeoJSONFormatter", "a00497.html", null ],
-        [ "GeoJSONLDFormatter", "a00501.html", null ],
-        [ "GeoURIFormatter", "a00517.html", null ],
-        [ "GMLFormatter", "a00521.html", null ],
-        [ "GPXFormatter", "a00525.html", null ],
-        [ "HexWKBFormatter", "a00529.html", null ],
-        [ "JSONFormatter", "a00533.html", null ],
-        [ "JSONLDFormatter", "a00537.html", null ],
-        [ "KMLFormatter", "a00549.html", null ],
-        [ "LatLonTextFormatter", "a00553.html", null ],
-        [ "OpenLocationCodeFormatter", "a00569.html", null ],
-        [ "OSMLinkFormatter", "a00577.html", null ],
-        [ "PolyshapeFormatter", "a00581.html", null ],
-        [ "PostgreSQLFormatter", "a00585.html", null ],
-        [ "TopoJSONFormatter", "a00593.html", null ],
-        [ "TWKBFormatter", "a00597.html", null ],
-        [ "WKBFormatter", "a00601.html", null ],
-        [ "WKTFormatter", "a00605.html", null ],
-        [ "XLSFormatter", "a00609.html", null ],
-        [ "XLSXFormatter", "a00613.html", null ]
+      [ "HTMLFormatter", "a00399.html", null ],
+      [ "CypherFormatter", "a00403.html", null ],
+      [ "GDFFormatter", "a00407.html", null ],
+      [ "GEXFFormatter", "a00411.html", null ],
+      [ "GraphMLFormatter", "a00415.html", null ],
+      [ "GXLFormatter", "a00419.html", null ],
+      [ "HDTFormatter", "a00423.html", null ],
+      [ "HexTuplesFormatter", "a00427.html", null ],
+      [ "LDAPIJSONFormatter", "a00431.html", null ],
+      [ "N3Formatter", "a00435.html", null ],
+      [ "NQuadsFormatter", "a00439.html", null ],
+      [ "NTFormatter", "a00443.html", null ],
+      [ "RDFEXIFormatter", "a00447.html", null ],
+      [ "RDFFormatter", "a00451.html", null ],
+      [ "RDFJSONFormatter", "a00455.html", null ],
+      [ "RDFThriftFormatter", "a00459.html", null ],
+      [ "TGFFormatter", "a00463.html", null ],
+      [ "TLPFormatter", "a00467.html", null ],
+      [ "TrigFormatter", "a00471.html", null ],
+      [ "TrixFormatter", "a00475.html", null ],
+      [ "TTLFormatter", "a00479.html", null ],
+      [ "GeobufFormatter", "a00503.html", null ],
+      [ "GeoJSONSeqFormatter", "a00519.html", null ],
+      [ "GeoPackageFormatter", "a00523.html", null ],
+      [ "GeoRSSFormatter", "a00527.html", null ],
+      [ "JSONPFormatter", "a00555.html", null ],
+      [ "JSONSeqFormatter", "a00559.html", null ],
+      [ "MapMLFormatter", "a00571.html", null ],
+      [ "MVTFormatter", "a00575.html", null ],
+      [ "ODSFormatter", "a00579.html", null ],
+      [ "OSMFormatter", "a00587.html", null ],
+      [ "SVGFormatter", "a00603.html", null ],
+      [ "YAMLFormatter", "a00631.html", null ],
+      [ "VectorResultFormatter", "a00635.html", [
+        [ "BSONFormatter", "a00487.html", null ],
+        [ "CSVFormatter", "a00491.html", null ],
+        [ "ESRIJSONFormatter", "a00495.html", null ],
+        [ "EWKTFormatter", "a00499.html", null ],
+        [ "GeoHashFormatter", "a00507.html", null ],
+        [ "GeoJSONFormatter", "a00511.html", null ],
+        [ "GeoJSONLDFormatter", "a00515.html", null ],
+        [ "GeoURIFormatter", "a00531.html", null ],
+        [ "GMLFormatter", "a00535.html", null ],
+        [ "GPXFormatter", "a00539.html", null ],
+        [ "HexWKBFormatter", "a00543.html", null ],
+        [ "JSONFormatter", "a00547.html", null ],
+        [ "JSONLDFormatter", "a00551.html", null ],
+        [ "KMLFormatter", "a00563.html", null ],
+        [ "LatLonTextFormatter", "a00567.html", null ],
+        [ "OpenLocationCodeFormatter", "a00583.html", null ],
+        [ "OSMLinkFormatter", "a00591.html", null ],
+        [ "PolyshapeFormatter", "a00595.html", null ],
+        [ "PostgreSQLFormatter", "a00599.html", null ],
+        [ "TopoJSONFormatter", "a00607.html", null ],
+        [ "TWKBFormatter", "a00611.html", null ],
+        [ "WKBFormatter", "a00615.html", null ],
+        [ "WKTFormatter", "a00619.html", null ],
+        [ "XLSFormatter", "a00623.html", null ],
+        [ "XLSXFormatter", "a00627.html", null ]
       ] ]
     ] ],
-    [ "ResultMetadataFormatter", "a00633.html", [
-      [ "DCATFormatter", "a00625.html", null ],
-      [ "GMDFormatter", "a00629.html", null ]
+    [ "ResultMetadataFormatter", "a00647.html", [
+      [ "DCATFormatter", "a00639.html", null ],
+      [ "GMDFormatter", "a00643.html", null ]
     ] ],
-    [ "ResultStyleFormatter", "a00653.html", [
-      [ "CartoCSSFormatter", "a00637.html", null ],
-      [ "GeoJSONCSSFormatter", "a00641.html", null ],
-      [ "KMLStyleFormatter", "a00645.html", null ],
-      [ "MapCSSFormatter", "a00649.html", null ],
-      [ "SimpleStyleFormatter", "a00657.html", null ],
-      [ "SLDFormatter", "a00661.html", null ]
+    [ "ResultStyleFormatter", "a00667.html", [
+      [ "CartoCSSFormatter", "a00651.html", null ],
+      [ "GeoJSONCSSFormatter", "a00655.html", null ],
+      [ "KMLStyleFormatter", "a00659.html", null ],
+      [ "MapCSSFormatter", "a00663.html", null ],
+      [ "SimpleStyleFormatter", "a00671.html", null ],
+      [ "SLDFormatter", "a00675.html", null ]
     ] ],
-    [ "StyleObject", "a00665.html", null ],
-    [ "TripleStoreConnector", "a00669.html", null ],
-    [ "TWKBReader", "a00733.html", null ],
-    [ "TWKBUtils", "a00749.html", null ],
-    [ "TWKBWriter", "a00753.html", null ],
-    [ "User", "a00693.html", null ],
-    [ "UserManagementConnection", "a00697.html", null ],
-    [ "UserType", "a00705.html", null ],
-    [ "WebService", "a00713.html", null ],
-    [ "WKBRasterConstants", "a00721.html", null ],
-    [ "WKBRasterWriter", "a00725.html", null ],
-    [ "XSLTTransformer", "a00709.html", null ],
+    [ "StyleObject", "a00679.html", null ],
+    [ "TripleStoreConnector", "a00683.html", null ],
+    [ "TWKBReader", "a00747.html", null ],
+    [ "TWKBUtils", "a00763.html", null ],
+    [ "TWKBWriter", "a00767.html", null ],
+    [ "User", "a00707.html", null ],
+    [ "UserManagementConnection", "a00711.html", null ],
+    [ "UserType", "a00719.html", null ],
+    [ "WebService", "a00727.html", null ],
+    [ "WKBRasterConstants", "a00735.html", null ],
+    [ "WKBRasterWriter", "a00739.html", null ],
+    [ "XSLTTransformer", "a00723.html", null ],
     [ "CodeList", null, [
-      [ "SampleDimensionType", "a00717.html", null ]
+      [ "SampleDimensionType", "a00731.html", null ]
     ] ],
     [ "DataOutput", null, [
-      [ "LEDataOutputStream", "a00729.html", null ]
+      [ "LEDataOutputStream", "a00743.html", null ]
     ] ],
     [ "DefaultHandler2", null, [
-      [ "UserManagementConnection.UserHandler", "a00701.html", null ]
+      [ "UserManagementConnection.UserHandler", "a00715.html", null ]
     ] ],
     [ "FilterOutputStream", null, [
-      [ "LEDataOutputStream", "a00729.html", null ]
+      [ "LEDataOutputStream", "a00743.html", null ]
     ] ],
     [ "InputStream", null, [
-      [ "TWKBReader.ByteBufferInputStream", "a00737.html", null ]
+      [ "TWKBReader.ByteBufferInputStream", "a00751.html", null ]
     ] ]
 ];
