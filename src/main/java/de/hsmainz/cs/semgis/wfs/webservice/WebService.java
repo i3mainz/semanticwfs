@@ -115,6 +115,9 @@ public class WebService {
 	 * @throws IOException on error
 	 */
 	public WebService() throws IOException {
+		String currentWorkingDir = System.getProperty("user.dir");
+	    System.out.println(currentWorkingDir);
+		System.out.println(Paths.get("triplestoreconf.json").toAbsolutePath());
 		if (triplestoreconf == null) {
 			triplestoreconf = new JSONObject(new String(Files.readAllBytes(Paths.get("triplestoreconf.json")), StandardCharsets.UTF_8));
 			System.out.println(triplestoreconf);
@@ -131,6 +134,7 @@ public class WebService {
 			System.out.println("in");
 		}
 		System.out.println("out");
+		/*
 		for (Integer i = 0; i < wfsconf.getJSONArray("datasets").length(); i++) {
 			JSONObject featuretype = wfsconf.getJSONArray("datasets").getJSONObject(i);
 			System.out.println("Featuretype: "+featuretype);
@@ -143,7 +147,7 @@ public class WebService {
 					e.printStackTrace();
 				}
 			}
-		}
+		}*/
 		htmlHead = "<html><head><link rel=\"stylesheet\" href=\"https://unpkg.com/leaflet@1.5.1/dist/leaflet.css\"\r\n"
 				+ "   integrity=\"sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==\"\r\n"
 				+ "   crossorigin=\"\"/>\r\n" + "<script src=\"" + wfsconf.getString("baseurl")
