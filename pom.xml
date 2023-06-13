@@ -29,7 +29,7 @@
 		  <sis.version>2.0-SNAPSHOT</sis.version>
 		  <geoapi.version>4.0-M05</geoapi.version>
 		  <jena.version>4.2.0</jena.version>
-        <mvn-compiler-plugin.version>3.7.0</mvn-compiler-plugin.version>
+        <mvn-compiler-plugin.version>3.8.0</mvn-compiler-plugin.version>
         <maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
         <maven-war-plugin.version>3.2.2</maven-war-plugin.version>
         <replacer.version>1.5.3</replacer.version>
@@ -40,8 +40,8 @@
         <swagger.version>2.1.5</swagger.version>
         <swagger-ui.version>3.34.0</swagger-ui.version>
         <!-- end Code -->
-		  <maven.compiler.source>1.8</maven.compiler.source>
-   		  <maven.compiler.target>1.8</maven.compiler.target>
+		  <maven.compiler.source>11</maven.compiler.source>
+   		  <maven.compiler.target>11</maven.compiler.target>
 	</properties>
   <dependencies>
   <!-- https://mvnrepository.com/artifact/org.apache.jena/jena-core -->
@@ -95,8 +95,8 @@
 <dependency>
 		<groupId>org.projectlombok</groupId>
 		<artifactId>lombok</artifactId>
-		<version>1.16.16</version>
-		<scope>provided</scope>
+		<version>1.18.4</version>
+    <scope>provided</scope>
 	</dependency>
 	<!-- https://mvnrepository.com/artifact/org.apache.sis.storage/sis-storage -->
 <dependency>
