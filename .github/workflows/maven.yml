@@ -28,3 +28,8 @@ jobs:
          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
          BRANCH: gh-pages
          FOLDER: docs/html/
+    - run: mkdir staging && cp target/*.jar staging
+    - uses: actions/upload-artifact@v3
+      with:
+          name: Package
+          path: staging
