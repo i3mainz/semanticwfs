@@ -9,12 +9,12 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
-import org.locationtech.geowave.core.geotime.util.TWKBWriter;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.io.WKBWriter;
 
 import de.hsmainz.cs.semgis.wfs.resultformatter.VectorResultFormatter;
 import de.hsmainz.cs.semgis.wfs.resultstyleformatter.StyleObject;
+import org.locationtech.jts.io.twkb.TWKBWriter;
 
 public class TWKBFormatter extends VectorResultFormatter {
 
