@@ -5,21 +5,21 @@ var namespaces_dup =
         [ "cs", null, [
           [ "semgis", null, [
             [ "wfs", null, [
-              [ "readers", "a00312.html", "a00312" ],
+              [ "readers", "a00303.html", "a00303" ],
               [ "resultformatter", null, [
-                [ "coverage", "a00318.html", "a00318" ],
-                [ "rdf", "a00320.html", "a00320" ],
-                [ "vector", "a00321.html", "a00321" ],
-                [ "CoverageResultFormatter", "a00395.html", "a00395" ],
-                [ "HTMLFormatter", "a00399.html", "a00399" ],
-                [ "ResultFormatter", "a00483.html", "a00483" ],
-                [ "VectorResultFormatter", "a00635.html", "a00635" ]
+                [ "coverage", "a00309.html", "a00309" ],
+                [ "rdf", "a00311.html", "a00311" ],
+                [ "vector", "a00312.html", "a00312" ],
+                [ "CoverageResultFormatter", "a00381.html", "a00381" ],
+                [ "HTMLFormatter", "a00385.html", "a00385" ],
+                [ "ResultFormatter", "a00469.html", "a00469" ],
+                [ "VectorResultFormatter", "a00621.html", "a00621" ]
               ] ],
-              [ "resultmetadataformatter", "a00322.html", "a00322" ],
-              [ "resultstyleformatter", "a00323.html", "a00323" ],
-              [ "triplestore", "a00324.html", "a00324" ],
-              [ "util", "a00325.html", "a00325" ],
-              [ "webservice", "a00327.html", "a00327" ]
+              [ "resultmetadataformatter", "a00313.html", "a00313" ],
+              [ "resultstyleformatter", "a00314.html", "a00314" ],
+              [ "triplestore", "a00315.html", "a00315" ],
+              [ "util", "a00316.html", "a00316" ],
+              [ "webservice", "a00318.html", "a00318" ]
             ] ]
           ] ]
         ] ]
@@ -27,17 +27,8 @@ var namespaces_dup =
     ] ],
     [ "org", null, [
       [ "geotoolkit", null, [
-        [ "coverage", "a00328.html", "a00328" ],
-        [ "io", "a00332.html", "a00332" ]
-      ] ],
-      [ "locationtech", null, [
-        [ "geowave", null, [
-          [ "core", null, [
-            [ "geotime", null, [
-              [ "util", "a00333.html", "a00333" ]
-            ] ]
-          ] ]
-        ] ]
+        [ "coverage", "a00319.html", "a00319" ],
+        [ "io", "a00323.html", "a00323" ]
       ] ]
     ] ]
 ];

@@ -1,0 +1,4 @@
+<map id="OSMFormatter" name="OSMFormatter">
+<area shape="rect" id="node1" title="Formats a query result in OpenStreetMap XML." alt="" coords="11,80,127,107"/>
+<area shape="rect" id="node2" href="$a00469.html" title="Abstract class to downlift query results." alt="" coords="5,5,132,32"/>
+</map>

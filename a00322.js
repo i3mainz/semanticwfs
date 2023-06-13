@@ -1,6 +1,5 @@
 var a00322 =
 [
-    [ "DCATFormatter", "a00639.html", "a00639" ],
-    [ "GMDFormatter", "a00643.html", "a00643" ],
-    [ "ResultMetadataFormatter", "a00647.html", "a00647" ]
+    [ "WKBRasterConstants", "a00721.html", "a00721" ],
+    [ "WKBRasterWriter", "a00725.html", "a00725" ]
 ];
