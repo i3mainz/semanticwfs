@@ -92,9 +92,9 @@ public class TTLFormatter extends ResultFormatter {
 				}else if("lon".equalsIgnoreCase(name)){
 					lon=solu.get(name).toString();
 				}else {
-					if(val.get(val.size()-1).startsWith("http") || val.get(val.size()-1).startsWith("file:/")) {
+					if((val.size()-1)>0 && val.get(val.size()-1).startsWith("http") || val.get(val.size()-1).startsWith("file:/")) {
 						builder.append("<"+solu.get(indvar)+"> <"+name+"> <"+solu.get(name).toString()+"> ."+System.lineSeparator());		
-					}else if(val.get(val.size()-1).contains("^^")) {
+					}else if((val.size()-1)>0 && val.get(val.size()-1).contains("^^")) {
 						builder.append("<"+solu.get(indvar)+"> <"+name+"> \""+solu.get(name).toString().substring(0,solu.get(name).toString().indexOf("^^"))+"\"^^<"+solu.get(name).toString().substring(solu.get(name).toString().indexOf("^^")+2)+"> ."+System.lineSeparator());
 					}else {
 						builder.append("<"+solu.get(indvar)+"> <"+name+"> \""+solu.get(name).toString()+"\"^^<http://www.w3.org/2001/XMLSchema#string> ."+System.lineSeparator());
