@@ -1,4 +1,5 @@
 <map id="ResultMetadataFormatter" name="ResultMetadataFormatter">
-<area shape="rect" id="node2" href="$a00639.html" title="Formats metadata according to the GeoDCAT format. " alt="" coords="5,80,120,107"/>
-<area shape="rect" id="node3" href="$a00643.html" title="Formats metadata to the GMD XML format. " alt="" coords="144,80,253,107"/>
+<area shape="rect" id="node1" title=" " alt="" coords="43,5,233,32"/>
+<area shape="rect" id="node2" href="$a00639.html" title="Formats metadata according to the GeoDCAT format." alt="" coords="5,80,127,107"/>
+<area shape="rect" id="node3" href="$a00643.html" title="Formats metadata to the GMD XML format." alt="" coords="151,80,269,107"/>
 </map>

@@ -1,4 +1,4 @@
-var files =
+var files_dup =
 [
     [ "AbstractTransformer.java", "a00260.html", [
       [ "AbstractTransformer", "a00687.html", "a00687" ]

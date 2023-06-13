@@ -1,9 +1,9 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$a00667.html" title="Abstract class to describe a class applying a style to a downlifted dataset. " alt="" coords="5,132,152,159"/>
-<area shape="rect" id="node2" href="$a00651.html" title="Reads an ontological style description and formats it to CartoCSS. " alt="" coords="214,5,353,32"/>
-<area shape="rect" id="node3" href="$a00655.html" title="Reads an ontological style description and formats it to GeoJSONCSS. " alt="" coords="200,56,367,83"/>
-<area shape="rect" id="node4" href="$a00659.html" title="Reads an ontological style description and formats it to KML Styles. " alt="" coords="216,107,351,133"/>
-<area shape="rect" id="node5" href="$a00663.html" title="Reads an ontological style description and formats it to OSM Map CSS. " alt="" coords="218,157,349,184"/>
-<area shape="rect" id="node6" href="$a00671.html" title="Reads an ontological style description and formats it according to the mapbox simple style specificat..." alt="" coords="209,208,357,235"/>
-<area shape="rect" id="node7" href="$a00675.html" title="Formats styles according to the styled layer description definition. " alt="" coords="231,259,335,285"/>
+<area shape="rect" id="node1" href="$a00667.html" title="Abstract class to describe a class applying a style to a downlifted dataset." alt="" coords="5,132,165,159"/>
+<area shape="rect" id="node2" href="$a00651.html" title="Reads an ontological style description and formats it to CartoCSS." alt="" coords="225,5,371,32"/>
+<area shape="rect" id="node3" href="$a00655.html" title="Reads an ontological style description and formats it to GeoJSONCSS." alt="" coords="213,56,383,83"/>
+<area shape="rect" id="node4" href="$a00659.html" title="Reads an ontological style description and formats it to KML Styles." alt="" coords="225,107,371,133"/>
+<area shape="rect" id="node5" href="$a00663.html" title="Reads an ontological style description and formats it to OSM Map CSS." alt="" coords="229,157,367,184"/>
+<area shape="rect" id="node6" href="$a00675.html" title="Formats styles according to the styled layer description definition." alt="" coords="243,208,353,235"/>
+<area shape="rect" id="node7" href="$a00671.html" title="Reads an ontological style description and formats it according to the mapbox simple style specificat..." alt="" coords="216,259,380,285"/>
 </map>

@@ -1,3 +1,5 @@
 <map id="User" name="User">
-<area shape="rect" id="node3" href="$a00719.html" title="Enumeration type including user levels which may be applied in the SemanticWFS. " alt="" coords="125,111,203,137"/>
+<area shape="rect" id="node1" title="Represents a user who may log in to the system." alt="" coords="9,216,61,243"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,5,65,32"/>
+<area shape="rect" id="node3" href="$a00719.html" title="Enumeration type including user levels which may be applied in the SemanticWFS." alt="" coords="134,111,217,137"/>
 </map>

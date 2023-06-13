@@ -10,6 +10,7 @@ var a00775 =
     [ "hasZ", "a00775.html#ab356995ed7cff0226d75484d03a994f2", null ],
     [ "mPrecision", "a00775.html#a1b92282fc8148f040078b9bb37b30b15", null ],
     [ "mPrecisionMultiplier", "a00775.html#a4ea667f57906c038bb9717bc848df77a", null ],
+    [ "precision", "a00775.html#aa95455ed52a8459fad69509a4a0411b5", null ],
     [ "precisionMultiplier", "a00775.html#a9aa85be4ec02c28a05cb552845fe08eb", null ],
     [ "zPrecision", "a00775.html#abdd886294f53edb9018d91b1e049bef8", null ],
     [ "zPrecisionMultiplier", "a00775.html#abb32d6067d519044d8c44d52ab2cdd44", null ]

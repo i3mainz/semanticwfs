@@ -1,2 +1,8 @@
 <map id="TripleStoreConnector" name="TripleStoreConnector">
+<area shape="rect" id="node1" title="Abstract class to connect to triple stores and executing queries for the SemanticWFS implementation." alt="" coords="153,228,310,255"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,117,73,143"/>
+<area shape="rect" id="node3" title=" " alt="" coords="125,117,185,143"/>
+<area shape="rect" id="node4" title=" " alt="" coords="209,109,405,151"/>
+<area shape="rect" id="node5" title=" " alt="" coords="282,5,333,32"/>
+<area shape="rect" id="node6" title=" " alt="" coords="429,117,497,143"/>
 </map>

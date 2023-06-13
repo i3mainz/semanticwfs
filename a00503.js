@@ -2,8 +2,8 @@ var a00503 =
 [
     [ "[static initializer]", "a00503.html#a2e87c5ede6b7235170d287cd2e254454", null ],
     [ "addToMaps", "a00503.html#adad0a041d664c8a27731906f2740cf2f", null ],
-    [ "formatter", "a00503.html#ab70cdb30f88d304ec07a4b15a33c6276", null ],
     [ "formatter", "a00503.html#ad4ae2ae73dc25c4ffa0b1a5656439547", null ],
+    [ "formatter", "a00503.html#ab70cdb30f88d304ec07a4b15a33c6276", null ],
     [ "getFormatter", "a00503.html#afce25d64087d96d66b6b5535660a8ddb", null ],
     [ "parseCoverageLiteral", "a00503.html#a86325514a24f91c346ad790447b897d5", null ],
     [ "parseLiteral", "a00503.html#a0ee6491f4e8399d7ecba40307f66b487", null ],
